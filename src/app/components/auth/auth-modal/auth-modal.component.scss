@@ -1,0 +1,24 @@
+main {
+    min-height: 100vh;
+    .overlay{
+        opacity: 0;
+        transition: all 300ms ease-in-out;
+    }
+}
+
+main.set-backdrop {
+    .overlay {
+        background: #0000009c;
+        min-height: 100vh;
+        opacity: 1;
+    }
+}
+
+.auth-container {
+    max-width: 500px;
+    z-index: 2000;
+}
+
+body {
+    overflow: hidden;
+}

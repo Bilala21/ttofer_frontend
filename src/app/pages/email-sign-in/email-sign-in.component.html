@@ -1,29 +1,47 @@
-<div class="row">
-  <div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
-    <i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
+<form [formGroup]="emailForm" (ngSubmit)="signInWithEmail()">
+  <div class="row">
+    <div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
+      <i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
+    </div>
+    <div class="col-lg-11 col-md-10 col-10 text-center">
+      <h6 class="">Email</h6>
+      <img src="assets/images/email-img.png" class="w-50 mt-3" alt="">
+    </div>
+  </div>
+  
+  <div class="mt-4">
+    <label>Email</label>
+    <input type="text" placeholder="Enter Your Email" class="form-control"
+           formControlName="email"
+           style="border-radius: 10px;">
+    <div *ngIf="emailForm.get('email')?.touched && emailForm.get('email')?.invalid" class="text-danger">
+      <small *ngIf="emailForm.get('email')?.errors?.['required']">Email is required.</small>
+      <small *ngIf="emailForm.get('email')?.errors?.['email']">Enter a valid email.</small>
+    </div>
+  </div>
 
+  <div class="mt-4">
+    <label>Password</label>
+    <input type="password" placeholder="Enter Your Password" class="form-control"
+           formControlName="password"
+           style="border-radius: 10px;">
+    <div *ngIf="emailForm.get('password')?.touched && emailForm.get('password')?.invalid" class="text-danger">
+      <small *ngIf="emailForm.get('password')?.errors?.['required']">Password is required.</small>
+    </div>
+    <div style="text-align: end;">
+      <a style="cursor: pointer;"><span>Forgot Password ?</span></a>
+    </div>
   </div>
-  <div class="col-lg-11 col-md-10 col-10 text-center">
-    <h6 class="">Email</h6>
-  <img src="assets/images/email-img.png" class="w-50 mt-3" alt="">
+
+  <div class="mt-4">
+    <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;" 
+            [disabled]="!isFormValid() || loading">
+      <ng-container *ngIf="!loading; else spinner">
+        Sign in
+      </ng-container>
+      <ng-template #spinner>
+        <i class="fa fa-spinner fa-spin"></i> Signing in...
+      </ng-template>
+    </button>
   </div>
-</div>
-<div class="mt-4">
-  <label>Email</label>
-  <input type="text" placeholder="Enter Your Email" class="form-control"
-    style="border-radius: 10px;" [(ngModel)]="email">
-</div>
-<div class="mt-4">
-  <label>Password</label>
-  <input type="password" placeholder="Enter Your Password" class="form-control"
-    style="border-radius: 10px;" [(ngModel)]="password">
-  <div style="text-align: end;">
-    <!-- (click)="openForgotEmail()" -->
-    <a style="cursor: pointer;" ><span>Forgot Password
-        ?</span></a>
-  </div>
-</div>
-<div class="mt-4">
-  <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
-    [disabled]="!isFormValid()" (click)="signInWithEmail()">Sign in</button>
-</div>
+</form>

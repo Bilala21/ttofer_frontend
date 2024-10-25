@@ -1,10 +1,11 @@
+@if (tempToken) {
 <header class="pt-3 fixed-top bg-white">
     <nav class="border-b-1 pb-1">
         <div class="container-fluid">
             <div class="d-flex justify-content-between position-relative  mx-auto">
                 <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
-                    <li class="xs-pl-16 mr-4 xs-mr-0"><a routerLink="/body"><img src="/assets/images/LOGO.png" alt="App logo" loading="lazy"
-                                width="50" class="header-logo"></a></li>
+                    <li class="xs-pl-16 mr-4 xs-mr-0"><a routerLink="/body"><img src="/assets/images/LOGO.png"
+                                alt="App logo" loading="lazy" width="50" class="header-logo"></a></li>
                     <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
                         <input type="text" placeholder="Search" class="w-100 fs-18 border-1">
                         <button class="search-btn position-relative border-0 bg-dark-850 text-white"><i
@@ -27,7 +28,7 @@
                         </a>
                     </li>
                     <li class="xs-d-none">
-                        <a (click)="openChat()"  class="text-slate-400 text-decoration-none link">
+                        <a (click)="openChat()" class="text-slate-400 text-decoration-none link">
                             <i class="fa fa-comments fs-20 text-center d-block mb-1"></i>
                             Chat
                         </a>
@@ -38,7 +39,7 @@
                             <span>Selling</span>
                         </a>
                     </li>
-                    @if (!currentUser) {
+
                     <li class="ml-3">
                         <button
                             class="d-flex align-items-center btn bg-yellow-800 rounded-20 text-dark btn white-space-nowrap md-fs-12">
@@ -53,21 +54,17 @@
                             Post Product
                         </a>
                     </li>
-                    }
+
                     @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="btn dropdown-toggle text-slate-400 fs-14 text-uppercase fw-semibold"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <img
-                            class="user-Profile"
-                            [src]="
+                            <img class="user-Profile" [src]="
                               imgUrl
                                 ? imgUrl
                                 : '/assets/images/profile-placeholder.png'
-                            "
-                            loading="lazy"  width="42" height="42"   class="rounded-pill border-1"
-                          />
+                            " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
                             <!-- <img src="/assets/images/profile-placeholder.png" alt="user-profile" width="42" height="42"
                                 class="rounded-pill border-1"> -->
                             <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1">
@@ -127,3 +124,4 @@
     </nav>
     <app-login-modal></app-login-modal>
 </header>
+}

@@ -37,7 +37,7 @@ export class CategoriesComponent {
     this.globalStateService.currentState.subscribe((state) => {
       this.data = state.filteredProducts;
       this.globalStateService.productlength=this.data.length
-
+     this.loading=false
     })
       
   }

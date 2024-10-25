@@ -256,22 +256,23 @@
             <div class="row">
               <div class="col-9 mx-auto text-center">
                 <!-- profile-image -->
-                <label [htmlFor]="'image-upload'">
+                <label htmlFor="image-upload">
                   <div class="upload-container">
                     <div
-                      style="position: relative; width: 130px; height: 130px; border-radius: 50%;"
-                      class=""
+                      style="position: relative; width: 130px; height: 130px"
+                      class="image-container text-center"
                     >
                       <div (click)="file.click()">
                         <img
                           style="
                             width: 100%;
-                            border-radius: 50%;
+                            border-radius: 16px;
                             cursor: pointer;
                             z-index: 0;
                           "
                           id="uploaded-image"
-                          [src]="imageUrl ? imageUrl : '/assets/images/profile-placeholder.png'"
+                          class="d-non"
+                          [src]="imageUrl ? imageUrl : defaultProfileUrl"
                         />
                       </div>
                       <i
@@ -288,6 +289,7 @@
                     </div>
                   </div>
                 </label>
+
                 <div class="row">
                   <div class="col-12 text-center">
                     <!-- user-name -->
@@ -1511,12 +1513,9 @@
               >
                 <img
                   src="assets/images/add-post-img.png"
-                  class="w-100"
+                  class="w-100 {{editProductData ? 'pointer' : 'not-allowed'}}"
                   alt=""
-                  (click)="editProductData ? fileInput.click() : null"
-                  style="cursor: {{
-                    editProductData ? 'pointer' : 'not-allowed'
-                  }}"
+                  (click)="editProductData ? fileInput.click() : null"              
                 />
                 <input
                   #fileInput
@@ -1556,12 +1555,9 @@
                 <div class="col-12" style="cursor: pointer">
                   <img
                     src="assets/images/add-post-video.png"
-                    class="w-100"
+                    class="w-100 editProductData ? 'pointer' : 'not-allowed'"
                     alt="Upload Video"
                     (click)="editProductData ? videoInput.click() : null"
-                    style="cursor: {{
-                      editProductData ? 'pointer' : 'not-allowed'
-                    }}"
                   />
                   <input
                     #videoInput
@@ -1637,7 +1633,7 @@
                 <label>Category (required)</label>
                 <select
                   class="form-select form-control input-class-add-form"
-                  [ngClass]="{ 'is-invalid': validationErrors['category'] }"
+                  [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }"
                   [(ngModel)]="selectedCategoryId"
                   (change)="
                     getSubcategories(selectedCategoryId);
@@ -1655,10 +1651,10 @@
                   </option>
                 </select>
                 <div
-                  *ngIf="validationErrors['category']"
+                  *ngIf="validationErrors['selectedCategoryId']"
                   class="text-danger mt-1"
                 >
-                  {{ validationErrors["category"] }}
+                  {{ validationErrors["selectedCategoryId"] }}
                 </div>
               </div>
 
@@ -1667,10 +1663,10 @@
                 <select
                   class="form-select form-control input-class-add-form"
                   [ngClass]="{
-                    'is-invalid': validationErrors['subcategory']
+                    'is-invalid': validationErrors['selectedSubCategoryId']
                   }"
                   [(ngModel)]="selectedSubCategoryId"
-                  (change)="onFieldChange('subcategory')"
+                  (change)="onFieldChange('selectedSubCategoryId')"
                   aria-label="Default select example"
                   [disabled]="!editProductData"
                 >
@@ -1685,10 +1681,10 @@
                   </option>
                 </select>
                 <div
-                  *ngIf="validationErrors['subcategory']"
+                  *ngIf="validationErrors['selectedSubCategoryId']"
                   class="text-danger mt-1"
                 >
-                  {{ validationErrors["subcategory"] }}
+                  {{ validationErrors["selectedSubCategoryId"] }}
                 </div>
               </div>
             </div>
@@ -1722,7 +1718,7 @@
                     aria-label="Default select example"
                     [disabled]="!editProductData"
                   >
-                    <option
+                    <option 
                       *ngFor="let option of field.options"
                       [value]="option.id"
                       [disabled]="!editProductData"
@@ -1834,7 +1830,7 @@
                 <div class="col-6 mt-2">
                   <label for="startDate">Starting Date</label>
                   <input
-                    [disabled]="isEditPost"
+                   
                     type="date"
                     class="form-control input-class-add-form"
                     id="startDate"
@@ -1929,12 +1925,12 @@
                             -->
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button
+                <button  [disabled]="!editProductData"
                   class="btn btn-dark w-100"
                   (click)="EditProductFirstStep()"
-                  [disabled]="isLoading"
+                 
                 >
-                  <span *ngIf="!isLoading">Update</span>
+                  <span  *ngIf="!isLoading">Update</span>
                   <span
                     *ngIf="isLoading"
                     class="spinner-border spinner-border-sm text-light"
@@ -2137,7 +2133,7 @@
                 <label>Category (required)</label>
                 <select
                   class="form-select form-control input-class-add-form"
-                  [ngClass]="{ 'is-invalid': validationErrors['category'] }"
+                  [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }"
                   [(ngModel)]="selectedCategoryId"
                   (change)="
                     getSubcategories(selectedCategoryId);
@@ -2153,10 +2149,10 @@
                   </option>
                 </select>
                 <div
-                  *ngIf="validationErrors['category']"
+                  *ngIf="validationErrors['selectedCategoryId']"
                   class="text-danger mt-1"
                 >
-                  {{ validationErrors["category"] }}
+                  {{ validationErrors["selectedCategoryId"] }}
                 </div>
               </div>
 
@@ -2168,7 +2164,7 @@
                     'is-invalid': validationErrors['subcategory']
                   }"
                   [(ngModel)]="selectedSubCategoryId"
-                  (change)="onFieldChange('subcategory')"
+                  (change)="onFieldChange('selectedSubCategoryId')"
                   aria-label="Default select example"
                 >
                   <option
@@ -2179,10 +2175,10 @@
                   </option>
                 </select>
                 <div
-                  *ngIf="validationErrors['subcategory']"
+                  *ngIf="validationErrors['selectedSubCategoryId']"
                   class="text-danger mt-1"
                 >
-                  {{ validationErrors["subcategory"] }}
+                  {{ validationErrors["selectedSubCategoryId"] }}
                 </div>
               </div>
             </div>
