@@ -22,7 +22,7 @@
 
         <section class="card-bottom pb-1 text-gray-400">
             <div class="d-flex align-items-center justify-content-between">
-                <strong class="text-dark">AED {{postData?.auction_price}}</strong>
+                <strong class="text-dark">AED {{formatPrice(postData?.auction_price?postData?.auction_price:postData.fix_price)}}</strong>
                 <span *ngIf="postData.ProductType =='auction'"
                     class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
                     {{postData?.isBid ? postData.calculateRemaningTime + ' remaining' : 'Bid Expired' }}
@@ -37,7 +37,7 @@
                 </div>
                 <div>
                     <i class="fa fa-road mr-2 fs-14" aria-hidden="true"></i>
-                    <strong class="fs-14 text-dark">4500 km</strong>
+                    <strong class="fs-14 text-dark">{{postData?.mileage?postData?.mileage:'0'}} km</strong>
                 </div>
                 <div>
                     <i class="fa fa-gas-pump mr-2 fs-14" aria-hidden="true"></i>

@@ -10,7 +10,9 @@ interface AppState {
   filteredProducts: any[];
   isLoggedInd: boolean;
   wishListItems: number[]; // Assuming wishlist items are identified by their IDs
-  currentUser: any
+  currentUser: any,
+  temp_token: any
+  isLoggedIn: boolean
 }
 
 @Injectable({
@@ -26,12 +28,14 @@ export class GlobalStateService {
     currentUser: {},
     subCategories: [],
     filteredProducts: [],
-    prodTab:{key: "ProductType", value: "auction"}
+    prodTab: { key: "ProductType", value: "auction" },
+    temp_token: localStorage.getItem("tempToken"),
+    isLoggedIn: false
   };
   public filterCriteria: any = {
     location: []
   }
-  public productlength:any;
+  public productlength: any;
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
@@ -59,7 +63,7 @@ export class GlobalStateService {
     };
     this.productSubject.next(newState);
   }
-    wishlistToggle(id: number) {
+  wishlistToggle(id: number) {
     const currentState = this.stateSubject.value;
     const currentWishList = currentState.wishListItems;
     let newWishList: number[];
@@ -84,7 +88,7 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-  
+
   setCategories(data: any) {
     console.log(data, "setCategories state");
     const currentState = this.stateSubject.value;
@@ -99,6 +103,22 @@ export class GlobalStateService {
     const newState = {
       ...currentState,
       subCategories: data
+    };
+    this.stateSubject.next(newState);
+  }
+  updateTempToken(token: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      temp_token: token
+    };
+    this.stateSubject.next(newState);
+  }
+  isLoggedInUser(token: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      isLoggedIn: token
     };
     this.stateSubject.next(newState);
   }

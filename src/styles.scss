@@ -490,9 +490,11 @@ body {
 .fw-normal {
   font-weight: 500;
 }
+
 .fw-light {
   font-weight: 400;
 }
+
 .fs-16,
 .sm-cat-text4 {
   font-size: 16px;
@@ -620,6 +622,11 @@ body {
 .top-0 {
   top: 0;
 }
+.category-list{
+  a{
+    
+  }
+}
 
 .product-card {
 
@@ -700,18 +707,39 @@ body {
   top: -7px !important;
   background: #007bff !important;
 }
-.ngx-slider .ngx-slider-selection{
+
+.ngx-slider .ngx-slider-selection {
   background: #007bff !important;
 }
-.ngx-slider .ngx-slider-pointer:after{
+
+.ngx-slider .ngx-slider-pointer:after {
   display: none !important;
 }
-.ngx-slider.animate .ngx-slider-bubble{
+
+.ngx-slider.animate .ngx-slider-bubble {
   display: none !important;
 }
-.ngx-slider{
+
+.ngx-slider {
   margin: 10px 0 20px !important;
 }
+
+.form-control {
+  border-radius: 5px !important;
+  height: calc(1.5em + .75rem + 8px) !important;
+}
+
+.modal.show {
+  background-color: #000000bf;
+}
+
+.modal-dialog.register-modal {
+  max-width: 650px;
+}
+.register-img{
+  max-width: 120px;
+}
+
 @media (max-width:576px) {
   .xs-rounded-0 {
     border-radius: 0px !important;

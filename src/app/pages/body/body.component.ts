@@ -10,19 +10,21 @@ import { SharedModule } from '../../shared/shared.module';
 import { RouterLink } from '@angular/router';
 import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer.component";
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
+import { TempFormComponent } from '../../components/temp-form/temp-form.component';
 
 @Component({
   selector: 'app-body',
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss',
   standalone: true,
-  imports: [HeaderComponent, ProductCardComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
+  imports: [HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
 })
 export class BodyComponent implements OnDestroy {
   auctionPosts: any = [];
   featuredPosts: any = [];
   countdownSubscriptions: Subscription[] = [];
   loading = true
+  tempToken: boolean = false
 
   permotionBanners: any = [
     {
@@ -37,8 +39,13 @@ export class BodyComponent implements OnDestroy {
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService,
-    private globalStateService:GlobalStateService
-  ) { }
+    private globalStateService: GlobalStateService
+  ) {
+
+    globalStateService.currentState.subscribe((state) => {
+      this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
+    })
+  }
 
   ngOnInit(): void {
 
@@ -74,7 +81,7 @@ export class BodyComponent implements OnDestroy {
       this.countdownSubscriptions.push(subscription);
     });
   }
-  
+
   ngOnDestroy(): void {
     this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
   }

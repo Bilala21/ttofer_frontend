@@ -27,6 +27,7 @@ export class HeaderNavigationComponent implements OnInit {
   screenWidth: number = window.innerWidth;
   screenHeight: number = window.innerHeight;
   imgUrl: string | null = null;
+  tempToken: boolean = false
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -36,6 +37,9 @@ export class HeaderNavigationComponent implements OnInit {
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
+    globalStateService.currentState.subscribe((state) => {
+      this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
+    })
   }
 
   @HostListener('window:resize', ['$event'])
@@ -47,7 +51,7 @@ export class HeaderNavigationComponent implements OnInit {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
 
-   if (this.screenWidth < 1024 && this.screenWidth > 768) {
+    if (this.screenWidth < 1024 && this.screenWidth > 768) {
       this.categoryLimit = 4;
     }
     else if (this.screenWidth < 768) {
@@ -66,12 +70,12 @@ export class HeaderNavigationComponent implements OnInit {
 
   logout() {
     this.loading = true;
-    localStorage.clear();
+    this.router.navigate(['/'])
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("key");
     this.authService.signOut();
-    this.router.navigate(['/body']).then(() => {
-      window.location.reload();
-    });
     this.loading = false;
+    this.currentUser=""
   }
 
   ngOnInit(): void {
@@ -89,7 +93,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.getScreenSize();
     this.mainServicesService.getCategories().subscribe({
       next: (res: any) => {
-        console.log(res,"123bilal");
         this.categories = res;
         this.loading = false;
         this.globalStateService.setCategories(res);
