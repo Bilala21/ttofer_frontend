@@ -21,6 +21,7 @@ import { ProductBuyerComponent } from './pages/selling/buyer/product-buyer.compo
 import { SellerReveiwComponent } from './pages/selling/reviews/seller-reveiw.component';
 import { AuthGuard } from './auth.guard';
 import { NgModule } from '@angular/core';
+import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.component';
 
 export const routes: Routes = [
 
@@ -111,6 +112,10 @@ export const routes: Routes = [
     {
         path: 'markAsSold/:id',
         component: MarkAsSoldComponent
+    },
+    {
+        path: 'auth',
+        component: AuthModalComponent
     },
     {
         path: 'post',

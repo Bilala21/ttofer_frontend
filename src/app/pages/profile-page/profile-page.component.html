@@ -1513,12 +1513,9 @@
               >
                 <img
                   src="assets/images/add-post-img.png"
-                  class="w-100"
+                  class="w-100 {{editProductData ? 'pointer' : 'not-allowed'}}"
                   alt=""
-                  (click)="editProductData ? fileInput.click() : null"
-                  style="cursor: {{
-                    editProductData ? 'pointer' : 'not-allowed'
-                  }}"
+                  (click)="editProductData ? fileInput.click() : null"              
                 />
                 <input
                   #fileInput
@@ -1558,12 +1555,9 @@
                 <div class="col-12" style="cursor: pointer">
                   <img
                     src="assets/images/add-post-video.png"
-                    class="w-100"
+                    class="w-100 editProductData ? 'pointer' : 'not-allowed'"
                     alt="Upload Video"
                     (click)="editProductData ? videoInput.click() : null"
-                    style="cursor: {{
-                      editProductData ? 'pointer' : 'not-allowed'
-                    }}"
                   />
                   <input
                     #videoInput
@@ -2460,7 +2454,6 @@
                   (click)="AddProductFirstStep()"
                   [disabled]="isLoading"
                 >
-                  <span *ngIf="!isLoading">Post</span>
                   <span *ngIf="!isLoading">Post</span>
                   <span
                     *ngIf="isLoading"
