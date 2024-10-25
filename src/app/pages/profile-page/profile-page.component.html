@@ -48,7 +48,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-shopping-cart icon-outline"></i>
+                  <i class="fas fa-shopping-cart icon-outline profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
@@ -70,7 +70,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-credit-card"></i>
+                  <i class="fas fa-credit-card profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -96,7 +96,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-heart profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">Saved items</h6>
@@ -115,7 +115,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-bell"></i>
+                  <i class="fas fa-bell profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -141,7 +141,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-edit"></i>
+                  <i class="fas fa-edit profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
@@ -160,7 +160,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-plus-circle"></i>
+                  <i class="fas fa-plus-circle profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
@@ -179,7 +179,7 @@
             >
               <div class="row align-items-center">
                 <div class="col-2">
-                  <i class="fas fa-cog"></i>
+                  <i class="fas fa-cog profile-left-side-bar-icon"></i>
                   <!-- Settings icon -->
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -201,7 +201,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-rocket"></i>
+                  <i class="fas fa-rocket profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
@@ -220,7 +220,7 @@
                         class="w-100"
                         alt=""
                       /> -->
-                  <i class="fas fa-link"></i>
+                  <i class="fas fa-link profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -241,12 +241,7 @@
             >
               <div class="row align-items-center">
                 <div class="col-2">
-                  <!-- <img
-                        src="assets/images/message-question.svg"
-                        class="w-100"
-                        alt=""
-                      /> -->
-                  <i class="fas fa-question-circle"></i>
+                  <i class="fas fa-question profile-left-side-bar-icon"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
                   <h6 class="fs-16 text-dark-800 fw-light m-0">Help Center</h6>
@@ -273,34 +268,17 @@
                             width: 100%;
                             border-radius: 16px;
                             cursor: pointer;
+                            z-index: 0;
                           "
                           id="uploaded-image"
                           class="d-non"
                           [src]="imageUrl ? imageUrl : defaultProfileUrl"
                         />
                       </div>
-
-                      <div
-                        style="
-                          position: absolute;
-                          z-index: 1;
-                          width: 82px;
-                          height: 100px;
-                          top: 3px;
-                          right: -35px;
-                          cursor: pointer;
-                        "
-                      >
                       <i
-                      class="fas fa-camera rounded-circle bg-danger-blue"
-                      [class.bg-success]="
-                        currentUserProfile.email_verified_at != null
-                      "
-                      [class.bg-danger-blue]="
-                        currentUserProfile.email_verified_at == null
-                      "
+                      class="fas fa-camera profile-icon-camera bg-danger-blue"
                     ></i>
-                      </div>
+
                       <input
                         #file
                         type="file"
@@ -448,13 +426,13 @@
                 (click)="selectTab('purchasesSales')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/receipt-item.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-shopping-cart icon-outline"></i>
+                    <i class="fas fa-shopping-cart icon-outline profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
@@ -463,14 +441,14 @@
                   </div>
                 </div>
               </div>
-<!-- card -->
+             <!-- card -->
               <div
                 class="col-12 mt-2 p-2 onHover pointer"
                 [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
                 (click)="selectTab('paymentDeposit')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/card-tick.svg"
                           class="w-100"
@@ -492,17 +470,17 @@
               <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
               <div
                 class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === '' }"
+                [ngClass]="{ active: selectedTab === 'savedItems' }"
                 (click)="selectTab('savedItems')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/heart-icon.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -517,13 +495,13 @@
                 (click)="selectTab('notification')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/notification-bing.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-bell profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -543,13 +521,13 @@
                 (click)="selectTab('editPost')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/gallery-edit.png"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-edit profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
@@ -562,13 +540,13 @@
                 (click)="selectTab('addPost')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/gallery-add.png"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-plus-circle"></i>
+                    <i class="fas fa-plus-circle profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
@@ -586,8 +564,8 @@
                 (click)="selectTab('accountSetting')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
-                    <i class="fas fa-cog"></i>
+                  <div class="col-2 d-flex justify-content-end">
+                    <i class="fas fa-cog profile-left-side-bar-icon"></i>
                     <!-- Settings icon -->
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -603,13 +581,13 @@
                 (click)="selectTab('boostPlus')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/arrow-up.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-rocket"></i>
+                    <i class="fas fa-rocket profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
@@ -622,13 +600,13 @@
                 (click)="selectTab('customLinks')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/link.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-link"></i>
+                    <i class="fas fa-link profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -648,13 +626,13 @@
                 (click)="selectTab('helpCenter')"
               >
                 <div class="row align-items-center">
-                  <div class="col-2">
+                  <div class="col-2 d-flex justify-content-end">
                     <!-- <img
                           src="assets/images/message-question.svg"
                           class="w-100"
                           alt=""
                         /> -->
-                    <i class="fas fa-question-circle"></i>
+                    <i class="fas fa-question profile-left-side-bar-icon"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
                     <h6 class="fs-16 text-dark-800 fw-light m-0">
@@ -675,7 +653,7 @@
         class="col-xl-7 col-md-7 "
       >
         <div class="row">
-          <div class="col-md-7 mx-auto margin-top-class">
+          <div class="col-md-7 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-2 d-flex justify-content-end">
                 <i class="fas fa-shopping-cart title-icon"></i>
@@ -1018,7 +996,7 @@
       <!-- paymentDeposit -->
       <div *ngIf="selectedTab === 'paymentDeposit'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-class">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-2 d-flex justify-content-end">
                 <i class="fas fa-credit-card title-icon" ></i>
@@ -1163,7 +1141,7 @@
         class="col-xl-7 col-md-7"
       >
         <div class="row">
-          <div class="col-md-7 text-center mx-auto margin-top-class">
+          <div class="col-md-7 text-center mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
                 <i class="fas fa-heart title-icon" ></i>
@@ -1199,7 +1177,7 @@
                       >
                         <div class="row align-items-center p-1">
                           <div class="col-3">
-                            <i class="fab fa-google-play" style="font-size:28px"></i>
+                            <i class="fab fa-google-play fs-24" ></i>
                           </div>
                           <div class="col-9 p-0">
                             <span class="fs-12">Get it now</span>
@@ -1218,7 +1196,7 @@
                       >
                         <div class="row align-items-center p-1">
                           <div class="col-3">
-                            <i class="fab fa-app-store-ios" style="font-size:28px"></i>
+                            <i class="fab fa-app-store-ios fs-24"></i>
                           </div>
                           <div class="col-9 p-0">
                             <span class="fs-12">Get it now</span>
@@ -1299,7 +1277,7 @@
         class="col-xl-7 col-md-7"
       >
         <div class="row">
-          <div class="col-md-9 mx-auto" style="margin-top: 20vh">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
                 <i class="fas fa-bell title-icon"></i>
@@ -1475,7 +1453,7 @@
       <!-- editPost -->
       <div *ngIf="selectedTab === 'editPost'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto" style="margin-top: 20vh">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
                 <i class="fas fa-edit title-icon"></i>
@@ -1493,7 +1471,7 @@
             <div>
               <div class="row mb-3">
                 <div class="col-12 mx-auto">
-                  <label> Edit Image</label>
+                  <label class="fs-20 fw-semibold"> Edit Image</label>
                   <div class="image-grid">
                     <!-- <label>Upload Image</label> -->
 
@@ -1974,7 +1952,7 @@
       <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-class" >
+          <div class="col-md-9 mx-auto margin-top-right-side-class" >
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
                 <i class="fas fa-plus-circle title-icon"></i>
@@ -2483,6 +2461,7 @@
                   [disabled]="isLoading"
                 >
                   <span *ngIf="!isLoading">Post</span>
+                  <span *ngIf="!isLoading">Post</span>
                   <span
                     *ngIf="isLoading"
                     class="spinner-border spinner-border-sm text-light"
@@ -2498,7 +2477,7 @@
       <!-- accountSetting -->
       <div *ngIf="selectedTab === 'accountSetting'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-class">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center">
               <!-- <div class="col-2">
                 <i class="fas fa-cog fa-2x"></i>
@@ -2514,7 +2493,7 @@
           </div>
         </div>
         <hr />
-        <div class="row" style="margin-top: 100px">
+        <div class="row margin-top-class">
           <div
             *ngFor="let item of userSetting"
             (click)="openDialog(item.key, item.placeholder)"
@@ -2522,27 +2501,29 @@
           >
             <div class="row justify-content-between">
               <div class="col-md-6 col-10">
-                <div class="row">
-                  <div class="col-2">
-                    <img [src]="item.icon" class="w-100" alt="" />
+                <div class="row d-flex align-content-center">
+                  <div class="col-2 d-flex align-content-center">
+                    <!-- <img [src]="item.icon" class="w-100" alt="" /> -->
+                    <!-- <i class="fas fa-user"></i> -->
+                    <i [ngClass]="item.icon" class="w-100 "></i>
                   </div>
                   <div class="col-10">
                     <h6
-                      class="sm-cat-text4 account-Setting"
+                      class="sm-cat-text4 account-Setting m-0"
                       *ngIf="item.value; else addPlaceholder"
                     >
                       {{ item.value }}
                     </h6>
                     <ng-template #addPlaceholder>
-                      <h6 class="sm-cat-text4 account-Setting">
+                      <h6 class="sm-cat-text4 account-Setting m-0">
                         {{ item.placeholder }}
                       </h6>
                     </ng-template>
                   </div>
                 </div>
               </div>
-              <div class="col-1">
-                <img src="assets/images/arrow-left.svg" class="w-75" alt="" />
+              <div class="col-1 d-flex align-content-center">
+                <i class="fas fa-angle-right fs-20"></i>
               </div>
             </div>
           </div>
@@ -2550,20 +2531,17 @@
           <div class="col-12 pointer onHover p-4" (click)="onDeleteAccount()">
             <div class="row justify-content-between">
               <div class="col-md-6 col-10">
-                <div class="row">
-                  <div class="col-2">
-                    <i
-                      class="bi bi-trash-fill"
-                      style="font-size: 1.5rem; color: #686565"
-                    ></i>
+                <div class="row d-flex align-content-center">
+                  <div class="col-2 d-flex">
+                    <i class="far fa-trash-alt fs-20"></i>
                   </div>
                   <div class="col-10">
-                    <h6 class="sm-cat-text4 account-Setting">Delete Account</h6>
+                    <h6 class="sm-cat-text4 account-Setting m-0 ">Delete Account</h6>
                   </div>
                 </div>
               </div>
-              <div class="col-1">
-                <img src="assets/images/arrow-left.svg" class="w-75" alt="" />
+              <div class="col-1 d-flex align-content-center">
+                <i class="fas fa-angle-right fs-20"></i>
               </div>
             </div>
           </div>
@@ -2605,7 +2583,7 @@
         class="col-xl-7 col-md-7"
       >
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-class">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center">
               <div class="col-5 col-md-5 d-flex justify-content-end">
                 <i class="fas fa-rocket title-icon"></i>
@@ -2676,7 +2654,7 @@
       <!-- customLinks -->
       <div *ngIf="selectedTab === 'customLinks'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-class">
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center">
               <div class="col-5 col-md-5 d-flex justify-content-end">
                 <i class="fas fa-link title-icon"></i>
@@ -2714,7 +2692,7 @@
       <!-- helpCenter -->
       <div *ngIf="selectedTab === 'helpCenter'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-12 mx-auto margin-top-class">
+          <div class="col-md-12 mx-auto margin-top-right-side-class">
             <div class="row align-items-center">
               <div class="col-5 col-md-5 d-flex justify-content-end">
                 <i class="fas fa-question title-icon"></i>
@@ -2892,7 +2870,7 @@
   <!-- <app-footer></app-footer> -->
 
   <div
-    class="modal fade"
+    class="modal fade "
     id="verifyPhoneModal"
     tabindex="-1"
     role="dialog"

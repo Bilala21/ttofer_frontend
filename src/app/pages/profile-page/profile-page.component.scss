@@ -4,6 +4,14 @@
 .margin-top-class{
   margin-top: 50px;
 }
+.custom-dialog {
+  margin-top: 20px; /* Adjust this value as needed */
+  height: 322px;    /* Set the height if you want to control it */
+}
+
+.margin-top-right-side-class{
+  margin-top: 115px;
+}
 .rounded-circle{
 width: 40px;
 height: 40px;
@@ -13,9 +21,18 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
-
-.input-class-add-form{
-   height: calc(1.5em + .75rem + 10px);
+.profile-icon-camera{
+width: 33px;
+height: 33px;
+border-radius: 50%;
+font-size: 17px;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+position:absolute;
+bottom: 12px;
+right: -6px;
 }
 .input-class-onFocus:focus {
   outline: none; /* Removes the outline */
@@ -459,7 +476,6 @@ margin: 5px 0 5px 0;
 .image-container {
   max-width: 100%; /* Adjust this value based on your requirements */
   max-height: 216px; /* Adjust this value to control the image height */
-  overflow: hidden;
   border-radius: 5px; /* Ensures that the image doesn't exceed the container size */
 }
 .image-container-2{

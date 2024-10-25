@@ -45,15 +45,18 @@
                 </div>
             </section>
 
-            <address class="d-flex align-items-center m-0 mb-1">
-                <i class="fa fa-map-marker-alt fs-14 mr-2" aria-hidden="true"></i>
-                <span class="fs-14">{{postData.location?.slice(0, 25) }}...</span>
-            </address>
-        </section>
-
-    </article>
+        <address class="d-flex align-items-center m-0 mb-1">
+          <i class="fa fa-map-marker-alt fs-14 mr-2" aria-hidden="true"></i>
+          <span class="fs-14">{{ postData.location?.slice(0, 25) }}...</span>
+        </address>
+      </section>
     </a>
-    <a routerLink="/{{postDetialUrl}}/{{postData?.id}}/{{postData?.slug}}" *ngIf="postData.ProductType =='auction'"
-        class="mt-2 btn bg-dark-650 text-white py-2 pointer-cursor rounded-2 w-100 hover-able-btn" aria-label="Bid Now">Bid
-        Now</a>
+  </article>
+  <a
+    routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}"
+    *ngIf="postData.ProductType == 'auction'"
+    class="mt-2 btn bg-dark-650 text-white py-2 pointer-cursor rounded-2 w-100 hover-able-btn"
+    aria-label="Bid Now"
+    >Bid Now</a
+  >
 </div>

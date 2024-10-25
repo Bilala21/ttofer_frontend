@@ -962,9 +962,9 @@ button[aria-label="Close"]:focus {
   .main-image-container {
     padding-top: 20px;
 
-    img {
-      object-fit: contain !important;
-    }
+    // img {
+    //   object-fit: contain !important;
+    // }
   }
 }
 
@@ -973,10 +973,10 @@ button[aria-label="Close"]:focus {
     padding-top: 20px;
     text-align: center;
 
-    img {
-      object-fit: contain !important;
-      width: auto !important;
-    }
+    // img {
+    //   object-fit: contain !important;
+    //   width: auto !important;
+    // }
   }
 }
 
@@ -1005,4 +1005,12 @@ button[aria-label="Close"]:focus {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
+}
+
+.form-control{
+  border-radius: 5px !important;
+  height: calc(1.5em + .75rem + 8px) !important;
+}
+.profile-left-side-bar-icon{
+  font-size: 20px;
 }
