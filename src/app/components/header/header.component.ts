@@ -34,7 +34,8 @@ export class HeaderNavigationComponent implements OnInit {
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router, private toastr: ToastrService,
+
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -70,14 +71,25 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   logout() {
-    this.loading = true;
-    this.router.navigate(['/'])
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("key");
-    this.authService.signOut();
-    this.loading = false;
-    this.currentUser=""
+
+    try {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("key");
+      this.authService.signOut();
+      this.loading = false;
+      this.currentUser = ""
+      this.router.navigate(['']).then(() => {
+        this.toastr.success('Logged out successfully', 'Success');
+      });
+
+    } catch (error) {
+
+      this.toastr.error('An error occurred while logging out. Please try again.', 'Error');
+    } finally {
+
+    }
   }
+
 
   ngOnInit(): void {
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
