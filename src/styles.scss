@@ -260,6 +260,25 @@ body {
   max-width: 1500px;
 }
 
+.body-banner-0 {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+
+  img {
+    min-height: 100px;
+    max-height: 100px;
+    border: 1px solid;
+    height: auto !important;
+  }
+}
+
+.body-banner-1 {
+  img {
+    border: 1px solid;
+  }
+}
+
 button[aria-label="Close"]:focus {
   border: none;
   outline: none;
