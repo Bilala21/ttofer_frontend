@@ -20,21 +20,22 @@ import { PostPerformanceComponent } from './pages/selling/post-performance/post-
 import { DeleteAccountPageComponent } from './pages/profile-page/delete-account/delete-account.component';
 import { ProductBuyerComponent } from './pages/selling/buyer/product-buyer.component';
 import { SellerReveiwComponent } from './pages/selling/reviews/seller-reveiw.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
 
 
-    {
-        path: '',
-        redirectTo: 'body',
-        pathMatch: 'full'
-    },
+    // {
+    //     path: '',
+    //     redirectTo: 'body',
+    //     pathMatch: 'full'
+    // },
     // {
     //     path:'header',
     //     component:HeaderComponent
     // },
     {
-        path: 'body',
+        path: '',
         component: BodyComponent
     },
     // {
@@ -48,7 +49,8 @@ export const routes: Routes = [
     },
     {
         path: 'profilePage/:id',
-        component: ProfilePageComponent
+        component: ProfilePageComponent,
+        canActivate:[AuthGuard]
     },
     {
         path: 'user/delete-account/:id',

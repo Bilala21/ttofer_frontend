@@ -8,6 +8,7 @@ import { GlobalStateService } from '../../shared/services/state/global-state.ser
 import { LoginModalComponent } from "../../pages/login-modal/login-modal.component";
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header-navigation',
@@ -32,7 +33,8 @@ export class HeaderNavigationComponent implements OnInit {
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router,    private toastr:ToastrService,
+
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -65,14 +67,22 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   logout() {
-    this.loading = true;
-    localStorage.clear();
-    this.authService.signOut();
-    this.router.navigate(['/body']).then(() => {
-      window.location.reload();
-    });
-    this.loading = false;
+    try {
+      localStorage.clear();
+        this.authService.signOut();
+        this.router.navigate(['']).then(() => {
+          this.toastr.success('Logged out successfully', 'Success');
+        window.location.reload();
+      });
+       
+    } catch (error) {
+    
+      this.toastr.error('An error occurred while logging out. Please try again.', 'Error');
+    } finally {
+      
+    }
   }
+  
 
   ngOnInit(): void {
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(

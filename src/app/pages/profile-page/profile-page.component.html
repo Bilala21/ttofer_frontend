@@ -1745,7 +1745,7 @@
                     aria-label="Default select example"
                     [disabled]="!editProductData"
                   >
-                    <option
+                    <option 
                       *ngFor="let option of field.options"
                       [value]="option.id"
                       [disabled]="!editProductData"
@@ -1857,7 +1857,7 @@
                 <div class="col-6 mt-2">
                   <label for="startDate">Starting Date</label>
                   <input
-                    [disabled]="isEditPost"
+                   
                     type="date"
                     class="form-control input-class-add-form"
                     id="startDate"
@@ -1952,12 +1952,12 @@
                             -->
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button
+                <button  [disabled]="!editProductData"
                   class="btn btn-dark w-100"
                   (click)="EditProductFirstStep()"
-                  [disabled]="isLoading"
+                 
                 >
-                  <span *ngIf="!isLoading">Update</span>
+                  <span  *ngIf="!isLoading">Update</span>
                   <span
                     *ngIf="isLoading"
                     class="spinner-border spinner-border-sm text-light"

@@ -53,18 +53,12 @@ export class EmailSignInComponent {
     this.mainServices.getAuthByLogin(input).subscribe({
       next: (res) => {
         this.loading = false;
-        // Storing token and user details in local storage
         localStorage.setItem('authToken', res.data.token);
         const jsonString = JSON.stringify(res.data.user);
         localStorage.setItem("key", jsonString);
         
-        // Showing success message
         this.toaster.success('You are logged in successfully', 'Success');
-        
-        // Emitting event to close the modal
         this.closeModalEvent.emit();
-        
-        // Reloading the page
         window.location.reload();
       },
       error: (err) => {

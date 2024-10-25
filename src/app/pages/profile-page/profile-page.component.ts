@@ -1503,7 +1503,7 @@ showfor(){
       (this.productId ? Number(this.productId) : 0).toString()
     );
     const token = localStorage.getItem('authToken');
-     this,this.isLoading=true;
+     this.isLoading=true;
     fetch('https://www.ttoffer.com/backend/public/api/edit-product-first-step', {
       method: 'POST',
       body: formData,
@@ -1762,78 +1762,115 @@ showfor(){
   }
 
   EditProductSeccondStep() {
-    let input = {
-      user_id: this.currentUserId,
-      product_id: this.productId,
-      category_id: this.selectedCategoryId,
-      sub_category_id: this.selectedSubCategoryId,
-      condition: this.categoryForm.get('condition')?.value,
-      make_and_model: this.categoryForm.get('make_and_model')?.value,
-      mileage: this.categoryForm.get('mileage')?.value,
-      color: this.categoryForm.get('color')?.value,
-      brand: this.categoryForm.get('brand')?.value,
-      model: this.categoryForm.get('model')?.value,
-      edition: '',
-      authenticity: '',
-      attributes: JSON.stringify(this.categoryForm.value),
-    };
-    this.mainServices.editProductSecondStep(input).subscribe((res) => {
-      this.EditProductThirdStep();
-      console.log(res);
-    });
+    try {
+      let input = {
+        user_id: this.currentUserId,
+        product_id: this.productId,
+        category_id: this.selectedCategoryId,
+        sub_category_id: this.selectedSubCategoryId,
+        condition: this.categoryForm.get('condition')?.value,
+        make_and_model: this.categoryForm.get('make_and_model')?.value,
+        mileage: this.categoryForm.get('mileage')?.value,
+        color: this.categoryForm.get('color')?.value,
+        brand: this.categoryForm.get('brand')?.value,
+        model: this.categoryForm.get('model')?.value,
+        edition: '',
+        authenticity: '',
+        attributes: JSON.stringify(this.categoryForm.value),
+      };
+  
+      this.mainServices.editProductSecondStep(input).subscribe(
+        (res) => {
+          this.EditProductThirdStep();
+          console.log(res);
+        },
+        (error) => {
+          console.error(error);
+          this.isLoading = false;
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      this.isLoading = false;
+    }
   }
+  
   EditProductThirdStep() {
     this.loading = true;
-    let input;
-    if (this.editpricingCatId == 'Auction') {
-      input = {
-        product_id: this.productId,
-        auction_price: this.editStartingPrice.toString(),
-        starting_date: this.editStartingDate
-          ? new Date(this.editStartingDate).toISOString()
-          : null,
-        starting_time: this.editStartingTime.toString(),
-        ending_date: this.editEndingDate
-          ? new Date(this.editEndingDate).toISOString()
-          : null,
-        ending_time: this.editEndingTime.toString(),
-        final_price: this.edit_final_price,
-      };
-    } else if (this.editpricingCatId == 'FixedPrice') {
-      input = {
-        product_id: this.productId,
-        fix_price: this.editPrice,
-        auction_price: null,
-      };
-    } else {
-      input = {
-        product_id: this.productId,
-        // fix_price: this.price,
-      };
+    try {
+      let input;
+      if (this.editpricingCatId === 'Auction') {
+        input = {
+          productType:'auction',
+          product_id: this.productId,
+          auction_price: this.editStartingPrice.toString(),
+          starting_date: this.editStartingDate
+            ? new Date(this.editStartingDate).toISOString()
+            : null,
+          starting_time: this.editStartingTime.toString(),
+          ending_date: this.editEndingDate
+            ? new Date(this.editEndingDate).toISOString()
+            : null,
+          ending_time: this.editEndingTime.toString(),
+          final_price: this.edit_final_price,
+        };
+      } else if (this.editpricingCatId === 'FixedPrice') {
+        input = {
+          productType:'featured',
+          product_id: this.productId,
+          fix_price: this.editPrice,
+          auction_price: null,
+        };
+      } else {
+        input = {
+          productType:'other',
+          product_id: this.productId,
+          // fix_price: this.price,
+        };
+      }
+  
+      this.mainServices.editProductThirdStep(input).subscribe(
+        (res) => {
+          this.editProductLastStep();
+        },
+        (error) => {
+          console.error(error);
+          this.isLoading = false;
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      this.isLoading = false;
     }
-    this.mainServices.editProductThirdStep(input).subscribe((res) => {
-      res;
-
-      this.editProductLastStep();
-      console.log(res);
-      this.loading = false;
-    });
   }
+  
   editProductLastStep() {
     this.loading = true;
-    let input = {
-      product_id: this.productId,
-      location: this.locationId,
-    };
-    this.mainServices.editProductLastStep(input).subscribe((res: any) => {
-      res;
-      localStorage.removeItem('editProduct')
-      this.toastr.success('Product updated successfully', 'Success');
-      console.log(res);
+    try {
+      let input = {
+        product_id: this.productId,
+        location: this.locationId,
+      };
+  
+      this.mainServices.editProductLastStep(input).subscribe(
+        (res: any) => {
+          localStorage.removeItem('editProduct');
+          this.toastr.success('Product updated successfully', 'Success');
+          console.log(res);
+          this.isLoading = false;
+          this.router.navigate(['']);
+        },
+        (error) => {
+          console.error(error);
+          this.isLoading = false;
+        }
+      );
+    } catch (error) {
+      console.error(error);
       this.isLoading = false;
-      this.router.navigate(['']);
-    });
+    }
   }
+  
   getSelling() {
     this.loading = true;
     this.mainServices.getSelling().subscribe({
@@ -2056,23 +2093,29 @@ showfor(){
 
 getTomorrowDate(): string {
   const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1); // Add 1 day
-  return tomorrow.toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
+  tomorrow.setDate(tomorrow.getDate() + 1); 
+  return tomorrow.toISOString().split('T')[0]; 
 }
 parseETime(event: any): void {
   const selectedEndingTime = event.target.value;
+  
+  if (!this.startingTime) {
+    this.toastr.error('Please select a starting time first.', 'Error');
+    setTimeout(() => (this.endingTime = ''), 1); 
+    return;
+  }
+
   const selectedStartingTime = this.startingTime;
 
   if (!this.startingDate || !this.endingDate) {
     this.showErrorMessage('Invalid date selected.');
-    setTimeout(() => (this.endingTime = ''), 1); // Clear the ending time input
+    setTimeout(() => (this.endingTime = ''), 1); 
     return;
   }
 
   const selectedEndingDate = new Date(this.endingDate);
   const selectedStartingDate = new Date(this.startingDate);
 
-  // Create Date objects for starting and ending times
   const startTime = new Date(
     `${selectedStartingDate.toDateString()} ${selectedStartingTime}`
   );
@@ -2080,57 +2123,55 @@ parseETime(event: any): void {
     `${selectedEndingDate.toDateString()} ${selectedEndingTime}`
   );
 
-  // Check if ending time is less than or equal to starting time on the same date
-  if (
-    selectedStartingDate.toDateString() === selectedEndingDate.toDateString()
-  ) {
+  if (selectedStartingDate.toDateString() === selectedEndingDate.toDateString()) {
     if (endTime <= startTime) {
-      // Show error if ending time is less than or equal to starting time
       this.toastr.error('Ending time cannot be less than or equal to the starting time', 'Error');
-      setTimeout(() => (this.endingTime = ''), 1); // Clear the ending time input
+      setTimeout(() => (this.endingTime = ''), 1); 
+      return;
+    }
+
+    const timeDifference = (endTime.getTime() - startTime.getTime()) / (1000 * 60); 
+    if (timeDifference < 30) {
+      this.toastr.error('Ending time must be at least 30 minutes later than the starting time', 'Error');
+      setTimeout(() => (this.endingTime = ''), 1); 
       return;
     }
   }
 
-  // Update the endingTime if valid
   this.endingTime = selectedEndingTime;
 }
 
+parseSTime(event: any): void {
+  const selectedStartingTime = event.target.value;
 
-  
-  parseSTime(event: any): void {
-    const selectedStartingTime = event.target.value;
+  if (!this.startingDate) {
+    this.showErrorMessage('Invalid date selected.');
+    setTimeout(() => (this.startingTime = ''), 1); 
+    return;
+  }
 
-    if (!this.startingDate) {
-        this.showErrorMessage('Invalid date selected.');
-        setTimeout(() => this.startingTime = "", 1); // Clear the starting time input
-        return;
+  const selectedStartingDate = new Date(this.startingDate);
+  const currentDateTime = new Date();
+
+  const [hours, minutes] = selectedStartingTime.split(':').map(Number);
+  const startTime = new Date(
+    selectedStartingDate.getFullYear(),
+    selectedStartingDate.getMonth(),
+    selectedStartingDate.getDate(),
+    hours, minutes
+  );
+
+  if (selectedStartingDate.toDateString() === currentDateTime.toDateString()) {
+    if (startTime < currentDateTime) {
+      this.toastr.error('Starting time cannot be in the past.', 'Error');
+      setTimeout(() => (this.startingTime = ''), 1); // Clear the starting time input
+      return;
     }
+  }
 
-    const selectedStartingDate = new Date(this.startingDate);
-    const currentDateTime = new Date();
-
-    // Parse the selected starting time in 24-hour format (input type "time" works in 24-hour format)
-    const [hours, minutes] = selectedStartingTime.split(':').map(Number); 
-    const startTime = new Date(
-        selectedStartingDate.getFullYear(),
-        selectedStartingDate.getMonth(),
-        selectedStartingDate.getDate(),
-        hours, minutes
-    );
-
-    // Check if starting time is in the past on the current date
-    if (selectedStartingDate.toDateString() === currentDateTime.toDateString()) {
-        if (startTime < currentDateTime) {
-            this.toastr.error('Starting time cannot be in the past.', 'Error');
-            setTimeout(() => this.startingTime = "", 1); // Clear the starting time input
-            return;
-        }
-    }
-
-    // Update the startingTime if valid
-    this.startingTime = selectedStartingTime;
+  this.startingTime = selectedStartingTime;
 }
+
 
   // Format a Date object as 'yyyy-MM-dd'
   formatDate(date: any): string {
