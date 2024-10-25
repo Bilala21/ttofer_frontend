@@ -1,5 +1,4 @@
-import { Routes } from '@angular/router';
-import { HeaderComponent } from './shared/shared-components/header/header.component';
+import { RouterModule, Routes } from '@angular/router';
 import { BodyComponent } from './pages/body/body.component';
 import { ProductViewsComponent } from './pages/product-views/product-views.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
@@ -21,27 +20,16 @@ import { DeleteAccountPageComponent } from './pages/profile-page/delete-account/
 import { ProductBuyerComponent } from './pages/selling/buyer/product-buyer.component';
 import { SellerReveiwComponent } from './pages/selling/reviews/seller-reveiw.component';
 import { AuthGuard } from './auth.guard';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
 
 
     {
         path: '',
-        component: BodyComponent
-        // pathMatch: 'full'
+        component: BodyComponent,
+        pathMatch: 'full'
     },
-    // {
-    //     path:'header',
-    //     component:HeaderComponent
-    // },
-    // {
-    //     path: 'body',
-    //     component: BodyComponent
-    // },
-    // {
-    //     path:'productView',
-    //     component:ProductViewsComponent
-    // },
 
     {
         path: 'product-detail/:id/:slug',
@@ -50,7 +38,7 @@ export const routes: Routes = [
     {
         path: 'profilePage/:id',
         component: ProfilePageComponent,
-        canActivate:[AuthGuard]
+        canActivate: [AuthGuard]
     },
     {
         path: 'user/delete-account/:id',
@@ -124,9 +112,6 @@ export const routes: Routes = [
         path: 'markAsSold/:id',
         component: MarkAsSoldComponent
     },
-
-    //New
-
     {
         path: 'post',
         loadChildren: () => import('./post/post.module').then(m => m.PostModule)
@@ -135,5 +120,15 @@ export const routes: Routes = [
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
     },
-
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
+    }
 ];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }

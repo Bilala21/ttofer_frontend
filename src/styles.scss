@@ -256,6 +256,15 @@ body {
 //   0% { transform: rotate(0deg); }
 //   100% { transform: rotate(360deg); }
 // }
+.container-fluid {
+  max-width: 1500px;
+}
+
+button[aria-label="Close"]:focus {
+  border: none;
+  outline: none;
+}
+
 .loader-overlay {
   position: fixed;
   top: 0;
@@ -622,10 +631,9 @@ body {
 .top-0 {
   top: 0;
 }
-.category-list{
-  a{
-    
-  }
+
+.category-list {
+  a {}
 }
 
 .product-card {
@@ -736,7 +744,8 @@ body {
 .modal-dialog.register-modal {
   max-width: 650px;
 }
-.register-img{
+
+.register-img {
   max-width: 120px;
 }
 
@@ -777,32 +786,32 @@ body {
 
 @media (min-width: 576px) {
 
-  .container,
-  .container-sm,
-  .container-fluid {
-    max-width: 540px;
-  }
+  // .container,
+  // .container-sm,
+  // .container-fluid {
+  //   max-width: 540px;
+  // }
 }
 
 @media (min-width: 768px) {
 
-  .container,
-  .container-md,
-  .container-sm,
-  .container-fluid {
-    max-width: 720px;
-  }
+  // .container,
+  // .container-md,
+  // .container-sm,
+  // .container-fluid {
+  //   max-width: 720px;
+  // }
 }
 
 @media (min-width: 992px) {
 
-  .container,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container-fluid {
-    max-width: 960px;
-  }
+  // .container,
+  // .container-lg,
+  // .container-md,
+  // .container-sm,
+  // .container-fluid {
+  //   max-width: 960px;
+  // }
 }
 
 @media (max-width : 992px) {
@@ -816,14 +825,14 @@ body {
 
 @media (min-width: 1200px) {
 
-  .container,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container-xl,
-  .container-fluid {
-    max-width: 1300px;
-  }
+  // .container,
+  // .container-lg,
+  // .container-md,
+  // .container-sm,
+  // .container-xl,
+  // .container-fluid {
+  //   max-width: 1300px;
+  // }
 }
 
 // banner plus slider shimmer

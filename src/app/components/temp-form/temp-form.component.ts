@@ -24,34 +24,16 @@ export class TempFormComponent {
     if (this.emailForm.valid) {
       this.error = false
       const email = this.emailForm.get('email')?.value;
-      fetch("https://ttoffer.com/backend/public/api/temp-form", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
-          "Accept": "application/json", // Ensure the server accepts JSON
-        },
-        body: JSON.stringify({ 'email': email }) // Convert the email object to a JSON string
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          return response.json(); // Convert the response to JSON
-        })
-        .then(data => {
-          if (data.token) {
-            this.stateService.updateTempToken(data.token)
-            localStorage.setItem("tempToken", data.token)
-            this.error = false
-          }
-          else {
-            this.error = true
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error); // Handle any errors
-        });
-      console.log('Email entered:', email);
+      const credentialEmail = "*&$?abc123xyz0_-@ttoffer.com"
+      const token = "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%"
+      if (email === credentialEmail) {
+        this.stateService.updateTempToken(token)
+        localStorage.setItem("tempToken", token)
+        this.error = false
+      }
+      else {
+        this.error = true
+      }
     }
   }
 }

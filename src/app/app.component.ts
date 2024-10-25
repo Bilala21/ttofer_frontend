@@ -7,6 +7,7 @@ import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.co
 import { HeaderNavigationComponent } from "./components/header/header.component";
 import { LoginModalComponent } from "./pages/login-modal/login-modal.component";
 import { TempFormComponent } from './components/temp-form/temp-form.component';
+import { BodyComponent } from "./pages/body/body.component";
 
 
 @Component({
@@ -14,7 +15,7 @@ import { TempFormComponent } from './components/temp-form/temp-form.component';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    imports: [HeaderComponent, FooterComponent, TempFormComponent, AuthModalComponent, RouterOutlet, CommonModule, HeaderNavigationComponent, LoginModalComponent]
+    imports: [BodyComponent,HeaderComponent, FooterComponent, TempFormComponent, AuthModalComponent, RouterOutlet, CommonModule, HeaderNavigationComponent, LoginModalComponent, BodyComponent]
     // imports: [HeaderComponent,FooterComponent,FooterComponent,RouterOutlet, ChatBoxComponent, ProfilePageComponent, ProductDetailsComponent, SellingComponent, WhoBoughtAdComponent, ReviewPageComponent, HeaderComponent, ,CommonModule]
 })
 export class AppComponent {

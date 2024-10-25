@@ -1,0 +1,8 @@
+<main class="d-flex align-items-center justify-content-center {{modalAnimation?'set-backdrop':''}}" *ngIf="showModal">
+    <div class="auth-container mx-auto card bg-white" *ngIf="showModalContent">
+        <p class="fs-12 text-slate-400">By moving forward, you're agreeing to our <span class="text-primary">Terms of
+                Service</span> and recognizing that you've checked
+            out our<span class="text-primary"> Privacy</span> Policy to understand how we handle your information.</p>
+    </div>
+    <div class="overlay fixed-top"></div>
+</main>
