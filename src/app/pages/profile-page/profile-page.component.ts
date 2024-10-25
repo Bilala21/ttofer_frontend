@@ -1883,31 +1883,31 @@ showfor(){
       {
         key: 'name',
         value: this.currentUserProfile.name,
-        icon: 'assets/images/profile-circle.svg',
+        icon: 'fas fa-user fs-20',
         placeholder: 'User Name',
       },
       {
         key: 'phone',
         value: this.currentUserProfile.phone,
-        icon: 'assets/images/call-calling.svg',
+        icon: 'fas fa-phone fs-20',
         placeholder: 'Number',
       },
       {
         key: 'email',
         value: this.currentUserProfile.email,
-        icon: 'assets/images/sms.svg',
+        icon: 'fas fa-envelope fs-20',
         placeholder: 'Email',
       },
       {
         key: 'password',
         value: '********',
-        icon: 'assets/images/password-check.svg',
+        icon: 'fas fa-lock fs-20',
         placeholder: 'Password',
       },
       {
         key: 'location',
         value: this.currentUserProfile.location,
-        icon: 'assets/images/location.svg',
+        icon: 'fa fa-map-marker-alt fs-20 mr-2',
         placeholder: 'Location',
       },
     ];
