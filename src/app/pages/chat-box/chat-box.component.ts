@@ -16,6 +16,49 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent]
 })
 export class ChatBoxComponent {
+  messages = [
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    }
+  ];
+  
   offerStatus: number | null = null
   // @ViewChild('selectedUserDiv')
   // selectedUserDiv!: ElementRef;

@@ -91,6 +91,11 @@
     }
   }
 }
+.scrollable-messages {
+  max-height: 400px; /* Adjust the height as per your layout */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  padding-right: 10px; /* To prevent the scrollbar from overlapping with content */
+}
 .scrollable-content {
   max-height: calc(100vh - 350px);
   overflow-y: auto;

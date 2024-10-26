@@ -66,15 +66,28 @@
                             (click)="openModal()">Counter Offer</button>
                     </div>
                 </div>
-                <div class="messages-side mt-5 pt-5">
-                    <div class="d-flex align-items-center">
-                        <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                        <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                            just ideas for next time
-                            <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-pill">
+                <div class="messages-side mt-5 pt-5 scrollable-messages">
+                    <div *ngFor="let message of messages">
+                      <!-- Message from the user (aligned right) -->
+                      <div *ngIf="message.sender === 'user'" class="d-flex align-items-center justify-content-end mb-3">
+                        <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right">
+                          {{ message.content }}
+                          <img [src]="message.image" alt="User Image" loading="lazy" class="rounded-pill small-profile-image">
                         </div>
+                      </div>
+                  
+                      <!-- Message from the receiver (aligned left) -->
+                      <div *ngIf="message.sender === 'receiver'" class="d-flex align-items-center justify-content-start mb-3">
+                        <img [src]="message.image" alt="Receiver Image" loading="lazy" class="rounded-2 small-profile-image">
+                        <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-yellow-800">
+                          {{ message.content }}
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                  
+                  
+                  
                 <div class="message-input d-flex align-items-center mt-5 mb-4">
                     <button class="btn bg-transparent" (click)="fileInput.click()">
                         <i class="fas fa-paperclip"></i>
