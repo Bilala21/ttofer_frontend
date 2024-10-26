@@ -24,36 +24,57 @@
                     <li class="xs-d-none">
                         <a routerLink="#" class="text-slate-400 text-decoration-none link">
                             <i class="far fa-heart fs-20 text-center d-block mb-1"></i>
-                            Saved
+                            <!-- Saved -->
                         </a>
                     </li>
                     <li class="xs-d-none">
                         <a (click)="openChat()" class="text-slate-400 text-decoration-none link">
                             <i class="fa fa-comments fs-20 text-center d-block mb-1"></i>
-                            Chat
+                            <!-- Chat -->
                         </a>
                     </li>
-                    <li class="pt-1">
+                    <li class="ml-3">
+                        <a (click)="login()"
+                            class="d-flex align-items-center justify-content-center white-space-nowrap md-fs-12 link">
+                           Login
+                        </a>
+                    </li>
+                    <!-- <li class="pt-1">
                         <a (click)="openSelling()" class="text-slate-400 text-decoration-none link">
                             <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
                             <span>Selling</span>
                         </a>
-                    </li>
-
-                    <li class="ml-3">
+                    </li> -->
+                 
+                    <li>
+                        <a href="#" class="text-slate-400 text-decoration-none link">
+                          <i class="fas fa-bell fs-20 text-center d-block mb-1"></i>
+                          <!-- <span>Notification</span> -->
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="text-slate-400 text-decoration-none link">
+                          <i
+                            class="fas fa-shopping-cart fs-20 text-center d-block mb-1"
+                          ></i>
+                          <!-- <span>Cart</span> -->
+                        </a>
+                      </li>
+                     
+                    <!-- <li class="ml-3">
                         <button
                             class="d-flex align-items-center btn bg-yellow-800 rounded-20 text-dark btn white-space-nowrap md-fs-12">
                             <span class="pr-1">2345</span>
                             Online
                             <i class="fa fa-globe fs-20 text-center pl-2"></i>
                         </button>
-                    </li>
+                    </li>-->
                     <li>
                         <a routerLink="/#"
                             class="text-decoration-none ml-2 bg-yellow-800 rounded-20 text-dark btn white-space-nowrap md-fs-12">
                             Post Product
                         </a>
-                    </li>
+                    </li> 
 
                     @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">

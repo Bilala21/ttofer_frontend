@@ -11,13 +11,13 @@ import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-header-navigation',
+  selector: 'app-headers',
   standalone: true,
   imports: [RouterLink, NgFor, LoaderComponent, LoginModalComponent],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  templateUrl: './headers.component.html',
+  styleUrl: './headers.component.scss'
 })
-export class HeaderNavigationComponent implements OnInit {
+export class HeadersComponent {
   currentUser: any = {};
   loading: boolean = false;
   apiData: any = [];
@@ -70,9 +70,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-login() {
-  this.authService.triggerOpenModal()
-  }
   logout() {
 
     try {
