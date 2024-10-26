@@ -33,12 +33,15 @@
                             <!-- Chat -->
                         </a>
                     </li>
-                    <li class="ml-3">
-                        <a (click)="login()"
-                            class="d-flex align-items-center justify-content-center white-space-nowrap md-fs-12 link">
-                           Login
-                        </a>
-                    </li>
+                    @if (!currentUser?.id) {
+                        <li class="ml-3">
+                            <a (click)="login()"
+                                class="d-flex align-items-center justify-content-center white-space-nowrap md-fs-12 link">
+                               Login
+                            </a>
+                        </li>
+                    }
+                   
                     <!-- <li class="pt-1">
                         <a (click)="openSelling()" class="text-slate-400 text-decoration-none link">
                             <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
