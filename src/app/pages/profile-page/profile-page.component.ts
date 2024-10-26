@@ -77,7 +77,7 @@ export class ProfilePageComponent {
   attributes: { [key: string]: any } = {};
   showOTPBox: boolean = false;
   progress!: number;
-  defaultProfileUrl: string = '/assets/images/profile-placeholder.png';
+  defaultProfileUrl: string = '/assets/images/profile-icon.svg'; // /assets/images/profile-placeholder.png
   showMore: boolean = false;
   selectedTab: any ;
   selectedTabItem: string = '';
