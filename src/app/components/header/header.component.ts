@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor, LoaderComponent, LoginModalComponent],
+  imports: [RouterLink, NgFor,NgIf, LoaderComponent, LoginModalComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -21,7 +21,7 @@ export class HeaderNavigationComponent implements OnInit {
   currentUser: any = {};
   loading: boolean = false;
   apiData: any = [];
-  categoryLimit: number = 8;
+  categoryLimit: number = 12;
   categories: any = [];
   showSearch: boolean = false;
   private imageUrlSubscription: Subscription | undefined;
@@ -60,7 +60,7 @@ export class HeaderNavigationComponent implements OnInit {
       this.categoryLimit = 2;
     }
     else {
-      this.categoryLimit = 8;
+      this.categoryLimit = 12;
     }
 
     console.log('Category Limit:', this.categoryLimit, 'Screen Width:', this.screenWidth);

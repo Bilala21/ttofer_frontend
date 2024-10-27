@@ -8,12 +8,12 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [NgIf, RouterLink,CommonModule],
+  imports: [NgIf, RouterLink, CommonModule],
   providers: [DecimalPipe],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   constructor(private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
@@ -48,5 +48,8 @@ export class ProductCardComponent {
         console.log(err);
       },
     })
+  }
+  ngOnInit(): void {
+    console.log(this.postData, "postData");
   }
 }
