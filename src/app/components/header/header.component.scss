@@ -32,7 +32,7 @@ header {
                 position: relative;
                 cursor: pointer;
                 display: block;
-                min-width: 60px;
+                min-width: 45px;
                 text-align: center;
             }
         }
@@ -92,6 +92,9 @@ header {
 
     button:focus {
         outline: none;
+    }
+    .right-list{
+        column-gap: 20px;
     }
 }
 

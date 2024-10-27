@@ -33,7 +33,7 @@ export class PostCategoryComponent implements OnInit {
 
   handleTab(tab: string) {
     this.activeTab = tab;
-    this.globalStateService.updateProdTab("ProductType", tab);
+    this.globalStateService.updateProdTab("productType", tab);
   }
 
   toggleSidebar() {
