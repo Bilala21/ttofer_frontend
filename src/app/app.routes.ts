@@ -1,3 +1,4 @@
+import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
 import { RouterModule, Routes } from '@angular/router';
 import { BodyComponent } from './pages/body/body.component';
 import { ProductViewsComponent } from './pages/product-views/product-views.component';
@@ -22,7 +23,6 @@ import { SellerReveiwComponent } from './pages/selling/reviews/seller-reveiw.com
 import { AuthGuard } from './auth.guard';
 import { NgModule } from '@angular/core';
 import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.component';
-
 export const routes: Routes = [
 
 
@@ -112,6 +112,10 @@ export const routes: Routes = [
     {
         path: 'markAsSold/:id',
         component: MarkAsSoldComponent
+    },
+    {
+        path: 'cart',
+        component: ShoppingCartComponent
     },
     {
         path: 'auth',
