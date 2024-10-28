@@ -1,0 +1,70 @@
+.right-side {
+    min-width: 508px;
+}
+
+.icon-btn {
+    height: 50px;
+    min-width: 50px;
+    background: #fff;
+
+    &:focus-within {
+        outline: none;
+    }
+
+    &:hover {
+        background: transparent;
+    }
+}
+
+.img-slider {
+    background: #F2F2F2;
+}
+
+.border-2 {
+    border: 2px solid;
+}
+
+.d-ling {
+    a {
+        color: #000;
+        font-weight: 500;
+    }
+}
+
+.qty-input {
+    height: 50px;
+    width: 80px;
+    background: #F2F2F2;
+    border-color: #000;
+}
+
+.buttons {
+    button {
+        padding: 12px;
+        border-color: #007bff;
+
+        &:hover {
+            background: #F2F2F2;
+        }
+    }
+}
+
+.user-img {
+    min-width: 45px;
+    min-height: 45px;
+    max-width: 45px;
+}
+
+@media(min-width:1200px) {
+    .img-gallery {
+        min-width: 92px;
+        min-height: 92px;
+        max-height: 92px;
+        max-width: 92px;
+        background: #F2F2F2;
+
+        img {
+            object-fit: contain;
+        }
+    }
+}
