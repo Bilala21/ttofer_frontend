@@ -1881,7 +1881,6 @@ showfor(){
         this.sellingListTemp = res.data?.selling ;
       },
       error: (err: any) => {
-        console.error('Error fetching selling data:', err);
         this.loading = false;
       },
     });

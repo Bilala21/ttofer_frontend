@@ -106,3 +106,43 @@
   border: 2px solid #fff; /* Optional: Adds a white border around the image */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
 }
+.tabs-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  margin: 3px auto 30px;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: white;
+}
+
+.tab.active {
+  background-color: #ffdd54; /* The yellow shade */
+  color: black;
+}
+.message-input .btn {
+  padding: 0.5rem; /* Adjust padding to match the style */
+}
+
+.message-input .send-button {
+  right: 10px; /* Adjust to the desired spacing from the edge */
+}
+
+.message-input .position-relative {
+  display: flex;
+  align-items: center;
+}
+
+.message-input input[type="file"] {
+  display: none; /* Keep it hidden */
+}
