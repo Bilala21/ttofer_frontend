@@ -22,6 +22,7 @@ import { SellerReveiwComponent } from './pages/selling/reviews/seller-reveiw.com
 import { AuthGuard } from './auth.guard';
 import { NgModule } from '@angular/core';
 import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 
 export const routes: Routes = [
 
@@ -34,7 +35,8 @@ export const routes: Routes = [
 
     {
         path: 'product-detail/:id/:slug',
-        component: ProductDetailsComponent
+        component: ProductDetailComponent
+        // component: ProductDetailsComponent
     },
     {
         path: 'profilePage/:id',

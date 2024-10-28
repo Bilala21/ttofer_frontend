@@ -276,6 +276,7 @@ body {
 
 .body-banner-1 {
   margin-top: 40px !important;
+
   img {
     // border: 2px solid #ffc107;
     height: auto !important;
@@ -402,6 +403,7 @@ button[aria-label="Close"]:focus {
 .bg-yellow-800 {
   background: #ffc107;
 }
+
 .text-yellow-800 {
   color: #ffc107;
 }
@@ -424,6 +426,9 @@ button[aria-label="Close"]:focus {
 
 .text-slate-400 {
   color: #222 !important;
+}
+.text-slate-300 {
+  color: #393939 !important;
 }
 
 .text-dark-350 {
@@ -618,19 +623,32 @@ button[aria-label="Close"]:focus {
 .border-1 {
   border: 1px solid #d8dfe0;
 }
-.border-2{
+
+.border-2 {
   border-width: 2px;
 }
-.border-yellow{
+
+.border-yellow {
   border-color: #ffc107;
 }
+
 .outlined-icon {
   color: transparent;
-  -webkit-text-stroke: 1px black; /* Outline color and width */
+  -webkit-text-stroke: 1px black;
+  /* Outline color and width */
 }
 
 .border-b-1 {
   border-bottom: 1px solid #d8dfe0;
+}
+
+.border-t {
+  border-top: 1px solid #d8dfe0;
+}
+
+.text-decoration-underline {
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
 }
 
 .rounded-5 {
@@ -1023,7 +1041,7 @@ button[aria-label="Close"]:focus {
   font-weight: bold;
 }
 
-.form-control{
+.form-control {
   border-radius: 5px !important;
   height: calc(1.5em + .75rem + 8px) !important;
 }
