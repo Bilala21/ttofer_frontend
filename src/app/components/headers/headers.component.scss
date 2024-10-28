@@ -1,3 +1,42 @@
+/* Horizontal scroll styling for the ul element */
+.overflow-scroll-x {
+    white-space: nowrap; /* Prevent items from wrapping to the next line */
+    overflow-x: auto; /* Enable horizontal scroll */
+    overflow-y: hidden; /* Disable vertical scroll */
+    padding-bottom: 10px; /* Optional padding for scrollbar space */
+}
+
+/* Ensure list items are inline for horizontal layout */
+.overflow-scroll-x li {
+    display: inline-block; /* Make list items inline to scroll horizontally */
+    margin-right: 15px; /* Space between items */
+}
+
+/* Optional scrollbar styling for Webkit browsers */
+.overflow-scroll-x::-webkit-scrollbar {
+    height: 8px; /* Horizontal scrollbar height */
+}
+
+.overflow-scroll-x::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.overflow-scroll-x::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+
+.gap-add{
+gap: 50px;
+font-size: 14px;
+}
+.input-search{
+    padding: 11px 10px;
+}
+.btn-search{
+    padding: 12px 16px;  
+}
 header {
     ul {
         &:first-child {
@@ -32,7 +71,7 @@ header {
                 position: relative;
                 cursor: pointer;
                 display: block;
-                min-width: 45px;
+                min-width: 60px;
                 text-align: center;
             }
         }
@@ -92,9 +131,6 @@ header {
 
     button:focus {
         outline: none;
-    }
-    .right-list{
-        column-gap: 20px;
     }
 }
 

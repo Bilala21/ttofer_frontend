@@ -1,3 +1,20 @@
 .disabled-link {
-    pointer-events: none;
-  }
+  pointer-events: none;
+}
+
+.price-tag {
+  background: #65c774;
+  min-width: 100px;
+  bottom: 15px;
+  right: 15px;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+}
+
+.wishlist {
+  right: 10px;
+  z-index: 9;
+  top: 10px;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}

@@ -1,0 +1,191 @@
+<header>
+  <nav class="container-fluid border-b pointer-default">
+    <div class="d-flex align-content-center justify-content-center pt-2">
+      <div class="d-flex gap-add ">
+        <ul class="list-unstyled d-flex align-items-center justify-content-center">
+          <li class="xs-d-none">
+            <a routerLink="#" class="text-slate-400 text-decoration-none link">
+              <i class="far fa-heart fs-20 text-center d-block mb-1"></i>
+              Saved
+            </a>
+          </li>
+          <li class="xs-d-none">
+            <a
+              (click)="openChat()"
+              class="text-slate-400 text-decoration-none link"
+            >
+              <i class="fa fa-comments fs-20 text-center d-block mb-1"></i>
+              Chat
+            </a>
+          </li>
+
+          <li class="pt-1">
+            <a
+              (click)="openSelling()"
+              class="text-slate-400 text-decoration-none link"
+            >
+              <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
+              <span>Selling</span>
+            </a>
+          </li>
+          <li class="ml-3">
+            <button
+              class="d-flex align-items-center btn bg-yellow-800 rounded-20 text-dark btn white-space-nowrap md-fs-12"
+            >
+              <span class="pr-1">2345</span>
+              Online
+              <i class="fa fa-globe fs-20 text-center pl-2"></i>
+            </button>
+          </li>
+          <li>
+            <a
+              routerLink="/#"
+              class="text-decoration-none ml-2 bg-yellow-800 rounded-20 text-dark btn white-space-nowrap md-fs-12"
+            >
+              Post Product
+            </a>
+          </li>
+          <li>
+            <a href="" class="text-slate-400 text-decoration-none link">
+              <i class="fas fa-bell fs-20 text-center d-block mb-1"></i>
+              <span>Notification</span>
+            </a>
+          </li>
+          <li>
+            <a href="" class="text-slate-400 text-decoration-none link">
+              <i
+                class="fas fa-shopping-cart fs-20 text-center d-block mb-1"
+              ></i>
+              <span>Cart</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid border-b pointer-default pt-2 pb-1">
+    <div class="d-flex justify-content-between position-relative mx-auto">
+      <ul
+        class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default"
+      >
+        <li class="xs-pl-16 mr-4 xs-mr-0">
+          <a routerLink="/body"
+            ><img
+              src="/assets/images/LOGO.png"
+              alt="App logo"
+              loading="lazy"
+              width="50"
+              class="header-logo"
+          /></a>
+        </li>
+
+        <li
+          class="d-flex align-items-center flex-grow-1 search-bar {{
+            showSearch ? 'show-search' : ''
+          }}"
+        >
+          <input
+            type="text"
+            placeholder="Search"
+            class="w-100 fs-18 border-1"
+          />
+          <button
+            class="search-btn position-relative border-0 bg-dark-850 text-white"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </li>
+        <li class="d-none">
+          <button
+            class="search-btn position-relative border-0 p-0 pt-1 bg-transparent text-white"
+            (click)="showSearchBar()"
+          >
+            <i class="fas fa-search fs-20 text-slate-400"></i>
+          </button>
+        </li>
+
+        <li
+          class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item"
+        >
+          <i class="fa fa-map-marker-alt fs-20 mr-2"></i>
+          Belarus
+        </li>
+      </ul>
+
+      <ul
+        class="list-unstyled d-flex align-items-center justify-content-end pl-3 fs-14 xs-pr-16"
+      >
+        @if (currentUser) {
+        <li class="user-profile cursor-pointer position-relative">
+          <button
+            class="btn dropdown-toggle text-slate-400 fs-14 text-uppercase fw-semibold"
+            type="button"
+            id="userDropdown"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              class="user-Profile"
+              [src]="imgUrl ? imgUrl : '/assets/images/profile-placeholder.png'"
+              loading="lazy"
+              width="42"
+              height="42"
+              class="rounded-pill border-1"
+            />
+            <!-- <img src="/assets/images/profile-placeholder.png" alt="user-profile" width="42" height="42"
+                      class="rounded-pill border-1"> -->
+            <img
+              src="/assets/images/icons/angleDown.svg"
+              alt="angle down"
+              class="ml-1"
+            />
+          </button>
+          <div
+            class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw pt-3 shadow-md"
+            aria-labelledby="userDropdown"
+          >
+            <a
+              routerLink="/profilePage/{{ currentUser.id }}"
+              class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
+            >
+              <i class="fas fa-user fs-18 text-center d-block mr-3"></i>
+              <span> Profile </span>
+            </a>
+            <span
+              (click)="logout()"
+              class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
+            >
+              <i class="fas fa-sign-out-alt fs-18 text-center d-block mr-3"></i>
+              <span> Logout </span>
+            </span>
+          </div>
+        </li>
+        }@else {
+        <a routerLink="/login" class="btn  text-white bg-dark-850 rounded" >
+          Login
+        </a>
+
+        }
+      </ul>
+    </div>
+  </div>
+  <nav class="container-fluid mt-2">
+    <div class="row mx-auto w-100">
+        @if(loading) {
+            <div class="mx-auto mt-1"><app-loader /></div>
+        }
+        @else {
+            <ul class="list-unstyled d-flex align-items-center justify-content-start fs-14 mb-0 categories overflow-scroll-x">
+                <li *ngFor="let category of categories">
+                    <a routerLink="/category/{{category.id}}/{{category.slug}}"
+                       class="category-color text-decoration-none">{{category.name}}</a>
+                </li>
+            </ul>
+        }
+    </div>
+</nav>
+
+
+  <app-login-modal></app-login-modal>
+</header>

@@ -1635,8 +1635,6 @@ showfor(){
         await this.addProductImage();
         // this.attributes();
         await this.addProductSecondStep();
-      } else {
-        throw new Error(data.message || 'File upload failed');
       }
     } catch (error) {
       this.isLoading = false;
@@ -1758,7 +1756,7 @@ showfor(){
   // Centralized error handling
   handleError(error: any) {
     this.loading = false;
-    alert(error.message || 'An error occurred, please try again.');
+   
   }
 
   EditProductSeccondStep() {
