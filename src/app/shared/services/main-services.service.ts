@@ -55,7 +55,7 @@ export class MainServicesService {
     return this.http.post(`${this.apiUrl}api/auction-products`, null);
   }
   addWishList(input: any) {
-    return this.http.post(`${this.apiUrl}` + 'api/add-wishlist-products', input).pipe();
+    return this.http.post(`${this.apiUrl}` + 'web-api/toggle-wishlist-product', input).pipe();
   }
   removeWishList(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/remove-wishlist-products', input).pipe();

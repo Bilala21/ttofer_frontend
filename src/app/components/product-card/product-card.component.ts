@@ -38,8 +38,9 @@ export class ProductCardComponent implements OnInit {
     }
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
+        console.log(res);
         if (res.success) {
-          this.toastr.success('Product added to wishlist successfully', 'Success');
+          this.toastr.success(res.message, 'Success');
         }
         console.log(res, "toggleWishlist");
       },
@@ -51,5 +52,8 @@ export class ProductCardComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log(this.postData, "postData");
+    this.globalStateService.currentState.subscribe(state => {
+      this.currentUser = state.currentUser
+    });
   }
 }
