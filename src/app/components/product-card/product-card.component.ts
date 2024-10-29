@@ -27,6 +27,7 @@ export class ProductCardComponent implements OnInit {
 
   }
   toggleWishlist(item: any) {
+    console.log(item);
     this.globalStateService.wishlistToggle(item.id);
     this.globalStateService.currentState.subscribe(state => {
       this.wishList = state.wishListItems
@@ -36,18 +37,34 @@ export class ProductCardComponent implements OnInit {
       user_id: this.currentUser.id,
       product_id: item.id
     }
-    this.mainServices.addWishList(input).subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          this.toastr.success('Product added to wishlist successfully', 'Success');
-        }
-        console.log(res, "toggleWishlist");
-      },
-      error: (err) => {
-        this.toastr.error('Failed to add product to wishlist', 'Error');
-        console.log(err);
-      },
-    })
+    if (item.status) {
+      this.mainServices.removeWishList(input).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.toastr.success('Product added to wishlist successfully', 'Success');
+          }
+          console.log(res, "toggleWishlist");
+        },
+        error: (err) => {
+          this.toastr.error('Failed to add product to wishlist', 'Error');
+          console.log(err);
+        },
+      })
+    }
+    else {
+      this.mainServices.addWishList(input).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.toastr.success('Product added to wishlist successfully', 'Success');
+          }
+          console.log(res, "toggleWishlist");
+        },
+        error: (err) => {
+          this.toastr.error('Failed to add product to wishlist', 'Error');
+          console.log(err);
+        },
+      })
+    }
   }
   ngOnInit(): void {
     console.log(this.postData, "postData");
