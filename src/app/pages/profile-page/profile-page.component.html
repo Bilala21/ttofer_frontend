@@ -219,14 +219,16 @@
                 <div class="d-flex d-md-block justify-content-center">
                   <label htmlFor="image-upload">
                     <div
-                      style="position: relative; width: 130px; height: 130px"
+                      style="position: relative; width: 130px; height: 130px;border:0.5px solid gainsboro; border-radius: 50%;"
                       class="image-container"
                     >
                       <div (click)="file.click()">
                         <img
                           style="
-                            width: 100%;
+                           width: 130px; 
+                           height: 130px;
                             border-radius: 50%;
+                            object-fit: contain;
                             cursor: pointer;
                             z-index: 0;
                           "

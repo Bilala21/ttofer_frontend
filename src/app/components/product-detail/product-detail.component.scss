@@ -1,5 +1,9 @@
 .right-side {
-    min-width: 508px;
+    max-width: 508px;
+    // min-width: 320px;
+}
+.img-fluid{
+    height: 100%;
 }
 
 .icon-btn {
@@ -18,10 +22,18 @@
 
 .img-slider {
     background: #F2F2F2;
-
-    img {
-        max-height: 510px;
-    }
+    min-height: 200px;
+    max-height: 500px;
+    overflow-y: hidden;
+    // div{
+    //     height: 100%;
+    //     div{
+    //         height: 100%;  
+    //         div{
+    //             height: 100%;  
+    //         }
+    //     }
+    // }
 }
 
 .border-2 {
@@ -63,7 +75,7 @@
     .img-gallery {
         min-width: 92px;
         min-height: 92px;
-        height: 92px;
+        max-height: 92px;
         max-width: 92px;
         background: #F2F2F2;
 
