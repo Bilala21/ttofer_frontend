@@ -41,11 +41,10 @@ export class ProductCardComponent implements OnInit {
         if (res.success) {
           this.toastr.success('Product added to wishlist successfully', 'Success');
         }
-        console.log(res, "toggleWishlist");
       },
       error: (err) => {
-        this.toastr.error('Failed to add product to wishlist', 'Error');
-        console.log(err);
+        const error=err.error.message
+        this.toastr.error(error, 'Error');
       },
     })
   }

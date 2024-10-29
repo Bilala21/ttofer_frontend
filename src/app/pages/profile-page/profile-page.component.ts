@@ -1702,10 +1702,10 @@ showfor(){
         productType:'auction',
         product_id: this.productId,
         auction_price: this.startingPrice,
-        starting_date: this.startingDate,
-        starting_time: this.startingTime,
-        ending_date: this.endingDate,
-        ending_time: this.endingTime,
+        starting_date: this.startingDate?.toISOString(),
+        starting_time: this.startingTime.toString(),
+        ending_date: this.endingDate?.toISOString(),
+        ending_time: this.endingTime.toString(),
         final_price: this.final_price,
       };
     } else if (this.pricingCatId === 'FixedPrice') {
