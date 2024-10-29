@@ -23,7 +23,7 @@
                 <ul
                     class="list-unstyled d-flex align-items-center right-list flex-grow-1 justify-content-end pl-3 fs-14 xs-pr-16">
                     <li class="xs-d-none">
-                        <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                        <svg (click)="savedItems()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                             viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
                                 d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
@@ -35,7 +35,7 @@
                             <i class="fa fa-comments outlined-icon fs-20 text-center d-block mb-1"></i>
                 
                         </a> -->
-                        <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
+                        <svg (click)="openChat()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
                             viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
@@ -63,7 +63,7 @@
                     </li> -->
                     <li class="cart-container">
                         <!-- Cart Icon with Badge -->
-                        <a routerLink="/cart" class="text-decoration-none position-relative">
+                        <a (click)="cart()" class="text-decoration-none position-relative">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                             viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -87,7 +87,7 @@
                     <!-- cart-start -->
                     <li class="cart-container">
                         <!-- Cart Icon with Badge -->
-                        <a routerLink="/cart" class="text-decoration-none position-relative">
+                        <a (click)="cart()" class="text-decoration-none position-relative">
                           <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                               viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                               <path
@@ -113,7 +113,7 @@
                       
                     <!-- cart-end -->
                     <li class="xs-d-none">
-                        <a routerLink="/#"
+                        <a (click)="openSelling()"
                             class="text-decoration-none  p-0 rounded-20 text-dark btn white-space-nowrap md-fs-12">
                             Sell
                         </a>
