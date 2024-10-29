@@ -18,6 +18,10 @@
 
 .img-slider {
     background: #F2F2F2;
+
+    img {
+        max-height: 510px;
+    }
 }
 
 .border-2 {
@@ -59,7 +63,7 @@
     .img-gallery {
         min-width: 92px;
         min-height: 92px;
-        max-height: 92px;
+        height: 92px;
         max-width: 92px;
         background: #F2F2F2;
 
