@@ -1,3 +1,4 @@
+import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
 import { RouterModule, Routes } from '@angular/router';
 import { BodyComponent } from './pages/body/body.component';
 import { ProductViewsComponent } from './pages/product-views/product-views.component';
@@ -114,6 +115,10 @@ export const routes: Routes = [
     {
         path: 'markAsSold/:id',
         component: MarkAsSoldComponent
+    },
+    {
+        path: 'cart',
+        component: ShoppingCartComponent
     },
     {
         path: 'auth',

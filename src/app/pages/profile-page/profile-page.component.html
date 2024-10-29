@@ -1,5 +1,11 @@
-
-<main class="mt-16 ">
+<!-- <div *ngIf="loading" class="loader-overlay">
+  <div class="loader">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div> -->
+<main class="mt-16">
   <div class="container-fluid">
     <div class="row justify-content-between profile-main-container">
       <div class="col-xl-4 col-md-5 position-relative">
@@ -7,7 +13,7 @@
           (click)="openMore()"
           src="assets/images/more-icon.svg"
           class="position-absolute d-block d-md-none"
-          style="left: 0"
+          style="left: 0; z-index: 1; margin-left: 15px"
         />
 
         <!-- mobile-screen -->
@@ -33,7 +39,7 @@
               (click)="selectTab('purchasesSales')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-shopping-cart icon-outline fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -50,8 +56,7 @@
               (click)="selectTab('paymentDeposit')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                 
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-credit-card fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -68,12 +73,11 @@
             <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
             <div
               class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === '' }"
+              [ngClass]="{ active: selectedTab === 'savedItems' }"
               (click)="selectTab('savedItems')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                 
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-heart fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -87,8 +91,7 @@
               (click)="selectTab('notification')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                 
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-bell fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -109,12 +112,7 @@
               (click)="selectTab('editPost')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                  <!-- <img
-                        src="assets/images/gallery-edit.png"
-                        class="w-100"
-                        alt=""
-                      /> -->
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-edit fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -128,12 +126,7 @@
               (click)="selectTab('addPost')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                  <!-- <img
-                        src="assets/images/gallery-add.png"
-                        class="w-100"
-                        alt=""
-                      /> -->
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-plus-circle fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -152,7 +145,7 @@
               (click)="selectTab('accountSetting')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-cog fs-20"></i>
                   <!-- Settings icon -->
                 </div>
@@ -169,12 +162,8 @@
               (click)="selectTab('boostPlus')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                  <!-- <img
-                        src="assets/images/arrow-up.svg"
-                        class="w-100"
-                        alt=""
-                      /> -->
+                <div class="col-2 d-flex justify-content-end">
+                 
                   <i class="fas fa-rocket fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -188,12 +177,7 @@
               (click)="selectTab('customLinks')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
-                  <!-- <img
-                        src="assets/images/link.svg"
-                        class="w-100"
-                        alt=""
-                      /> -->
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-link fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -214,7 +198,7 @@
               (click)="selectTab('helpCenter')"
             >
               <div class="row align-items-center">
-                <div class="col-2">
+                <div class="col-2 d-flex justify-content-end">
                   <i class="fas fa-question fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -226,15 +210,17 @@
         </div>
         <!-- profile-image -->
         <div class="row">
-          <div class="col-10 mx-auto">
-            <div class="row">
-              <div class="col-9 mx-auto text-center">
+          <div class="col-12 mx-auto">
+            <div class="">
+              <div
+                class="w-100 d-flex flex-column flex-md-row justify-content-center align-content-center mx-auto"
+              >
                 <!-- profile-image -->
-                <label htmlFor="image-upload">
-                  <div class="upload-container">
+                <div class="d-flex d-md-block justify-content-center">
+                  <label htmlFor="image-upload">
                     <div
                       style="position: relative; width: 130px; height: 130px"
-                      class="image-container text-center"
+                      class="image-container"
                     >
                       <div style="width:100%;height:100%" (click)="file.click()">
                         <img
@@ -242,7 +228,7 @@
                             width: 100%;
                             height: 100%;
                             
-                            border-radius: 16px;
+                            border-radius: 50%;
                             cursor: pointer;
                             z-index: 0;
                           "
@@ -252,8 +238,8 @@
                         />
                       </div>
                       <i
-                      class="fas fa-camera profile-icon-camera bg-danger-blue"
-                    ></i>
+                        class="fas fa-camera profile-icon-camera bg-danger-blue"
+                      ></i>
 
                       <input
                         #file
@@ -263,36 +249,80 @@
                         style="display: none"
                       />
                     </div>
+                  </label>
+                </div>
+                <!-- user-data -->
+                <div
+                  class="d-flex flex-column ml-0 ml-md-4 mt-md-4 text-center text-md-left"
+                >
+                  <!-- user-name -->
+                  <div class="fs-14 text-capitalize fw-semibold">
+                    {{ currentUserProfile.name }}
                   </div>
-                </label>
-
-                <div class="row">
-                  <div class="col-12 text-center">
-                    <!-- user-name -->
-                    <div class="fs-16 text-capitalize">
-                      {{ currentUserProfile.name }}
+                  <!-- joined -->
+                  <div class="fs-14 text-capitalize mt-1">
+                    joined : {{ currentUserProfile.join || "N/A" }}
+                  </div>
+                  <!-- address -->
+                  <div class="fs-14 text-capitalize mt-1">
+                    Address : {{ currentUserProfile.address || "N/A" }}
+                  </div>
+                  <!-- rating -->
+                  <div class="d-flex justify-content-center align-items-center">
+                    <div class="text-center">
+                      <app-star-rating
+                        [rating]="currentUserProfile.review_percentage"
+                        [allowRating]="this.allowRating"
+                      ></app-star-rating>
                     </div>
-                    <!-- rating -->
-                    <div
-                      class="d-flex justify-content-center align-items-center"
-                    >
-                      <div class="text-center">
-                        <app-star-rating
-                          [rating]="currentUserProfile.review_percentage"
-                          [allowRating]="this.allowRating"
-                        ></app-star-rating>
-                      </div>
-                      <div class="ml-3">
-                        <p class="mb-0">
-                          {{ currentUserProfile.review_percentage }}
-                        </p>
-                      </div>
+                    <div class="ml-3">
+                      <p class="mb-0 fs-12">
+                        ({{ currentUserProfile.review_percentage }})
+                      </p>
                     </div>
                   </div>
                 </div>
+                <!--  -->
+              </div>
+              <!-- user-lower-info -->
+              <div class="w-100">
+                <ul class="text-decoration-none d-flex justify-content-center">
+                  <li class="text-center">
+                    <a href="#" class="text-decoration-none fs-14">
+                      <span class="d-block text-black">4</span>
+                      <!-- Number color -->
+                      <span class="d-block text-blue">Bought</span>
+                      <!-- "Bought" color -->
+                    </a>
+                  </li>
+                  <li class="text-center">
+                    <a href="#" class="text-decoration-none fs-14">
+                      <span class="d-block text-black">10</span>
+                      <!-- Number color -->
+                      <span class="d-block text-blue">Sold</span>
+                      <!-- "Bought" color -->
+                    </a>
+                  </li>
+                  <li class="text-center">
+                    <a href="#" class="text-decoration-none fs-14">
+                      <span class="d-block text-black">0</span>
+                      <!-- Number color -->
+                      <span class="d-block text-blue">Followers</span>
+                      <!-- "Bought" color -->
+                    </a>
+                  </li>
+                  <li class="text-center fs-14">
+                    <a href="#" class="text-decoration-none">
+                      <span class="d-block text-black">0</span>
+                      <!-- Number color -->
+                      <span class="d-block text-blue">Following</span>
+                      <!-- "Bought" color -->
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div
+            <!-- <div
               class="d-flex align-items-center text-center justify-content-center mt-3 text-center"
             >
               <div
@@ -378,14 +408,10 @@
                   style="height: 15%"
                   alt=""
                 />
-                <h6  class="p-0 fs-12 mt-1 mb-0">
-                  Join
-                </h6>
-                <h6 class="p-0 fs-12 mt-1">
-                  TruYou
-                </h6>
+                <h6 class="p-0 fs-12 mt-1 mb-0">Join</h6>
+                <h6 class="p-0 fs-12 mt-1">TruYou</h6>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- desktop-screen -->
@@ -403,11 +429,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/receipt-item.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-shopping-cart icon-outline fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -417,7 +438,7 @@
                   </div>
                 </div>
               </div>
-             <!-- card -->
+              <!-- card -->
               <div
                 class="col-12 mt-2 p-2 onHover pointer"
                 [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
@@ -425,11 +446,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/card-tick.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-credit-card"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -451,11 +467,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/heart-icon.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-heart fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -472,11 +483,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/notification-bing.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-bell fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -498,11 +504,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/gallery-edit.png"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-edit fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -517,11 +518,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/gallery-add.png"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-plus-circle fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -558,11 +554,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/arrow-up.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-rocket fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -624,10 +615,7 @@
 
       <!-- tabs-screen -->
       <!-- Purchases & Sales -->
-      <div
-        *ngIf="selectedTab === 'purchasesSales'"
-        class="col-xl-7 col-md-7 "
-      >
+      <div *ngIf="selectedTab === 'purchasesSales'" class="col-xl-7 col-md-7">
         <div class="row">
           <div class="col-md-7 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
@@ -782,7 +770,7 @@
               "
             >
               <!-- Your actual data card structure goes here -->
-               <!-- buying -->
+              <!-- buying -->
               <div
                 class="card-container"
                 *ngFor="let data of purchaseListTemp"
@@ -865,103 +853,35 @@
                   Make local buying and selling easy and straightforward!
                 </h5>
                 <span>Download our app</span>
-                <div class="row">
-                <div class="col-12 p-0 mt-3 mx-auto">
-                  <div class="row justify-content-center">
-                    <div class="col-6 col-sm-4 col-xl-3 pl-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-google-play" style="font-size:28px"></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Google Play</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-xl-3 pr-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-app-store-ios" style="font-size:28px"></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Apple Store</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="w-100 d-flex justify-content-center mt-3">
+                  <div class="mr-1" style="width: 140px">
+                    <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                  </div>
+                  <div class="ml-1" style="width: 140px">
+                    <img src="assets/images/app-store.svg" alt="" class="w-100" />
                   </div>
                 </div>
               </div>
-              </div>
             </div>
             <!-- history -->
-            <div *ngIf="sellingList?.data?.archive == 0 && activeButton == 3">
+            <div *ngIf="sellingListTemp.length == 0 && purchaseListTemp.length == 0 && activeButton == 3">
               <div class="col-12 text-center mx-auto">
-                <img src="assets/images/archieve-item.png" class="w-100" alt="" />
+                <img
+                  src="assets/images/archieve-item.png"
+                  class="w-100"
+                  alt=""
+                />
                 <h4 class="mt-5"></h4>
                 <h5 class="mt-5">
                   When you archieve an item, it’ll appear here
                 </h5>
                 <span>Download our app</span>
-                <div class="row">
-                  <div class="col-12 p-0 mt-3 mx-auto">
-                    <div class="row justify-content-center">
-                      <div class="col-6 col-sm-4 pl-0">
-                        <div
-                          class="p-1 btnHover"
-                          style="
-                            background-color: #ffffff;
-                            border: 1px solid #ebeef7;
-                          "
-                        >
-                          <div class="row align-items-center p-1">
-                            <div class="col-3">
-                              <i class="fab fa-google-play" style="font-size:28px"></i>
-                            </div>
-                            <div class="col-9 p-0">
-                              <span class="fs-12">Get it now</span>
-                              <h6 class="fs-12">Google Play</h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-sm-4 pr-0">
-                        <div
-                          class="p-1 btnHover"
-                          style="
-                            background-color: #ffffff;
-                            border: 1px solid #ebeef7;
-                          "
-                        >
-                          <div class="row align-items-center p-1">
-                            <div class="col-3">
-                              <i class="fab fa-app-store-ios" style="font-size:28px"></i>
-                            </div>
-                            <div class="col-9 p-0">
-                              <span class="fs-12">Get it now</span>
-                              <h6 class="fs-12">Apple Store</h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="w-100 d-flex justify-content-center mt-3">
+                  <div class="mr-1" style="width: 140px">
+                    <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                  </div>
+                  <div class="ml-1" style="width: 140px">
+                    <img src="assets/images/app-store.svg" alt="" class="w-100" />
                   </div>
                 </div>
               </div>
@@ -975,7 +895,7 @@
           <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-2 d-flex justify-content-end">
-                <i class="fas fa-credit-card title-icon" ></i>
+                <i class="fas fa-credit-card title-icon"></i>
               </div>
               <div class="col-10 pl-0">
                 <h3 class="right-side-top-title">Payment & Deposit method</h3>
@@ -1112,15 +1032,12 @@
         </div>
       </div>
       <!-- savedItems -->
-      <div
-        *ngIf="selectedTab === 'savedItems'"
-        class="col-xl-7 col-md-7"
-      >
+      <div *ngIf="selectedTab === 'savedItems'" class="col-xl-7 col-md-7">
         <div class="row">
           <div class="col-md-7 text-center mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-heart title-icon" ></i>
+                <i class="fas fa-heart title-icon"></i>
               </div>
               <div class="col-6 col-md-8 col-5 pl-0">
                 <h3 class="right-side-top-title text-left">Saved Items</h3>
@@ -1130,64 +1047,28 @@
         </div>
         <hr />
 
-        <div class=" mt-5">
+        <div class="mt-5">
           <div *ngIf="savedItems.length == 0">
             <div class="col-12 text-center mx-auto">
               <img
                 src="assets/images/No-data.png"
-               style="width: 160px"
+                style="width: 160px"
                 alt=""
               />
               <h5 class="mt-5">You have no saved items at the moment.</h5>
               <span>Download our app</span>
-              <div class="row">
-                <div class="col-9 col-md-12 p-0 mt-3 mx-auto">
-                  <div class="row justify-content-center">
-                    <div class="col-6 col-sm-4 col-xl-2 pl-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-google-play fs-24" ></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Google Play</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-xl-2 pr-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-app-store-ios fs-24"></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Apple Store</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="w-100 d-flex justify-content-center mt-3">
+                <div class="mr-1" style="width: 140px">
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                </div>
+                <div class="ml-1" style="width: 140px">
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" />
                 </div>
               </div>
             </div>
           </div>
           <!-- list -->
-          <div class="sidebar-content ">
+          <div class="sidebar-content">
             <div class="row">
               <div class="col-md-10 mx-auto">
                 <div
@@ -1248,10 +1129,7 @@
         </div>
       </div>
       <!-- notification -->
-      <div
-        *ngIf="selectedTab === 'notification'"
-        class="col-xl-7 col-md-7"
-      >
+      <div *ngIf="selectedTab === 'notification'" class="col-xl-7 col-md-7">
         <div class="row">
           <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
@@ -1265,7 +1143,7 @@
           </div>
         </div>
         <hr />
-        <div class=" mt-5">
+        <div class="mt-5">
           <div *ngIf="notificationList.length == 0">
             <div class="col-12 text-center mx-auto">
               <img
@@ -1275,48 +1153,12 @@
               />
               <h5 class="mt-5">You have no Notification at the moment.</h5>
               <span>Download our app</span>
-              <div class="row">
-                <div class="col-9 col-md-12 p-0 mt-3 mx-auto">
-                  <div class="row justify-content-center">
-                    <div class="col-6 col-sm-4 col-xl-2 pl-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-google-play title-icons" style="font-size:28px"></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Google Play</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-xl-2 pr-0">
-                      <div
-                        class="p-1 btnHover"
-                        style="
-                          background-color: #ffffff;
-                          border: 1px solid #ebeef7;
-                        "
-                      >
-                        <div class="row align-items-center p-1">
-                          <div class="col-3">
-                            <i class="fab fa-app-store-ios" style="font-size:28px"></i>
-                          </div>
-                          <div class="col-9 p-0">
-                            <span class="fs-12">Get it now</span>
-                            <h6 class="fs-12">Apple Store</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="w-100 d-flex justify-content-center mt-3">
+                <div class="mr-1" style="width: 140px">
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                </div>
+                <div class="ml-1" style="width: 140px">
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" />
                 </div>
               </div>
             </div>
@@ -1443,11 +1285,13 @@
         <hr />
 
         <div class="row">
-          <div class="col-12 mx-auto mt-5">
+          <div class="col-12 mx-auto">
             <div>
               <div class="row mb-3">
                 <div class="col-12 mx-auto">
-                  <label class="fs-20 fw-semibold"> Edit Image</label>
+                  <label class="fs-20 fw-semibold">
+                    Edit Image<span class="text-danger">*</span></label
+                  >
                   <div class="image-grid">
                     <!-- <label>Upload Image</label> -->
 
@@ -1489,9 +1333,11 @@
               >
                 <img
                   src="assets/images/add-post-img.png"
-                  class="w-100 {{editProductData ? 'pointer' : 'not-allowed'}}"
+                  class="w-100 {{
+                    editProductData ? 'pointer' : 'not-allowed'
+                  }}"
                   alt=""
-                  (click)="editProductData ? fileInput.click() : null"              
+                  (click)="editProductData ? fileInput.click() : null"
                 />
                 <input
                   #fileInput
@@ -1504,13 +1350,13 @@
                 />
               </div>
             </div>
-            <div class="video-upload-container mt-5">
-              <label>Edit Video</label>
+            <div class="video-upload-container">
+              <label class="fs-20 fw-semibold">Edit Video</label>
 
               <!-- Display the selected video if available -->
               <div
                 *ngIf="selectedVideo"
-                class="position-relative video-wrapper mb-3"
+                class="position-relative video-wrapper"
               >
                 <video
                   controls
@@ -1581,7 +1427,7 @@
             <div class="row">
               <div class="col-12 mt-5">
                 <div>
-                  <label>Title</label>
+                  <label>Title<span class="text-danger">*</span></label>
                   <input
                     type="text"
                     class="form-control w-100 input-class-add-form"
@@ -1591,7 +1437,7 @@
                   />
                 </div>
                 <div class="mt-3">
-                  <label>Description (optional)</label>
+                  <label>Description<span class="text-danger">*</span></label>
                   <textarea
                     name="Description"
                     placeholder="Description"
@@ -1606,10 +1452,14 @@
             </div>
             <div class="row mt-3">
               <div class="col-6">
-                <label>Category (required)</label>
+                <label
+                  >Category (required)<span class="text-danger">*</span></label
+                >
                 <select
                   class="form-select form-control input-class-add-form"
-                  [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }"
+                  [ngClass]="{
+                    'is-invalid': validationErrors['selectedCategoryId']
+                  }"
                   [(ngModel)]="selectedCategoryId"
                   (change)="
                     getSubcategories(selectedCategoryId);
@@ -1635,7 +1485,11 @@
               </div>
 
               <div class="col-6">
-                <label>Subcategory (required)</label>
+                <label
+                  >Subcategory (required)<span class="text-danger"
+                    >*</span
+                  ></label
+                >
                 <select
                   class="form-select form-control input-class-add-form"
                   [ngClass]="{
@@ -1694,7 +1548,7 @@
                     aria-label="Default select example"
                     [disabled]="!editProductData"
                   >
-                    <option 
+                    <option
                       *ngFor="let option of field.options"
                       [value]="option.id"
                       [disabled]="!editProductData"
@@ -1769,7 +1623,7 @@
 
               <div class="row col-12 p-3">
                 <!-- Starting Time Field -->
-                <div class="col-6 ">
+                <div class="col-6">
                   <label for="startTime">Starting Time</label>
                   <input
                     type="time"
@@ -1786,7 +1640,7 @@
                 </div>
 
                 <!-- Ending Time Field -->
-                <div class="col-6 ">
+                <div class="col-6">
                   <label for="endingTime">Ending Time</label>
                   <input
                     type="time"
@@ -1806,7 +1660,6 @@
                 <div class="col-6 mt-2">
                   <label for="startDate">Starting Date</label>
                   <input
-                   
                     type="date"
                     class="form-control input-class-add-form"
                     id="startDate"
@@ -1855,7 +1708,7 @@
               style="border: 1px solid gainsboro; border-radius: 5px"
             >
               <div class="col-12 p-3">
-                <label>Price</label>
+                <label>Price<span class="text-danger">*</span></label>
                 <input
                   type="text"
                   class="form-control w-100 input-class-add-form"
@@ -1901,12 +1754,12 @@
                             -->
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button  [disabled]="!editProductData"
+                <button
+                  [disabled]="!editProductData"
                   class="btn btn-dark w-100"
                   (click)="EditProductFirstStep()"
-                 
                 >
-                  <span  *ngIf="!isLoading">Update</span>
+                  <span *ngIf="!isLoading">Update</span>
                   <span
                     *ngIf="isLoading"
                     class="spinner-border spinner-border-sm text-light"
@@ -1922,7 +1775,7 @@
       <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
         <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class" >
+          <div class="col-md-9 mx-auto margin-top-right-side-class">
             <div class="row align-items-center justify-content-center">
               <div class="col-4 col-md-4 d-flex justify-content-end">
                 <i class="fas fa-plus-circle title-icon"></i>
@@ -1935,12 +1788,11 @@
         </div>
         <hr />
         <div class="row">
-          <div class="col-12 mx-auto mt-5">
+          <div class="col-12 mx-auto">
             <div>
               <div class="row mb-3">
                 <div class="col-12 mx-auto">
                   <div *ngIf="selectedFiles.length > 0" class="image-grid">
-                   
                     <!-- <label>Upload Image</label> -->
 
                     <div
@@ -1968,7 +1820,9 @@
             <!-- add image -->
             <div class="row">
               <div class="col-12" style="cursor: pointer">
-                <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image</label>
+                <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold"
+                  >Add image<span class="text-danger">*</span></label
+                >
                 <img
                   src="assets/images/add-post-img.png"
                   class="w-100"
@@ -1992,13 +1846,13 @@
               </div>
             </div>
             <!-- add video -->
-            <div class="video-upload-container mt-5">
+            <div class="video-upload-container">
               <label class="fs-20 fw-semibold">Add video</label>
 
               <!-- Display the selected video if available -->
               <div
                 *ngIf="selectedVideo"
-                class="position-relative video-wrapper mb-3"
+                class="position-relative video-wrapper"
               >
                 <video
                   controls
@@ -2069,13 +1923,12 @@
             <div class="row form-con">
               <div class="col-12 mt-5">
                 <div>
-                  <label>Title</label>
+                  <label>Title<span class="text-danger">*</span></label>
                   <input
                     type="text"
                     class="form-control w-100 input-class-add-form"
                     placeholder="Title"
                     [(ngModel)]="title"
-                    
                     (input)="onFieldChange('title')"
                   />
                   <div
@@ -2086,7 +1939,7 @@
                   </div>
                 </div>
                 <div class="mt-3">
-                  <label>Description (optional)</label>
+                  <label>Description<span class="text-danger">*</span></label>
                   <textarea
                     name="Description"
                     placeholder="Description"
@@ -2106,10 +1959,14 @@
             </div>
             <div class="row mt-3">
               <div class="col-6">
-                <label>Category (required)</label>
+                <label
+                  >Category (required)<span class="text-danger">*</span></label
+                >
                 <select
                   class="form-select form-control input-class-add-form"
-                  [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }"
+                  [ngClass]="{
+                    'is-invalid': validationErrors['selectedCategoryId']
+                  }"
                   [(ngModel)]="selectedCategoryId"
                   (change)="
                     getSubcategories(selectedCategoryId);
@@ -2133,7 +1990,11 @@
               </div>
 
               <div class="col-6">
-                <label>Subcategory (required)</label>
+                <label
+                  >Subcategory (required)<span class="text-danger"
+                    >*</span
+                  ></label
+                >
                 <select
                   class="form-select form-control input-class-add-form"
                   [ngClass]="{
@@ -2181,7 +2042,7 @@
                 >
                   <label>{{ field.label }}</label>
                   <select
-                    class="form-select form-control input-class-add-form "
+                    class="form-select form-control input-class-add-form"
                     [ngClass]="{
                       'is-invalid': validationErrors[field.model]
                     }"
@@ -2238,7 +2099,7 @@
                 <label>Pricing Categories</label>
                 <select
                   class="form-select form-control input-class-add-form"
-                  [ngClass]="{'border-primary': pricingCatId == 'Auction' }"
+                  [ngClass]="{ 'border-primary': pricingCatId == 'Auction' }"
                   [(ngModel)]="pricingCatId"
                   aria-label="Default select example"
                 >
@@ -2259,10 +2120,7 @@
             </div>
 
             <!-- Auction Fields -->
-            <div
-              class="row mt-3"
-              *ngIf="pricingCatId == 'Auction'"
-            >
+            <div class="row mt-3" *ngIf="pricingCatId == 'Auction'">
               <div class="col-12 p-3">
                 <label>Starting Bid</label>
                 <input
@@ -2377,12 +2235,9 @@
             </div>
 
             <!-- Fixed Price Fields -->
-            <div
-              class="row mt-3"
-              *ngIf="pricingCatId == 'FixedPrice'"
-            >
+            <div class="row mt-3" *ngIf="pricingCatId == 'FixedPrice'">
               <div class="col-12 p-3">
-                <label>Price</label>
+                <label>Price<span class="text-danger">*</span></label>
                 <input
                   type="text"
                   class="form-control w-100 input-class-add-form"
@@ -2397,10 +2252,7 @@
             </div>
 
             <!-- Sell To TT Offer Fields -->
-            <div
-              class="row mt-3"
-              *ngIf="pricingCatId == 'SellToTTOffer'"
-            >
+            <div class="row mt-3" *ngIf="pricingCatId == 'SellToTTOffer'">
               <div class="col-12 p-3">
                 <label>Date</label>
                 <input
@@ -2474,7 +2326,7 @@
                   <div class="col-2 d-flex align-content-center">
                     <!-- <img [src]="item.icon" class="w-100" alt="" /> -->
                     <!-- <i class="fas fa-user"></i> -->
-                    <i [ngClass]="item.icon" class="w-100 "></i>
+                    <i [ngClass]="item.icon" class="w-100"></i>
                   </div>
                   <div class="col-10">
                     <h6
@@ -2505,7 +2357,9 @@
                     <i class="far fa-trash-alt fs-20"></i>
                   </div>
                   <div class="col-10">
-                    <h6 class="sm-cat-text4 account-Setting m-0 ">Delete Account</h6>
+                    <h6 class="sm-cat-text4 account-Setting m-0">
+                      Delete Account
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -2565,41 +2419,28 @@
         </div>
         <hr />
         <div class="row">
-          <div class="col-12 mt-5 pointer p-2">
+          <div class="col-12 mt-5 pointer">
             <div class="row">
-              <div class="col-md-8 mx-auto margin-top-class">
+              <div class="col-12 mx-auto margin-top-class">
                 <img src="assets/images/boost-plus.svg" class="w-100" alt="" />
-                <h4 class="mt-5">Sell faster with Boost Plus</h4>
-                <div class="row mt-3">
-                  <div class="col-1">
-                    <!-- <img src="assets/images/shield-tick.svg" alt="" /> -->
-                    <i class="fas fa-check-circle fs-19"></i>
-                  </div>
-                  <div class="col-10">
+                <h4 class="mt-5 .right-side-top-title">Sell faster with Boost Plus</h4>
+                <div class="d-inline-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2"></i>
                     <span>Get an average of 20x more views each day</span>
-                  </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-1">
-                    <i class="fas fa-check-circle fs-19"></i>
-                  </div>
-                  <div class="col-10">
+                <div class="d-inline-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2"></i>
                     <span>Promote for multiple days</span>
-                  </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-1">
-                    <i class="fas fa-check-circle fs-19"></i>
-                  </div>
-                  <div class="col-10">
+                <div class="d-inline-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2"></i>
                     <span>Switch promotion to any item.</span>
-                  </div>
                 </div>
                 <button
                   (click)="openBoostModal()"
                   class="btn btn-outline-dark w-100 mt-5"
                 >
-                 <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
+                  <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
                 </button>
               </div>
               <div class="col-md-8 mx-auto mt-5">
@@ -2612,7 +2453,7 @@
                 <button
                   (click)="openPage()"
                   class="btn btn-dark w-100 bg-yellow-700 text-black mt-4"
-                  >
+                >
                   Next
                 </button>
               </div>
@@ -2628,7 +2469,7 @@
               <div class="col-5 col-md-5 d-flex justify-content-end">
                 <i class="fas fa-link title-icon"></i>
               </div>
-              <div class="col-6  m-0 p-0">
+              <div class="col-6 m-0 p-0">
                 <h1 class="right-side-top-title">Custom Link</h1>
               </div>
             </div>
@@ -2646,12 +2487,10 @@
               placeholder="ttoffer.com/profile/your profile name"
               [(ngModel)]="customLink"
               class="form-control input-class-add-form mt-3"
-              
             />
             <button
               class="btn bg-dark-650 w-100 text-white mt-2"
               (click)="copyCustomLink()"
-              
             >
               Copy Profile Link
             </button>
@@ -2679,7 +2518,9 @@
                     class="form-control input-class-onFocus input-class-add-form border-0 flex-grow-1 pr-1"
                     placeholder="Type a message"
                   />
-                  <div class="flex justify-content-center align-content-center mr-3">
+                  <div
+                    class="flex justify-content-center align-content-center mr-3"
+                  >
                     <i class="fas fa-paper-plane fs-19"></i>
                   </div>
                 </div>
@@ -2839,7 +2680,7 @@
   <!-- <app-footer></app-footer> -->
 
   <div
-    class="modal fade "
+    class="modal fade"
     id="verifyPhoneModal"
     tabindex="-1"
     role="dialog"

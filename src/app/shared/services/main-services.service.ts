@@ -202,7 +202,10 @@ export class MainServicesService {
   getFilteredProducts(data: any = {}): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}` + 'api/get-all-products', data);
   }
-  getProductById(url: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}api/${url}`);
+  getProductById(data: any = {}): Observable<any> {
+    return this.http.post<any[]>(`${this.apiUrl}` + 'api/product-detail', data);
   }
+  // getProductById(url: string): Observable<any> {
+  //   return this.http.get<any>(`${this.apiUrl}api/${url}`);
+  // }
 }

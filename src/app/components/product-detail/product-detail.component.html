@@ -7,7 +7,7 @@
                     @for (item of product.photo; track $index) {
                     <div class="img-gallery rounded-2 mb-2 d-flex align-items-center justify-content-center cursor-pointer {{$index== imgIndex?'border-2':''}}"
                         (click)="imgIndex = $index">
-                        <img src={{item.src}} alt={{product.title}} class="img-fluid">
+                        <img src={{item.src}} alt={{product.title}} class="img-fluid w-100 h-100">
                     </div>
                     }
                 </div>
