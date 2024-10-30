@@ -37,34 +37,17 @@ export class ProductCardComponent implements OnInit {
       user_id: this.currentUser.id,
       product_id: item.id
     }
-    if (item.status) {
-      this.mainServices.removeWishList(input).subscribe({
-        next: (res: any) => {
-          if (res.success) {
-            this.toastr.success('Product added to wishlist successfully', 'Success');
-          }
-          console.log(res, "toggleWishlist");
-        },
-        error: (err) => {
-          this.toastr.error('Failed to add product to wishlist', 'Error');
-          console.log(err);
-        },
-      })
-    }
-    else {
-      this.mainServices.addWishList(input).subscribe({
-        next: (res: any) => {
-          if (res.success) {
-            this.toastr.success('Product added to wishlist successfully', 'Success');
-          }
-          console.log(res, "toggleWishlist");
-        },
-        error: (err) => {
-          this.toastr.error('Failed to add product to wishlist', 'Error');
-          console.log(err);
-        },
-      })
-    }
+    this.mainServices.addWishList(input).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.toastr.success('Product added to wishlist successfully', 'Success');
+        }
+      },
+      error: (err) => {
+        const error=err.error.message
+        this.toastr.error(error, 'Error');
+      },
+    })
   }
   ngOnInit(): void {
     console.log(this.postData, "postData");
