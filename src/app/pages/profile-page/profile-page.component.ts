@@ -77,7 +77,7 @@ export class ProfilePageComponent {
   attributes: { [key: string]: any } = {};
   showOTPBox: boolean = false;
   progress!: number;
-  defaultProfileUrl: string = '/assets/images/profile-placeholder.png';
+  defaultProfileUrl: string = '/assets/images/profile-icon.svg'; // /assets/images/profile-placeholder.png
   showMore: boolean = false;
   selectedTab: any ;
   selectedTabItem: string = '';
@@ -1635,8 +1635,6 @@ showfor(){
         await this.addProductImage();
         // this.attributes();
         await this.addProductSecondStep();
-      } else {
-        throw new Error(data.message || 'File upload failed');
       }
     } catch (error) {
       this.isLoading = false;
@@ -1704,10 +1702,10 @@ showfor(){
         productType:'auction',
         product_id: this.productId,
         auction_price: this.startingPrice,
-        starting_date: this.startingDate,
-        starting_time: this.startingTime,
-        ending_date: this.endingDate,
-        ending_time: this.endingTime,
+        starting_date: this.startingDate?.toISOString(),
+        starting_time: this.startingTime.toString(),
+        ending_date: this.endingDate?.toISOString(),
+        ending_time: this.endingTime.toString(),
         final_price: this.final_price,
       };
     } else if (this.pricingCatId === 'FixedPrice') {
@@ -1758,7 +1756,7 @@ showfor(){
   // Centralized error handling
   handleError(error: any) {
     this.loading = false;
-    alert(error.message || 'An error occurred, please try again.');
+   
   }
 
   EditProductSeccondStep() {
@@ -1883,7 +1881,6 @@ showfor(){
         this.sellingListTemp = res.data?.selling ;
       },
       error: (err: any) => {
-        console.error('Error fetching selling data:', err);
         this.loading = false;
       },
     });

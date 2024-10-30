@@ -7,7 +7,7 @@ import { Extension } from '../../helper/common/extension/extension';
 import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-
+declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
   standalone: true,
@@ -16,6 +16,49 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent]
 })
 export class ChatBoxComponent {
+  messages = [
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    }
+  ];
+  
   offerStatus: number | null = null
   // @ViewChild('selectedUserDiv')
   // selectedUserDiv!: ElementRef;
@@ -83,7 +126,11 @@ export class ChatBoxComponent {
   selectUser(user: any) {
     this.selectedUser = user;
   }
+  selectedTab: string = 'buying';
 
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
   openModal() {
     const modal = document.getElementById('offerModal');
     if (modal) {
@@ -270,19 +317,46 @@ export class ChatBoxComponent {
     this.selectedFile = null;
     this.previewUrl = null;
   }
+  isImageFile: boolean = false;
+  filePreview: string | null = null;
+  showPreviewModal: boolean = false;
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.isImageFile = this.isFileImage(file);
 
-      // Read the file to generate a preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.previewUrl = reader.result;
-      };
-      reader.readAsDataURL(file);
+      if (this.isImageFile) {
+        // Create a FileReader to show image preview
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.filePreview = e.target.result;
+          this.showPreviewModal = true; // Open modal after setting preview
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // If it's not an image, set file name and show modal
+        this.filePreview = null;
+        this.showPreviewModal = true;
+      }
     }
+  }
+
+  confirmSend(): void {
+    // Logic for sending the message/file
+    this.closePreviewModal();
+  }
+
+  isFileImage(file: File): boolean {
+    // Check if file type is an image
+    return file.type.startsWith('image/');
+  }
+
+  closePreviewModal(): void {
+    this.showPreviewModal = false;
+    this.selectedFile = null;
+    this.filePreview = null;
   }
   // CODED BY BILAL
   handleSelectedUser(user: any) {

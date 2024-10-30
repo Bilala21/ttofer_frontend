@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor,NgIf, LoaderComponent, LoginModalComponent],
+  imports: [RouterLink, NgFor,NgIf, LoaderComponent, LoginModalComponent,CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -29,6 +29,24 @@ export class HeaderNavigationComponent implements OnInit {
   screenHeight: number = window.innerHeight;
   imgUrl: string | null = null;
   tempToken: boolean = false
+  cartItems:any = [
+    {
+      title: 'Diamond of Expo',
+      description: '2.07 CTW Round Cut Lab Created Diamond',
+      price: 1385.00,
+      imageUrl: '/assets/images/silder-1.jpg',
+      seller: 'Diamond Expo',
+      rating: 4.5,
+    },
+    {
+      title: 'Sage Designs L.A.',
+      description: 'Lab Grown Oval Diamond Engagement Ring',
+      price: 1799.00,
+      imageUrl: '/assets/images/silder-2.jpg',
+      seller: 'Sage Designs L.A.',
+      rating: 4.8,
+    }
+  ];
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -123,6 +141,7 @@ login() {
   openChat() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     } else {
@@ -133,10 +152,18 @@ login() {
       }
     }
   }
-
+  savedItems(){
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
+  }
   openSelling() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     } else {
@@ -147,4 +174,14 @@ login() {
       }
     }
   }
+cart(){
+  const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }else{
+    this.router.navigate(['/cart'])
+  }
+}
 }

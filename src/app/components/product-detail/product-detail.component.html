@@ -1,18 +1,19 @@
 <main class="mt-16 mb-5">
     <div class="container-fluid product-detail-container">
         @if (!loading) {
-        <div class="product-detail-content d-flex mt-5">
-            <div class="left-side flex-grow-1 w-100 d-flex mr-4">
-                <div class="mr-2">
+        <div class="product-detail-content d-flex flex-column flex-lg-row mt-5">
+            <div class="left-side flex-grow-1  w-100 d-flex flex-column flex-lg-row mr-4">
+                <!-- small-images -->
+                <div class="mr-2 order-2 order-lg-1 d-flex flex-lg-column justify-content-lg-start justify-content-around">
                     @for (item of product.photo; track $index) {
-                    <div class="img-gallery rounded-2 mb-2 d-flex align-items-center justify-content-center cursor-pointer {{$index== imgIndex?'border-2':''}}"
+                    <div class="img-gallery rounded-2 mb-2 mx-2 mx-lg-0 mt-2 mt-lg-0 d-flex align-items-center justify-content-center cursor-pointer {{$index== imgIndex?'border-2':''}}"
                         (click)="imgIndex = $index">
-                        <img src={{item.src}} alt={{product.title}} class="img-fluid w-100 h-100">
+                        <img src={{item.src}} alt={{product.title}} class="img-fluid">
                     </div>
                     }
                 </div>
-
-                <div class="img-slider rounded-2 flex-grow-1 d-flex align-items-center justify-content-between">
+                   <!-- big-image -->
+                <div class="img-slider rounded-2 flex-grow-1 d-flex align-items-center justify-content-between order-1 order-lg-2">
                     <div class="d-flex align-items-center justify-content-between px-4 py-2 flex-grow-1">
                         <button type="button"
                             class="rounded-pill icon-btn p-0 border-0 shadow {{imgIndex === 0?'bg-transparent':''}}"
@@ -26,10 +27,10 @@
                             </svg>
                         </button>
                         <div class="pl-3 pr-3">
-                            <img src={{product.photo[imgIndex].src}} alt={{product.title}} class="img-fluid">
+                            <img src={{product.photo?.[imgIndex]?.src}} alt={{product.title}} class="img-fluid">
                         </div>
-                        <button type="button"
-                            class="rounded-pill icon-btn p-0 border-0 shadow {{(product.photo.length -1) == imgIndex?'bg-transparent':''}}"
+                        <button *ngIf="product.photo?.length > 1" type="button"
+                            class="rounded-pill icon-btn p-0 border-0 shadow {{(product.photo?.length -1) == imgIndex?'bg-transparent':''}}"
                             (click)="imgIndex = imgIndex + 1" [disabled]="(product.photo.length -1) == imgIndex">
                             <svg stroke="currentColor" fill="currentColor" stroke-width="1" class="fs-18" version="1.1"
                                 viewBox="0 0 17 17" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -42,16 +43,18 @@
                     </div>
                 </div>
             </div>
+            <!-- right-side -->
             <div class="right-side ml-2">
                 <h1 class="fs-22 fw-bold">
                     {{product.title}}
                 </h1>
                 <p>Factory New, Fedex 2Day, 30 Day Return - MobileWorldNY</p>
                 <div class="d-flex align-items-center border-b border-t py-3">
-                    <a href="" class="user-img rounded-pill border d-flex align-items-center justify-content-center"><img src={{product.user.src}} alt={{product.user.name}}
-                            class="w-100 h-100"></a>
+                    <a href="" class="user-img rounded-pill border d-flex align-items-center justify-content-center"><img [src]="product.user ? product.user.src:'/assets/images/profile-icon.svg'" alt={{product.user.name}}
+                            class="mr-2 w-100 h-100 ">
+                        </a>
                     <div class="pl-2">
-                        <div>{{product.user.name}} <span>(4567)</span></div>
+                        <div>{{product.user?.name}} <span>(4567)</span></div>
                         <div class="fw-normal">
                             <a href="#" class="text-dark text-decoration-underline mr-2">Seller's other itmes</a>
                             <a href="#" class="text-dark text-decoration-underline">Contact seller</a>
@@ -80,17 +83,17 @@
                             15h</span></div>
                     <div class="fs-14">
                         <span class="fw-normal">Quantity</span>
-                        <input type="text" value="1" class="mx-2 qty-input rounded-2 border-1 px-2">
+                        <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2">
                         <span class="text-slate-300 fw-normal">6 available</span>
                         <span class="text-slate-300 ml-2 fw-normal">3 sold</span>
                     </div>
                     <div class="mt-3 buttons pt-2">
-                        <button type="button" class="d-block w-100 btn rounded-pill border-1 bg-primary"><a href=""
+                        <button (click)="buyProduct(product)" type="button" class="d-block w-100 btn rounded-pill border-1 bg-primary"><a href=""
                                 class="text-white fs-18 fw-normal">Buy It Now</a> </button>
-                        <button type="button"
+                        <button (click)="addToCart(product)" type="button"
                             class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">Add to
                             cart</button>
-                        <button type="button"
+                        <button (click)="toggleWishlist(product)"  type="button" 
                             class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary">
                             <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"

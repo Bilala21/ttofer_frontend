@@ -1,131 +1,288 @@
 <!-- <app-header></app-header> -->
-<main class="mt-16 chat-container pt-5">
-    <div class="container-fluid">
-        <div class="d-flex">
-            <div class="chat left-side border-r mr-4">
-                <div class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3">
-                    <div class="d-flex align-items-center message-count">
-                        <h2 class="fs-20 fw-semibold m-0">Messages</h2>
-                        <span class="ml-3 fs-12 rounded-pill bg-yellow-800 d-block text-center">12</span>
-                    </div>
-                </div>
-                <div class="message-content pl-2 pr-1">
-                    <div class="input-search rounded-2 py-1 px-3 mb-3">
-                        <i class="fa fa-search mr-2"></i>
-                        <input type="text" placeholder="Search..." class="border-0 bg-transparent py-2"
-                            (input)="onSearch($event.target)">
-                    </div>
-                    <div class="users scrollable-content pr-2">
-                        @for (item of users; track $index) {
-                        <div class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{(selectedUserId? selectedUserId === item.id:$index==0 ) &&'bg-yellow-800'}}"
-                            (click)="handleSelectedUser(item)">
-                            <img src={{item.image}} alt="image" loading="lazy" class="rounded-2">
-                            <div class="ml-3 flex-grow-1 ">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h2 class="fs-14 fw-semibold m-0">{{item.name}} </h2>
-                                    <span class="fs-14 fw-normal text-slate-400">{{item.time}} </span>
-                                </div>
-                                <div style="display: flex;justify-content: space-between;">
-                                    <p class="m-0 fs-12 fw-normal text-slate-400">{{item.message}} </p>
-                                    <img style="width: 25px;
-                                height: 25px;
-                                object-fit: fill;" src="/assets/images/banner3.webp" alt="Small Profile Image"
-                                        loading="lazy" class="small-profile-image rounded-circle">
-                                </div>
-                            </div>
-                        </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="chat right-side flex-grow-1">
-                <div class="border-b">
-                    <div class="pb-3 px-4 d-flex align-items-center top">
-                        <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                        <div class="ml-3 flex-grow-1">
-                            <div class="d-flex justify-content-between">
-                                <h2 class="fs-20 fw-semibold m-0">Florencio Dorrance</h2>
-                                <div class="ml-4">$500</div>
-                            </div>
-                            <div class="fs-12 fw-semibold text-slate-400 d-flex align-items-center">
-                                <span class="dot rounded-pill mr-1"></span>
-                                Online
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bid-box mx-auto text-center p-4 position-relative">
-                    <img src="/assets/images/banner3.webp" alt="image" loading="lazy"
-                        class="rounded-pill position-absolute">
-                    <p class="pt-3 mt-2 fs-12 fw-semibold m-0">Sent you a offer</p>
-                    <h1 class="fs-22 fw-bold m-0 py-3">$500</h1>
-                    <div class="mt-2 d-flex align-items-center">
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1">Reject Offer</button>
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1 mx-3">Accept Offer</button>
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1"
-                            (click)="openModal()">Counter Offer</button>
-                    </div>
-                </div>
-                <div class="messages-side mt-5 pt-5">
-                    <div class="d-flex align-items-center">
-                        <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                        <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                            just ideas for next time
-                            <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-pill">
-                        </div>
-                    </div>
-                </div>
-                <div class="message-input d-flex align-items-center mt-5 mb-4">
-                    <button class="btn bg-transparent" (click)="fileInput.click()">
-                        <i class="fas fa-paperclip"></i>
-                    </button>
-                    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
-                    <div class="d-flex align-items-center flex-grow-1 position-relative">
-                        <input type="text" placeholder="Type a message" class="flex-grow-1 py-2 px-2 rounded-2"
-                            #chatMessage>
-                        <button type="button" (click)="sendMessage(chatMessage.value)"
-                            class="btn bg-transparent position-absolute">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+<main class="mt-16 chat-container pt-2">
+  <div class="tabs-container">
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'buying' }"
+      (click)="selectTab('buying')"
+    >
+      Buying
     </div>
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'selling' }"
+      (click)="selectTab('selling')"
+    >
+      Selling
+    </div>
+  </div>
 
-    <!-- modal-for-bid -->
-    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+  <div class="container-fluid">
+    <div class="d-flex">
+      <div class="chat left-side border-r mr-4">
+        <div
+          class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3"
+        >
+          <div class="d-flex align-items-center message-count">
+            <h2 class="fs-20 fw-semibold m-0">Messages</h2>
+            <span
+              class="ml-3 fs-12 rounded-pill bg-yellow-800 d-block text-center"
+              >12</span
+            >
+          </div>
+        </div>
+        <div class="message-content pl-2 pr-1">
+          <div class="input-search rounded-2 py-1 px-3 mb-3">
+            <i class="fa fa-search mr-2"></i>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="border-0 bg-transparent py-2"
+              (input)="onSearch($event.target)"
+            />
+          </div>
+          <div class="users scrollable-content pr-2">
+            @for (item of users; track $index) {
+            <div
+              class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
+                (selectedUserId ? selectedUserId === item.id : $index == 0) &&
+                  'bg-yellow-800'
+              }}"
+              (click)="handleSelectedUser(item)"
+            >
+              <img
+                src="{{ item.image }}"
+                alt="image"
+                loading="lazy"
+                class="rounded-2"
+              />
+              <div class="ml-3 flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h2 class="fs-14 fw-semibold m-0">{{ item.name }}</h2>
+                  <span class="fs-14 fw-normal text-slate-400"
+                    >{{ item.time }}
+                  </span>
                 </div>
-                <!-- Modal Body -->
-                <div class="modal-body mb-5">
-                    <div class="row">
-                        <div class="col-9 mx-auto">
-                            <div class="text-center">
-                                <h3 class="">Custom Offer</h3>
-                                <input type="text" class="p-2 rounded w-100" />
-                            </div>
-                            <div class="mt-4">
-                                <!-- (click)="placeBid(price)" -->
-                                <button class="btn btn-dark w-100">
-                                    Send your offer
-                                </button>
-                                <!-- 
+                <div style="display: flex; justify-content: space-between">
+                  <p class="m-0 fs-12 fw-normal text-slate-400">
+                    {{ item.message }}
+                  </p>
+                  <img
+                    style="width: 25px; height: 25px; object-fit: fill"
+                    src="/assets/images/banner3.webp"
+                    alt="Small Profile Image"
+                    loading="lazy"
+                    class="small-profile-image rounded-circle"
+                  />
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="chat right-side flex-grow-1">
+        <div class="border-b">
+          <div class="pb-3 px-4 d-flex align-items-center top">
+            <img
+              src="/assets/images/banner3.webp"
+              alt="image"
+              loading="lazy"
+              class="rounded-2"
+            />
+            <div class="ml-3 flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <h2 class="fs-20 fw-semibold m-0">Florencio Dorrance</h2>
+                <div class="ml-4">$500</div>
+              </div>
+              <div
+                class="fs-12 fw-semibold text-slate-400 d-flex align-items-center"
+              >
+                <span class="dot rounded-pill mr-1"></span>
+                Online
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bid-box mx-auto text-center p-4 position-relative">
+          <img
+            src="/assets/images/banner3.webp"
+            alt="image"
+            loading="lazy"
+            class="rounded-pill position-absolute"
+          />
+          <p class="pt-3 mt-2 fs-12 fw-semibold m-0">Sent you a offer</p>
+          <h1 class="fs-22 fw-bold m-0 py-3">$500</h1>
+          <div class="mt-2 d-flex align-items-center">
+            <button
+              class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1"
+            >
+              Reject Offer
+            </button>
+            <button
+              class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1 mx-3"
+            >
+              Accept Offer
+            </button>
+            <button
+              class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1"
+              (click)="openModal()"
+            >
+              Counter Offer
+            </button>
+          </div>
+        </div>
+        <div class="messages-side mt-5 pt-5 scrollable-messages">
+          <div *ngFor="let message of messages">
+            <!-- Message from the user (aligned right) -->
+            <div
+              *ngIf="message.sender === 'user'"
+              class="d-flex align-items-center justify-content-end mb-3"
+            >
+              <div
+                class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
+              >
+                {{ message.content }}
+                <img
+                  [src]="message.image"
+                  alt="User Image"
+                  loading="lazy"
+                  class="rounded-pill small-profile-image"
+                />
+              </div>
+            </div>
+
+            <!-- Message from the receiver (aligned left) -->
+            <div
+              *ngIf="message.sender === 'receiver'"
+              class="d-flex align-items-center justify-content-start mb-3"
+            >
+              <img
+                [src]="message.image"
+                alt="Receiver Image"
+                loading="lazy"
+                class="rounded-2 small-profile-image"
+              />
+              <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
+                {{ message.content }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="message-input d-flex align-items-center mt-5 mb-4">
+          <button class="btn bg-transparent" (click)="fileInput.click()">
+            <i class="fas fa-paperclip"></i>
+          </button>
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            style="display: none"
+          />
+          <div class="d-flex align-items-center flex-grow-1 position-relative">
+            <input
+              type="text"
+              placeholder="Type a message"
+              class="flex-grow-1 py-2 px-2 rounded-2"
+              #chatMessage
+            />
+            <button
+              type="button"
+              (click)="sendMessage(chatMessage.value)"
+              class="btn bg-transparent position-absolute"
+            >
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <div
+          class="modal fade"
+          id="previewModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="previewModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <button
+                  type="button"
+                  class="close"
+                  (click)="closePreviewModal()"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                <!-- Preview Image/File -->
+                <div *ngIf="selectedFile">
+                  <img
+                    *ngIf="isImageFile"
+                    [src]="filePreview"
+                    alt="Preview"
+                    class="img-fluid rounded"
+                  />
+                  <p *ngIf="!isImageFile">
+                    Selected file: {{ selectedFile.name }}
+                  </p>
+                </div>
+                <button class="btn btn-primary mt-3" (click)="confirmSend()">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal-for-bid -->
+  <div
+    class="modal fade"
+    id="offerModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="offerModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <button
+            type="button"
+            class="close"
+            (click)="closeModal()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body mb-5">
+          <div class="row">
+            <div class="col-9 mx-auto">
+              <div class="text-center">
+                <h3 class="">Custom Offer</h3>
+                <input type="text" class="p-2 rounded w-100" />
+              </div>
+              <div class="mt-4">
+                <!-- (click)="placeBid(price)" -->
+                <button class="btn btn-dark w-100">Send your offer</button>
+                <!-- 
               <button class="btn btn-dark w-100 mt-3" (click)="closeModal()">
                 Cancel
               </button> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </main>
