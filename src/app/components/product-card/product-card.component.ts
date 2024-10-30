@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-product-card',
@@ -14,11 +15,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent implements OnInit {
-  constructor(private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
+  constructor(private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
   wishList: any = []
-  currentUser: any = {}
+  currentUserId: any = this.extension.getUserId();
+
   getYear(date: string) {
     return new Date(date).getFullYear();
   }
@@ -27,20 +29,22 @@ export class ProductCardComponent implements OnInit {
 
   }
   toggleWishlist(item: any) {
-    console.log(item);
-    this.globalStateService.wishlistToggle(item.id);
-    this.globalStateService.currentState.subscribe(state => {
-      this.wishList = state.wishListItems
-      this.currentUser = state.currentUser
-    });
     let input = {
-      user_id: this.currentUser.id,
+      user_id: this.currentUserId,
       product_id: item.id
     }
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.success) {
-          this.toastr.success('Product added to wishlist successfully', 'Success');
+          this.toastr.success(res.message, 'Success');
+          if (this.wishList.includes(item.id)) {
+            console.log(this.wishList, 'if');
+            this.wishList.filter((itemId: any) => itemId !== item.id);
+          } else {
+            this.wishList = [...this.wishList, item.id];
+            console.log(this.wishList, 'else');
+          }
+
         }
       },
       error: (err) => {
@@ -51,5 +55,7 @@ export class ProductCardComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log(this.postData, "postData");
+    this.wishList = [...this.wishList, this.postData.user_wishlist?.product_id]
+    console.log(this.wishList,"wishList");
   }
 }
