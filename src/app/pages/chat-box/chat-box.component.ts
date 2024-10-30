@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../shared/shared-components/header/header.component";
 import { CommonModule, NgFor } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
@@ -13,7 +13,7 @@ declare var bootstrap: any;
   standalone: true,
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss',
-  imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent]
+  imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent,FormsModule]
 })
 export class ChatBoxComponent {
   messages = [
@@ -119,8 +119,8 @@ export class ChatBoxComponent {
       this.searchQuery = searchText;
       this.filteredUsers = this.filterUsers(searchText);
       this.users = this.filteredUsers
-      console.log(this.filteredUsers, 'filteredUsers');
     });
+    this.getAllChatsOfUser()
   }
 
   selectUser(user: any) {
@@ -191,10 +191,11 @@ export class ChatBoxComponent {
   }
   getAllChatsOfUser = () => {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-      this.chatBox = res.data
-      this.chatBox = this.chatBox.sort((a: any, b: any) => {
-        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-      });
+      debugger
+      this.chatBox = res.data.seller_chats;
+      // this.chatBox = this.chatBox.sort((a: any, b: any) => {
+      //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      // });
       const receiverIdFromRoute = this.route.snapshot.paramMap.get('id');
       // this.selectedUser = this.chatBox.filter(chat => chat.receiver_id == receiverIdFromRoute);
 
@@ -250,22 +251,23 @@ export class ChatBoxComponent {
       this.productId = this.conversationBox[0].product_id;
       this.sellerId = this.conversationBox[0].sender_id;
       this.buyerId = this.conversationBox[0].receiver_id;
-      this.offerStatus = this.conversationBox[0].offer.status;
-      this.offerId = this.conversationBox[0].offer_id;
+      this.offerStatus = this.conversationBox[0]?.offer?.status;
+      this.offerId = this.conversationBox[0]?.offer_id;
       this.conversationBox.replier = res.data.Participant1.img;
       this.conversationBox.sender = res.data.Participant2.img;
       console.log('conversationBox', this.conversationBox)
     })
   }
-  sendMsg() {
-
+  sendMsg(){
+debugger
     let input = {
       // sender_id: this.selectedConversation.data.Participant1.id,
       sender_id: this.currentUserid,
-      receiver_id: (this.currentUserid != this.selectedConversation.data.Participant2.id) ? this.selectedConversation.data.Participant2.id : this.selectedConversation.data.Participant1.id,
+      receiver_id: (this.currentUserid != this.selectedConversation.data.Participant2.id)?this.selectedConversation.data.Participant2.id:this.selectedConversation.data.Participant1.id,
       message: this.message,
+      product_id:this.productId
     }
-    this.mainServices.sendMsg(input).subscribe((res: any) => {
+    this.mainServices.sendMsg(input).subscribe((res:any) =>{
 
       this.message = "";
       // this.getConversation(res.conversation_id)

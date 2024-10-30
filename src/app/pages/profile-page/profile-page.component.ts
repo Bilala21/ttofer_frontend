@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf, Location } from '@angular/common';
+import { CommonModule, NgFor, NgIf, Location, DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
@@ -44,6 +44,7 @@ export interface CategoryField {
   standalone: true,
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
+  providers: [DecimalPipe],
   imports: [
     CommonModule,
     HeaderComponent,
@@ -606,7 +607,7 @@ export class ProfilePageComponent {
   selectedFile: any;
   loading = false;
   editProductData: any = null;
-  constructor(
+  constructor(private decimalPipe: DecimalPipe,
     private toastr:ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
@@ -1868,7 +1869,10 @@ showfor(){
       this.isLoading = false;
     }
   }
-  
+  formatPrice(price: any) {
+    return this.decimalPipe.transform(price, '1.0-0') || '0';
+
+  }
   getSelling() {
     this.loading = true;
     this.mainServices.getSelling().subscribe({

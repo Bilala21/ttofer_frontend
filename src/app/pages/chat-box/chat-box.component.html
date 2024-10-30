@@ -42,7 +42,7 @@
             />
           </div>
           <div class="users scrollable-content pr-2">
-            @for (item of users; track $index) {
+            @for (item of chatBox; track $index) {
             <div
               class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
                 (selectedUserId ? selectedUserId === item.id : $index == 0) &&
@@ -51,7 +51,7 @@
               (click)="handleSelectedUser(item)"
             >
               <img
-                src="{{ item.image }}"
+                src="{{ item.user_image }}"
                 alt="image"
                 loading="lazy"
                 class="rounded-2"
@@ -69,7 +69,7 @@
                   </p>
                   <img
                     style="width: 25px; height: 25px; object-fit: fill"
-                    src="/assets/images/banner3.webp"
+                    [src]="item.image_path.src"
                     alt="Small Profile Image"
                     loading="lazy"
                     class="small-profile-image rounded-circle"
@@ -133,42 +133,43 @@
           </div>
         </div>
         <div class="messages-side mt-5 pt-5 scrollable-messages">
-          <div *ngFor="let message of messages">
-            <!-- Message from the user (aligned right) -->
+          <div *ngFor="let message of conversationBox; let index = index" class="row mt-2 message-container align-items-center">
+            <!-- Message from the sender (aligned right) -->
             <div
-              *ngIf="message.sender === 'user'"
+              *ngIf="currentUserid == message.sender_id"
               class="d-flex align-items-center justify-content-end mb-3"
             >
               <div
                 class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
               >
-                {{ message.content }}
+                {{ message.message }}
                 <img
-                  [src]="message.image"
+                  [src]="conversationBox.sender"
                   alt="User Image"
                   loading="lazy"
                   class="rounded-pill small-profile-image"
                 />
               </div>
             </div>
-
+        
             <!-- Message from the receiver (aligned left) -->
             <div
-              *ngIf="message.sender === 'receiver'"
+              *ngIf="currentUserid != message.sender_id"
               class="d-flex align-items-center justify-content-start mb-3"
             >
               <img
-                [src]="message.image"
+                [src]="conversationBox.replier"
                 alt="Receiver Image"
                 loading="lazy"
                 class="rounded-2 small-profile-image"
               />
               <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                {{ message.content }}
+                {{ message.message }}
               </div>
             </div>
           </div>
         </div>
+        
 
         <div class="message-input d-flex align-items-center mt-5 mb-4">
           <button class="btn bg-transparent" (click)="fileInput.click()">
@@ -185,11 +186,11 @@
               type="text"
               placeholder="Type a message"
               class="flex-grow-1 py-2 px-2 rounded-2"
-              #chatMessage
+              [(ngModel)]="message"
             />
             <button
               type="button"
-              (click)="sendMessage(chatMessage.value)"
+              (click)="sendMsg()"
               class="btn bg-transparent position-absolute"
             >
               <i class="fas fa-paper-plane"></i>

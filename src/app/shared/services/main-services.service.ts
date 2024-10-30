@@ -126,7 +126,7 @@ export class MainServicesService {
     return this.http.post(`${this.apiUrl}` + 'api/signup', input).pipe();
   }
   getSelling() {
-    return this.http.get(`${this.apiUrl}` + 'api/purchases-sales-history').pipe();
+    return this.http.get(`${this.apiUrl}` + 'api/selling-screen').pipe();
   }
 
   wishListProduct(input: any) {
