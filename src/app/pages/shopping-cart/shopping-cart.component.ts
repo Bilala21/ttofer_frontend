@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 interface CartItem {
@@ -40,7 +40,7 @@ export class ShoppingCartComponent {
       rating: 4.8,
     }
   ];
-
+constructor(private router: Router){}
   calculateTotal(): number {
     return this.cartItems.reduce((total, item) => total + item.price, 0);
   }
@@ -58,6 +58,7 @@ export class ShoppingCartComponent {
   }
 
   goToCheckout() {
-    alert('Proceeding to checkout');
+    this.router.navigate(['/checkout']);
+    // alert('Proceeding to checkout');
   }
 }
