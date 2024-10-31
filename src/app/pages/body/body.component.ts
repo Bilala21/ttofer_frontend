@@ -56,7 +56,7 @@ export class BodyComponent implements OnDestroy {
       next: (response) => {
         this.auctionPosts = response.auctionProduct.data;
         this.featuredPosts = response.featureProduct.data;
-        console.log(this.featuredPosts,"featuredPosts");
+       
         // this.globalStateService.setFilteredProducts()
         // this.startCountdowns();
         this.loading = false

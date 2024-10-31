@@ -1,10 +1,10 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-product-carousel',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [CommonModule],
   templateUrl: './product-carousel.component.html',
   styleUrls: ['./product-carousel.component.scss'] // Corrected to styleUrls
 })

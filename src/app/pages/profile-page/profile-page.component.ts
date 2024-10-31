@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf, Location } from '@angular/common';
+import { CommonModule, NgFor, NgIf, Location, DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
@@ -44,6 +44,7 @@ export interface CategoryField {
   standalone: true,
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
+  providers: [DecimalPipe],
   imports: [
     CommonModule,
     HeaderComponent,
@@ -606,7 +607,7 @@ export class ProfilePageComponent {
   selectedFile: any;
   loading = false;
   editProductData: any = null;
-  constructor(
+  constructor(private decimalPipe: DecimalPipe,
     private toastr:ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
@@ -1635,8 +1636,6 @@ showfor(){
         await this.addProductImage();
         // this.attributes();
         await this.addProductSecondStep();
-      } else {
-        throw new Error(data.message || 'File upload failed');
       }
     } catch (error) {
       this.isLoading = false;
@@ -1704,10 +1703,10 @@ showfor(){
         productType:'auction',
         product_id: this.productId,
         auction_price: this.startingPrice,
-        starting_date: this.startingDate,
-        starting_time: this.startingTime,
-        ending_date: this.endingDate,
-        ending_time: this.endingTime,
+        starting_date: this.startingDate?.toISOString(),
+        starting_time: this.startingTime.toString(),
+        ending_date: this.endingDate?.toISOString(),
+        ending_time: this.endingTime.toString(),
         final_price: this.final_price,
       };
     } else if (this.pricingCatId === 'FixedPrice') {
@@ -1758,7 +1757,7 @@ showfor(){
   // Centralized error handling
   handleError(error: any) {
     this.loading = false;
-    alert(error.message || 'An error occurred, please try again.');
+   
   }
 
   EditProductSeccondStep() {
@@ -1870,7 +1869,10 @@ showfor(){
       this.isLoading = false;
     }
   }
-  
+  formatPrice(price: any) {
+    return this.decimalPipe.transform(price, '1.0-0') || '0';
+
+  }
   getSelling() {
     this.loading = true;
     this.mainServices.getSelling().subscribe({
@@ -1883,7 +1885,6 @@ showfor(){
         this.sellingListTemp = res.data?.selling ;
       },
       error: (err: any) => {
-        console.error('Error fetching selling data:', err);
         this.loading = false;
       },
     });

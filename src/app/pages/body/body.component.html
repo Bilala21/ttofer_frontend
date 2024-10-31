@@ -26,11 +26,12 @@
           </a>
         </div>
         @if(loading){
-        @for(data of [1,2,3,4,5,6,7,8];track $index){
-        <div class="m-1 p-0 border-1 rounded-2 product-card">
-          <app-card-shimmer />
+        @for(data of [1,2,3,4,5];track $index){
+        <div class="product-card">
+          <div class="p-2 border-1 rounded-2 xs-mx-auto">
+            <app-card-shimmer />
+          </div>
         </div>
-
         }
         }@else if(auctionPosts.length == 0){
         <p class="no-data-found">No Data Found</p>
@@ -55,9 +56,11 @@
             <i class="fa fa-angle-right"></i>
           </a>
         </div>
-        @if(loading){ @for(data of [1,2,3,4,5,6,7,8];track $index){
-        <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
-          <app-card-shimmer />
+        @if(loading){ @for(data of [1,2,3,4,5];track $index){
+        <div class="product-card">
+          <div class="p-2 border-1 rounded-2 xs-mx-auto">
+            <app-card-shimmer />
+          </div>
         </div>
         } }@else if(featuredPosts.length == 0){
         <p class="no-data-found">No Data Found</p>

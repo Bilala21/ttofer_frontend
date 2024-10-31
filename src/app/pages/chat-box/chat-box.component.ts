@@ -1,21 +1,64 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../shared/shared-components/header/header.component";
 import { CommonModule, NgFor } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-
+declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
   standalone: true,
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss',
-  imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent]
+  imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent,FormsModule]
 })
 export class ChatBoxComponent {
+  messages = [
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user', // Indicates the message is sent by the user
+      content: 'just ideas for next time',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver', // Indicates the message is received from the other person
+      content: 'Thanks for your ideas!',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'user',
+      content: 'Do you want to discuss more?',
+      image: '/assets/images/banner3.webp'
+    },
+    {
+      sender: 'receiver',
+      content: 'Sure, let’s set up a meeting time.',
+      image: '/assets/images/banner3.webp'
+    }
+  ];
+  
   offerStatus: number | null = null
   // @ViewChild('selectedUserDiv')
   // selectedUserDiv!: ElementRef;
@@ -76,14 +119,18 @@ export class ChatBoxComponent {
       this.searchQuery = searchText;
       this.filteredUsers = this.filterUsers(searchText);
       this.users = this.filteredUsers
-      console.log(this.filteredUsers, 'filteredUsers');
     });
+    this.getAllChatsOfUser()
   }
 
   selectUser(user: any) {
     this.selectedUser = user;
   }
+  selectedTab: string = 'buying';
 
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
   openModal() {
     const modal = document.getElementById('offerModal');
     if (modal) {
@@ -144,10 +191,11 @@ export class ChatBoxComponent {
   }
   getAllChatsOfUser = () => {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-      this.chatBox = res.data
-      this.chatBox = this.chatBox.sort((a: any, b: any) => {
-        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-      });
+      debugger
+      this.chatBox = res.data.seller_chats;
+      // this.chatBox = this.chatBox.sort((a: any, b: any) => {
+      //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      // });
       const receiverIdFromRoute = this.route.snapshot.paramMap.get('id');
       // this.selectedUser = this.chatBox.filter(chat => chat.receiver_id == receiverIdFromRoute);
 
@@ -203,22 +251,23 @@ export class ChatBoxComponent {
       this.productId = this.conversationBox[0].product_id;
       this.sellerId = this.conversationBox[0].sender_id;
       this.buyerId = this.conversationBox[0].receiver_id;
-      this.offerStatus = this.conversationBox[0].offer.status;
-      this.offerId = this.conversationBox[0].offer_id;
+      this.offerStatus = this.conversationBox[0]?.offer?.status;
+      this.offerId = this.conversationBox[0]?.offer_id;
       this.conversationBox.replier = res.data.Participant1.img;
       this.conversationBox.sender = res.data.Participant2.img;
       console.log('conversationBox', this.conversationBox)
     })
   }
-  sendMsg() {
-
+  sendMsg(){
+debugger
     let input = {
       // sender_id: this.selectedConversation.data.Participant1.id,
       sender_id: this.currentUserid,
-      receiver_id: (this.currentUserid != this.selectedConversation.data.Participant2.id) ? this.selectedConversation.data.Participant2.id : this.selectedConversation.data.Participant1.id,
+      receiver_id: (this.currentUserid != this.selectedConversation.data.Participant2.id)?this.selectedConversation.data.Participant2.id:this.selectedConversation.data.Participant1.id,
       message: this.message,
+      product_id:this.productId
     }
-    this.mainServices.sendMsg(input).subscribe((res: any) => {
+    this.mainServices.sendMsg(input).subscribe((res:any) =>{
 
       this.message = "";
       // this.getConversation(res.conversation_id)
@@ -270,19 +319,46 @@ export class ChatBoxComponent {
     this.selectedFile = null;
     this.previewUrl = null;
   }
+  isImageFile: boolean = false;
+  filePreview: string | null = null;
+  showPreviewModal: boolean = false;
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.isImageFile = this.isFileImage(file);
 
-      // Read the file to generate a preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.previewUrl = reader.result;
-      };
-      reader.readAsDataURL(file);
+      if (this.isImageFile) {
+        // Create a FileReader to show image preview
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.filePreview = e.target.result;
+          this.showPreviewModal = true; // Open modal after setting preview
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // If it's not an image, set file name and show modal
+        this.filePreview = null;
+        this.showPreviewModal = true;
+      }
     }
+  }
+
+  confirmSend(): void {
+    // Logic for sending the message/file
+    this.closePreviewModal();
+  }
+
+  isFileImage(file: File): boolean {
+    // Check if file type is an image
+    return file.type.startsWith('image/');
+  }
+
+  closePreviewModal(): void {
+    this.showPreviewModal = false;
+    this.selectedFile = null;
+    this.filePreview = null;
   }
   // CODED BY BILAL
   handleSelectedUser(user: any) {

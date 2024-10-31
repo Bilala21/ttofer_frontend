@@ -1,3 +1,14 @@
+.price-tag {
+  background: #65c774;
+  min-width: 50px;
+  bottom: 5px;
+  right: 5px;
+  top: 32px;
+  position: absolute;
+  bottom: 10px;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+}
+
 .profile-main-container{
   margin-top: 12.5rem;
 }
@@ -505,15 +516,22 @@ margin: 5px 0 5px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // margin-bottom: 20px;
   padding: 10px;
   border-bottom: 1px solid #eaeaea;
 }
-.card-container img {
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
+
+.image-container {
+  position: relative;
+  display: inline-block;
 }
+
+.item-image {
+  width: 115px;
+  height: 115px;
+  border-radius: 16px;
+  border: 1px solid rgb(98, 95, 95);
+}
+
 .card-title {
   font-weight: 600;
   font-size: 1rem;

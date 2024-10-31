@@ -141,6 +141,7 @@ login() {
   openChat() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     } else {
@@ -151,10 +152,18 @@ login() {
       }
     }
   }
-
+  savedItems(){
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
+  }
   openSelling() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     } else {
@@ -165,4 +174,14 @@ login() {
       }
     }
   }
+cart(){
+  const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }else{
+    this.router.navigate(['/cart'])
+  }
+}
 }
