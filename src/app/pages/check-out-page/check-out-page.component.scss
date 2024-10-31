@@ -7,7 +7,7 @@
   font-size: 1.5rem;
 }
 .right-side-checkout {
-  width: 400px;
+  width: 500px;
 }
 .input-coupons{
   border-radius: 5px;
@@ -60,6 +60,18 @@
   gap: 30px;
 }
 
+.right-term-condition{
+  background-color: #f0eeee;
+  font-size: 15px;
+}
+.price-tag {
+  background: #65c774;
+  min-width: 50px;
+  bottom: 5px;
+  right: 5px;
+  font-size: 12px;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+}
 @media (max-width :768px){
   .right-side-checkout {
     width: 100%;
