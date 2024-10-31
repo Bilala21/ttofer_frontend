@@ -1,62 +1,62 @@
 .price-tag {
   background: #65c774;
-  min-width: 50px;
-  bottom: 5px;
-  right: 5px;
-  top: 32px;
-  position: absolute;
+  min-width: 70px;
   bottom: 10px;
+  right: 5px;
+  position: absolute;
+  font-size: 12px;
   clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+  padding: 8px;
 }
 
-.profile-main-container{
+.profile-main-container {
   margin-top: 12.5rem;
 }
-.margin-top-class{
+.margin-top-class {
   margin-top: 50px;
 }
 .custom-dialog {
   margin-top: 20px; /* Adjust this value as needed */
-  height: 322px;    /* Set the height if you want to control it */
+  height: 322px; /* Set the height if you want to control it */
 }
 
-.margin-top-right-side-class{
+.margin-top-right-side-class {
   margin-top: 115px;
 }
-.rounded-circle{
-width: 40px;
-height: 40px;
-font-size: 20px;
-color: white;
-display: flex;
-justify-content: center;
-align-items: center;
+.rounded-circle {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.profile-icon-camera{
-width: 33px;
-height: 33px;
-border-radius: 50%;
-font-size: 17px;
-color: white;
-display: flex;
-justify-content: center;
-align-items: center;
-position:absolute;
-bottom: 12px;
-right: -6px;
+.profile-icon-camera {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  font-size: 17px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 12px;
+  right: -6px;
 }
 .input-class-onFocus:focus {
   outline: none; /* Removes the outline */
-  border: none;  /* Removes the border */
+  border: none; /* Removes the border */
   box-shadow: none;
 }
-.right-side-top-image{
+.right-side-top-image {
   width: 47px;
 }
-.title-icon{
-  font-size:25px
+.title-icon {
+  font-size: 25px;
 }
-.right-side-top-title{
+.right-side-top-title {
   font-size: 32px;
   font-weight: 400;
   line-height: 48px;
@@ -97,59 +97,57 @@ right: -6px;
   }
 }
 
-
-
-@media(max-width : 1024px){
-  .profile-main-container{
+@media (max-width: 1024px) {
+  .profile-main-container {
     margin-top: 8.5rem;
   }
-  .title-icon{
-    font-size:22px
+  .title-icon {
+    font-size: 22px;
   }
-  .right-side-top-title{
+  .right-side-top-title {
     font-size: 24px;
     line-height: 30px;
   }
-  .margin-top-class{
+  .margin-top-class {
     margin-top: 40px;
   }
 }
 @media (max-width: 800px) {
-
-  .profile-main-container{
+  .profile-main-container {
     margin-top: 5.5rem;
   }
-  .margin-top-class{
+  .margin-top-class {
     margin-top: 30px;
   }
   .right-side-top-title {
-      font-size: 20px;
-      line-height: 20px;
+    font-size: 20px;
+    line-height: 20px;
   }
-  .title-icon{
-    font-size:18px
+  .title-icon {
+    font-size: 18px;
   }
   .text-decoration-none {
     padding: 10px 0px 0px 0px;
-    gap: 16px;}
+    gap: 16px;
+  }
 }
 @media (max-width: 600px) {
-  .profile-main-container{
+  .profile-main-container {
     margin-top: 3.5rem;
   }
-  .margin-top-class{
+  .margin-top-class {
     margin-top: 20px;
   }
   .right-side-top-title {
-      font-size: 20px;
-      line-height: 20px;
+    font-size: 20px;
+    line-height: 20px;
   }
-  .title-icon{
-    font-size:18px
+  .title-icon {
+    font-size: 18px;
   }
-  .margin-top-right-side-class{
-  margin-top: 10px; 
-}
+  .margin-top-right-side-class {
+    margin-top: 10px;
+  }
   .text-decoration-none {
     padding: 10px 0px 0px 0px;
     gap: 5px;
@@ -158,24 +156,24 @@ right: -6px;
       list-style: none;
       display: inline-block;
       margin: 0 12px 0 0;
-  
+
       a {
         text-decoration: none;
-  
+
         .text-black {
           color: rgb(43, 176, 209); // Initial color for number
           transition: color 0.3s ease;
-  
+
           &:hover {
             color: rgb(0, 123, 255); // Active color on hover
           }
         }
-  
+
         .text-blue {
           color: rgb(141, 140, 140); // Initial color for "Bought"
           font-weight: 500;
           transition: color 0.3s ease;
-  
+
           &:hover {
             color: rgb(0, 102, 204); // Active color on hover
           }
@@ -205,8 +203,12 @@ right: -6px;
 
 /* Keyframes for spinning animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .video-upload-container {
@@ -281,36 +283,36 @@ right: -6px;
 }
 
 .onHover:hover {
-  background-color: #FFD33C;
+  background-color: #ffd33c;
   border-radius: 5px;
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
-.btn-group{
+.btn-group {
   background-color: transparent !important;
   color: black;
 }
 .btngroup.active {
-  background-color: #FFD33C;
-  color:black;
+  background-color: #ffd33c;
+  color: black;
 }
 
 .active {
-  background-color: #FFD33C;
+  background-color: #ffd33c;
   border-radius: 5px;
 }
 
-.textHover:hover{
+.textHover:hover {
   color: blue !important;
 }
 
-.btnHover:hover{
+.btnHover:hover {
   box-shadow: #dbd6d6 0px 7px 20px 0px;
   cursor: pointer;
 }
 
-.container{
+.container {
   max-width: 600px;
   height: 880px;
   margin: auto;
@@ -326,107 +328,106 @@ right: -6px;
 }
 
 .sidebar {
- height: 40%;
-overflow-y: auto;
+  height: 40%;
+  overflow-y: auto;
 }
 
 .sidebar-content {
-padding: 14px;
-width: 99%;
+  padding: 14px;
+  width: 99%;
 }
 
 ::-webkit-scrollbar {
-width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-background: #f1f1f1;
-border-radius: 10px;
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-background: #88888884;
-border-radius: 10px;
+  background: #88888884;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background: #555;
+  background: #555;
 }
 
-
 .image {
-width: 100%;
-border: 2px solid purple; /* Adjust border color and thickness as needed */
-width: 100px;
-height: 100px;
+  width: 100%;
+  border: 2px solid purple; /* Adjust border color and thickness as needed */
+  width: 100px;
+  height: 100px;
 }
 
 .delete-button {
-position: absolute;
-top: 0px; /* Adjust as needed */
-right: 0px; /* Adjust as needed */
-background-color: transparent;
-border: none;
-color: black;
-font-size: 1.5em; /* Adjust size as needed */
-cursor: pointer;
+  position: absolute;
+  top: 0px; /* Adjust as needed */
+  right: 0px; /* Adjust as needed */
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-size: 1.5em; /* Adjust size as needed */
+  cursor: pointer;
 }
 
 .delete-button:hover {
-color: red; /* Change color on hover */
+  color: red; /* Change color on hover */
 }
 
 ::ng-deep .success-snackbar {
-background-color: green;
-color: white;
+  background-color: green;
+  color: white;
 }
-.sellingImg{
-width: 100px;
-height: 100px;
-border-radius: 20px;
-}
-.userNotificationImage{
-width: 20px;
-height: 20px;
-border-radius: 100px;
-}
-
-@media (width < 1030px){
-.sellingImg{
-  width: 30px;
-  height: 30px;
+.sellingImg {
+  width: 100px;
+  height: 100px;
   border-radius: 20px;
 }
+.userNotificationImage {
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+}
+
+@media (width < 1030px) {
+  .sellingImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+  }
 }
 #map {
-height: 400px;
-width: 100%;
+  height: 400px;
+  width: 100%;
 }
-.account-Setting{
-margin: 5px 0 5px 0;
+.account-Setting {
+  margin: 5px 0 5px 0;
 }
-.bg-danger-blue{
+.bg-danger-blue {
   background-color: #414141ed;
 }
-.bg-success{
+.bg-success {
   background-color: blue !important;
 }
-.sidebar-saveItem{
+.sidebar-saveItem {
   overflow-y: auto;
   height: 880px;
 }
-.sidebar-notification{
+.sidebar-notification {
   overflow-y: auto;
   height: 880px;
 }
-.sidebar-selling{
+.sidebar-selling {
   overflow-y: auto;
   height: 880px;
 }
 @media only screen and (max-width: 767px) {
   // .sidebar-saveItem {
   //     height: 75%;
-      
+
   // }
   // .sidebar-notification{
   //   height: 75%;
@@ -438,7 +439,7 @@ margin: 5px 0 5px 0;
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   // .sidebar-saveItem {
   //     height: 80%;
-      
+
   // }
   // .sidebar-notification{
   //   height: 80%;
@@ -449,7 +450,7 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (max-width: 767px) and (orientation: landscape) {
   // .sidebar-saveItem {
-  //     height: 100%; 
+  //     height: 100%;
   // }
   // .sidebar-notification{
   //   height: 100%;
@@ -460,8 +461,8 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   // .sidebar-saveItem {
-  //     height: 235%; 
-      
+  //     height: 235%;
+
   // }
   // .sidebar-notification{
   //   height: 235%;
@@ -472,8 +473,8 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (min-width: 834px) and (max-width: 834px) and (orientation: portrait) {
   // .sidebar-saveItem {
-  //     height: 65%; 
-      
+  //     height: 65%;
+
   // }
   // .sidebar-notification{
   //   height: 65%;
@@ -484,7 +485,7 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (min-width: 1024px) and (max-width: 1024px) and (min-height: 1366px) and (max-height: 1366px) and (orientation: portrait) {
   // .sidebar-saveItem {
-  //     height: 65%; 
+  //     height: 65%;
   // }
   // .sidebar-selling{
   //   height: 65%;
@@ -492,7 +493,7 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (min-width: 1366px) and (min-height: 1024px) and (orientation: landscape) {
   // .sidebar-saveItem {
-  //     height: 80% !important; 
+  //     height: 80% !important;
   // }
   // .sidebar-notification {
   //     height: 80% !important;
@@ -503,7 +504,7 @@ margin: 5px 0 5px 0;
 }
 @media only screen and (max-width: 1024px) and (min-height: 768px) and (orientation: landscape) {
   // .sidebar-saveItem {
-  //     height: 120% !important; 
+  //     height: 120% !important;
   // }
   // .sidebar-notification {
   //     height: 120% !important;
@@ -536,9 +537,8 @@ margin: 5px 0 5px 0;
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 5px;
-  font-family: 'popins';
-  color: #1B2028;
-  ;
+  font-family: "popins";
+  color: #1b2028;
 }
 .avatars img {
   width: 30px;
@@ -570,8 +570,8 @@ margin: 5px 0 5px 0;
   max-height: 216px; /* Adjust this value to control the image height */
   border-radius: 5px; /* Ensures that the image doesn't exceed the container size */
 }
-.image-container-2{
-   width: 200px; /* Adjust this value based on your requirements */
+.image-container-2 {
+  width: 200px; /* Adjust this value based on your requirements */
   height: 129px; /* Adjust this value to control the image height */
   overflow: hidden;
   justify-content: center;
@@ -651,12 +651,7 @@ margin: 5px 0 5px 0;
 }
 
 .shimmer-animated {
-  background: linear-gradient(
-    90deg,
-    #e0e0e0 25%,
-    #f0f0f0 50%,
-    #e0e0e0 75%
-  );
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
   background-size: 200% 100%;
   animation: shimmer-effect 1.6s infinite linear;
 }
@@ -667,5 +662,15 @@ margin: 5px 0 5px 0;
   }
   100% {
     background-position: 200% 0;
+  }
+}
+.right-side-contant {
+  height: 784px;
+  overflow: auto;
+}
+@media (max-width: 786px) {
+  .right-side-contant {
+    height: 450px;
+    overflow: auto;
   }
 }
