@@ -462,6 +462,13 @@ button[aria-label="Close"]:focus {
 .text-dark-850 {
   color: #212529;
 }
+.price-tag {
+  background: #65c774;
+  min-width: 100px;
+  bottom: 5px;
+  right: 5px;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+}
 
 .selling-tab-container {
   border: 0.09375rem solid #EBEEF7;
