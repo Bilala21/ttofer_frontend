@@ -13,11 +13,15 @@
       </aside>
       <!-- PRODUCT SIDE -->
       <div class="flex-grow-1 pl-4">
-        <div class="text-center mb-4">
-          <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
-            (click)="handleTab('auction')"> Auction Products </button>
-          <button type="button" class="btn py-2 px-3 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
-            (click)="handleTab('featured')"> Feature Products</button>
+        <div class="text-center mb-4 buttons">
+          @if (!["3","4","8","9"].includes(id)) {
+          <button type="button"
+            class="btn py-2 px-3 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
+            (click)="handleTab(id==7?'hiring':'auction')"> {{id ==7?'Hiring':'Auction Products'}}</button>
+          }
+          <button type="button"
+            class="btn py-2 px-3 {{activeTab=='featured' || activeTab=='looking'?'bg-dark text-white':'border-1'}}"
+            (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
         </div>
         <div class="row px-0 row-gap">
           @if(loading){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
@@ -26,18 +30,15 @@
           </div>
 
           } }@else if( data.length == 0) {
-            
+
           <p class="no-data-found">No Data Found</p>
           }@else { @for (post of data; track $index) {
           <div class="col-lg-4">
-            <app-product-card
-              [postData]="post"
-              [postDetialUrl]="
+            <app-product-card [postData]="post" [postDetialUrl]="
                 activeTab == 'feature'
                   ? 'product-detail'
                   : 'auction-product-detail'
-              "
-            />
+              " />
           </div>
           } }
         </div>
