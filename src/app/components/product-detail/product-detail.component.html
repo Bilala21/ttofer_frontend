@@ -56,8 +56,8 @@
                     <div class="pl-2">
                         <div>{{product.user?.name}} <span>(4567)</span></div>
                         <div class="fw-normal">
-                            <a href="#" class="text-dark text-decoration-underline mr-2">Seller's other itmes</a>
-                            <a href="#" class="text-dark text-decoration-underline">Contact seller</a>
+                            <a  class="text-dark text-decoration-underline mr-2">Seller's other itmes</a>
+                            <a (click)="contactSeller(product, product.user)" class="text-dark text-decoration-underline">Contact seller</a>
                         </div>
                     </div>
                 </div>

@@ -146,3 +146,22 @@
 .message-input input[type="file"] {
   display: none; /* Keep it hidden */
 }
+.suggestions-box {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.suggestion-item {
+  background: #e6e6e6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background: #ccc;
+}
+
+.pointer {
+  cursor: pointer;
+}
