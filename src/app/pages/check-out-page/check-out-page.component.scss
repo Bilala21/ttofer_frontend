@@ -1,0 +1,67 @@
+/* checkout.component.scss */
+.checkout-logo {
+  width: 60px;
+  height: 60px;
+}
+.heading-checkout {
+  font-size: 1.5rem;
+}
+.right-side-checkout {
+  width: 400px;
+}
+.input-coupons{
+  border-radius: 5px;
+  border:1px solid gray;
+  margin-right: 10px;
+}
+.apply-btn{
+  width: 100px !important;
+}
+.checkout-container {
+  max-width: 1100px;
+  margin: auto;
+
+  .payment-section,
+  .shipping-section,
+  .order-review {
+    h4 {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+
+  .form-check-label {
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background-color: #0070ba;
+    border: none;
+
+    &:disabled {
+      background-color: #ccc;
+    }
+  }
+  .subtotal{
+    font-size: 16px;
+    font-weight: 600;
+
+  }
+  .confrim-btn {
+    border-radius: 14px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 30px;
+    font-size: 16px;
+    border: none;
+  }
+}
+.review-product{
+  gap: 30px;
+}
+
+@media (max-width :768px){
+  .right-side-checkout {
+    width: 100%;
+  }
+}

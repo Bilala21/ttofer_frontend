@@ -1,0 +1,158 @@
+<!-- checkout.component.html -->
+<main class="mt-16">
+  <div class="container-fluid checkout-container">
+    <div class="d-flex align-content-end mb-2">
+      <div class="mr-2 checkout-logo">
+        <img
+          src="/assets/images/LOGO.png"
+          class="w-100 h-100"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <h1 class="m-0 d-flex align-baseline mt-4 heading-checkout">Checkout</h1>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between">
+      <div class="row flex-grow-1 mr-md-4">
+        <!-- Payment Section -->
+        <div class="col-md-12">
+          <div class="payment-section border p-3 mb-3">
+            <div class="d-flex  justify-content-between ">
+              <strong>Pay with</strong>
+              <strong class="" style="text-decoration: underline;">Add Card</strong>
+              <!-- <span class="">
+                You can split your payment for this order.
+              </span> -->
+            </div>
+            <div
+              *ngFor="let payment of paymentDeposit; trackBy: trackById"
+              class="d-flex justify-content-between border-b p-4"
+            >
+              <div>
+                <img [src]="payment.img" alt="" />
+                <!-- form-check-label -->
+                <label class="ml-3" [for]="payment.value">{{
+                  payment.detail1
+                }}</label>
+              </div>
+              <!-- form-check-input -->
+              <input
+                type="radio"
+                class=""
+                [(ngModel)]="paymentMethod"
+                [value]="payment.value"
+                [id]="payment.value"
+              />
+            </div>
+
+            <!-- <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="paymentMethod"
+                value="card"
+                id="card"
+              />
+              <label class="form-check-label" for="card"> Add new card </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                [(ngModel)]="paymentMethod"
+                value="applepay"
+                id="applepay"
+              />
+              <label class="form-check-label" for="applepay">Apple Pay</label>
+            </div> -->
+          </div>
+        </div>
+
+        <!-- Shipping Section -->
+        <div class="col-md-12">
+          <div class="shipping-section border p-3 mb-3">
+            <h4>Ship to</h4>
+          <span class="d-block fs-14 ">Haroon Irshad</span>
+          <span class="d-block fs-14 ">Fatygar Mughal pure lahore</span>
+          <span class="d-block fs-14 ">Punjab Lahore</span>
+          <span class="d-block fs-14">03094393326</span>
+          </div>
+        </div>
+
+        <div class="col-md-12 ">
+          <div class="border p-3 mb-3">
+            <h4>Review Order</h4>
+            <div *ngFor="let orderItem of cartItems" class="shipping-section border-b pt-2 pb-2">
+            <div>
+              <span>Seller:</span>
+              <span class="ml-2">{{orderItem.title}}</span>
+              <span class="ml-2"><a routerLink="#">Add note for seller</a></span>
+            </div>
+            <div class="review-product" class="d-flex">
+              <div  style="width: 130px;height: 130px;">
+                <img [src]="orderItem.imageUrl" alt="" loading="lazy" class="w-100 h-100 object-fit-contain">
+              </div>
+              <div class="ml-4">
+                <p class="m-0 p-0">Iphone 16 pro max</p>
+                <p class="m-0 p-0">AED 579</p>
+                <div class="mt-2">
+                  <p class="m-0 p-0">Quantity 1</p>
+                  <button class="border-0 text-primary link-underline borde-none bg-transparent ">Remove</button>
+                </div>
+                <div>
+                  <span>Delivery</span>
+                </div>
+              </div>
+
+            </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- ttoffer-gift -->
+        <div class="col-12">
+          <div class="pt-4 pb-4 pl-2 border">
+            <h5>TToffer Gift Cards and coupons</h5>
+            <div class="d-flex">
+              <input
+                type="text"
+                placeholder="Enter Code:"
+                class="p-2 input-coupons"
+              />
+              <button
+                class="btn btn-primary p-2 confrim-btn apply-btn"
+                [disabled]="!paymentMethod"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- right-side -->
+      <div class="right-side-checkout">
+        <div class="border p-2 mb-2 mt-3 mt-md-0 mx-auto">
+          <div class="d-flex justify-content-between">
+            <span class="summary-header">Items (1)</span>
+            <span class="summary-total"> AED {{ itemTotal }}</span>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-between subtotal">
+            <span>Order Total</span>
+            <span>AED {{ itemTotal }}</span>
+          </div>
+          <button
+          class="btn btn-primary w-100 p-2 confrim-btn"
+          [disabled]="!paymentMethod"
+        >
+          Confirm and Pay
+        </button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</main>

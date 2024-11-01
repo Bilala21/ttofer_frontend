@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from 'express';
 import { CommonModule,  NgIf } from '@angular/common';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,20 +17,21 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit {
-  constructor( private globalStateService: GlobalStateService,private toastr: ToastrService,private authService:AuthService,
-    private route: ActivatedRoute,
+  constructor(private router: Router ,private globalStateService: GlobalStateService,private toastr: ToastrService,private authService:AuthService,
+    private route: ActivatedRoute,public extension: Extension,
     private mainServices: MainServicesService,
     // private authService: AuthService,
     // private extension: Extension,
     // private snackBar: MatSnackBar,
     // private router: Router,
-  ) { }
+  ) { this.currentUserid = extension.getUserId(); }
   productId: any = null
   product: any = {};
   wishList: any = []
   currentUser: any = {}
   loading: boolean = false
   imgIndex:number=0
+  currentUserid:any;
   promotionBanners: any = [
     {
       banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
@@ -39,6 +39,7 @@ export class ProductDetailComponent implements OnInit {
   ]
  
   ngOnInit(): void {
+   
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true
     this.mainServices.getProductById({product_id:this.productId}).subscribe({
@@ -100,5 +101,15 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }  
+  }
+  contactSeller(product: any, user: any): void {
+    // Store the data in sessionStorage
+    sessionStorage.setItem('productData', JSON.stringify(product));
+    sessionStorage.setItem('userData', JSON.stringify(user));
+  
+    // Navigate to the chat route with userId as a parameter
+    this.router.navigate([`/chatBox/${this.currentUserid}`], {
+      state: { product, user },
+    });
   }
 }

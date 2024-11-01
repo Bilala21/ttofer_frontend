@@ -24,6 +24,7 @@ import { AuthGuard } from './auth.guard';
 import { NgModule } from '@angular/core';
 import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.component';
 
 export const routes: Routes = [
 
@@ -119,6 +120,10 @@ export const routes: Routes = [
     {
         path: 'cart',
         component: ShoppingCartComponent
+    },
+    {
+        path: 'checkout',
+        component: CheckOutPageComponent
     },
     {
         path: 'auth',
