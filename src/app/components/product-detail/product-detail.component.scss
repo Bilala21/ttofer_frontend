@@ -1,86 +1,122 @@
 .right-side {
-    max-width: 508px;
-    // min-width: 320px;
+  max-width: 508px;
+  // min-width: 320px;
 }
-.img-fluid{
-    height: 100%;
+.img-fluid {
+  height: 100%;
+}
+
+.price-tag {
+  background: #65c774;
+  min-width: 100px;
+  bottom: 25px;
+  left: 5px;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
 }
 
 .icon-btn {
-    height: 50px;
-    min-width: 50px;
-    background: #fff;
+  height: 50px;
+  min-width: 50px;
+  background: #fff;
 
-    &:focus-within {
-        outline: none;
-    }
+  &:focus-within {
+    outline: none;
+  }
 
-    &:hover {
-        background: transparent;
-    }
+  &:hover {
+    background: transparent;
+  }
 }
 
 .img-slider {
-    background: #F2F2F2;
-    min-height: 200px;
-    max-height: 500px;
-    overflow-y: hidden;
-    // div{
-    //     height: 100%;
-    //     div{
-    //         height: 100%;  
-    //         div{
-    //             height: 100%;  
-    //         }
-    //     }
-    // }
+  background: #f2f2f2;
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: hidden;
+  // div{
+  //     height: 100%;
+  //     div{
+  //         height: 100%;
+  //         div{
+  //             height: 100%;
+  //         }
+  //     }
+  // }
 }
 
 .border-2 {
-    border: 2px solid;
+  border: 2px solid;
 }
 
 .d-ling {
-    a {
-        color: #000;
-        font-weight: 500;
-    }
+  a {
+    color: #000;
+    font-weight: 500;
+  }
 }
 
 .qty-input {
-    height: 50px;
-    width: 80px;
-    background: #F2F2F2;
-    border-color: #000;
+  height: 50px;
+  width: 80px;
+  background: #f2f2f2;
+  border-color: #000;
 }
 
 .buttons {
-    button {
-        padding: 12px;
-        border-color: #007bff;
+  button {
+    padding: 12px;
+    border-color: #007bff;
 
-        &:hover {
-            background: #F2F2F2;
-        }
+    &:hover {
+      background: #f2f2f2;
     }
+  }
 }
 
 .user-img {
-    // min-width: 45px;
-    height: 45px;
-    width: 45px;
+  // min-width: 45px;
+  height: 45px;
+  width: 45px;
 }
 
-@media(min-width:1200px) {
-    .img-gallery {
-        min-width: 92px;
-        min-height: 92px;
-        max-height: 92px;
-        max-width: 92px;
-        background: #F2F2F2;
+@media (min-width: 1200px) {
+  .img-gallery {
+    min-width: 92px;
+    min-height: 92px;
+    max-height: 92px;
+    max-width: 92px;
+    background: #f2f2f2;
 
-        img {
-            object-fit: contain;
-        }
+    img {
+      object-fit: contain;
     }
+  }
+}
+.des {
+  font-size: 24px;
+  font-family: poppins;
+  font-weight: 600;
+}
+.sub-headings{
+    font-size: 16px;
+    font-weight: 700;
+   font-family: poppins;
+}
+@media (max-width: 1200px) {
+  .img-gallery {
+    min-width: 92px;
+    min-height: 92px;
+    max-height: 92px;
+    max-width: 92px;
+    background: #f2f2f2;
+
+    img {
+      object-fit: contain;
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .right-side {
+    max-width: 100%;
+  }
 }
