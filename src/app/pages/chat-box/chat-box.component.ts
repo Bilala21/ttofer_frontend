@@ -40,7 +40,9 @@ export class ChatBoxComponent {
   searchQuery: string = '';
   productPrice:any
   selectedUserId: any = null
-  userDetail:any
+  userDetail:any;
+  reviewRating:any=2;
+  userlocation:any;
   constructor(
     private mainServices: MainServicesService,
     private extension: Extension,private router: Router,
@@ -207,29 +209,13 @@ export class ChatBoxComponent {
       } 
   }
   getAllChatsOfUser = () => {
-    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-        
+    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {  
       this.allChat = res.data;
-      // this.chatBox = this.chatBox.sort((a: any, b: any) => {
-      //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-      // });
-      this.selectTab(this.selectedTab)
-
-      const receiverIdFromRoute = this.route.snapshot.paramMap.get('id');
-      // this.selectedUser = this.chatBox.filter(chat => chat.receiver_id == receiverIdFromRoute);
-
-      // this.selectedUser = this.chatBox[0];
+      this.selectTab(this.selectedTab);
       if (this.selectedUser != null)
-        // this.getConversation(this.selectedUser);
       console.log(this.chatBox)
     });
   }
-  // getMinutesDifference(updatedAt: string): number {
-  //   const updatedAtDate = new Date(updatedAt);
-  //   const currentTime = new Date();
-  //   const timeDifference = Math.abs(currentTime.getTime() - updatedAtDate.getTime()); // Difference in milliseconds
-  //   return Math.floor(timeDifference / (1000 * 60)); // Convert to minutes
-  // }
   getTimeDifference(updatedAt: string): string {
     const updatedAtDate = new Date(updatedAt);
     const currentTime = new Date();
@@ -263,48 +249,36 @@ export class ChatBoxComponent {
     this.userImage = data?.user_image;
     this.productImage=data.image_path.src;
     this.productPrice=data.product?.fix_price?data.product.fix_price:data.product?.auction_price;
-
-    // Determine userName based on who is the sender and receiver
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
-
-    // Set userName to the name of the other user
+    this.userlocation=otherUser.location;
     this.userName = otherUser.name;
-
     if (data.offer_id) {
         const input = {
             id: data.offer_id,
         };
         this.mainServices.getOffer(input).subscribe({
             next: (result: any) => {
-                this.offerDetails = result.data; // Store offer details if available
+                this.offerDetails = result.data; 
             },
         });
     } else {
-        this.offerDetails = null; // Clear offer details if no offer is present
+        this.offerDetails = null; 
     }
-
     this.mainServices.getConversation(data.conversation_id).subscribe((res: any) => {
         this.selectedConversation = res;
         this.markMessagesAsRead(data.conversation_id);
-        // Retrieve participants
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
-
-        // Determine current user and the other participant based on ID
         const isCurrentUserParticipant1 = this.currentUserid === participant1.id;
         const currentParticipant = isCurrentUserParticipant1 ? participant1 : participant2;
         const otherParticipant = isCurrentUserParticipant1 ? participant2 : participant1;
-
-        ;
         this.conversationBox = res.data.conversation.map((msg: any) => ({
             ...msg,
             formattedTime: this.formatMessageTime(msg.created_at),
-            // Assign images based on whether the current user is the sender or receiver
-            sender_image: msg.sender_id === this.currentUserid ? currentParticipant.img : otherParticipant.img, // Image for the sender
-            receiver_image: msg.sender_id === this.currentUserid ? otherParticipant.img : currentParticipant.img, // Image for the receiver
+            sender_image: msg.sender_id === this.currentUserid ? currentParticipant.img : otherParticipant.img, 
+            receiver_image: msg.sender_id === this.currentUserid ? otherParticipant.img : currentParticipant.img, 
         }));
-
         this.productId = this.conversationBox[0].product_id;
         this.sellerId = this.conversationBox[0].seller_id;
         this.buyerId = this.conversationBox[0].buyer_id;
@@ -319,34 +293,26 @@ markMessagesAsRead(conversationId: string) {
   this.mainServices.markMessagesAsRead(conversationId).subscribe({
       next: (response) => {
           console.log('Messages marked as read:', response);
-          // Optionally update your local state if needed
       },
       error: (error) => {
           console.error('Error marking messages as read:', error);
       }
   });
 }
-
-
 formatMessageTime(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-  
-  
+} 
 sendMsg() {
   let receiverId: string;
 
   if (this.selectedConversation.data) {
-      // Use optional chaining to safely access Participant IDs
       receiverId = (this.currentUserid !== this.selectedConversation.data.Participant2.id)
           ? this.selectedConversation.data.Participant2.id
           : this.selectedConversation.data.Participant1.id;
   } else {
-      // Fallback to selected user's ID if no conversation is selected
-      receiverId = this.selectedUser?.id;  // Use optional chaining for safety
-  }
-  
+      receiverId = this.selectedUser?.id;  
+  } 
   let input = {
       sender_id: this.currentUserid,
       buyer_id: this.buyerId,
@@ -357,11 +323,7 @@ sendMsg() {
   };
 
   this.mainServices.sendMsg(input).subscribe((res: any) => {
-      // Clear message input
       this.message = "";
-      ;
-
-      // Push the new message to the conversationBox directly to update the UI without needing to refetch
       const newMessage = {
           ...res.data.Message[0],
           sender_image: this.currentUserid === this.selectedConversation.data.Participant1.id
@@ -370,16 +332,13 @@ sendMsg() {
           receiver_image: this.currentUserid !== this.selectedConversation.data.Participant1.id
               ? this.selectedConversation.data.Participant1.img
               : this.selectedConversation.data.Participant2.img,
-          // Format the message time using formatMessageTime
-          formattedTime: this.formatMessageTime(new Date().toISOString()) // Assuming you want to use the current time
+          formattedTime: this.formatMessageTime(new Date().toISOString()) 
       };
       
       this.conversationBox.push(newMessage);
       this.cd.detectChanges();
   });
-}
-
-  
+} 
   acceptOffer() {
 
     let input = {
@@ -413,10 +372,8 @@ sendMsg() {
   previewUrl: string | ArrayBuffer | null = null;
   sendMessage(message: string): void {
     if (message.trim() || this.selectedFile) {
-      // Handle sending message and the file to the server or chat list
       console.log('Message:', message);
       console.log('Selected File:', this.selectedFile);
-      // Reset message and file preview
       this.clearMessage();
     }
   }
@@ -436,15 +393,13 @@ sendMsg() {
       this.isImageFile = this.isFileImage(file);
 
       if (this.isImageFile) {
-        // Create a FileReader to show image preview
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this.filePreview = e.target.result;
-          this.showPreviewModal = true; // Open modal after setting preview
+          this.showPreviewModal = true; 
         };
         reader.readAsDataURL(file);
       } else {
-        // If it's not an image, set file name and show modal
         this.filePreview = null;
         this.showPreviewModal = true;
       }
@@ -452,12 +407,10 @@ sendMsg() {
   }
 
   confirmSend(): void {
-    // Logic for sending the message/file
     this.closePreviewModal();
   }
 
   isFileImage(file: File): boolean {
-    // Check if file type is an image
     return file.type.startsWith('image/');
   }
 
@@ -466,18 +419,16 @@ sendMsg() {
     this.selectedFile = null;
     this.filePreview = null;
   }
-  // CODED BY BILAL
   handleSelectedUser(user: any) {
     this.selectedUserId = user.id
   }
   searchSubject: Subject<string> = new Subject<string>();
 
   onSearch(event: any) {
-    this.searchSubject.next(event.value); // Send input to the search stream
+    this.searchSubject.next(event.value); 
   }
 
   ngOnDestroy() {
-    // Remove editPost data from localStorage if navigating away
     if (this.isNavigatingAway) {
       sessionStorage.removeItem('productData');
       sessionStorage.removeItem('userData')
@@ -488,12 +439,11 @@ sendMsg() {
     this.mainServices.deleteConversation(conversation.conversation_id)
       .pipe(
         tap(() => {
-          // Remove the item from chatBox array if the API call is successful
           this.chatBox = this.chatBox.filter((item) => item.conversation_id !== conversation.conversation_id);
         }),
         catchError((error) => {
           console.error('Error deleting conversation', error);
-          return of(null); // Handle errors gracefully
+          return of(null);
         })
       )
       .subscribe();

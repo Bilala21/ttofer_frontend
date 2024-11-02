@@ -1,4 +1,3 @@
-<!-- <app-header></app-header> -->
 <main class="mt-16 chat-container pt-2">
   <div class="tabs-container">
     <div
@@ -25,10 +24,6 @@
         >
           <div class="d-flex align-items-center message-count">
             <h2 class="fs-20 fw-semibold m-0">Messages</h2>
-            <!-- <span
-              class="ml-3 fs-12 rounded-pill bg-yellow-800 d-block text-center"
-              >12</span -->
-            
           </div>
         </div>
         <div class="message-content pl-2 pr-1">
@@ -89,11 +84,8 @@
                 </div>
               </div>
             </ng-container>
-          
-            <!-- No Chat Message -->
-            <ng-template #noChat>
+              <ng-template #noChat>
               <div class="d-flex flex-column align-items-center justify-content-center mt-5">
-                <!-- Bootstrap "chat-dots" icon -->
                 <i class="bi bi-chat-dots  mb-2 no-chat-icon" ></i>
                 <p class="text-secondary fs-5">No chats available</p>
               </div>
@@ -105,7 +97,6 @@
         </div>
       </div>
       <div class="chat right-side flex-grow-1">
-        <!-- Show only if there is no selected user -->
         <div
           *ngIf="conversationBox.length === 0 && !selectedUser"
           class="text-center p-5"
@@ -120,9 +111,7 @@
           </div>
         </div>
 
-        <!-- Show chat interface only if selectedUser is available -->
         <ng-container *ngIf="selectedUser || conversationBox.length > 0">
-          <!-- Top Header Section with user details -->
           <div class="border-b">
             <div class="pb-3 px-4 d-flex align-items-center top">
               <img
@@ -132,9 +121,9 @@
                 class="rounded-2"
               />
               <div class="ml-3 flex-grow-1">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-baseline">
                   <h2 class="fs-20 fw-semibold m-0">{{ userName }}</h2>
-                  <div class="ml-4 d-flex align-items-center">
+                  <div class="ml-4 d-flex align-items-baseline">
                     <img
                       [src]="productImage ? productImage : '/assets/images/default-product.png'"
                       alt="Product Image"
@@ -144,24 +133,29 @@
                     <span class="ml-2">AED {{ productPrice }}</span>
                   </div>
                 </div>
+                <div class="d-flex align-items-center">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                    <i
+                      class="bi bi-star-fill"
+                      [ngClass]="{'text-gold': i < reviewRating, 'text-gray': i >= reviewRating}"
+                    ></i>
+                  </ng-container>
+                </div>
                 <div class="fs-12 fw-semibold text-slate-400 d-flex align-items-center">
                   <span class="dot rounded-pill mr-1"></span>
                   Online
                 </div>
+                <div class="fs-12 text-slate-400">
+                  <span>{{userlocation?userlocation:'No location added'}}</span> 
+                </div>
               </div>
             </div>
-          </div>
-          
-          <!-- Display "Select a chat to view conversation" if conversationBox is null or empty -->
-         
-
-          <!-- Conversation Messages Section -->
+          </div>  
           <div
           *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
           class="messages-side mt-5 pt-5 scrollable-messages"
         >
           <div *ngFor="let message of conversationBox">
-            <!-- Message from the current user (aligned right) -->
             <div
               *ngIf="currentUserid === message.sender_id"
               class="d-flex flex-column align-items-end mb-3"
@@ -170,9 +164,8 @@
                 <div class="user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right" style="display: flex;">
                   {{ message.message }}
                   <div class="d-flex align-items-center " style="margin:9px 5px 0px 10px;">
-                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> <!-- Time below message -->
+                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> 
                     <div>
-                      <!-- Check read status and show ticks -->
                       <i
                         *ngIf="message.status === 'unread'"
                         class="bi bi-check2-all text-secondary"
@@ -184,8 +177,6 @@
                         style="color: #53BDEB; font-size: 1.1rem;"
                       ></i>
                     </div>
-                    
-                    
                   </div>
                 </div>
                 <img
@@ -196,8 +187,6 @@
                 />
               </div>
             </div>
-        
-            <!-- Message from the other participant (aligned left) -->
             <div
               *ngIf="currentUserid !== message.sender_id"
               class="d-flex flex-column align-items-start mb-3"
@@ -212,15 +201,13 @@
                 <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2" style="display: flex;">
                   {{ message.message }}
                   <div class="d-flex align-items-center" style="margin:9px 5px 0px 10px;">
-                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> <!-- Time below message -->
-                    
+                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> 
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-          <!-- Suggestions Box -->
           <div
             *ngIf="
               (conversationBox && conversationBox.length > 0) || selectedUser
@@ -237,8 +224,6 @@
               </span>
             </div>
           </div>
-
-          <!-- Message Input Section -->
           <div
             *ngIf="
               (conversationBox && conversationBox.length > 0) || selectedUser
@@ -273,8 +258,6 @@
             </div>
           </div>
         </ng-container>
-
-        <!-- Preview Modal -->
         <div
           class="modal fade"
           id="previewModal"
@@ -296,7 +279,6 @@
                 </button>
               </div>
               <div class="modal-body text-center">
-                <!-- Preview Image/File -->
                 <div *ngIf="selectedFile">
                   <img
                     *ngIf="isImageFile"
@@ -318,8 +300,6 @@
       </div>
     </div>
   </div>
-
-  <!-- modal-for-bid -->
   <div
     class="modal fade"
     id="offerModal"
@@ -340,7 +320,6 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <!-- Modal Body -->
         <div class="modal-body mb-5">
           <div class="row">
             <div class="col-9 mx-auto">
@@ -349,12 +328,7 @@
                 <input type="text" class="p-2 rounded w-100" />
               </div>
               <div class="mt-4">
-                <!-- (click)="placeBid(price)" -->
                 <button class="btn btn-dark w-100">Send your offer</button>
-                <!-- 
-              <button class="btn btn-dark w-100 mt-3" (click)="closeModal()">
-                Cancel
-              </button> -->
               </div>
             </div>
           </div>
