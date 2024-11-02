@@ -146,4 +146,18 @@ export class ProductDetailComponent implements OnInit {
         this.loading = false;
       }
     }
+    makeOffer(product:any){
+      console.log(product)
+      // this. = true;
+      // let input = {
+      //   product_id: this.productId,
+      //   seller_id: this.featuredProducts[0].user.id,
+      //   buyer_id:this.currentUserid ,
+      //   offer_price:this.offerPrice,
+      // }
+      // this.mainServices.makeOffer(input).subscribe(res =>{
+      // this.idSendOfferDisabled = false;
+        // this.closeModal();
+      // });
+    }
   }

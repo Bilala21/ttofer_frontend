@@ -101,27 +101,36 @@
                       
                         <!-- Dropdown Cart Items -->
                         <div class="cart-dropdown" *ngIf="cartItems.length > 0">
-                            <h5>Shopping Cart</h5>
-                            <p>Items you've selected</p>
-                          <div *ngFor="let item of cartItems" class="cart-item">
-                            <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
-                            <div class="cart-item-details">
-                              <p>{{ item.description.slice(1,25) + '...' }}</p>
-                              <div class="d-flex justify-content-between">
-                                  <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                  <span>Qty 1</span>
-
-                              </div>
+                            <div class="px-3">
+                            <h5 class="mt-2">Shopping Cart</h5>
+                            <p class="m-0 p-0">Items you've selected</p>
+                            <div style="height: 220px;overflow-y: auto;">
+                                <div *ngFor="let item of cartItems" class="cart-item">
+                                    <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
+                                    <div class="cart-item-details mt-3">
+                                      <p >{{ item.description.slice(1,25) + '...' }}</p>
+                                      <div class="d-flex justify-content-between">
+                                          <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                          <span>Qty:1</span>
+                                      </div>
+                                      <div class="d-flex justify-content-end">
+                                        <span class="mt-2"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path></svg></span>
+                                      </div>
+                                    </div>
+                                  </div>
                             </div>
-                          </div>
-                          <p class="mt-2"><span style="text-decoration: underline;">View cart</span> to see all of your items</p>
-                          <div class="d-flex justify-content-between" style="bottom: gray;">
-                            <span>Subtotal</span>
-                            <span>{{'3100' | currency:'AED':'symbol':'1.2-2' }}</span>
+                          
+                        </div>
+                          <p class="mt-2 px-3 text-dark-350"><span style="text-decoration: underline;color:black">View cart</span> to see all of your items</p>
+                            
+                          <div class="d-flex justify-content-between p-3 bg-gray" style="bottom: gray;">
+                            <span class="fs-16 fw-semibold">Subtotal</span>
+                            <span class="fs-16 fw-bold">{{'3100' | currency:'AED':'symbol':'1.2-2' }}</span>
                            </div>
-                          <button mat-raised-button color="primary" class="w-100 " routerLink="/checkout">Go to checkout</button>
-                          <a mat-raised-button color="primary" class="w-100 mt-2" routerLink="/cart">View Cart</a>
-
+                           <div class="px-3 mt-2 mb-2">
+                            <button mat-raised-button color="primary" class="w-100 p-2 checkout-btn" routerLink="/checkout">Go to checkout</button>
+                            <button mat-raised-button color="primary" class="w-100 mt-2 p-2 viewCart-btn" routerLink="/cart">View Cart</button>
+                           </div>
                         </div>
                         
                       </li>
