@@ -30,7 +30,21 @@
               <span class="my-auto">
                 <mat-checkbox></mat-checkbox>
               </span>
-            <img [src]="item.imageUrl" alt="Product Image" class="product-image" />
+              <div class="product-image position-relative z-0">
+                <img [src]="item.imageUrl" alt="Product Image" class="w-100 h-100" />
+                <div
+                class="text-white pl-1 pr-1 price-tag position-absolute py-1 rounded d-flex align-items-center justify-content-center border z-1"
+              >
+              {{ item.price | currency : 'AED' : 'symbol' : '1.2-2' }}
+                <!-- {{
+                formatPrice(
+                  postData?.auction_price
+                    ? postData?.auction_price
+                    : postData.fix_price
+                )
+              }} -->
+              </div>
+              </div>
             <span class="product-description my-auto">{{ item.description }}</span>
           </div>
             <div class="d-flex align-items-center justify-content-end  flex-grow-1 mt-2 mt-md-0">
@@ -40,7 +54,7 @@
                 <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
               </select>
             </span>
-              <span class="price-tag ms-3">{{ item.price | currency : 'AED' : 'symbol' : '1.2-2' }}</span>
+              <!-- <span class="price-tag ms-3">{{ item.price | currency : 'AED' : 'symbol' : '1.2-2' }}</span> -->
             </div>
           </div>
 

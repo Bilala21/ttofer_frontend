@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
+import { NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule],
+  imports: [FormsModule, NgxSliderModule, NgIf],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
@@ -19,20 +20,68 @@ export class AppFiltersComponent implements OnInit {
   slug: any = "";
   minPrice: number = 0;
   maxPrice: number = 150;
-  id: string | null = null;
+  id: any = null;
   subCategories: any[] = [];
+  categoryWithFilters: any = {}
   locations: string[] = [
-    "Dhaka, Bangladesh",
-    "Minnesota, USA",
-    "Wisconsin, USA",
-    "Michigan, USA",
+    "Dubai",
+    "Abu Dhabi",
+    "Ras Al-Khaimah",
+    "Ajman",
     "New York, USA",
-    "New Mexico, USA",
-    "Washington, USA",
-    "Brasilia, Brazil",
-    "Karachi, Pakistan"
+    "Sharjah",
   ];
   countdownSubscriptions: Subscription[] = [];
+  filter_fields: any = {
+    "mobiles": {
+      "seller_types": ["Varefied", "Unvarefied"],
+      "conditions": ["All", "New", "Used","Refurbished"],
+    },
+    "property for sale": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["All", "Ready", "Off plan"],
+      "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
+      "bathrooms": [1, 2, 3, 4, 5],
+      "area_size": [1, 2, 3, 4, 5],
+    },
+    "property for rent": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["All", "Ready", "Off plan"],
+      "rent_is_paid": ["Yearly", "Quarterly", "Bi-Yearly"],
+    },
+    "vehicles": {
+      "seller_types": ["Owner", "Dealer"],
+    },
+    "bikes": {
+      "seller_types": ["Owner", "Dealer"],
+    },
+    "electronics & appliance": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Refurbished", "Dealer"],
+    },
+    "jobs": {
+      "seller_types": ["Hiring", "Looking"],
+      "typeofwork": ["Remote", "Offline", "Remote Full time", "Remote Part time", `Part
+        time`, `Full time`]
+    },
+    "services": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Refurbished", "Dealer"],
+    },
+    "furniture & home decor": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Refurbished", "Dealer"],
+    },
+    "fashion & beauty": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Refurbished", "Dealer"],
+    },
+    "kids": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Refurbished", "Dealer"],
+    },
+    "delivery": ["Local Delivery", "Pick Up", "Shipping"]
+  };
 
   filterCriteria: any = {
     location: []
@@ -50,6 +99,12 @@ export class AppFiltersComponent implements OnInit {
     ceil: 50,
     hideLimitLabels: true,
   };
+  areaSizeValue: number = 1;
+  areaSizeOptions: Options = {
+    floor: 0,
+    ceil: 1000,
+    hideLimitLabels: true,
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -60,12 +115,15 @@ export class AppFiltersComponent implements OnInit {
     private countdownTimerService: CountdownTimerService
   ) { }
 
+
   ngOnInit() {
     // Subscribe to route parameters
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      this.fetchSubCategories(); // Fetch subcategories whenever the parameters change
+      console.log(this.slug.toLowerCase());
+      this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
+      this.fetchSubCategories();
     });
 
     // Subscribe to global product state
@@ -99,7 +157,7 @@ export class AppFiltersComponent implements OnInit {
         } else {
           console.log('No data found in response');
         }
-       
+
       },
       error: (err) => {
         console.log('Error fetching filtered products', err);

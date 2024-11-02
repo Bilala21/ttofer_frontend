@@ -5,44 +5,47 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonModule,  NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { ToastrService } from 'ngx-toastr';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [SharedModule,NgIf],
+  imports: [SharedModule, NgIf, GoogleMapsModule,],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private router: Router ,private globalStateService: GlobalStateService,private toastr: ToastrService,private authService:AuthService,
-    private route: ActivatedRoute,public extension: Extension,
+  constructor(private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
+    private route: ActivatedRoute, public extension: Extension,
     private mainServices: MainServicesService,
-    // private authService: AuthService,
-    // private extension: Extension,
-    // private snackBar: MatSnackBar,
-    // private router: Router,
-  ) { this.currentUserid = extension.getUserId(); }
+  ) {
+    this.currentUserid = extension.getUserId();
+
+  }
+  center!: google.maps.LatLngLiteral;
+  zoom = 4;
   productId: any = null
   product: any = {};
   wishList: any = []
   currentUser: any = {}
   loading: boolean = false
-  imgIndex:number=0
-  currentUserid:any;
+  imgIndex: number = 0
+  currentUserid: any;
   promotionBanners: any = [
     {
       banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
     },
   ]
- 
+
   ngOnInit(): void {
-   
+    this.getCurrentLocation();
+    this.loadMap();
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true
-    this.mainServices.getProductById({product_id:this.productId}).subscribe({
+    this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
         console.log(value);
         this.product = value.data
@@ -52,6 +55,7 @@ export class ProductDetailComponent implements OnInit {
         this.loading = false
       },
     })
+
   }
   toggleWishlist(item: any) {
     const storedData = localStorage.getItem('key');
@@ -60,8 +64,8 @@ export class ProductDetailComponent implements OnInit {
 
       this.authService.triggerOpenModal();
       return;
-    }  
-    
+    }
+
     this.globalStateService.wishlistToggle(item.id);
     this.globalStateService.currentState.subscribe(state => {
       this.wishList = state.wishListItems
@@ -79,37 +83,67 @@ export class ProductDetailComponent implements OnInit {
         console.log(res, "toggleWishlist");
       },
       error: (err) => {
-        const error=err.error.message
+        const error = err.error.message
         this.toastr.error(error, 'Error');
       },
     })
   }
-  buyProduct(product:any){
+  buyProduct(product: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
 
       this.authService.triggerOpenModal();
       return;
-    }  
+    }
   }
-  addToCart(product:any){
+  addToCart(product: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
 
       this.authService.triggerOpenModal();
       return;
-    }  
+    }
   }
   contactSeller(product: any, user: any): void {
     // Store the data in sessionStorage
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
-  
+
     // Navigate to the chat route with userId as a parameter
     this.router.navigate([`/chatBox/${this.currentUserid}`], {
       state: { product, user },
     });
   }
-}
+    getCurrentLocation() {
+      this.loading = true;
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          this.loading = false;
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        console.error("Browser doesn't support geolocation.");
+      }
+    }
+
+    loadMap(): void {
+      this.loading = true;
+      const mapProperties = {
+        center: new google.maps.LatLng(35.6895, 139.6917),
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+      };
+      // Ensure the map div exists before initializing the map
+      const mapDiv = document.getElementById('map-div');
+      if(mapDiv) {
+        const map = new google.maps.Map(mapDiv as HTMLElement, mapProperties);
+        this.loading = false;
+      }
+    }
+  }

@@ -101,14 +101,29 @@
                       
                         <!-- Dropdown Cart Items -->
                         <div class="cart-dropdown" *ngIf="cartItems.length > 0">
+                            <h5>Shopping Cart</h5>
+                            <p>Items you've selected</p>
                           <div *ngFor="let item of cartItems" class="cart-item">
                             <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
                             <div class="cart-item-details">
-                              <p>{{ item.name }}</p>
-                              <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
+                              <p>{{ item.description.slice(1,25) + '...' }}</p>
+                              <div class="d-flex justify-content-between">
+                                  <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                  <span>Qty 1</span>
+
+                              </div>
                             </div>
                           </div>
+                          <p class="mt-2"><span style="text-decoration: underline;">View cart</span> to see all of your items</p>
+                          <div class="d-flex justify-content-between" style="bottom: gray;">
+                            <span>Subtotal</span>
+                            <span>{{'3100' | currency:'AED':'symbol':'1.2-2' }}</span>
+                           </div>
+                          <button mat-raised-button color="primary" class="w-100 " routerLink="/checkout">Go to checkout</button>
+                          <a mat-raised-button color="primary" class="w-100 mt-2" routerLink="/cart">View Cart</a>
+
                         </div>
+                        
                       </li>
                       
                     <!-- cart-end -->
@@ -171,7 +186,7 @@
             @if(!loading){
             <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
                 <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
-                    <a routerLink="/category/{{category.id}}/{{category.slug}}"
+                    <a routerLink="/category/{{category.id}}/{{category.name}}"
                         class="category-color text-decoration-none">{{category.name}}</a>
                 </li>
                 <li class="position-relative catagory-parent" *ngIf="categories.slice(categoryLimit).length">
