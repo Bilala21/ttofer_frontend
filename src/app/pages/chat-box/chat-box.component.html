@@ -45,35 +45,71 @@
             @for (item of chatBox; track $index) {
             <div
               class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
-                (selectedUserId ? selectedUserId === item.id : $index == 0) &&
-                  'bg-yellow-800'
+                selectedUserId === item.id && 'bg-yellow-800'
               }}"
               (click)="getConversation(item)"
             >
               <img
-                [src]=" item.user_image?item.user_image:'/assets/images/profile-icon.svg'"
+                [src]="
+                  item.user_image
+                    ? item.user_image
+                    : '/assets/images/profile-icon.svg'
+                "
                 alt="image"
                 loading="lazy"
                 class="rounded-2"
               />
               <div class="ml-3 flex-grow-1">
                 <div class="d-flex align-items-center justify-content-between">
-                  <h2 class="fs-14 fw-semibold m-0">{{ item.receiver.name }}</h2>
-                  <span class="fs-12  text-slate-400"
-                    > {{ item.formattedTime }}
-                  </span>
+                  <h2 class="fs-14 fw-semibold m-0">
+                    {{ item.receiver.name }}
+                  </h2>
+                  <span class="fs-12 text-slate-400">{{
+                    item.formattedTime
+                  }}</span>
                 </div>
-                <div style="display: flex; justify-content: space-between">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
                   <p class="m-0 fs-12 fw-normal text-slate-400">
                     {{ item.message }}
                   </p>
-                  <img
-                    style="width: 25px; height: 25px; object-fit: fill"
-                    [src]="item.image_path.src"
-                    alt="Small Profile Image"
-                    loading="lazy"
-                    class="small-profile-image rounded-circle"
-                  />
+                  <div class="d-flex align-items-center">
+                    <img
+                      style="width: 25px; height: 25px; object-fit: fill"
+                      [src]="item.image_path.src"
+                      alt="Small Profile Image"
+                      loading="lazy"
+                      class="small-profile-image rounded-circle"
+                    />
+                    <!-- Three dots menu icon -->
+                    <!-- Three dots button with dropdown -->
+                    <!-- Three dots button with dropdown -->
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-link p-0 ml-2"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                       
+                      >
+                      
+                        <i class="bi bi-three-dots-vertical text-dark"></i>
+                      </button>
+
+                      <!-- Dropdown menu -->
+                      <div class="dropdown-menu">
+                        <a
+                          class="dropdown-item text-danger"
+                          (click)="deleteConversation(item)"
+                          >Delete Conversation</a
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,22 +118,30 @@
         </div>
       </div>
       <div class="chat right-side flex-grow-1">
-
         <!-- Show only if there is no selected user -->
-        <div *ngIf="!selectedUser" class="text-center p-5">
+        <div
+          *ngIf="conversationBox.length === 0 && !selectedUser"
+          class="text-center p-5"
+        >
           <div class="text-center">
-            <i class="bi bi-emoji-frown" style="color: #ffdd54; font-size: 2rem;"></i>
+            <i
+              class="bi bi-emoji-frown"
+              style="color: #ffdd54; font-size: 2rem"
+            ></i>
             <p class="mt-2 text-muted">No Conversations</p>
+            <p class="mt-2 text-muted">Plz select a Conversation to start</p>
           </div>
         </div>
-      
+
         <!-- Show chat interface only if selectedUser is available -->
-        <ng-container *ngIf="selectedUser">
+        <ng-container *ngIf="selectedUser || conversationBox.length > 0">
           <!-- Top Header Section with user details -->
           <div class="border-b">
             <div class="pb-3 px-4 d-flex align-items-center top">
               <img
-                [src]="userImage ? userImage : '/assets/images/profile-icon.svg'"
+                [src]="
+                  userImage ? userImage : '/assets/images/profile-icon.svg'
+                "
                 alt="image"
                 loading="lazy"
                 class="rounded-2"
@@ -105,7 +149,14 @@
               <div class="ml-3 flex-grow-1">
                 <div class="d-flex justify-content-between">
                   <h2 class="fs-20 fw-semibold m-0">{{ userName }}</h2>
-                  <div class="ml-4">AED {{ productDetail?.fix_price ?productDetail?.fix_price:productDetail?.auction_Price }}</div>
+                  <div class="ml-4">
+                    AED
+                    {{
+                      productDetail?.fix_price
+                        ? productDetail?.fix_price
+                        : productDetail?.auction_Price
+                    }}
+                  </div>
                 </div>
                 <div
                   class="fs-12 fw-semibold text-slate-400 d-flex align-items-center"
@@ -116,38 +167,72 @@
               </div>
             </div>
           </div>
-      
+
           <!-- Display "Select a chat to view conversation" if conversationBox is null or empty -->
-          <div *ngIf="!conversationBox || conversationBox.length === 0" class="text-center p-5">
+          <div
+            *ngIf="!conversationBox || conversationBox.length === 0"
+            class="text-center p-5"
+          >
             <div class="text-center">
-              <i class="bi bi-emoji-frown" style="color: #ffdd54; font-size: 2rem;"></i>
+              <i
+                class="bi bi-emoji-frown"
+                style="color: #ffdd54; font-size: 2rem"
+              ></i>
               <p class="mt-2 text-muted">No Conversations</p>
             </div>
           </div>
-      
+
           <!-- Conversation Messages Section -->
-          <div *ngIf="conversationBox && conversationBox.length > 0 || selectedUser" class="messages-side mt-5 pt-5 scrollable-messages">
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="messages-side mt-5 pt-5 scrollable-messages"
+          >
             <div *ngFor="let message of conversationBox">
               <!-- Message from the user (aligned right) -->
-              <div *ngIf="currentUserid == message.sender_id" class="d-flex align-items-center justify-content-end mb-3">
-                <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right">
+              <div
+                *ngIf="currentUserid == message.sender_id"
+                class="d-flex align-items-center justify-content-end mb-3"
+              >
+                <div
+                  class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
+                >
                   {{ message.message }}
-                  <img [src]="message.sender_image" alt="User Image" loading="lazy" class="rounded-pill small-profile-image" />
+                  <img
+                    [src]="message.sender_image"
+                    alt="User Image"
+                    loading="lazy"
+                    class="rounded-pill small-profile-image"
+                  />
                 </div>
               </div>
-      
+
               <!-- Message from the receiver (aligned left) -->
-              <div *ngIf="currentUserid !== message.sender_id" class="d-flex align-items-center justify-content-start mb-3">
-                <img [src]="message.receiver_image" alt="Receiver Image" loading="lazy" class="rounded-2 small-profile-image" />
+              <div
+                *ngIf="currentUserid !== message.sender_id"
+                class="d-flex align-items-center justify-content-start mb-3"
+              >
+                <img
+                  [src]="message.receiver_image"
+                  alt="Receiver Image"
+                  loading="lazy"
+                  class="rounded-2 small-profile-image"
+                />
                 <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
                   {{ message.message }}
                 </div>
               </div>
             </div>
           </div>
-      
+
           <!-- Suggestions Box -->
-          <div *ngIf="conversationBox && conversationBox.length > 0 || selectedUser" class="suggestions-box mx-auto text-center p-2 position-relative">
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="suggestions-box mx-auto text-center p-2 position-relative"
+          >
             <div class="d-flex flex-wrap justify-content-center">
               <span
                 *ngFor="let suggestion of suggestions"
@@ -158,51 +243,85 @@
               </span>
             </div>
           </div>
-      
+
           <!-- Message Input Section -->
-          <div *ngIf="conversationBox && conversationBox.length > 0 || selectedUser" class="message-input d-flex align-items-center mt-5 mb-4">
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="message-input d-flex align-items-center mt-5 mb-4"
+          >
             <button class="btn bg-transparent" (click)="fileInput.click()">
               <i class="fas fa-paperclip"></i>
             </button>
-            <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none" />
-            <div class="d-flex align-items-center flex-grow-1 position-relative">
+            <input
+              type="file"
+              #fileInput
+              (change)="onFileSelected($event)"
+              style="display: none"
+            />
+            <div
+              class="d-flex align-items-center flex-grow-1 position-relative"
+            >
               <input
                 type="text"
                 placeholder="Type a message"
                 class="flex-grow-1 py-2 px-2 rounded-2"
                 [(ngModel)]="message"
               />
-              <button type="button" (click)="sendMsg()" class="btn bg-transparent position-absolute">
+              <button
+                type="button"
+                (click)="sendMsg()"
+                class="btn bg-transparent position-absolute"
+              >
                 <i class="fas fa-paper-plane"></i>
               </button>
             </div>
           </div>
         </ng-container>
-      
+
         <!-- Preview Modal -->
-        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="previewModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="previewModalLabel"
+          aria-hidden="true"
+        >
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header border-0">
-                <button type="button" class="close" (click)="closePreviewModal()" aria-label="Close">
+                <button
+                  type="button"
+                  class="close"
+                  (click)="closePreviewModal()"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body text-center">
                 <!-- Preview Image/File -->
                 <div *ngIf="selectedFile">
-                  <img *ngIf="isImageFile" [src]="filePreview" alt="Preview" class="img-fluid rounded" />
-                  <p *ngIf="!isImageFile">Selected file: {{ selectedFile.name }}</p>
+                  <img
+                    *ngIf="isImageFile"
+                    [src]="filePreview"
+                    alt="Preview"
+                    class="img-fluid rounded"
+                  />
+                  <p *ngIf="!isImageFile">
+                    Selected file: {{ selectedFile.name }}
+                  </p>
                 </div>
-                <button class="btn btn-primary mt-3" (click)="confirmSend()">Send</button>
+                <button class="btn btn-primary mt-3" (click)="confirmSend()">
+                  Send
+                </button>
               </div>
             </div>
           </div>
         </div>
-      
       </div>
-      
-      
     </div>
   </div>
 
