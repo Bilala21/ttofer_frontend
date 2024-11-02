@@ -1,8 +1,8 @@
 .price-tag {
   background: #65c774;
   min-width: 70px;
-  bottom: 10px;
-  right: 5px;
+  bottom: 5px;
+  right: 3px;
   position: absolute;
   font-size: 12px;
   clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
@@ -517,7 +517,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #eaeaea;
 }
 
@@ -529,8 +529,8 @@
 .item-image {
   width: 115px;
   height: 115px;
-  border-radius: 16px;
-  border: 1px solid rgb(98, 95, 95);
+  border-radius: 10px;
+  // border: 1px solid rgb(98, 95, 95);
 }
 
 .card-title {
@@ -664,13 +664,13 @@
     background-position: 200% 0;
   }
 }
-.right-side-contant {
-  height: 784px;
-  overflow: auto;
-}
-@media (max-width: 786px) {
-  .right-side-contant {
-    height: 450px;
-    overflow: auto;
-  }
-}
+// .right-side-contant {
+//   height: 784px;
+//   overflow: auto;
+// }
+// @media (max-width: 786px) {
+//   .right-side-contant {
+//     height: 450px;
+//     overflow: auto;
+//   }
+// }

@@ -105,6 +105,12 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
+    else {
+      this.globalStateService.updateCart(product)
+    }
+  }
+  handleProductQty(event: any, product: any) {
+    this.globalStateService.updateCart({ ...product, quantity: event.value })
   }
   contactSeller(product: any, user: any): void {
     // Store the data in sessionStorage
@@ -116,34 +122,37 @@ export class ProductDetailComponent implements OnInit {
       state: { product, user },
     });
   }
-    getCurrentLocation() {
-      this.loading = true;
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.center = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          this.loading = false;
-        });
-      } else {
-        // Browser doesn't support Geolocation
-        console.error("Browser doesn't support geolocation.");
-      }
+  getCurrentLocation() {
+    this.loading = true;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        this.loading = false;
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      console.error("Browser doesn't support geolocation.");
     }
 
-    loadMap(): void {
-      this.loading = true;
-      const mapProperties = {
-        center: new google.maps.LatLng(35.6895, 139.6917),
-        zoom: 14,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-      };
-      // Ensure the map div exists before initializing the map
-      const mapDiv = document.getElementById('map-div');
-      if(mapDiv) {
-        const map = new google.maps.Map(mapDiv as HTMLElement, mapProperties);
-        this.loading = false;
-      }
+  }
+  makeOffer(product: any) {
+
+  }
+  loadMap(): void {
+    this.loading = true;
+    const mapProperties = {
+      center: new google.maps.LatLng(35.6895, 139.6917),
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    // Ensure the map div exists before initializing the map
+    const mapDiv = document.getElementById('map-div');
+    if (mapDiv) {
+      const map = new google.maps.Map(mapDiv as HTMLElement, mapProperties);
+      this.loading = false;
     }
   }
+}

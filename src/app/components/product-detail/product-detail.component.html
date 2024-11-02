@@ -1,5 +1,5 @@
 <main class="mt-16 mb-5">
-  <div class="container-fluid product-detail-container">
+  <div class="container-fluid product-detail-container pt-4">
     @if (!loading) {
     <div class="product-detail-content d-flex flex-column flex-lg-row mt-5">
       <!-- left-side -->
@@ -131,7 +131,7 @@
           </div>
           <div class="fs-14">
             <span class="fw-normal">Quantity</span>
-            <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2" />
+            <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2" (change)="handleProductQty($event.target,product)"/>
             <span class="text-slate-300 fw-normal">6 available</span>
             <span class="text-slate-300 ml-2 fw-normal">3 sold</span>
           </div>
@@ -144,6 +144,10 @@
               class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">
               Add to cart
             </button>
+            <button (click)="makeOffer(product)" type="button"
+            class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">
+            Make Offer
+          </button>
             <button (click)="toggleWishlist(product)" type="button"
               class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary">
               <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"

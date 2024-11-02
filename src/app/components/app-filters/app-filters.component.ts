@@ -34,7 +34,7 @@ export class AppFiltersComponent implements OnInit {
   countdownSubscriptions: Subscription[] = [];
   filter_fields: any = {
     "mobiles": {
-      "seller_types": ["Varefied", "Unvarefied"],
+      "seller_types": ["Verified", "Unverified"],
       "conditions": ["All", "New", "Used","Refurbished"],
     },
     "property for sale": {
@@ -48,6 +48,9 @@ export class AppFiltersComponent implements OnInit {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Ready", "Off plan"],
       "rent_is_paid": ["Yearly", "Quarterly", "Bi-Yearly"],
+      "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
+      "bathrooms": [1, 2, 3, 4, 5],
+      "area_size": [1, 2, 3, 4, 5],
     },
     "vehicles": {
       "seller_types": ["Owner", "Dealer"],

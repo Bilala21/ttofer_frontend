@@ -20,7 +20,7 @@
           <div class="payment-section border p-3 mb-3">
             <div class="d-flex justify-content-between">
               <strong>Pay with</strong>
-              <strong class="" style="text-decoration: underline"
+              <strong (click)="openNewCardModal()" class="" style="text-decoration: underline;cursor: pointer;"
                 >Add Card</strong
               >
               <!-- <span class="">
@@ -217,3 +217,81 @@
     </div>
   </div>
 </main>
+
+<div
+  class="modal fade"
+  id="newCardModal"
+  tabindex="-2"
+  role="dialog"
+  aria-labelledby="newCardModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal-content">
+      <div class="modal-header border-0">
+        <button
+          type="button"
+          class="close"
+          (click)="closeNewCardModal()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body custom-modal-body">
+        <div class="row">
+          <div class="col-11 mx-auto">
+            <div class="text-center">
+              <h6>Add New Card</h6>
+            </div>
+            <div class="row">
+              <div class="col-10 mx-auto mt-4">
+                <label>Card Name</label>
+                <input
+                  type="text"
+                  class="form-control custom-input"
+                  placeholder="Card Name"
+                />
+              </div>
+              <div class="col-10 mx-auto mt-3">
+                <label>Card Number</label>
+                <input
+                  type="text"
+                  class="form-control custom-input"
+                  placeholder="Card Number"
+                />
+              </div>
+              <div class="col-10 mx-auto mt-3">
+                <div class="row">
+                  <div class="col-6 mx-auto">
+                    <label>MM/YY</label>
+                    <input
+                      type="text"
+                      class="form-control custom-input"
+                      placeholder="MM/YY"
+                    />
+                  </div>
+                  <div class="col-6 mx-auto">
+                    <label>CVV</label>
+                    <input
+                      type="text"
+                      class="form-control custom-input"
+                      placeholder="CVV"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-10 mx-auto mt-3">
+                <button class="btn btn-dark w-100 custom-button">
+                  Add Payment Method
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

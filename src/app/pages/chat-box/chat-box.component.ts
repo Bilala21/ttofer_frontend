@@ -47,7 +47,7 @@ export class ChatBoxComponent {
     private route: ActivatedRoute,private cd :ChangeDetectorRef
   ) {
     this.currentUserid = extension.getUserId();
-    debugger
+      
    
    
     this.getAllChatsOfUser();
@@ -183,7 +183,7 @@ export class ChatBoxComponent {
   }
   receverId:any
   ngOnInit() {
-    debugger
+      
     this.router.events
     .pipe(filter(event => event instanceof NavigationStart))
     .subscribe((event: any) => {
@@ -208,7 +208,7 @@ export class ChatBoxComponent {
   }
   getAllChatsOfUser = () => {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-      debugger
+        
       this.allChat = res.data;
       // this.chatBox = this.chatBox.sort((a: any, b: any) => {
       //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
@@ -258,12 +258,12 @@ export class ChatBoxComponent {
   }
 
   getConversation(data: any) {
-    debugger;
+    ;
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage=data.image_path.src;
     this.productPrice=data.product?.fix_price?data.product.fix_price:data.product?.auction_price;
-debugger
+
     // Determine userName based on who is the sender and receiver
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
@@ -296,7 +296,7 @@ debugger
         const currentParticipant = isCurrentUserParticipant1 ? participant1 : participant2;
         const otherParticipant = isCurrentUserParticipant1 ? participant2 : participant1;
 
-        debugger;
+        ;
         this.conversationBox = res.data.conversation.map((msg: any) => ({
             ...msg,
             formattedTime: this.formatMessageTime(msg.created_at),
@@ -359,7 +359,7 @@ sendMsg() {
   this.mainServices.sendMsg(input).subscribe((res: any) => {
       // Clear message input
       this.message = "";
-      debugger;
+      ;
 
       // Push the new message to the conversationBox directly to update the UI without needing to refetch
       const newMessage = {
@@ -484,7 +484,7 @@ sendMsg() {
     }
   }
   deleteConversation(conversation: any) {
-    debugger
+      
     this.mainServices.deleteConversation(conversation.conversation_id)
       .pipe(
         tap(() => {
