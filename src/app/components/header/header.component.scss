@@ -86,7 +86,7 @@ header {
     .show {
         .user-profile-drow-donw {
             display: block;
-
+            // right: 10px;
         }
     }
 
@@ -262,6 +262,24 @@ header {
         }
     }
    
+}
+
+@media(max-width:350px){
+    header{
+        .show {
+            .user-profile-drow-donw {
+                display: block;
+                right: 10px;
+            }
+        }
+    
+        button:focus {
+            outline: none;
+        }
+        .right-list{
+            column-gap: 5px;
+        }
+    }
 }
 
 .category-color{

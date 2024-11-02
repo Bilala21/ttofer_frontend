@@ -207,7 +207,7 @@
             </div>
 
             <!-- LOCATION RADIUS -->
-            <div class="border-b">
+            <div class="border-b" *ngIf="!['7','8'].includes(id)">
                 <button id="locationradius" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapselocationradius" aria-expanded="false"
                     aria-controls="collapselocationradius">
@@ -223,7 +223,7 @@
 
             <!-- PRICE -->
 
-            <div>
+            <div *ngIf="!['7','8'].includes(id)">
                 <button id="price" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold" type="button"
                     data-toggle="collapse" data-target="#collapseprice" aria-expanded="false"
                     aria-controls="collapseprice">

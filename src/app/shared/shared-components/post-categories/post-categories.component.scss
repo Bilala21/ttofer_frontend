@@ -1,5 +1,10 @@
 .category-list {
   a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
     color: #222;
     &:hover {
       text-decoration: none;
@@ -47,5 +52,14 @@
 
   .xs-flex-nowrap {
     flex-wrap: nowrap !important;
+  }
+  .category-list {
+    a {  
+      font-size: 11px;
+      span {
+        min-width: 50px;
+      }
+    }
+  
   }
 }

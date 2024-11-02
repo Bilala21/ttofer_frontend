@@ -710,8 +710,8 @@
                 routerLink="/selling/{{ data.id }}"
                 style="cursor: pointer"
               >
-                <!-- Image -->
-                 <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 16px;border: 1px solid rgb(98, 95, 95);">
+                <!-- Image border: 1px solid rgb(98, 95, 95); -->
+                 <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
                   <img
                   src="{{
                     data.photo && data.photo.length > 0
@@ -720,7 +720,7 @@
                   }}"
                   alt="Item Image"
                  class="w-100 h-100"
-                 style="border-radius: 16px;"
+                 style="border-radius: 10px;"
                 />
                 <div
                 class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
@@ -790,7 +790,7 @@
               style="cursor: pointer"
             >
               <!-- Image Container -->
-              <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 16px;border: 1px solid rgb(98, 95, 95);">
+              <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
                 <img
                   src="{{
                     data.photo && data.photo.length > 0
@@ -1086,7 +1086,7 @@
                     style="text-decoration: none; color: #1b2028"
                   >
                     <div class="row align-items-center">
-                      <div class="col-4 p-0">
+                      <div class="col-4 col-lg-2 p-0">
                        <div style="width:100px;height:100px;object-fit:contain;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
                       @if(data.product.photo[0]?.src){
                         <img
@@ -1103,12 +1103,10 @@
                       }
                         
                    
-                       </div>
-                       
-                          
+                       </div> 
                       </div>
 
-                      <div class="col-8">
+                      <div class="col-8 col-lg-10">
                         <div>
                           <h5 class="sm-cat-text4">
                             {{ data.product.title }}
