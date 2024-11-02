@@ -22,7 +22,7 @@
                 </ul>
                 <ul
                     class="list-unstyled d-flex align-items-center right-list flex-grow-1 justify-content-end pl-3 fs-14 xs-pr-16">
-                    <li class="xs-d-none">
+                    <li class="xs-d-none" style="cursor: pointer;">
                         <svg (click)="savedItems()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                             viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
@@ -30,7 +30,7 @@
                             </path>
                         </svg>
                     </li>
-                    <li class="xs-d-none">
+                    <li class="xs-d-none" style="cursor: pointer;">
                         <!-- <a (click)="openChat()" class="text-slate-400 text-decoration-none link">
                             <i class="fa fa-comments outlined-icon fs-20 text-center d-block mb-1"></i>
                 
@@ -61,9 +61,10 @@
                         </svg>
                     
                     </li> -->
-                    <li class="cart-container">
+                    <!-- notification -->
+                    <li class="cart-container" (click)="goOnNotification()">
                         <!-- Cart Icon with Badge -->
-                        <a (click)="cart()" class="text-decoration-none position-relative">
+                        <a class="text-decoration-none position-relative">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                             viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -119,9 +120,6 @@
                             <span>Subtotal</span>
                             <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
                            </div>
-                          <button mat-raised-button color="primary" class="w-100 " routerLink="/checkout">Go to checkout</button>
-                          <a mat-raised-button color="primary" class="w-100 mt-2" routerLink="/cart">View Cart</a>
-
                         </div>
                         
                       </li>
@@ -158,7 +156,7 @@
                                 class="rounded-pill border-1"> -->
                             <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1">
                         </button>
-                        <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw pt-3 shadow-md"
+                        <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
                             aria-labelledby="userDropdown">
                             <a routerLink="/profilePage/{{currentUser.id}}"
                                 class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">

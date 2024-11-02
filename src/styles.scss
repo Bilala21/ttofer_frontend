@@ -1055,3 +1055,25 @@ button[aria-label="Close"]:focus {
   border-radius: 5px !important;
   height: calc(1.5em + .75rem + 8px) !important;
 }
+
+// Modal Content Style
+.custom-modal-content {
+  border-radius: 20px;
+}
+
+// Modal Body Style
+.custom-modal-body {
+  margin-bottom: 3rem;
+}
+
+// Input Style
+.custom-input {
+  border-radius: 10px;
+  padding: 20px;
+}
+
+// Button Style
+.custom-button {
+  border-radius: 20px;
+  padding: 10px;
+}

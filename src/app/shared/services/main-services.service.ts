@@ -90,6 +90,10 @@ export class MainServicesService {
   getConversation(conversation_id: number) {
     return this.http.get(`${this.apiUrl}` + 'api/get/conversation/' + conversation_id).pipe();
   }
+  deleteConversation(conversation_id:any){
+    return this.http.get(`${this.apiUrl}` + 'api/delete/conversation/' + conversation_id).pipe();
+
+  }
   sendMsg(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/send_msg', input).pipe();
   }

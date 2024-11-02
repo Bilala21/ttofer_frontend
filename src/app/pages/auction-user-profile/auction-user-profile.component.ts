@@ -79,7 +79,7 @@ export class AuctionUserProfileComponent {
     }
     getAuctionUser(){
       // this.loading = true
-debugger
+// debugger
       this.mainServices.getUserInfo(this.auctionUserId).subscribe((res:any) =>{
         this.auctionUserList = res.data
         this.reviewsUserList = res.data.products

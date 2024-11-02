@@ -146,7 +146,9 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-  savedItems() {
+  savedItems(){
+    localStorage.setItem('currentTab',"savedItems");
+    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -168,14 +170,18 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-  cart() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.router.navigate(['/cart'])
-    }
+cart(){
+  const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }else{
+    this.router.navigate(['/cart'])
+  }
+}
+goOnNotification(){
+    localStorage.setItem('currentTab',"notification");
+    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
   }
 }

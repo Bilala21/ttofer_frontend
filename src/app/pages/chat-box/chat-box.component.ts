@@ -5,8 +5,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { catchError, debounceTime, distinctUntilChanged, filter, of, Subject, tap } from 'rxjs';
 declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
@@ -71,6 +71,7 @@ export class ChatBoxComponent {
     // {img:'assets/images/chat-profile3.png', name:'Lavern Laboy', text:`Haha that's terrifying 😂`, time:'1h'},
     // {img:'assets/images/chat-profile4.png', name:'Titus Kitamura', text:'omg, this is amazing', time:'5h'},
   ]
+  isNavigatingAway:any;
   userImage:any;
   userName:any;
   selectedUser: any = null;
@@ -117,7 +118,7 @@ export class ChatBoxComponent {
     private route: ActivatedRoute
   ) {
     this.currentUserid = extension.getUserId();
-    debugger
+      
    
     this.searchSubject.pipe(
       debounceTime(300),
@@ -241,8 +242,12 @@ export class ChatBoxComponent {
   }
   receverId:any
   ngOnInit() {
-    debugger
-   
+      
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationStart))
+    .subscribe((event: any) => {
+      this.isNavigatingAway = true;
+    });
       // If no state, try to get data from sessionStorage
       const productData = sessionStorage.getItem('productData');
       const userData = sessionStorage.getItem('userData');
@@ -260,7 +265,7 @@ export class ChatBoxComponent {
   }
   getAllChatsOfUser = () => {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-      debugger
+        
       this.allChat = res.data;
       // this.chatBox = this.chatBox.sort((a: any, b: any) => {
       //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
@@ -273,8 +278,6 @@ export class ChatBoxComponent {
       // this.selectedUser = this.chatBox[0];
       if (this.selectedUser != null)
         // this.getConversation(this.selectedUser);
-      console.log(this.chatBox)
-      console.log(this.chatBox)
       console.log(this.chatBox)
     });
   }
@@ -312,7 +315,7 @@ export class ChatBoxComponent {
   }
 
   getConversation(data: any) {
-    debugger
+      
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.userName = data?.receiver?.name;
@@ -332,7 +335,7 @@ export class ChatBoxComponent {
       this.selectedConversation = res;
       const participant1 = res.data.Participant1;
       const participant2 = res.data.Participant2;
-      debugger
+        
       this.conversationBox = res.data.conversation.map((msg: any) => ({
         ...msg,
         sender_image: msg.sender_id === participant1.id ? participant1.img : participant2.img,
@@ -386,7 +389,7 @@ export class ChatBoxComponent {
           ? this.selectedConversation.data.Participant1.img
           : this.selectedConversation.data.Participant2.img
       };
-  
+    
       this.conversationBox.push(newMessage);
     });
   }
@@ -497,4 +500,27 @@ export class ChatBoxComponent {
       user.name.toLowerCase().includes(query.toLowerCase())
     );
   }
+  ngOnDestroy() {
+    // Remove editPost data from localStorage if navigating away
+    if (this.isNavigatingAway) {
+      sessionStorage.removeItem('productData');
+      sessionStorage.removeItem('userData')
+    }
+  }
+  deleteConversation(conversation: any) {
+      
+    this.mainServices.deleteConversation(conversation.conversation_id)
+      .pipe(
+        tap(() => {
+          // Remove the item from chatBox array if the API call is successful
+          this.chatBox = this.chatBox.filter((item) => item.conversation_id !== conversation.conversation_id);
+        }),
+        catchError((error) => {
+          console.error('Error deleting conversation', error);
+          return of(null); // Handle errors gracefully
+        })
+      )
+      .subscribe();
+  }
+  
 }
