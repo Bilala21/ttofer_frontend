@@ -89,14 +89,14 @@
                         <!-- Cart Icon with Badge -->
                         <a (click)="cart()" class="text-decoration-none position-relative">
                           <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
-                              viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                              viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" >
                               <path
                                   d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z">
                               </path>
                               <circle cx="10.5" cy="19.5" r="1.5"></circle>
                               <circle cx="17.5" cy="19.5" r="1.5"></circle>
                           </svg>
-                          <span class="badge">2</span>
+                          <span class="badge" *ngIf="cartItems.length">{{cartItems.length}}</span>
                         </a>
                       
                         <!-- Dropdown Cart Items -->
@@ -104,12 +104,12 @@
                             <h5>Shopping Cart</h5>
                             <p>Items you've selected</p>
                           <div *ngFor="let item of cartItems" class="cart-item">
-                            <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
+                            <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
                             <div class="cart-item-details">
                               <p>{{ item.description.slice(1,25) + '...' }}</p>
                               <div class="d-flex justify-content-between">
-                                  <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                  <span>Qty 1</span>
+                                  <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                  <span>Qty {{item.quantity}}</span>
 
                               </div>
                             </div>
@@ -117,7 +117,7 @@
                           <p class="mt-2"><span style="text-decoration: underline;">View cart</span> to see all of your items</p>
                           <div class="d-flex justify-content-between" style="bottom: gray;">
                             <span>Subtotal</span>
-                            <span>{{'3100' | currency:'AED':'symbol':'1.2-2' }}</span>
+                            <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
                            </div>
                           <button mat-raised-button color="primary" class="w-100 " routerLink="/checkout">Go to checkout</button>
                           <a mat-raised-button color="primary" class="w-100 mt-2" routerLink="/cart">View Cart</a>

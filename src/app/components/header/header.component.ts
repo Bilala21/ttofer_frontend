@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor,NgIf, LoaderComponent, LoginModalComponent,CommonModule],
+  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -29,24 +29,7 @@ export class HeaderNavigationComponent implements OnInit {
   screenHeight: number = window.innerHeight;
   imgUrl: string | null = null;
   tempToken: boolean = false
-  cartItems:any = [
-    {
-      title: 'Diamond of Expo',
-      description: '2.07 CTW Round Cut Lab Created Diamond',
-      price: 1385.00,
-      imageUrl: '/assets/images/silder-1.jpg',
-      seller: 'Diamond Expo',
-      rating: 4.5,
-    },
-    {
-      title: 'Sage Designs L.A.',
-      description: 'Lab Grown Oval Diamond Engagement Ring',
-      price: 1799.00,
-      imageUrl: '/assets/images/silder-2.jpg',
-      seller: 'Sage Designs L.A.',
-      rating: 4.8,
-    }
-  ];
+  cartItems: any = [];
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -88,8 +71,8 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-login() {
-  this.authService.triggerOpenModal()
+  login() {
+    this.authService.triggerOpenModal()
   }
   logout() {
 
@@ -111,7 +94,11 @@ login() {
     }
   }
 
-
+  subTotal() {
+    return this.cartItems.reduce((acc: any, item: any) => {
+      return acc + item.fix_price * item.quantity;
+    }, 0);
+  }
   ngOnInit(): void {
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
@@ -136,6 +123,13 @@ login() {
         this.loading = false;
       }
     });
+
+    // ADD TO CARD FUNCTIONALITY
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState
+
+    })
+
   }
 
   openChat() {
@@ -152,7 +146,7 @@ login() {
       }
     }
   }
-  savedItems(){
+  savedItems() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -174,14 +168,14 @@ login() {
       }
     }
   }
-cart(){
-  const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }else{
-    this.router.navigate(['/cart'])
+  cart() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.router.navigate(['/cart'])
+    }
   }
-}
 }
