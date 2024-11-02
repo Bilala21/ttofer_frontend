@@ -136,22 +136,11 @@ export class ProductDetailComponent implements OnInit {
       // Browser doesn't support Geolocation
       console.error("Browser doesn't support geolocation.");
     }
-    makeOffer(product:any){
-      console.log(product)
-      // this. = true;
-      // let input = {
-      //   product_id: this.productId,
-      //   seller_id: this.featuredProducts[0].user.id,
-      //   buyer_id:this.currentUserid ,
-      //   offer_price:this.offerPrice,
-      // }
-      // this.mainServices.makeOffer(input).subscribe(res =>{
-      // this.idSendOfferDisabled = false;
-        // this.closeModal();
-      // });
-    }
-  }
 
+  }
+  makeOffer(product: any) {
+
+  }
   loadMap(): void {
     this.loading = true;
     const mapProperties = {
