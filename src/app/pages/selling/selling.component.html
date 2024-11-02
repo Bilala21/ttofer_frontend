@@ -1,84 +1,3 @@
-<!-- <app-header></app-header>
-<main class="mt-16">
-<div *ngIf="loading" class="loader-overlay">
-    <div class="loader"></div>
-</div>
-
-<div class="container selling-container" *ngIf="!loading">
-    <div class="row justify-content-center">
-        <div class="mt-5 w-100">
-            <h3 class="text-dark-800 text-center fs-32">Purchases & Sales</h3>
-            <hr>
-        </div>
-        <div class="w-100 d-flex justify-content-center mt-2 mb-2">
-            <app-tabs class="w-100 md-px-0 app-tabs" [tabData]="tabs"
-                ulClass="d-flex selling-tab-container rounded-pill overflow-hidden" [activeTab]="activeTab"
-                tabClass="selling-tab fs-14 rounded-0" />
-        </div>
-        @if (!apiData[activeTab]?.length) {
-        <div class="w-100 selling-notfound notfound d-flex justify-content-center {{notFoundData[activeTab].tabName}}">
-            <app-selling-notfound image="{{notFoundData[activeTab].image}}"
-                heading="{{notFoundData[activeTab].heading}}" text="{{notFoundData[activeTab].text}}">
-                @if (activeTab=='selling') {
-                <div>
-                    <p class="fs-19 text-dark-400">Download our app</p>
-                    <div class="d-flex align-items-center justify-content-center app-icon">
-                        <a routerLink="#"
-                            class="d-flex align-items-center justify-content-center text-decoration-none app-box mr-3">
-                            <img src="/assets\images\google-play-icon.png" alt="Play store" loading="lazy" width="24"
-                                class="object-fit-contain">
-                            <div class="ml-2 icon-text">
-                                <p class="mb-0">Get it now</p>
-                                <strong>Google Play</strong>
-                            </div>
-                        </a>
-                        <a routerLink="#"
-                            class="d-flex align-items-center justify-content-center text-decoration-none app-box">
-                            <img src="/assets\images\apple-store-icon.png" alt="Apple store" loading="lazy" width="24"
-                                class="object-fit-contain">
-                            <div class="ml-2 icon-text">
-                                <p class="mb-0">Get it now</p>
-                                <strong>App Store</strong>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                }
-            </app-selling-notfound>
-        </div>
-        }
-        @else {
-        <section class="w-100 post-section pl-5">
-            @for (item of cardData[activeTab]; track $index) {
-            <a routerLink="{{activeTab=='selling'?'/selling-detail/1':'#'}}" class="text-decoration-none d-block pl-4"
-                [ngClass]="activeTab !=='selling'?'cursor-default':''">
-                <app-card [data]="item">
-                    <div slot="users" class="users d-flex justify-content-between align-items-center">
-                        <div class="d-flex">
-                            <img *ngFor="let user of item.users ; let i=index" [src]="user?.image" alt="images"
-                                width="30" height="30" class="rounded-pill" [ngStyle]="{'z-index': -i}">
-                        </div>
-                        <span class="text-gray-400 fs-12 views">{{item?.views}}</span>
-                    </div>
-                    <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer text-dark-450">
-                        <span>{{item?.sold}}</span>
-                        <span>{{item?.status}}</span>
-                    </div>
-                </app-card>
-                <div class="d-flex justify-content-center my-2 line-img">
-                    <img src="\assets\images\line-img.png" alt="line" width="350">
-                </div>
-            </a>
-            }
-        </section>
-        }
-    </div>
-    <hr class="mt-5">
-</div>
-</main> -->
-<!-- <div *ngIf="loading" class="loader-overlay">
-    <div class="loader"></div>
-</div> -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-10 mx-auto">
@@ -239,13 +158,13 @@
                                             views each day</span>
                                     </div>
                                     <div class="col-4" style="text-align: end;">
-                                        <!-- <img src="assets/images/close-circle.svg" alt=""> -->
                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><g id="Circle_Remove"><g><path d="M9.525,13.765a.5.5,0,0,0,.71.71c.59-.59,1.175-1.18,1.765-1.76l1.765,1.76a.5.5,0,0,0,.71-.71c-.59-.58-1.18-1.175-1.76-1.765.41-.42.82-.825,1.23-1.235.18-.18.35-.36.53-.53a.5.5,0,0,0-.71-.71L12,11.293,10.235,9.525a.5.5,0,0,0-.71.71L11.293,12Z"></path><path d="M12,21.933A9.933,9.933,0,1,1,21.934,12,9.945,9.945,0,0,1,12,21.933ZM12,3.067A8.933,8.933,0,1,0,20.934,12,8.944,8.944,0,0,0,12,3.067Z"></path></g></g></svg>
                                         <button class="btn btn-dark w-100 mt-3 p-2"
                                             style="border-radius: 16px; margin-left: 1vh; font-size:10px">
                                             <!-- <img src="assets/images/trend-up.svg" alt=""> -->
-                                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96 32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16z"></path></svg>
-                                                Sell Faster</button>
+                                             <span class="mr-2">
+                                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96 32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16z"></path></svg>
+                                             </span>Sell Faster</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,5 +175,4 @@
         </div>
     </div>
     <hr class="mt-5">
-    <!-- <app-footer></app-footer> -->
 </div>
