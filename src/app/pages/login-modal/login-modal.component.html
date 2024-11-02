@@ -61,7 +61,7 @@
 						<div class="col-10 mx-auto" *ngIf="showForgotBox">
 							<div class="text-center">
 								<h6 class="">Email</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<label>Email</label>
@@ -78,7 +78,7 @@
 						<div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
 							<div class="text-center">
 								<h6 class="">Phone Number</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<label>Phone</label>
@@ -95,7 +95,7 @@
 						<div class="col-10 mx-auto" *ngIf="showOTPBox">
 							<div class="text-center">
 								<h6 class="">Verify</h6>
-								<img src="assets/images/verify-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<p>Please type in the OTP code we sent to your email. It's an extra step to make sure
@@ -246,7 +246,7 @@
 						<div class="col-10 mx-auto "
 							*ngIf="!showPhoneBox && !showEmailBox && !showRegisterBox && !showForgotBox && !showOTPBox && !showForgotPhoneBox">
 							<button class="btn btn-outline-dark btn-block" style="border-radius: 18px;" (click)="googleSignIn()">
-								<img src="https://img.icons8.com/color/48/000000/google-logo.png"  alt="Google" />
+								<img src="https://img.icons8.com/color/48/000000/google-logo.png"  alt="Google" loading="lazy" />
 								Continue
 								with Google
 							</button>

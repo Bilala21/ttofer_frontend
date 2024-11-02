@@ -105,13 +105,13 @@
                   <!-- <img src="assets/images/light-clothes-img.svg" class="w-100" style="height: 94px; border-radius: 20px;" alt=""> -->
 
                   <img [src]="featuredProducts[0]?.photo?.[0]?.src || 'assets/images/default-img.jpg'"
-                    class="w-100 modal-product-img" alt="product-img" />
+                    class="w-100 modal-product-img" alt="product-img" loading="lazy" />
                 </div>
                 <div class="col-8">
                   <h6>{{ featuredProducts[0]?.title }}</h6>
                   <div class="row align-items-center">
                     <div class="col-5">
-                      <img src="assets/images/stars.png" class="w-100" alt="" />
+                      <img src="assets/images/stars.png" class="w-100" alt="" loading="lazy" />
                     </div>
                     <div class="col-4">
                       <h6 class="m-0">5.0</h6>

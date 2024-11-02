@@ -12,12 +12,12 @@
                           <div style="margin-bottom:-45px;" class="image-container text-center">
                               <img style="width:100px; height:100px; border-radius:10px"
                                   id="uploaded-image" [src]="imageUrl || 'assets/placeholder-image.png'"
-                                  alt="Uploaded Image">
+                                  alt="Uploaded Image" loading="lazy">
                           </div>
                           <div>
                               <img src="../../../assets/images/updateImage.png" id="imageSrc" name="imageSrc"
                                   alt="Profile" class="rounded-circle imageStyle"
-                                  (click)="triggerFileInput()">
+                                  (click)="triggerFileInput()" loading="lazy">
                               <input type="file" id="image-upload" accept="image/*"
                                   (change)="onImageUpload($event)" style="display: none;">
                           </div>
@@ -44,28 +44,28 @@
                   <div style="margin-right:20px" class="pointer" style="margin: 0 10px;" >
                       <img [class.bg-success]="currentUserProfile.email_verified_at != null"
                       [class.bg-danger-blue]="currentUserProfile.email_verified_at == null" class=" rounded-circle p-2" src="../../../assets/images/E-sms.svg"
-                          style="height: 15%;" alt="">
+                          style="height: 15%;" alt="" loading="lazy">
                       <h6 style="font-size: 10px;" class="p-0 m-0">Email </h6>
                       <h6 style="font-size: 10px;" class="p-0 m-0">{{ currentUserProfile.email_verified_at != null ? 'Verified' : 'Not Verified' }}</h6>
                   </div>
                   <div  style="margin: 0 10px;">
                       <img [class.bg-success]="currentUserProfile.image_verified_at != null"
                       [class.bg-danger-blue]="currentUserProfile.image_verified_at == null" class=" rounded-circle p-2" src="../../../assets/images/gallery.svg"
-                          style="height: 15%;" alt="">
+                          style="height: 15%;" alt="" loading="lazy">
                       <h6 style="font-size: 10px;" class="p-0 m-0">Image</h6>
                       <h6 style="font-size: 10px;" class="p-0 m-0">{{ currentUserProfile.image_verified_at != null ? 'Verified' : 'Not Verified' }}</h6>
                   </div>
                   <div style="margin: 0 10px;" class="pointer" >
                       <img [class.bg-success]="currentUserProfile.phone_verified_at != null"
                       [class.bg-danger-blue]="currentUserProfile.phone_verified_at == null" class=" rounded-circle p-2" src="../../../assets/images/call.svg"
-                          style="height: 15%;" alt="">
+                          style="height: 15%;" alt="" loading="lazy">
                       <h6 style="font-size: 10px;" class="p-0 m-0">Phone</h6>
                       <h6 style="font-size: 10px;" class="p-0 m-0">{{ currentUserProfile.phone_verified_at != null ? 'Verified' : 'Not Verified' }}</h6>
                   </div>
                   <div class="pointer" style="margin: 0 10px;" *ngIf="currentUserProfile.image_verified_at != null && currentUserProfile.email_verified_at != null && currentUserProfile.phone_verified_at != null">
                       <img [class.bg-success]="currentUserProfile.is_true_you == '1'"
                       [class.bg-danger-blue]="currentUserProfile.is_true_you == '0'" class=" rounded-circle p-2" src="../../../assets/images/E-verify.svg"
-                          style="height: 15%;" alt="">
+                          style="height: 15%;" alt="" loading="lazy">
                       <h6 style="font-size: 10px;" class="p-0 m-0" class="p-0 m-0">Join </h6>
                       <h6 style="font-size: 10px;" class="p-0 m-0" class="p-0 m-0">TruYou</h6>
                   </div>
