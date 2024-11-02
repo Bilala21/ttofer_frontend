@@ -97,6 +97,9 @@ export class MainServicesService {
   sendMsg(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/send_msg', input).pipe();
   }
+  markMessagesAsRead(conversation_id:any) {
+    return this.http.get(`${this.apiUrl}`+'api/mark/conversation/read/' + conversation_id).pipe();
+}
   addProductFirstStep(input: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}` + 'api/add-product-first-step', input, {
       headers: this.getHeaders(),

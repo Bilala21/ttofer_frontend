@@ -25,10 +25,10 @@
         >
           <div class="d-flex align-items-center message-count">
             <h2 class="fs-20 fw-semibold m-0">Messages</h2>
-            <span
+            <!-- <span
               class="ml-3 fs-12 rounded-pill bg-yellow-800 d-block text-center"
-              >12</span
-            >
+              >12</span -->
+            
           </div>
         </div>
         <div class="message-content pl-2 pr-1">
@@ -42,20 +42,17 @@
             />
           </div>
           <div class="users scrollable-content pr-2">
-            @for (item of chatBox; track $index) {
+            <ng-container *ngIf="chatBox && chatBox.length > 0; else noChat">
+              <!-- Chat List -->
               <div
+                *ngFor="let item of chatBox;  track $index"
                 class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
                   selectedUserId === item.id && 'bg-yellow-800'
                 }}"
                 (click)="getConversation(item)"
               >
                 <img
-                
-                    [src]="
-                  item.user_image
-                    ? item.user_image
-                    : '/assets/images/profile-icon.svg'
-                "
+                  [src]="item.user_image ? item.user_image : '/assets/images/profile-icon.svg'"
                   alt="image"
                   loading="lazy"
                   class="rounded-2"
@@ -67,49 +64,43 @@
                     </h2>
                     <span class="fs-12 text-slate-400">{{ item.formattedTime }}</span>
                   </div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                    "
-                  >
-                    <p class="m-0 fs-12 fw-normal text-slate-400">
-                      {{ item.message }}
-                    </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="m-0 fs-12 fw-normal text-slate-400">{{ item.message }}</p>
                     <div class="d-flex align-items-center">
                       <img
-                        style="width: 25px; height: 25px; object-fit: fill"
-                        [src]="item.image_path.src"
+                        [src]="item.image_path?.src"
                         alt="Small Profile Image"
                         loading="lazy"
                         class="small-profile-image rounded-circle"
+                        style="width: 25px; height: 25px; object-fit: fill"
                       />
-                      <!-- Three dots menu icon -->
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-link p-0 ml-2"
-                          data-toggle="dropdown"
-                          aria-expanded="false"
-                        >
+                      <div class="dropdown ml-2">
+                        <button class="btn btn-link p-0" data-toggle="dropdown" aria-expanded="false">
                           <i class="bi bi-three-dots-vertical text-dark"></i>
                         </button>
-          
-                        <!-- Dropdown menu -->
                         <div class="dropdown-menu">
-                          <a
-                            class="dropdown-item text-danger"
-                            (click)="deleteConversation(item)"
-                            >Delete Conversation</a
-                          >
+                          <a class="dropdown-item text-danger" (click)="deleteConversation(item)">
+                            Delete Conversation
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            }
+            </ng-container>
+          
+            <!-- No Chat Message -->
+            <ng-template #noChat>
+              <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+                <!-- Bootstrap "chat-dots" icon -->
+                <i class="bi bi-chat-dots  mb-2 no-chat-icon" ></i>
+                <p class="text-secondary fs-5">No chats available</p>
+              </div>
+            </ng-template>
+            
           </div>
+          
           
         </div>
       </div>
@@ -125,7 +116,7 @@
               style="color: #ffdd54; font-size: 2rem"
             ></i>
             <p class="mt-2 text-muted">No Conversations</p>
-            <p class="mt-2 text-muted">Plz select a Conversation to start</p>
+            <p class="mt-2 text-muted">Plz select a chat to start</p>
           </div>
         </div>
 
@@ -173,17 +164,35 @@
             <!-- Message from the current user (aligned right) -->
             <div
               *ngIf="currentUserid === message.sender_id"
-              class="d-flex align-items-center justify-content-end mb-3"
+              class="d-flex flex-column align-items-end mb-3"
             >
-              <div
-                class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
-              >
-                {{ message.message }}
+              <div class="d-flex align-items-center">
+                <div class="user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right" style="display: flex;">
+                  {{ message.message }}
+                  <div class="d-flex align-items-center " style="margin:9px 5px 0px 10px;">
+                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> <!-- Time below message -->
+                    <div>
+                      <!-- Check read status and show ticks -->
+                      <i
+                        *ngIf="message.status === 'unread'"
+                        class="bi bi-check2-all text-secondary"
+                        style="font-size: 1.1rem;"
+                      ></i>
+                      <i
+                        *ngIf="message.status === 'read'"
+                        class="bi bi-check2-all"
+                        style="color: #53BDEB; font-size: 1.1rem;"
+                      ></i>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
                 <img
-                  [src]="message.sender_image || '/assets/images/profile-icon.svg'" 
+                  [src]="message.sender_image || '/assets/images/profile-icon.svg'"
                   alt="User Image"
                   loading="lazy"
-                  class="rounded-pill small-profile-image"
+                  class="rounded-pill small-profile-image ml-2"
                 />
               </div>
             </div>
@@ -191,20 +200,34 @@
             <!-- Message from the other participant (aligned left) -->
             <div
               *ngIf="currentUserid !== message.sender_id"
-              class="d-flex align-items-center justify-content-start mb-3"
+              class="d-flex flex-column align-items-start mb-3"
             >
-              <img
-                [src]="message.sender_image || '/assets/images/profile-icon.svg'"
-                alt="Receiver Image"
-                loading="lazy"
-                class="rounded-2 small-profile-image"
-              />
-              <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                {{ message.message }}
+              <div class="d-flex align-items-center">
+                <img
+                  [src]="message.sender_image || '/assets/images/profile-icon.svg'"
+                  alt="Receiver Image"
+                  loading="lazy"
+                  class="rounded-2 small-profile-image "
+                />
+                <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2" style="display: flex;">
+                  {{ message.message }}
+                  <div class="d-flex align-items-center" style="margin:9px 5px 0px 10px;">
+                    <div class="text-secondary fs-12 me-2">{{ message.formattedTime }}</div> <!-- Time below message -->
+                    
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        
+        
+        
+        
+        
+        
+        
+        
         
 
 

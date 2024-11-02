@@ -286,7 +286,7 @@ debugger
 
     this.mainServices.getConversation(data.conversation_id).subscribe((res: any) => {
         this.selectedConversation = res;
-
+        this.markMessagesAsRead(data.conversation_id);
         // Retrieve participants
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
@@ -299,6 +299,7 @@ debugger
         debugger;
         this.conversationBox = res.data.conversation.map((msg: any) => ({
             ...msg,
+            formattedTime: this.formatMessageTime(msg.created_at),
             // Assign images based on whether the current user is the sender or receiver
             sender_image: msg.sender_id === this.currentUserid ? currentParticipant.img : otherParticipant.img, // Image for the sender
             receiver_image: msg.sender_id === this.currentUserid ? otherParticipant.img : currentParticipant.img, // Image for the receiver
@@ -312,52 +313,72 @@ debugger
         console.log(this.conversationBox);
     });
 }
+markMessagesAsRead(conversationId: string) {
+ 
+
+  this.mainServices.markMessagesAsRead(conversationId).subscribe({
+      next: (response) => {
+          console.log('Messages marked as read:', response);
+          // Optionally update your local state if needed
+      },
+      error: (error) => {
+          console.error('Error marking messages as read:', error);
+      }
+  });
+}
 
 
-
+formatMessageTime(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
   
   
-  sendMsg() {
-    let receiverId: string;
+sendMsg() {
+  let receiverId: string;
 
-    if (this.selectedConversation.data) {
+  if (this.selectedConversation.data) {
       // Use optional chaining to safely access Participant IDs
       receiverId = (this.currentUserid !== this.selectedConversation.data.Participant2.id)
-        ? this.selectedConversation.data.Participant2.id
-        : this.selectedConversation.data.Participant1.id;
-    } else {
+          ? this.selectedConversation.data.Participant2.id
+          : this.selectedConversation.data.Participant1.id;
+  } else {
       // Fallback to selected user's ID if no conversation is selected
       receiverId = this.selectedUser?.id;  // Use optional chaining for safety
-    }
-    let input = {
+  }
+  
+  let input = {
       sender_id: this.currentUserid,
       buyer_id: this.buyerId,
       seller_id: this.sellerId,
       receiver_id: receiverId,
-
       message: this.message,
       product_id: this.productId
-    };
-  
-    this.mainServices.sendMsg(input).subscribe((res: any) => {
+  };
+
+  this.mainServices.sendMsg(input).subscribe((res: any) => {
       // Clear message input
       this.message = "";
-  debugger
+      debugger;
+
       // Push the new message to the conversationBox directly to update the UI without needing to refetch
       const newMessage = {
-        ...res.data.Message[0],
-        sender_image: this.currentUserid === this.selectedConversation.data.Participant1.id
-          ? this.selectedConversation.data.Participant1.img
-          : this.selectedConversation.data.Participant2.img,
-        receiver_image: this.currentUserid !== this.selectedConversation.data.Participant1.id
-          ? this.selectedConversation.data.Participant1.img
-          : this.selectedConversation.data.Participant2.img
+          ...res.data.Message[0],
+          sender_image: this.currentUserid === this.selectedConversation.data.Participant1.id
+              ? this.selectedConversation.data.Participant1.img
+              : this.selectedConversation.data.Participant2.img,
+          receiver_image: this.currentUserid !== this.selectedConversation.data.Participant1.id
+              ? this.selectedConversation.data.Participant1.img
+              : this.selectedConversation.data.Participant2.img,
+          // Format the message time using formatMessageTime
+          formattedTime: this.formatMessageTime(new Date().toISOString()) // Assuming you want to use the current time
       };
+      
       this.conversationBox.push(newMessage);
-      this.cd.detectChanges()
-    });
-  }
-  
+      this.cd.detectChanges();
+  });
+}
+
   
   acceptOffer() {
 
