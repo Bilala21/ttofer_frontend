@@ -71,7 +71,15 @@
       }
 
       .msg-content {
-        background:#ffc107;
+        background:rgb(231, 230, 230);
+
+        img {
+          width: 15px;
+          height: 15px;
+        }
+      }
+      .user-msg-content {
+        background:#D9FDD3;
 
         img {
           width: 15px;
@@ -94,7 +102,8 @@
 .scrollable-messages {
   max-height: 400px; /* Adjust the height as per your layout */
   overflow-y: auto;  /* Enable vertical scrolling */
-  padding-right: 10px; /* To prevent the scrollbar from overlapping with content */
+  padding-right: 10px;
+  padding-left: 10px; /* To prevent the scrollbar from overlapping with content */
 }
 .scrollable-content {
   max-height: calc(100vh - 350px);
@@ -153,7 +162,7 @@
 }
 
 .suggestion-item {
-  background: #e6e6e6;
+  background:#ffc107;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -164,4 +173,15 @@
 
 .pointer {
   cursor: pointer;
+}
+.no-chat-icon {
+  font-size: 2rem;
+  color: #ffc107; /* Applies yellow color */
+}
+.text-gold {
+  color: #FFD700; /* Gold color */
+}
+
+.text-gray {
+  color: #d1d1d1; /* Gray color for unfilled stars */
 }
