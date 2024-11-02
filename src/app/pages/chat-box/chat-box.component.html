@@ -43,78 +43,74 @@
           </div>
           <div class="users scrollable-content pr-2">
             @for (item of chatBox; track $index) {
-            <div
-              class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
-                selectedUserId === item.id && 'bg-yellow-800'
-              }}"
-              (click)="getConversation(item)"
-            >
-              <img
-                [src]="
+              <div
+                class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
+                  selectedUserId === item.id && 'bg-yellow-800'
+                }}"
+                (click)="getConversation(item)"
+              >
+                <img
+                
+                    [src]="
                   item.user_image
                     ? item.user_image
                     : '/assets/images/profile-icon.svg'
                 "
-                alt="image"
-                loading="lazy"
-                class="rounded-2"
-              />
-              <div class="ml-3 flex-grow-1">
-                <div class="d-flex align-items-center justify-content-between">
-                  <h2 class="fs-14 fw-semibold m-0">
-                    {{ item.receiver.name }}
-                  </h2>
-                  <span class="fs-12 text-slate-400">{{
-                    item.formattedTime
-                  }}</span>
-                </div>
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                  "
-                >
-                  <p class="m-0 fs-12 fw-normal text-slate-400">
-                    {{ item.message }}
-                  </p>
-                  <div class="d-flex align-items-center">
-                    <img
-                      style="width: 25px; height: 25px; object-fit: fill"
-                      [src]="item.image_path.src"
-                      alt="Small Profile Image"
-                      loading="lazy"
-                      class="small-profile-image rounded-circle"
-                    />
-                    <!-- Three dots menu icon -->
-                    <!-- Three dots button with dropdown -->
-                    <!-- Three dots button with dropdown -->
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-link p-0 ml-2"
-                        data-toggle="dropdown"
-                        aria-expanded="false"
-                       
-                      >
-                      
-                        <i class="bi bi-three-dots-vertical text-dark"></i>
-                      </button>
-
-                      <!-- Dropdown menu -->
-                      <div class="dropdown-menu">
-                        <a
-                          class="dropdown-item text-danger"
-                          (click)="deleteConversation(item)"
-                          >Delete Conversation</a
+                  alt="image"
+                  loading="lazy"
+                  class="rounded-2"
+                />
+                <div class="ml-3 flex-grow-1">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h2 class="fs-14 fw-semibold m-0">
+                      {{ item.sender.id !== currentUserid ? item.sender.name : item.receiver.name }}
+                    </h2>
+                    <span class="fs-12 text-slate-400">{{ item.formattedTime }}</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <p class="m-0 fs-12 fw-normal text-slate-400">
+                      {{ item.message }}
+                    </p>
+                    <div class="d-flex align-items-center">
+                      <img
+                        style="width: 25px; height: 25px; object-fit: fill"
+                        [src]="item.image_path.src"
+                        alt="Small Profile Image"
+                        loading="lazy"
+                        class="small-profile-image rounded-circle"
+                      />
+                      <!-- Three dots menu icon -->
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link p-0 ml-2"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
                         >
+                          <i class="bi bi-three-dots-vertical text-dark"></i>
+                        </button>
+          
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu">
+                          <a
+                            class="dropdown-item text-danger"
+                            (click)="deleteConversation(item)"
+                            >Delete Conversation</a
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
             }
           </div>
+          
         </div>
       </div>
       <div class="chat right-side flex-grow-1">
@@ -139,92 +135,78 @@
           <div class="border-b">
             <div class="pb-3 px-4 d-flex align-items-center top">
               <img
-                [src]="
-                  userImage ? userImage : '/assets/images/profile-icon.svg'
-                "
-                alt="image"
+                [src]="userImage ? userImage : '/assets/images/profile-icon.svg'"
+                alt="User Image"
                 loading="lazy"
                 class="rounded-2"
               />
               <div class="ml-3 flex-grow-1">
                 <div class="d-flex justify-content-between">
                   <h2 class="fs-20 fw-semibold m-0">{{ userName }}</h2>
-                  <div class="ml-4">
-                    AED
-                    {{
-                      productDetail?.fix_price
-                        ? productDetail?.fix_price
-                        : productDetail?.auction_Price
-                    }}
+                  <div class="ml-4 d-flex align-items-center">
+                    <img
+                      [src]="productImage ? productImage : '/assets/images/default-product.png'"
+                      alt="Product Image"
+                      loading="lazy"
+                      class="rounded-2 small-product-image"
+                    />
+                    <span class="ml-2">AED {{ productPrice }}</span>
                   </div>
                 </div>
-                <div
-                  class="fs-12 fw-semibold text-slate-400 d-flex align-items-center"
-                >
+                <div class="fs-12 fw-semibold text-slate-400 d-flex align-items-center">
                   <span class="dot rounded-pill mr-1"></span>
                   Online
                 </div>
               </div>
             </div>
           </div>
-
+          
           <!-- Display "Select a chat to view conversation" if conversationBox is null or empty -->
-          <div
-            *ngIf="!conversationBox || conversationBox.length === 0"
-            class="text-center p-5"
-          >
-            <div class="text-center">
-              <i
-                class="bi bi-emoji-frown"
-                style="color: #ffdd54; font-size: 2rem"
-              ></i>
-              <p class="mt-2 text-muted">No Conversations</p>
-            </div>
-          </div>
+         
 
           <!-- Conversation Messages Section -->
           <div
-            *ngIf="
-              (conversationBox && conversationBox.length > 0) || selectedUser
-            "
-            class="messages-side mt-5 pt-5 scrollable-messages"
-          >
-            <div *ngFor="let message of conversationBox">
-              <!-- Message from the user (aligned right) -->
+          *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
+          class="messages-side mt-5 pt-5 scrollable-messages"
+        >
+          <div *ngFor="let message of conversationBox">
+            <!-- Message from the current user (aligned right) -->
+            <div
+              *ngIf="currentUserid === message.sender_id"
+              class="d-flex align-items-center justify-content-end mb-3"
+            >
               <div
-                *ngIf="currentUserid == message.sender_id"
-                class="d-flex align-items-center justify-content-end mb-3"
+                class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
               >
-                <div
-                  class="msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
-                >
-                  {{ message.message }}
-                  <img
-                    [src]="message.sender_image"
-                    alt="User Image"
-                    loading="lazy"
-                    class="rounded-pill small-profile-image"
-                  />
-                </div>
-              </div>
-
-              <!-- Message from the receiver (aligned left) -->
-              <div
-                *ngIf="currentUserid !== message.sender_id"
-                class="d-flex align-items-center justify-content-start mb-3"
-              >
+                {{ message.message }}
                 <img
-                  [src]="message.receiver_image"
-                  alt="Receiver Image"
+                  [src]="message.sender_image || '/assets/images/profile-icon.svg'" 
+                  alt="User Image"
                   loading="lazy"
-                  class="rounded-2 small-profile-image"
+                  class="rounded-pill small-profile-image"
                 />
-                <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                  {{ message.message }}
-                </div>
+              </div>
+            </div>
+        
+            <!-- Message from the other participant (aligned left) -->
+            <div
+              *ngIf="currentUserid !== message.sender_id"
+              class="d-flex align-items-center justify-content-start mb-3"
+            >
+              <img
+                [src]="message.sender_image || '/assets/images/profile-icon.svg'"
+                alt="Receiver Image"
+                loading="lazy"
+                class="rounded-2 small-profile-image"
+              />
+              <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
+                {{ message.message }}
               </div>
             </div>
           </div>
+        </div>
+        
+
 
           <!-- Suggestions Box -->
           <div

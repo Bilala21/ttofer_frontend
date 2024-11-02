@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../shared/shared-components/header/header.component";
 import { CommonModule, NgFor } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,61 +16,13 @@ declare var bootstrap: any;
   imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent,FormsModule]
 })
 export class ChatBoxComponent {
+  productImage:any
   replierImage:any;
   senderImage:any;
   offerDetails:any
-  messages = [
-    {
-      sender: 'user', // Indicates the message is sent by the user
-      content: 'just ideas for next time',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'receiver', // Indicates the message is received from the other person
-      content: 'Thanks for your ideas!',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'user',
-      content: 'Do you want to discuss more?',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'receiver',
-      content: 'Sure, let’s set up a meeting time.',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'user', // Indicates the message is sent by the user
-      content: 'just ideas for next time',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'receiver', // Indicates the message is received from the other person
-      content: 'Thanks for your ideas!',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'user',
-      content: 'Do you want to discuss more?',
-      image: '/assets/images/banner3.webp'
-    },
-    {
-      sender: 'receiver',
-      content: 'Sure, let’s set up a meeting time.',
-      image: '/assets/images/banner3.webp'
-    }
-  ];
   allChat:any;
   offerStatus: number | null = null
-  // @ViewChild('selectedUserDiv')
-  // selectedUserDiv!: ElementRef;
-  chatBox: any[] = [
-    // {img:'assets/images/chat-profile1.png', name:'Elmer Laverty', text:'Haha oh man 🔥', time:'12m'},
-    // {img:'assets/images/chat-profile2.png', name:'Florencio Dorrance', text:'woohoooo', time:'24m'},
-    // {img:'assets/images/chat-profile3.png', name:'Lavern Laboy', text:`Haha that's terrifying 😂`, time:'1h'},
-    // {img:'assets/images/chat-profile4.png', name:'Titus Kitamura', text:'omg, this is amazing', time:'5h'},
-  ]
+  chatBox: any[] = [];
   isNavigatingAway:any;
   userImage:any;
   userName:any;
@@ -86,48 +38,18 @@ export class ChatBoxComponent {
   offerId: number = 0
   productDetail:any
   searchQuery: string = '';
-  users: any = [
-    {
-      image: "/assets/images/banner3.webp",
-      name: "Ali",
-      message: "This is message",
-      time: "h1",
-      id: 1
-    },
-    {
-      image: "/assets/images/banner3.webp",
-      name: "Bilal",
-      message: "This is message",
-      time: "h2",
-      id: 2
-    },
-    {
-      image: "/assets/images/banner3.webp",
-      name: "Numan",
-      message: "This is message",
-      time: "h3",
-      id: 3
-    },
-  ];
+  productPrice:any
   selectedUserId: any = null
   userDetail:any
-  filteredUsers: string[] = [...this.users];
   constructor(
     private mainServices: MainServicesService,
     private extension: Extension,private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,private cd :ChangeDetectorRef
   ) {
     this.currentUserid = extension.getUserId();
     debugger
    
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(searchText => {
-      this.searchQuery = searchText;
-      this.filteredUsers = this.filterUsers(searchText);
-      this.users = this.filteredUsers
-    });
+   
     this.getAllChatsOfUser();
   }
 
@@ -141,10 +63,18 @@ export class ChatBoxComponent {
   
     if (this.selectedTab === 'buying') {
       // Assign buying chat data
+      this.selectedUserId=null
       this.chatBox = this.allChat.buyer_chats;
+      this.conversationBox=[];
+      this.suggestions = this.buyerSuggestions; // Assign buyer suggestions
     } else {
       // Assign selling chat data
+      this.selectedUserId=null
+
       this.chatBox = this.allChat.seller_chats;
+      this.conversationBox=[];
+
+      this.suggestions = this.sellerSuggestions; // Assign seller suggestions
     }
   
     // Sort the chats based on updated_at date
@@ -160,6 +90,7 @@ export class ChatBoxComponent {
       };
     });
   }
+  
   timeAgo(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
@@ -218,13 +149,23 @@ export class ChatBoxComponent {
   }
 
   messageControl = new FormControl();
-  suggestions: string[] = [
-    'Still available?',
+  buyerSuggestions: string[] = [
+    'Is this still available?',
     'I am interested.',
     'What’s your final price?',
-    'Where can I meet you?',
-    'I want to buy!'
+    'Where can we meet?',
+    'I’d like to buy this'
   ];
+  
+  sellerSuggestions: string[] = [
+    'Thank you for your interest!',
+    'Do you want pick up today?.',
+    'The final price is negotiable.',
+    'Let me know your preferred time.',
+    'What payment method do you prefer?'
+  ];
+  
+  suggestions: string[] = [];
   suggestionsVisible: boolean = false;
 
   showSuggestions() {
@@ -254,7 +195,9 @@ export class ChatBoxComponent {
 
       if (productData && userData) {
         this.productDetail = JSON.parse(productData);
-        this.productId=this.productDetail.id
+        this.productId=this.productDetail.id;
+        this.productImage=this.productDetail.photo[0].src
+        this.productPrice=this.productDetail.fix_price?this.productDetail.fix_price:this.productDetail.auction_price;
         this.userDetail = JSON.parse(userData);
         this.userImage=this.userDetail.img;
         this.userName=this.userDetail.name;
@@ -315,42 +258,63 @@ export class ChatBoxComponent {
   }
 
   getConversation(data: any) {
-    debugger
+    debugger;
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
-    this.userName = data?.receiver?.name;
+    this.productImage=data.image_path.src;
+    this.productPrice=data.product?.fix_price?data.product.fix_price:data.product?.auction_price;
+debugger
+    // Determine userName based on who is the sender and receiver
+    const currentUserIsSender = data.receiver.id === this.currentUserid;
+    const otherUser = currentUserIsSender ? data.sender : data.receiver;
+
+    // Set userName to the name of the other user
+    this.userName = otherUser.name;
+
     if (data.offer_id) {
-      const input = {
-        id: data.offer_id,
-      };
-      this.mainServices.getOffer(input).subscribe({
-        next: (result:any) => {
-          this.offerDetails = result.data; // Store offer details if available
-        },
-      });
+        const input = {
+            id: data.offer_id,
+        };
+        this.mainServices.getOffer(input).subscribe({
+            next: (result: any) => {
+                this.offerDetails = result.data; // Store offer details if available
+            },
+        });
     } else {
-      this.offerDetails = null; // Clear offer details if no offer is present
+        this.offerDetails = null; // Clear offer details if no offer is present
     }
+
     this.mainServices.getConversation(data.conversation_id).subscribe((res: any) => {
-      this.selectedConversation = res;
-      const participant1 = res.data.Participant1;
-      const participant2 = res.data.Participant2;
-      debugger
-      this.conversationBox = res.data.conversation.map((msg: any) => ({
-        ...msg,
-        sender_image: msg.sender_id === participant1.id ? participant1.img : participant2.img,
-        receiver_image: msg.sender_id !== participant1.id ? participant1.img : participant2.img
-      }));
-  
-      this.productId = this.conversationBox[0].product_id;
-      this.sellerId = this.conversationBox[0].seller_id;
-      this.buyerId = this.conversationBox[0].buyer_id;
-      this.offerStatus = this.conversationBox[0]?.offer?.status;
-      this.offerId = this.conversationBox[0]?.offer_id;
-      console.log(this.conversationBox)
+        this.selectedConversation = res;
+
+        // Retrieve participants
+        const participant1 = res.data.Participant1;
+        const participant2 = res.data.Participant2;
+
+        // Determine current user and the other participant based on ID
+        const isCurrentUserParticipant1 = this.currentUserid === participant1.id;
+        const currentParticipant = isCurrentUserParticipant1 ? participant1 : participant2;
+        const otherParticipant = isCurrentUserParticipant1 ? participant2 : participant1;
+
+        debugger;
+        this.conversationBox = res.data.conversation.map((msg: any) => ({
+            ...msg,
+            // Assign images based on whether the current user is the sender or receiver
+            sender_image: msg.sender_id === this.currentUserid ? currentParticipant.img : otherParticipant.img, // Image for the sender
+            receiver_image: msg.sender_id === this.currentUserid ? otherParticipant.img : currentParticipant.img, // Image for the receiver
+        }));
+
+        this.productId = this.conversationBox[0].product_id;
+        this.sellerId = this.conversationBox[0].seller_id;
+        this.buyerId = this.conversationBox[0].buyer_id;
+        this.offerStatus = this.conversationBox[0]?.offer?.status;
+        this.offerId = this.conversationBox[0]?.offer_id;
+        console.log(this.conversationBox);
     });
-  }
-  
+}
+
+
+
   
   
   sendMsg() {
@@ -378,7 +342,7 @@ export class ChatBoxComponent {
     this.mainServices.sendMsg(input).subscribe((res: any) => {
       // Clear message input
       this.message = "";
-  
+  debugger
       // Push the new message to the conversationBox directly to update the UI without needing to refetch
       const newMessage = {
         ...res.data.Message[0],
@@ -389,8 +353,8 @@ export class ChatBoxComponent {
           ? this.selectedConversation.data.Participant1.img
           : this.selectedConversation.data.Participant2.img
       };
-  debugger
       this.conversationBox.push(newMessage);
+      this.cd.detectChanges()
     });
   }
   
@@ -491,15 +455,6 @@ export class ChatBoxComponent {
     this.searchSubject.next(event.value); // Send input to the search stream
   }
 
-  filterUsers(query: string): any[] {
-    if (!query.trim()) {
-      console.log(this.users, "users");
-      return this.users;
-    }
-    return this.filteredUsers.filter((user: any) =>
-      user.name.toLowerCase().includes(query.toLowerCase())
-    );
-  }
   ngOnDestroy() {
     // Remove editPost data from localStorage if navigating away
     if (this.isNavigatingAway) {
