@@ -1,19 +1,19 @@
 <!-- CODED BY BILAL -->
 <main class="mt-16">
-  <div class="container-fluid">
+  <div class="container-fluid xs-px-0">
     <div class="mt-3 xs-px-0">
       <div>
         <app-slider></app-slider>
       </div>
       <app-promotion-slider [banners]="promotionBanners" />
     </div>
-    <div class="d-block d-lg-flex pt-5">
+    <div class="d-block d-lg-flex pt-5 xs-px-3">
       <aside class="product-filter">
         <app-filters />
       </aside>
       <!-- PRODUCT SIDE -->
-      <div class="flex-grow-1 pl-4">
-        <div class="text-center mb-4 buttons">
+      <div class="flex-grow-1 pl-4 xs-px-0">
+        <div class="text-center mb-4 buttons d-flex align-items-center justify-content-center xs-between">
           @if (!["3","4","8","9"].includes(id)) {
           <button type="button"
             class="btn py-2 px-3 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
