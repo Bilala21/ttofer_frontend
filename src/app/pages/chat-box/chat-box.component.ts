@@ -101,15 +101,15 @@ export class ChatBoxComponent {
       month: 30 * 24 * 60 * 60,
       week: 7 * 24 * 60 * 60,
       day: 24 * 60 * 60,
-      hour: 60 * 60,
-      minute: 60,
-      second: 1,
+      h: 60 * 60,
+      m: 60,
+      s: 1,
     };
   
     for (const key in intervals) {
       const interval = Math.floor(seconds / intervals[key as keyof typeof intervals]);
       if (interval > 1) {
-        return `${interval} ${key}s ago`;
+        return `${interval} ${key} ago`;
       } else if (interval === 1) {
         return `1 ${key} ago`;
       }
@@ -159,7 +159,7 @@ export class ChatBoxComponent {
   
   sellerSuggestions: string[] = [
     'Thank you for your interest!',
-    'Do you want pick up today?.',
+    'Do you want pick up today?',
     'The final price is negotiable.',
     'Let me know your preferred time.',
     'What payment method do you prefer?'

@@ -71,7 +71,7 @@
       }
 
       .msg-content {
-        background:#FFFFFF;
+        background:rgb(231, 230, 230);
 
         img {
           width: 15px;
@@ -103,7 +103,6 @@
   max-height: 400px; /* Adjust the height as per your layout */
   overflow-y: auto;  /* Enable vertical scrolling */
   padding-right: 10px;
-  background-color: #EFEAE2;
   padding-left: 10px; /* To prevent the scrollbar from overlapping with content */
 }
 .scrollable-content {
@@ -163,7 +162,7 @@
 }
 
 .suggestion-item {
-  background: #e6e6e6;
+  background:#ffc107;
   cursor: pointer;
   transition: background-color 0.2s;
 }
