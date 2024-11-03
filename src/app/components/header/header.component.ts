@@ -153,6 +153,8 @@ login() {
     }
   }
   savedItems(){
+    localStorage.setItem('currentTab',"savedItems");
+    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
