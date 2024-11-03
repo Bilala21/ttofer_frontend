@@ -184,4 +184,8 @@ cart(){
     this.router.navigate(['/cart'])
   }
 }
+goOnNotification(){
+    localStorage.setItem('currentTab',"notification");
+    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
+  }
 }

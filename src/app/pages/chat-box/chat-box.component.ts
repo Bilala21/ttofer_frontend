@@ -118,7 +118,7 @@ export class ChatBoxComponent {
     private route: ActivatedRoute
   ) {
     this.currentUserid = extension.getUserId();
-    debugger
+      
    
     this.searchSubject.pipe(
       debounceTime(300),
@@ -242,7 +242,7 @@ export class ChatBoxComponent {
   }
   receverId:any
   ngOnInit() {
-    debugger
+      
     this.router.events
     .pipe(filter(event => event instanceof NavigationStart))
     .subscribe((event: any) => {
@@ -265,7 +265,7 @@ export class ChatBoxComponent {
   }
   getAllChatsOfUser = () => {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
-      debugger
+        
       this.allChat = res.data;
       // this.chatBox = this.chatBox.sort((a: any, b: any) => {
       //   return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
@@ -315,7 +315,7 @@ export class ChatBoxComponent {
   }
 
   getConversation(data: any) {
-    debugger
+      
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.userName = data?.receiver?.name;
@@ -335,7 +335,7 @@ export class ChatBoxComponent {
       this.selectedConversation = res;
       const participant1 = res.data.Participant1;
       const participant2 = res.data.Participant2;
-      debugger
+        
       this.conversationBox = res.data.conversation.map((msg: any) => ({
         ...msg,
         sender_image: msg.sender_id === participant1.id ? participant1.img : participant2.img,
@@ -389,7 +389,7 @@ export class ChatBoxComponent {
           ? this.selectedConversation.data.Participant1.img
           : this.selectedConversation.data.Participant2.img
       };
-  debugger
+    
       this.conversationBox.push(newMessage);
     });
   }
@@ -508,7 +508,7 @@ export class ChatBoxComponent {
     }
   }
   deleteConversation(conversation: any) {
-    debugger
+      
     this.mainServices.deleteConversation(conversation.conversation_id)
       .pipe(
         tap(() => {
