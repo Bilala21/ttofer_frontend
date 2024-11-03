@@ -76,5 +76,34 @@ export class CheckOutPageComponent {
   trackById(index: number, item: any): number {
     return item.id;
   }
+
+  openNewCardModal() {
+    const modal = document.getElementById('newCardModal');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      modal.setAttribute('aria-modal', 'true');
+      modal.removeAttribute('aria-hidden');
+      document.body.classList.add('modal-open');
+      const backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop fade show';
+      document.body.appendChild(backdrop);
+    }
+  }
+
+  closeNewCardModal() {
+    const modal = document.getElementById('newCardModal');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      modal.removeAttribute('aria-modal');
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        document.body.removeChild(backdrop);
+      }
+    }
+  }
 }
 
