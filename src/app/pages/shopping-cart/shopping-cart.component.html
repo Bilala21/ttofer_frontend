@@ -1,84 +1,107 @@
 <main class="mt-16">
-  <section class="shopping-cart container-fluid">
-    <div class="flex-grow-1">
-      <h2>Shopping Cart</h2>
-      <div class="d-flex align-baseline">
-        <mat-checkbox></mat-checkbox>
-        <span class="ml-3 mt-2">Select All</span>
+  <section class="container-fluid">
+    <div *ngIf="!cartItems?.length" class="my-5 pb-5">
+      <h2 class="fs-24">Shopping Cart</h2>
+      <p class="text-center fw-medium fs-20 mb-4 pt-5">You don't have any items in your cart. Let's get shopping!</p>
+      <a href=""
+        class="fs-20 text-decoration-none text-center bg-primary text-white rounded-pill start-spbtn mx-auto d-block mb-5">Start
+        shopping</a>
+    </div>
+    <div *ngIf="cartItems?.length">
+      <h2 class="pb-3 fs-24">Shopping Cart</h2>
+      <div class="d-flex align-items-center mb-4">
+        <!-- <mat-checkbox [(ngModel)]="checkAll" [checked]="false"></mat-checkbox> -->
+        <input type="checkbox" class="checkbox" [(ngModel)]="checkAll" [checked]="isManual?false:checkAll"
+          (change)="getCheckboxValue(true)">
+        <span class="ml-1 fs-14">Select All</span>
       </div>
-
-      <!-- Cart Items Section -->
-      <div *ngFor="let item of cartItems" class="cart-item">
-        <div class="item-details w-100">
-          <div class="item-header d-block d-md-flex justify-content-between">
-            <div class="d-flex">
-              <img loading="lazy" [src]="item.imageUrl" alt="Product Image" class="seller-image" />
-              <div>
-                <span class="product-title d-block">{{ item.title }}</span>
-                <span class="text-yellow-800 d-block ">★★★★★</span>
+      <div class="d-flex justify-content-between w-100">
+        <div class="flex-grow-1 pr-3">
+          <!-- Cart Items Section -->
+          <div *ngFor="let item of cartItems" class="cart-item mb-3">
+            <div class="item-details w-100">
+              <div class="item-header d-block d-md-flex justify-content-between">
+                <div class="d-flex">
+                  <img [src]="item.image" alt="Product Image" class="seller-image" />
+                  <div>
+                    <span class="product-title d-block">{{ item.title }}</span>
+                    <span class="text-yellow-800 d-block ">★★★★★</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                  <a href="" class="mr-1 pay_only request_combined mr-2">Pay only this seller</a>
+                  <span class="mr-1 request_combined">Request combined shipping</span>
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.2em"
+                    width="1.2em" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M256 90c44.3 0 86 17.3 117.4 48.6C404.7 170 422 211.7 422 256s-17.3 86-48.6 117.4C342 404.7 300.3 422 256 422s-86-17.3-117.4-48.6C107.3 342 90 300.3 90 256s17.3-86 48.6-117.4C170 107.3 211.7 90 256 90m0-42C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z">
+                    </path>
+                    <path d="M277 360h-42V235h42v125zm0-166h-42v-42h42v42z"></path>
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-end">
-              <a href="" class="mr-1 pay_only request_combined">Pay only this seller</a>
-              <span class="mr-1 request_combined">Request combined shipping</span>
-              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><path d="M256 90c44.3 0 86 17.3 117.4 48.6C404.7 170 422 211.7 422 256s-17.3 86-48.6 117.4C342 404.7 300.3 422 256 422s-86-17.3-117.4-48.6C107.3 342 90 300.3 90 256s17.3-86 48.6-117.4C170 107.3 211.7 90 256 90m0-42C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z"></path><path d="M277 360h-42V235h42v125zm0-166h-42v-42h42v42z"></path></svg>
-            </div>
-          </div>
 
-          <div class="d-block d-md-flex justify-content-between mt-3">
-            <div class="flex-grow-1 d-flex align-content-center">
-              <span class="my-auto">
-                <mat-checkbox></mat-checkbox>
-              </span>
-              <div class="product-image position-relative z-0">
-                <img loading="lazy" [src]="item.imageUrl" alt="Product Image" class="w-100 h-100" />
-                <div
-                class="text-white pl-1 pr-1 price-tag position-absolute py-1 rounded d-flex align-items-center justify-content-center border z-1"
-              >
-              {{ item.price | currency : 'AED' : 'symbol' : '1.2-2' }}
-                <!-- {{
+              <div class="d-block d-md-flex justify-content-between mt-3">
+                <div class="flex-grow-1 d-flex align-content-center">
+                  <span class="my-auto pr-4">
+                    <!-- <mat-checkbox [checked]="checkAll"></mat-checkbox> -->
+                    <input type="checkbox" class="checkbox" [checked]="checkAll?checkAll:isManual"
+                      (change)="getCheckboxValue(false)">
+                  </span>
+                  <div class="product-image position-relative z-0">
+                    <img [src]="item.image" alt="Product Image" class="w-100 h-100" />
+                    <div
+                      class="text-white pr-2 pl-3 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center fs-10">
+                      {{ item.fix_price | currency : 'AED ' : 'symbol' : '1.2-2' }}
+                      <!-- {{
                 formatPrice(
                   postData?.auction_price
                     ? postData?.auction_price
                     : postData.fix_price
                 )
               }} -->
+                    </div>
+                  </div>
+                  <span class="product-description my-auto">{{ item.description }}</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-end  flex-grow-1 mt-2 mt-md-0">
+                  <span class="mr-5">
+                    <span class="mr-1">Qty</span>
+                    <select [(ngModel)]="item.quantity" class="form-select ms-2">
+                      <option *ngFor="let qty of quantities" [value]="qty" [selected]="qty===1">{{qty }}
+                      </option>
+                    </select>
+                  </span>
+                  <span>AED {{item.fix_price}}</span>
+                </div>
               </div>
+
+              <div class="text-right w-100">
+                <a routerLink="#"
+                  class="pay_only text-decoration-underline text-underline-none p-0 text-dark fs-14 fw-normal">Buy it
+                  now</a>
+                <button class="btn text-decoration-underline fw-normal p-0 mx-3 fs-14" (click)="saveForLater(item)">Save
+                  for later</button>
+                <button class="btn text-decoration-underline fw-normal p-0 fs-14"
+                  (click)="removeItem(item)">Remove</button>
               </div>
-            <span class="product-description my-auto">{{ item.description }}</span>
-          </div>
-            <div class="d-flex align-items-center justify-content-end  flex-grow-1 mt-2 mt-md-0">
-              <span class="mr-5">
-              <span class="mr-1">Qty</span>
-              <select [(ngModel)]="quantities" class="form-select ms-2">
-                <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
-              </select>
-            </span>
-              <!-- <span class="price-tag ms-3">{{ item.price | currency : 'AED' : 'symbol' : '1.2-2' }}</span> -->
             </div>
           </div>
-
-          <div class="item-actions w-100">
-            <a routerLink="#" class="mr-3 pay_only">Buy it now</a>
-            <span class="mr-3" (click)="saveForLater(item)">Save for later</span>
-            <span (click)="removeItem(item)">Remove</span>
+        </div>
+        <!-- Cart Summary Section -->
+        <div class="cart-summary">
+          <div class="d-flex justify-content-between fw-normal">
+            <span class="fs-14">Items ({{ cartItems?.length }})</span>
+            <span class="fs-14"> AED {{ calculateTotal() }}</span>
           </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-3">
+            <span class="fs-20">Subtotal:</span>
+            <span class="fs-20">AED {{ calculateTotal() }}</span>
+          </div>
+          <button mat-raised-button color="primary" (click)="goToCheckout()">Go to checkout</button>
         </div>
       </div>
-    </div>
-
-    <!-- Cart Summary Section -->
-    <div class="cart-summary">
-      <div class="d-flex justify-content-between">
-        <span class="summary-header">Items ({{ cartItems.length }})</span>
-        <span class="summary-total"> AED {{ calculateTotal() }}</span>
-      </div>
-      <hr>
-      <div class="d-flex justify-content-between sub-total">
-        <span>Subtotal:</span>
-        <span>AED {{ calculateTotal() }}</span>
-      </div>
-      <button mat-raised-button color="primary" (click)="goToCheckout()">Go to checkout</button>
     </div>
   </section>
 </main>

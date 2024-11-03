@@ -48,14 +48,15 @@ export class ProductCardComponent implements OnInit {
         }
       },
       error: (err) => {
-        const error=err.error.message
+        const error = err.error.message
         this.toastr.error(error, 'Error');
       },
     })
   }
+
   ngOnInit(): void {
     console.log(this.postData, "postData");
     this.wishList = [...this.wishList, this.postData.user_wishlist?.product_id]
-    console.log(this.wishList,"wishList");
+    console.log(this.wishList, "wishList");
   }
 }

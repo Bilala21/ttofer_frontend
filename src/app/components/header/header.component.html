@@ -90,47 +90,35 @@
                         <!-- Cart Icon with Badge -->
                         <a (click)="cart()" class="text-decoration-none position-relative">
                           <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
-                              viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                              viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" >
                               <path
                                   d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z">
                               </path>
                               <circle cx="10.5" cy="19.5" r="1.5"></circle>
                               <circle cx="17.5" cy="19.5" r="1.5"></circle>
                           </svg>
-                          <span class="badge">2</span>
+                          <span class="badge" *ngIf="cartItems.length">{{cartItems.length}}</span>
                         </a>
                       
                         <!-- Dropdown Cart Items -->
                         <div class="cart-dropdown" *ngIf="cartItems.length > 0">
-                            <div class="px-3">
-                            <h5 class="mt-2">Shopping Cart</h5>
-                            <p class="m-0 p-0">Items you've selected</p>
-                            <div style="height: 220px;overflow-y: auto;">
-                                <div *ngFor="let item of cartItems" class="cart-item">
-                                    <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image" loading="lazy">
-                                    <div class="cart-item-details mt-3">
-                                      <p >{{ item.description.slice(1,25) + '...' }}</p>
-                                      <div class="d-flex justify-content-between">
-                                          <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                          <span>Qty:1</span>
-                                      </div>
-                                      <div class="d-flex justify-content-end">
-                                        <span class="mt-2"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path></svg></span>
-                                      </div>
-                                    </div>
-                                  </div>
+                            <h5>Shopping Cart</h5>
+                            <p>Items you've selected</p>
+                          <div *ngFor="let item of cartItems" class="cart-item">
+                            <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
+                            <div class="cart-item-details">
+                              <p>{{ item.description.slice(1,25) + '...' }}</p>
+                              <div class="d-flex justify-content-between">
+                                  <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                  <span>Qty {{item.quantity}}</span>
+
+                              </div>
                             </div>
-                          
-                        </div>
-                          <p class="mt-2 px-3 text-dark-350"><span style="text-decoration: underline;color:black">View cart</span> to see all of your items</p>
-                            
-                          <div class="d-flex justify-content-between p-3 bg-gray" style="bottom: gray;">
-                            <span class="fs-16 fw-semibold">Subtotal</span>
-                            <span class="fs-16 fw-bold">{{'3100' | currency:'AED':'symbol':'1.2-2' }}</span>
-                           </div>
-                           <div class="px-3 mt-2 mb-2">
-                            <button mat-raised-button color="primary" class="w-100 p-2 checkout-btn" routerLink="/checkout">Go to checkout</button>
-                            <button mat-raised-button color="primary" class="w-100 mt-2 p-2 viewCart-btn" routerLink="/cart">View Cart</button>
+                          </div>
+                          <p class="mt-2"><span style="text-decoration: underline;">View cart</span> to see all of your items</p>
+                          <div class="d-flex justify-content-between" style="bottom: gray;">
+                            <span>Subtotal</span>
+                            <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
                            </div>
                         </div>
                         
