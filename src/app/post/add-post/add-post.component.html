@@ -5,7 +5,7 @@
       <div *ngIf="selectedFiles.length > 0">
           <div class="row">
             <div class="col-12 mb-3 preview-img">
-              <img (click)="selectImage(0)" [class.selected]="0 === selectedImageIndex"
+              <img loading="lazy" (click)="selectImage(0)" [class.selected]="0 === selectedImageIndex"
                    [src]="selectedFiles[0].src" alt="Selected Image"
                    class="img-thumbnail w-100 fixed-height">
             </div>
@@ -14,14 +14,14 @@
             *ngFor="let file of selectedFiles.slice(1); let i = index"
             [class.selected]="i + 1 === selectedImageIndex"
             (click)="selectImage(i + 1)">
-         <img [src]="file.src" alt="Selected Image" class="img-thumbnail selected-images">
+         <img loading="lazy" [src]="file.src" alt="Selected Image" class="img-thumbnail selected-images">
        </div>
        
           </div>
       </div>
       <div class="row">
         <div class="col-12 browse-image">
-          <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()">
+          <img loading="lazy" src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()">
           <input #fileInput type="file" (change)="onFileChange($event)" accept="image/*" style="display: none;" multiple>
           <div  *ngIf="imageError !== null" class="alert alert-warning mt-2 " role="alert">
             {{ imageError }}
@@ -34,13 +34,13 @@
       <div class="col-md-4 col-6">
           <button class="btn btn-outline-secondary w-100 sm-cat-text3"
               (click)="deleteSelectedImage()">
-              <img src="assets/images/trash.png" style="margin-right: 10px;" alt=""> Delete
+              <img loading="lazy" src="assets/images/trash.png" style="margin-right: 10px;" alt=""> Delete
               Image
           </button>
       </div>
       <div class="col-md-4 col-6">
           <button class="btn btn-dark w-100 sm-cat-text3" (click)="confirmSelection()">
-              <img src="assets/images/gallerySelect.png" style="margin-right: 10px;" alt="">
+              <img loading="lazy" src="assets/images/gallerySelect.png" style="margin-right: 10px;" alt="">
               Select Image
           </button>
       </div>

@@ -309,6 +309,7 @@
                     [src]="filePreview"
                     alt="Preview"
                     class="img-fluid rounded"
+                    loading="lazy"
                   />
                   <p *ngIf="!isImageFile">
                     Selected file: {{ selectedFile.name }}

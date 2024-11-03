@@ -6,7 +6,7 @@
                     <div class="row align-items-center">
                         <div class="col-4">
                             <img *ngIf="sellingList[0].photo.length > 0" style="border-radius:10px; height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;"
-                                [src]="sellingList[0].photo[0].src" class="w-100 " alt="">
+                                [src]="sellingList[0].photo[0].src" class="w-100 " alt="" loading="lazy">
                         </div>
                         <div class="col-8">
                             <h4 style="font-size:16px">{{sellingList[0].title}}</h4>
@@ -96,7 +96,7 @@
                     <div *ngIf="showPerformance">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <img *ngIf="sellingList[0].photo[0].src" [src]="sellingList[0].photo[0].src" style="border-radius:10px;width:70px;height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;" alt="">
+                                <img *ngIf="sellingList[0].photo[0].src" [src]="sellingList[0].photo[0].src" style="border-radius:10px;width:70px;height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;" alt="" loading="lazy">
                             </div>
                             <div class="ml-2">
                                 <h4 class="sm-cat-text4" style="font-size:16px">{{sellingList[0].title}}</h4>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <img src="assets/images/chart.svg" class="w-100" alt="">
+                                <img src="assets/images/chart.svg" class="w-100" alt="" loading="lazy">
                                 <button class="btn btn-dark w-100 mt-4 p-2" style="border-radius: 4vh;">Boost
                                     Plus</button>
                                 <span class="mt-2 d-block">Get an average of 20x more views each day</span>
@@ -133,7 +133,7 @@
                                         <div class="col-md-10">
                                             <div class="row align-items-center">
                                                 <div class="col-2">
-                                                    <img src="{{data.sender.img}}" class="imageSize" alt="">
+                                                    <img src="{{data.sender.img}}" class="imageSize" alt="" loading="lazy">
                                                 </div>
                                                 <div class="col-8">
                                                     <h5 style="font-size:16px">{{data.sender.name}}</h5>

@@ -1,5 +1,5 @@
 <div class="{{data.tabName}} content d-flex w-100 align-items-center">
-    <img [src]="data.image" alt="image" class="{{imgClass}}">
+    <img [src]="data.image" alt="image" class="{{imgClass}}" loading="lazy">
     <div class="flex-grow-1">
         <h2 class="sm-cat-text4 fw-semibold text-dark-800">{{data.heading}}</h2>
         <ng-content select="[slot=users]"></ng-content>

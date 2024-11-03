@@ -12,7 +12,7 @@
         <div class="item-details w-100">
           <div class="item-header d-block d-md-flex justify-content-between">
             <div class="d-flex">
-              <img [src]="item.imageUrl" alt="Product Image" class="seller-image" />
+              <img loading="lazy" [src]="item.imageUrl" alt="Product Image" class="seller-image" />
               <div>
                 <span class="product-title d-block">{{ item.title }}</span>
                 <span class="text-yellow-800 d-block ">★★★★★</span>
@@ -31,7 +31,7 @@
                 <mat-checkbox></mat-checkbox>
               </span>
               <div class="product-image position-relative z-0">
-                <img [src]="item.imageUrl" alt="Product Image" class="w-100 h-100" />
+                <img loading="lazy" [src]="item.imageUrl" alt="Product Image" class="w-100 h-100" />
                 <div
                 class="text-white pl-1 pr-1 price-tag position-absolute py-1 rounded d-flex align-items-center justify-content-center border z-1"
               >

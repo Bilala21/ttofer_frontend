@@ -12,7 +12,7 @@
             <div class="img-gallery rounded-2 mb-2 mx-2 mx-lg-0 overflow-hidden mt-2 mt-lg-0 d-flex align-items-center justify-content-center cursor-pointer {{
                 $index == imgIndex ? 'border-2' : ''
               }}" (click)="imgIndex = $index">
-              <img src="{{ item.src }}" alt="{{ product.title }}" class="img-fluid h-100" />
+              <img src="{{ item.src }}" alt="{{ product.title }}" loading="lazy" class="img-fluid h-100" />
             </div>
             }
           </div>
@@ -30,7 +30,7 @@
               </svg>
             </button>
             <div class="mx-3 position-relative img-container">
-              <img src="{{product.photo?.[imgIndex]?.src}}" alt="{{ product.title }}" class="img-fluid" />
+              <img src="{{product.photo?.[imgIndex]?.src}}" alt="{{ product.title }}" loading="lazy" class="img-fluid" />
               <div
                 class="text-white pl-3 pr-2 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center z-1">
                 AED 1,800.00
@@ -93,7 +93,7 @@
                 product.user
                   ? product.user.src
                   : '/assets/images/profile-icon.svg'
-              " alt="{{ product.user.name }}" class="mr-2 w-100 h-100" />
+              " alt="{{ product.user.name }}" loading="lazy" class="mr-2 w-100 h-100" />
           </a>
           <div class="pl-2">
             <div>{{ product.user?.name }} <span>(4567)</span></div>

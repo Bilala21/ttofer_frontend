@@ -10,21 +10,21 @@
                 <div class="post-items-container d-flex">
                     <a *ngFor="let item of buttonData ; let i=index" routerLink={{item.href}}
                         class="post-item text-center text-white pt-2 text-decoration-none">
-                        <img src={{item.img}} alt="Eye icon" width="18">
+                        <img src={{item.img}} alt="Eye icon" width="18" loading="lazy">
                         <p class="fs-10 pt-1" [innerHTML]="item.text"></p>
                     </a>
                 </div>
             </div>
             <div class="detail-right-side w-100">
-                <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                <img src="\assets\images\line-img.png" loading="lazy" alt="line" style="max-width: 300px;">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img src="/assets/images/icons/status-up.png" alt="image" loading="lazy" width="20">
+                        <img loading="lazy" src="/assets/images/icons/status-up.png" alt="image" loading="lazy" width="20">
                         <span class="pl-3">Item Performance</span>
                     </div>
                     <i class="fa fa-angle-right"></i>
                 </div>
-                <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
                 <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Modern light clothes'}">
                     <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer">
                         <span>Sold</span>

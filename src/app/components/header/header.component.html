@@ -107,7 +107,7 @@
                             <p class="m-0 p-0">Items you've selected</p>
                             <div style="height: 220px;overflow-y: auto;">
                                 <div *ngFor="let item of cartItems" class="cart-item">
-                                    <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
+                                    <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image" loading="lazy">
                                     <div class="cart-item-details mt-3">
                                       <p >{{ item.description.slice(1,25) + '...' }}</p>
                                       <div class="d-flex justify-content-between">
@@ -166,7 +166,7 @@
                             " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
                             <!-- <img src="/assets/images/profile-placeholder.png" alt="user-profile" width="42" height="42"
                                 class="rounded-pill border-1"> -->
-                            <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1">
+                            <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1" loading="lazy">
                         </button>
                         <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
                             aria-labelledby="userDropdown">

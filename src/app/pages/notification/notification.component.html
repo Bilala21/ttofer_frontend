@@ -8,9 +8,9 @@
         <a href="/review/{{data.user_id}}">
             <div class="row">
                 <div class="col-2">
-                    <img *ngIf="data.user?.img; else defaultImage" class="userImage" src="{{data.user?.img}}"  alt="image not found">
+                    <img *ngIf="data.user?.img; else defaultImage" class="userImage" src="{{data.user?.img}}"  alt="image not found" loading="lazy">
                     <ng-template #defaultImage>
-                        <img src="assets/images/default-img.jpg" class="userImage" alt="image not found">
+                        <img src="assets/images/default-img.jpg" class="userImage" alt="image not found" loading="lazy">
                     </ng-template>
                     <!-- <img src="{{data.user?.img}}" alt="image not found" class="userImage" alt=""> -->
                 </div>
