@@ -10,22 +10,22 @@
                 <div class="post-items-container d-flex">
                     <a *ngFor="let item of buttonData ; let i=index" routerLink={{item.href}}
                         class="post-item text-center text-white pt-2 text-decoration-none">
-                        <img src={{item.img}} alt="Eye icon" width="18">
+                        <img loading="lazy" src={{item.img}} alt="Eye icon" width="18">
                         <p class="fs-10 pt-1" [innerHTML]="item.text"></p>
                     </a>
                 </div>
             </div>
             <div class="detail-right-side w-100">
-                <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img src="/assets/images/icons/status-up.png" alt="image" loading="lazy" width="20">
+                        <img loading="lazy" src="/assets/images/icons/status-up.png" alt="image" loading="lazy" width="20">
                         <a routerLink="/post-performance/12" class="pl-3 text-decoration-none text-dark-800">Item
                             Performance</a>
                     </div>
                     <i class="fa fa-angle-right"></i>
                 </div>
-                <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
                 <h4 class="fs-16 fw-semibold text-dark-800">Message</h4>
                 @for (item of [1,2,3,4,5]; track $index) {
                 <div class="detailed-posts">
@@ -37,15 +37,15 @@
                             <span class="position-relative" style="top: -10px;">9:54 AM</span>
                         </div>
                     </app-card>
-                    <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                    <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
                 </div>
                 }
 
                 <div class="mt-5">
-                    <img src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                    <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
                     <div class="text-right">
                         <button class="btn p-0">
-                            <img src="/assets/images/icons/close-circle.png" alt="image" width="20">
+                            <img loading="lazy" src="/assets/images/icons/close-circle.png" alt="image" width="20">
                         </button>
                     </div>
                     <p class="text-decoration-none text-dark-800 fw-normal fs-14 mb-1">Sell faster with promotions
@@ -53,7 +53,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="fs-12 text-dark-550 mb-0">Get an average of 20x more<br /> views each day
                         <div class="d-flex align-items-center bg-dark-450 rounded-pill px-3 py-2">
-                            <img src="/assets/images/icons/trend-up-white.png" alt="image" loading="lazy" width="20">
+                            <img loading="lazy" src="/assets/images/icons/trend-up-white.png" alt="image" loading="lazy" width="20">
                             <a routerLink="/post-performance/12" class="text-decoration-none text-white fs-10 ml-2">Sell
                                 Faster</a>
                         </div>

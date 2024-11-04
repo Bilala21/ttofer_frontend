@@ -1,0 +1,129 @@
+<div class="d-flex justify-content-between align-items-center">
+  <h3>AED {{ featuredProducts[0]?.fix_price }}</h3>
+  <div>
+    <img
+      *ngIf="!featuredProducts[0]?.wishlist.length"
+      src="assets/images/action.png"
+      alt="Add to Wishlist"
+      (click)="addWishLstFn(featuredProducts[0])"
+    />
+    <img
+      *ngIf="featuredProducts[0]?.wishlist.length > 0"
+      src="assets/images/action_filled.png"
+      alt="Added to Wishlist"
+      (click)="removeWishLstFn(featuredProducts[0])"
+    />
+  </div>
+</div>
+<hr />
+
+<a routerLink="/chatBox/{{ featuredProducts[0]?.user.id }}">
+  <button
+    class="btn btn-dark w-100 mt-3 send-message"
+    *ngIf="allowedToMakeOffer"
+  >
+    Send Message
+  </button>
+</a>
+<button
+  (click)="openModalFn()"
+  class="btn w-100 mt-3 mb-3 make-offer"
+  *ngIf="allowedToMakeOffer"
+>
+  Make Offer
+</button>
+<hr />
+<div class="row align-items-center mt-4">
+  <div class="col-8">
+    <div class="row align-items-center">
+      <div class="col-4">
+        <img
+          [src]="
+            featuredProducts[0]?.user.img
+              ? featuredProducts[0]?.user.img
+              : './assets/images/profile-placeholder.png'
+          "
+          class="userImage"
+          alt=""
+        />
+      </div>
+      <div class="col-8 p-0">
+        <div class="d-flex align-items-center">
+          <h6 class="m-0 user-name">
+            {{ featuredProducts[0]?.user.name }}
+          </h6>
+          <img
+            [ngStyle]="{
+                      'visibility': featuredProducts[0]?.user.image_verified_at != null && featuredProducts[0]?.user.phone_verified_at != null && featuredProducts[0]?.user.email_verified_at != null ? 'visible' : 'hidden',
+                      'opacity': featuredProducts[0]?.user.image_verified_at != null && featuredProducts[0]?.user.phone_verified_at != null && featuredProducts[0]?.user.email_verified_at != null ? '1' : '0',
+                    }"
+            style="height: 3vh"
+            src="assets/images/check-circle.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <a [routerLink]="['/auctionUserProfile', featuredProducts[0]?.user.id]">
+      <h6 class="pointer textHover profile-link m-0">View Profile</h6>
+    </a>
+  </div>
+  <div class="col-12 mt-4">
+    <h6 class="sm-cat-text3 color">
+      <i class="fa fa-map-marker-alt fs-20 mr-2"></i>
+      {{
+        featuredProducts[0]?.user.location
+          ? featuredProducts[0]?.user.location
+          : "N/A"
+      }}
+    </h6>
+  </div>
+</div>
+<hr />
+<div class="row mt-4">
+  <div class="col-6">
+    <div class="d-flex">
+      <h6 class="sm-cat-text4 brand-detail">Condition:</h6>
+      <h6 class="sm-font1 brand-ans">
+        {{ attributesObject?.condition ?? "N/A" }}
+      </h6>
+    </div>
+    <div class="d-flex mt-3">
+      <h6 class="sm-cat-text4 brand-detail">Color:</h6>
+      <h6 class="sm-cat-text4 brand-ans">
+        {{ attributesObject?.color ?? "N/A" }}
+      </h6>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="d-flex">
+      <h6 class="sm-cat-text4 brand-detail">Brand:</h6>
+      <h6 class="sm-font1 brand-ans">
+        {{ attributesObject?.brand ?? "N/A" }}
+      </h6>
+    </div>
+    <div class="d-flex mt-3">
+      <h6 class="sm-cat-text4 brand-detail">Storage:</h6>
+      <h6 class="sm-cat-text4 brand-ans">
+        {{ attributesObject?.storage ?? "N/A" }}
+      </h6>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 mt-4">
+    <h4 class="loaction-heading">Location</h4>
+    <div class="map-div">
+      <google-map
+        style="border-radius: 16px"
+        height="200px"
+        width="100%"
+        [center]="center"
+        [zoom]="zoom"
+      >
+      </google-map>
+    </div>
+  </div>
+</div>

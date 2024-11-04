@@ -1,165 +1,50 @@
 <div class="row justify-content-end">
-    <div class="col-12">
-        <div class="row align-items-center justify-content-between">
-            <div class="col-6">
-                <h3 class="sm-cat-text4" style="font-size: 32px;">Related Ads</h3>
-            </div>
-            <div class="col-3">
-                <div class="row justify-content-end">
-                    <div class="col-3">
-                        <button class="carouselButton">
-                            <img (click)="prevImage()" src="assets/images/left-sided-arrow.png" class="w-100"
-                                aria-hidden="true" alt="left-arrow">
-                        </button>
-                    </div>
-                    <div class="col-3 ">
-                        <button class="carouselButton">
-                            <img (click)="nextImage()" src="assets/images/right-sided-arrow.png" class="w-100"
-                                aria-hidden="true" alt="right-arrow">
-                        </button>
-                    </div>
-                </div>
-            </div>
-
+  <div class="col-12">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-6">
+        <h3 class="related-title">Related Ads</h3>
+      </div>
+      <div class="col-3 mr-3">
+        <div class="row justify-content-end ">
+          <div class="col-3 mr-2">
+            <button class="carouselButton">
+              <img
+                (click)="prevImage()"
+                src="assets/images/left-sided-arrow.png"
+                class="w-100"
+                aria-hidden="true"
+                alt="left-arrow"
+                loading="lazy"
+              />
+            </button>
+          </div>
+          <div class="col-3">
+            <button class="carouselButton">
+              <img
+                (click)="nextImage()"
+                src="assets/images/right-sided-arrow.png"
+                class="w-100"
+                aria-hidden="true"
+                alt="right-arrow"
+                loading="lazy"
+              />
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!-- mobile view  -->
-<div class="carousel-container mb-5 d-block d-md-none">
-    <div class="carousel">
-        <div class="carousel-cell">
-            <div class="row mt-5 justify-content-between">
-                <div class="col-6" *ngFor="let item of getVisibleItems(); trackBy: trackById">
-                    <div class="card mb-2 w-100" style="border-radius: 10px !important;">
-                        <div class="m-1 card border-0">
-                            <img style="height: 20vh;" [src]="'assets/catImage/' + item.imageName">
-                        </div>
-                        <b style="text-align: left;" class="sm-font pl-1">{{item.price}}</b>
-                        <span class="ellipsis sm-cat-text pl-1" style="text-align: left; font-size: 15px;">{{item.title}}</span>
-                        <div class="p-1 d-flex justify-content-between" style="font-size: 12px;">
-                            <div class="d-flex align-items-center">
-                                <img src="assets/images/date.svg" class="w-25" alt=""><span class="sm-cat-text"
-                                    style="margin-left: 5px;">{{item.year}}</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <img src="assets/images/km.svg" class="w-25" alt=""><span class="sm-cat-text"
-                                    style="margin-left: 5px;">{{item.km}}</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <img src="assets/images/petrol.svg" class="w-25" alt=""><span class="sm-cat-text"
-                                    style="margin-left: 5px;">{{item.petrol}}</span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <img src="assets/images/location.svg" style="width: 8%" alt=""><span class="sm-cat-text"
-                                style="font-size: 10px;margin-left: 5px;">{{item.location}}</span>
-                        </div>
-                        <button type="submit" class="bidButton p-2 m-2 sm-font">Bid Know</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- <button class="left" (click)="prevImage()">&#9664;</button>
-    <button class="right" (click)="nextImage()">&#9654;</button> -->
+  </div>
 </div>
 <!-- desktop view  -->
-<div class="carousel-container mb-5 d-none d-md-block">
-            <div class="row mt-2">
-                @for (item of getDisplayedItems(); track item.id) {
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card mb-3 w-100 p-1" style=" border-radius: 12px !important;">
-                            <div class="m-2 card border-0">
-                                <img class="position-relative" style="height: 28vh; border-radius: 12px;"
-                                    *ngIf="item.photo && item?.photo?.length > 0" [src]="item.photo[0]?.src">
-                                <!-- <img class="position-relative" style="height: 25vh; border-radius: 2vh;" *ngIf="item.photo && item.video.length > 0" [src]="item.video[0].src"> -->
-                                <div class="position-absolute bg-warning"
-                                    style="border-radius: 2vh; top: 10px; left: 5px; padding: .5vh 4vh .5vh 4vh;">
-                                    <span class="m-0" style="font-size: 2vh;">Special Offer</span>
-                                </div>
-                                <div class="position-absolute" style="top: 10px; right: 5px;">
-                                    <img *ngIf="item?.wishlist?.length<=0" src="assets/images/fav.png" alt=""
-                                        (click)="addWishLst(item)">
-                                    <img *ngIf="item?.wishlist?.length>0" src="assets/images/fav-added.png" alt=""
-                                        (click)="removeWishLst(item)">
-                                </div>
-                                <div class="d-flex justify-content-between mt-2">
-                                    <!-- <b style="text-align: left;">{{item.price}}</b> -->
-                                    <b [ngStyle]="{'opacity': 'AED 2,44,5544' ? '1' : '0', 'text-align': 'left'}">
-                                        AED 2,44,5544
-                                    </b>
-                                </div>
-                                <!-- <h6 class="ellipsis" style="text-align: left; font-size: 15px;">{{item.title}}</h6> -->
-                                <h5 class="ellipsis mt-1" [ngStyle]="{'opacity': item.title ? '1' : '0'}"
-                                    style="text-align: left; font-size: 15px;">{{item.title}}</h5>
-
-                                <div class="mb-1 mt-1 d-flex">
-                                    <!-- Vahecils -->
-                                    <div *ngIf="!(isVehicle(item) || isProperty(item))"
-                                        class="d-flex align-items-center" style="margin-right:1vh;">
-                                        <img src="assets/images/date.svg" style="width: 15%;" alt="">
-                                        <span [ngStyle]="{'opacity': item.created_at ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
-                                            {{item?.created_at | date}}
-                                        </span>
-                                    </div>
-                                    <div *ngIf="isVehicle(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img src="assets/images/date.svg" style="width: 15%;" alt=""><span
-                                            [ngStyle]="{'opacity': item?.created_at ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{item.created_at
-                                            | date}}</span>
-                                    </div>
-                                    <div *ngIf="isVehicle(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img src="assets/images/km.svg" style="width: 30%;" alt="">
-                                        <span [ngStyle]="{'opacity': Km(item) ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
-                                            {{ Km(item) }}
-                                        </span>
-                                    </div>
-                                    <div *ngIf="isVehicle(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img src="assets/images/petrol.svg" style="width: 25%;" alt="">
-                                        <span [ngStyle]="{'opacity': petrol(item) ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
-                                            {{ petrol(item) }}
-                                        </span>
-
-                                    </div>
-                                    <!-- Property -->
-                                    <div *ngIf="isProperty(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img style="width: 35%;" src="assets/images/bath.png"  alt=""><span
-                                            [ngStyle]="{'opacity': bath(item) ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bath(item)}}</span>
-                                    </div>
-                                    <div *ngIf="isProperty(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img style="width: 40%;" src="assets/images/bed.png" alt=""><span
-                                            [ngStyle]="{'opacity': bed(item) ? '1' : '0'}"
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bed(item)}}</span>
-                                    </div>
-                                    <div *ngIf="isProperty(item)" class="d-flex align-items-center"
-                                        style="margin-right:1vh;">
-                                        <img style="width: 40%;" src="assets/images/dining.png" alt=""><span
-                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E"></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <img src="assets/images/location.svg" style="width: 7%" alt=""><span style="font-size: 2.5vh; margin-left: 5px; text-overflow: ellipsis; 
-                                                white-space: nowrap;
-                                                overflow: hidden; color: #8E8E8E"
-                                        [ngStyle]="{'opacity': item.location ? '1' : '0'}">{{item.location}}</span>
-                                </div>
-                                <a href="/auctionProduct/{{item.id}}" type="submit" class="bidButton p-2 mt-3 text-center">Bid
-                                    Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    }
-            </div>
-    <!-- <button class="left" (click)="prevImage()">&#9664;</button>
-    <button class="right" (click)="nextImage()">&#9654;</button> -->
+<div class="carousel-container mb-5 d-md-block">
+  <div class="row mt-2">
+    @for (item of getDisplayedItems(); track item.id) {
+    <div class="col-xl-3 col-md-6 col-12 mt-2">
+      <app-product-card
+        [postData]="item"
+        [postDetialUrl]="'product-detail'"
+      />
+    </div>
+    }
+  </div>
 </div>
-<hr>

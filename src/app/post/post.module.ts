@@ -17,6 +17,9 @@ import { PostBitsComponent } from './post-bits/post-bits.component';
 import { AddPostComponent } from './add-post/add-post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { ProductCardComponent } from "../components/product-card/product-card.component";
+import { CardShimmerComponent } from "../components/card-shimmer/card-shimmer.component";
+import { AppFiltersComponent } from "../components/app-filters/app-filters.component";
 @NgModule({
   declarations: [
     PostCardComponent,
@@ -38,8 +41,11 @@ import { SharedModule } from '../shared/shared.module';
     PostRoutingModule,
     FormsModule,
     SharedModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    ProductCardComponent,
+    CardShimmerComponent,
+    AppFiltersComponent
+],
   exports:[
     PostComponent,
     AddPostComponent

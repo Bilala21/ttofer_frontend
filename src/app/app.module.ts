@@ -20,7 +20,8 @@ import { FooterComponent } from './shared/shared-components/footer/footer.compon
     
     RouterModule.forRoot([]),
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+  
     
 ],
   exports: [

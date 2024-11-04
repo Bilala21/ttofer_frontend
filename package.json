@@ -28,6 +28,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-slider/ngx-slider": "^18.0.0",
     "@angular/animations": "^18.0.4",
     "@angular/cdk": "^18.0.5",
     "@angular/common": "^18.0.4",
@@ -57,6 +58,7 @@
     "ngx-apexcharts": "^0.6.11",
     "ngx-dropzone": "^3.1.0",
     "ngx-material-timepicker": "^13.1.1",
+    "ngx-slider": "^0.0.5",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

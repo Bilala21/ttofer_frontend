@@ -1,0 +1,92 @@
+.product_title {
+  padding: 13px;
+}
+.basic-info-product {
+  padding-left: 13px;
+  .icons-plus-info {
+    font-size: 13.28px;
+    color: #767e94;
+    i,
+    img {
+      width: 19.93px;
+      height: 19.93px;
+    }
+  }
+}
+.send-message {
+  border-radius: 20px;
+  padding: 10px;
+}
+.make-offer {
+  border-radius: 20px;
+  padding: 10px;
+  background-color: #ebeef7;
+}
+.userImage {
+  width: 46px;
+  height: 46px;
+  border-radius: 57px;
+}
+.user-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 19.93px;
+}
+.profile-link {
+  text-decoration: none;
+  color: #414141;
+}
+.color {
+  color: #767e94;
+}
+.brand-detail {
+  color: #878787;
+  margin-right: 5px;
+  font-size: 12px;
+}
+.brand-ans {
+  font-size: 13px;
+  font-weight: bold;
+}
+.loaction-heading {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 26px;
+  color: #191f33;
+}
+.map-div {
+  border-radius: 16px;
+}
+.detail-des {
+  font-size: 19.93px;
+  font-weight: 19px;
+  line-height: 26px;
+  color: #191f33;
+}
+.des-in-detail {
+  word-wrap: break-word;
+  color: #767e94;
+  font-size: 2.2vh;
+}
+
+// modal
+.content-style {
+  border-radius: 20px;
+  .head-content {
+    height: 15px;
+  }
+}
+.modal-product-img {
+  height: 94px;
+  border-radius: 20px;
+}
+.modal-input {
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+}
+.modal-offer-btn {
+  border-radius: 20px;
+  padding: 10px;
+}

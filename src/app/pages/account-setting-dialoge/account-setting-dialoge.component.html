@@ -1,9 +1,19 @@
-<mat-dialog-content>
-  <h4>{{dialogDataCopy.placeholder}}</h4>
+<div style="    display: flex;
+flex-direction: column;
+width: 100%;
+height: 100%;
+padding: 34px;">
+<mat-dialog-content style="width:100%">
+  <h4 style="    text-align: center;
+  font-weight: bold;
+  font-size: 24px;">{{dialogDataCopy.placeholder}}</h4>
   <form>
     <div class="form-group" *ngIf="dialogDataCopy.key === 'name'">
-      <label>Your Name</label>
+      <label style="font-size: 16px;
+      font-weight: 500;
+      padding-left: 10px;">Your Name</label>
       <input type="text" class="form-control" 
+             
              [(ngModel)]="userInformation.name" 
              name="name" 
              placeholder="Your Name" 
@@ -26,7 +36,13 @@
              required />
     </div>
     <div class="form-group" *ngIf="dialogDataCopy.key === 'password'">
-      <label>Your Password</label>
+      <label>Old Password</label>
+      <input type="password" class="form-control" 
+             [(ngModel)]="userInformation.old_password" 
+             name="password" 
+             placeholder="Your Password" 
+             required />
+      <label>New Password</label>
       <input type="password" class="form-control" 
              [(ngModel)]="userInformation.password" 
              name="password" 
@@ -43,7 +59,12 @@
     </div>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="saveChanges()" color="primary">Update</button>
+<mat-dialog-actions  style="width:100%">
+  <!-- <button mat-button (click)="onNoClick()">Cancel</button> -->
+  <button mat-button (click)="saveChanges()" color="primary" style="    width: 100%;
+  background: #212121;
+  color: white;
+  padding: 28px 0;
+  font-size: 18px;">Update</button>
 </mat-dialog-actions>
+</div>

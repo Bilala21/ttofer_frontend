@@ -1,5 +1,12 @@
-@for (item of banners; track $index) {
-<div class="col-xl-12 p-0 mt-3 xs-px-15 {{bannerClass}}-{{$index}}">
- <a href="https://www.flipkart.com/samsung-galaxy-watch-fe-40mm-bt-sapphire-crystal-display-sleep-coach-fall-detection/p/itmeffd133da0cf5?pid=SMWH4YYBX9D6SMDM" target="_blank"> <img [src]="item.banner" class="w-100 h-100" alt="banner" /></a>
+@if (isLoading) {
+<div class="shimmer mt-3" style="--shimmer-height: 300px"></div>
+}@else { @for (item of banner; track $index) {
+<div class="col-xl-12 p-0 mt-3 xs-px-15 {{ bannerClass }}-{{ $index }}">
+  <a
+    href="https://www.flipkart.com/samsung-galaxy-watch-fe-40mm-bt-sapphire-crystal-display-sleep-coach-fall-detection/p/itmeffd133da0cf5?pid=SMWH4YYBX9D6SMDM"
+    target="_blank"
+  >
+    <img [src]="item.banner" class="w-100 h-100" alt="banner" loading="lazy"
+  /></a>
 </div>
-}
+} }

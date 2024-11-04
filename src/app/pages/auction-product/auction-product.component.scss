@@ -27,10 +27,11 @@
 }
 .auction-profile {
   height: 42px;
+  width: 42px;
   border-radius: 10px;
 }
 .auction-user-name {
-  font-size: 12px;
+  font-size: 15px;
   line-height: 18px;
   font-weight: 600;
   font-family: poppins;
@@ -42,7 +43,7 @@
   height: 24px;
 }
 .verified-member {
-  font-size: 10px;
+  font-size: 15px;
   line-height: 15px;
   font-weight: 500;
   font-family: poppins;
@@ -50,14 +51,14 @@
   margin: 0;
 }
 .member-since {
-  font-size: 10px;
+  font-size: 15px;
   line-height: 15px;
   font-weight: 500;
   font-family: poppins;
   color: #878787;
 }
 .starting-price {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 12px;
   font-weight: 700;
   font-family: poppins;
@@ -65,22 +66,23 @@
   margin: 0;
 }
 .auction-price {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 10px;
   font-weight: 400;
   font-family: poppins;
   color: #001b2e;
 }
-.live-user-img-main {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  margin-top: 4px;
-}
+// .live-user-img-main {
+//   display: flex;
+//   gap: 3px;
+//   align-items: center;
+//   margin-top: 4px;
+// }
 .live-user-img {
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  border: 1px solid rgb(247, 243, 243);
 }
 .live-user-count {
   display: flex;
@@ -88,18 +90,18 @@
   align-items: center;
   border: 1px solid black;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 .user-length-count {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 12px;
   font-weight: 400;
   font-family: poppins;
   color: #000000;
 }
 .are-live {
-  font-size: 10px;
+  font-size: 14px;
   line-height: 15px;
   font-weight: 400;
   font-family: poppins;
@@ -114,14 +116,14 @@
   color: #001b2e;
 }
 .live-auction {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 21px;
   font-weight: 600;
   font-family: poppins;
   margin-left: 5px;
 }
 .bids-made {
-  font-size: 12px;
+  font-size: 15px;
   line-height: 18px;
   font-weight: 400;
   font-family: poppins;
@@ -138,21 +140,21 @@
   border-radius: 50%;
 }
 .bider-user {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 21px;
   font-weight: 600;
   font-family: poppins;
 }
 .bider-user-time {
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   font-family: poppins;
   color: #878787;
 }
 .bider-user-price {
   font-weight: 400;
-  font-size: 12px;
+  font-size: 15px;
   line-height: 18px;
   font-family: poppins;
   color: #001b2e;
@@ -168,7 +170,7 @@
   border-radius: 16px;
 }
 .custom-bid {
-  font-size: 12px;
+  font-size: 15px;
   line-height: 18px;
   font-weight: 400;
   font-family: poppins;
@@ -186,11 +188,74 @@
   border-radius: 16px;
   padding: 10px 32px;
 }
-@media (max-width : 1024) {
-  .product_title{
+.detail-des {
+  font-size: 19.93px;
+  font-weight: 600;
+  line-height: 26px;
+  color: #191f33;
+}
+.des-in-detail {
+  word-wrap: break-word;
+  color: #767e94;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+  font-family: poppins;
+}
+.bid-your-place:hover{
+  background: none
+}
+
+.custom-price {
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  // margin: 0px 0px;
+}
+@media (max-width: 1024px) {
+  .product_title {
+    font-size: 18px;
+  }
+  .right-side-title {
     font-size: 18px;
   }
 }
+
+@media (max-width: 600px) {
+  .bid-your-place {
+    font-size: 15px;
+    line-height: 23px;
+    border-radius: 14px;
+    padding: 6px 14px;
+  }
+  .custom-price {
+    border-radius: 14px;
+    font-size: 8px;
+    cursor: pointer;
+    margin: 5px 10px 0px 10px;
+  }
+  .custom-bid {
+    font-size: 10px;
+    line-height: 13px;
+    border-radius: 14px;
+  }
+  .starting-price{
+    font-size: 12px;
+}
+.verified-member{
+font-size: 12px;
+}
+.member-since{
+  font-size: 12px;
+}
+.auction-user-name{
+  font-size: 12px;
+}
+.are-live{
+  font-size: 12px;
+}
+}
+
 // Modal Styles
 #offerModal {
   .modal-dialog-centered {

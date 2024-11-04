@@ -2,17 +2,17 @@
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid ">
   <!-- <app-header></app-header> -->
-  <div class="row justify-content-center mt-5">
+  <div class="row justify-content-center ">
     <div class="col-lg-3 col-md-6 col-sm-12 col-12">
 
       <div class="d-flex align-items-center mb-4">
-        <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
+        <img [src]="soldItems.photo[0]?.src" alt="Product Image" class="rounded-circle"
           style="width: 50px; height: 50px;">
         <div class="ml-3">
-          <h5 class="mb-0">Modern light clothes</h5>
-          <small>$500</small>
+          <h5 class="mb-0">{{soldItems.title}}</h5>
+          <small>{{soldItems.fix_price}}</small>
         </div>
       </div>
       <h6 class="mb-3"><b>Who Bought your ad?</b></h6>
@@ -39,7 +39,7 @@
 
       </div>
       <div class="d-flex justify-content-end">
-        <button [disabled]="isBtnDisabled" class="btn btn-secondary rounded-pill mr-4 btnWidth">Done</button>
+        <button  (click)="onDoneClick()" class="btn btn-secondary rounded-pill mr-4 btnWidth">Done</button>
         <button   class="btn btn-secondary rounded-pill btnWidth">Skip</button>
       </div>
 

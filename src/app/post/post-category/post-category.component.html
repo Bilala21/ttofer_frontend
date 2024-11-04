@@ -1,82 +1,48 @@
 <main class="mt-16">
-  <div class="container-fluid">
-    <div class="col-xl-11 mx-auto mt-3 xs-px-0">
+  <div class="container-fluid ">
+    <div class="mt-3 xs-px-0">
       <div>
         <app-slider></app-slider>
       </div>
-      <div class="mt-3 ">
-        <app-promotion-slider></app-promotion-slider>
-      </div>
+      <app-promotion-slider [banners]="promotionBanners" />
     </div>
-    <div class="row">
-      <div class="col-xl-11 mx-auto">
-        <div class="row mt-5">
-          <div class="col-xl-3 col-lg-3  filter-sidebar d-none d-xl-block">
-            <app-post-filter></app-post-filter>
-          </div>
-          <div class="col-xl-9 col-lg-9 ">
-            <div class="row sm-mt-0 align-items-center justify-content-end sm-pe-0">
-              <div class="col-4 d-block d-xl-none">
-                <div class="d-flex d-none d-xl-block align-items-center">
-                  <h4 class="sm-cat-text m-0 p-0 result-count">574,395 </h4><span
-                    class="sm-cat-text1 total-result">Results Founds</span>
-                </div>
-              </div>
-              <div class="col-md-5 d-none d-xl-block">
-                <div class="btn-group w-100" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btngroup p-2 tab-btn" [ngClass]="{'active': activeButton === 1}">
-                    Auction Products
-                  </button>
-                  <button type="button" class="btn btngroup p-2 tab-btn" [ngClass]="{'active': activeButton === 2}">
-                    Feature Products
-                  </button>
-                </div>
-              </div>
-              <div class="col-3 sm-p-0">
-                <select class="form-select form-control w-100 sm-cat-text1 page-dropdown"
-                  aria-label="Default select example">
-                  <option selected value="1">Latest</option>
-                  <option value="2">One</option>
-                  <option value="3">Two</option>
-                  <option value="4">Three</option>
-                </select>
-              </div>
-              <div class="col-3 sm-p-0">
-                <select class="form-select form-control w-100 sm-cat-text1 mx-2 page-dropdown"
-                  aria-label="Default select example">
-                  <option selected value="1">21 per page</option>
-                  <option value="2">One</option>
-                  <option value="3">Two</option>
-                  <option value="4">Three</option>
-                </select>
-              </div>
-
-              <!-- for mobile view filter side  -->
-              <div class="col-2 d-block d-xl-none">
-                <img (click)="toggleSidebar()" src="assets/images/filter-icon.svg" class="w-75 sm-img4" alt="" />
-              </div>
-              <div class="col-xl-5 d-block d-xl-none mt-3">
-                <div class="btn-group w-100" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btngroup p-2 sm-font tab-btn"
-                    [ngClass]="{ active: activeButton === 1 }">
-                    Auction Products
-                  </button>
-                  <button type="button" class="btn btngroup p-2 sm-font tab-btn"
-                    [ngClass]="{ active: activeButton === 2 }">
-                    Feature Products
-                  </button>
-                </div>
-              </div>
-              <div class="sidebar d-block d-xl-none" [ngClass]="{ active: isActive }">
-                <app-post-filter></app-post-filter>
-              </div>
-            </div>
-            <div class="mt-4 post-list pr-2">
-              <app-post [cols]="postCols"></app-post>
-            </div>
-          </div>
+    <div class="d-flex pt-5">
+      <aside class="product-filter pt-4">
+        <app-filters />
+      </aside>
+      <!-- PRODUCT SIDE -->
+      <div class="flex-grow-1 pl-4 xs-px-0">
+        <div class="text-center mb-4">
+          <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
+            (click)="handleTab('auction')"> Auction Products </button>
+          <button type="button" class="btn py-2 px-3 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
+            (click)="handleTab('featured')"> Feature Products</button>
         </div>
+        @if (!data.length) {
+        <div class="text-center text-dark-400 pt-5">Data not found</div>
+        }
+        @else {
+        <div class="row px-0 row-gap">
+          @if(!data.length){
+            @for(data of [1,2,3,4,5,6,7,8,9];track $index){
+              <div
+              class="m-1 p-0 border-1 rounded-2 shimmer-card"
+              >
+              <app-card-shimmer/>
+              </div>
+              
+            }
+          }@else { @for (post of data; track $index) {
+          <div class="col-lg-4">
+            <app-product-card
+              [postData]="post"
+              postDetialUrl="auction-product-detail"
+            />
+          </div>
+          } }
+        </div>
+        }
       </div>
     </div>
-  </div>
+  </div>
 </main>

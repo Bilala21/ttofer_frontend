@@ -1,6 +1,6 @@
 <div class="modal fade"  #loginModal id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
 		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered {{showRegisterBox?'register-modal':''}}" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<!-- <button type="button" class="back" (click)="back()" aria-label="Close">
@@ -61,7 +61,7 @@
 						<div class="col-10 mx-auto" *ngIf="showForgotBox">
 							<div class="text-center">
 								<h6 class="">Email</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<label>Email</label>
@@ -78,7 +78,7 @@
 						<div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
 							<div class="text-center">
 								<h6 class="">Phone Number</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<label>Phone</label>
@@ -95,7 +95,7 @@
 						<div class="col-10 mx-auto" *ngIf="showOTPBox">
 							<div class="text-center">
 								<h6 class="">Verify</h6>
-								<img src="assets/images/verify-img.png" class="w-75 mt-3" alt="">
+								<img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy">
 							</div>
 							<div class="mt-4">
 								<p>Please type in the OTP code we sent to your email. It's an extra step to make sure
@@ -246,7 +246,7 @@
 						<div class="col-10 mx-auto "
 							*ngIf="!showPhoneBox && !showEmailBox && !showRegisterBox && !showForgotBox && !showOTPBox && !showForgotPhoneBox">
 							<button class="btn btn-outline-dark btn-block" style="border-radius: 18px;" (click)="googleSignIn()">
-								<img src="https://img.icons8.com/color/48/000000/google-logo.png"  alt="Google" />
+								<img src="https://img.icons8.com/color/48/000000/google-logo.png"  alt="Google" loading="lazy" />
 								Continue
 								with Google
 							</button>
@@ -257,12 +257,12 @@
 							</button> -->
 							<button class="btn btn-outline-dark btn-block" (click)="openPhone()"
 								style="border-radius: 18px;">
-								<img src="https://img.icons8.com/ios-filled/50/000000/phone.png" alt="Phone" /> Continue
+								<i class="fas fa-phone fs-20 text-center d-block mb-1 fa-rotate-90 mr-3"></i> Continue
 								with Phone
 							</button>
 							<button class="btn btn-outline-dark btn-block" (click)="openEmail()"
 								style="border-radius: 18px;">
-								<img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email" /> Continue
+								<i class="fas fa-envelope fs-20 text-center d-block mb-1 mr-3"></i> Continue
 								with Email
 							</button>
 							<span class="mt-3">Don't have an account? <a style="color: black; cursor: pointer; text-decoration: underline;"

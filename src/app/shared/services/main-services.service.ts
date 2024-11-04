@@ -55,7 +55,7 @@ export class MainServicesService {
     return this.http.post(`${this.apiUrl}api/auction-products`, null);
   }
   addWishList(input: any) {
-    return this.http.post(`${this.apiUrl}` + 'api/add-wishlist-products', input).pipe();
+    return this.http.post(`${this.apiUrl}` + 'web-api/toggle-wishlist-product', input).pipe();
   }
   removeWishList(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/remove-wishlist-products', input).pipe();
@@ -81,15 +81,25 @@ export class MainServicesService {
   makeOffer(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/make-offer', input).pipe();
   }
+  getOffer(input:any){
+    return this.http.post(`${this.apiUrl}` + 'api/get-offer', input).pipe();
+  }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(`${this.apiUrl}` + 'api/get/user/all/chats/' + currentUserid).pipe();
   }
   getConversation(conversation_id: number) {
     return this.http.get(`${this.apiUrl}` + 'api/get/conversation/' + conversation_id).pipe();
   }
+  deleteConversation(conversation_id:any){
+    return this.http.get(`${this.apiUrl}` + 'api/delete/conversation/' + conversation_id).pipe();
+
+  }
   sendMsg(input: any) {
     return this.http.post(`${this.apiUrl}` + 'api/send_msg', input).pipe();
   }
+  markMessagesAsRead(conversation_id:any) {
+    return this.http.get(`${this.apiUrl}`+'api/mark/conversation/read/' + conversation_id).pipe();
+}
   addProductFirstStep(input: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}` + 'api/add-product-first-step', input, {
       headers: this.getHeaders(),
@@ -202,4 +212,10 @@ export class MainServicesService {
   getFilteredProducts(data: any = {}): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}` + 'api/get-all-products', data);
   }
+  getProductById(data: any = {}): Observable<any> {
+    return this.http.post<any[]>(`${this.apiUrl}` + 'api/product-detail', data);
+  }
+  // getProductById(url: string): Observable<any> {
+  //   return this.http.get<any>(`${this.apiUrl}api/${url}`);
+  // }
 }

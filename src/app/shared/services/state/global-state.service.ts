@@ -10,7 +10,10 @@ interface AppState {
   filteredProducts: any[];
   isLoggedInd: boolean;
   wishListItems: number[]; // Assuming wishlist items are identified by their IDs
-  currentUser: any
+  currentUser: any,
+  temp_token: any
+  isLoggedIn: boolean,
+  cartState: any[]
 }
 
 @Injectable({
@@ -26,12 +29,15 @@ export class GlobalStateService {
     currentUser: {},
     subCategories: [],
     filteredProducts: [],
-    prodTab:{key: "ProductType", value: "auction"}
+    prodTab: { key: "ProductType", value: "auction" },
+    temp_token: localStorage.getItem("tempToken"),
+    isLoggedIn: false,
+    cartState: []
   };
   public filterCriteria: any = {
     location: []
   }
-  public productlength:any;
+  public productlength: any;
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
@@ -44,6 +50,39 @@ export class GlobalStateService {
     this.stateSubject.next({ ...currentState, currentUser: currentUser });
   }
 
+  updateCart(data: any, isRemove = false) {
+    const currentState = this.stateSubject.value;
+    const existingItem = currentState.cartState.find((item) => item.id === data.id);
+    let updatedCartState;
+    console.log(data, "cart state");
+    if (isRemove) {
+      updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
+    }
+    else {
+      if (existingItem) {
+        updatedCartState = currentState.cartState.map((item) => {
+          if (item.id === data.id) {
+            return { ...item, quantity: data.quantity };
+          }
+          return item;
+        }).filter(item => item.quantity > 0);
+      }
+      else {
+        const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
+        updatedCartState = [...currentState.cartState, productInfo];
+      }
+    }
+    const newState: any = {
+      ...currentState,
+      cartState: updatedCartState,
+    };
+    localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
+    this.stateSubject.next(newState);
+  }
+
+
+
+
   updateTab(index: number, tabName: string) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -53,13 +92,13 @@ export class GlobalStateService {
     this.stateSubject.next(newState);
   }
   updateProdTab(key: string, value: string) {
-    debugger
+    // 
     const newState = {
       prodTab: { key, value }
     };
     this.productSubject.next(newState);
   }
-    wishlistToggle(id: number) {
+  wishlistToggle(id: number) {
     const currentState = this.stateSubject.value;
     const currentWishList = currentState.wishListItems;
     let newWishList: number[];
@@ -84,7 +123,7 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-  
+
   setCategories(data: any) {
     console.log(data, "setCategories state");
     const currentState = this.stateSubject.value;
@@ -99,6 +138,22 @@ export class GlobalStateService {
     const newState = {
       ...currentState,
       subCategories: data
+    };
+    this.stateSubject.next(newState);
+  }
+  updateTempToken(token: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      temp_token: token
+    };
+    this.stateSubject.next(newState);
+  }
+  isLoggedInUser(token: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      isLoggedIn: token
     };
     this.stateSubject.next(newState);
   }

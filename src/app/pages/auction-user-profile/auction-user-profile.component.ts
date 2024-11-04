@@ -51,7 +51,7 @@ export class AuctionUserProfileComponent {
 
     isDropdownOpen = false;
     currentUserid:number = 0;
-    auctionUserList:any;
+    auctionUserList:any={}
     reviewsUserList:any;
     auctionUserId:any;
 
@@ -78,10 +78,9 @@ export class AuctionUserProfileComponent {
       });
     }
     getAuctionUser(){
-      this.loading = true
-
+      // this.loading = true
+// 
       this.mainServices.getUserInfo(this.auctionUserId).subscribe((res:any) =>{
-
         this.auctionUserList = res.data
         this.reviewsUserList = res.data.products
         console.log('auction Produtc', this.auctionUserList);

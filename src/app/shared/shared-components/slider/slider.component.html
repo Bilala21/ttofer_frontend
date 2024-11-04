@@ -1,7 +1,13 @@
-<a routerLink="/#" id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div *ngFor="let slide of slides; let i = index" class="carousel-item" [class.active]="i === 0">
-      <img [src]="slide.image" class="rounded xs-rounded-0" alt="image" loading="lazy">
+@if (isLoading) {
+  <div class="shimmer" style="--shimmer-height: 150px;"></div>
+}@else {
+  <a routerLink="/#" id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let slide of slides; let i = index" class="carousel-item" [class.active]="i === 0">
+        <img [src]="slide.image" class="rounded xs-rounded-0" alt="image" loading="lazy">
+      </div>
     </div>
-  </div>
-</a>
+  </a>
+}
+
+

@@ -1,21 +1,8 @@
-<!-- <ngx-spinner
-  bdColor="rgba(51,51,51,0.8)"
-  size="medium"
-  color="#fff"
-  type="ball-clip-rotate"
-  [fullScreen]="true">
-</ngx-spinner> -->
-<!-- <h2>Testing</h2> -->
-<main class="mt-16 mb-5">
-  <div *ngIf="loading" class="loader-overlay">
-    <div class="loader"></div>
-  </div>
+<main class="mt-16 mb-5 auction-product-container">
   <div class="container-fluid">
-    <div class="row mt-5">
-      <div class="col-xl-11 mx-auto">
-        <div class="row">
+        <div class="row mx-0 justify-content-between">
           <!-- left-hand-side-for-both -->
-          <div class="col-xl-8">
+          <div class="col-xl-7 pl-0">
             <h2 class="product_title">{{ auctionProduct[0]?.title }}</h2>
             <div class="basic-info-product">
               <div class="d-flex align-items-center">
@@ -58,62 +45,62 @@
               </div>
             </div>
 
-            <!-- right-side-for-mobile -->
+            <!-- mobile-right-side -->
             <div class="d-block d-xl-none mt-5">
-              <div class="row border">
+              <div class="row d-flex">
                 <!-- descriptions -->
-                <div class="col-xl-6 col-md-6">
+                <div class="col-md-6">
                   <h2 class="detail-des">Descriptions</h2>
-                  <p class="sdes-in-detail">
+                  <p class="des-in-detail">
                     {{ this.auctionProduct[0]?.description }} Descriptions
                   </p>
                 </div>
 
-                <div class="col-xl-6 col-md-6">
-                  <h4 class="right-side-title">
-                    {{ auctionProduct[0]?.title }} 
+                <div class="col-md-6">
+                  <h4 class="right-side-title" >
+                    {{ auctionProduct[0]?.title }}
                   </h4>
-                  <div class="row align-items-center">
+                  <div class="row align-items-center mt-3 mx-0">
                     <div class="col-7">
                       <a
                         style="text-decoration: none; color: black"
-                        [routerLink]="[
-                          '/auctionUserProfile',
+                        routerLink="/auctionUserProfile/{{
                           auctionProduct[0]?.user?.id
-                        ]"
+                        }}"
                       >
-                        <!-- Add the text or content inside the link here -->
-
                         <div class="row align-items-center">
-                          <div class="col-4">
+                          <div class="col-2 mr-3">
                             <img
-                              [src]="auctionProduct[0]?.user?.img"
-                              class="w-100"
+                              loading="lazy"
+                              [src]="
+                                auctionProduct[0]?.user?.img
+                                  ? auctionProduct[0]?.user?.img
+                                  : '/assets/images/profile-placeholder.png'
+                              "
                               class="auction-profile"
                               alt=""
                               loading="lazy"
                             />
-                            <!-- <img src="assets/images/profile-img1.png" class="w-100" alt=""> -->
                           </div>
-                          <div class="col-8" style="font-size: 2vh">
-                            <span class="auction-user-name">{{
-                              auctionProduct[0]?.user?.name
-                            }}</span>
+                          <div class="col-8">
+                            <span class="auction-user-name"
+                              >{{ auctionProduct[0]?.user?.name }}</span
+                            >
                           </div>
                         </div>
                       </a>
                     </div>
-                    <div class="col-5" *ngIf="isVerified">
+                    <!-- this.isVerified *ngIf="" -->
+                    <div class="col-5" style="text-align: end">
                       <img
                         src="assets/images/verify.svg"
                         alt=""
+                        class="verified-img"
                         loading="lazy"
                       />
-                      <span class="verified-img">Verified Member</span>
+                      <span class="verified-member">Verified Member</span>
                     </div>
-                  </div>
-                  <div class="row justify-content-center">
-                    <div class="col-11 col-md-12" style="text-align: end">
+                    <div class="col-md-12" style="text-align: end">
                       <span class="member-since"
                         >Member since
                         {{ auctionProduct[0]?.user?.created_at | date }}</span
@@ -135,26 +122,25 @@
                       <div class="row">
                         <div
                           class="col-6"
-                          style="
-                            border-right: 1px solid #787878;
-                            padding-right: 1vh;
-                          "
+                          style="border-right: 1px solid #787878; padding-right: 1vh"
                         >
                           <h6 class="starting-price">Starting price</h6>
                           <span class="auction-price">{{
-                            auctionProduct[0]?.auction_price
+                            auctionProduct[0]?.auction_price || "N/A"
                           }}</span>
-                          <div class="row mt-3">
+                          <div class="row mt-2">
                             <div class="col-6">
-                              <!-- live-user-img-main -->
                               <div class="live-user-img-main">
                                 <!-- Display each image in a single row -->
                                 <div
-                                  *ngFor="let data of profileImg.slice(1,6)"
+                                  *ngFor="
+                                    let data of profileImg;
+                                    let i = index
+                                  "
                                   class="d-flex me-2 mb-2"
                                 >
                                   <img
-                                    [src]="data.img"
+                                    [src]="data?.img"
                                     alt=""
                                     class="live-user-img"
                                     loading="lazy"
@@ -188,8 +174,7 @@
                             <span
                               class="are-live"
                               *ngIf="
-                                calculateRemaningTime &&
-                                calculateRemaningTime != ''
+                                calculateRemaningTime && calculateRemaningTime != ''
                               "
                               >{{ calculateRemaningTime || "N/A" }}</span
                             >
@@ -198,16 +183,13 @@
                       </div>
                     </div>
                   </div>
+                  <!-- live-action bids-mads -->
                   <div
                     class="row mt-3"
                     *ngIf="liveAuction.length && liveAuction.length > 0"
                   >
                     <div class="col-6">
-                      <img
-                        src="assets/images/liveDot.svg"
-                        alt=""
-                        loading="lazy"
-                      />
+                      <img src="assets/images/liveDot.svg" alt="" loading="lazy" />
                       <span class="live-auction">Live Auction</span>
                     </div>
                     <div class="col-6" style="text-align: end">
@@ -221,7 +203,7 @@
                     class="sidebar"
                     *ngIf="liveAuction.length && liveAuction.length > 0"
                   >
-                    <div class="sidebar-content biders">
+                    <div class="biders">
                       <div
                         class="row mt-3 align-items-center justify-content-between mx-0"
                         *ngFor="let data of liveAuction"
@@ -251,57 +233,22 @@
                           </div>
                         </div>
                         <div class="col-2 bider-user-price">
-                          <span>{{ data?.price }}</span>
+                          <span class="">{{ data?.price }}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- allowedToBid && IsBit -->
-                  <div *ngIf="true" class="row mt-3 justify-content-between">
-                    <div class="col-12 col-xl-6 d-flex mb-2 md-xl-0 justify-content-between">
-                      <div class="col-2 sm-p-0">
-                        <button
-                          id="placeBid"
-                          name="placeBid"
-                          class="btn btn-outline-dark placeBids"
-                          (click)="bid26()"
-                        >
-                          26k
-                        </button>
-                      </div>
-                      <div class="col-2 sm-p-0">
-                        <button
-                          id="placeBid"
-                          name="placeBid"
-                          class="btn btn-outline-dark placeBids"
-                          (click)="bid28()"
-                        >
-                          28k
-                        </button>
-                      </div>
-                      <div class="col-2 sm-p-0">
-                        <button
-                          id="placeBid"
-                          name="placeBid"
-                          class="btn btn-outline-dark placeBids"
-                          (click)="bid32()"
-                        >
-                          32k
-                        </button>
-                      </div>
-                      <div class="col-2 sm-p-0">
-                        <button
-                          id="placeBid"
-                          name="placeBid"
-                          class="btn btn-outline-dark placeBids"
-                          (click)="bid35()"
-                        >
-                          35k
-                        </button>
-                      </div>
+                  <div *ngIf="allowedToBid && IsBit" class="row mt-3 justify-content-between">
+                    <div *ngFor="let price of priceOptions" class="col-1 sm-p-0">
+                      <span
+                        class="btn btn-outline-dark custom-price"
+                        (click)="placeBid(price)"
+                      >
+                        {{ price}}
+                      </span>
                     </div>
-
-                    <div class="col-12 col-xl-5">
+                    <div class="col-5">
                       <button
                         id="placeBid"
                         name="placeBid"
@@ -311,10 +258,10 @@
                         use custom bid
                       </button>
                     </div>
-
                   </div>
+                  <!-- allowedToBid && IsBit -->
                   <!-- btn -->
-                  <div *ngIf="true" class="row mt-3">
+                  <div *ngIf="true" class="row mt-2">
                     <div class="col-12">
                       <button
                         (click)="openModal()"
@@ -332,7 +279,7 @@
                         *ngIf="showBid"
                         type="text"
                         placeholder="AED"
-                        class="form-control w-100 p-4 mt-3 text-center"
+                        class="form-control w-100 mt-2 text-center bid-your-place"
                         style="border-radius: 16px"
                       />
                     </div>
@@ -344,11 +291,11 @@
           </div>
 
           <!-- desktop-right-hand-side-section -->
-          <div class="col-md-4 d-none d-xl-block" style="margin-top: 75px">
-            <h4 class="right-side-title" style="">
+          <div class="col-md-4 d-none d-xl-block pt-5" style="margin-top: 75px">
+            <h4 class="right-side-title" >
               {{ auctionProduct[0]?.title }}
             </h4>
-            <div class="row align-items-center mt-3">
+            <div class="row align-items-center mt-3 mx-0">
               <div class="col-7">
                 <a
                   style="text-decoration: none; color: black"
@@ -357,7 +304,7 @@
                   }}"
                 >
                   <div class="row align-items-center">
-                    <div class="col-2 mr-3">
+                    <div class="col-2 mr-3 pl-0">
                       <img
                         loading="lazy"
                         [src]="
@@ -396,7 +343,7 @@
               </div>
             </div>
             <div
-              class="row mt-5 justify-content-center"
+              class="row mt-5 justify-content-center mx-0"
               *ngIf="liveAuction?.length && liveAuction.length > 0"
             >
               <div
@@ -422,7 +369,7 @@
                           <!-- Display each image in a single row -->
                           <div
                             *ngFor="
-                              let data of profileImg.slice(1, 6);
+                              let data of profileImg;
                               let i = index
                             "
                             class="d-flex me-2 mb-2"
@@ -498,7 +445,7 @@
                 >
                   <div class="col-8">
                     <div class="row align-items-center">
-                      <div class="col-2">
+                      <div class="col-2 pl-0">
                         <img
                           loading="lazy"
                           [src]="
@@ -574,9 +521,8 @@
               </div>
             </div>
           </div>
+
         </div>
-      </div>
-    </div>
   </div>
   <!-- modal-for-bid -->
   <div

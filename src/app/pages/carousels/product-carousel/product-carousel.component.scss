@@ -1,3 +1,57 @@
+.carousel-container {
+  .main-image-container {
+      position: relative;
+  }
+
+  .main-image {
+      object-fit: cover; /* Prevents image stretching */
+      object-position: center; /* Centers the image */
+      max-height: 532px; /* Sets a maximum height */
+      width: 100%; /* Full width of the container */
+      image-rendering: -webkit-optimize-contrast; /* Improves rendering */
+      image-rendering: crisp-edges; /* Enhances sharpness */
+      transition: filter 0.5s; /* Smooth transition for blur effect */
+  }
+
+  .thumbnail-container {
+      margin-top: 1rem; /* Adds top margin */
+      display: flex; /* Flexbox layout */
+      justify-content: center; /* Centers items */
+      align-items: center; /* Centers items vertically */
+      
+      .carousel-control-prev,
+      .carousel-control-next {
+          background: transparent; /* No background */
+          border: none; /* No border */
+          cursor: pointer; /* Pointer cursor */
+      }
+
+      .thumbnail-row {
+          display: flex; /* Flexbox for thumbnails */
+          overflow-x: auto; /* Horizontal scroll if needed */
+          scroll-behavior: smooth; /* Smooth scrolling */
+          margin: 0 1rem; /* Horizontal margins */
+          
+          .thumbnail-item {
+              margin: 0 0.5rem; /* Margin for thumbnails */
+              
+              .thumbnail-image {
+                  object-fit: cover; /* Prevents stretching */
+                  object-position: center; /* Centers the image */
+                  cursor: pointer; /* Pointer cursor */
+                  transition: all 0.3s ease-in-out; /* Smooth transition */
+                  filter: brightness(0.9); /* Slightly dimmed thumbnails */
+
+                  &.selected {
+                      filter: brightness(1.1); /* Highlight selected thumbnail */
+                  }
+              }
+          }
+      }
+  }
+}
+
+  
   .main-image-container {
     position: relative;
   }
@@ -31,13 +85,13 @@
     border: 2px solid transparent;
   }
   
-  .thumbnail-image.selected {
-    border-color: #007bff;
-  }
+  // .thumbnail-image.selected {
+  //   border-color: #007bff;
+  // }
   
   .carousel-control-prev,
   .carousel-control-next {
-    background-color: #CDFFF2;
+    background-color: #CDFFF2 !important;
     border: none;
     border-radius: 48px;
     cursor: pointer;
@@ -67,3 +121,4 @@
       height: 250px !important;
     }
   }
+

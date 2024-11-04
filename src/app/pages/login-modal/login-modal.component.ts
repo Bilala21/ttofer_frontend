@@ -70,9 +70,9 @@ export class LoginModalComponent {
     //     this.checkRoute(event.url);
     //   }
     // });
-    // debugger
+    // 
     this.currentUserId = extention.getUserId();
-    // debugger
+    // 
    this.authService.openModal$.subscribe((result:any) => {
       this.openLoginModal();
     });
@@ -98,7 +98,7 @@ export class LoginModalComponent {
     }
   }
    openLoginModal() {
-    // debugger
+    // 
     const modal = this.loginModal.nativeElement;
     
     if (modal) {

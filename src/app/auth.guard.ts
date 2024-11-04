@@ -6,8 +6,7 @@ import { GlobalStateService } from './shared/services/state/global-state.service
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authState: GlobalStateService) {
-  }
+  constructor(private router: Router, private authState: GlobalStateService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -18,7 +17,10 @@ export class AuthGuard implements CanActivate {
     if (token) {
       return true;
     } else {
-      this.authState.showAuthModal(true)
+      // Redirect to home and show modal
+      this.router.navigate(['/']).then(() => {
+        this.authState.showAuthModal(true);
+      });
       return false;
     }
   }

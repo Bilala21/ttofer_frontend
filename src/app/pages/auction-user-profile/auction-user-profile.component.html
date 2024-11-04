@@ -1,18 +1,16 @@
 <!-- <app-header></app-header> -->
 <main class="mt-16">
-<div *ngIf="loading" class="loader-overlay">
-    <div class="loader"></div>
-</div>
+
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-md-2 col-3 mx-auto text-center">
             <!-- <img src="assets/images/profile-img1.png" class="w-100" alt=""> -->
-            <img *ngIf="auctionUserList.img!=null" [src]="auctionUserList.img" style="height: 112px;
+            <img *ngIf="auctionUserList?.img!=null" [src]="auctionUserList?.img" loading="lazy" style="height: 112px;
             width: 112px !important;
             border-radius: 25px;
         " alt="">
-            <h6>{{auctionUserList.name}}</h6>
-            <app-star-rating [rating]="auctionUserList.review_percentage"></app-star-rating>
+            <h6>{{auctionUserList?.name}}</h6>
+            <app-star-rating [rating]="auctionUserList?.review_percentage"></app-star-rating>
             <!-- <img src="assets/images/stars.png" alt=""> -->
         </div>
     </div>
@@ -20,46 +18,46 @@
         <div class="col-md-4 col-10 mx-auto">
             <div class=" d-flex align-items-center  justify-content-center">
                 <div class="text-center pointer" style="margin: 0 10px;">
-                    <img [class.bg-success]="auctionUserList.email_verified_at != null"
-                    [class.bg-danger]="auctionUserList.email_verified_at == null" class="rounded-circle p-2" src="assets/images/E-sms.svg" style="height: 15%;"
+                    <img [class.bg-success]="auctionUserList?.email_verified_at != null"
+                    [class.bg-danger]="auctionUserList?.email_verified_at == null" class="rounded-circle p-2" src="assets/images/E-sms.svg" loading="lazy" style="height: 15%;"
                         alt="">
                     <div class="mt-2">
                         <h6 class="m-0 p-0 sm-cat-text1">Email</h6>
                         <h6 class="m-0 p-0 sm-cat-text1">
-                          {{ auctionUserList.email_verified_at != null ? 'Verified' : 'Not Verified' }}
+                          {{ auctionUserList?.email_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
                 <div class="text-center" style="margin: 0 10px;">
-                    <img [class.bg-success]="auctionUserList.image_verified_at != null"
-                    [class.bg-danger]="auctionUserList.image_verified_at == null" class="rounded-circle p-2" src="assets/images/gallery.svg" style="height: 15%;"
+                    <img [class.bg-success]="auctionUserList?.image_verified_at != null"
+                    [class.bg-danger]="auctionUserList?.image_verified_at == null" class="rounded-circle p-2" src="assets/images/gallery.svg" loading="lazy" style="height: 15%;"
                         alt="">
                     <div class="mt-2">
                         <h6 class="m-0 p-0 sm-cat-text1">Image</h6>
                         <h6 class="m-0 p-0 sm-cat-text1">
-                          {{ auctionUserList.image_verified_at != null ? 'Verified' : 'Not Verified' }}
+                          {{ auctionUserList?.image_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
                 <div class="text-center pointer" style="margin: 0 10px;">
-                        <img [class.bg-success]="auctionUserList.phone_verified_at != null"
-                        [class.bg-danger]="auctionUserList.phone_verified_at == null" class="rounded-circle p-2" src="assets/images/call.svg" style="height: 15%;"
+                        <img [class.bg-success]="auctionUserList?.phone_verified_at != null"
+                        [class.bg-danger]="auctionUserList?.phone_verified_at == null" class="rounded-circle p-2" src="assets/images/call.svg" style="height: 15%;"
                         alt="">
                     <div class="mt-2">
                         <h6 class="m-0 p-0 sm-cat-text1">Phone</h6>
                         <h6 class="m-0 p-0 sm-cat-text1">
-                          {{ auctionUserList.phone_verified_at != null ? 'Verified' : 'Not Verified' }}
+                          {{ auctionUserList?.phone_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
                 <div class="text-center" style="margin: 0 10px;" *ngIf="auctionUserList.image_verified_at != null && auctionUserList.email_verified_at != null && auctionUserList.phone_verified_at != null">
-                    <img [class.bg-success]="auctionUserList.is_true_you == '1'"
+                    <img [class.bg-success]="auctionUserList?.is_true_you == '1'"
                     [class.bg-danger]="auctionUserList.is_true_you == '0'" class="rounded-circle p-2" src="assets/images/E-verify.svg" style="height: 15%;"
-                        alt="">
+                        alt="" loading="lazy">
                     <div class="mt-2">
                         <h6 class="m-0 p-0 sm-cat-text1">Join</h6>
                         <h6 class="m-0 p-0 sm-cat-text1">TruYou</h6>
                     </div>
                 </div>
                 <div class="text-center" style="margin: 0 10px;" style="cursor: pointer;" (click)="openModal()">
-                    <img src="assets/images/reportUser-icon.svg" alt="">
+                    <img src="assets/images/reportUser-icon.svg" alt="" loading="lazy">
                     <div class="mt-2">
                         <h6 class="m-0 p-0 sm-cat-text1">Report</h6>
                         <h6 class="m-0 p-0 sm-cat-text1">User</h6>
@@ -82,10 +80,10 @@
 
             <div class="content">
                 <div *ngIf="activeTab === 'products'">
-                    <div class="row align-items-center mt-3" *ngFor="let data of auctionUserList.products">
+                    <div class="row align-items-center mt-3" *ngFor="let data of auctionUserList?.products">
                         <div class="col-md-4 col-6">
-                            <img class="w-100 sm-img-h" style="height: 70px; border-radius: 10px;" *ngIf="data.photo[0].src != null" [src]="data.photo[0].src"
-                                alt="">
+                            <img class="w-100 sm-img-h" style="height: 70px; border-radius: 10px;" *ngIf="data?.photo[0].src != null" [src]="data.photo[0].src"
+                                alt="" loading="lazy">
                         </div>
                         <div class="col-6">
                             <h4 class="m-0 p-0" style="font-size: 16px;">{{data.title}}</h4>
@@ -98,7 +96,7 @@
                 <div *ngIf="activeTab === 'reviews'">
                     <div class="row align-items-center mt-3" *ngFor="let row of reviewsUserList">
                         <div class="col-md-4 col-6">
-                            <img [src]="row.user.img" class="w-100 sm-img-h" style="height: 70px; border-radius: 10px;" alt="">
+                            <img [src]="row.user.img" class="w-100 sm-img-h" style="height: 70px; border-radius: 10px;" alt="" loading="lazy">
                         </div>
                         <div class="col-6">
                             <h4 class="m-0 p-0 sm-cat-text4" style="font-size: 20px;">{{row.user.name}}</h4>
@@ -134,7 +132,7 @@
                     <div class="col-10 mx-auto" *ngIf="!showOTPBox">
                         <div class="text-center">
                             <h6 class="">Phone</h6>
-                            <img src="assets/images/phone-img.png" class="w-75 mt-3" alt="">
+                            <img src="assets/images/phone-img.png" class="w-75 mt-3" alt="" loading="lazy">
                         </div>
                         <div class="mt-4">
                             <label>Phone</label>
@@ -149,7 +147,7 @@
                     <div class="col-10 mx-auto" *ngIf="showOTPBox">
                         <div class="text-center">
                             <h6 class="">Verify</h6>
-                            <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="">
+                            <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy">
                         </div>
                         <div class="mt-4">
                             <p>Please type in the OTP code we sent to your email. It's an extra step to make sure
@@ -204,7 +202,7 @@
                     <div class="col-10 mx-auto" *ngIf="!showOTPBox">
                         <div class="text-center">
                             <h6 class="">Email</h6>
-                            <img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
+                            <img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
                         </div>
                         <div class="mt-4">
                             <label>Email</label>
@@ -219,7 +217,7 @@
                     <div class="col-10 mx-auto" *ngIf="showOTPBox">
                         <div class="text-center">
                             <h6 class="">Verify</h6>
-                            <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="">
+                            <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy">
                         </div>
                         <div class="mt-4">
                             <p>Please type in the OTP code we sent to your email. It's an extra step to make sure

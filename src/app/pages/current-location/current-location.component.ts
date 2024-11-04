@@ -10,20 +10,21 @@ import { MainServicesService } from '../../shared/services/main-services.service
   styleUrl: './current-location.component.scss'
 })
 export class CurrentLocationComponent implements OnInit {
-  // latitude: number | undefined;
-  // longitude: number | undefined;
-  // error: string | undefined;
+  latitude: number | undefined;
+  longitude: number | undefined;
+  error: string | undefined;
   @Output() locationFound = new EventEmitter<string>();
   locationName: string = "";
   constructor(private locationService: MainServicesService) {}
 
   ngOnInit(): void {
 
-    // this.getCurrentLocation();
+    this.getCurrentLocation();
   }
 
   async getCurrentLocation() {
     try {
+      
       const position = await this.getLocation();
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;

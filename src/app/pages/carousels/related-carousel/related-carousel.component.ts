@@ -3,11 +3,12 @@ import { Component, Input } from '@angular/core';
 import { MainServicesService } from '../../../shared/services/main-services.service';
 import { Extension } from '../../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductCardComponent } from "../../../components/product-card/product-card.component";
 
 @Component({
   selector: 'app-related-carousel',
   standalone: true,
-  imports: [NgFor,CommonModule],
+  imports: [NgFor, CommonModule, ProductCardComponent],
   templateUrl: './related-carousel.component.html',
   styleUrl: './related-carousel.component.scss'
 })

@@ -1,78 +1,401 @@
-<!-- <app-header></app-header> -->
-<main class="mt-16 chat-container pt-5">
-    <div class="container-fluid">
-        <div class="d-flex">
-            <div class="chat left-side border-r mr-4">
-                <div class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3">
-                    <div class="d-flex align-items-center message-count">
-                        <h2 class="fs-20 fw-semibold m-0">Messages</h2>
-                        <span class="ml-3 fs-12 rounded-pill bg-yellow-800 d-block text-center">12</span>
-                    </div>
-                    <i class="fa fa-plus rounded-pill text-white bg-dark text-center cursor-pointer"></i>
-                </div>
-                <div class="message-content pl-2 pr-1">
-                    <div class="input-search rounded-2 py-1 px-3 mb-3">
-                        <i class="fa fa-search mr-2"></i>
-                        <input type="text" placeholder="Search..." class="border-0 bg-transparent py-2">
-                    </div>
-                    <div class="users scrollable-content pr-2">
-                        @for (item of [1,2,3,4,5,6,7,8,8,8,8,8,8,8]; track $index) {
-                        <div class="p-2 d-flex align-items-center rounded-2 mb-3 {{$index==0 &&'bg-yellow-800'}}">
-                            <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                            <div class="ml-3 flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h2 class="fs-14 fw-semibold m-0">Elmer Laverty</h2>
-                                    <span class="fs-14 fw-normal text-slate-400">1h</span>
-                                </div>
-                                <p class="m-0 fs-12 fw-normal text-slate-400">message</p>
-                            </div>
-                        </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="chat right-side flex-grow-1">
-                <div class="border-b">
-                    <div class="pb-3 px-4 d-flex align-items-center top">
-                        <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                        <div class="ml-3">
-                            <h2 class="fs-20 fw-semibold m-0">Florencio Dorrance</h2>
-                            <div class="fs-12 fw-semibold text-slate-400 d-flex align-items-center">
-                                <span class="dot rounded-pill mr-1"></span>
-                                Online
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bid-box mx-auto text-center p-4 position-relative">
-                    <img src="/assets/images/banner3.webp" alt="image" loading="lazy"
-                        class="rounded-pill position-absolute">
-                    <p class="pt-3 mt-2 fs-12 fw-semibold m-0">Sent you a offer</p>
-                    <h1 class="fs-22 fw-bold m-0 py-3">$500</h1>
-                    <div class="mt-2 d-flex align-items-center">
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1">Reject Offer</button>
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1 mx-3">Accept Offer</button>
-                        <button class="btn bg-dark rounded-pill fs-8 text-white flex-grow-1">Counter Offer</button>
-                    </div>
-                </div>
-                <div class="messages-side mt-5 pt-5">
-                    <div class="d-flex align-items-center">
-                        <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-2">
-                        <div class="msg-content ml-3 rounded-pill px-3 fs-14 py-2">
-                            just ideas for next time
-                            <img src="/assets/images/banner3.webp" alt="image" loading="lazy" class="rounded-pill">
-                        </div>
-                    </div>
-                </div>
-                <div class="message-input d-flex align-items-center mt-5 mb-4">
-                    <button class="btn bg-transparent"><i class="fas fa-paperclip"></i></button>
-                    <div class="d-flex align-items-center flex-grow-1 position-relative">
-                        <input type="text" placeholder="Type a message"  class="flex-grow-1 py-2 px-2 rounded-2" #chatMessage>
-                        <button  type="button" (click)="sendMessage(chatMessage.value)" class="btn bg-transparent position-absolute"><i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<main class="mt-16 chat-container pt-2">
+  <div class="tabs-container">
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'buying' }"
+      (click)="selectTab('buying')"
+    >
+      Buying
     </div>
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'selling' }"
+      (click)="selectTab('selling')"
+    >
+      Selling
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="d-flex">
+      <div class="chat left-side border-r mr-4">
+        <div
+          class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3"
+        >
+          <div class="d-flex align-items-center message-count">
+            <h2 class="fs-20 fw-semibold m-0">Messages</h2>
+          </div>
+        </div>
+        <div class="message-content pl-2 pr-1">
+          <div class="input-search rounded-2 py-1 px-3 mb-3">
+            <i class="fa fa-search mr-2"></i>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="border-0 bg-transparent py-2"
+              (input)="onSearch($event.target)"
+            />
+          </div>
+          <div class="users scrollable-content pr-2">
+            <ng-container *ngIf="chatBox && chatBox.length > 0; else noChat">
+              <!-- Chat List -->
+              <div
+                *ngFor="let item of chatBox; track: $index"
+                class="p-2 d-flex align-items-center rounded-2 mb-3 cursor-pointer {{
+                  selectedUserId === item.id && 'bg-yellow-800'
+                }}"
+                (click)="getConversation(item)"
+              >
+                <img
+                  [src]="
+                    item.user_image
+                      ? item.user_image
+                      : '/assets/images/profile-icon.svg'
+                  "
+                  alt="image"
+                  loading="lazy"
+                  class="rounded-2"
+                />
+                <div class="ml-3 flex-grow-1">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <h2 class="fs-14 fw-semibold m-0">
+                      {{
+                        item.sender.id !== currentUserid
+                          ? item.sender.name
+                          : item.receiver.name
+                      }}
+                    </h2>
+                    <span class="fs-12 text-slate-400">{{
+                      item.formattedTime
+                    }}</span>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <p class="m-0 fs-12 fw-normal text-slate-400">
+                      {{ item.message }}
+                    </p>
+                    <div class="d-flex align-items-center">
+                      <img
+                        [src]="item.image_path?.src"
+                        alt="Small Profile Image"
+                        loading="lazy"
+                        class="small-profile-image rounded-circle"
+                        style="width: 35px; height: 35px; object-fit: fill"
+                      />
+                      <div class="dropdown ml-2">
+                        <button
+                          class="btn btn-link p-0"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="bi bi-three-dots-vertical text-dark"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a
+                            class="dropdown-item text-danger"
+                            (click)="deleteConversation(item)"
+                          >
+                            Delete Conversation
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noChat>
+              <div
+                class="d-flex flex-column align-items-center justify-content-center mt-5"
+              >
+                <i class="bi bi-chat-dots mb-2 no-chat-icon"></i>
+                <p class="text-secondary fs-5">No chats available</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="chat right-side flex-grow-1">
+        <div
+          *ngIf="conversationBox.length === 0 && !selectedUser"
+          class="text-center p-5"
+        >
+          <div class="text-center">
+            <i
+              class="bi bi-emoji-frown"
+              style="color: #ffdd54; font-size: 2rem"
+            ></i>
+            <p class="mt-2 text-muted">No Conversations</p>
+            <p class="mt-2 text-muted">Plz select a chat to start</p>
+          </div>
+        </div>
+
+        <ng-container *ngIf="selectedUser || conversationBox.length > 0">
+          <div class="border-b">
+            <div class="pb-3 px-4 d-flex align-items-center top">
+              <img
+                [src]="
+                  userImage ? userImage : '/assets/images/profile-icon.svg'
+                "
+                alt="User Image"
+                loading="lazy"
+                class="rounded-2"
+              />
+              <div class="ml-3 flex-grow-1">
+                <div
+                  class="d-flex justify-content-between align-items-baseline"
+                >
+                  <h2 class="fs-20 fw-semibold m-0">{{ userName }}</h2>
+                  <div class="ml-4 d-flex align-items-baseline">
+                    <img
+                      [src]="
+                        productImage
+                          ? productImage
+                          : '/assets/images/default-product.png'
+                      "
+                      alt="Product Image"
+                      loading="lazy"
+                      class="rounded-2 small-product-image"
+                    />
+                    <span class="ml-2">AED {{ productPrice }}</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <ng-container
+                    *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  >
+                    <i
+                      class="bi bi-star-fill"
+                      [ngClass]="{
+                        'text-gold': i < reviewRating,
+                        'text-gray': i >= reviewRating
+                      }"
+                    ></i>
+                  </ng-container>
+                </div>
+                <div
+                  class="fs-12 fw-semibold text-slate-400 d-flex align-items-center"
+                >
+                  <span class="dot rounded-pill mr-1"></span>
+                  Online
+                </div>
+                <div class="fs-12 text-slate-400">
+                  <span>{{
+                    userlocation ? userlocation : "No location added"
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="messages-side mt-5 pt-5 scrollable-messages"
+          >
+            <div *ngFor="let message of conversationBox">
+              <div
+                *ngIf="currentUserid === message.sender_id"
+                class="d-flex flex-column align-items-end mb-3"
+              >
+                <div class="d-flex align-items-center">
+                  <div
+                    class="user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right"
+                    style="display: flex"
+                  >
+                    {{ message.message }}
+                    <div
+                      class="d-flex align-items-center"
+                      style="margin: 9px 5px 0px 10px"
+                    >
+                      <div class="text-secondary fs-12 me-2">
+                        {{ message.formattedTime }}
+                      </div>
+                      <div>
+                        <i
+                          *ngIf="message.status === 'unread'"
+                          class="bi bi-check2-all text-secondary"
+                          style="font-size: 1.1rem"
+                        ></i>
+                        <i
+                          *ngIf="message.status === 'read'"
+                          class="bi bi-check2-all"
+                          style="color: #53bdeb; font-size: 1.1rem"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    [src]="
+                      message.sender_image || '/assets/images/profile-icon.svg'
+                    "
+                    alt="User Image"
+                    loading="lazy"
+                    class="rounded-pill small-profile-image ml-2"
+                  />
+                </div>
+              </div>
+              <div
+                *ngIf="currentUserid !== message.sender_id"
+                class="d-flex flex-column align-items-start mb-3"
+              >
+                <div class="d-flex align-items-center">
+                  <img
+                    [src]="
+                      message.sender_image || '/assets/images/profile-icon.svg'
+                    "
+                    alt="Receiver Image"
+                    loading="lazy"
+                    class="rounded-2 small-profile-image"
+                  />
+                  <div
+                    class="msg-content ml-3 rounded-pill px-3 fs-14 py-2"
+                    style="display: flex"
+                  >
+                    {{ message.message }}
+                    <div
+                      class="d-flex align-items-center"
+                      style="margin: 9px 5px 0px 10px"
+                    >
+                      <div class="text-secondary fs-12 me-2">
+                        {{ message.formattedTime }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="suggestions-box mx-auto text-center p-2 position-relative"
+          >
+            <div class="d-flex flex-wrap justify-content-center">
+              <span
+                *ngFor="let suggestion of suggestions"
+                class="suggestion-item px-3 py-1 m-1 rounded bg-light-gray text-dark pointer"
+                (click)="selectSuggestion(suggestion)"
+              >
+                {{ suggestion }}
+              </span>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              (conversationBox && conversationBox.length > 0) || selectedUser
+            "
+            class="message-input d-flex align-items-center mt-5 mb-4"
+          >
+            <button class="btn bg-transparent" (click)="fileInput.click()">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <input
+              type="file"
+              #fileInput
+              (change)="onFileSelected($event)"
+              style="display: none"
+            />
+            <div
+              class="d-flex align-items-center flex-grow-1 position-relative"
+            >
+              <input
+                type="text"
+                placeholder="Type a message"
+                class="flex-grow-1 py-2 px-2 rounded-2"
+                [(ngModel)]="message"
+              />
+              <button
+                type="button"
+                (click)="sendMsg()"
+                class="btn bg-transparent position-absolute"
+              >
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <div
+          class="modal fade"
+          id="previewModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="previewModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <button
+                  type="button"
+                  class="close"
+                  (click)="closePreviewModal()"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                <div *ngIf="selectedFile">
+                  <img
+                    *ngIf="isImageFile"
+                    [src]="filePreview"
+                    alt="Preview"
+                    class="img-fluid rounded"
+                    loading="lazy"
+                  />
+                  <p *ngIf="!isImageFile">
+                    Selected file: {{ selectedFile.name }}
+                  </p>
+                </div>
+                <button class="btn btn-primary mt-3" (click)="confirmSend()">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="offerModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="offerModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <button
+            type="button"
+            class="close"
+            (click)="closeModal()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mb-5">
+          <div class="row">
+            <div class="col-9 mx-auto">
+              <div class="text-center">
+                <h3 class="">Custom Offer</h3>
+                <input type="text" class="p-2 rounded w-100" />
+              </div>
+              <div class="mt-4">
+                <button class="btn btn-dark w-100">Send your offer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

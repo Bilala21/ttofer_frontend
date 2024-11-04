@@ -13,6 +13,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedModule } from "../../shared/shared.module";
 import { AuthService } from '../../shared/services/authentication/Auth.service';
+import { SideProductDetailsComponent } from "./sideProductDetail/side-product-details.component";
 
 @Component({
     selector: 'app-product-details',
@@ -30,10 +31,12 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
     CommonModule,
     SharedModule,
     RouterModule,
-    LoginModalComponent
+    LoginModalComponent,
+    SideProductDetailsComponent
 ]
 })
 export class ProductDetailsComponent {
+  dummy =[{src:"/assets/images/no-img.png"}]
   promotionBanners: any = [
     {
       banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
@@ -102,7 +105,7 @@ export class ProductDetailsComponent {
   }
     openModal() {
       if (!localStorage.getItem('key')) {
-        // debugger
+        // 
         this.authService.triggerOpenModal();
       }
         const modal = document.getElementById('offerModal');
@@ -134,7 +137,7 @@ export class ProductDetailsComponent {
       }
       openChat() {
         if (!localStorage.getItem('key')) {
-          // debugger
+          // 
           this.authService.triggerOpenModal();
           return
         }
@@ -182,9 +185,12 @@ export class ProductDetailsComponent {
         this.allowedToMakeOffer = this.featuredProducts.filter((item) => {
           return item.user_id == this.currentUserid;
         }).length <= 0;
+       if (this.featuredProducts[0].attributes) {
         this.attributesObject = JSON.parse(this.featuredProducts[0].attributes);
-        this.parsedAttributes = JSON.parse(this.attributesObject.attributes);
+        this.parsedAttributes = this.attributesObject?.attributes;
         console.log("product",this.featuredProducts[0].photo)
+       }
+       
         this.loading = false;
       },
       (error) => {

@@ -253,7 +253,7 @@ export class AuctionProductComponent {
 
       res.data.forEach((item:any) => {
         
-        if (item.user && item.user.img) {
+        if (item.user && item.user.img && this.profileImg.length < 5) {
           const imgObject = { img: item.user.img };
           this.profileImg.push(imgObject);
         }
