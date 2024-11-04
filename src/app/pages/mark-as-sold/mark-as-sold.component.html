@@ -1,29 +1,40 @@
 <main class="mt-16">
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
-</div>
-<div class="container-fluid ">
-  <!-- <app-header></app-header> -->
-  <div class="row justify-content-center ">
-    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
-
-      <div class="d-flex align-items-center mb-4">
-        <img [src]="soldItems.photo[0]?.src" alt="Product Image" class="rounded-circle"
-          style="width: 50px; height: 50px;">
-        <div class="ml-3">
-          <h5 class="mb-0">{{soldItems.title}}</h5>
-          <small>{{soldItems.fix_price}}</small>
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="loader"></div>
+  </div>
+  <div class="container-fluid">
+    <!-- <app-header></app-header> -->
+    <div class="row justify-content-center">
+      <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+        <div class="d-flex align-items-center mb-4">
+          <img
+            [src]="soldItems.photo[0]?.src"
+            alt="Product Image"
+            class="rounded-circle"
+            style="width: 50px; height: 50px"
+          />
+          <div class="ml-3">
+            <h5 class="mb-0">{{ soldItems.title }}</h5>
+            <small>{{ soldItems.fix_price }}</small>
+          </div>
         </div>
-      </div>
-      <h6 class="mb-3"><b>Who Bought your ad?</b></h6>
-      <div class="list-group mb-4" style="cursor: pointer;" >
-        <div *ngFor="let item of adList">
-        <button class="list-group-item list-group-item-action" (click)="onBuyerSelected(item.message)">
-          <img [src]="item.img" alt="Product Image" class="rounded-circle"
-            style="width: 30px; height: 30px;">
-          {{item.message}}</button>
-        </div>
-        <!-- <button class="list-group-item list-group-item-action"
+        <h6 class="mb-3"><b>Who Bought your ad?</b></h6>
+        <div class="list-group mb-4" style="cursor: pointer">
+          <div *ngFor="let item of adList">
+            <button
+              class="list-group-item list-group-item-action"
+              (click)="onBuyerSelected(item.message)"
+            >
+              <img
+                [src]="item.img"
+                alt="Product Image"
+                class="rounded-circle"
+                style="width: 30px; height: 30px"
+              />
+              {{ item.message }}
+            </button>
+          </div>
+          <!-- <button class="list-group-item list-group-item-action"
           (click)="onBuyerSelected('Someone from Outside TTOffer?')">
           <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
             style="width: 30px; height: 30px;">
@@ -36,29 +47,55 @@
           <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
             style="width: 30px; height: 30px;">
           Mark</button> -->
-
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            (click)="onDoneClick()"
+            class="btn btn-secondary rounded-pill mr-4 btnWidth"
+          >
+            Done
+          </button>
+          <button class="btn btn-secondary rounded-pill btnWidth">Skip</button>
+        </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <button  (click)="onDoneClick()" class="btn btn-secondary rounded-pill mr-4 btnWidth">Done</button>
-        <button   class="btn btn-secondary rounded-pill btnWidth">Skip</button>
-      </div>
-
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-12" style="margin-top: 60px;">
-      <h6 class="mb-3"><b>Message</b></h6>
-      <ul class="list-group ">
-        <li class="list-group-item d-flex align-items-start " style="border-top: 0;">
-          <img src="assets/images/action_filled.png" alt="Anthony" class="rounded-circle mr-3"
-            style="width: 40px; height: 40px;">
-          <div class="d-flex flex-column w-100">
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-0">Anthony (Web3.io)</h6>
-              <small class="text-muted">9:54 AM</small>
+      <ng-container  >
+      <div
+       
+        class="col-lg-4 col-md-6 col-sm-12 col-12"
+        style="margin-top: 60px"
+      >
+        <h6 class="mb-3"><b>Message</b></h6>
+        <ul class="list-group">
+          <li  *ngFor="let item of sellingChat"
+            class="list-group-item d-flex align-items-start"
+            style="border-top: 0"
+          >
+            <img
+            [src]="
+            item.user_image
+              ? item.user_image
+              : '/assets/images/profile-icon.svg'
+          "
+          alt="image"
+          loading="lazy"
+              class="rounded-circle mr-3"
+              style="width: 40px; height: 40px"
+            />
+            <div class="d-flex flex-column w-100">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-0">
+                  {{
+                    item.sender.id !== currentUserId
+                      ? item.sender.name
+                      : item.receiver.name
+                  }}
+                </h6>
+                <small class="text-muted">9:54 AM</small>
+              </div>
+              <p class="mb-0 text-muted">{{ item.message }}</p>
             </div>
-            <p class="mb-0 text-muted">How are you today?</p>
-          </div>
-        </li>
-        <li class="list-group-item d-flex align-items-start">
+          </li>
+          <!-- <li class="list-group-item d-flex align-items-start">
           <img src="assets/images/action_filled.png" alt="Mark" class="rounded-circle mr-3"
             style="width: 40px; height: 40px;">
           <div class="d-flex flex-column w-100">
@@ -79,10 +116,11 @@
             </div>
             <p class="mb-0 text-muted">How are you today?</p>
           </div>
-        </li>
-      </ul>
+        </li> -->
+        </ul>
+      </div>
+      </ng-container>
     </div>
+    <!-- <app-footer></app-footer> -->
   </div>
-  <!-- <app-footer></app-footer> -->
-</div>
 </main>

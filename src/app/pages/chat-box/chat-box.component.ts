@@ -20,6 +20,7 @@ import {
   Subject,
   tap,
 } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
@@ -64,6 +65,7 @@ export class ChatBoxComponent {
   reviewRating: any = 2;
   userlocation: any;
   constructor(
+   private  toastr:ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
     private router: Router,
@@ -453,9 +455,10 @@ export class ChatBoxComponent {
           this.chatBox = this.chatBox.filter(
             (item) => item.conversation_id !== conversation.conversation_id
           );
+          this.toastr.success('Chat deleted successfully', 'Success');
+
         }),
         catchError((error) => {
-          console.error('Error deleting conversation', error);
           return of(null);
         })
       )
