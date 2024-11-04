@@ -50,6 +50,7 @@ export class MarkAsSoldComponent implements OnInit {
   }
 
   onDoneClick() {
+    debugger
     let profileKey: any = localStorage.getItem('key'); 
     profileKey = JSON.parse(profileKey);
       this.mainService.markAsSold(this.soldItems.id).subscribe({

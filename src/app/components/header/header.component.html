@@ -3,26 +3,41 @@
     <nav class="border-b-1 pb-1">
         <div class="container-fluid">
             <div class="d-flex justify-content-between position-relative  mx-auto">
+                <!-- left-list-start -->
                 <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
-                    <li class="xs-pl-16 mr-4 xs-mr-0"><a routerLink="/body"><img src="/assets/images/LOGO.png"
-                                alt="App logo" loading="lazy" width="50" class="header-logo"></a></li>
+                    <!-- web-logo-start -->
+                    <li class="xs-pl-16 mr-4 xs-mr-0">
+                      <a routerLink="/body">
+                         <img src="/assets/images/LOGO.png"
+                            alt="App logo" loading="lazy" width="50" class="header-logo">
+                     </a>
+                    </li>
+                    <!-- search-bar-start -->
                     <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
+                        <!-- search-input -->
                         <input type="text" placeholder="Search" class="w-100 fs-18 border-1">
-                        <button class="search-btn position-relative border-0 bg-dark-850 text-white"><i
-                                class="fas fa-search"></i></button>
+                        <!-- search-btn -->
+                        <button class="search-btn position-relative border-0 bg-dark-850 text-white">
+                        <!-- search-icon -->
+                        <!-- <i class="fas fa-search"></i> -->
+                        <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-miterlimit="10" stroke-width="32" d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z"></path><path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29 448 448"></path></svg>  
+                        </button>
                     </li>
-                    <li class="d-xl-none">
-                        <button class="search-btn position-relative border-0 p-0 pt-1 bg-transparent text-white"
-                            (click)="showSearchBar()"><i class="fas fa-search fs-20 text-dark-400"></i></button>
+                    <!-- search-icon-start -->
+                    <li (click)="showSearchBar()" class="d-md-none">
+                     <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-miterlimit="10" stroke-width="32" d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z"></path><path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29 448 448"></path></svg>         
                     </li>
-                    <li class="fs-14 d-flex align-items-center ml-2 text-dark-400 location-item">
-                        <i class="fa fa-map-marker-alt fs-20 mr-2"></i>
+                    <li class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item">
+                        <!-- <i class="fa fa-map-marker-alt fs-20 mr-2"></i> -->
+                        <svg stroke="currentColor" class="fs-22 mr-1" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0 0 25.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z"></path><circle cx="256" cy="192" r="48" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle></svg>
                         Belarus
                     </li>
                 </ul>
+                <!-- right-list-start -->
                 <ul
-                    class="list-unstyled d-flex align-items-center right-list flex-grow-1 justify-content-end pl-3 fs-14 xs-pr-16">
-                    <li class="xs-d-none" style="cursor: pointer;">
+                    class="list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-3 fs-14 xs-pr-16">
+                    <!-- saveItem-start -->
+                    <li class="" style="cursor: pointer;">
                         <svg (click)="savedItems()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                             viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
@@ -30,11 +45,8 @@
                             </path>
                         </svg>
                     </li>
-                    <li class="xs-d-none" style="cursor: pointer;">
-                        <!-- <a (click)="openChat()" class="text-dark-400 text-decoration-none link">
-                            <i class="fa fa-comments outlined-icon fs-20 text-center d-block mb-1"></i>
-                
-                        </a> -->
+                    <!-- chat-start -->
+                    <li class="" style="cursor: pointer;">
                         <svg (click)="openChat()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
                             viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -42,27 +54,8 @@
                             </path>
                         </svg>
                     </li>
-
-
-                    <!-- <li class="pt-1">
-                        <a (click)="openSelling()" class="text-dark-400 text-decoration-none link">
-                            <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
-                            <span>Selling</span>
-                        </a>
-                    </li> -->
-
-                    <!-- <li>
-                        
-                        <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
-                            viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M257 120.471c7.083 0 23.911 4.479 23.911 4.479 45.589 10.447 77.678 52.439 77.678 99.85V352.412l9.321 9.364 7.788 7.823H136.302l7.788-7.823 9.321-9.364V224.8c0-47.41 32.089-89.403 77.678-99.85 0 0 18.043-4.479 23.911-4.479M256 48c-17.602 0-31.059 13.518-31.059 31.2v14.559c-59.015 13.523-103.53 67.601-103.53 131.041v114.4L80 380.8v20.8h352v-20.8l-41.411-41.6V224.8c0-63.44-44.516-117.518-103.53-131.041V79.2c0-17.682-13.457-31.2-31.059-31.2zm41.411 374.4h-82.823c0 22.881 18.633 41.6 41.412 41.6s41.411-18.719 41.411-41.6z">
-                            </path>
-                        </svg>
-                    
-                    </li> -->
-                    <!-- notification -->
-                    <li class="cart-container" (click)="goOnNotification()">
+                    <!-- notification-start -->
+                    <li class="notification-container" (click)="goOnNotification()">
                         <!-- Cart Icon with Badge -->
                         <a class="text-decoration-none position-relative">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
@@ -71,20 +64,73 @@
                                 d="M257 120.471c7.083 0 23.911 4.479 23.911 4.479 45.589 10.447 77.678 52.439 77.678 99.85V352.412l9.321 9.364 7.788 7.823H136.302l7.788-7.823 9.321-9.364V224.8c0-47.41 32.089-89.403 77.678-99.85 0 0 18.043-4.479 23.911-4.479M256 48c-17.602 0-31.059 13.518-31.059 31.2v14.559c-59.015 13.523-103.53 67.601-103.53 131.041v114.4L80 380.8v20.8h352v-20.8l-41.411-41.6V224.8c0-63.44-44.516-117.518-103.53-131.041V79.2c0-17.682-13.457-31.2-31.059-31.2zm41.411 374.4h-82.823c0 22.881 18.633 41.6 41.412 41.6s41.411-18.719 41.411-41.6z">
                             </path>
                         </svg>
-                          <span class="badge">1</span>
+                          <span class="badge">{{unReadNotification.length}}</span>
                         </a>
                       
-                        <!-- Dropdown Cart Items -->
-                        <!-- <div class="cart-dropdown" *ngIf="cartItems.length > 0">
-                          <div *ngFor="let item of cartItems" class="cart-item">
-                            <img [src]="item.imageUrl" alt="{{ item.name }}" class="cart-item-image">
-                            <div class="cart-item-details">
-                              <p>{{ item.name }}</p>
-                              <span>{{ item.price | currency:'AED':'symbol':'1.2-2' }}</span>
+                        <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
+                         <div class="notification-dropdown p-3">
+                            <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center">
+                                <span>No Notification</span>
                             </div>
-                          </div>
-                        </div> -->
-                      </li>
+                            <h4>Notification</h4>
+                            <div *ngIf="notificationList.length > 0">
+                                <div class="row">
+                                    <div class="col-md-10 mx-auto main-cart-items">
+                                      <div
+                                        class="mt-3"
+                                        *ngFor="let data of notificationList"
+                                      >
+                                      <!-- routerLink="/review/{{ data.user_id }}" -->
+                                        <a
+                                          routerLink="/notification"
+                                          style="text-decoration: none; color: #1b2028"
+                                        >
+                                          <div class="d-flex align-items-center">
+                      
+                                            <div class="mr-2">
+                                              @if(data.user?.img){
+                                                <div class="" style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
+                                                  <img
+                                                  src="{{ data.user?.img }}"
+                                                  class="w-100 h-100"
+                                                  alt="proile-img-notification"
+                                                  style="border-radius:50%"
+                                                />
+                                                </div>
+                                              }@else{
+                                                <div style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
+                                                  <img
+                                                  src="/assets/images/profile-placeholder.png"
+                                                  class="w-100 h-100"
+                                                  alt="Default Image"
+                                                  style="border-radius:50%"
+                                                />
+                                                </div>
+                                              }
+                                            </div>
+                      
+                                            <div class="flex-grow-1">
+                                                <h5 class="sm-cat-text4 m-0">{{ data.text }}</h5>
+                                              <div class="mt-1 d-flex justify-content-between">
+                                                <span class="sm-cat-text3">{{
+                                                  data.status
+                                                }}</span>
+                                                  <span
+                                                    class="text-end sm-cat-text3"
+                                                    style="font-size: 10px"
+                                                    >{{ data.created_at | date }}</span
+                                                  >
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </a>
+                                        <hr />
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </li>
                     <!-- cart-start -->
                     <li class="cart-container">
                         <!-- Cart Icon with Badge -->
@@ -97,40 +143,50 @@
                               <circle cx="10.5" cy="19.5" r="1.5"></circle>
                               <circle cx="17.5" cy="19.5" r="1.5"></circle>
                           </svg>
-                          <span class="badge" *ngIf="cartItems.length">{{cartItems.length}}</span>
+                          <span class="badge" *ngIf="cartItems?.length">{{cartItems?.length }}</span>
                         </a>
                       
                         <!-- Dropdown Cart Items -->
-                        <div class="cart-dropdown" *ngIf="cartItems.length > 0">
+                        <div class="cart-dropdown" >
+                            <div *ngIf="cartItems?.length == 0" class="d-flex justify-content-center p-3">
+                                <span>No Cart Item</span>
+                            </div>
+                            <div *ngIf="cartItems?.length > 0" class="p-3">
                             <h5>Shopping Cart</h5>
                             <p>Items you've selected</p>
-                          <div *ngFor="let item of cartItems" class="cart-item">
-                            <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
-                            <div class="cart-item-details">
-                              <p>{{ item.description.slice(1,25) + '...' }}</p>
-                              <div class="d-flex justify-content-between">
-                                  <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                  <span>Qty {{item.quantity}}</span>
-
-                              </div>
+                            <div class="main-cart-items">
+                                <div *ngFor="let item of cartItems" class="cart-item">
+                                    <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
+                                    <div class="cart-item-details">
+                                      <p>{{ item.description.slice(1,25) + '...' }}</p>
+                                      <div class="d-flex justify-content-between">
+                                          <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                          <span>Qty {{item.quantity}}</span>
+        
+                                      </div>
+                                    </div>
+                                  </div>
                             </div>
-                          </div>
+                        
+
                           <p class="mt-2"><span style="text-decoration: underline;">View cart</span> to see all of your items</p>
-                          <div class="d-flex justify-content-between" style="bottom: gray;">
+                        </div>
+                          <div *ngIf="cartItems?.length > 0" class="d-flex justify-content-between p-3" style="bottom: gray;">
                             <span>Subtotal</span>
                             <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
                            </div>
                         </div>
                         
-                      </li>
+                    </li>
                       
-                    <!-- cart-end -->
-                    <li class="xs-d-none">
+                    <!-- cart-end xs-d-none -->
+                    <!-- <li class="">
                         <a (click)="openSelling()"
                             class="text-decoration-none  p-0 rounded-20 text-dark btn white-space-nowrap md-fs-12">
                             Sell
                         </a>
-                    </li>
+                    </li> -->
+                    <!-- login-start -->
                     @if (!currentUser?.id) {
                     <li class="">
                         <a (click)="login()"
@@ -139,9 +195,7 @@
                         </a>
                     </li>
                     }
-
-
-
+                    <!-- profile-start -->
                     @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
@@ -152,8 +206,6 @@
                                 ? imgUrl
                                 : '/assets/images/profile-icon.svg'
                             " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
-                            <!-- <img src="/assets/images/profile-placeholder.png" alt="user-profile" width="42" height="42"
-                                class="rounded-pill border-1"> -->
                             <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1" loading="lazy">
                         </button>
                         <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
@@ -179,6 +231,7 @@
             </div>
         </div>
     </nav>
+    <!-- category-start -->
     <nav class="container-fluid ">
         <div class="row  mx-auto">
             @if(!loading){

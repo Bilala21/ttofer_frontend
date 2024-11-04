@@ -14,7 +14,7 @@
           src="assets/images/more-icon.svg"
           class="position-absolute d-block d-md-none"
           loading="lazy"
-          style="left: 0; z-index: 1; margin-left: 15px;cursor: pointer;"
+          style="left: 0; z-index: 1; margin-left: 15px; cursor: pointer"
         />
 
         <!-- mobile-screen -->
@@ -164,7 +164,6 @@
             >
               <div class="row align-items-center">
                 <div class="col-2 d-flex justify-content-end">
-                 
                   <i class="fas fa-rocket fs-20"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
@@ -220,14 +219,23 @@
                 <div class="d-flex d-md-block justify-content-center">
                   <label htmlFor="image-upload">
                     <div
-                      style="position: relative; width: 130px; height: 130px;border:0.5px solid gainsboro; border-radius: 50%;"
+                      style="
+                        position: relative;
+                        width: 130px;
+                        height: 130px;
+                        border: 0.5px solid gainsboro;
+                        border-radius: 50%;
+                      "
                       class="image-container"
                     >
-                      <div style="width:100%;height:100%" (click)="file.click()">
+                      <div
+                        style="width: 100%; height: 100%"
+                        (click)="file.click()"
+                      >
                         <img
                           style="
-                           width: 130px; 
-                           height: 130px;
+                            width: 130px;
+                            height: 130px;
                             border-radius: 50%;
                             object-fit: contain;
                             cursor: pointer;
@@ -713,28 +721,42 @@
                 style="cursor: pointer"
               >
                 <!-- Image border: 1px solid rgb(98, 95, 95); -->
-                 <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
-                  <img
-                  src="{{
-                    data.photo && data.photo.length > 0
-                      ? data.photo[0].src
-                      : 'assets/images/default-img.jpg'
-                  }}"
-                  alt="Item Image"
-                 class="w-100 h-100"
-                 loading="lazy"
-                 style="border-radius: 10px;"
-                />
                 <div
-                class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
-                AED {{formatPrice(data?.auction_price?data?.auction_price:data.fix_price)}}
-              </div>
-                 </div>
-               
-                
+                  class="z-0 position-relative"
+                  style="
+                    width: 115px;
+                    height: 115px;
+                    border-radius: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
+                  "
+                >
+                  <img
+                    src="{{
+                      data.photo && data.photo.length > 0
+                        ? data.photo[0].src
+                        : 'assets/images/default-img.jpg'
+                    }}"
+                    alt="Item Image"
+                    class="w-100 h-100"
+                    loading="lazy"
+                    style="border-radius: 10px"
+                  />
+                  <div
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
+                  >
+                    AED
+                    {{
+                      formatPrice(
+                        data?.auction_price
+                          ? data?.auction_price
+                          : data.fix_price
+                      )
+                    }}
+                  </div>
+                </div>
+
                 <!-- Content -->
                 <div class="ms-3 flex-grow-1 custom-margin-left">
-                 
                   <div
                     class="d-flex justify-content-between align-items-center"
                   >
@@ -767,7 +789,7 @@
                     Sell faster <span>|</span>
                     <span
                       class="mark-as-sold"
-                      (click)="markAsSold(data.id)"
+                      (click)="markAsSold(data)"
                       style="cursor: pointer"
                       >Mark as sold</span
                     >
@@ -787,53 +809,54 @@
               <!-- Your actual data card structure goes here -->
               <!-- buying -->
               <div
-              class="card-container"
-              *ngFor="let data of sellingListTemp"
-              routerLink="/selling/{{ data.id }}"
-              style="cursor: pointer"
-            >
-              <!-- Image Container -->
-              <div class="z-0 position-relative" style="width: 115px; height: 115px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
-                <img
-                  src="{{
-                    data.photo && data.photo.length > 0
-                      ? data.photo[0].src
-                      : 'assets/images/default-img.jpg'
-                  }}"
-                  alt="Item Image"
-                  class="item-image"
-                  loading="lazy"
-                />
+                class="card-container"
+                *ngFor="let data of purchaseListTemp"
+                routerLink="/product-detail/{{ data.id }}/{{data.slug}}"
+                style="cursor: pointer"
+              >
+                <!-- Image Container -->
                 <div
-                class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
+                  class="z-0 position-relative"
+                  style="
+                    width: 115px;
+                    height: 115px;
+                    border-radius: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
+                  "
                 >
-                  AED {{formatPrice(data?.auction_price?data?.auction_price:data.fix_price)}}
-                </div>
-              </div>
-            
-              <!-- Content -->
-              <div class="ms-3 flex-grow-1 custom-margin-left">
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="card-title">{{ data.title }}</span>
-                  <span class="view-count">{{ data.view_count || 0 }} Views</span>
-                </div>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatars d-flex">
-                    <img src="/assets/images/profile-placeholder.png" alt="User 1" />
-                    <img src="/assets/images/profile-placeholder.png" alt="User 2" />
-                    <img src="/assets/images/profile-placeholder.png" alt="User 3" />
-                    <img src="/assets/images/profile-placeholder.png" alt="User 4" />
+                  <img
+                    src="{{
+                      data.photo && data.photo.length > 0
+                        ? data.photo[0].src
+                        : 'assets/images/default-img.jpg'
+                    }}"
+                    alt="Item Image"
+                    class="item-image"
+                    loading="lazy"
+                  />
+                  <div
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
+                  >
+                    AED
+                    {{
+                      formatPrice(
+                        data?.auction_price
+                          ? data?.auction_price
+                          : data.fix_price
+                      )
+                    }}
                   </div>
                 </div>
-                <div class="action-text">
-                  Sell faster <span>|</span>
-                  <span class="mark-as-sold" (click)="markAsSold(data.id)" style="cursor: pointer">
-                    Mark as sold
-                  </span>
+
+                <!-- Content -->
+                <div class="ms-3 flex-grow-1 custom-margin-left">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span class="card-title">{{ data.title }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            
             </div>
 
             <div
@@ -862,16 +885,99 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
+                    <img
+                      src="assets/images/play-store.svg"
+                      alt=""
+                      class="w-100"
+                      loading="lazy"
+                    />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
+                    <img
+                      src="assets/images/app-store.svg"
+                      alt=""
+                      class="w-100"
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               </div>
             </div>
             <!-- history -->
-            <div *ngIf="sellingListTemp.length == 0 && purchaseListTemp.length == 0 && activeButton == 3">
+            <div
+            *ngIf="
+              activeButton === 3 &&
+              soldList &&
+              soldList.length > 0
+            "
+            class=""
+          >
+            <!-- Your actual data card structure goes here -->
+            <!-- buying -->
+            <div
+                class="card-container"
+                *ngFor="let data of soldList"
+               
+                style="cursor: pointer"
+              >
+                <!-- Image border: 1px solid rgb(98, 95, 95); -->
+                <div
+                  class="z-0 position-relative"
+                  style="
+                    width: 115px;
+                    height: 115px;
+                    border-radius: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
+                  "
+                >
+                  <img
+                    src="{{
+                      data.photo && data.photo.length > 0
+                        ? data.photo[0].src
+                        : 'assets/images/default-img.jpg'
+                    }}"
+                    alt="Item Image"
+                    class="w-100 h-100"
+                    loading="lazy"
+                    style="border-radius: 10px"
+                  />
+                  <div
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
+                  >
+                    AED
+                    {{
+                      formatPrice(
+                        data?.auction_price
+                          ? data?.auction_price
+                          : data.fix_price
+                      )
+                    }}
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div class="ms-3 flex-grow-1 custom-margin-left">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span class="card-title">{{ data.title }}</span>
+                    
+                  </div>
+
+                  <div class="action-text">
+                  {{data.is_sold==1?'Sold':'Bought'}}
+                   
+                </div>
+                </div>
+              </div>
+          </div>
+            <div
+              *ngIf="
+                sellingListTemp.length == 0 &&
+                purchaseListTemp.length == 0 &&
+                activeButton == 3
+              "
+            >
               <div class="col-12 text-center mx-auto">
                 <img
                   src="assets/images/archieve-item.png"
@@ -886,10 +992,20 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img src="assets/images/play-store.svg" loading="lazy" alt="" class="w-100" />
+                    <img
+                      src="assets/images/play-store.svg"
+                      loading="lazy"
+                      alt=""
+                      class="w-100"
+                    />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img src="assets/images/app-store.svg" loading="lazy" alt="" class="w-100" />
+                    <img
+                      src="assets/images/app-store.svg"
+                      loading="lazy"
+                      alt=""
+                      class="w-100"
+                    />
                   </div>
                 </div>
               </div>
@@ -983,7 +1099,12 @@
                                 border-radius: 10px;
                               "
                             >
-                              <img src="{{ data.img }}" class="w-100" alt="" loading="lazy" />
+                              <img
+                                src="{{ data.img }}"
+                                class="w-100"
+                                alt=""
+                                loading="lazy"
+                              />
                             </div>
                           </div>
                           <div class="col-md-9 col-8">
@@ -1054,7 +1175,7 @@
           </div>
         </div>
         <hr />
-         <!-- content -->
+        <!-- content -->
         <div class="mt-5">
           <div *ngIf="savedItems.length == 0">
             <div class="col-12 text-center mx-auto">
@@ -1068,10 +1189,20 @@
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
+                  <img
+                    src="assets/images/play-store.svg"
+                    alt=""
+                    class="w-100"
+                    loading="lazy"
+                  />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
+                  <img
+                    src="assets/images/app-store.svg"
+                    alt=""
+                    class="w-100"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </div>
@@ -1080,10 +1211,7 @@
           <div class="sidebar-content">
             <div class="row">
               <div class="col-md-10 mx-auto">
-                <div
-                  class="mt-3"
-                  *ngFor="let data of savedItems"
-                >
+                <div class="mt-3" *ngFor="let data of savedItems">
                   <a
                     [routerLink]="
                       data.fix_price == null
@@ -1094,24 +1222,29 @@
                   >
                     <div class="row align-items-center">
                       <div class="col-4 col-lg-2 p-0">
-                       <div style="width:100px;height:100px;object-fit:contain;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                      @if(data.product.photo[0]?.src){
-                        <img
-                        [src]="data.product.photo[0]?.src"
-                        class="w-100 h-100"
-                        alt=""
-                      />
-                      }@else{
-                        <img
-                        src="assets/images/default-img.jpg"
-                        class="w-100 h-100"
-                        alt="Default Image"
-                        loading="lazy"
-                      />
-                      }
-                        
-                   
-                       </div> 
+                        <div
+                          style="
+                            width: 100px;
+                            height: 100px;
+                            object-fit: contain;
+                            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                          "
+                        >
+                          @if(data.product.photo[0]?.src){
+                          <img
+                            [src]="data.product.photo[0]?.src"
+                            class="w-100 h-100"
+                            alt=""
+                          />
+                          }@else{
+                          <img
+                            src="assets/images/default-img.jpg"
+                            class="w-100 h-100"
+                            alt="Default Image"
+                            loading="lazy"
+                          />
+                          }
+                        </div>
                       </div>
 
                       <div class="col-8 col-lg-10">
@@ -1170,10 +1303,20 @@
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
+                  <img
+                    src="assets/images/play-store.svg"
+                    alt=""
+                    class="w-100"
+                    loading="lazy"
+                  />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
+                  <img
+                    src="assets/images/app-store.svg"
+                    alt=""
+                    class="w-100"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </div>
@@ -1181,49 +1324,58 @@
           <div class="sidebar-content">
             <div class="row">
               <div class="col-md-10 mx-auto">
-                <div
-                  class="mt-3"
-                  *ngFor="let data of notificationList"
-                >
+                <div class="mt-3" *ngFor="let data of notificationList">
                   <a
                     routerLink="/review/{{ data.user_id }}"
                     style="text-decoration: none; color: #1b2028"
                   >
                     <div class="d-flex align-items-center">
-
                       <div class="mr-2">
                         @if(data.user?.img){
-                          <div class="" style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
-                            <img
+                        <div
+                          class=""
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            object-fit: contain;
+                          "
+                        >
+                          <img
                             src="{{ data.user?.img }}"
                             class="w-100 h-100"
                             alt="proile-img-notification"
-                            style="border-radius:50%"
+                            style="border-radius: 50%"
                           />
-                          </div>
+                        </div>
                         }@else{
-                          <div style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
-                            <img
-                            src="/assets/images/profile-placeholder.png"
+                        <div
+                          style="
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            object-fit: contain;
+                          "
+                        >
+                          <img
+                            src="/assets/images/profile-icon.svg"
                             class="w-100 h-100"
                             alt="Default Image"
-                            style="border-radius:50%"
+                            style="border-radius: 50%"
                           />
-                          </div>
+                        </div>
                         }
                       </div>
 
                       <div class="flex-grow-1">
-                          <h5 class="sm-cat-text4 m-0">{{ data.text }}</h5>
+                        <h5 class="sm-cat-text4 m-0">{{ data.text }}</h5>
                         <div class="mt-1 d-flex justify-content-between">
-                          <span class="sm-cat-text3">{{
-                            data.status
-                          }}</span>
-                            <span
-                              class="text-end sm-cat-text3"
-                              style="font-size: 10px"
-                              >{{ data.created_at | date }}</span
-                            >
+                          <span class="sm-cat-text3">{{ data.status }}</span>
+                          <span
+                            class="text-end sm-cat-text3"
+                            style="font-size: 10px"
+                            >{{ data.created_at | date }}</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -2452,31 +2604,37 @@
               <div class="col-12 mx-auto margin-top-class">
                 <div class="d-flex justify-content-center">
                   <div class="w-50">
-                    <img src="assets/images/boost-plus.svg" class="w-100" alt="" loading="lazy" />
+                    <img
+                      src="assets/images/boost-plus.svg"
+                      class="w-100"
+                      alt=""
+                      loading="lazy"
+                    />
                   </div>
                 </div>
-                <h4 class="mt-5 .right-side-top-title">Sell faster with Boost Plus</h4>
+                <h4 class="mt-5 .right-side-top-title">
+                  Sell faster with Boost Plus
+                </h4>
                 <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Get an average of 20x more views each day</span>
+                  <i class="fas fa-check-circle fs-19 mr-2"></i>
+                  <span>Get an average of 20x more views each day</span>
                 </div>
                 <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Promote for multiple days</span>
+                  <i class="fas fa-check-circle fs-19 mr-2"></i>
+                  <span>Promote for multiple days</span>
                 </div>
                 <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Switch promotion to any item.</span>
+                  <i class="fas fa-check-circle fs-19 mr-2"></i>
+                  <span>Switch promotion to any item.</span>
                 </div>
                 <div class="d-flex justify-content-center w-100">
                   <button
-                  (click)="openBoostModal()"
-                  class="btn btn-outline-dark w-50 mt-5"
-                >
-                  <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
-                </button>
+                    (click)="openBoostModal()"
+                    class="btn btn-outline-dark w-50 mt-5"
+                  >
+                    <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
+                  </button>
                 </div>
-                
               </div>
 
               <div class="col-12 mx-auto mt-5">
@@ -2488,13 +2646,12 @@
                 >
                 <div class="w-100 d-flex justify-content-center">
                   <button
-                  (click)="openPage()"
-                  class="btn btn-dark w-50 bg-yellow-700 text-black mt-4"
-                >
-                  Next
-                </button>
+                    (click)="openPage()"
+                    class="btn btn-dark w-50 bg-yellow-700 text-black mt-4"
+                  >
+                    Next
+                  </button>
                 </div>
-               
               </div>
             </div>
           </div>
@@ -2583,115 +2740,114 @@
           </div>
         </div>
         <hr />
-        
-          <div class="mt-md-5 pointer p-2">
-            <div class="row">
-              <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
-                <div class="row">
-                  <div
-                    class="col-11 mx-auto text-center"
-                    style="
-                      border: 1px solid black;
-                      border-radius: 15px;
-                      padding: 10px;
-                    "
-                  >
-                    <span>Standard</span>
-                    <h5>Boost 3 Days</h5>
-                    <h4 style="font-weight: bolder" class="mt-3">AED 4.99</h4>
-                    <div class="row">
-                      <div class="col-11 mt-3 mx-auto">
-                        <button
-                          (click)="openBoostPlanModal()"
-                          class="btn w-100 btn-dark"
-                          style="border-radius: 20px"
-                        >
-                          Subscribe
-                        </button>
-                      </div>
+
+        <div class="mt-md-5 pointer p-2">
+          <div class="row">
+            <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
+              <div class="row">
+                <div
+                  class="col-11 mx-auto text-center"
+                  style="
+                    border: 1px solid black;
+                    border-radius: 15px;
+                    padding: 10px;
+                  "
+                >
+                  <span>Standard</span>
+                  <h5>Boost 3 Days</h5>
+                  <h4 style="font-weight: bolder" class="mt-3">AED 4.99</h4>
+                  <div class="row">
+                    <div class="col-11 mt-3 mx-auto">
+                      <button
+                        (click)="openBoostPlanModal()"
+                        class="btn w-100 btn-dark"
+                        style="border-radius: 20px"
+                      >
+                        Subscribe
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex mt-3">
-                  <i class="fas fa-check-circle fs-19 mr-2"></i>
-                  <span>Switch promotion to any item.</span>
               </div>
+              <div class="d-flex mt-3">
+                <i class="fas fa-check-circle fs-19 mr-2"></i>
+                <span>Switch promotion to any item.</span>
               </div>
-              <!-- 2nd -->
-              <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
-                <div class="row">
-                  <div
-                    class="col-11 mx-auto text-center"
-                    style="
-                      border: 1px solid black;
-                      border-radius: 15px;
-                      padding: 10px;
-                    "
-                  >
-                    <span>Best Value</span>
-                    <h5>Boost Plus</h5>
-                    <h4 style="font-weight: bolder" class="mt-3">AED 16.99</h4>
-                    <div class="row">
-                      <div class="col-11 mt-3 mx-auto">
-                        <button
-                          (click)="openBoostPlanModal()"
-                          class="btn w-100 btn-dark"
-                          style="border-radius: 20px"
-                        >
-                          Subscribe
-                        </button>
-                      </div>
+            </div>
+            <!-- 2nd -->
+            <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
+              <div class="row">
+                <div
+                  class="col-11 mx-auto text-center"
+                  style="
+                    border: 1px solid black;
+                    border-radius: 15px;
+                    padding: 10px;
+                  "
+                >
+                  <span>Best Value</span>
+                  <h5>Boost Plus</h5>
+                  <h4 style="font-weight: bolder" class="mt-3">AED 16.99</h4>
+                  <div class="row">
+                    <div class="col-11 mt-3 mx-auto">
+                      <button
+                        (click)="openBoostPlanModal()"
+                        class="btn w-100 btn-dark"
+                        style="border-radius: 20px"
+                      >
+                        Subscribe
+                      </button>
                     </div>
                   </div>
                 </div>
-                  <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Get an average of 20x more viewseach day</span>
-                </div>
-                  <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Promote for multiple days</span>
-                </div>
-                  <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Switch promotion to any item.</span>
-                </div>
               </div>
-              <!-- 3th -->
-              <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
-                <div class="row">
-                  <div
-                    class="col-11 mx-auto text-center"
-                    style="
-                      border: 1px solid black;
-                      border-radius: 15px;
-                      padding: 10px;
-                    "
-                  >
-                    <span>Basic</span>
-                    <h5>Boost 1 days</h5>
-                    <h4 style="font-weight: bolder" class="mt-3">AED 2.99</h4>
-                    <div class="row">
-                      <div class="col-11 mt-3 mx-auto">
-                        <button
-                          (click)="openBoostPlanModal()"
-                          class="btn w-100 btn-dark"
-                          style="border-radius: 20px"
-                        >
-                          Subscribe
-                        </button>
-                      </div>
+              <div class="d-flex mt-3">
+                <i class="fas fa-check-circle fs-19 mr-2"></i>
+                <span>Get an average of 20x more viewseach day</span>
+              </div>
+              <div class="d-flex mt-3">
+                <i class="fas fa-check-circle fs-19 mr-2"></i>
+                <span>Promote for multiple days</span>
+              </div>
+              <div class="d-flex mt-3">
+                <i class="fas fa-check-circle fs-19 mr-2"></i>
+                <span>Switch promotion to any item.</span>
+              </div>
+            </div>
+            <!-- 3th -->
+            <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
+              <div class="row">
+                <div
+                  class="col-11 mx-auto text-center"
+                  style="
+                    border: 1px solid black;
+                    border-radius: 15px;
+                    padding: 10px;
+                  "
+                >
+                  <span>Basic</span>
+                  <h5>Boost 1 days</h5>
+                  <h4 style="font-weight: bolder" class="mt-3">AED 2.99</h4>
+                  <div class="row">
+                    <div class="col-11 mt-3 mx-auto">
+                      <button
+                        (click)="openBoostPlanModal()"
+                        class="btn w-100 btn-dark"
+                        style="border-radius: 20px"
+                      >
+                        Subscribe
+                      </button>
                     </div>
                   </div>
                 </div>
-                  <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2"></i>
-                    <span>Get an average of 20x more views each day</span>
-                </div>
+              </div>
+              <div class="d-flex mt-3">
+                <i class="fas fa-check-circle fs-19 mr-2"></i>
+                <span>Get an average of 20x more views each day</span>
               </div>
             </div>
           </div>
-
+        </div>
       </div>
     </div>
     <!-- </div> -->
@@ -3167,7 +3323,19 @@
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"></path></svg>
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 576 512"
+                    height="1.5em"
+                    width="1.5em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
+                    ></path>
+                  </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Get more views</h6>
@@ -3179,7 +3347,19 @@
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M256 32A224 224 0 0 0 99.596 95.68l11.12-2.66 38.24-13.41 44.198-8.44 17.383 17.38 27.81-15.892 32.778.498 5.96 7.946 48.17-10.43 73.005 22.35-33.77 13.904 8.442 34.763-16.885 10.925-10.43-52.144-22.844 1.987-3.476 25.824-23.838 9.933 2.48 33.77-14.897 2.484-10.926-19.37-5.463 15.397 12.416 22.844-39.73 40.725-3.973 12.414 6.457 17.878s-15.892 23.343-18.375 22.846c-2.484-.495-44.698-37.743-44.698-37.743l-26.32 15.395-20.86-31.288-18.375 1.49-24.83 69.032-17.88 4.967-38.454-52.088A224 224 0 0 0 256 480a224 224 0 0 0 224-224A224 224 0 0 0 256 32zm75.217 112.67l9.93 15.394-14.897 22.348-2.484 15.893-7.946-4.967h1.49l4.47-42.213 9.437-6.455zm-18.873 56.117l11.422 1.49-.993 11.422-29.796 5.462-.995-7.945 20.362-10.43zm-39.233 26.818l14.9 4.47-2.483 21.355-17.382-12.416 4.966-13.41zm-9.434 45.69l2.482 18.87H245.3l-.993-13.407 19.37-5.463zm39.728 3.476l33.772 8.94 16.885 20.858-45.193-11.918-11.918 4.965-19.866-21.85 26.32-.994zM198.12 289.685l27.316 8.443 33.77 17.38s-20.86 4.47-23.84 3.477c-2.98-.993-43.702-19.37-43.702-19.37l6.457-9.93zm116.21 10.43l10.43 24.83 22.347 13.906-4.966 34.763-25.326 23.342-26.322-21.355-27.314 8.94-19.367 13.903L230.9 369.64s8.442-26.82 10.428-27.812l19.37-5.96 8.443-19.366 7.448 12.912 25.326-6.457 12.416-22.844zm86.91 49.66l4.965 2.484-10.926 15.396-3.475-8.94 9.435-8.94zm-11.422 19.867s6.456 4.47 4.47 5.96c-1.987 1.49-27.81 19.367-27.81 19.367l-10.927-5.463 23.343-17.38 10.925-2.483zm-82.44 32.28l12.415.498-10.428 9.932-1.988-10.43z"></path></svg>
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    height="1.5em"
+                    width="1.5em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M256 32A224 224 0 0 0 99.596 95.68l11.12-2.66 38.24-13.41 44.198-8.44 17.383 17.38 27.81-15.892 32.778.498 5.96 7.946 48.17-10.43 73.005 22.35-33.77 13.904 8.442 34.763-16.885 10.925-10.43-52.144-22.844 1.987-3.476 25.824-23.838 9.933 2.48 33.77-14.897 2.484-10.926-19.37-5.463 15.397 12.416 22.844-39.73 40.725-3.973 12.414 6.457 17.878s-15.892 23.343-18.375 22.846c-2.484-.495-44.698-37.743-44.698-37.743l-26.32 15.395-20.86-31.288-18.375 1.49-24.83 69.032-17.88 4.967-38.454-52.088A224 224 0 0 0 256 480a224 224 0 0 0 224-224A224 224 0 0 0 256 32zm75.217 112.67l9.93 15.394-14.897 22.348-2.484 15.893-7.946-4.967h1.49l4.47-42.213 9.437-6.455zm-18.873 56.117l11.422 1.49-.993 11.422-29.796 5.462-.995-7.945 20.362-10.43zm-39.233 26.818l14.9 4.47-2.483 21.355-17.382-12.416 4.966-13.41zm-9.434 45.69l2.482 18.87H245.3l-.993-13.407 19.37-5.463zm39.728 3.476l33.772 8.94 16.885 20.858-45.193-11.918-11.918 4.965-19.866-21.85 26.32-.994zM198.12 289.685l27.316 8.443 33.77 17.38s-20.86 4.47-23.84 3.477c-2.98-.993-43.702-19.37-43.702-19.37l6.457-9.93zm116.21 10.43l10.43 24.83 22.347 13.906-4.966 34.763-25.326 23.342-26.322-21.355-27.314 8.94-19.367 13.903L230.9 369.64s8.442-26.82 10.428-27.812l19.37-5.96 8.443-19.366 7.448 12.912 25.326-6.457 12.416-22.844zm86.91 49.66l4.965 2.484-10.926 15.396-3.475-8.94 9.435-8.94zm-11.422 19.867s6.456 4.47 4.47 5.96c-1.987 1.49-27.81 19.367-27.81 19.367l-10.927-5.463 23.343-17.38 10.925-2.483zm-82.44 32.28l12.415.498-10.428 9.932-1.988-10.43z"
+                    ></path>
+                  </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Add a boosted spot</h6>
@@ -3191,7 +3371,20 @@
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M224,104l-48,48V56Z" opacity="0.2"></path><path d="M229.66,98.34l-48-48A8,8,0,0,0,168,56V96h-3A103.94,103.94,0,0,0,64.25,174a8,8,0,0,0,15.5,4A88,88,0,0,1,165,112h3v40a8,8,0,0,0,13.66,5.66l48-48A8,8,0,0,0,229.66,98.34ZM184,132.69V75.31L212.69,104ZM200,216a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V88a8,8,0,0,1,16,0V208H192A8,8,0,0,1,200,216Z"></path></svg>
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 256 256"
+                    height="1.5em"
+                    width="1.5em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M224,104l-48,48V56Z" opacity="0.2"></path>
+                    <path
+                      d="M229.66,98.34l-48-48A8,8,0,0,0,168,56V96h-3A103.94,103.94,0,0,0,64.25,174a8,8,0,0,0,15.5,4A88,88,0,0,1,165,112h3v40a8,8,0,0,0,13.66,5.66l48-48A8,8,0,0,0,229.66,98.34ZM184,132.69V75.31L212.69,104ZM200,216a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V88a8,8,0,0,1,16,0V208H192A8,8,0,0,1,200,216Z"
+                    ></path>
+                  </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Boosted spots are shared</h6>

@@ -1,103 +1,111 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
+import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { catchError, debounceTime, distinctUntilChanged, filter, of, Subject, tap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  of,
+  Subject,
+  tap,
+} from 'rxjs';
 declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
   standalone: true,
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss',
-  imports: [HeaderComponent, NgFor, CommonModule, ReactiveFormsModule, FooterComponent,FormsModule]
+  imports: [
+    HeaderComponent,
+    NgFor,
+    CommonModule,
+    ReactiveFormsModule,
+    FooterComponent,
+    FormsModule,
+  ],
 })
 export class ChatBoxComponent {
-  productImage:any
-  replierImage:any;
-  senderImage:any;
-  offerDetails:any
-  allChat:any;
-  offerStatus: number | null = null
+  productImage: any;
+  replierImage: any;
+  senderImage: any;
+  offerDetails: any;
+  allChat: any;
+  offerStatus: number | null = null;
   chatBox: any[] = [];
-  isNavigatingAway:any;
-  userImage:any;
-  userName:any;
+  isNavigatingAway: any;
+  userImage: any;
+  userName: any;
   selectedUser: any = null;
   meassages: any = { sender: [], reciever: [] };
   selectedConversation: any = [];
   conversationBox: any = [];
   currentUserid: number = 0;
   message: any;
-  productId: number = 0
-  sellerId: number = 0
-  buyerId: number = 0
-  offerId: number = 0
-  productDetail:any
+  productId: number = 0;
+  sellerId: number = 0;
+  buyerId: number = 0;
+  offerId: number = 0;
+  productDetail: any;
   searchQuery: string = '';
-  productPrice:any
-  selectedUserId: any = null
-  userDetail:any;
-  reviewRating:any=2;
-  userlocation:any;
+  productPrice: any;
+  selectedUserId: any = null;
+  userDetail: any;
+  reviewRating: any = 2;
+  userlocation: any;
   constructor(
     private mainServices: MainServicesService,
-    private extension: Extension,private router: Router,
-    private route: ActivatedRoute,private cd :ChangeDetectorRef
+    private extension: Extension,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     this.currentUserid = extension.getUserId();
-      
-   
-   
     this.getAllChatsOfUser();
   }
-
   selectUser(user: any) {
     this.selectedUser = user;
   }
   selectedTab: string = 'buying';
-
   selectTab(tab: string) {
-    this.selectedTab = tab; // Update the selected tab
-  
+    this.selectedTab = tab;
     if (this.selectedTab === 'buying') {
-      // Assign buying chat data
-      this.selectedUserId=null
+      this.selectedUserId = null;
       this.chatBox = this.allChat.buyer_chats;
-      this.conversationBox=[];
-      this.suggestions = this.buyerSuggestions; // Assign buyer suggestions
+      this.conversationBox = [];
+      this.suggestions = this.buyerSuggestions;
     } else {
-      // Assign selling chat data
-      this.selectedUserId=null
-
+      this.selectedUserId = null;
       this.chatBox = this.allChat.seller_chats;
-      this.conversationBox=[];
-
-      this.suggestions = this.sellerSuggestions; // Assign seller suggestions
+      this.conversationBox = [];
+      this.suggestions = this.sellerSuggestions;
     }
-  
-    // Sort the chats based on updated_at date
     this.chatBox = this.chatBox.sort((a: any, b: any) => {
-      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      return (
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      );
     });
-  
-    // Format the updated_at field to show "time ago"
-    this.chatBox = this.chatBox.map(chat => {
+    this.chatBox = this.chatBox.map((chat) => {
       return {
         ...chat,
-        formattedTime: this.timeAgo(chat.updated_at) // Format to "time ago"
+        formattedTime: this.timeAgo(chat.updated_at),
       };
     });
   }
-  
   timeAgo(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  
     const intervals = {
       year: 365 * 24 * 60 * 60,
       month: 30 * 24 * 60 * 60,
@@ -107,9 +115,10 @@ export class ChatBoxComponent {
       m: 60,
       s: 1,
     };
-  
     for (const key in intervals) {
-      const interval = Math.floor(seconds / intervals[key as keyof typeof intervals]);
+      const interval = Math.floor(
+        seconds / intervals[key as keyof typeof intervals]
+      );
       if (interval > 1) {
         return `${interval} ${key} ago`;
       } else if (interval === 1) {
@@ -118,7 +127,6 @@ export class ChatBoxComponent {
     }
     return 'just now';
   }
-  
   openModal() {
     const modal = document.getElementById('offerModal');
     if (modal) {
@@ -132,7 +140,6 @@ export class ChatBoxComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeModal() {
     const modal = document.getElementById('offerModal');
     if (modal) {
@@ -142,84 +149,78 @@ export class ChatBoxComponent {
       modal.removeAttribute('aria-modal');
       document.body.classList.remove('modal-open');
       const backdrop = document.querySelector('.modal-backdrop');
-
       if (backdrop) {
         document.body.removeChild(backdrop);
       }
-
     }
   }
-
   messageControl = new FormControl();
   buyerSuggestions: string[] = [
     'Is this still available?',
     'I am interested.',
     'What’s your final price?',
     'Where can we meet?',
-    'I’d like to buy this'
+    'I’d like to buy this',
   ];
-  
   sellerSuggestions: string[] = [
     'Thank you for your interest!',
     'Do you want pick up today?',
     'The final price is negotiable.',
     'Let me know your preferred time.',
-    'What payment method do you prefer?'
+    'What payment method do you prefer?',
   ];
-  
   suggestions: string[] = [];
   suggestionsVisible: boolean = false;
-
   showSuggestions() {
     this.suggestionsVisible = true;
   }
-
   hideSuggestions() {
     setTimeout(() => {
       this.suggestionsVisible = false;
-    }, 200); // Delay to allow click event to register
+    }, 200);
   }
-
   selectSuggestion(suggestion: string) {
-    this.message = suggestion; 
+    this.message = suggestion;
   }
-  receverId:any
+  receverId: any;
   ngOnInit() {
-      
     this.router.events
-    .pipe(filter(event => event instanceof NavigationStart))
-    .subscribe((event: any) => {
-      this.isNavigatingAway = true;
-    });
-      // If no state, try to get data from sessionStorage
-      const productData = sessionStorage.getItem('productData');
-      const userData = sessionStorage.getItem('userData');
-
-      if (productData && userData) {
-        this.productDetail = JSON.parse(productData);
-        this.productId=this.productDetail.id;
-        this.productImage=this.productDetail.photo[0].src
-        this.productPrice=this.productDetail.fix_price?this.productDetail.fix_price:this.productDetail.auction_price;
-        this.userDetail = JSON.parse(userData);
-        this.userImage=this.userDetail.img;
-        this.userName=this.userDetail.name;
-        this.sellerId=this.userDetail.id;
-        this.buyerId=this.currentUserid;
-        this.selectedUser = this.userDetail;
-      } 
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        this.isNavigatingAway = true;
+      });
+    const productData = sessionStorage.getItem('productData');
+    const userData = sessionStorage.getItem('userData');
+    if (productData && userData) {
+      this.productDetail = JSON.parse(productData);
+      this.productId = this.productDetail.id;
+      this.productImage = this.productDetail.photo[0].src;
+      this.productPrice = this.productDetail.fix_price
+        ? this.productDetail.fix_price
+        : this.productDetail.auction_price;
+      this.userDetail = JSON.parse(userData);
+      this.userImage = this.userDetail.img;
+      this.userName = this.userDetail.name;
+      this.sellerId = this.userDetail.id;
+      this.buyerId = this.currentUserid;
+      this.selectedUser = this.userDetail;
+    }
   }
   getAllChatsOfUser = () => {
-    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {  
-      this.allChat = res.data;
-      this.selectTab(this.selectedTab);
-      if (this.selectedUser != null)
-      console.log(this.chatBox)
-    });
-  }
+    this.mainServices
+      .getAllChatsOfUser(this.currentUserid)
+      .subscribe((res: any) => {
+        this.allChat = res.data;
+        this.selectTab(this.selectedTab);
+        if (this.selectedUser != null) console.log(this.chatBox);
+      });
+  };
   getTimeDifference(updatedAt: string): string {
     const updatedAtDate = new Date(updatedAt);
     const currentTime = new Date();
-    const timeDifference = Math.abs(currentTime.getTime() - updatedAtDate.getTime()); // Difference in milliseconds
+    const timeDifference = Math.abs(
+      currentTime.getTime() - updatedAtDate.getTime()
+    );
 
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
@@ -242,42 +243,55 @@ export class ChatBoxComponent {
       return `${years} y`;
     }
   }
-
   getConversation(data: any) {
-    ;
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
-    this.productImage=data.image_path.src;
-    this.productPrice=data.product?.fix_price?data.product.fix_price:data.product?.auction_price;
+    this.productImage = data.image_path.src;
+    this.productPrice = data.product?.fix_price
+      ? data.product.fix_price
+      : data.product?.auction_price;
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
-    this.userlocation=otherUser.location;
+    this.userlocation = otherUser.location;
     this.userName = otherUser.name;
     if (data.offer_id) {
-        const input = {
-            id: data.offer_id,
-        };
-        this.mainServices.getOffer(input).subscribe({
-            next: (result: any) => {
-                this.offerDetails = result.data; 
-            },
-        });
+      const input = {
+        id: data.offer_id,
+      };
+      this.mainServices.getOffer(input).subscribe({
+        next: (result: any) => {
+          this.offerDetails = result.data;
+        },
+      });
     } else {
-        this.offerDetails = null; 
+      this.offerDetails = null;
     }
-    this.mainServices.getConversation(data.conversation_id).subscribe((res: any) => {
+    this.mainServices
+      .getConversation(data.conversation_id)
+      .subscribe((res: any) => {
         this.selectedConversation = res;
         this.markMessagesAsRead(data.conversation_id);
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
-        const isCurrentUserParticipant1 = this.currentUserid === participant1.id;
-        const currentParticipant = isCurrentUserParticipant1 ? participant1 : participant2;
-        const otherParticipant = isCurrentUserParticipant1 ? participant2 : participant1;
+        const isCurrentUserParticipant1 =
+          this.currentUserid === participant1.id;
+        const currentParticipant = isCurrentUserParticipant1
+          ? participant1
+          : participant2;
+        const otherParticipant = isCurrentUserParticipant1
+          ? participant2
+          : participant1;
         this.conversationBox = res.data.conversation.map((msg: any) => ({
-            ...msg,
-            formattedTime: this.formatMessageTime(msg.created_at),
-            sender_image: msg.sender_id === this.currentUserid ? currentParticipant.img : otherParticipant.img, 
-            receiver_image: msg.sender_id === this.currentUserid ? otherParticipant.img : currentParticipant.img, 
+          ...msg,
+          formattedTime: this.formatMessageTime(msg.created_at),
+          sender_image:
+            msg.sender_id === this.currentUserid
+              ? currentParticipant.img
+              : otherParticipant.img,
+          receiver_image:
+            msg.sender_id === this.currentUserid
+              ? otherParticipant.img
+              : currentParticipant.img,
         }));
         this.productId = this.conversationBox[0].product_id;
         this.sellerId = this.conversationBox[0].seller_id;
@@ -285,86 +299,83 @@ export class ChatBoxComponent {
         this.offerStatus = this.conversationBox[0]?.offer?.status;
         this.offerId = this.conversationBox[0]?.offer_id;
         console.log(this.conversationBox);
-    });
-}
-markMessagesAsRead(conversationId: string) {
- 
-
-  this.mainServices.markMessagesAsRead(conversationId).subscribe({
+      });
+  }
+  markMessagesAsRead(conversationId: string) {
+    this.mainServices.markMessagesAsRead(conversationId).subscribe({
       next: (response) => {
-          console.log('Messages marked as read:', response);
+        console.log('Messages marked as read:', response);
       },
       error: (error) => {
-          console.error('Error marking messages as read:', error);
-      }
-  });
-}
-formatMessageTime(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-} 
-sendMsg() {
-  let receiverId: string;
+        console.error('Error marking messages as read:', error);
+      },
+    });
+  }
+  formatMessageTime(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  sendMsg() {
+    let receiverId: string;
 
-  if (this.selectedConversation.data) {
-      receiverId = (this.currentUserid !== this.selectedConversation.data.Participant2.id)
+    if (this.selectedConversation.data) {
+      receiverId =
+        this.currentUserid !== this.selectedConversation.data.Participant2.id
           ? this.selectedConversation.data.Participant2.id
           : this.selectedConversation.data.Participant1.id;
-  } else {
-      receiverId = this.selectedUser?.id;  
-  } 
-  let input = {
+    } else {
+      receiverId = this.selectedUser?.id;
+    }
+    let input = {
       sender_id: this.currentUserid,
       buyer_id: this.buyerId,
       seller_id: this.sellerId,
       receiver_id: receiverId,
       message: this.message,
-      product_id: this.productId
-  };
+      product_id: this.productId,
+    };
 
-  this.mainServices.sendMsg(input).subscribe((res: any) => {
-      this.message = "";
+    this.mainServices.sendMsg(input).subscribe((res: any) => {
+      this.message = '';
       const newMessage = {
-          ...res.data.Message[0],
-          sender_image: this.currentUserid === this.selectedConversation.data.Participant1.id
-              ? this.selectedConversation.data.Participant1.img
-              : this.selectedConversation.data.Participant2.img,
-          receiver_image: this.currentUserid !== this.selectedConversation.data.Participant1.id
-              ? this.selectedConversation.data.Participant1.img
-              : this.selectedConversation.data.Participant2.img,
-          formattedTime: this.formatMessageTime(new Date().toISOString()) 
+        ...res.data.Message[0],
+        sender_image:
+          this.currentUserid === this.selectedConversation.data.Participant1.id
+            ? this.selectedConversation.data.Participant1.img
+            : this.selectedConversation.data.Participant2.img,
+        receiver_image:
+          this.currentUserid !== this.selectedConversation.data.Participant1.id
+            ? this.selectedConversation.data.Participant1.img
+            : this.selectedConversation.data.Participant2.img,
+        formattedTime: this.formatMessageTime(new Date().toISOString()),
       };
-      
+
       this.conversationBox.push(newMessage);
       this.cd.detectChanges();
-  });
-} 
+    });
+  }
   acceptOffer() {
-
     let input = {
       product_id: this.productId,
       seller_id: this.sellerId,
       buyer_id: this.buyerId,
-      offer_id: this.offerId
-    }
-    this.mainServices.acceptOffer(input).subscribe(res => {
-
-      res
-      console.log(res)
+      offer_id: this.offerId,
+    };
+    this.mainServices.acceptOffer(input).subscribe((res) => {
+      res;
+      console.log(res);
     });
   }
 
   rejectOffer() {
-
     let input = {
       product_id: this.productId,
       seller_id: this.sellerId,
       buyer_id: this.buyerId,
-      offer_id: this.offerId
-    }
-    this.mainServices.rejectOffer(input).subscribe(res => {
-
-      res
+      offer_id: this.offerId,
+    };
+    this.mainServices.rejectOffer(input).subscribe((res) => {
+      res;
     });
   }
 
@@ -396,7 +407,7 @@ sendMsg() {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this.filePreview = e.target.result;
-          this.showPreviewModal = true; 
+          this.showPreviewModal = true;
         };
         reader.readAsDataURL(file);
       } else {
@@ -420,26 +431,28 @@ sendMsg() {
     this.filePreview = null;
   }
   handleSelectedUser(user: any) {
-    this.selectedUserId = user.id
+    this.selectedUserId = user.id;
   }
   searchSubject: Subject<string> = new Subject<string>();
 
   onSearch(event: any) {
-    this.searchSubject.next(event.value); 
+    this.searchSubject.next(event.value);
   }
 
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       sessionStorage.removeItem('productData');
-      sessionStorage.removeItem('userData')
+      sessionStorage.removeItem('userData');
     }
   }
   deleteConversation(conversation: any) {
-      
-    this.mainServices.deleteConversation(conversation.conversation_id)
+    this.mainServices
+      .deleteConversation(conversation.conversation_id)
       .pipe(
         tap(() => {
-          this.chatBox = this.chatBox.filter((item) => item.conversation_id !== conversation.conversation_id);
+          this.chatBox = this.chatBox.filter(
+            (item) => item.conversation_id !== conversation.conversation_id
+          );
         }),
         catchError((error) => {
           console.error('Error deleting conversation', error);
@@ -448,5 +461,4 @@ sendMsg() {
       )
       .subscribe();
   }
-  
 }
