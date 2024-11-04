@@ -167,9 +167,8 @@
               class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">
               Add to cart
             </button>
-            <button (click)="makeOffer(product)" type="button"
-              class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary" data-toggle="modal"
-              data-target=".make-offer-modal">
+            <button type="button" class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary"
+              data-toggle="modal" data-target="#makeofferModal">
               Make Offer
             </button>
             <button (click)="toggleWishlist(product)" type="button"
@@ -221,12 +220,17 @@
     </div>
     }
     <div class="modal fade make-offer-modal" tabindex="-1" role="dialog" aria-labelledby="makeoffermodal"
-      aria-hidden="true">
+      aria-hidden="false">
       <div class="modal-dialog modal-xl" role="document">
         <app-make-offer-modal />
       </div>
     </div>
   </div>
-
-  
+  <!-- Modal -->
+  <div class="modal fade" id="makeofferModal" tabindex="-1" role="dialog" aria-labelledby="makeofferModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <app-make-offer-modal />
+    </div>
+  </div>
 </main>
