@@ -774,6 +774,7 @@ showfor(){
   }
 
   toggleActive(buttonIndex: number) {
+    debugger
     this.activeButton = buttonIndex;
     
   }
@@ -1880,6 +1881,7 @@ showfor(){
         this.sellingList = res;
         console.log(res);
         this.loading=false
+        debugger
         this.soldList=res.data?.history
         this.purchaseListTemp = res.data?.purchase ;
         this.sellingListTemp = res.data?.selling ;
@@ -2241,9 +2243,11 @@ parseSTime(event: any): void {
     }
   }
   markAsSold(product: any) {
+    debugger
     localStorage.setItem('soldItems', JSON.stringify(product));
     this.router.navigate(['/markAsSold/', product.id]);
   }
+  
     addCumtomLink() {
     let input = {
       custom_link: this.customLink,
