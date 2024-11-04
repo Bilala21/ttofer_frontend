@@ -57,10 +57,10 @@
                     <h2 class="fs-14 fw-semibold m-0">
                       {{ item.sender.id !== currentUserid ? item.sender.name : item.receiver.name }}
                     </h2>
-                    <span class="fs-12 text-slate-400">{{ item.formattedTime }}</span>
+                    <span class="fs-12 text-dark-400">{{ item.formattedTime }}</span>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p class="m-0 fs-12 fw-normal text-slate-400">{{ item.message }}</p>
+                    <p class="m-0 fs-12 fw-normal text-dark-400">{{ item.message }}</p>
                     <div class="d-flex align-items-center">
                       <img
                         [src]="item.image_path?.src"
@@ -141,11 +141,11 @@
                     ></i>
                   </ng-container>
                 </div>
-                <div class="fs-12 fw-semibold text-slate-400 d-flex align-items-center">
+                <div class="fs-12 fw-semibold text-dark-400 d-flex align-items-center">
                   <span class="dot rounded-pill mr-1"></span>
                   Online
                 </div>
-                <div class="fs-12 text-slate-400">
+                <div class="fs-12 text-dark-400">
                   <span>{{userlocation?userlocation:'No location added'}}</span> 
                 </div>
               </div>

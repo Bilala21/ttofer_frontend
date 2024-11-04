@@ -4,7 +4,7 @@
       <div class="d-flex gap-add ">
         <ul class="list-unstyled d-flex align-items-center justify-content-center">
           <li class="xs-d-none">
-            <a routerLink="#" class="text-slate-400 text-decoration-none link">
+            <a routerLink="#" class="text-dark-400 text-decoration-none link">
               <i class="far fa-heart fs-20 text-center d-block mb-1"></i>
               Saved
             </a>
@@ -12,7 +12,7 @@
           <li class="xs-d-none">
             <a
               (click)="openChat()"
-              class="text-slate-400 text-decoration-none link"
+              class="text-dark-400 text-decoration-none link"
             >
               <i class="fa fa-comments fs-20 text-center d-block mb-1"></i>
               Chat
@@ -22,7 +22,7 @@
           <li class="pt-1">
             <a
               (click)="openSelling()"
-              class="text-slate-400 text-decoration-none link"
+              class="text-dark-400 text-decoration-none link"
             >
               <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
               <span>Selling</span>
@@ -46,13 +46,13 @@
             </a>
           </li>
           <li>
-            <a href="" class="text-slate-400 text-decoration-none link">
+            <a href="" class="text-dark-400 text-decoration-none link">
               <i class="fas fa-bell fs-20 text-center d-block mb-1"></i>
               <span>Notification</span>
             </a>
           </li>
           <li>
-            <a href="" class="text-slate-400 text-decoration-none link">
+            <a href="" class="text-dark-400 text-decoration-none link">
               <i
                 class="fas fa-shopping-cart fs-20 text-center d-block mb-1"
               ></i>
@@ -100,12 +100,12 @@
             class="search-btn position-relative border-0 p-0 pt-1 bg-transparent text-white"
             (click)="showSearchBar()"
           >
-            <i class="fas fa-search fs-20 text-slate-400"></i>
+            <i class="fas fa-search fs-20 text-dark-400"></i>
           </button>
         </li>
 
         <li
-          class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item"
+          class="fs-14 d-flex align-items-center ml-2 text-dark-400 location-item"
         >
           <i class="fa fa-map-marker-alt fs-20 mr-2"></i>
           Belarus
@@ -118,7 +118,7 @@
         @if (currentUser) {
         <li class="user-profile cursor-pointer position-relative">
           <button
-            class="btn dropdown-toggle text-slate-400 fs-14 text-uppercase fw-semibold"
+            class="btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
             type="button"
             id="userDropdown"
             data-toggle="dropdown"
@@ -147,14 +147,14 @@
           >
             <a
               routerLink="/profilePage/{{ currentUser.id }}"
-              class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
+              class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
             >
               <i class="fas fa-user fs-18 text-center d-block mr-3"></i>
               <span> Profile </span>
             </a>
             <span
               (click)="logout()"
-              class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
+              class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100"
             >
               <i class="fas fa-sign-out-alt fs-18 text-center d-block mr-3"></i>
               <span> Logout </span>

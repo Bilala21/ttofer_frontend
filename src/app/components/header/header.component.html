@@ -13,9 +13,9 @@
                     </li>
                     <li class="d-xl-none">
                         <button class="search-btn position-relative border-0 p-0 pt-1 bg-transparent text-white"
-                            (click)="showSearchBar()"><i class="fas fa-search fs-20 text-slate-400"></i></button>
+                            (click)="showSearchBar()"><i class="fas fa-search fs-20 text-dark-400"></i></button>
                     </li>
-                    <li class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item">
+                    <li class="fs-14 d-flex align-items-center ml-2 text-dark-400 location-item">
                         <i class="fa fa-map-marker-alt fs-20 mr-2"></i>
                         Belarus
                     </li>
@@ -31,7 +31,7 @@
                         </svg>
                     </li>
                     <li class="xs-d-none" style="cursor: pointer;">
-                        <!-- <a (click)="openChat()" class="text-slate-400 text-decoration-none link">
+                        <!-- <a (click)="openChat()" class="text-dark-400 text-decoration-none link">
                             <i class="fa fa-comments outlined-icon fs-20 text-center d-block mb-1"></i>
                 
                         </a> -->
@@ -45,7 +45,7 @@
 
 
                     <!-- <li class="pt-1">
-                        <a (click)="openSelling()" class="text-slate-400 text-decoration-none link">
+                        <a (click)="openSelling()" class="text-dark-400 text-decoration-none link">
                             <i class="fa fa-tags fs-18 text-center d-block mb-1 pt-1"></i>
                             <span>Selling</span>
                         </a>
@@ -144,7 +144,7 @@
 
                     @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">
-                        <button class="btn dropdown-toggle text-slate-400 fs-14 text-uppercase fw-semibold"
+                        <button class="btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <img class="user-Profile" [src]="
@@ -159,14 +159,14 @@
                         <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
                             aria-labelledby="userDropdown">
                             <a routerLink="/profilePage/{{currentUser.id}}"
-                                class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
                                 <i class="fas fa-user fs-18 text-center d-block mr-3"></i>
                                 <span>
                                     Profile
                                 </span>
                             </a>
                             <span (click)="logout()"
-                                class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
                                 <i class="fas fa-sign-out-alt fs-18 text-center d-block mr-3"></i>
                                 <span>
                                     Logout
