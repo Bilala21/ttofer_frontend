@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,11 +9,12 @@ import { CommonModule, NgIf } from '@angular/common';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { ToastrService } from 'ngx-toastr';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { MakeOfferModalComponent } from '../modals/make-offer-modal/make-offer-modal.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [SharedModule, NgIf, GoogleMapsModule,],
+  imports: [SharedModule, NgIf, GoogleMapsModule,RouterLink,MakeOfferModalComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })

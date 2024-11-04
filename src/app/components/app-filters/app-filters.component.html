@@ -2,7 +2,7 @@
     <h2 class="fs-20 text-capitalize">{{slug}}</h2>
     <div class="fs-18 mb-2">
         <strong>{{globalStateService.productlength}}</strong>
-        <span class="pl-1 text-slate-400 fs-14">Results Found</span>
+        <span class="pl-1 text-dark-400 fs-14">Results Found</span>
     </div>
     <div class="accordion" id="productFilter">
         <!-- SUB CATEGORIES -->
@@ -237,13 +237,13 @@
                             <input type="text" placeholder="0" [(ngModel)]="value" value="0"
                                 class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
                                 (focusout)="handleFilter({key:'min_price', value: value})">
-                            <span class="fs-12 text-slate-400">AED</span>
+                            <span class="fs-12 text-dark-400">AED</span>
                         </div>
                         <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
                             <input type="text" placeholder="150" [(ngModel)]="highValue" value="150"
                                 class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
                                 (focusout)="handleFilter({key:'max_price', value: highValue})">
-                            <span class="fs-12 text-slate-400">AED</span>
+                            <span class="fs-12 text-dark-400">AED</span>
                         </div>
                     </div>
                 </div>
