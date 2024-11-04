@@ -96,7 +96,109 @@ header {
     .right-list{
         column-gap: 20px;
     }
+    .cart-container, .notification-container {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    
+        a {
+            color: inherit;
+        }
+    
+        .badge {
+            position: absolute;
+            top: -14px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+    
+        .cart-dropdown, .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%; /* Position dropdown below the icon */
+            right: 0;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            border-radius: 8px;
+            z-index: 1000;
+    
+            .cart-item {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #e0e0e0;
+    
+                .cart-item-image {
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 10px;
+                }
+    
+                .cart-item-details {
+                    flex: 1;
+    
+                    p {
+                        margin: 0;
+                        font-weight: bold;
+                    }
+    
+                    span {
+                        color: gray;
+                    }
+                }
+            }
+    
+            .main-cart-items {
+                height: 250px;
+                overflow: auto;
+            }
+        }
+    
+        /* Show the dropdown on hover for each container */
+        &:hover .cart-dropdown, 
+        &:hover .notification-dropdown {
+            display: block;
+        }
+    }
+    
+    
+    
+      .category-color{
+        color: #002f34;
+    }
+    .checkout-btn{
+        border: none;
+        background-color: blue;
+        color: white;
+    }
+    .checkout-btn:hover{
+        background-color: rgb(48, 48, 226);
+    }
+    .viewCart-btn{
+        border:1px solid blue;
+        color: blue;
+        background-color: transparent;
+    }
+    .viewCart-btn:hover{
+        background-color: #ece5e5;
+    }
+    .bg-gray{
+        background-color: #ece5e5;
+    }
+
 }
+
+
 
 @media (max-width:1024px) {
     .md-fs-12 {
@@ -108,6 +210,26 @@ header {
             font-size: 12px;
         }
 
+        .link {
+            min-width: 50px !important;
+            font-size: 12px;
+            padding: 0 !important;
+        }
+
+
+        .categories {
+
+            &.fs-14,
+            button {
+                font-size: 12px;
+            }
+        }
+    }
+}
+  
+@media (max-width:768px) {  
+    nav {
+       
         .search-bar {
             position: absolute;
             bottom: -56px;
@@ -119,102 +241,43 @@ header {
             padding: 0px 15px 10px;
             display: none !important;
         }
-
-        .link {
-            min-width: 50px !important;
-            font-size: 10px;
-            padding: 0 !important;
-        }
-
         .show-search {
             display: flex !important;
         }
+    }
+  }
 
-        .categories {
-
-            &.fs-14,
-            button {
-                font-size: 12px;
+@media (max-width:576px) {
+    header {
+        ul {
+            &:first-child {
+                // max-width: 800px;
+                column-gap: 10px;
+            }
+    
+            &:last-child {
+                li a.link {
+                    min-width: 30px;
+                }
+            }
+        }
+        
+        .right-list{
+            column-gap: 10px;
+        }
+        .fs-22{
+            font-size: 18px;
+        }
+        .cart-container {
+            .badge {
+           
+              width: 16px;
+              height: 16px;
+              display: flex;
             }
         }
     }
-}
-.cart-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    a{
-        
-        color:inherit
-    }
-  
-    .badge {
-      position: absolute;
-      top: -14px;
-      right: -5px;
-      background-color: red;
-      color: white;
-      border-radius: 50%;
-      width: 17px;
-      height: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: bold;
-    }
-  
-    .cart-dropdown {
-      display: none;
-      position: absolute;
-      top: 100%; /* Position dropdown below the cart icon */
-      right: 0;
-      background-color: white;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      width: 300px;
-    //   padding: 15px;
-      border-radius: 8px;
-      z-index: 1000;
-  
-      .cart-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #e0e0e0;
-  
-        .cart-item-image {
-          width: 50px;
-          height: 50px;
-          margin-right: 10px;
-        }
-  
-        .cart-item-details {
-          flex: 1;
-  
-          p {
-            margin: 0;
-            font-weight: bold;
-          }
-  
-          span {
-            color: gray;
-          }
-        }
-      }
-  
-    //   .checkout-btn {
-    //     text-align: center;
-    //     margin-top: 10px;
-    //   }
-    }
-  
-    /* Show the dropdown on hover */
-    &:hover .cart-dropdown {
-      display: block;
-    }
-  }
-  
-@media (max-width:576px) {
+
     nav {
 
         i.fs-20,
@@ -266,6 +329,12 @@ header {
 
 @media(max-width:350px){
     header{
+        ul {
+            &:first-child {
+                // max-width: 800px;
+                column-gap: 5px;
+            }
+        }
         .show {
             .user-profile-drow-donw {
                 display: block;
@@ -277,30 +346,7 @@ header {
             outline: none;
         }
         .right-list{
-            column-gap: 5px;
+            column-gap: 7px;
         }
     }
-}
-
-.category-color{
-    color: #002f34;
-}
-.checkout-btn{
-    border: none;
-    background-color: blue;
-    color: white;
-}
-.checkout-btn:hover{
-    background-color: rgb(48, 48, 226);
-}
-.viewCart-btn{
-    border:1px solid blue;
-    color: blue;
-    background-color: transparent;
-}
-.viewCart-btn:hover{
-    background-color: #ece5e5;
-}
-.bg-gray{
-    background-color: #ece5e5;
 }

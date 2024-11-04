@@ -91,7 +91,7 @@
         <!-- Cart Summary Section -->
         <div class="cart-summary">
           <div class="d-flex justify-content-between fw-normal">
-            <span class="fs-14">Items ({{ cartItems?.length }})</span>
+            <span class="fs-14" *ngIf="cartItems?.length">Items ({{ cartItems.length}})</span>
             <span class="fs-14"> AED {{ calculateTotal() }}</span>
           </div>
           <hr>
