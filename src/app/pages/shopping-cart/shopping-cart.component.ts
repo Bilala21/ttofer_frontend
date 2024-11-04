@@ -81,30 +81,30 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.globalStateService.currentState.subscribe((state) => {
-    //   this.cartItems = state.cartState
-    // })
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState
+    })
 
-    console.log(JSON.parse(localStorage.getItem("tempCartItem") as string).cartState, "temp cart item");
-    this.cartItems = [
-      {
-        "id": 1,
-        "name": "Test",
-        "user_id": 39774,
-        "description": "Test",
-        "fix_price": "12345",
-        "image": "https://ttoffer.com/backend/public/storage/ads_imgs/ja548k0Er-d26a3345-9659-4317-8a18-c65456acf61c1730209508.jpg",
-        "quantity": 1
-      },
-      {
-        "id": 32,
-        "name": "Ff",
-        "user_id": 48,
-        "description": "Gcffff cffffff fffffff fffggg",
-        "fix_price": "500",
-        "image": "https://ttoffer.com/backend/public/storage/ads_imgs/iVUTFIQUv-1636d86e-a229-4801-a4d9-2681b0f0eba71730477085.jpg",
-        "quantity": 1
-      }
-    ]
+    // console.log(JSON.parse(localStorage.getItem("tempCartItem") as string).cartState, "temp cart item");
+    // this.cartItems = [
+    //   {
+    //     "id": 1,
+    //     "name": "Test",
+    //     "user_id": 39774,
+    //     "description": "Test",
+    //     "fix_price": "12345",
+    //     "image": "https://ttoffer.com/backend/public/storage/ads_imgs/ja548k0Er-d26a3345-9659-4317-8a18-c65456acf61c1730209508.jpg",
+    //     "quantity": 1
+    //   },
+    //   {
+    //     "id": 32,
+    //     "name": "Ff",
+    //     "user_id": 48,
+    //     "description": "Gcffff cffffff fffffff fffggg",
+    //     "fix_price": "500",
+    //     "image": "https://ttoffer.com/backend/public/storage/ads_imgs/iVUTFIQUv-1636d86e-a229-4801-a4d9-2681b0f0eba71730477085.jpg",
+    //     "quantity": 1
+    //   }
+    // ]
   }
 }

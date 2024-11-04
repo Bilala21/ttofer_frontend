@@ -36,3 +36,10 @@
     max-width: 32.333333%;
   }
 }
+
+@media (max-width: 576px) {
+  .xs-px-3 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

@@ -8,6 +8,7 @@
           class="w-100 h-100"
           alt=""
           srcset=""
+          loading="lazy"
         />
       </div>
       <h1 class="m-0 d-flex align-baseline mt-4 heading-checkout">Checkout</h1>
@@ -32,7 +33,7 @@
               class="d-flex justify-content-between border-b p-4"
             >
               <div>
-                <img [src]="payment.img" alt="" />
+                <img [src]="payment.img" alt="" loading="lazy" />
                 <!-- form-check-label -->
                 <label class="ml-3" [for]="payment.value">{{
                   payment.detail1

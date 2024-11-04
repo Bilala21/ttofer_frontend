@@ -13,7 +13,8 @@
           (click)="openMore()"
           src="assets/images/more-icon.svg"
           class="position-absolute d-block d-md-none"
-          style="left: 0; z-index: 1; margin-left: 15px"
+          loading="lazy"
+          style="left: 0; z-index: 1; margin-left: 15px;cursor: pointer;"
         />
 
         <!-- mobile-screen -->
@@ -235,6 +236,7 @@
                           id="uploaded-image"
                           class="d-non"
                           [src]="imageUrl ? imageUrl : defaultProfileUrl"
+                          loading="lazy"
                         />
                       </div>
                       <i
@@ -720,6 +722,7 @@
                   }}"
                   alt="Item Image"
                  class="w-100 h-100"
+                 loading="lazy"
                  style="border-radius: 10px;"
                 />
                 <div
@@ -799,6 +802,7 @@
                   }}"
                   alt="Item Image"
                   class="item-image"
+                  loading="lazy"
                 />
                 <div
                 class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
@@ -843,6 +847,7 @@
                   src="assets/images/best-selling.png"
                   style="width: 160px"
                   alt=""
+                  loading="lazy"
                 />
                 <h4 class="mt-5">
                   {{
@@ -857,10 +862,10 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                    <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img src="assets/images/app-store.svg" alt="" class="w-100" />
+                    <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                   </div>
                 </div>
               </div>
@@ -872,6 +877,7 @@
                   src="assets/images/archieve-item.png"
                   class="w-100"
                   alt=""
+                  loading="lazy"
                 />
                 <h4 class="mt-5"></h4>
                 <h5 class="mt-5">
@@ -880,10 +886,10 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                    <img src="assets/images/play-store.svg" loading="lazy" alt="" class="w-100" />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img src="assets/images/app-store.svg" alt="" class="w-100" />
+                    <img src="assets/images/app-store.svg" loading="lazy" alt="" class="w-100" />
                   </div>
                 </div>
               </div>
@@ -977,7 +983,7 @@
                                 border-radius: 10px;
                               "
                             >
-                              <img src="{{ data.img }}" class="w-100" alt="" />
+                              <img src="{{ data.img }}" class="w-100" alt="" loading="lazy" />
                             </div>
                           </div>
                           <div class="col-md-9 col-8">
@@ -1056,15 +1062,16 @@
                 src="assets/images/No-data.png"
                 style="width: 160px"
                 alt=""
+                loading="lazy"
               />
               <h5 class="mt-5">You have no saved items at the moment.</h5>
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img src="assets/images/app-store.svg" alt="" class="w-100" />
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1099,6 +1106,7 @@
                         src="assets/images/default-img.jpg"
                         class="w-100 h-100"
                         alt="Default Image"
+                        loading="lazy"
                       />
                       }
                         
@@ -1156,15 +1164,16 @@
                 src="assets/images/No-data.png"
                 style="width: 160px"
                 alt=""
+                loading="lazy"
               />
               <h5 class="mt-5">You have no Notification at the moment.</h5>
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img src="assets/images/play-store.svg" alt="" class="w-100" />
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img src="assets/images/app-store.svg" alt="" class="w-100" />
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1315,6 +1324,7 @@
                         alt="Selected Image"
                         class="img-thumbnail"
                         style="width: 150px; height: 150px"
+                        loading="lazy"
                       />
                       <button
                         type="button"
@@ -1347,6 +1357,7 @@
                     editProductData ? 'pointer' : 'not-allowed'
                   }}"
                   alt=""
+                  loading="lazy"
                   (click)="editProductData ? fileInput.click() : null"
                 />
                 <input
@@ -1390,6 +1401,7 @@
                     class="w-100 editProductData ? 'pointer' : 'not-allowed'"
                     alt="Upload Video"
                     (click)="editProductData ? videoInput.click() : null"
+                    loading="lazy"
                   />
                   <input
                     #videoInput
@@ -1415,6 +1427,7 @@
                     src="assets/images/trash.png"
                     style="margin-right: 10px"
                     alt=""
+                    loading="lazy"
                   />
                   Delete Video
                 </button>
@@ -1428,6 +1441,7 @@
                     src="assets/images/gallerySelect.png"
                     style="margin-right: 10px"
                     alt=""
+                    loading="lazy"
                   />
                   Select Video
                 </button>
@@ -1814,6 +1828,7 @@
                         alt="Selected Image"
                         class="img-thumbnail"
                         style="width: 150px; height: 150px"
+                        loading="lazy"
                       />
                       <button
                         type="button"
@@ -1838,6 +1853,7 @@
                   class="w-100"
                   alt=""
                   (click)="fileInput.click()"
+                  loading="lazy"
                 />
                 <input
                   #fileInput
@@ -1886,6 +1902,7 @@
                     class="w-100"
                     alt="Upload Video"
                     (click)="videoInput.click()"
+                    loading="lazy"
                   />
                   <input
                     #videoInput
@@ -1924,6 +1941,7 @@
                     src="assets/images/gallerySelect.png"
                     style="margin-right: 10px"
                     alt=""
+                    loading="lazy"
                   />
                   Select Video
                 </button>
@@ -2434,7 +2452,7 @@
               <div class="col-12 mx-auto margin-top-class">
                 <div class="d-flex justify-content-center">
                   <div class="w-50">
-                    <img src="assets/images/boost-plus.svg" class="w-100" alt="" />
+                    <img src="assets/images/boost-plus.svg" class="w-100" alt="" loading="lazy" />
                   </div>
                 </div>
                 <h4 class="mt-5 .right-side-top-title">Sell faster with Boost Plus</h4>
@@ -2712,6 +2730,7 @@
                   src="assets/images/phone-img.png"
                   class="w-75 mt-3"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div class="mt-4">
@@ -2740,6 +2759,7 @@
                   src="assets/images/verify-img.png"
                   class="w-75 mt-3"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div class="mt-4">
@@ -2843,6 +2863,7 @@
                   src="assets/images/email-img.png"
                   class="w-75 mt-3"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div class="mt-4">
@@ -2871,6 +2892,7 @@
                   src="assets/images/verify-img.png"
                   class="w-75 mt-3"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div class="mt-4">
@@ -3220,6 +3242,7 @@
                     src="assets/images/boost-plan.svg"
                     class="w-100"
                     alt=""
+                    loading="lazy"
                   />
                   <span class="mt-3"
                     >Get an average of 20x more views each day</span
