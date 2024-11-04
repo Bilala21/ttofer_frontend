@@ -1897,6 +1897,7 @@ showfor(){
     this.mainServices
       .getNotification(this.currentUserId)
       .subscribe((res: any) => {
+        debugger
         this.notificationList = res.data
         this.notificationList = res.data.sort((a: any, b: any) => {
           return (
@@ -2247,7 +2248,7 @@ parseSTime(event: any): void {
     localStorage.setItem('soldItems', JSON.stringify(product));
     this.router.navigate(['/markAsSold/', product.id]);
   }
-  
+
     addCumtomLink() {
     let input = {
       custom_link: this.customLink,

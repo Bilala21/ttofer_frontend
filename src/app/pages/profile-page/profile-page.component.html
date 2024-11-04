@@ -811,7 +811,7 @@
               <div
                 class="card-container"
                 *ngFor="let data of purchaseListTemp"
-                routerLink="/selling/{{ data.id }}"
+                routerLink="/product-detail/{{ data.id }}/{{data.slug}}"
                 style="cursor: pointer"
               >
                 <!-- Image Container -->
@@ -1358,7 +1358,7 @@
                           "
                         >
                           <img
-                            src="/assets/images/profile-placeholder.png"
+                            src="/assets/images/profile-icon.svg"
                             class="w-100 h-100"
                             alt="Default Image"
                             style="border-radius: 50%"
