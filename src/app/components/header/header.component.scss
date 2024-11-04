@@ -268,12 +268,18 @@ header {
         .fs-22{
             font-size: 18px;
         }
-        .cart-container {
+        .cart-container,.notification-container {
             .badge {
            
               width: 16px;
               height: 16px;
               display: flex;
+            } 
+            .notification-dropdown{
+                right: -80px
+            }
+            .cart-dropdown{
+                right: -57px
             }
         }
     }
