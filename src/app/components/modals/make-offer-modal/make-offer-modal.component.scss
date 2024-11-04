@@ -1,0 +1,30 @@
+// MAKE OFFER MODAL
+.make-offer-card {
+    max-width: 500px;
+  
+    button:first-child {
+      width: 25px;
+      height: 25px;
+    }
+  
+    .offer-btn {
+      border-color: #ffc107;
+    }
+  
+    p,
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+  
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    .bid-price::placeholder{
+      font-weight: 500;
+    }
+  }
+  
+  // END MAKE OFFER MODAL

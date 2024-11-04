@@ -198,7 +198,7 @@
                     <!-- profile-start -->
                     @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">
-                        <button class="btn dropdown-toggle text-slate-400 fs-14 text-uppercase fw-semibold"
+                        <button class="btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <img class="user-Profile" [src]="
@@ -211,14 +211,14 @@
                         <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
                             aria-labelledby="userDropdown">
                             <a routerLink="/profilePage/{{currentUser.id}}"
-                                class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
                                 <i class="fas fa-user fs-18 text-center d-block mr-3"></i>
                                 <span>
                                     Profile
                                 </span>
                             </a>
                             <span (click)="logout()"
-                                class="text-slate-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-3 d-flex align-items-center w-100">
                                 <i class="fas fa-sign-out-alt fs-18 text-center d-block mr-3"></i>
                                 <span>
                                     Logout

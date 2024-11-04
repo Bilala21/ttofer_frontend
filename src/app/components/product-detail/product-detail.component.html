@@ -11,14 +11,34 @@
             @for (item of product.photo; track $index) {
             <div class="img-gallery rounded-2 mb-2 mx-2 mx-lg-0 overflow-hidden mt-2 mt-lg-0 d-flex align-items-center justify-content-center cursor-pointer {{
                 $index == imgIndex ? 'border-2' : ''
-              }}" (click)="imgIndex = $index">
+              }}" (mouseover)="imgIndex = $index">
               <img src="{{ item.src }}" alt="{{ product.title }}" loading="lazy" class="img-fluid h-100" />
             </div>
             }
           </div>
           <!-- big-image -->
           <div
-            class="d-flex {{product.photo?.length > 1 ?'justify-content-between':'justify-content-center'}} align-items-center px-4 py-2 flex-grow-1 d-flex px-4 py-2 img-slider rounded-2 order-1 order-lg-2 position-relative z-0">
+            class="d-flex {{product.photo?.length > 1 ?'justify-content-between':'justify-content-center'}} position-relative align-items-center px-4 py-2 flex-grow-1 d-flex px-4 py-2 img-slider rounded-2 order-1 order-lg-2 position-relative z-0">
+            <div class="butons-scws position-absolute d-flex align-content-center">
+              <button aria-label="Add to Wishlist"
+                class="btn shadow bg-white rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none">
+                <svg aria-hidden="true" focusable="false" class="icon ux-expand-icon" viewBox="0 0 22 22">
+                  <path d="M1 13L1 21.25" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M9.25 21.25H1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M9.00195 13.25L1.00195 21.25" stroke="black" stroke-width="1.5" stroke-linecap="round">
+                  </path>
+                  <path d="M21.25 9.25L21.25 1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M13 1L21.25 1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M13.248 9.00195L21.248 1.00195" stroke="black" stroke-width="1.5" stroke-linecap="round">
+                  </path>
+                </svg>
+              </button>
+
+              <button aria-label="Add to Wishlist"
+                class="btn rounded-pill hadow bg-white icon-btn d-flex align-items-center justify-content-center hover-bg-none">
+                <span class="pr-2">12</span>
+                <i aria-hidden="true" class="fa-heart far fs-19"></i></button>
+            </div>
             <button *ngIf="product.photo?.length > 1" type="button" class="rounded-pill icon-btn p-0 border-0 shadow {{
                   imgIndex === 0 ? 'bg-transparent' : ''
                 }}" (click)="imgIndex = imgIndex - 1" [disabled]="imgIndex == 0">
@@ -29,8 +49,9 @@
                 </path>
               </svg>
             </button>
-            <div class="mx-3 position-relative img-container">
-              <img src="{{product.photo?.[imgIndex]?.src}}" alt="{{ product.title }}" loading="lazy" class="img-fluid" />
+            <div class="mx-5 position-relative img-container">
+              <img src="{{product.photo?.[imgIndex]?.src}}" alt="{{ product.title }}" loading="lazy"
+                class="img-fluid" />
               <div
                 class="text-white pl-3 pr-2 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center z-1">
                 AED 1,800.00
@@ -48,36 +69,36 @@
             </button>
           </div>
         </div>
-        <!-- details -->
-        <div class="border p-2 mb-2 w-100 mt-4 rounded">
-          <h2 class="des">Details</h2>
-          <div class="row">
-            <div class="col-6 d-flex justify-content-between align-content-center">
-              <span class="sub-headings">Brand</span>
-              <span class="ml-2 fs-14">Apple</span>
-            </div>
-            <div class="col-6 d-flex justify-content-between align-content-center">
-              <span class="sub-headings">Condition</span>
-              <span class="ml-2 fs-14">Used</span>
-            </div>
+        <hr class="my-5">
+        <div class="similar-product-container pr-4">
+          <div class="fw-semibold fs-24">Similar Items</div>
+          <span>Sponsored</span>
+          <div class="d-flex align-content-center justify-content-end">
+            <a routerLink="/" class="text-dark-650 text-decoration-underline">Feedback on our suggestions</a>
+            <span class="px-2">|</span>
+            <a routerLink="/" class="text-dark-650 text-decoration-underline">See all</a>
           </div>
-        </div>
-        <!-- description -->
-        <div class="border p-2 mb-2 w-100 mt-3 rounded">
-          <h2 class="des">Description</h2>
-          <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
-          <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
-          <span class="d-block fs-14">3UTOOL OK</span>
-        </div>
-        <hr>
-        <div>
-          <h2 class="des">Location</h2>
-          <div class="d-flex flex-column flex-lg-row justify-content-between">
-            <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
-            <div class="map-div mt-2">
-              <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
-              </google-map>
+          <!-- SIMILAR PRODUCTS -->
+          <div class="row pt-4">
+            @for (item of [1,2,3,4]; track $index) {
+            <div class="col-md-3">
+              <div class="sim-box">
+                <div class="bg-gray-450 text-center p-3 rounded-2 position-relative mb-3">
+                  <button aria-label="Add to Wishlist"
+                    class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
+                      aria-hidden="true" class="fa-heart far fs-19"></i></button>
+                  <img src="https://i.ebayimg.com/thumbs/images/g/ueQAAOSwQSBm9rcg/s-l500.jpg" alt="image"
+                    class="img-fluid max-h-100">
+                </div>
+                <a routerLink="/" class="text-left text-dark-650">
+                  NEW Open Box Samsung Galaxy Z Fold 6 Silver 512GB Factory Unlocked (READ)
+                </a>
+                <div class="text-gray-300">
+                  New (Other)
+                </div>
+              </div>
             </div>
+            }
           </div>
         </div>
       </div>
@@ -101,7 +122,8 @@
             <div class="fw-normal">
               <span class="text-yellow-800 d-block">★★★★★</span>
               <a href="#" class="text-dark text-decoration-underline mr-2">Seller's other itmes</a>
-              <a  class="text-dark text-decoration-underline" (click)="contactSeller(product, product.user)">Contact seller</a>
+              <a class="text-dark text-decoration-underline" (click)="contactSeller(product, product.user)">Contact
+                seller</a>
             </div>
           </div>
         </div>
@@ -131,23 +153,24 @@
           </div>
           <div class="fs-14">
             <span class="fw-normal">Quantity</span>
-            <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2" (change)="handleProductQty($event.target,product)"/>
+            <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2"
+              (change)="handleProductQty($event.target,product)" />
             <span class="text-slate-300 fw-normal">6 available</span>
             <span class="text-slate-300 ml-2 fw-normal">3 sold</span>
           </div>
           <div class="mt-3 buttons pt-2">
             <button (click)="buyProduct(product)" type="button"
-              class="d-block w-100 btn rounded-pill border-1 bg-primary">
-              <a href="" class="text-white fs-18 fw-normal">Buy It Now</a>
+              class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
+              <a routerLink="/" class="text-white fs-18 fw-normal text-decoration-none">Buy It Now</a>
             </button>
             <button (click)="addToCart(product)" type="button"
               class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">
               Add to cart
             </button>
-            <button (click)="makeOffer(product)" type="button"
-            class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary">
-            Make Offer
-          </button>
+            <button type="button" class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary"
+              data-toggle="modal" data-target="#makeofferModal">
+              Make Offer
+            </button>
             <button (click)="toggleWishlist(product)" type="button"
               class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary">
               <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -163,6 +186,51 @@
         </div>
       </div>
     </div>
+    <!-- details -->
+    <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
+      <h2 class="fw-semibold fs-24">Details</h2>
+      <div class="d-flex align-items-center colored-box-container">
+        <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
+          <span>Brand</span>
+          <span class="fw-semibold">Apple</span>
+        </div>
+        <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
+          <span>Condition</span>
+          <span class="fw-semibold">Used</span>
+        </div>
+      </div>
+    </div>
+    <!-- description -->
+    <div class="border p-3 mb-2 w-100 mt-3 rounded">
+      <h2 class="fw-semibold fs-24">Description</h2>
+      <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
+      <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
+      <span class="d-block fs-14">3UTOOL OK</span>
+    </div>
+    <hr>
+    <div>
+      <h2 class="fw-semibold fs-24">Location</h2>
+      <div class="d-flex flex-column flex-lg-row justify-content-between">
+        <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
+        <div class="map-div mt-2">
+          <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
+          </google-map>
+        </div>
+      </div>
+    </div>
     }
+    <div class="modal fade make-offer-modal" tabindex="-1" role="dialog" aria-labelledby="makeoffermodal"
+      aria-hidden="false">
+      <div class="modal-dialog modal-xl" role="document">
+        <app-make-offer-modal />
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="makeofferModal" tabindex="-1" role="dialog" aria-labelledby="makeofferModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <app-make-offer-modal />
+    </div>
   </div>
 </main>
