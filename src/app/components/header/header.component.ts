@@ -30,6 +30,8 @@ export class HeaderNavigationComponent implements OnInit {
   imgUrl: string | null = null;
   tempToken: boolean = false
   cartItems: any = [];
+  notificationList: any = [];
+  unReadNotification: any = 0;
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -129,7 +131,7 @@ export class HeaderNavigationComponent implements OnInit {
       this.cartItems = state.cartState
 
     })
-
+this.getNotification()
   }
 
   openChat() {
@@ -181,7 +183,29 @@ cart(){
   }
 }
 goOnNotification(){
+  const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }else{
     localStorage.setItem('currentTab',"notification");
     this.router.navigate(['/profilePage',`${this.currentUser.id}`])
+  }  
+  }
+  getNotification() {
+    this.loading = true;
+    this.mainServicesService
+      .getNotification(this.currentUser?.id)
+      .subscribe((res: any) => {
+        this.notificationList = res.data
+        this.notificationList = res.data.sort((a: any, b: any) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        });
+        this.unReadNotification = this.notificationList.filter((item:any )=>item.status == "unread")
+        this.loading = false;
+      });
   }
 }
