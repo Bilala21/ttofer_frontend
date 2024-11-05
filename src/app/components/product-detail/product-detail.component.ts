@@ -17,7 +17,7 @@ import { GalleriaModule } from 'primeng/galleria';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [RouterLink,GalleriaModule,SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent,NgIf,CardShimmerComponent],
+  imports: [RouterLink, GalleriaModule, SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent, NgIf, CardShimmerComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
@@ -62,7 +62,7 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 1
     }
   ];
-  
+
 
   ngOnInit(): void {
     this.loadRelatedImages()
@@ -258,8 +258,8 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
-  showOfferModal() {
-    this.globalStateService.setOfferModal(true)
+  showOfferModal(modal_type:string) {
+    this.globalStateService.setOfferModal(modal_type)
   }
   loadMap(): void {
     this.loading = true;
