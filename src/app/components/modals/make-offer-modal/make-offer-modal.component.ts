@@ -9,13 +9,13 @@ import { GlobalStateService } from '../../../shared/services/state/global-state.
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule, NgIf],
   templateUrl: './make-offer-modal.component.html',
-  styleUrls: ['./make-offer-modal.component.scss'] // Corrected to `styleUrls`
+  styleUrls: ['./make-offer-modal.component.scss']
 })
 export class MakeOfferModalComponent implements OnInit {
   showConfirmModal: boolean = false;
   isFinalStep: boolean = false;
   offerForm: FormGroup;
-  router = inject(Router); // Correct way to inject Router in standalone component
+  router = inject(Router);
 
   constructor(private fb: FormBuilder, private globalStateService: GlobalStateService) {
     this.offerForm = this.fb.group({
@@ -23,7 +23,7 @@ export class MakeOfferModalComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]*$') // Only allows numeric input
+          Validators.pattern('^[0-9]*$')
         ]
       ],
       description: [''],
@@ -44,14 +44,13 @@ export class MakeOfferModalComponent implements OnInit {
     }
   }
 
-  finalStemSubmit() {
-    this.isFinalStep = false;
-    this.globalStateService.setOfferModal(false)
-    console.log('Form submitted successfully', this.offerForm.value);
-  }
   closeModal() {
+    this.isFinalStep = false
     this.globalStateService.setOfferModal(false)
     this.offerForm.reset()
+  }
+  finalStemSubmit() {
+    this.closeModal()
   }
   ngOnInit(): void {
     this.globalStateService.currentState.subscribe((state) => {
