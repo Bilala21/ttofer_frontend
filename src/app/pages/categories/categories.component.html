@@ -34,11 +34,8 @@
           <p class="no-data-found">No Data Found</p>
           }@else { @for (post of data; track $index) {
           <div class="col-lg-4">
-            <app-product-card [postData]="post" [postDetialUrl]="
-                activeTab == 'feature'
-                  ? 'product-detail'
-                  : 'auction-product-detail'
-              " />
+            <app-product-card [postData]="post" postDetialUrl="product-detail"
+               />
           </div>
           } }
         </div>

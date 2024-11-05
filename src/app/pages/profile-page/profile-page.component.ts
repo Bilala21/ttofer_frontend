@@ -1431,6 +1431,7 @@ showfor(){
     }
   }
   onImageUpload(event: any): void {
+    debugger
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
     }
@@ -1443,48 +1444,43 @@ showfor(){
       console.log(this.selectedFile);
       formData.append('user_id', this.currentUserId.toString());
       formData.append('img', this.selectedFile);
-      const url = `https://ttoffer.com/backend/public/api/update/user`;
-      const token = localStorage.getItem('authToken');
-      // this.loading = true;
-
+      let url = `https://ttoffer.com/backend/public/api/update/user`;
+      let token = localStorage.getItem('authToken');
+  
       fetch(url, {
         method: 'POST',
         headers: {
-          // 'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`, 
         },
         body: formData,
       })
-        .then((response: any) => {
-          ;
-          if (!response.ok) {
-            throw new Error(
-              'Network response was not ok ' + response.statusText
-            );
-          }
-          return response.json(); // or response.text(), response.blob(), etc. based on your needs
+        .then((response: any) => {  
+          return response.json();
         })
         .then((data) => {
+          this.toastr.success('Profile picture updated successfully!', 'Success');
           this.imageUrl = data.data.img;
           this.service.changeImageUrl(this.imageUrl);
           this.UpdateLocalUserData(data.data);
-          // this.loading = false;
+        })
+        .catch((error) => {
+          this.toastr.error('Profile update failed. Please try again.', 'Error');
         });
-
     }
   }
+  
   UpdateLocalUserData(data: any) {
     const jsonString = JSON.stringify(data);
     localStorage.setItem('key', jsonString);
     this.getCurrentUser();
   }
 
-  triggerFileInput(): void {
-    const fileInput = document.getElementById(
-      'image-upload'
-    ) as HTMLInputElement;
-    fileInput.click();
-  }
+  // triggerFileInput(): void {
+  //   const fileInput = document.getElementById(
+  //     'image-upload'
+  //   ) as HTMLInputElement;
+  //   fileInput.click();
+  // }
 
  
 
