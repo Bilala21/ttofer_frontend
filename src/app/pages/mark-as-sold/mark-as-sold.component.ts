@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-mark-as-sold',
@@ -16,33 +17,45 @@ import { ToastrService } from 'ngx-toastr';
   imports: [
     CommonModule,
     HeaderComponent,
-    NgFor,
     FooterComponent,
     FormsModule,
-    NgIf,
     RouterModule,
-    NgFor,
     NgxDropzoneModule,
   ]
 })
 export class MarkAsSoldComponent implements OnInit {
   soldItems:any
   loading = false;
+  sellingChat:any;
+  currentUserId:any
   adList=[{img:'assets/images/action_filled.png',message:'Someone from TTOffer?'},
     {img:'assets/images/action_filled.png',message:'Someone from Outside TTOffer?'},
     {img:'assets/images/action_filled.png',message:'Anthony'},
     {img:'assets/images/action_filled.png',message:'Mark'},
   ];
   isBtnDisabled = true;
-  constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService,) { }
+  constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService, private extension: Extension,) { }
 
   ngOnInit() {
+    this.currentUserId = this.extension.getUserId();
+
     const storedItems = localStorage.getItem('soldItems');
     if (storedItems) {
       this.soldItems = JSON.parse(storedItems);
     }
+    this.getAllChatsOfUser()
   }
-
+  getAllChatsOfUser = () => {
+    this.mainService
+      .getAllChatsOfUser(this.currentUserId)
+      .subscribe((res: any) => {
+        debugger
+        this.sellingChat = res.data.seller_chats;
+        this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id)
+        console.log(this.sellingChat)
+       ;
+      });
+  };
   onBuyerSelected(buyer: string) {
     console.log('Selected buyer:', buyer);
     // this.isBtnDisabled=false;

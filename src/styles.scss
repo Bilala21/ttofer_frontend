@@ -421,6 +421,9 @@ button[aria-label="Close"]:focus {
   &:hover{
     opacity: .8;
   }
+  &:focus{
+    outline-color: #ffc107;
+  }
 }
 
 .text-yellow-800 {
