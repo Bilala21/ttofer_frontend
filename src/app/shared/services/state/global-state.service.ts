@@ -13,7 +13,8 @@ interface AppState {
   currentUser: any,
   temp_token: any
   isLoggedIn: boolean,
-  cartState: any[]
+  cartState: any[],
+  offerModal: boolean
 }
 
 @Injectable({
@@ -32,7 +33,8 @@ export class GlobalStateService {
     prodTab: { key: "ProductType", value: "auction" },
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,
-    cartState: []
+    cartState: [],
+    offerModal: false
   };
   public filterCriteria: any = {
     location: []
@@ -83,6 +85,14 @@ export class GlobalStateService {
 
 
 
+  setOfferModal(data: boolean) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      offerModal: data
+    };
+    this.stateSubject.next(newState);
+  }
   updateTab(index: number, tabName: string) {
     const currentState = this.stateSubject.value;
     const newState = {
