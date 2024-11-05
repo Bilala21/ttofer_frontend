@@ -125,7 +125,6 @@ export class GlobalStateService {
   }
 
   setCategories(data: any) {
-    console.log(data, "setCategories state");
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,

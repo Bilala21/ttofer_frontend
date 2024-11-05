@@ -55,8 +55,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.postData, "postData");
     this.wishList = [...this.wishList, this.postData.user_wishlist?.product_id]
-    console.log(this.wishList, "wishList");
   }
 }

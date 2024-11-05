@@ -3,10 +3,15 @@
   <div class="container-fluid xs-px-0">
     <div class="mx-auto mt-3 xs-px-0">
       <div>
-        <app-slider></app-slider>
+        <app-slider [slides]="promotionBanners"></app-slider>
       </div>
       <div class="permotion-banners">
-        <app-promotion-slider [banners]="permotionBanners" bannerClass="body-banner" />
+        @if (promotionBanners.length > 0) {
+        <app-promotion-slider
+          [banners]="promotionBanners.slice(0, 2)"
+          bannerClass="body-banner"
+        />
+        }
       </div>
     </div>
     <!--BILAL PRODUCTS AREA -->

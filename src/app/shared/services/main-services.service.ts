@@ -13,6 +13,7 @@ export class MainServicesService {
     @Inject(PLATFORM_ID) private platformId: any
   ) { }
   private apiUrl = 'https://www.ttoffer.com/backend/public/';
+  // https://ttoffer.com/backend/public/api/v1/web new base url for web
   // private apiUrl = 'https://www.control.ttoffer.com/';
   // private getHeaders(): HttpHeaders {
   //   let headersConfig:any = {
@@ -47,6 +48,10 @@ export class MainServicesService {
   // getFeatureProduct(): Observable<any> {
   //   return this.http.post(`${this.apiUrl}api/featured-products`, null, { headers: this.getHeaders() });
   // }
+  getBanners(): Observable<any> {
+
+    return this.http.get(`${this.apiUrl}api/get-banners`);
+  }
   getFeatureProduct(): Observable<any> {
 
     return this.http.post(`${this.apiUrl}api/featured-products`, null);

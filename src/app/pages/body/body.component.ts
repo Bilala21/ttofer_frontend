@@ -26,13 +26,13 @@ export class BodyComponent implements OnDestroy {
   loading = true
   tempToken: boolean = false
 
-  permotionBanners: any = [
-    {
-      banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
-    },
-    {
-      banner: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/be2f29652ac02f60.jpeg?q=20"
-    }
+  promotionBanners: any = [
+    // {
+    //   banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
+    // },
+    // {
+    //   banner: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/be2f29652ac02f60.jpeg?q=20"
+    // }
   ];
 
   constructor(
@@ -66,8 +66,24 @@ export class BodyComponent implements OnDestroy {
         this.loading = false
       },
     });
+    this.getBanners()
+
   }
 
+  getBanners(){
+    this.mainServices.getBanners().subscribe({
+      next:(res)=>{
+          this.promotionBanners = res.data.map((item:any)=>{
+            return{
+              banner:item?.img
+            }
+          })
+      },
+      error:(error)=>{
+        console.error('Error occurred while fetching data', error);
+      }
+    })
+  }
   startCountdowns() {
     this.auctionPosts.forEach((item: any) => {
       const datePart = item.ending_date.split('T')[0];

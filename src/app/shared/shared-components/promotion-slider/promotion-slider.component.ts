@@ -13,7 +13,6 @@ export class PromotionSliderComponent  implements OnInit {
 
 
    ngOnInit(): void {
-     console.log(this.banners,"banners");
      setTimeout(() => {
       this.banner = this.banners
       this.isLoading = false

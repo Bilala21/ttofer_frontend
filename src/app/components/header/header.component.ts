@@ -65,8 +65,6 @@ export class HeaderNavigationComponent implements OnInit {
     else {
       this.categoryLimit = 12;
     }
-
-    console.log('Category Limit:', this.categoryLimit, 'Screen Width:', this.screenWidth);
   }
 
   showSearchBar() {
