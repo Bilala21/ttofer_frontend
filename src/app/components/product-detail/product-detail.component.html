@@ -4,10 +4,10 @@
     <div class="product-detail-content d-flex flex-column flex-lg-row mt-5">
       <!-- left-side -->
 
-      <div class="left-side flex-grow-1 w-100 pr-4">
+      <div class="left-side flex-grow-1 w-100 pr-lg-4">
         <div class="d-flex flex-column flex-lg-row">
           <!-- small-images -->
-          <div class="mr-2 order-2 order-lg-1 d-flex flex-lg-column justify-content-lg-start justify-content-around">
+          <div class="mr-2 order-2 order-lg-1 d-flex flex-lg-column justify-content-lg-start justify-content-center">
             @for (item of product.photo; track $index) {
             <div class="img-gallery rounded-2 mb-2 mx-2 mx-lg-0 overflow-hidden mt-2 mt-lg-0 d-flex align-items-center justify-content-center cursor-pointer {{
                 $index == imgIndex ? 'border-2' : ''
@@ -70,7 +70,7 @@
           </div>
         </div>
         <hr class="my-5">
-        <div class="similar-product-container pr-4">
+        <div class="similar-product-container pr-lg-4">
           <div class="fw-semibold fs-24">Similar Items</div>
           <span>Sponsored</span>
           <div class="d-flex align-content-center justify-content-end">
