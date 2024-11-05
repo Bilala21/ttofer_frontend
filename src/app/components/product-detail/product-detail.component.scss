@@ -125,7 +125,10 @@
     }
   }
 }
-
+.modal-container{
+  min-height: 100vh;
+  background-color: #0000008b;
+}
 @media (max-width: 1024px) {
   .right-side {
     max-width: 100%;

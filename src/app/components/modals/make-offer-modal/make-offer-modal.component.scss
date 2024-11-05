@@ -1,8 +1,13 @@
 // MAKE OFFER MODAL
 .make-offer-card {
     max-width: 500px;
-  
-    button:first-child {
+  input{
+    &:focus-within{
+      outline-color: #d8dfe0;
+      border-radius: 5px;
+    }
+  }
+    button:first-child:not(.butons-grp button) {
       width: 25px;
       height: 25px;
     }
