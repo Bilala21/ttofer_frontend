@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonModule, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { ToastrService } from 'ngx-toastr';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MakeOfferModalComponent } from '../modals/make-offer-modal/make-offer-modal.component';
+import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
+import { GalleriaModule } from 'primeng/galleria';
+
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [SharedModule, NgIf, GoogleMapsModule,RouterLink,MakeOfferModalComponent],
+  imports: [RouterLink,GalleriaModule,SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent,NgIf,CardShimmerComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
@@ -26,6 +29,8 @@ export class ProductDetailComponent implements OnInit {
     this.currentUserid = extension.getUserId();
 
   }
+
+  @ViewChild(MakeOfferModalComponent) MakeOfferModalComponent!: MakeOfferModalComponent;
   center!: google.maps.LatLngLiteral;
   zoom = 4;
   productId: any = null
@@ -40,6 +45,26 @@ export class ProductDetailComponent implements OnInit {
       banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
     },
   ]
+  images: string[] = [
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s'
+  ];
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 2
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+  
 
   ngOnInit(): void {
     this.getCurrentLocation();
@@ -139,8 +164,8 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
-  makeOffer(product: any) {
-
+  showOfferModal() {
+    this.globalStateService.setOfferModal(true)
   }
   loadMap(): void {
     this.loading = true;

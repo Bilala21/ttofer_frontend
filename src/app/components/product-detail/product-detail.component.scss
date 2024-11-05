@@ -96,6 +96,13 @@
     right: 10px;
   }
 }
+.bolt-icon{
+  min-width: 40px;
+  height: 40px;
+}
+.mt-10{
+  margin-top: 150px;
+}
 
 @media (min-width: 1200px) {
   .img-gallery {
@@ -125,10 +132,7 @@
     }
   }
 }
-.modal-container{
-  min-height: 100vh;
-  background-color: #0000008b;
-}
+
 @media (max-width: 1024px) {
   .right-side {
     max-width: 100%;
