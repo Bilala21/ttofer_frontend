@@ -96,7 +96,9 @@ export class MakeOfferModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.startCountdowns()
+    if (this.product.ProductType == 'auction') {
+      this.startCountdowns()
+    }
     this.globalStateService.currentState.subscribe((state) => {
       this.showConfirmModal = state.offerModal
     })
