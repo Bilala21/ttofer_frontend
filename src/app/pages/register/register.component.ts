@@ -54,7 +54,8 @@ export class RegisterComponent {
           name: `${this.registerForm.value.firstName} ${this.registerForm.value.lastName}`,
           username: this.registerForm.value.username,
           email: this.registerForm.value.email,
-          password: this.registerForm.value.password
+          password: this.registerForm.value.password,
+          password_confirmation: this.registerForm.value.confirmPassword
         };
   
         this.mainServices.getSignUp(input).pipe(

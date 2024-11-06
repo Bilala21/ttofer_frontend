@@ -7,7 +7,7 @@
       <div class="product-detail-content d-flex flex-column flex-lg-row mt-5">
         <!-- left-side -->
 
-        <div class="left-side flex-grow-1 w-100 pr-4">
+        <div class="left-side flex-grow-1 w-100 pr-lg-4">
           <div class="card">
             <p-galleria 
               [value]="product.photo" 
@@ -104,7 +104,7 @@
         </div>
 
         <!-- right-side -->
-        <div class="right-side ml-2">
+        <div class="right-side ml-lg-2">
           <h1 class="fs-22 fw-bold">
             {{ product.title }}
           </h1>
@@ -112,10 +112,10 @@
           <div class="d-flex align-items-center border-b border-t py-2">
             <a routerLink="/" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
               <img [src]="
-                product.user
-                  ? product.user.img
+                product?.user?.img
+                  ? product?.user?.img
                   : '/assets/images/profile-icon.svg'
-              " alt="{{ product.user.name }}" loading="lazy" class="img-fluid max-h-100 rounded-pill" />
+              " alt="{{ product?.user?.name }}" loading="lazy" class="img-fluid max-h-100 rounded-pill" />
             </a>
             <div class="pl-2">
               <div>{{ product.user?.name }} <span>(4567)</span></div>
@@ -255,7 +255,7 @@
       </div>
       <section class="py-5" *ngIf="product.ProductType !=='auction'">
         <div class="d-flex">
-          <div class="similar-product-container pr-5">
+          <div class="similar-product-container pr-lg-5">
             <div class="fw-semibold fs-24">Similar Items</div>
             <span>Sponsored</span>
             <div class="d-flex align-content-center justify-content-end">
