@@ -17,7 +17,7 @@ import { GalleriaModule } from 'primeng/galleria';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [RouterLink,GalleriaModule,SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent,NgIf,CardShimmerComponent],
+  imports: [RouterLink, GalleriaModule, SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent, NgIf, CardShimmerComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
@@ -45,10 +45,8 @@ export class ProductDetailComponent implements OnInit {
       banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
     },
   ]
-  images: string[] = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s'
+  images: any = [
+   
   ];
   responsiveOptions = [
     {
@@ -64,9 +62,10 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 1
     }
   ];
-  
+
 
   ngOnInit(): void {
+    this.loadRelatedImages()
     this.getCurrentLocation();
     this.loadMap();
     this.productId = this.route.snapshot.paramMap.get('id')!;
@@ -83,6 +82,101 @@ export class ProductDetailComponent implements OnInit {
     })
 
   }
+  loadRelatedImages(){
+    this.images = [
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 1'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
+        alt: 'Image 2'
+      },
+      {
+        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
+        alt: 'Image 3'
+      }
+    ];
+  }
+  
   toggleWishlist(item: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -164,8 +258,8 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
-  showOfferModal() {
-    this.globalStateService.setOfferModal(true)
+  showOfferModal(modal_type:string) {
+    this.globalStateService.setOfferModal(modal_type)
   }
   loadMap(): void {
     this.loading = true;

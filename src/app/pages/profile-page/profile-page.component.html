@@ -210,7 +210,7 @@
               >
                 <!-- profile-image -->
                 <div class="d-flex d-md-block justify-content-center">
-                  <label htmlFor="image-upload">
+                  <label for="image-upload" style="cursor: pointer;">
                     <div
                       style="
                         position: relative;
@@ -221,39 +221,34 @@
                       "
                       class="image-container"
                     >
-                      <div
-                        style="width: 100%; height: 100%"
-                        (click)="file.click()"
-                      >
-                        <img
-                          style="
-                            width: 130px;
-                            height: 130px;
-                            border-radius: 50%;
-                            object-fit: contain;
-                            cursor: pointer;
-                            z-index: 0;
-                          "
-                          id="uploaded-image"
-                          class="d-non"
-                          [src]="imageUrl ? imageUrl : defaultProfileUrl"
-                          loading="lazy"
-                        />
-                      </div>
+                      <img
+                        style="
+                          width: 130px;
+                          height: 130px;
+                          border-radius: 50%;
+                          object-fit: contain;
+                          cursor: pointer;
+                          z-index: 0;
+                        "
+                        id="uploaded-image"
+                        [src]="imageUrl ? imageUrl : defaultProfileUrl"
+                        loading="lazy"
+                      />
                       <i
                         class="fas fa-camera profile-icon-camera bg-danger-blue"
+                        style="position: absolute; bottom: 10px; right: 10px; cursor: pointer;"
                       ></i>
-
-                      <input
-                        #file
-                        type="file"
-                        id="image-upload"
-                        (change)="onImageUpload($event)"
-                        style="display: none"
-                      />
                     </div>
+                    <input
+                      #file
+                      type="file"
+                      id="image-upload"
+                      (change)="onImageUpload($event)"
+                      style="display: none"
+                    />
                   </label>
                 </div>
+                
                 <!-- user-data -->
                 <div
                   class="d-flex flex-column ml-0 ml-md-4 mt-md-4 text-center text-md-left"
@@ -264,11 +259,11 @@
                   </div>
                   <!-- joined -->
                   <div class="fs-14 text-capitalize mt-1">
-                    joined : {{ currentUserProfile.join || "N/A" }}
+                    Joined: {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') : 'N/A' }}
                   </div>
                   <!-- address -->
                   <div class="fs-14 text-capitalize mt-1">
-                    Address : {{ currentUserProfile.address || "N/A" }}
+                    Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
                   <!-- rating -->
                   <div class="d-flex justify-content-center align-items-center">
@@ -967,7 +962,7 @@
             <div
               *ngIf="
                 sellingListTemp.length == 0 &&
-                purchaseListTemp.length == 0 &&
+                soldList.length == 0 &&
                 activeButton == 3
               "
             >

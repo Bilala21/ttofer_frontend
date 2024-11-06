@@ -14,7 +14,7 @@ interface AppState {
   temp_token: any
   isLoggedIn: boolean,
   cartState: any[],
-  offerModal: boolean
+  offerModal: string
 }
 
 @Injectable({
@@ -34,7 +34,7 @@ export class GlobalStateService {
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,
     cartState: [],
-    offerModal: false
+    offerModal:""
   };
   public filterCriteria: any = {
     location: []
@@ -85,11 +85,11 @@ export class GlobalStateService {
 
 
 
-  setOfferModal(data: boolean) {
+  setOfferModal(modal_type:string) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      offerModal: data
+      offerModal:modal_type
     };
     this.stateSubject.next(newState);
   }

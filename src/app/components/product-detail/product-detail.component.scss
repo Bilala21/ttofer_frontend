@@ -138,4 +138,20 @@
     max-width: 100%;
   }
 }
-
+.card {
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+::ng-deep .p-galleria .p-galleria-thumbnail-container {
+  background: rgba(0, 0, 0, 0.9) !important;
+  padding: 1rem 0.25rem !important;
+}
+:ng-deep .p-galleria-thumbnail-items-container {
+  overflow: hidden;
+  width: 100%;
+}
+::ng-deep[type=button], [type=reset], [type=submit], button {
+  color: #ffc107 !important;
+  background: transparent !important;
+  border: none !important;
+}
