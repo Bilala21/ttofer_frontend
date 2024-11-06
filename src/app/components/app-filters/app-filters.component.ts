@@ -37,6 +37,10 @@ export class AppFiltersComponent implements OnInit {
       "seller_types": ["Verified", "Unverified"],
       "conditions": ["All", "New", "Used","Refurbished"],
     },
+    "electronics & appliance": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Any","Refurbished", "New","Used"],
+    },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Ready", "Off plan"],
@@ -46,21 +50,19 @@ export class AppFiltersComponent implements OnInit {
     },
     "property for rent": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All", "Ready", "Off plan"],
-      "rent_is_paid": ["Yearly", "Quarterly", "Bi-Yearly"],
+      "conditions": ["All", "Furnished", "Unfurnished"],
+      "rent_is_paid": ["Yearly","Monthly", "Quarterly", "Bi-Yearly"],
       "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
     },
     "vehicles": {
       "seller_types": ["Owner", "Dealer"],
+      "conditions": ["All", "New", "Used",],
     },
     "bikes": {
       "seller_types": ["Owner", "Dealer"],
-    },
-    "electronics & appliance": {
-      "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Refurbished", "Dealer"],
+      "conditions": ["All", "New", "Used",],
     },
     "jobs": {
       "seller_types": ["Hiring", "Looking"],
@@ -77,11 +79,11 @@ export class AppFiltersComponent implements OnInit {
     },
     "fashion & beauty": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Refurbished", "Dealer"],
+      "conditions": ["All","New","Used"],
     },
     "kids": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Refurbished", "Dealer"],
+      "conditions": ["All","new","Used"],
     },
     "delivery": ["Local Delivery", "Pick Up", "Shipping"]
   };
@@ -190,7 +192,7 @@ export class AppFiltersComponent implements OnInit {
 
   startCountdowns(data: any) {
     data.forEach((item: any) => {
-      console.log(item.ProductType, "item.productType");
+      // console.log(item.ProductType, "item.productType");
       if (item.ProductType === 'auction') {
         const datePart = item.ending_date.split('T')[0];
         const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;

@@ -14,7 +14,7 @@
       <!-- PRODUCT SIDE -->
       <div class="flex-grow-1 pl-4 xs-px-0">
         <div class="text-center mb-4 buttons d-flex align-items-center justify-content-center xs-between">
-          @if (!["3","4","8","9"].includes(id)) {
+          @if (!["3","4","8"].includes(id)) {
           <button type="button"
             class="btn py-2 px-3 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
             (click)="handleTab(id==7?'hiring':'auction')"> {{id ==7?'Hiring':'Auction Products'}}</button>
@@ -35,7 +35,7 @@
           }@else { @for (post of data; track $index) {
           <div class="col-lg-4">
             <app-product-card [postData]="post" [postDetialUrl]="
-                activeTab == 'feature'
+                activeTab == 'featured'
                   ? 'product-detail'
                   : 'auction-product-detail'
               " />

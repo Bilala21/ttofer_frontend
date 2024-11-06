@@ -82,6 +82,8 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.signOut();
       this.loading = false;
       this.currentUser = ""
+      this.notificationList= [];
+      this.unReadNotification= 0;
       this.router.navigate(['']).then(() => {
         this.toastr.success('Logged out successfully', 'Success');
       });
@@ -129,7 +131,9 @@ export class HeaderNavigationComponent implements OnInit {
       this.cartItems = state.cartState
 
     })
-this.getNotification()
+    if (this.currentUser?.id) {
+      this.getNotification() 
+    }
   }
 
   openChat() {

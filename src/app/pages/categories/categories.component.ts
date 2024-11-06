@@ -35,7 +35,7 @@ export class CategoriesComponent {
     this.globalStateService.updateProdTab("ProductType", tab)
   }
   ngOnInit(): void {
-    this.handleTab(this.activeTab)
+    
 
     this.globalStateService.currentState.subscribe((state) => {
       this.data = state.filteredProducts;
@@ -44,6 +44,11 @@ export class CategoriesComponent {
     })
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
+    if(["3","4","8"].includes(this.id)){
+      this.handleTab('featured')
+    }else{
+       this.handleTab("auction")
+      }
     });
   }
 }
