@@ -6,15 +6,14 @@ import { firstValueFrom } from 'rxjs';
 import { category } from '../../Models/Product/category';
 import { subCategory } from '../../Models/Product/SubCategory';
 import { Bid } from '../../Models/Product/Bid';
+import { Constants } from '../../../../../public/constants/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LookupService {
-  private rootURL = ''
   constructor(    private http: HttpClient
   ) {
-    this.rootURL = 'https://www.ttoffer.com/backend/public/api';
   }
 
 
@@ -23,7 +22,7 @@ export class LookupService {
 * @returns {productCondition} moomentsInitiateResponse - retrun initiate response
 */
 async GetProductConditionOptions(): Promise<productCondition[]> {
-  var url = this.rootURL + '/condition';
+  var url = Constants.baseApi + '/condition';
   var response = await firstValueFrom(
     this.http.get<productCondition[]>(url)
   );
@@ -34,7 +33,7 @@ async GetProductConditionOptions(): Promise<productCondition[]> {
 * @returns {productCondition} productCondition - retrun list of categories
 */
 async GetProductCategories(): Promise<category[]> {
-  var url = this.rootURL + '/category/show';
+  var url = Constants.baseApi + '/category/show';
   var response = await firstValueFrom(
     this.http.get<category[]>(url)
   );
@@ -46,7 +45,7 @@ async GetProductCategories(): Promise<category[]> {
 * @returns {subCategory} productCondition - retrun list of categories
 */
 async GetProductSubCategories(id:number): Promise<subCategory[]> {
-  var url = this.rootURL + '/sub-category/show/'+id;
+  var url = Constants.baseApi + '/sub-category/show/'+id;
   var response = await firstValueFrom(
     this.http.get<subCategory[]>(url)
   );
@@ -54,7 +53,7 @@ async GetProductSubCategories(id:number): Promise<subCategory[]> {
 }
 // Method to fetch bids based on the product ID
 async GetBidListByProduct(page: number): Promise<Bid[]> {
-  const url = `${this.rootURL}/placed-bids?page=${page}`;
+  const url = `${Constants.baseApi}/placed-bids?page=${page}`;
   const response = await firstValueFrom(
     this.http.post<any>(url,{product_id: 783})  // You can replace 'any' with a more specific response model if needed
   );

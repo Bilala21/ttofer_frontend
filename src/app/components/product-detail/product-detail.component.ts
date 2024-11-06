@@ -65,7 +65,6 @@ export class ProductDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loadRelatedImages()
     this.getCurrentLocation();
     this.loadMap();
     this.productId = this.route.snapshot.paramMap.get('id')!;
@@ -82,100 +81,7 @@ export class ProductDetailComponent implements OnInit {
     })
 
   }
-  loadRelatedImages(){
-    this.images = [
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 1'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqZxO9zDdRixNKPoW7ssIMBkTWFQWza3H2g&s',
-        alt: 'Image 2'
-      },
-      {
-        itemImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        thumbnailImageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s',
-        alt: 'Image 3'
-      }
-    ];
-  }
+  
   
   toggleWishlist(item: any) {
     const storedData = localStorage.getItem('key');

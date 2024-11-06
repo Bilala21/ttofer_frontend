@@ -25,6 +25,7 @@ import {
 } from '@angular/material/dialog';
 import { AccountSettingDialogeComponent } from '../account-setting-dialoge/account-setting-dialoge.component';
 import { ToastrService } from 'ngx-toastr';
+import { Constants } from '../../../../public/constants/constants';
 
 interface ImageSnippet {
   file: File | null;
@@ -1615,12 +1616,12 @@ showfor(){
 
       // Fetch request to send formData
       const response = await fetch(
-        'https://www.ttoffer.com/backend/public/api/add-product-first-step',
+        `${Constants.baseApi}add-product-first-step`,
         {
           method: 'POST',
           body: formData,
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
