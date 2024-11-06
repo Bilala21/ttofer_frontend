@@ -73,14 +73,17 @@ export class MakeOfferModalComponent implements OnInit {
     }
   }
 
-  closeModal() {
-    this.isFinalStep = false
-    this.globalStateService.setOfferModal("")
-    this.offerForm.reset()
-    this.bidForm.reset()
+  closeModal(event: any) {
+    if (event === 'close-modal' || event.target.classList.contains('close-modal')) {
+      this.isFinalStep = false
+      this.globalStateService.setOfferModal("")
+      this.offerForm.reset()
+      this.bidForm.reset()
+    }
+
   }
   finalStemSubmit() {
-    this.closeModal()
+    this.closeModal('close-modal')
   }
 
   startCountdowns() {
