@@ -657,9 +657,8 @@ this.route.queryParams.subscribe((params) => {
   }
   loadCategories(): void {
     this.mainServices.getCategories(this.selectedTabId).subscribe(
-      (data) => {
-        this.categories = data;
-  
+      (data:any) => {
+        this.categories = data.data; 
         if (this.editProductData) {
           this.editProductData = JSON.parse(this.editProductData);
           this.selectedCategoryId = this.editProductData.category_id;
@@ -775,7 +774,6 @@ showfor(){
   }
 
   toggleActive(buttonIndex: number) {
-    // debugger
     this.activeButton = buttonIndex;
     
   }
@@ -1616,7 +1614,7 @@ showfor(){
 
       // Fetch request to send formData
       const response = await fetch(
-        `${Constants.baseApi}add-product-first-step`,
+        `${Constants.baseApi}/add-product-first-step`,
         {
           method: 'POST',
           body: formData,
@@ -1878,10 +1876,10 @@ showfor(){
         this.sellingList = res;
         console.log(res);
         this.loading=false
-        // debugger
-        this.soldList=res.data?.history
-        this.purchaseListTemp = res.data?.purchase ;
-        this.sellingListTemp = res.data?.selling ;
+        debugger
+        this.soldList=res.data?.archive.data;
+        this.purchaseListTemp = res.data?.buying.data;
+        this.sellingListTemp = res.data?.selling.data;
       },
       error: (err: any) => {
         this.loading = false;
@@ -2231,8 +2229,8 @@ parseSTime(event: any): void {
     getSubcategories(categoryId: any): void {
     if (categoryId) {
       this.mainServices.getSubCategories(this.selectedCategoryId).subscribe(
-        (data) => {
-          this.subCategory = data; 
+        (data:any) => {
+          this.subCategory = data.data; 
         },
         (error) => {}
       );

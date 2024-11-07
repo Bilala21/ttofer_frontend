@@ -20,6 +20,7 @@ export class ProductCardComponent implements OnInit {
   @Input({ required: true }) postDetialUrl: string = ""
   wishList: any = []
   currentUserId: any = this.extension.getUserId();
+  @Input() products: any = []
 
   getYear(date: string) {
     return new Date(date).getFullYear();
@@ -37,12 +38,14 @@ export class ProductCardComponent implements OnInit {
       next: (res: any) => {
         if (res.success) {
           this.toastr.success(res.message, 'Success');
+          const found = this.products.find((product: any) => item.id == product.id)
+          console.log(found);
+          item.wished=true
           if (this.wishList.includes(item.id)) {
-            console.log(this.wishList, 'if');
             this.wishList.filter((itemId: any) => itemId !== item.id);
           } else {
+
             this.wishList = [...this.wishList, item.id];
-            console.log(this.wishList, 'else');
           }
 
         }

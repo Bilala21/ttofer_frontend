@@ -320,96 +320,6 @@
                 </ul>
               </div>
             </div>
-            <!-- <div
-              class="d-flex align-items-center text-center justify-content-center mt-3 text-center"
-            >
-              <div
-                style="margin-right: 20px"
-                class="pointer"
-                style="margin: 0 10px"
-                (click)="openVerifyEmailModal()"
-              >
-                <i
-                  class="fas fa-envelope rounded-circle mx-auto"
-                  [class.bg-success]="
-                    currentUserProfile.email_verified_at != null
-                  "
-                  [class.bg-danger-blue]="
-                    currentUserProfile.email_verified_at == null
-                  "
-                ></i>
-                <h6 class="p-0 fs-12 mt-1 mb-0">Email</h6>
-                <h6 class="p-0 fs-12 mt-1">
-                  {{
-                    currentUserProfile.email_verified_at != null
-                      ? "Verified"
-                      : "Not Verified"
-                  }}
-                </h6>
-              </div>
-              <div style="margin: 0 10px">
-                <i
-                  class="fas fa-image rounded-circle mx-auto"
-                  [class.bg-success]="
-                    currentUserProfile.email_verified_at != null
-                  "
-                  [class.bg-danger-blue]="
-                    currentUserProfile.email_verified_at == null
-                  "
-                ></i>
-                <h6 class="p-0 fs-12 mt-1 mb-0">Image</h6>
-                <h6 class="p-0 fs-12 mt-1">
-                  {{
-                    currentUserProfile.image_verified_at != null
-                      ? "Verified"
-                      : "Not Verified"
-                  }}
-                </h6>
-              </div>
-              <div
-                style="margin: 0 10px"
-                class="pointer"
-                (click)="openVerifyPhoneModal()"
-              >
-                <i
-                  class="fas fa-phone rounded-circle mx-auto"
-                  [class.bg-success]="
-                    currentUserProfile.email_verified_at != null
-                  "
-                  [class.bg-danger-blue]="
-                    currentUserProfile.email_verified_at == null
-                  "
-                ></i>
-                <h6 class="fs-12 mt-1 p-0 mb-0">Phone</h6>
-                <h6 class="p-0 fs-12 mt-1">
-                  {{
-                    currentUserProfile.phone_verified_at != null
-                      ? "Verified"
-                      : "Not Verified"
-                  }}
-                </h6>
-              </div>
-              <div
-                class="pointer"
-                style="margin: 0 10px"
-                *ngIf="
-                  currentUserProfile.image_verified_at != null &&
-                  currentUserProfile.email_verified_at != null &&
-                  currentUserProfile.phone_verified_at != null
-                "
-              >
-                <img
-                  [class.bg-success]="currentUserProfile.is_true_you == '1'"
-                  [class.bg-danger-blue]="currentUserProfile.is_true_you == '0'"
-                  class="rounded-circle p-2"
-                  src="assets/images/E-verify.svg"
-                  style="height: 15%"
-                  alt=""
-                />
-                <h6 class="p-0 fs-12 mt-1 mb-0">Join</h6>
-                <h6 class="p-0 fs-12 mt-1">TruYou</h6>
-              </div>
-            </div> -->
           </div>
         </div>
         <!-- desktop-screen -->
@@ -566,11 +476,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/link.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-link fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -592,11 +497,6 @@
               >
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <!-- <img
-                          src="assets/images/message-question.svg"
-                          class="w-100"
-                          alt=""
-                        /> -->
                     <i class="fas fa-question fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
@@ -697,7 +597,7 @@
               *ngIf="
                 activeButton === 1 &&
                 sellingListTemp &&
-                sellingListTemp.length > 0
+                sellingListTemp?.length > 0
               "
               class=""
             >
@@ -1026,8 +926,8 @@
               <button
                 type="button"
                 class="btn btngroup p-3 sm-p-2 sm-font"
-                [ngClass]="{ active: activeButton === 1 }"
-                (click)="toggleActive(1)"
+                [ngClass]="{ active: activeButtonPayment === 1 }"
+                (click)="toggleActivePayement(1)"
                 style="
                   border-radius: 30px 0px 0px 30px;
                   border: 1px solid #9ca3af;
@@ -1038,8 +938,8 @@
               <button
                 type="button"
                 class="btn btngroup p-3 sm-p-2 sm-font"
-                [ngClass]="{ active: activeButton === 2 }"
-                (click)="toggleActive(2)"
+                [ngClass]="{ active: activeButtonPayment === 2 }"
+                (click)="toggleActivePayement(2)"
                 style="
                   border-radius: 0px 30px 30px 0px;
                   border: 1px solid #9ca3af;
@@ -1049,7 +949,7 @@
               </button>
             </div>
           </div>
-          <div class="col-md-10 mx-auto mt-5" *ngIf="activeButton === 1">
+          <div class="col-md-10 mx-auto mt-5" *ngIf="activeButtonPayment ===1">
             <div class="row">
               <div class="col-6 text-center mx-auto">
                 <!-- <h6 class="sm-cat-text3">Total Balance</h6>
@@ -1134,7 +1034,7 @@
               </div>
             </div>
           </div>
-          <div class="col-10 mx-auto mt-5" *ngIf="activeButton === 2">
+          <div class="col-10 mx-auto mt-5" *ngIf="activeButtonPayment === 2">
             <div class="row">
               <div class="col-md-8 mx-auto mt-5 text-center">
                 <img src="assets/images/truck-fast.svg" class="w-50" alt="" />
