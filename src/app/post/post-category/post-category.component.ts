@@ -66,7 +66,7 @@ export class PostCategoryComponent implements OnInit {
     this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
     this.globalStateService.currentState.subscribe((state) => {
       this.data = state.filteredProducts;
-      this.globalStateService.productlength=this.data.length
+      this.globalStateService.productlength= state.filteredProducts?.length
       // this.activeTab = state.prodTab
 
     })

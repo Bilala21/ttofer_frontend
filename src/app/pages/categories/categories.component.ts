@@ -34,8 +34,8 @@ export class CategoriesComponent {
     this.getBanners()
 
     this.globalStateService.currentState.subscribe((state) => {
-      this.data = state.filteredProducts;
-      this.globalStateService.productlength = this.data.length
+      this.data = state.filteredProducts.filter((item:any) => item.ProductType == this.activeTab );
+      this.globalStateService.productlength = state.filteredProducts?.length
       this.loading = false
     })
     this.route.paramMap.subscribe(params => {
