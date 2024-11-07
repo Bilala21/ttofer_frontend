@@ -21,11 +21,7 @@ export class PostCategoryComponent implements OnInit {
   data:any[]=[]
   countdownSubscriptions: Subscription[] = [];
   loading:any = true
-  promotionBanners: any = [
-    {
-      banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
-    },
-  ];
+  promotionBanners: any = [];
   activeTab: any = "auction";
 
 
@@ -61,6 +57,7 @@ export class PostCategoryComponent implements OnInit {
 
   
   ngOnInit() {
+   this.getBanners()
     this.handleTab(this.activeTab)
     this.route.queryParams.subscribe((params) => {
       const tabName = params['name'] || this.activeTab; 
@@ -76,6 +73,21 @@ export class PostCategoryComponent implements OnInit {
     setTimeout(()=>{
     this.loading = false
     },2000)
+  }
+
+  getBanners(){
+    this.mainServices.getBanners().subscribe({
+      next:(res)=>{
+          this.promotionBanners = res.data.map((item:any)=>{
+            return{
+              banner:item?.img
+            }
+          })
+      },
+      error:(error)=>{
+        console.error('Error occurred while fetching data', error);
+      }
+    })
   }
   
 }

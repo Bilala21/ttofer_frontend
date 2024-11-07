@@ -20,11 +20,7 @@ import { NgIf } from '@angular/common';
 export class CategoriesComponent {
   constructor(private route: ActivatedRoute, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
   }
-  promotionBanners: any = [
-    {
-      banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
-    },
-  ]
+  promotionBanners: any = []
   activeTab: any = "auction"
   data: any = []
   loading: any = true
@@ -35,7 +31,7 @@ export class CategoriesComponent {
     this.globalStateService.updateProdTab("ProductType", tab)
   }
   ngOnInit(): void {
-    
+    this.getBanners()
 
     this.globalStateService.currentState.subscribe((state) => {
       this.data = state.filteredProducts;
@@ -50,5 +46,20 @@ export class CategoriesComponent {
        this.handleTab("auction")
       }
     });
+    
+  }
+  getBanners(){
+    this.mainServices.getBanners().subscribe({
+      next:(res)=>{
+          this.promotionBanners = res.data.map((item:any)=>{
+            return{
+              banner:item?.img
+            }
+          })
+      },
+      error:(error)=>{
+        console.error('Error occurred while fetching data', error);
+      }
+    })
   }
 }

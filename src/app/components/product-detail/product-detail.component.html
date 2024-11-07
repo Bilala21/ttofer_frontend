@@ -27,15 +27,15 @@
               </ng-template>
         
               <!-- Thumbnail Image Template -->
+              <!-- <div class="grid grid-nogutter justify-content-center"> -->
               <ng-template pTemplate="thumbnail" let-item>
-                <div class="grid grid-nogutter justify-content-center">
                   <img 
                     [src]="item.src"
                     loading="lazy" 
                     style="width: 100px; height: 80px; object-fit: contain; display: block;border:1px solid  #ffc107;" 
                   />
-                </div>
               </ng-template>
+            <!-- </div> -->
             </p-galleria>
           </div>
         
@@ -212,14 +212,14 @@
             </div> -->
             }
             @if(product.ProductType =='auction'){
-            <div class="buttons ">
+            <div class="buttons">
               <button type="button"
-                class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-white btn-yellow"
+                class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn"
                 (click)="showOfferModal('bid')">
                 Place bid
               </button>
               <button (click)="toggleWishlist(product)" type="button"
-                class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary">
+                class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary mt-2">
                 <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
                   viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
                   <path _ngcontent-ng-c1363418519="" fill="none" stroke-linecap="round" stroke-linejoin="round"
@@ -254,8 +254,9 @@
         </div>
       </div>
       <section class="py-5" *ngIf="product.ProductType !=='auction'">
-        <div class="d-flex">
-          <div class="similar-product-container pr-lg-5">
+        <div class="d-flex flex-wrap">
+
+          <div class="similar-product-container col-12 col-lg-8 order-lg-1 order-3">
             <div class="fw-semibold fs-24">Similar Items</div>
             <span>Sponsored</span>
             <div class="d-flex align-content-center justify-content-end">
@@ -286,12 +287,12 @@
               }
             </div>
           </div>
-          @if(product.ProductType !=='auction'){
-          <div class="right-side">
-            <div class="buttons ">
+          <!-- @if(product.ProductType !=='auction'){ -->
+          <div class="right-side col-12 col-lg-4 order-lg-2 order-1">
+            <div class="buttons">
               <button (click)="buyProduct(product)" type="button"
                 class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
-                <a routerLink="/" class="text-white fs-18 fw-normal text-decoration-none">Buy It Now</a>
+                <a routerLink="/" class="fs-18 fw-normal text-decoration-none">Buy It Now</a>
               </button>
 
               <button (click)="addToCart(product)" type="button"
@@ -304,9 +305,9 @@
                 Make Offer
               </button>
 
-
               <button (click)="toggleWishlist(product)" type="button"
                 class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary">
+
                 <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
                   viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
                   <path _ngcontent-ng-c1363418519="" fill="none" stroke-linecap="round" stroke-linejoin="round"
@@ -337,43 +338,47 @@
               <span class="fw-semibold">Pick up</span>
             </div>
           </div>
-          }
-        </div>
-
-        <!-- details -->
+          <!-- } -->
+          <!-- details -->
+          <div class="col-12 col-lg-12 order-lg-3 order-2">
         <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
-          <h2 class="fw-semibold fs-24">Details</h2>
-          <div class="d-flex align-items-center colored-box-container">
-            <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
-              <span>Brand</span>
-              <span class="fw-semibold">Apple</span>
-            </div>
-            <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
-              <span>Condition</span>
-              <span class="fw-semibold">Used</span>
-            </div>
+         <h2 class="fw-semibold fs-24">Details</h2>
+         <div class="d-flex align-items-center colored-box-container">
+           <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
+             <span>Brand</span>
+             <span class="fw-semibold">Apple</span>
+           </div>
+           <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
+             <span>Condition</span>
+             <span class="fw-semibold">Used</span>
+           </div>
+         </div>
+       </div>
+
+       <!-- description -->
+       <div class="border p-3 mb-2 w-100 mt-3 rounded">
+         <h2 class="fw-semibold fs-24">Description</h2>
+         <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
+         <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
+         <span class="d-block fs-14">3UTOOL OK</span>
+       </div>
+
+       <hr>
+       <!-- location -->
+       <div>
+         <h2 class="fw-semibold fs-24">Location</h2>
+         <div class="d-flex flex-column flex-lg-row justify-content-between">
+           <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
+           <div class="map-div mt-2">
+             <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
+             </google-map>
+           </div>
+         </div>
+       </div>
           </div>
+
         </div>
 
-        <!-- description -->
-        <div class="border p-3 mb-2 w-100 mt-3 rounded">
-          <h2 class="fw-semibold fs-24">Description</h2>
-          <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
-          <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
-          <span class="d-block fs-14">3UTOOL OK</span>
-        </div>
-
-        <hr>
-        <div>
-          <h2 class="fw-semibold fs-24">Location</h2>
-          <div class="d-flex flex-column flex-lg-row justify-content-between">
-            <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
-            <div class="map-div mt-2">
-              <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
-              </google-map>
-            </div>
-          </div>
-        </div>
       </section>
 
       <!-- <div class="modal fade make-offer-modal" tabindex="-1" role="dialog" aria-labelledby="makeoffermodal"

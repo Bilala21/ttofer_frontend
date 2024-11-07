@@ -7,11 +7,11 @@
       <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
         aria-hidden="true"></i>
     </button>
-    <a [attr.aria-disabled]="postDetialUrl !== 'product-detail' ? null :  'true'"
+    <a [attr.aria-disabled]="postData.ProductType == 'auction' ? false :  'true'"
       [routerLink]="postDetialUrl !== 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug"
       class="text-decoration-none pointer-cursor"
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
-      [ngClass]="{'disabled-link': postDetialUrl !== 'product-detail'}">
+      [ngClass]="{'disabled-link': postData.ProductType == 'auction'}">
       <figure class="card-top position-relative {{!postData?.photo[0]?.src ? 'falback-css rounded-2':''}}">
         <img loading="lazy" *ngIf="postData?.photo[0]?.src" src={{postData?.photo[0]?.src}} alt="Image of HYUNDAI GRAND 10 1.3 CRDI"
           loading="lazy" class="w-100 h-100 rounded-2" />

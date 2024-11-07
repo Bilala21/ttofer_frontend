@@ -1,12 +1,19 @@
 <main class="mt-16">
   <div class="container-fluid ">
-    <div class="mt-3 xs-px-0">
+    <div class="mx-auto mt-3 xs-px-0">
       <div>
-        <app-slider></app-slider>
+        <app-slider [slides]="promotionBanners"></app-slider>
       </div>
-      <app-promotion-slider [banners]="promotionBanners" />
+      <div class="permotion-banners">
+        @if (promotionBanners.length > 0) {
+        <app-promotion-slider
+          [banners]="promotionBanners.slice(0, 2)"
+          bannerClass="body-banner"
+        />
+        }
+      </div>
     </div>
-    <div class="d-flex pt-5">
+    <div class="d-block d-lg-flex pt-5">
       <aside class="product-filter pt-4">
         <app-filters />
       </aside>
