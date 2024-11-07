@@ -126,7 +126,6 @@ export class AppFiltersComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      console.log(this.slug.toLowerCase());
       this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
       this.fetchSubCategories();
     });
@@ -142,7 +141,7 @@ export class AppFiltersComponent implements OnInit {
     if (this.id) {
       this.mainServicesService.getSubCategories(this.id).subscribe({
         next: (res:any) => {
-          this.subCategories = res.data;
+          this.subCategories = res?.data;
         },
         error: (err) => {
           console.log(err);
@@ -156,9 +155,9 @@ export class AppFiltersComponent implements OnInit {
     this.mainServicesService.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
         // Check if 'res' and 'res.data' are not null or undefined
-        if (res && res.data) {
-          this.startCountdowns(res.data);
-          this.globalStateService.setFilteredProducts(res.data);
+        if (res && res.data.data) {
+          this.startCountdowns(res.data.data);
+          this.globalStateService.setFilteredProducts(res.data.data);
         } else {
           console.log('No data found in response');
         }
@@ -190,21 +189,22 @@ export class AppFiltersComponent implements OnInit {
     this.maxPrice = event.highValue;
   }
 
-  startCountdowns(data: any) {
-    data.forEach((item: any) => {
-      // console.log(item.ProductType, "item.productType");
-      if (item.ProductType === 'auction') {
-        const datePart = item.ending_date.split('T')[0];
-        const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
-
-        const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-          item.calculateRemaningTime = remainingTime;
-          item.isBid = remainingTime !== 'Bid Expired';
-          // this.cd.detectChanges();
-        });
-
-        this.countdownSubscriptions.push(subscription);
-      }
-    });
+  startCountdowns(data: []) {
+    if (data.length > 0) {
+      data.forEach((item: any) => {
+        // console.log(item.ProductType, "item.productType");
+        if (item.ProductType === 'auction') {
+          const datePart = item.ending_date.split('T')[0];
+          const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
+          const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
+            item.calculateRemaningTime = remainingTime;
+            item.isBid = remainingTime !== 'Bid Expired';
+            // this.cd.detectChanges();
+          });
+          this.countdownSubscriptions.push(subscription);
+        }
+      });
+    }
+   
   }
 }
