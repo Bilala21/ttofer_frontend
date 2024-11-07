@@ -49,7 +49,7 @@ export class MarkAsSoldComponent implements OnInit {
     this.mainService
       .getAllChatsOfUser(this.currentUserId)
       .subscribe((res: any) => {
-        
+        // debugger
         this.sellingChat = res.data.seller_chats;
         this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id)
         console.log(this.sellingChat)
@@ -63,7 +63,7 @@ export class MarkAsSoldComponent implements OnInit {
   }
 
   onDoneClick() {
-    
+    // debugger
     let profileKey: any = localStorage.getItem('key'); 
     profileKey = JSON.parse(profileKey);
       this.mainService.markAsSold(this.soldItems.id).subscribe({

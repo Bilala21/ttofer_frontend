@@ -24,7 +24,7 @@
           <h2 class="m-0 fs-24 fw-bold my-4">Auction Products</h2>
           <p class="fs-14 mb-0">Hurry up! The auction is ending soon</p>
         </div>
-        <div class="w-100 text-right pr-3">
+        <div class="w-100 text-right pr-3" *ngIf="auctionPosts.length">
           <a [routerLink]="['/post/post-category']" [queryParams]="{ name: 'auction' }" class="fw-bold text-primary">
             View All
             <i class="fa fa-angle-right"></i>
@@ -55,7 +55,7 @@
             Act fast! These featured products won't last long
           </p>
         </div>
-        <div class="w-100 text-right pr-3">
+        <div class="w-100 text-right pr-3" *ngIf="featuredPosts.length">
           <a [routerLink]="['/post/post-category']" [queryParams]="{ name: 'featured' }" class="fw-bold text-primary">
             View All
             <i class="fa fa-angle-right"></i>
