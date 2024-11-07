@@ -11,13 +11,14 @@ import { RouterLink } from '@angular/router';
 import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer.component";
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { TempFormComponent } from '../../components/temp-form/temp-form.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-body',
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss',
   standalone: true,
-  imports: [HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
+  imports: [NgIf,HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
 })
 export class BodyComponent implements OnDestroy {
   auctionPosts: any = [];
