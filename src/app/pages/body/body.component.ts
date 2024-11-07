@@ -73,14 +73,14 @@ export class BodyComponent implements OnDestroy {
 
   getBanners(){
     this.mainServices.getBanners().subscribe({
-      next:(res)=>{
+      next:(res:any)=>{
           this.promotionBanners = res.data.map((item:any)=>{
             return{
               banner:item?.img
             }
           })
       },
-      error:(error)=>{
+      error:(error:any)=>{
         console.error('Error occurred while fetching data', error);
       }
     })

@@ -141,8 +141,8 @@ export class AppFiltersComponent implements OnInit {
   fetchSubCategories() {
     if (this.id) {
       this.mainServicesService.getSubCategories(this.id).subscribe({
-        next: (res) => {
-          this.subCategories = res;
+        next: (res:any) => {
+          this.subCategories = res.data;
         },
         error: (err) => {
           console.log(err);
