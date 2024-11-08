@@ -39,8 +39,8 @@
               </div>
               
             }
-          }@else { @for (post of data; track $index) {
-          <div class="col-lg-4">
+          }@else { @for (post of data.slice(0,pages); track $index) {
+          <div class="col-lg-3 px-2">
             <app-product-card
               [postData]="post"
               postDetialUrl="auction-product-detail"
@@ -49,6 +49,9 @@
           } }
         </div>
         }
+          <div class="text-center my-5"  *ngIf="data.length > 10">
+            <button class="btn load-more-btn fs-18 fw-semibold" (click)="pageItem(12)">Load more</button>
+          </div>
       </div>
     </div>
   </div>
