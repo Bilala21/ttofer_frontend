@@ -194,7 +194,7 @@ export class MainServicesService {
   private geocodeUrl = 'https://maps.googles.com/maps//geocode/json';
 
   getGeocodedLocation(lat: number, lng: number): Promise<any> {
-    const url = `${this.geocodeUrl}?latlng=${lat},${lng}&key=AIzaSyBuEU8bWRV3H-xNGOUCvCH4R3PMPveyGlI`;
+    const url = `${this.geocodeUrl}?latlng=${lat},${lng}&key=AIzaSyDvTeGBMZwiNI1acJ-biduXVem8XTS26Uw`;
     return this.http.get(url).toPromise();
   }
   deleteAccount(id: any) {

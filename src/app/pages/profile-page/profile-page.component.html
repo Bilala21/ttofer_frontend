@@ -1804,7 +1804,7 @@
               </div>
             </div>
             <app-current-location
-              (locationFound)="onLocationFound($event)"
+              
             ></app-current-location>
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
@@ -2340,7 +2340,6 @@
             </div>
 
             <app-current-location
-              (locationFound)="onLocationFound($event)"
             ></app-current-location>
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>

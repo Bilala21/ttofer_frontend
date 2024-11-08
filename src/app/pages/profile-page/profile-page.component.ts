@@ -113,7 +113,7 @@ export class ProfilePageComponent {
   startingDate: Date | null = null;
   endingDate: Date | null = null;
   productId: number = 0;
-  locationId: string = 'Rawind';
+  locationId: any;
   jSonAttributes: any;
   startingPrice: string = '';
   lowestPrice: string = '';
@@ -2255,6 +2255,7 @@ parseSTime(event: any): void {
     });
   }
   onLocationFound(location: string) {
+    debugger
     this.locationId = location;
   }
   cat(cat: any) {
