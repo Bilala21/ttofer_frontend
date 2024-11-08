@@ -1163,4 +1163,10 @@ button[aria-label="Close"]:focus {
       height: 130px;
     }
   }
+  .product-card {
+    // width: 100%;
+    flex: 0 0 48.5%;
+    max-width: 48.5%;
+    padding: 0;
+}
 }
