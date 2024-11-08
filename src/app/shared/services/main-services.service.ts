@@ -193,10 +193,6 @@ export class MainServicesService {
   }
   private geocodeUrl = 'https://maps.googles.com/maps//geocode/json';
 
-  getGeocodedLocation(lat: number, lng: number): Promise<any> {
-    const url = `${this.geocodeUrl}?latlng=${lat},${lng}&key=AIzaSyDvTeGBMZwiNI1acJ-biduXVem8XTS26Uw`;
-    return this.http.get(url).toPromise();
-  }
   deleteAccount(id: any) {
     return this.http.get(`${Constants.baseApi}/account/deactivate/${id}`, {
       headers: this.getHeaders() // Correctly pass the headers here
