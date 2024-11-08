@@ -11,7 +11,7 @@
 //        padding-left: 10px;
 // }
 
-   @media (min-width: 768px) {
+   @media (max-width: 1024px) {
        .product-card {
            -ms-flex: 0 0 50%;
            flex: 0 0 50%;
