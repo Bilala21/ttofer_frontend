@@ -62,18 +62,21 @@
   button {
     padding: 12px;
     border-color: #ffc107;
+
     &:hover {
       background: #f2f2f2;
     }
   }
 
   .buy-btn{
-    color: white !important;
+    a{
+      color: white !important;
+    }
   }
 
   .buy-btn:hover {
     background: #ffc107ef;
-   
+
   }
 }
 
@@ -100,14 +103,18 @@
     right: 10px;
   }
 }
-.bolt-icon{
+
+.bolt-icon {
   min-width: 40px;
   height: 40px;
 }
-.mt-10{
+
+.mt-10 {
   margin-top: 150px;
 }
-
+.minus-margin{
+  margin-top: -128px;
+}
 @media (min-width: 1200px) {
   .img-gallery {
     min-width: 92px;
@@ -142,7 +149,11 @@
     max-width: 100%;
   }
 }
-
+@media(max-width : 992px){
+.minus-margin{
+ margin-top: 0px;
+}
+}
 .card {
   border-radius: 10px;
   margin-bottom: 1rem;
@@ -154,22 +165,37 @@
     overflow: hidden;
     width: 100%;
   }
+
   // p-galleria-thumbnail-items-container
-  :ng-deep .p-galleria-thumbnail-items-container {
-    
-  }
-  :ng-deep  #pn_id_1 .p-galleria-thumbnail-item{
+  :ng-deep .p-galleria-thumbnail-items-container {}
+
+  :ng-deep #pn_id_1 .p-galleria-thumbnail-item {
     width: fit-content !important;
   }
-  ::ng-deep[type=button], [type=reset], [type=submit], button {
+
+  ::ng-deep[type=button],
+  [type=reset],
+  [type=submit],
+  button {
     color: #ffc107 !important;
     background: transparent !important;
     border: none !important;
   }
-  .p-galleria-thumbnail-items-container{
-       
-       .p-galleria-thumbnail-items{
-        
-       }
+
+  .p-galleria-thumbnail-items-container {
+
+    .p-galleria-thumbnail-items {}
+  }
+}
+
+@media (max-width:576px) {
+  .sm-products {
+    column-gap: 4%;
+    row-gap: 30px;
+
+    .col-6 {
+      flex: 0 0 48%;
+      max-width: 48%;
+    }
   }
 }

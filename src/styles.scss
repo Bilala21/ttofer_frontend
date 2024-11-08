@@ -51,9 +51,11 @@ $tt-offer-theme: mat.define-theme((color: (theme-type: light,
     font-size: 1vh !important;
   }
 }
-.w-fit{
+
+.w-fit {
   width: fit-content;
 }
+
 .card {
   border: 1.5px solid #A2A2A2;
 }
@@ -264,11 +266,10 @@ body {
 //   100% { transform: rotate(360deg); }
 // }
 .container-fluid {
-  max-width: 1450px;
+  max-width: 1400px;
 }
 
 .body-banner-0 {
-  margin-top: 40px !important;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -282,7 +283,7 @@ body {
 }
 
 .body-banner-1 {
-  margin-top: 40px !important;
+  // margin-top: 40px !important;
 
   img {
     // border: 2px solid #ffc107;
@@ -417,12 +418,15 @@ button[aria-label="Close"]:focus {
 .bg-yellow-800 {
   background: #ffc107;
 }
-.btn-yellow{
+
+.btn-yellow {
   background: #ffc107;
-  &:hover{
+
+  &:hover {
     opacity: .8;
   }
-  &:focus{
+
+  &:focus {
     outline-color: #ffc107;
   }
 }
@@ -443,7 +447,7 @@ button[aria-label="Close"]:focus {
   color: #191F33;
 }
 
- .text-dark-650 {
+.text-dark-650 {
   color: #222 !important;
 }
 
@@ -553,6 +557,17 @@ button[aria-label="Close"]:focus {
 
 .pointer-default {
   cursor: default;
+}
+
+.load-more-btn {
+  border: 2px solid;
+  height: 48px;
+  padding: 0px 10px;
+
+  &:hover {
+    background-color: #fff;
+    border-width: .25rem;
+  }
 }
 
 .cursor-pointer {
@@ -1126,6 +1141,7 @@ button[aria-label="Close"]:focus {
   border-radius: 20px;
   padding: 10px;
 }
-.cur-pointer{
+
+.cur-pointer {
   cursor: pointer;
 }
