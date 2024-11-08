@@ -27,7 +27,7 @@
             class="btn py-2 px-3 {{activeTab=='featured' || activeTab=='looking'?'bg-dark text-white':'border-1'}}"
             (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
         </div>
-        <div class="row px-0 row-gap xs-col-gap-2">
+        <div class="row px-0 row-gap">
           @if(loading){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
           <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
             <app-card-shimmer />
@@ -37,7 +37,7 @@
 
           <p class="no-data-found">No Data Found</p>
           }@else { @for (post of data; track $index) {
-          <div class="product-card">
+          <div class="col-lg-3 px-2">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>
           } }
