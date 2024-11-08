@@ -81,39 +81,67 @@ export class ProductDetailComponent implements OnInit {
     })
 
   }
-  
-  
+
+
   toggleWishlist(item: any) {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-
-      this.authService.triggerOpenModal();
-      return;
-    }
-
-    this.globalStateService.wishlistToggle(item.id);
-    this.globalStateService.currentState.subscribe(state => {
-      this.wishList = state.wishListItems
-      this.currentUser = state.currentUser
-    });
     let input = {
-      user_id: this.currentUser.id,
+      user_id: this.currentUserid,
       product_id: item.id
-    }
+    };
+
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.success) {
-          this.toastr.success('Product added to wishlist successfully', 'Success');
+          this.toastr.success(res.message, 'Success');
+
+          if (this.wishList.includes(item.id)) {
+            this.wishList = this.wishList.filter((itemId: any) => itemId !== item.id);
+          } else {
+            this.wishList = [...this.wishList, item.id];
+          }
         }
-        console.log(res, "toggleWishlist");
       },
       error: (err) => {
-        const error = err.error.message
+        const error = err.error.message;
         this.toastr.error(error, 'Error');
-      },
-    })
+      }
+    });
   }
+  
+  
+  // toggleWishlist(item: any) {
+  //   const storedData = localStorage.getItem('key');
+  //   if (!storedData) {
+  //     this.toastr.warning('Plz login first than try again !', 'Warning');
+
+  //     this.authService.triggerOpenModal();
+  //     return;
+  //   }
+
+  //   this.globalStateService.wishlistToggle(item.id);
+  //   this.globalStateService.currentState.subscribe(state => {
+  //     this.wishList = state.wishListItems
+  //     this.currentUser = state.currentUser
+  //   });
+  //   let input = {
+  //     user_id: this.currentUser.id,
+  //     product_id: item.id
+  //   }
+  //   this.mainServices.addWishList(input).subscribe({
+  //     next: (res: any) => {
+  //       if (res.success) {
+  //         this.toastr.success('Product added to wishlist successfully', 'Success');
+  //       }
+  //       console.log(res, "toggleWishlist");
+  //     },
+  //     error: (err) => {
+  //       const error = err.error.message
+  //       this.toastr.error(error, 'Error');
+  //     },
+  //   })
+  // }
+
+
   buyProduct(product: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {

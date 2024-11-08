@@ -18,7 +18,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss',
   standalone: true,
-  imports: [NgIf,HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
+  imports: [NgIf, HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
 })
 export class BodyComponent implements OnDestroy {
   auctionPosts: any = [];
@@ -26,15 +26,7 @@ export class BodyComponent implements OnDestroy {
   countdownSubscriptions: Subscription[] = [];
   loading = true
   tempToken: boolean = false
-
-  promotionBanners: any = [
-    // {
-    //   banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
-    // },
-    // {
-    //   banner: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/be2f29652ac02f60.jpeg?q=20"
-    // }
-  ];
+  promotionBanners: any = [];
 
   constructor(
     private mainServices: MainServicesService,
@@ -57,11 +49,11 @@ export class BodyComponent implements OnDestroy {
       next: (response) => {
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
-       
-        // this.globalStateService.setFilteredProducts()
-        // this.startCountdowns();
-        this.loading = false
-      },
+
+      // this.globalStateService.setFilteredProducts()
+      // this.startCountdowns();
+      this.loading = false
+    },
       error: (err) => {
         console.error('Error occurred while fetching data', err);
         this.loading = false
@@ -71,36 +63,36 @@ export class BodyComponent implements OnDestroy {
 
   }
 
-  getBanners(){
-    this.mainServices.getBanners().subscribe({
-      next:(res)=>{
-          this.promotionBanners = res.data.map((item:any)=>{
-            return{
-              banner:item?.img
-            }
-          })
-      },
-      error:(error)=>{
-        console.error('Error occurred while fetching data', error);
-      }
-    })
-  }
-  startCountdowns() {
-    this.auctionPosts.forEach((item: any) => {
-      const datePart = item.ending_date.split('T')[0];
-      const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
+getBanners(){
+  this.mainServices.getBanners().subscribe({
+    next: (res) => {
+      this.promotionBanners = res.data.map((item: any) => {
+        return {
+          banner: item?.img
+        }
+      })
+    },
+    error: (error) => {
+      console.error('Error occurred while fetching data', error);
+    }
+  })
+}
+startCountdowns() {
+  this.auctionPosts.forEach((item: any) => {
+    const datePart = item.ending_date.split('T')[0];
+    const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
 
-      const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-        item.calculateRemaningTime = remainingTime;
-        item.isBid = remainingTime !== 'Bid Expired';
-        this.cdr.detectChanges();
-      });
-
-      this.countdownSubscriptions.push(subscription);
+    const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
+      item.calculateRemaningTime = remainingTime;
+      item.isBid = remainingTime !== 'Bid Expired';
+      this.cdr.detectChanges();
     });
-  }
 
-  ngOnDestroy(): void {
-    this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
+    this.countdownSubscriptions.push(subscription);
+  });
+}
+
+ngOnDestroy(): void {
+  this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
+}
 }
