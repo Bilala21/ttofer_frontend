@@ -214,12 +214,12 @@
             @if(product.ProductType =='auction'){
             <div class="buttons">
               <button type="button"
-                class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn"
+                class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650 bg-yellow-800"
                 (click)="showOfferModal('bid')">
                 Place bid
               </button>
               <button (click)="toggleWishlist(product)" type="button"
-                class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary mt-2">
+                class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650">
                 <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
                   viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
                   <path _ngcontent-ng-c1363418519="" fill="none" stroke-linecap="round" stroke-linejoin="round"
@@ -265,12 +265,12 @@
               <a routerLink="/" class="text-dark-650 text-decoration-underline">See all</a>
             </div>
             <!-- SIMILAR PRODUCTS -->
-            <div class="row pt-4">
+            <div class="row pt-4 sm-products">
               @for (item of [1,2,3,4]; track $index) {
-              <div class="col-md-3">
+              <div class="col-md-3 col-6 xs-px-0">
                 <div class="sim-box">
                   <div class="bg-gray-450 text-center p-3 rounded-2 position-relative mb-3">
-                    <button aria-label="Add to Wishlist"
+                    <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
                         aria-hidden="true" class="fa-heart far fs-19"></i></button>
                     <img src="https://i.ebayimg.com/thumbs/images/g/ueQAAOSwQSBm9rcg/s-l500.jpg" alt="image"
@@ -380,36 +380,8 @@
         </div>
 
       </section>
-
-      <!-- <div class="modal fade make-offer-modal" tabindex="-1" role="dialog" aria-labelledby="makeoffermodal"
-        aria-hidden="false">
-        <div class="modal-dialog modal-xl" role="document">
-          <app-make-offer-modal />
-        </div>
-      </div> -->
       <app-make-offer-modal [product]="product"/>
-    </div>
-    <!-- app.component.html -->
-
-    <!-- <div class="card">
-      <p-galleria 
-          [value]="images" 
-          [showItemNavigators]="true" 
-          [responsiveOptions]="responsiveOptions" 
-          [circular]="true" 
-          [numVisible]="5" 
-          [containerStyle]="{ 'max-width': '640px' }">
-              <ng-template pTemplate="item" let-item>
-                  <img [src]="item.itemImageSrc" style="width: 100%; display: block;object-fit: fill;min-height: 450px;height: auto;" />
-              </ng-template>
-              <ng-template pTemplate="thumbnail" let-item>
-                  <div class="grid grid-nogutter justify-content-center " style="object-fit: contain;">
-                      <img [src]="item.thumbnailImageSrc" style="display: block;object-fit: contain;width: 100px;" />
-                  </div>
-              </ng-template>
-      </p-galleria>
-  </div> -->
-    
+    </div>  
 
   </div>
 </main>

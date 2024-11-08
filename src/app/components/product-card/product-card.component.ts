@@ -14,13 +14,12 @@ import { Extension } from '../../helper/common/extension/extension';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
   constructor(private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
   wishList: any = []
   currentUserId: any = this.extension.getUserId();
-  @Input() products: any = []
 
   getYear(date: string) {
     return new Date(date).getFullYear();
@@ -29,35 +28,29 @@ export class ProductCardComponent implements OnInit {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
 
   }
+
   toggleWishlist(item: any) {
     let input = {
       user_id: this.currentUserId,
       product_id: item.id
-    }
+    };
+
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.success) {
           this.toastr.success(res.message, 'Success');
-          const found = this.products.find((product: any) => item.id == product.id)
-          console.log(found);
-          item.wished=true
-          if (this.wishList.includes(item.id)) {
-            this.wishList.filter((itemId: any) => itemId !== item.id);
-          } else {
 
+          if (this.wishList.includes(item.id)) {
+            this.wishList = this.wishList.filter((itemId: any) => itemId !== item.id);
+          } else {
             this.wishList = [...this.wishList, item.id];
           }
-
         }
       },
       error: (err) => {
-        const error = err.error.message
+        const error = err.error.message;
         this.toastr.error(error, 'Error');
-      },
-    })
-  }
-
-  ngOnInit(): void {
-    this.wishList = [...this.wishList, this.postData.user_wishlist?.product_id]
+      }
+    });
   }
 }

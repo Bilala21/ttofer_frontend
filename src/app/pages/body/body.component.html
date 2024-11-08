@@ -71,7 +71,7 @@
         <p class="no-data-found">No Data Found</p>
         }@else { @for (post of featuredPosts.slice(0,10); track $index) {
         <div class="product-card">
-          <app-product-card [postData]="post" postDetialUrl="product-detail" [products]="allProducts"/>
+          <app-product-card [postData]="post" postDetialUrl="product-detail"/>
         </div>
         } }
       </div>

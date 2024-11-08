@@ -26,8 +26,6 @@ export class BodyComponent implements OnDestroy {
   countdownSubscriptions: Subscription[] = [];
   loading = true
   tempToken: boolean = false
-  allProducts: any = []
-
   promotionBanners: any = [];
 
   constructor(
@@ -51,7 +49,6 @@ export class BodyComponent implements OnDestroy {
       next: (response) => {
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
-        this.allProducts=[...this.auctionPosts, ...this.featuredPosts]
 
       // this.globalStateService.setFilteredProducts()
       // this.startCountdowns();
