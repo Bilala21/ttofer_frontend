@@ -1,12 +1,29 @@
-import { CommonModule, NgFor, NgIf, Location, DecimalPipe } from '@angular/common';
+import {
+  CommonModule,
+  NgFor,
+  NgIf,
+  Location,
+  DecimalPipe,
+} from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
 import { SellingComponent } from '../selling/selling.component';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationStart, Router, RouterModule } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  ActivatedRoute,
+  NavigationStart,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { filter, forkJoin, map, Observable } from 'rxjs';
@@ -67,13 +84,13 @@ export interface CategoryField {
   ],
 })
 export class ProfilePageComponent {
-  activeButtonPayment:number=1;
-  editStartingPrice:any;
-  edit_final_price:any;
-  editStartingTime:any;
-  editEndingTime:any;
-  imageloading:any=false
-  selectedVideoFile:any
+  activeButtonPayment: number = 1;
+  editStartingPrice: any;
+  edit_final_price: any;
+  editStartingTime: any;
+  editEndingTime: any;
+  imageloading: any = false;
+  selectedVideoFile: any;
   categoryForm: FormGroup;
   validationErrors: { [key: string]: string } = {};
   attributes: { [key: string]: any } = {};
@@ -81,7 +98,7 @@ export class ProfilePageComponent {
   progress!: number;
   defaultProfileUrl: string = '/assets/images/profile-icon.svg'; // /assets/images/profile-placeholder.png
   showMore: boolean = false;
-  selectedTab: any ;
+  selectedTab: any;
   selectedTabItem: string = '';
   selectedTabId: any;
   activeButton: number = 2;
@@ -94,10 +111,10 @@ export class ProfilePageComponent {
   currentUserId: number = 0;
   user_Id: number = 0;
   title: string = '';
-  editTitle:any;
-  editPrice:any;
-  editpricingCatId:any;
-  editDescription:any
+  editTitle: any;
+  editPrice: any;
+  editpricingCatId: any;
+  editDescription: any;
   description: string = '';
   userImage: any;
   profilePhoto: File | null = null;
@@ -120,21 +137,21 @@ export class ProfilePageComponent {
   defaultsImage: string = 'assets/images/best-selling.png';
   public imagesFiles: File[] = [];
   EditImageFilesAbc: File[] = [];
-  filesabc: File[]=[];
+  filesabc: File[] = [];
   imageFilesAbc: File[] = [];
   videoFilesAbc: File[] = [];
   showNotification: boolean = false;
-  notificationList: any=[]
+  notificationList: any = [];
   customLink: any;
   allowRating: boolean = false;
   isDisabled: boolean = false;
   isEditPost: boolean = false;
   subCategory: any = [];
   categories: any = [];
-  isLoading:boolean=false;
-  editStartingDate:any;
-  editEndingDate:any
-  soldList:any
+  isLoading: boolean = false;
+  editStartingDate: any;
+  editEndingDate: any;
+  soldList: any;
   private isNavigatingAway: boolean = false;
   showNotif() {
     this.showNotification = true;
@@ -608,13 +625,14 @@ export class ProfilePageComponent {
   selectedFile: any;
   loading = false;
   editProductData: any = null;
-  constructor(private decimalPipe: DecimalPipe,
-    private toastr:ToastrService,
+  constructor(
+    private decimalPipe: DecimalPipe,
+    private toastr: ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private fb:FormBuilder,
+    private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
     public dialog: MatDialog,
@@ -625,23 +643,27 @@ export class ProfilePageComponent {
     this.categoryForm = this.fb.group({});
   }
   ngOnInit() {
-    console.log(this.categoryForm,"this.pricingCatId");
+    console.log(this.categoryForm, 'this.pricingCatId');
     let currentTab: any = localStorage.getItem('currentTab');
 
-if (currentTab === null || currentTab === 'undefined' || currentTab === '') {
-  currentTab = 'purchasesSales';
-}
-this.route.queryParams.subscribe((params) => {
-  if (params['button']) {
-    this.activeButton = +params['button']; 
-  }
-});
-    this.editProductData=localStorage.getItem('editProduct');
-    this.router.events
-    .pipe(filter(event => event instanceof NavigationStart))
-    .subscribe((event: any) => {
-      this.isNavigatingAway = true;
+    if (
+      currentTab === null ||
+      currentTab === 'undefined' ||
+      currentTab === ''
+    ) {
+      currentTab = 'purchasesSales';
+    }
+    this.route.queryParams.subscribe((params) => {
+      if (params['button']) {
+        this.activeButton = +params['button'];
+      }
     });
+    this.editProductData = localStorage.getItem('editProduct');
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        this.isNavigatingAway = true;
+      });
     this.selectTab(currentTab);
 
     this.getNotification();
@@ -649,7 +671,7 @@ this.route.queryParams.subscribe((params) => {
     this.endingDate = new Date();
     this.customLink = window.location.href;
     this.selectedTabItem = this.route.snapshot.paramMap.get('name')!;
-    this.selectedTabId = this.route.snapshot.paramMap.get('id'); 
+    this.selectedTabId = this.route.snapshot.paramMap.get('id');
     this.loadCategories();
     this.getSelling();
     this.getCurrentUser();
@@ -657,16 +679,18 @@ this.route.queryParams.subscribe((params) => {
   }
   loadCategories(): void {
     this.mainServices.getCategories(this.selectedTabId).subscribe(
-      (data:any) => {
-        this.categories = data.data; 
+      (data: any) => {
+        this.categories = data.data;
         if (this.editProductData) {
           this.editProductData = JSON.parse(this.editProductData);
           this.selectedCategoryId = this.editProductData.category_id;
           this.selectedSubCategoryId = this.editProductData.sub_category_id;
           this.editTitle = this.editProductData.title;
-          this.productId = JSON.parse(this.editProductData.attributes).product_id;
+          this.productId = JSON.parse(
+            this.editProductData.attributes
+          ).product_id;
           this.editDescription = this.editProductData.description;
-  
+
           // Set pricingCatId based on ProductType
           if (this.editProductData.ProductType === 'featured') {
             this.editpricingCatId = 'FixedPrice';
@@ -680,33 +704,35 @@ this.route.queryParams.subscribe((params) => {
             this.editStartingDate = this.editProductData.starting_date; // Bind starting date
             this.editEndingDate = this.editProductData.ending_date; // Bind ending date
           }
-  
+
           this.getSubcategories(this.selectedCategoryId);
           this.initializeForm();
-          this.categoryForm.patchValue(JSON.parse(this.editProductData.attributes));
+          this.categoryForm.patchValue(
+            JSON.parse(this.editProductData.attributes)
+          );
         } else {
           this.selectedCategoryId = this.categories[0].id;
           this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
-          this.initializeForm()
-
+          this.initializeForm();
         }
-       
       },
       (error) => {
         console.error('Error fetching categories:', error); // Handle error
       }
     );
   }
-        initializeForm() {
-    
+  initializeForm() {
     // Initialize form controls dynamically based on the selected category
     const fields = this.categoryFields[this.selectedCategoryId];
-    fields.forEach(field => {
-      this.categoryForm.addControl(field.model, this.fb.control('', Validators.required));
+    fields.forEach((field) => {
+      this.categoryForm.addControl(
+        field.model,
+        this.fb.control('', Validators.required)
+      );
     });
     if (this.categoryFields[this.selectedCategoryId]) {
-      this.categoryFields[this.selectedCategoryId].forEach((field:any) => {
+      this.categoryFields[this.selectedCategoryId].forEach((field: any) => {
         // If the field type is select, set the default value to the first option
         if (field.type === 'select' && field.options.length > 0) {
           this.attributes[field.model] = field.options[0].id; // Set default to the first option
@@ -715,10 +741,9 @@ this.route.queryParams.subscribe((params) => {
     }
   }
 
-showfor(){
-  
-  console.log(this.categoryForm)
-}
+  showfor() {
+    console.log(this.categoryForm);
+  }
   showOtp() {
     this.showOTPBox = true;
   }
@@ -766,7 +791,6 @@ showfor(){
   // }
 
   selectTab(tab: string) {
-    ;
     this.selectedTab = tab;
     localStorage.setItem('currentTab', this.selectedTab);
     this.showDiv = false;
@@ -775,11 +799,9 @@ showfor(){
 
   toggleActive(buttonIndex: number) {
     this.activeButton = buttonIndex;
-    
   }
   toggleActivePayement(buttonIndex: number) {
     this.activeButtonPayment = buttonIndex;
-    
   }
   sellingList: any = [];
   sellingListTemp: any = [];
@@ -793,8 +815,7 @@ showfor(){
     // { img: 'assets/images/light-img3.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
   ];
 
-  savedItems: any=[];
-  
+  savedItems: any = [];
 
   paymentDeposit: any[] = [
     {
@@ -856,14 +877,13 @@ showfor(){
   //     this.filesabc = [];
   //   }
   // }
-  onEditFileChange(event: any){
+  onEditFileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
         this.EditImageFilesAbc.push(event.target.files[i]);
         this.readFileAsDataURL(event.target.files[i]);
       }
-      this.updateProductImage()
-
+      this.updateProductImage();
     }
   }
   onFileChange(event: any) {
@@ -878,7 +898,7 @@ showfor(){
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedFiles.push({ src: reader.result as string });
-      this.validateForm()
+      this.validateForm();
     };
     reader.readAsDataURL(file);
   }
@@ -923,9 +943,9 @@ showfor(){
       id: file.id,
       product_id: file.product_id,
     };
-  
+
     this.mainServices.deleteProductImage(input).subscribe((res) => {
-      // 
+      //
       this.toastr.success('Product image deleted successfully', 'Success');
 
       if (this.editProductData) {
@@ -934,24 +954,24 @@ showfor(){
         if (editProductDataStr) {
           // Parse the existing data
           const editProductData = JSON.parse(editProductDataStr);
-      
+
           // Filter the photo array to remove the photo with the specified id
-          editProductData.photo = editProductData.photo.filter((photo: any) => photo.id !== input.id);
-          
+          editProductData.photo = editProductData.photo.filter(
+            (photo: any) => photo.id !== input.id
+          );
+
           // Save the updated object back to localStorage
           localStorage.setItem('editProduct', JSON.stringify(editProductData));
-          
+
           // Update the local instance if necessary
           this.editProductData = editProductData; // Optional, if you want to keep it in sync
         }
       }
-  
+
       console.log(res);
     });
   }
-  
-  
-  
+
   async updateProductImage() {
     this.imageloading = true;
 
@@ -987,11 +1007,11 @@ showfor(){
       // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
-        this.EditImageFilesAbc=[]
-        // 
-        this.imageloading=false
+        this.EditImageFilesAbc = [];
+        //
+        this.imageloading = false;
         localStorage.setItem('editProduct', JSON.stringify(data.data));
-        this.editProductData=localStorage.getItem('editProduct')
+        this.editProductData = localStorage.getItem('editProduct');
         this.editProductData = JSON.parse(this.editProductData);
       } else {
         console.error('Image upload failed', await response.json());
@@ -1038,16 +1058,15 @@ showfor(){
       // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
-        
       } else {
-        this.loading=false
+        this.loading = false;
         console.error('Image upload failed', await response.json());
       }
     } catch (error) {
       // Handle fetch error
       console.error('Image upload failed', error);
     } finally {
-      this.loading=false;
+      this.loading = false;
       this.imageloading = false;
     }
   }
@@ -1076,27 +1095,30 @@ showfor(){
   }
   onVideoSelected(event: any): void {
     const file = event.target.files[0];
-  
+
     // Check if a video is already selected
     if (this.selectedVideo) {
       this.toastr.error('You cannot upload more than one video.', 'Error');
       return;
     }
-  
+
     // Check if the file exists
     if (file) {
       // Check the file size (20 MB limit)
       const maxFileSize = 20 * 1024 * 1024; // 20 MB in bytes
       if (file.size > maxFileSize) {
-        this.toastr.error('Video size exceeds the maximum limit of 20 MB.', 'Error');
+        this.toastr.error(
+          'Video size exceeds the maximum limit of 20 MB.',
+          'Error'
+        );
         return;
       }
-  
+
       const videoURL = URL.createObjectURL(file);
-      this.selectedVideo = { url: videoURL ,file: file };
+      this.selectedVideo = { url: videoURL, file: file };
     }
   }
-  
+
   removeVideo(): void {
     this.selectedVideo = null; // Clear the selected video
   }
@@ -1445,29 +1467,35 @@ showfor(){
       formData.append('img', this.selectedFile);
       let url = `https://ttoffer.com/backend/public/api/update/user`;
       let token = localStorage.getItem('authToken');
-  
+
       fetch(url, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       })
-        .then((response: any) => {  
+        .then((response: any) => {
           return response.json();
         })
         .then((data) => {
-          this.toastr.success('Profile picture updated successfully!', 'Success');
+          this.toastr.success(
+            'Profile picture updated successfully!',
+            'Success'
+          );
           this.imageUrl = data.data.img;
           this.service.changeImageUrl(this.imageUrl);
           this.UpdateLocalUserData(data.data);
         })
         .catch((error) => {
-          this.toastr.error('Profile update failed. Please try again.', 'Error');
+          this.toastr.error(
+            'Profile update failed. Please try again.',
+            'Error'
+          );
         });
     }
   }
-  
+
   UpdateLocalUserData(data: any) {
     const jsonString = JSON.stringify(data);
     localStorage.setItem('key', jsonString);
@@ -1481,11 +1509,9 @@ showfor(){
   //   fileInput.click();
   // }
 
- 
-
   EditProductFirstStep() {
     let formData = new FormData();
-    this.filesabc.forEach(file => formData.append('video', file, file.name));
+    this.filesabc.forEach((file) => formData.append('video', file, file.name));
     this.imageFilesAbc.forEach((file, index) => {
       formData.append(`video[]`, file, file.name);
     });
@@ -1500,28 +1526,32 @@ showfor(){
       (this.productId ? Number(this.productId) : 0).toString()
     );
     const token = localStorage.getItem('authToken');
-     this.isLoading=true;
-    fetch('https://www.ttoffer.com/backend/public/api/edit-product-first-step', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        // 'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-      },  })
-  .then(response => response.json()) // Convert the response to JSON
-  .then(data => {
-      console.log('File upload successful', data);
-      this.productId = data.product_id;
-      this.EditProductSeccondStep(); // Call the next step if upload is successful
-  })
-  .catch(error => {
-    this.isLoading=false
-      console.error('File upload failed', error);
-  });
+    this.isLoading = true;
+    fetch(
+      'https://www.ttoffer.com/backend/public/api/edit-product-first-step',
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+      }
+    )
+      .then((response) => response.json()) // Convert the response to JSON
+      .then((data) => {
+        console.log('File upload successful', data);
+        this.productId = data.product_id;
+        this.EditProductSeccondStep(); // Call the next step if upload is successful
+      })
+      .catch((error) => {
+        this.isLoading = false;
+        console.error('File upload failed', error);
+      });
   }
   validateForm(): boolean {
     // ;
-    this.validationErrors = {}; 
+    this.validationErrors = {};
     if (!this.title) {
       this.validationErrors['title'] = 'Please add a title.';
     }
@@ -1532,12 +1562,13 @@ showfor(){
       this.validationErrors['selectedCategoryId'] = 'Please select a category.';
     }
     if (!this.selectedSubCategoryId) {
-      this.validationErrors['selectedSubCategoryId'] = 'Please select a sub-category.';
+      this.validationErrors['selectedSubCategoryId'] =
+        'Please select a sub-category.';
     }
     if (this.selectedFiles.length == 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
-  
+
     // Validate attributes for the selected category
     const requiredFields = this.categoryFields[this.selectedCategoryId] || [];
     requiredFields.forEach((field) => {
@@ -1545,102 +1576,137 @@ showfor(){
         this.validationErrors[field.model] = `${field.label} is required.`;
       }
     });
-  
+
     // Specific validation for different pricing categories
     switch (this.pricingCatId) {
       case 'Auction':
         if (!this.startingPrice) {
-          this.validationErrors['startingPrice'] = 'Starting price is required for Auction.';
+          this.validationErrors['startingPrice'] =
+            'Starting price is required for Auction.';
         }
         if (!this.final_price) {
-          this.validationErrors['final_price'] = 'Lowest price is required for Auction.';
+          this.validationErrors['final_price'] =
+            'Lowest price is required for Auction.';
         }
         if (!this.startingTime) {
-          this.validationErrors['startingTime'] = 'Starting time is required for Auction.';
+          this.validationErrors['startingTime'] =
+            'Starting time is required for Auction.';
         }
         if (!this.endingTime) {
-          this.validationErrors['endingTime'] = 'Ending time is required for Auction.';
+          this.validationErrors['endingTime'] =
+            'Ending time is required for Auction.';
         }
         if (!this.startingDate) {
-          this.validationErrors['startingDate'] = 'Starting date is required for Auction.';
+          this.validationErrors['startingDate'] =
+            'Starting date is required for Auction.';
         }
         if (!this.endingDate) {
-          this.validationErrors['endingDate'] = 'Ending date is required for Auction.';
+          this.validationErrors['endingDate'] =
+            'Ending date is required for Auction.';
         }
         break;
-  
+
       case 'FixedPrice':
         if (!this.price) {
           this.validationErrors['price'] = 'Price is required for Fixed Price.';
         }
         break;
-  
-     
-  
+
       default:
         break;
     }
-  
+
     return Object.keys(this.validationErrors).length === 0;
   }
-  
+
   onFieldChange(fieldModel: string): void {
     if (this.validationErrors[fieldModel]) {
       delete this.validationErrors[fieldModel];
     }
   }
-  async AddProductFirstStep() {
+  async addCompleteProduct() {
     if (!this.validateForm()) {
-      return;
+        return;
     }
+
+    this.isLoading = true;
+
     let formData = new FormData();
+    formData.append('user_id', this.currentUserId ? Number(this.currentUserId).toString() : '0');
+    formData.append('title', this.title || '');
+    formData.append('description', this.description || '');
 
-    // Append video files to formData
-    if (this.selectedVideo && this.selectedVideo.file) {
-      formData.append('video[]', this.selectedVideo.file, this.selectedVideo.file.name);
+    if (this.selectedVideo?.file) {
+        formData.append('video', this.selectedVideo.file, this.selectedVideo.file.name);
     }
 
-    // Append other fields
-    formData.append(
-      'user_id',
-      this.currentUserId ? Number(this.currentUserId).toString() : '0'
-    );
-    formData.append('title', this.title);
-    formData.append('description', this.description);
+    this.imageFilesAbc.forEach((file) => {
+        formData.append('image[]', file, file.name);
+    });
+
+    formData.append('category_id', this.selectedCategoryId.toString());
+    formData.append('sub_category_id', this.selectedSubCategoryId.toString());
+    
+   
+    // Append non-empty attribute values
+    // if (this.attributes['condition']) formData.append('condition', this.attributes['condition']);
+    // if (this.attributes['make_and_model']) formData.append('make_and_model', this.attributes['make_and_model']);
+    // if (this.attributes['mileage']) formData.append('mileage', this.attributes['mileage']);
+    // if (this.attributes['color']) formData.append('color', this.attributes['color']);
+    // if (this.attributes['brand']) formData.append('brand', this.attributes['brand']);
+    // if (this.attributes['model']) formData.append('model', this.attributes['model']);
+    // if (this.attributes['edition']) formData.append('edition', this.attributes['edition']);
+    // if (this.attributes['authenticity']) formData.append('authenticity', this.attributes['authenticity']);
+
+    // Append JSON stringified attributes
+    formData.append('attributes', JSON.stringify(this.attributes));
+
+    // Add pricing and auction information
+    if (this.pricingCatId === 'Auction') {
+        formData.append('productType', 'auction');
+        formData.append('auction_price', this.startingPrice?.toString() || '');
+        formData.append('starting_date', this.startingDate?.toISOString() || '');
+        formData.append('starting_time', this.startingTime.toString() || '');
+        formData.append('ending_date', this.endingDate?.toISOString() || '');
+        formData.append('ending_time', this.endingTime.toString() || '');
+    } else if (this.pricingCatId === 'FixedPrice') {
+        formData.append('productType', 'featured');
+        formData.append('fix_price', this.price?.toString() || '');
+    } else {
+        formData.append('productType', 'other');
+    }
+
+    // Add location if not empty
+    if (this.locationId) formData.append('location', this.locationId);
 
     try {
-      const token = localStorage.getItem('authToken');
-      this.isLoading = true;
+        const token = localStorage.getItem('authToken');
+        const response = await fetch(`${Constants.baseApi}/products`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-      // Fetch request to send formData
-      const response = await fetch(
-        `${Constants.baseApi}/add-product-first-step`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
+        const data = await response.json();
+        if (response.ok) {
+            this.toastr.success('Product is live now!', 'Success');
+            this.router.navigate(['']);
+        } else {
+            console.error('Product creation failed', data);
+            this.toastr.error('Product creation failed', 'Error');
         }
-      );
-
-      // Parse JSON response
-      const data = await response.json();
-
-      if (response.ok) {
-        this.productId = data.product_id;
-        await this.addProductImage();
-        // this.attributes();
-        await this.addProductSecondStep();
-      }
     } catch (error) {
-      this.isLoading = false;
-
-      this.handleError(error);
+        console.error('An error occurred while adding the product:', error);
+        this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
-      this.isLoading = false;
+        this.isLoading = false;
     }
-  }
+}
+
+
+
   getCategoryNameById(categoryId: number): string {
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
@@ -1662,7 +1728,6 @@ showfor(){
     this.attributes['sub_category_name'] = this.getSubCategoryNameById(
       this.selectedSubCategoryId
     );
-    ;
     let input = {
       product_id: this.productId,
       category_id: this.selectedCategoryId,
@@ -1686,7 +1751,7 @@ showfor(){
     } catch (error) {
       this.isLoading = false;
       this.handleError(error);
-    }finally{
+    } finally {
       this.isLoading = false;
     }
   }
@@ -1696,7 +1761,7 @@ showfor(){
 
     if (this.pricingCatId === 'Auction') {
       input = {
-        productType:'auction',
+        productType: 'auction',
         product_id: this.productId,
         auction_price: this.startingPrice,
         starting_date: this.startingDate?.toISOString(),
@@ -1707,13 +1772,12 @@ showfor(){
       };
     } else if (this.pricingCatId === 'FixedPrice') {
       input = {
-        productType:'featured',
+        productType: 'featured',
         product_id: this.productId,
         fix_price: this.price,
       };
     } else {
-      
-      input = { product_id: this.productId , productType:'other',};
+      input = { product_id: this.productId, productType: 'other' };
     }
 
     try {
@@ -1724,7 +1788,7 @@ showfor(){
     } catch (error) {
       this.isLoading = false;
       this.handleError(error);
-    }finally{
+    } finally {
       this.isLoading = false;
     }
   }
@@ -1739,13 +1803,13 @@ showfor(){
       const res: any = await this.mainServices
         .addProductLastStep(input)
         .toPromise();
-        this.toastr.success('Product is live now!', 'Success');
-        this.isLoading=false
-        this.router.navigate(['']);
+      this.toastr.success('Product is live now!', 'Success');
+      this.isLoading = false;
+      this.router.navigate(['']);
     } catch (error) {
       this.isLoading = false;
       this.handleError(error);
-    }finally{
+    } finally {
       this.isLoading = false;
     }
   }
@@ -1753,7 +1817,6 @@ showfor(){
   // Centralized error handling
   handleError(error: any) {
     this.loading = false;
-   
   }
 
   EditProductSeccondStep() {
@@ -1773,7 +1836,7 @@ showfor(){
         authenticity: '',
         attributes: JSON.stringify(this.categoryForm.value),
       };
-  
+
       this.mainServices.editProductSecondStep(input).subscribe(
         (res) => {
           this.EditProductThirdStep();
@@ -1789,14 +1852,14 @@ showfor(){
       this.isLoading = false;
     }
   }
-  
+
   EditProductThirdStep() {
     this.loading = true;
     try {
       let input;
       if (this.editpricingCatId === 'Auction') {
         input = {
-          productType:'auction',
+          productType: 'auction',
           product_id: this.productId,
           auction_price: this.editStartingPrice.toString(),
           starting_date: this.editStartingDate
@@ -1811,19 +1874,19 @@ showfor(){
         };
       } else if (this.editpricingCatId === 'FixedPrice') {
         input = {
-          productType:'featured',
+          productType: 'featured',
           product_id: this.productId,
           fix_price: this.editPrice,
           auction_price: null,
         };
       } else {
         input = {
-          productType:'other',
+          productType: 'other',
           product_id: this.productId,
           // fix_price: this.price,
         };
       }
-  
+
       this.mainServices.editProductThirdStep(input).subscribe(
         (res) => {
           this.editProductLastStep();
@@ -1838,7 +1901,7 @@ showfor(){
       this.isLoading = false;
     }
   }
-  
+
   editProductLastStep() {
     this.loading = true;
     try {
@@ -1846,7 +1909,7 @@ showfor(){
         product_id: this.productId,
         location: this.locationId,
       };
-  
+
       this.mainServices.editProductLastStep(input).subscribe(
         (res: any) => {
           localStorage.removeItem('editProduct');
@@ -1867,7 +1930,6 @@ showfor(){
   }
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
-
   }
   getSelling() {
     this.loading = true;
@@ -1875,9 +1937,9 @@ showfor(){
       next: (res: any) => {
         this.sellingList = res;
         console.log(res);
-        this.loading=false
-        debugger
-        this.soldList=res.data?.archive.data;
+        this.loading = false;
+        debugger;
+        this.soldList = res.data?.archive.data;
         this.purchaseListTemp = res.data?.buying.data;
         this.sellingListTemp = res.data?.selling.data;
       },
@@ -1893,7 +1955,7 @@ showfor(){
       .getNotification(this.currentUserId)
       .subscribe((res: any) => {
         // debugger
-        this.notificationList = res.data
+        this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
           return (
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -1962,7 +2024,7 @@ showfor(){
         if (result.key === 'password') {
           this.updateUserInfo(result.key, {
             old_password: result.old_password,
-            password: result.password
+            password: result.password,
           });
         } else {
           this.updateUserInfo(result.key, result.value);
@@ -1971,24 +2033,24 @@ showfor(){
     });
   }
   onDeleteAccount(): void {
-    this.router.navigate([`/user/delete-account/${this.currentUserId}`]); 
+    this.router.navigate([`/user/delete-account/${this.currentUserId}`]);
   }
   updateUserInfo(field: string, value: any) {
     this.isDisabled = true;
     this.loading = true;
-  
+
     let input;
     if (field === 'password') {
       // Pass both old and new passwords as input
       input = {
         old_password: value.old_password,
-        password: value.password
+        password: value.password,
       };
     } else {
       // Pass single value for other fields
       input = { [field]: value };
     }
-  
+
     const updateMethods: any = {
       phone: () => this.mainServices.updateNumber(input),
       email: () => this.mainServices.updateEmail(input),
@@ -1996,7 +2058,7 @@ showfor(){
       location: () => this.mainServices.updateLocation(input),
       name: () => this.mainServices.updateUserName(input),
     };
-  
+
     if (updateMethods[field]) {
       updateMethods[field]().subscribe({
         next: (res: any) => {
@@ -2020,7 +2082,7 @@ showfor(){
       this.isDisabled = false;
     }
   }
-  
+
   wishListProduct() {
     // this.loading = true
     var input = {
@@ -2030,11 +2092,11 @@ showfor(){
       (res: any) => {
         this.savedItems = res.data;
 
-        this.savedItems.isAuction = this.savedItems.fix_price == null ? true:false;
+        this.savedItems.isAuction =
+          this.savedItems.fix_price == null ? true : false;
         // this.loading = false;
       },
-      (err: any) => {
-      }
+      (err: any) => {}
     );
   }
   // parseDate(event: any): Date {
@@ -2081,96 +2143,110 @@ showfor(){
 
       if (selectedDate < startingDate) {
         // Ending date is less than the starting date
-        this.toastr.error('Ending date cannot be earlier than the starting date.', 'Error');
+        this.toastr.error(
+          'Ending date cannot be earlier than the starting date.',
+          'Error'
+        );
         event.target.value = ''; // Clear the ending date input
         return this.startingDate; // Return the starting date as fallback
       }
     }
 
     return selectedDate;
-}
-
-getTomorrowDate(): string {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1); 
-  return tomorrow.toISOString().split('T')[0]; 
-}
-parseETime(event: any): void {
-  const selectedEndingTime = event.target.value;
-  
-  if (!this.startingTime) {
-    this.toastr.error('Please select a starting time first.', 'Error');
-    setTimeout(() => (this.endingTime = ''), 1); 
-    return;
   }
 
-  const selectedStartingTime = this.startingTime;
-
-  if (!this.startingDate || !this.endingDate) {
-    this.showErrorMessage('Invalid date selected.');
-    setTimeout(() => (this.endingTime = ''), 1); 
-    return;
+  getTomorrowDate(): string {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
   }
+  parseETime(event: any): void {
+    const selectedEndingTime = event.target.value;
 
-  const selectedEndingDate = new Date(this.endingDate);
-  const selectedStartingDate = new Date(this.startingDate);
-
-  const startTime = new Date(
-    `${selectedStartingDate.toDateString()} ${selectedStartingTime}`
-  );
-  const endTime = new Date(
-    `${selectedEndingDate.toDateString()} ${selectedEndingTime}`
-  );
-
-  if (selectedStartingDate.toDateString() === selectedEndingDate.toDateString()) {
-    if (endTime <= startTime) {
-      this.toastr.error('Ending time cannot be less than or equal to the starting time', 'Error');
-      setTimeout(() => (this.endingTime = ''), 1); 
+    if (!this.startingTime) {
+      this.toastr.error('Please select a starting time first.', 'Error');
+      setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
 
-    const timeDifference = (endTime.getTime() - startTime.getTime()) / (1000 * 60); 
-    if (timeDifference < 30) {
-      this.toastr.error('Ending time must be at least 30 minutes later than the starting time', 'Error');
-      setTimeout(() => (this.endingTime = ''), 1); 
+    const selectedStartingTime = this.startingTime;
+
+    if (!this.startingDate || !this.endingDate) {
+      this.showErrorMessage('Invalid date selected.');
+      setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
+
+    const selectedEndingDate = new Date(this.endingDate);
+    const selectedStartingDate = new Date(this.startingDate);
+
+    const startTime = new Date(
+      `${selectedStartingDate.toDateString()} ${selectedStartingTime}`
+    );
+    const endTime = new Date(
+      `${selectedEndingDate.toDateString()} ${selectedEndingTime}`
+    );
+
+    if (
+      selectedStartingDate.toDateString() === selectedEndingDate.toDateString()
+    ) {
+      if (endTime <= startTime) {
+        this.toastr.error(
+          'Ending time cannot be less than or equal to the starting time',
+          'Error'
+        );
+        setTimeout(() => (this.endingTime = ''), 1);
+        return;
+      }
+
+      const timeDifference =
+        (endTime.getTime() - startTime.getTime()) / (1000 * 60);
+      if (timeDifference < 30) {
+        this.toastr.error(
+          'Ending time must be at least 30 minutes later than the starting time',
+          'Error'
+        );
+        setTimeout(() => (this.endingTime = ''), 1);
+        return;
+      }
+    }
+
+    this.endingTime = selectedEndingTime;
   }
 
-  this.endingTime = selectedEndingTime;
-}
+  parseSTime(event: any): void {
+    const selectedStartingTime = event.target.value;
 
-parseSTime(event: any): void {
-  const selectedStartingTime = event.target.value;
-
-  if (!this.startingDate) {
-    this.showErrorMessage('Invalid date selected.');
-    setTimeout(() => (this.startingTime = ''), 1); 
-    return;
-  }
-
-  const selectedStartingDate = new Date(this.startingDate);
-  const currentDateTime = new Date();
-
-  const [hours, minutes] = selectedStartingTime.split(':').map(Number);
-  const startTime = new Date(
-    selectedStartingDate.getFullYear(),
-    selectedStartingDate.getMonth(),
-    selectedStartingDate.getDate(),
-    hours, minutes
-  );
-
-  if (selectedStartingDate.toDateString() === currentDateTime.toDateString()) {
-    if (startTime < currentDateTime) {
-      this.toastr.error('Starting time cannot be in the past.', 'Error');
-      setTimeout(() => (this.startingTime = ''), 1); // Clear the starting time input
+    if (!this.startingDate) {
+      this.showErrorMessage('Invalid date selected.');
+      setTimeout(() => (this.startingTime = ''), 1);
       return;
     }
+
+    const selectedStartingDate = new Date(this.startingDate);
+    const currentDateTime = new Date();
+
+    const [hours, minutes] = selectedStartingTime.split(':').map(Number);
+    const startTime = new Date(
+      selectedStartingDate.getFullYear(),
+      selectedStartingDate.getMonth(),
+      selectedStartingDate.getDate(),
+      hours,
+      minutes
+    );
+
+    if (
+      selectedStartingDate.toDateString() === currentDateTime.toDateString()
+    ) {
+      if (startTime < currentDateTime) {
+        this.toastr.error('Starting time cannot be in the past.', 'Error');
+        setTimeout(() => (this.startingTime = ''), 1); // Clear the starting time input
+        return;
+      }
+    }
+
+    this.startingTime = selectedStartingTime;
   }
-
-  this.startingTime = selectedStartingTime;
-}
-
 
   // Format a Date object as 'yyyy-MM-dd'
   formatDate(date: any): string {
@@ -2215,22 +2291,22 @@ parseSTime(event: any): void {
           ? this.getCurrentTime()
           : '00:00';
       }
-      return '00:00'; 
+      return '00:00';
     } else if (type === 'end') {
       if (this.endingDate) {
         const formattedEndDate = this.formatDate(this.endingDate);
         return formattedEndDate === todayDate ? this.getCurrentTime() : '00:00';
       }
-      return '00:00'; 
+      return '00:00';
     }
 
-    return '00:00'; 
+    return '00:00';
   }
-    getSubcategories(categoryId: any): void {
+  getSubcategories(categoryId: any): void {
     if (categoryId) {
       this.mainServices.getSubCategories(this.selectedCategoryId).subscribe(
-        (data:any) => {
-          this.subCategory = data.data; 
+        (data: any) => {
+          this.subCategory = data.data;
         },
         (error) => {}
       );
@@ -2244,7 +2320,7 @@ parseSTime(event: any): void {
     this.router.navigate(['/markAsSold/', product.id]);
   }
 
-    addCumtomLink() {
+  addCumtomLink() {
     let input = {
       custom_link: this.customLink,
     };
@@ -2255,7 +2331,7 @@ parseSTime(event: any): void {
     });
   }
   onLocationFound(location: string) {
-    debugger
+    debugger;
     this.locationId = location;
   }
   cat(cat: any) {
