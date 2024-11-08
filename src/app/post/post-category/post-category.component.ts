@@ -23,6 +23,7 @@ export class PostCategoryComponent implements OnInit {
   loading:any = true
   promotionBanners: any = [];
   activeTab: any = "auction";
+  pages: any = 12;
 
 
 
@@ -88,6 +89,10 @@ export class PostCategoryComponent implements OnInit {
         console.error('Error occurred while fetching data', error);
       }
     })
+  }
+
+  pageItem(count:any){
+   this.pages = this.pages + count
   }
   
 }

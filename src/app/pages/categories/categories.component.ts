@@ -25,6 +25,7 @@ export class CategoriesComponent {
   data: any = []
   loading: any = true
   id: any = null
+  pages: any = 12
   handleTab(tab: string) {
 
     this.activeTab = tab
@@ -62,4 +63,8 @@ export class CategoriesComponent {
       }
     })
   }
+
+  pageItem(count:any){
+    this.pages = this.pages + count
+   }
 }
