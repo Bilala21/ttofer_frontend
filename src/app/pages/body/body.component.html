@@ -73,10 +73,55 @@
           </div>
           } }
         </div>
+        @if(loading){
+        @for(data of [1,2,3,4,5];track $index){
+        <div class="product-card">
+          <div class="p-2 border-1 rounded-2 xs-mx-auto">
+            <app-card-shimmer />
+          </div>
+        </div>
+        }
+        }@else if(auctionPosts.length == 0){
+        <p class="no-data-found">No Data Found</p>
+        }@else{ @for (post of auctionPosts; track $index) {
+        <div class="product-card">
+          <app-product-card [postData]="post" postDetialUrl="product-detail" />
+        </div>
+        } }
       </div>
-      <!--BILAL END PRODUCTS AREA -->
-      <div class="mt-3">
-        <app-promotion-slider [banners]="[
+    </div>
+    <div class="mx-auto mt-3 xs-px-15">
+      <div class="row py-3 rounded-2 row-gap-20">
+        <div class="w-100 text-center">
+          <h2 class="m-0 fs-24 fw-bold my-4">Feature Products</h2>
+          <p class="fs-14 mb-0">
+            Act fast! These featured products won't last long
+          </p>
+        </div>
+        <div class="w-100 text-right pr-3" *ngIf="featuredPosts.length">
+          <a [routerLink]="['/post/post-category']" [queryParams]="{ name: 'featured' }" class="fw-bold text-primary">
+            View All
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </div>
+        @if(loading){ @for(data of [1,2,3,4,5];track $index){
+        <div class="product-card">
+          <div class="p-2 border-1 rounded-2 xs-mx-auto">
+            <app-card-shimmer />
+          </div>
+        </div>
+        } }@else if(featuredPosts.length == 0){
+        <p class="no-data-found">No Data Found</p>
+        }@else { @for (post of featuredPosts.slice(0,10); track $index) {
+        <div class="product-card">
+          <app-product-card [postData]="post" postDetialUrl="product-detail"/>
+        </div>
+        } }
+      </div>
+    </div>
+    <!--BILAL END PRODUCTS AREA -->
+    <div class="mt-3">
+      <app-promotion-slider [banners]="[
           {
             banner:
               'https://images.olx.com.pk/thumbnails/493379125-800x600.webp'
