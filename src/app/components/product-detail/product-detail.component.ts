@@ -39,7 +39,6 @@ export class ProductDetailComponent implements OnInit {
   attributes: any = {}
   currentUser: any = {}
   loading: boolean = false
-  imgIndex: number = 0
   currentUserid: any;
   promotionBanners: any = [
     {
