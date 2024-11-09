@@ -127,7 +127,7 @@
           <p>Factory New, Fedex 2Day, 30 Day Return - MobileWorldNY</p>
 
           <div class="d-flex align-items-center border-b border-t py-2">
-            <a routerLink="/" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
+            <a [routerLink]="['/review', product.user_id]" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
               <img [src]="
                 product?.user?.img
                   ? product?.user?.img
@@ -306,18 +306,25 @@
 
           <hr>
           <!-- location -->
-          <div>
-            <h2 class="fw-semibold fs-24">Location</h2>
-            <div class="d-flex flex-column flex-lg-row justify-content-between">
-              <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
-              <div class="map-div mt-2">
-                <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
-                </google-map>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </section>
+      <div>
+        <h2 class="fw-semibold fs-24">Location</h2>
+        <div>
+          <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
+          <div class="mt-2">
+            <google-map
+              style="border-radius: 16px"
+              height="400px"
+              width="100%"
+              [center]="center"
+              [zoom]="zoom"
+            >
+            </google-map>
+          </div>
+        </div>
+      </div>
       <app-make-offer-modal [product]="product" />
     </div>
 
