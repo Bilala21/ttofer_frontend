@@ -1,12 +1,29 @@
-<!-- <div *ngIf="latitude && longitude; else errorTemplate">
-    <p>Current Location:</p>
-    <p>Latitude: {{ latitude }}</p>
-    <p>Longitude: {{ longitude }}</p>
+<div style="position: relative; height: 400px; width: 100%;">
+  <!-- Google Map Component -->
+  <google-map
+    height="100%"
+    width="100%"
+    [center]="center"
+    [zoom]="zoom"
+  >
+    <map-marker
+      #marker
+      [position]="markerPosition"
+      [options]="markerOptions"
+      (mapDragEnd)="onMarkerDragEnd($event)"
+    ></map-marker>
+  </google-map>
+
+  <!-- Custom Overlay Div positioned inside the map with an Image -->
+  <div style="
+      position: absolute;
+      bottom: 0px;
+      left: 5%;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    ">
+    <img src="/assets/images/LOGO.png" alt="Location Image" style="max-width:65px; border-radius: 4px;">
   </div>
-  <ng-template #errorTemplate>
-    <p>{{ error }}</p>
-  </ng-template>
-   -->
-   <div *ngIf="locationName">
-    <p>Current Location: {{ locationName }}</p>
-  </div>
+</div>

@@ -1,7 +1,10 @@
 <div class="star-rating">
-  <i class="star" *ngFor="let star of stars; let i = index" [ngClass]="{'filled': i < rating, 'disabled': rating === 0}"
-  (click)="allowRating ? rate(i + 1) : null">
-  <span class="fa fa-star mr-1 fs-12" style="color: #FFD33C;"></span>
-  <!-- <span class="fa fa-star" style="color: #E2E2E2;"></span> -->
+  <i 
+    class="star" 
+    *ngFor="let star of stars; let i = index"
+    [ngClass]="{'filled': star, 'disabled': !allowRating}"
+    (click)="rate(i)"
+  >
+    <span class="fa fa-star mr-1 fs-12" [style.color]="star ? '#FFD33C' : '#E2E2E2'"></span>
   </i>
 </div>

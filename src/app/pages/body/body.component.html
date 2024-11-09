@@ -1,8 +1,8 @@
 <main class="mt-16">
 
   <div class="container-fluid">
-    <div class="row">
-      <div class="mx-auto mt-3 xs-px-0">
+    <div class="">
+      <div class="mt-3">
         <div>
           <app-slider [slides]="promotionBanners"></app-slider>
         </div>
@@ -13,10 +13,10 @@
         </div>
       </div>
       <!--BILAL PRODUCTS AREA -->
-      <div class="mx-auto mt-3 w-100">
+      <div class=" mt-3">
         <app-post-categories />
       </div>
-      <div class="mx-auto w-100">
+      <div class="">
         <div class="row pb-3 rounded-2 row-gap-20 xs-col-gap-2">
           <div class="w-100 text-center">
             <h2 class="m-0 fs-24 fw-bold my-4">Auction Products</h2>
@@ -38,14 +38,14 @@
           }
           }@else if(auctionPosts.length == 0){
           <p class="no-data-found">No Data Found</p>
-          }@else{ @for (post of auctionPosts.slice(0,10); track $index) {
+          }@else{ @for (post of auctionPosts; track $index) {
           <div class="product-card">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>
           } }
         </div>
       </div>
-      <div class="mx-auto mt-3 w-100">
+      <div class="mt-3">
         <div class="row py-3 rounded-2 row-gap-20 xs-col-gap-2">
           <div class="w-100 text-center">
             <h2 class="m-0 fs-24 fw-bold my-4">Feature Products</h2>
@@ -61,7 +61,7 @@
           </div>
           @if(loading){ @for(data of [1,2,3,4,5];track $index){
           <div class="product-card">
-            <div class="p-2 border-1 rounded-2 xs-mx-auto">
+            <div class="p-2 border-1 rounded-2">
               <app-card-shimmer />
             </div>
           </div>

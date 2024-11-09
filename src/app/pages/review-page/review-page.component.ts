@@ -5,7 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { NgIf } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
+import { Extension } from '../../helper/common/extension/extension';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-review-page',
@@ -17,19 +19,21 @@ import { NgIf } from '@angular/common';
 export class ReviewPageComponent {
 userId:any
 loading = false;
-user:any = {}
-
-@ViewChild('review') reviewText: any;
+user:any = {};
+isSubmitting = false;
+currentUserId:any
+@ViewChild('review') reviewText!: ElementRef;
 constructor(
     private mainServices: MainServicesService,
-    // private extension: Extension,
+   private extension: Extension,
     private route: ActivatedRoute,
     // private http: HttpClient,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService,
+    private location: Location
     // private route: ActivatedRoute,
 ){}
 ngOnInit():void{
-
+  this.currentUserId = this.extension.getUserId();
     this.userId = this.route.snapshot.paramMap.get('id')!;
     this.getUserInfo()
     // console.log(this.userId)
@@ -37,40 +41,35 @@ ngOnInit():void{
 getUserInfo(){
 
     this.mainServices.getUserInfo(this.userId).subscribe((res:any) =>{
-
         this.user = res.data
     })
 }
 submitReview(starRating: any) {
-    this.loading = true
+  if (this.isSubmitting) return; 
+  this.isSubmitting = true; 
+  const rating = starRating.rating;
+  const review = this.reviewText.nativeElement.value;
 
-    const rating = starRating.rating; // Assuming getRating() returns the selected rating
-    // const review = this.reviewText.nativeElement.value;
-    console.log("Rating", rating)
-    const reviewData = {
-      user_id:this.userId,
-      review_quantity: rating,
-    //   review: review
-    };
-    this.mainServices.reviewToSeller(reviewData).subscribe((res:any) =>{
+  const reviewData = {
+    to_user: this.userId,
+    comment: review,
+    rating: rating,
+    from_user: this.currentUserId
+  };
 
-        this.showSuccessMessage(res.message)
-        this.loading = false
-        console.log(res)
-    })
-    // Make an HTTP request to save the review
-    // this.http.post('/api/reviews', reviewData).subscribe(response => {
-    //   console.log('Review saved successfully', response);
-    // }, error => {
-    //   console.error('Error saving review', error);
-    // });
-  }
-  showSuccessMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['success-snackbar']
-    });
-  }
+  this.mainServices.reviewToSeller(reviewData).subscribe(
+    (res: any) => {
+      this.toastr.success(res.message, 'Success');
+      this.isSubmitting = false; 
+    },
+    (error) => {
+      this.toastr.error('Failed to submit review.', 'Error');
+      this.isSubmitting = false; 
+    }
+  );
+}
+
+skipReview() {
+  this.location.back();
+}
 }
