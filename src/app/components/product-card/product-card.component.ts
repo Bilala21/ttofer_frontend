@@ -60,4 +60,9 @@ export class ProductCardComponent {
       }
     });
   }
+  getUserWishListItem(item: any) {
+    const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserId)
+    return matched ? true : false
+  }
+
 }

@@ -36,6 +36,7 @@ export class ProductDetailComponent implements OnInit {
   productId: any = null
   product: any = {};
   wishList: any = []
+  attributes: any = {}
   currentUser: any = {}
   loading: boolean = false
   imgIndex: number = 0
@@ -46,8 +47,9 @@ export class ProductDetailComponent implements OnInit {
     },
   ]
   images: any = [
-   
+
   ];
+  position: string = 'left';
   responsiveOptions = [
     {
       breakpoint: '1024px',
@@ -71,8 +73,9 @@ export class ProductDetailComponent implements OnInit {
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
         this.product = value.data
-        this.loading = false;
-        this.productView()
+        this.attributes = JSON.parse(value.data.attributes)
+        this.loading = false
+        console.log(JSON.parse(value.data.attributes), 'attributes');
       },
       error: (err) => {
         this.loading = false
@@ -124,8 +127,12 @@ this.mainServices.storeProductView(productViewDetail).subscribe({
       }
     });
   }
-  
-  
+
+  getUserWishListItem(item: any) {
+    const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserid)
+    return matched ? true : false
+  }
+
   // toggleWishlist(item: any) {
   //   const storedData = localStorage.getItem('key');
   //   if (!storedData) {
@@ -233,11 +240,14 @@ this.mainServices.storeProductView(productViewDetail).subscribe({
       );
     } else {
       console.error("Browser doesn't support geolocation.");
-      this.loading = false;
     }
-  }
 
-  initializeMap(): void {
+  }
+  showOfferModal(modal_type: string) {
+    this.globalStateService.setOfferModal(modal_type)
+  }
+  loadMap(): void {
+    this.loading = true;
     const mapProperties = {
       center: this.center,
       zoom: this.zoom,
