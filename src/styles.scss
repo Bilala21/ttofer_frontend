@@ -493,20 +493,12 @@ button[aria-label="Close"]:focus {
 }
 
 .price-tag {
-  background: #65c774;
-  min-width: 100px;
+  max-width: 120px;
+  width: 120px;
+  height: 40px;
+  position: absolute;
   bottom: 5px;
   left: 5px;
-  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
-
-  &::before {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 100px;
-    height: 10px;
-    background: red;
-  }
 }
 
 .selling-tab-container {
