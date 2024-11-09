@@ -49,6 +49,7 @@ export class ProductDetailComponent implements OnInit {
   images: any = [
 
   ];
+  position: string = 'left';
   responsiveOptions = [
     {
       breakpoint: '1024px',

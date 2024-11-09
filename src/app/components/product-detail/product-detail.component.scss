@@ -1,6 +1,11 @@
 .right-side {
   max-width: 508px;
-  min-width: 300px;
+  min-width: 508px;
+
+  .p-galleria-item-container {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .icon-btn {
@@ -17,45 +22,19 @@
   }
 }
 
+
 .img-slider {
-  background: #f2f2f2;
-  min-height: 500px;
-  max-height: 500px;
-  overflow-y: hidden;
-
-  .butons-scws {
-    z-index: 10;
-    top: 23px;
-    right: 23px;
-    column-gap: 10px;
-
-    button {
-      min-width: 45px;
-      height: 45px;
-    }
-  }
+  min-height: 450px;
+  max-height: 450px;
 }
 
 .img-container {
-  max-height: 500px;
+  max-height: 450px;
 }
-
-.border-2 {
-  border: 2px solid;
-}
-
-.d-ling {
-  a {
-    color: #000;
-    font-weight: 500;
-  }
-}
-
 .qty-input {
   height: 50px;
   width: 80px;
   background: #f2f2f2;
-  // border-color: #000;
 }
 
 .buttons {
@@ -107,35 +86,6 @@
   margin-top: 150px;
 }
 
-@media (min-width: 1200px) {
-  .img-gallery {
-    min-width: 92px;
-    min-height: 92px;
-    max-height: 92px;
-    max-width: 92px;
-    background: #f2f2f2;
-
-    img {
-      object-fit: contain;
-    }
-  }
-}
-
-
-@media (max-width: 1200px) {
-  .img-gallery {
-    min-width: 92px;
-    min-height: 92px;
-    max-height: 92px;
-    max-width: 92px;
-    background: #f2f2f2;
-
-    img {
-      object-fit: contain;
-    }
-  }
-}
-
 @media (max-width: 1024px) {
   .right-side {
     max-width: 100%;
@@ -145,36 +95,6 @@
 .card {
   border-radius: 10px;
   margin-bottom: 1rem;
-
-  ::ng-deep .p-galleria .p-galleria-thumbnail-container {
-    background: rgba(0, 0, 0, 0.9) !important;
-    padding: 1rem 0.25rem !important;
-    display: flex !important;
-    justify-content: center !important;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  // p-galleria-thumbnail-items-container
-  :ng-deep .p-galleria-thumbnail-items-container {}
-
-  :ng-deep #pn_id_1 .p-galleria-thumbnail-item {
-    width: fit-content !important;
-  }
-
-  ::ng-deep[type=button],
-  [type=reset],
-  [type=submit],
-  button {
-    color: #ffc107 !important;
-    background: transparent !important;
-    border: none !important;
-  }
-
-  .p-galleria-thumbnail-items-container {
-
-    .p-galleria-thumbnail-items {}
-  }
 }
 
 @media (max-width:576px) {
@@ -188,3 +108,4 @@
     }
   }
 }
+
