@@ -243,9 +243,7 @@ this.mainServices.storeProductView(productViewDetail).subscribe({
     }
 
   }
-  showOfferModal(modal_type: string) {
-    this.globalStateService.setOfferModal(modal_type)
-  }
+
   loadMap(): void {
     this.loading = true;
     const mapProperties = {
