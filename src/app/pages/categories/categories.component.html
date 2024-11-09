@@ -8,11 +8,14 @@
       </div>
       <div class="permotion-banners">
         @if (promotionBanners.length > 0) {
-        <app-promotion-slider [banners]="promotionBanners.slice(0, 2)" bannerClass="body-banner" />
+        <app-promotion-slider
+          [banners]="promotionBanners.slice(0, 2)"
+          bannerClass="body-banner"
+        />
         }
       </div>
     </div>
-    <div class="d-block d-lg-flex pt-3 xs-px-3">
+    <div class="d-block d-lg-flex pt-5">
       <aside class="product-filter">
         <app-filters />
       </aside>
@@ -52,7 +55,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
   </div>
 </main>
 <!-- END  BY BILAL -->

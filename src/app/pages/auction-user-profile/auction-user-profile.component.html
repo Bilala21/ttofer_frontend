@@ -80,7 +80,7 @@
 
             <div class="content">
                 <div *ngIf="activeTab === 'products'">
-                    <div class="row align-items-center mt-3" *ngFor="let data of auctionUserList?.products">
+                    <div class="row align-items-center mt-3" *ngFor="let data of auctionUserList?.products"  routerLink="/product-detail/{{ data.id }}/{{data.slug}}">
                         <div class="col-md-4 col-6">
                             <img class="w-100 sm-img-h" style="height: 70px; border-radius: 10px;" *ngIf="data?.photo[0].src != null" [src]="data.photo[0].src"
                                 alt="" loading="lazy">

@@ -193,10 +193,6 @@ export class MainServicesService {
   }
   private geocodeUrl = 'https://maps.googles.com/maps//geocode/json';
 
-  getGeocodedLocation(lat: number, lng: number): Promise<any> {
-    const url = `${this.geocodeUrl}?latlng=${lat},${lng}&key=AIzaSyBuEU8bWRV3H-xNGOUCvCH4R3PMPveyGlI`;
-    return this.http.get(url).toPromise();
-  }
   deleteAccount(id: any) {
     return this.http.get(`${Constants.baseApi}/account/deactivate/${id}`, {
       headers: this.getHeaders() // Correctly pass the headers here
@@ -218,6 +214,9 @@ export class MainServicesService {
   }
   getProductById(data: any = {}): Observable<any> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/product-detail', data);
+  }
+  storeProductView(data:any){
+    return this.http.post(`${Constants.baseApi}` + '/products/view',data );
   }
   // getProductById(url: string): Observable<any> {
   //   return this.http.get<any>(`${Constants.baseApi}/${url}`);
