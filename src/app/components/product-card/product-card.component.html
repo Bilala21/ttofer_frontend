@@ -22,9 +22,10 @@
             aria-label="Special Offer">Special
             Offer</button>
         </figcaption>
-        <div
-          class="text-white pl-3 pr-2 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center">
-          AED {{formatPrice(postData?.auction_price?postData?.auction_price:postData.fix_price)}}
+        <div class="price-tag d-flex align-items-center justify-content-center">
+          <img src="/assets/images/icons/green-tag.svg" alt="" class="max-h-100 max-w-100 w-100">
+          <span class="d-block position-absolute text-white fw-normal pl-2 fs-14">AED
+            {{formatPrice(postData?.auction_price?postData?.auction_price:postData.fix_price)}}</span>
         </div>
       </figure>
 
