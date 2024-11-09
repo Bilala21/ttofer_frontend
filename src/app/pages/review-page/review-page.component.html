@@ -7,26 +7,16 @@
     <div class="row">
         <div class="col-10 mx-auto">
             <div class="row justify-content-between">
-                <div class="col-md-5">
-                    <div class="row align-items-center">
-                        <div class="col-4">
-                            <img loading="lazy" src="assets/images/light-clothes-img.svg" class="w-100" style="height: 70px; border-radius: 10px;" alt="">
-                        </div>
-                        <div class="col-8">
-                                <h4 class="sm-cat-text4">Modern light clothes</h4>
-                            <span>$500</span>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="row align-items-center justify-content-between">
                 <div class="col-md-5 mt-5 text-center">
                     <h2>Rate Seller</h2>
-                    <img loading="lazy" [src]="user.img" class="mt-5" style="border-radius: 10px; height: 132px;"  alt="">
+                    <img loading="lazy" [src]="user?.img" class="mt-5" style="border-radius: 10px; height: 132px;"  alt="">
                     <!-- <img src="assets/images/profile-img1.png" class="mt-5" alt=""> -->
                     <!-- <h4>Darlene Robertson</h4> -->
-                    <h4>{{user.name}}</h4>
-                    <span>{{user.location}}</span>
+                    <h4>{{user?.name}}</h4>
+                    <span>{{user?.location}}</span>
                     <!-- <span>Manchester, UK</span> -->
                 </div>
                 <div class="col-md-5">

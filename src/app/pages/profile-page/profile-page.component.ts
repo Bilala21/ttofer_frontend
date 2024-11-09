@@ -998,13 +998,11 @@ export class ProfilePageComponent {
           method: 'POST',
           body: formData,
           headers: {
-            // 'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
 
-      // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
         this.EditImageFilesAbc = [];
@@ -2090,6 +2088,7 @@ export class ProfilePageComponent {
     };
     this.mainServices.wishListProduct(input).subscribe(
       (res: any) => {
+        debugger
         this.savedItems = res.data;
 
         this.savedItems.isAuction =

@@ -1101,11 +1101,7 @@
               <div class="col-md-10 mx-auto">
                 <div class="mt-3" *ngFor="let data of savedItems">
                   <a
-                    [routerLink]="
-                      data.fix_price == null
-                        ? ['/auctionProduct', data.product.id]
-                        : ['/productDetails', data.product.id]
-                    "
+                    routerLink="/product-detail/{{ data.product.id }}/{{data.product.slug}}"
                     style="text-decoration: none; color: #1b2028"
                   >
                     <div class="row align-items-center">

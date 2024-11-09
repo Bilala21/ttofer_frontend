@@ -37,20 +37,20 @@ ngOnInit():void{
 getUserInfo(){
 
     this.mainServices.getUserInfo(this.userId).subscribe((res:any) =>{
-
+debugger
         this.user = res.data
     })
 }
 submitReview(starRating: any) {
-    this.loading = true
-
+debugger
     const rating = starRating.rating; // Assuming getRating() returns the selected rating
-    // const review = this.reviewText.nativeElement.value;
-    console.log("Rating", rating)
+     const review = this.reviewText?.nativeElement.value;
     const reviewData = {
-      user_id:this.userId,
+      to_user:this.userId,
       review_quantity: rating,
-    //   review: review
+      comment:review,
+      rating: rating,
+      from_user:'39807'
     };
     this.mainServices.reviewToSeller(reviewData).subscribe((res:any) =>{
 

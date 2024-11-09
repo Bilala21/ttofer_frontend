@@ -15,7 +15,7 @@ import { EventEmitter } from 'stream';
 })
 export class StarRatingComponent {
   @Input() rating: number = 0; // Current rating
-  @Input() maxRating: number = 5; // Maximum rating, default is 5
+  @Input() maxRating: number = 3; // Maximum rating, default is 5
   @Input() allowRating!:boolean;
   stars: boolean[] = [];
   constructor(){
