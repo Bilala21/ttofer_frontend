@@ -9,36 +9,24 @@
 
         <div class="left-side flex-grow-1 w-100 pr-lg-4">
           <div class="card">
-            <p-galleria 
-              [value]="product.photo" 
-              [showItemNavigators]="true" 
-              [responsiveOptions]="responsiveOptions" 
-              [circular]="true" 
-              [numVisible]="5" 
-              [containerStyle]="{ 'border-radius': '10px' }"
-            >
+            <p-galleria [value]="product.photo" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions"
+              [circular]="true" [numVisible]="5" [containerStyle]="{ 'border-radius': '10px' }">
               <!-- Main Image Template -->
               <ng-template pTemplate="item" let-item>
-                <img 
-                  [src]="item.src" 
-                  loading="lazy"
-                  style="width: 100%; height: 450px; object-fit: contain; display: block;" 
-                />
+                <img [src]="item.src" loading="lazy"
+                  style="width: 100%; height: 450px; object-fit: contain; display: block;" />
               </ng-template>
-        
+
               <!-- Thumbnail Image Template -->
               <!-- <div class="grid grid-nogutter justify-content-center"> -->
               <ng-template pTemplate="thumbnail" let-item>
-                  <img 
-                    [src]="item.src"
-                    loading="lazy" 
-                    style="width: 100px; height: 80px; object-fit: contain; display: block;border:1px solid  #ffc107;" 
-                  />
+                <img [src]="item.src" loading="lazy"
+                  style="width: 100px; height: 80px; object-fit: contain; display: block;border:1px solid  #ffc107;" />
               </ng-template>
-            <!-- </div> -->
+              <!-- </div> -->
             </p-galleria>
           </div>
-        
+
           <!-- <div class="d-flex flex-column flex-lg-row">
             <div class="mr-2 order-2 order-lg-1 d-flex flex-lg-column justify-content-lg-start justify-content-around">
               @for (item of product.photo; track $index) {
@@ -220,12 +208,13 @@
               </button>
               <button (click)="toggleWishlist(product)" type="button"
                 class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650">
-                <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
-                  viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
-                  <path _ngcontent-ng-c1363418519="" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="20"
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em"
+                  width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
+                  <path [attr.fill]="product.id === product?.user_wishlist?.product_id ? 'text-dark-650' : 'none'"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="20"
                     d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
                   </path>
+
                 </svg>
                 Add to wishlist
               </button>
@@ -300,7 +289,8 @@
                 Add to cart
               </button>
 
-              <button type="button" class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650"
+              <button type="button"
+                class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650"
                 (click)="showOfferModal('offer')">
                 Make Offer
               </button>
@@ -308,10 +298,9 @@
               <button (click)="toggleWishlist(product)" type="button"
                 class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary text-dark-650">
 
-                <svg _ngcontent-ng-c1363418519="" stroke="currentColor" fill="currentColor" stroke-width="0"
-                  viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
-                  <path _ngcontent-ng-c1363418519="" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="20"
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em"
+                  width="1em" xmlns="http://www.w3.org/2000/svg" class="fs-22">
+                  <path [attr.fill]="wishList.includes(product.id) || getUserWishListItem(product) ? 'text-dark-650' : 'none'" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"
                     d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
                   </path>
                 </svg>
@@ -341,47 +330,47 @@
           <!-- } -->
           <!-- details -->
           <div class="col-12 col-lg-12 order-lg-3 order-2 xs-px-0">
-        <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
-         <h2 class="fw-semibold fs-24">Details</h2>
-         <div class="d-flex align-items-center colored-box-container">
-           <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
-             <span>Brand</span>
-             <span class="fw-semibold">Apple</span>
-           </div>
-           <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
-             <span>Condition</span>
-             <span class="fw-semibold">Used</span>
-           </div>
-         </div>
-       </div>
+            <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
+              <h2 class="fw-semibold fs-24">Details</h2>
+              <div class="d-flex align-items-center colored-box-container">
+                <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
+                  <span>Brand</span>
+                  <span class="fw-semibold">Apple</span>
+                </div>
+                <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
+                  <span>Condition</span>
+                  <span class="fw-semibold">Used</span>
+                </div>
+              </div>
+            </div>
 
-       <!-- description -->
-       <div class="border p-3 mb-2 w-100 mt-3 rounded">
-         <h2 class="fw-semibold fs-24">Description</h2>
-         <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
-         <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
-         <span class="d-block fs-14">3UTOOL OK</span>
-       </div>
+            <!-- description -->
+            <div class="border p-3 mb-2 w-100 mt-3 rounded">
+              <h2 class="fw-semibold fs-24">Description</h2>
+              <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
+              <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
+              <span class="d-block fs-14">3UTOOL OK</span>
+            </div>
 
-       <hr>
-       <!-- location -->
-       <div>
-         <h2 class="fw-semibold fs-24">Location</h2>
-         <div class="d-flex flex-column flex-lg-row justify-content-between">
-           <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
-           <div class="map-div mt-2">
-             <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
-             </google-map>
-           </div>
-         </div>
-       </div>
+            <hr>
+            <!-- location -->
+            <div>
+              <h2 class="fw-semibold fs-24">Location</h2>
+              <div class="d-flex flex-column flex-lg-row justify-content-between">
+                <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
+                <div class="map-div mt-2">
+                  <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
+                  </google-map>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
 
       </section>
-      <app-make-offer-modal [product]="product"/>
-    </div>  
+      <app-make-offer-modal [product]="product" />
+    </div>
 
   </div>
 </main>

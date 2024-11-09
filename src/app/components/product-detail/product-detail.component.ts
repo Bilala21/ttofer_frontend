@@ -36,6 +36,7 @@ export class ProductDetailComponent implements OnInit {
   productId: any = null
   product: any = {};
   wishList: any = []
+  attributes: any = {}
   currentUser: any = {}
   loading: boolean = false
   imgIndex: number = 0
@@ -46,7 +47,7 @@ export class ProductDetailComponent implements OnInit {
     },
   ]
   images: any = [
-   
+
   ];
   responsiveOptions = [
     {
@@ -73,7 +74,9 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         console.log(value);
         this.product = value.data
+        this.attributes = JSON.parse(value.data.attributes)
         this.loading = false
+        console.log(JSON.parse(value.data.attributes), 'attributes');
       },
       error: (err) => {
         this.loading = false
@@ -107,8 +110,12 @@ export class ProductDetailComponent implements OnInit {
       }
     });
   }
-  
-  
+
+  getUserWishListItem(item: any) {
+    const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserid)
+    return matched ? true : false
+  }
+
   // toggleWishlist(item: any) {
   //   const storedData = localStorage.getItem('key');
   //   if (!storedData) {
@@ -192,7 +199,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
-  showOfferModal(modal_type:string) {
+  showOfferModal(modal_type: string) {
     this.globalStateService.setOfferModal(modal_type)
   }
   loadMap(): void {
