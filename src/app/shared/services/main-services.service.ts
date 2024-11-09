@@ -215,6 +215,9 @@ export class MainServicesService {
   getProductById(data: any = {}): Observable<any> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/product-detail', data);
   }
+  storeProductView(data:any){
+    return this.http.post(`${Constants.baseApi}` + '/products/view',data );
+  }
   // getProductById(url: string): Observable<any> {
   //   return this.http.get<any>(`${Constants.baseApi}/${url}`);
   // }
