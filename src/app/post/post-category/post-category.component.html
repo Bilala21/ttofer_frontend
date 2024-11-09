@@ -18,7 +18,7 @@
         <app-filters />
       </aside>
       <!-- PRODUCT SIDE -->
-      <div class="flex-grow-1 pl-4 xs-px-0">
+      <div class="flex-grow-1 pl-lg-4 xs-px-0">
         <div class="text-center mb-4">
           <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
             (click)="handleTab('auction')"> Auction Products </button>
@@ -47,6 +47,9 @@
             />
           </div>
           } }
+        </div>
+        <div class="text-center my-5" *ngIf="data.length > 10">
+          <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
         </div>
         }
       </div>

@@ -88,7 +88,7 @@ productView(){
  product_id:this.productId,
 user_id:this.currentUserid
   }
-  debugger
+  
 this.mainServices.storeProductView(productViewDetail).subscribe({
   next:(value)=>{
 

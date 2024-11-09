@@ -29,7 +29,7 @@ export class CurrentLocationComponent implements OnInit {
 
   // Function to get address from latitude and longitude
   getAddress(lat: number, lng: number) {
-    debugger
+    
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results:any, status) => {
       if (status === 'OK' && results[0]) {

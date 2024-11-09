@@ -1,5 +1,5 @@
 // Variables
-$gap: 15px;
+$gap: 22px;
 $card-bg: #fff;
 $card-border-radius: 8px;
 $shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -22,7 +22,7 @@ $breakpoint-desktop: 1200px;
 .product-main {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: start;
   gap: $gap;
   @media (min-width: $breakpoint-desktop) {
     max-width: $breakpoint-desktop;
@@ -34,29 +34,23 @@ $breakpoint-desktop: 1200px;
 .product-card,
 .shimmer-card {
   border-radius: $card-border-radius;
-  box-shadow: $shadow;
-  background-color: $card-bg;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  &:hover {
-    transform: translateY($transform-distance);
-    box-shadow: $hover-shadow;
-  }
 }
-
-// Responsive layouts
 
 // For screens below 576px - 1 card per row
 @media (max-width: $breakpoint-xs) {
   .product-card, .shimmer-card {
-    @include card-layout(100%);
+    @include card-layout(calc(100% + 22px) );
   }
 }
 
 // For screens below 768px (mobile) - 2 cards per row
 @media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
-  .product-card, .shimmer-card {
-    @include card-layout(50%);
+  .product-card, 
+  .shimmer-card {
+    @include card-layout(calc(50% + 22px));
+  }
+  .product-main {
+    gap: 12px;
   }
 }
 
@@ -65,11 +59,17 @@ $breakpoint-desktop: 1200px;
   .product-card, .shimmer-card {
     @include card-layout(33.333%);
   }
+  .product-main {
+    gap: 31px;
+  }
 }
 
 // For screens 992px and above (tablet and up) - 3 cards per row
 @media (min-width: $breakpoint-tablet) {
   .product-card, .shimmer-card {
-    @include card-layout(33.333%);
+    @include card-layout(25%);
+  }
+  .product-main {
+    gap: 29px;
   }
 }

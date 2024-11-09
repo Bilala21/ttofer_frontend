@@ -38,7 +38,7 @@
           }
           }@else if(auctionPosts.length == 0){
           <p class="no-data-found">No Data Found</p>
-          }@else{ @for (post of auctionPosts; track $index) {
+          }@else{ @for (post of auctionPosts.slice(0,10); track $index) {
           <div class="product-card">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>

@@ -1799,9 +1799,11 @@
                 />
               </div>
             </div>
+           <div class="mt-2">
             <app-current-location
               
             ></app-current-location>
+           </div>
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
@@ -2334,9 +2336,11 @@
                 </div>
               </div>
             </div>
-
-            <app-current-location
-            ></app-current-location>
+            <div class="mt-2">
+              <app-current-location
+              ></app-current-location>
+            </div>
+            
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
