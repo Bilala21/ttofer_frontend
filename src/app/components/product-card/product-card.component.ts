@@ -5,6 +5,7 @@ import { GlobalStateService } from '../../shared/services/state/global-state.ser
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
 import { Extension } from '../../helper/common/extension/extension';
+import { AuthService } from '../../shared/services/authentication/Auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -15,7 +16,7 @@ import { Extension } from '../../helper/common/extension/extension';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
-  constructor(private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
+  constructor(private authService:AuthService ,private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
   wishList: any = []
@@ -30,6 +31,12 @@ export class ProductCardComponent {
   }
 
   toggleWishlist(item: any) {
+    const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }
     let input = {
       user_id: this.currentUserId,
       product_id: item.id

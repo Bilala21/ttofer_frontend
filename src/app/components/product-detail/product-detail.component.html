@@ -137,15 +137,22 @@
             <div class="pl-2">
               <div>{{ product.user?.name }} <span>(4567)</span></div>
 
-              <div class="fw-normal">
-                <span class="text-yellow-800 d-block">★★★★★</span>
-                <a routerLink="/" class="text-dark text-decoration-underline mr-2">Seller's other itmes</a>
-                <a routerLink="/" class="text-dark text-decoration-underline"
-                  (click)="contactSeller(product, product.user)">Contact
-                  seller</a>
+                <div class="fw-normal">
+                  <span class="text-yellow-800 d-block">★★★★★</span>
+                  <a
+                    [routerLink]="['/userProfile', product.user_id]"
+                    class="text-dark text-decoration-underline mr-2"
+                    >Seller's other itmes</a
+                  >
+                  <a
+                    routerLink="/"
+                    class="text-dark text-decoration-underline"
+                    (click)="contactSeller(product, product.user)"
+                    >Contact seller</a
+                  >
+                </div>
               </div>
             </div>
-          </div>
 
           <div class="fw-bold fs-22 pt-3">AED {{product.ProductType !=='auction'? product.fix_price:
             product.auction_price}}

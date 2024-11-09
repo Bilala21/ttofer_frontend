@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
 import { NgFor, NgIf } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     standalone: true,
     templateUrl: './auction-user-profile.component.html',
     styleUrl: './auction-user-profile.component.scss',
-    imports: [HeaderComponent, FooterComponent, NgFor, NgIf, StarRatingComponent]
+    imports: [HeaderComponent, FooterComponent, NgFor, NgIf, StarRatingComponent,RouterLink]
 })
 export class AuctionUserProfileComponent {
     activeTab: string = 'products';

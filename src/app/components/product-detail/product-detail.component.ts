@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -22,7 +22,7 @@ import { GalleriaModule } from 'primeng/galleria';
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
+  constructor(private cdRef:ChangeDetectorRef,private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
     private route: ActivatedRoute, public extension: Extension,
     private mainServices: MainServicesService,
   ) {
@@ -32,7 +32,7 @@ export class ProductDetailComponent implements OnInit {
 
   @ViewChild(MakeOfferModalComponent) MakeOfferModalComponent!: MakeOfferModalComponent;
   center!: google.maps.LatLngLiteral;
-  zoom = 4;
+  zoom = 14;
   productId: any = null
   product: any = {};
   wishList: any = []
@@ -67,13 +67,11 @@ export class ProductDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCurrentLocation();
-    this.loadMap();
+    // this.getCurrentLocation();
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
-        console.log(value);
         this.product = value.data
         this.attributes = JSON.parse(value.data.attributes)
         this.loading = false
@@ -86,8 +84,26 @@ export class ProductDetailComponent implements OnInit {
 
   }
 
+productView(){
+  const productViewDetail={
+ product_id:this.productId,
+user_id:this.currentUserid
+  }
+  debugger
+this.mainServices.storeProductView(productViewDetail).subscribe({
+  next:(value)=>{
 
+  }
+
+})
+}
   toggleWishlist(item: any) {
+    const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }
     let input = {
       user_id: this.currentUserid,
       product_id: item.id
@@ -175,6 +191,12 @@ export class ProductDetailComponent implements OnInit {
     this.globalStateService.updateCart({ ...product, quantity: event.value })
   }
   contactSeller(product: any, user: any): void {
+    const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }
     // Store the data in sessionStorage
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
@@ -184,18 +206,39 @@ export class ProductDetailComponent implements OnInit {
       state: { product, user },
     });
   }
-  getCurrentLocation() {
+  
+  showOfferModal(modal_type:string) {
+    const storedData = localStorage.getItem('key');
+  if (!storedData) {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+    return;
+  }
+    this.globalStateService.setOfferModal(modal_type)
+  }
+  ngAfterViewInit() {
+    this.cdRef.detectChanges(); // Trigger change detection if needed
+  }
+
+  getCurrentLocation(): void {
     this.loading = true;
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        this.loading = false;
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          this.loading = false;
+          // this.initializeMap(); // Initialize the map once location is set
+          // this.cdRef.detectChanges(); // Detect changes to update view
+        },
+        (error) => {
+          console.error("Geolocation failed:", error);
+          this.loading = false;
+        }
+      );
     } else {
-      // Browser doesn't support Geolocation
       console.error("Browser doesn't support geolocation.");
     }
 
@@ -206,15 +249,14 @@ export class ProductDetailComponent implements OnInit {
   loadMap(): void {
     this.loading = true;
     const mapProperties = {
-      center: new google.maps.LatLng(35.6895, 139.6917),
-      zoom: 14,
+      center: this.center,
+      zoom: this.zoom,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
-    // Ensure the map div exists before initializing the map
     const mapDiv = document.getElementById('map-div');
     if (mapDiv) {
-      const map = new google.maps.Map(mapDiv as HTMLElement, mapProperties);
-      this.loading = false;
+      new google.maps.Map(mapDiv as HTMLElement, mapProperties);
     }
   }
+
 }

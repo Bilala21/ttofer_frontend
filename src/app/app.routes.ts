@@ -78,7 +78,7 @@ export const routes: Routes = [
         component: SellerReveiwComponent
     },
     {
-        path: 'post-performance/:id',
+        path: 'post-performance',
         component: PostPerformanceComponent
     },
     {
@@ -94,7 +94,7 @@ export const routes: Routes = [
         component: AuctionProductComponent
     },
     {
-        path: 'auctionUserProfile/:id',
+        path: 'userProfile/:id',
         component: AuctionUserProfileComponent
     },
     {

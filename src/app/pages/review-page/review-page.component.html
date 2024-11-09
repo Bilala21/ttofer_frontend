@@ -1,52 +1,61 @@
-<!-- <app-header></app-header> -->
 <main class="mt-16">
-<div *ngIf="loading" class="loader-overlay">
+  <div *ngIf="loading" class="loader-overlay">
     <div class="loader"></div>
-</div>
-<div class="container-fluid">
+  </div>
+  <div class="container-fluid">
     <div class="row">
-        <div class="col-10 mx-auto">
-            <div class="row justify-content-between">
+      <div class="col-10 mx-auto">
+        <div class="row justify-content-between"></div>
+        <div class="row align-items-center justify-content-between">
+          <div class="col-md-5 mt-5 text-center">
+            <h2>Rate Seller</h2>
+            <img
+              loading="lazy"
+              [src]="user?.img"
+              class="mt-5"
+              style="border-radius: 10px; height: 132px"
+              alt=""
+            />
+            <h4>{{ user?.name }}</h4>
+            <span>{{ user?.location }}</span>
+          </div>
+          <div class="col-md-5">
+            <app-star-rating #starRating></app-star-rating>
+            <textarea
+              #review
+              class="form-control mt-5"
+              name="review"
+              id="review"
+              placeholder="How was your experience with this seller?"
+              style="height: 30vh; border-radius: 2vh"
+            ></textarea>
+            <div class="row mt-5 justify-content-between">
                 <div class="col-md-5">
-                    <div class="row align-items-center">
-                        <div class="col-4">
-                            <img loading="lazy" src="assets/images/light-clothes-img.svg" class="w-100" style="height: 70px; border-radius: 10px;" alt="">
-                        </div>
-                        <div class="col-8">
-                                <h4 class="sm-cat-text4">Modern light clothes</h4>
-                            <span>$500</span>
-                        </div>
-                    </div>
-                </div>
+                    <button
+                      class="btn btn-dark w-100 p-2"
+                      style="border-radius: 4vh"
+                      (click)="submitReview(starRating)"
+                      [disabled]="isSubmitting"
+                    >
+                      <span *ngIf="!isSubmitting">Review Seller</span>
+                      <span *ngIf="isSubmitting">Submitting<span class="dots">.</span></span>
+                    </button>
+                  </div>
+                  
+              <div class="col-md-5 sm-mt-5">
+                <button
+                  class="btn btn-dark w-100 p-2"
+                  style="border-radius: 4vh"
+                  (click)="skipReview()"
+                >
+                  Skip
+                </button>
+              </div>
             </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-md-5 mt-5 text-center">
-                    <h2>Rate Seller</h2>
-                    <img loading="lazy" [src]="user.img" class="mt-5" style="border-radius: 10px; height: 132px;"  alt="">
-                    <!-- <img src="assets/images/profile-img1.png" class="mt-5" alt=""> -->
-                    <!-- <h4>Darlene Robertson</h4> -->
-                    <h4>{{user.name}}</h4>
-                    <span>{{user.location}}</span>
-                    <!-- <span>Manchester, UK</span> -->
-                </div>
-                <div class="col-md-5">
-                    <app-star-rating  #starRating></app-star-rating>
-                    <!-- <img src="assets/images/reviewStars.png" class="w-100" alt=""> -->
-                    <textarea class="form-control mt-5" name="review" id="review"
-                        style="height: 30vh; border-radius: 2vh;">How was your experience about this seller?</textarea>
-                    <div class="row mt-5 justify-content-between">
-                        <div class="col-md-5">
-                            <button class="btn btn-dark w-100 p-2" style="border-radius: 4vh;"(click)="submitReview(starRating)">Review Seller</button>
-                        </div>
-                        <div class="col-md-5 sm-mt-5">
-                            <button class="btn btn-dark w-100 p-2" style="border-radius: 4vh;">Skip</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-    <hr class="mt-5">
-    <!-- <app-footer></app-footer> -->
-</div>
+    <hr class="mt-5" />
+  </div>
 </main>
