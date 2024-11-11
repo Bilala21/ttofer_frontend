@@ -1,3 +1,7 @@
+
+.product-detail-container{
+  padding-top: 30px;
+}
 .right-side {
   max-width: 508px;
   min-width: 508px;
@@ -96,6 +100,8 @@
   }
 }
 
+
+
 @media (max-width: 992px) {
   .right-side {
     max-width: 100%;
@@ -131,5 +137,8 @@
       max-width: 48%;
       padding: 0;
     }
+  }
+  .product-detail-container{
+    padding-top: 0;
   }
 }

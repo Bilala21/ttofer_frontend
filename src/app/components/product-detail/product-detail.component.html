@@ -1,14 +1,14 @@
 <main class="mt-16 mb-5">
-  <div class="container-fluid product-detail-container md-pt-4">
+  <div class="container-fluid product-detail-container ">
     <div *ngIf="loading">
       <app-card-shimmer />
     </div>
     <div *ngIf="!loading">
       <div class="product-detail-content d-flex flex-lg-row md-mt-5">
         <div class="left-side flex-grow-1 w-100">
-          <p-galleria [thumbnailsPosition]="screenWidth< 768?'bottom':'left'" [numVisible]="5" [changeItemOnIndicatorHover]="true"
+          <p-galleria [verticalThumbnailViewPortHeight]="'500px'" [thumbnailsPosition]="screenWidth< 768?'bottom':'left'" [numVisible]="5" [changeItemOnIndicatorHover]="true"
           [value]="product.photo" [showItemNavigators]="true" [showThumbnailNavigators]="true"
-           [responsiveOptions]="responsiveOptions" [circular]="false">
+           [responsiveOptions]="responsiveOptions" [circular]="false" [changeItemOnIndicatorHover]="true" [showItemNavigators]="true">
            <ng-template pTemplate="item" let-item>
              <img [src]="item.src" loading="lazy" class="d-block w-100 obj-fit-content slider-img"
                style="height: 450px" />
