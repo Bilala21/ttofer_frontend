@@ -84,18 +84,19 @@
 
           <hr>
           <!-- location -->
-          <div class="md-pt-0 pt-3">
-            <h2 class="fw-semibold fs-24">Location</h2>
-            <div class="d-flex flex-column flex-lg-row justify-content-between">
-              <span class="d-block fs-14">Ras Al Khor, Dubai, UAE</span>
-              <div class="map-div mt-2">
-                <google-map style="border-radius: 16px" height="200px" width="100%" [center]="center" [zoom]="zoom">
-                </google-map>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </section>
+      <div >
+        <h2 class="fw-semibold fs-24">Location</h2>
+        <div>
+          <span >Ras Al Khor, Dubai, UAE</span>
+          <div class="mt-2">
+            <google-map style="border-radius: 16px;height:200px;width:100%;"  [center]="center" [zoom]="zoom">
+            </google-map>
+          </div>
+        </div>
+      </div>
       <app-make-offer-modal [product]="product" />
     </div>
 
