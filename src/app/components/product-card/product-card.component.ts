@@ -16,7 +16,7 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
-  constructor(private authService:AuthService ,private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
   wishList: any = []
@@ -32,11 +32,11 @@ export class ProductCardComponent {
 
   toggleWishlist(item: any) {
     const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
     let input = {
       user_id: this.currentUserId,
       product_id: item.id
@@ -61,8 +61,9 @@ export class ProductCardComponent {
     });
   }
   getUserWishListItem(item: any) {
-     // const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserId)
-    // return matched ? true : false
+    if (item) {
+      return item.user_id === this.currentUserId ? true : false
+    }
     return false
   }
 

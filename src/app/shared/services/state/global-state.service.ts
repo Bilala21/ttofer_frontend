@@ -34,7 +34,7 @@ export class GlobalStateService {
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,
     cartState: [],
-    offerModal:""
+    offerModal: ""
   };
   public filterCriteria: any = {
     location: []
@@ -53,31 +53,39 @@ export class GlobalStateService {
   }
 
   updateCart(data: any, isRemove = false) {
-    const currentState = this.stateSubject.value;
-    const existingItem = currentState.cartState.find((item) => item.id === data.id);
     let updatedCartState;
-    console.log(data, "cart state");
-    if (isRemove) {
-      updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
+    const currentState = this.stateSubject.value;
+    if (Array.isArray(data)) {
+      updatedCartState = data
     }
     else {
-      if (existingItem) {
-        updatedCartState = currentState.cartState.map((item) => {
-          if (item.id === data.id) {
-            return { ...item, quantity: data.quantity };
-          }
-          return item;
-        }).filter(item => item.quantity > 0);
+      const existingItem = currentState.cartState.find((item) => item.id === data.id);
+      // console.log(data, "cart state");
+      if (isRemove) {
+        updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
       }
       else {
-        const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
-        updatedCartState = [...currentState.cartState, productInfo];
+
+        if (existingItem) {
+          updatedCartState = currentState.cartState.map((item) => {
+            if (item.id === data.id) {
+              return { ...item, quantity: data.quantity };
+            }
+            return item;
+          }).filter(item => item.quantity > 0);
+        }
+        else {
+          // const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
+          updatedCartState = [...currentState.cartState, data];
+        }
+
       }
     }
     const newState: any = {
       ...currentState,
       cartState: updatedCartState,
     };
+
     localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
     this.stateSubject.next(newState);
   }
@@ -85,11 +93,11 @@ export class GlobalStateService {
 
 
 
-  setOfferModal(modal_type:string) {
+  setOfferModal(modal_type: string) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      offerModal:modal_type
+      offerModal: modal_type
     };
     this.stateSubject.next(newState);
   }

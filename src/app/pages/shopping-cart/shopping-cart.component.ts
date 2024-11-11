@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
+import { MainServicesService } from '../../shared/services/main-services.service';
 
 // interface CartItem {
 //   title: string;
@@ -43,10 +44,10 @@ export class ShoppingCartComponent implements OnInit {
     //   rating: 4.8,
     // }
   ];
-  constructor(private router: Router, private globalStateService: GlobalStateService) { }
+  constructor(private router: Router, private globalStateService: GlobalStateService, private mainSerive: MainServicesService) { }
   calculateTotal(): number {
     return this.cartItems.reduce((acc: any, item: any) => {
-      return acc + item.fix_price * item.quantity;
+      return acc + item.product.fix_price * item.qty;
     }, 0);
   }
 
@@ -59,6 +60,14 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   removeItem(item: any) {
+    this.mainSerive.removeCartItem({ product_id: item.id }).subscribe({
+      next: (value) => {
+
+      },
+      error: (err) => {
+
+      },
+    })
     this.globalStateService.updateCart(item, true)
   }
 
@@ -82,6 +91,7 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.globalStateService.currentState.subscribe((state) => {
+      console.log(state.cartState, 'state.cartState');
       this.cartItems = state.cartState
     })
 

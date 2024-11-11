@@ -142,9 +142,9 @@ export class RightSideComponent {
   }
   addToCart(product: any) {
     const storedData = localStorage.getItem('key');
+    
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
-
       this.authService.triggerOpenModal();
       return;
     }

@@ -22,9 +22,9 @@
             <div class="item-details w-100">
               <div class="item-header d-block d-md-flex justify-content-between">
                 <div class="d-flex">
-                  <img [src]="item.image" alt="Product Image" class="seller-image" />
+                  <img [src]="item.product.image_path.src" alt="Product Image" class="seller-image" />
                   <div>
-                    <span class="product-title d-block">{{ item.title }}</span>
+                    <span class="product-title d-block">{{ item.product.title }}</span>
                     <span class="text-yellow-800 d-block ">★★★★★</span>
                   </div>
                 </div>
@@ -49,10 +49,10 @@
                       (change)="getCheckboxValue(false)">
                   </span>
                   <div class="product-image position-relative z-0">
-                    <img [src]="item.image" alt="Product Image" class="w-100 h-100" />
+                    <img [src]="item.product.image_path.src" alt="Product Image" class="w-100 h-100" />
                     <div
                       class="text-white pr-2 pl-3 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center fs-10">
-                      {{ item.fix_price | currency : 'AED ' : 'symbol' : '1.2-2' }}
+                      {{ item.product.fix_price | currency : 'AED ' : 'symbol' : '1.2-2' }}
                       <!-- {{
                 formatPrice(
                   postData?.auction_price
@@ -67,7 +67,7 @@
                 <div class="d-flex align-items-center justify-content-end  flex-grow-1 mt-2 mt-md-0">
                   <span class="mr-5">
                     <span class="mr-1">Qty</span>
-                    <select [(ngModel)]="item.quantity" class="form-select ms-2">
+                    <select [(ngModel)]="item.qty" class="form-select ms-2">
                       <option *ngFor="let qty of quantities" [value]="qty" [selected]="qty===1">{{qty }}
                       </option>
                     </select>

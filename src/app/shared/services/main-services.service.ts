@@ -85,7 +85,7 @@ export class MainServicesService {
   makeOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
   }
-  getOffer(input:any){
+  getOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/get-offer', input).pipe();
   }
   getAllChatsOfUser(currentUserid: number) {
@@ -94,16 +94,16 @@ export class MainServicesService {
   getConversation(conversation_id: number) {
     return this.http.get(`${Constants.baseApi}` + '/get/conversation/' + conversation_id).pipe();
   }
-  deleteConversation(conversation_id:any){
+  deleteConversation(conversation_id: any) {
     return this.http.get(`${Constants.baseApi}` + '/delete/conversation/' + conversation_id).pipe();
 
   }
   sendMsg(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/send_msg', input).pipe();
   }
-  markMessagesAsRead(conversation_id:any) {
-    return this.http.get(`${Constants.baseApi}`+'/mark/conversation/read/' + conversation_id).pipe();
-}
+  markMessagesAsRead(conversation_id: any) {
+    return this.http.get(`${Constants.baseApi}` + '/mark/conversation/read/' + conversation_id).pipe();
+  }
   addProductFirstStep(input: FormData): Observable<any> {
     return this.http.post<any>(`${Constants.baseApi}` + '/add-product-first-step', input, {
       headers: this.getHeaders(),
@@ -215,8 +215,17 @@ export class MainServicesService {
   getProductById(data: any = {}): Observable<any> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/product-detail', data);
   }
-  storeProductView(data:any){
-    return this.http.post(`${Constants.baseApi}` + '/products/view',data );
+  storeProductView(data: any) {
+    return this.http.post(`${Constants.baseApi}` + '/products/view', data);
+  }
+  adToCartItem(data: any) {
+    return this.http.post('https://ttoffer.com/backend/public/api/cart/add', data);
+  }
+  getCartPorduct() {
+    return this.http.get('https://ttoffer.com/backend/public/api/cart');
+  }
+  removeCartItem(data: any) {
+    return this.http.post('https://ttoffer.com/backend/public/api/cart/remove', data);
   }
   // getProductById(url: string): Observable<any> {
   //   return this.http.get<any>(`${Constants.baseApi}/${url}`);

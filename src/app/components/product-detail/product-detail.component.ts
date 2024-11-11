@@ -148,6 +148,14 @@ export class ProductDetailComponent implements OnInit {
     }
   }
   addToCart(product: any) {
+    this.mainServices.adToCartItem({ product_id: product.id }).subscribe({
+      next: (res: any) => {
+        this.toastr.warning(res.message, 'success');
+      },
+      error: (err) => {
+
+      },
+    })
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -158,6 +166,7 @@ export class ProductDetailComponent implements OnInit {
     else {
       this.globalStateService.updateCart(product)
     }
+
   }
   handleProductQty(event: any, product: any) {
     this.globalStateService.updateCart({ ...product, quantity: event.value })

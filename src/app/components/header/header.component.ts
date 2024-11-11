@@ -10,11 +10,12 @@ import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule,FormsModule],
+  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -33,19 +34,21 @@ export class HeaderNavigationComponent implements OnInit {
   cartItems: any = [];
   notificationList: any = [];
   unReadNotification: any = 0;
-  searchTerm:any
+  searchTerm: any
+  currentUserid: any = null
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
     private authService: AuthService,
     private router: Router, private toastr: ToastrService,
-
+    public extension: Extension,
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
       this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
     })
+    this.currentUserid = extension.getUserId();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -83,8 +86,8 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.signOut();
       this.loading = false;
       this.currentUser = ""
-      this.notificationList= [];
-      this.unReadNotification= 0;
+      this.notificationList = [];
+      this.unReadNotification = 0;
       this.router.navigate(['']).then(() => {
         this.toastr.success('Logged out successfully', 'Success');
       });
@@ -101,6 +104,95 @@ export class HeaderNavigationComponent implements OnInit {
     return this.cartItems.reduce((acc: any, item: any) => {
       return acc + item.fix_price * item.quantity;
     }, 0);
+  }
+
+  openChat() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      const userData = JSON.parse(storedData);
+      const userId = userData?.id;
+      if (userId) {
+        this.router.navigate([`/chatBox/${userId}`]);
+      }
+    }
+  }
+  savedItems() {
+    localStorage.setItem('currentTab', "savedItems");
+    this.router.navigate(['/profilePage', `${this.currentUser.id}`])
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
+  }
+  openSelling() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      const userData = JSON.parse(storedData);
+      const userId = userData?.id;
+      if (userId) {
+        this.router.navigate([`/selling/${userId}`]);
+      }
+    }
+  }
+  cart() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.mainServicesService.getCartPorduct().subscribe({
+        next: (value: any) => {
+          this.globalStateService.updateCart(value.data)
+          console.log(value);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      })
+      this.router.navigate(['/cart'])
+    }
+  }
+  goOnNotification() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      localStorage.setItem('currentTab', "notification");
+      this.router.navigate(['/profilePage', `${this.currentUser.id}`])
+    }
+  }
+  getNotification() {
+    this.loading = true;
+    this.mainServicesService
+      .getNotification(this.currentUser?.id)
+      .subscribe((res: any) => {
+        this.notificationList = res.data
+        this.notificationList = res.data.sort((a: any, b: any) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        });
+        this.unReadNotification = this.notificationList.filter((item: any) => item.status == "unread")
+        this.loading = false;
+      });
+  }
+  navigateToSearch(): void {
+    this.router.navigate(['post/post-category'], {
+      queryParams: { name: 'featured', search: this.searchTerm }
+    });
   }
   ngOnInit(): void {
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
@@ -133,87 +225,10 @@ export class HeaderNavigationComponent implements OnInit {
 
     })
     if (this.currentUser?.id) {
-      this.getNotification() 
+      this.getNotification()
     }
-  }
-
-  openChat() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      const userData = JSON.parse(storedData);
-      const userId = userData?.id;
-      if (userId) {
-        this.router.navigate([`/chatBox/${userId}`]);
-      }
+    if (this.currentUserid) {
+      this.cart()
     }
-  }
-  savedItems(){
-    localStorage.setItem('currentTab',"savedItems");
-    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    }
-  }
-  openSelling() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      const userData = JSON.parse(storedData);
-      const userId = userData?.id;
-      if (userId) {
-        this.router.navigate([`/selling/${userId}`]);
-      }
-    }
-  }
-cart(){
-  const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }else{
-    this.router.navigate(['/cart'])
-  }
-}
-goOnNotification(){
-  const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }else{
-    localStorage.setItem('currentTab',"notification");
-    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
-  }  
-  }
-  getNotification() {
-    this.loading = true;
-    this.mainServicesService
-      .getNotification(this.currentUser?.id)
-      .subscribe((res: any) => {
-        this.notificationList = res.data
-        this.notificationList = res.data.sort((a: any, b: any) => {
-          return (
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-          );
-        });
-        this.unReadNotification = this.notificationList.filter((item:any )=>item.status == "unread")
-        this.loading = false;
-      });
-  }
-  navigateToSearch(): void {
-    this.router.navigate(['post/post-category'], {
-      queryParams: { name: 'featured', search: this.searchTerm }
-    });
   }
 }
