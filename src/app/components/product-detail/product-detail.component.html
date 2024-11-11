@@ -4,8 +4,8 @@
       <app-card-shimmer />
     </div>
     <div *ngIf="!loading">
-      <div class="product-detail-content d-flex flex-column flex-lg-row mt-5">
-        <div class="left-side flex-grow-1 w-100 pr-lg-4">
+      <div class="product-detail-content d-flex flex-lg-row mt-5">
+        <div class="left-side flex-grow-1 w-100">
           <p-galleria [thumbnailsPosition]="'left'" [numVisible]="5" [changeItemOnIndicatorHover]="true"
           [value]="product.photo" [showItemNavigators]="true" [showThumbnailNavigators]="true"
            [responsiveOptions]="responsiveOptions" [circular]="false">
@@ -17,71 +17,7 @@
              <img [src]="item.src" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
            </ng-template>
          </p-galleria>
-          <!-- <div class="d-flex flex-column flex-lg-row">
-            <div class="mr-2 order-2 order-lg-1 d-flex flex-lg-column justify-content-lg-start justify-content-around">
-              @for (item of product.photo; track $index) {
-              <div class="img-gallery rounded-2 mb-2 mx-2 mx-lg-0 overflow-hidden mt-2 mt-lg-0 d-flex align-items-center justify-content-center cursor-pointer {{
-                $index == imgIndex ? 'border-2' : ''
-              }}" (mouseover)="imgIndex = $index">
-                <img src="{{ item.src }}" alt="{{ product.title }}" loading="lazy" class="img-fluid h-100" />
-              </div>
-              }
-            </div>
-            <div
-              class="d-flex {{product.photo?.length > 1 ?'justify-content-between':'justify-content-center'}} position-relative align-items-center px-4 py-2 flex-grow-1 d-flex px-4 py-2 img-slider rounded-2 order-1 order-lg-2 position-relative z-0">
-              <div class="butons-scws position-absolute d-flex align-content-center">
-                <button aria-label="Add to Wishlist"
-                  class="btn shadow bg-white rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none">
-                  <svg aria-hidden="true" focusable="false" class="icon ux-expand-icon" viewBox="0 0 22 22">
-                    <path d="M1 13L1 21.25" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
-                    <path d="M9.25 21.25H1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
-                    <path d="M9.00195 13.25L1.00195 21.25" stroke="black" stroke-width="1.5" stroke-linecap="round">
-                    </path>
-                    <path d="M21.25 9.25L21.25 1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
-                    <path d="M13 1L21.25 1" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
-                    <path d="M13.248 9.00195L21.248 1.00195" stroke="black" stroke-width="1.5" stroke-linecap="round">
-                    </path>
-                  </svg>
-                </button>
-
-                <button aria-label="Add to Wishlist"
-                  class="btn rounded-pill hadow bg-white icon-btn d-flex align-items-center justify-content-center hover-bg-none">
-                  <span class="pr-2">12</span>
-                  <i aria-hidden="true" class="fa-heart far fs-19"></i></button>
-              </div>
-              <button *ngIf="product.photo?.length > 1" type="button" class="rounded-pill icon-btn p-0 border-0 shadow {{
-                  imgIndex === 0 ? 'bg-transparent' : ''
-                }}" (click)="imgIndex = imgIndex - 1" [disabled]="imgIndex == 0">
-                <svg stroke="currentColor" fill="currentColor" stroke-width="1" class="fs-18" version="1.1"
-                  viewBox="0 0 17 17" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                  <g></g>
-                  <path d="M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z">
-                  </path>
-                </svg>
-              </button>
-              <div class="mx-5 position-relative img-container">
-                <img src="{{product.photo?.[imgIndex]?.src}}" alt="{{ product.title }}" loading="lazy"
-                  class="img-fluid" />
-                <div
-                  class="text-white pl-3 pr-2 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center z-1">
-                  AED 1,800.00
-                </div>
-              </div>
-              <button *ngIf="product.photo?.length > 1" type="button" class="rounded-pill icon-btn p-0 border-0 shadow {{
-                  product.photo?.length - 1 == imgIndex ? 'bg-transparent' : ''
-                }}" (click)="imgIndex = imgIndex + 1" [disabled]="product.photo.length - 1 == imgIndex">
-                <svg stroke="currentColor" fill="currentColor" stroke-width="1" class="fs-18" version="1.1"
-                  viewBox="0 0 17 17" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                  <g></g>
-                  <path d="M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div> -->
-
-
-          <!-- similar products -->
+                   <!-- similar products -->
           <hr class="mt-5 mb-5">
           <div class="similar-product-container pr-5 xs-px-0">
             <div class="fw-semibold fs-24">Similar Items</div>
@@ -118,7 +54,7 @@
         </div>
 
         <!-- right-side -->
-        <div class="right-side ml-lg-2">
+        <div class="right-side">
 
           <h1 class="fs-22 fw-bold">
             {{ product.title }}
