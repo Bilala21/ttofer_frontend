@@ -24,7 +24,7 @@ export class PostCategoryComponent implements OnInit {
   promotionBanners: any = [];
   activeTab: any = "auction";
 
-
+  hasSearchParam: boolean = false
 
 
   handleTab(tab: string) {
@@ -61,6 +61,7 @@ export class PostCategoryComponent implements OnInit {
     this.handleTab(this.activeTab)
     this.route.queryParams.subscribe((params) => {
       const tabName = params['name'] || this.activeTab; 
+      this.hasSearchParam = !!params['search'];
       this.handleTab(tabName);
     });
     this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
@@ -74,7 +75,9 @@ export class PostCategoryComponent implements OnInit {
     this.loading = false
     },2000)
   }
-
+  getBannerSliceCount(): number {
+    return this.hasSearchParam ? 0 : 2;
+  }
   getBanners(){
     this.mainServices.getBanners().subscribe({
       next:(res)=>{
