@@ -44,6 +44,9 @@ $tt-offer-theme: mat.define-theme((color: (theme-type: light,
 .product-detail-container{
   padding-top: 10px;
 }
+.load-more-btn{
+  border:2px solid black;
+}
 
 @media (width < 1030px) {
   .sm-xl-font {
