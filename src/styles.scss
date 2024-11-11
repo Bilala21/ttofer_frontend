@@ -1188,54 +1188,9 @@ button[aria-label="Close"]:focus {
     row-gap: 10px;
   }
 
-}
-
-.max-w-100 {
-  max-width: 100%;
-}
-
-.p-galleria-thumbnail-prev {
-  top: 16px;
-  z-index: 9;
-  width: 40px !important;
-  height: 40px !important;
-
-  &:hover {
-    background: #fff !important;
+  .product-card {
+    .card-top {
+      height: 130px;
+    }
   }
-}
-
-.p-galleria-thumbnail-next {
-  top: -16px;
-  z-index: 9;
-  width: 40px !important;
-  height: 40px !important;
-
-  &:hover {
-    background: #fff !important;
-  }
-}
-
-.p-galleria-thumbnail-prev::before,
-.p-galleria-thumbnail-next::before {
-  content: "\2039";
-  position: absolute;
-  display: block;
-  font-size: 34px;
-}
-
-.p-galleria-thumbnail-prev::before {
-  top: 50%;
-  left: 50%;
-  transform: translate(-35%, -50%) rotate(90deg);
-}
-
-.p-galleria-thumbnail-next::before {
-  top: 50%;
-  left: 50%;
-  transform: translate(-65%, -45%) rotate(-90deg);
-}
-
-.p-galleria-thumbnails-left .p-galleria-thumbnail-items {
-  height: auto;
 }
