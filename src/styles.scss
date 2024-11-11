@@ -1141,9 +1141,10 @@ button[aria-label="Close"]:focus {
   button {
     border-radius: 50%;
     border: none;
-    height: 48px;
-    width: 48px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    height: 45px;
+    width: 45px;
+    // box-shadow: 0 0px 12px rgba(0, 0, 0, 0.186);
+    border: 1px solid #9a9a9a68;
     background: #fff;
 
     svg {
@@ -1161,10 +1162,10 @@ button[aria-label="Close"]:focus {
   }
 
   .p-galleria-thumbnail-items-container {
-    height: 500px !important;
+    // height: 500px !important;
 
     .p-galleria-thumbnail-item {
-      flex: none !important;
+      // flex: none !important;
 
       .p-galleria-thumbnail-item-content {
         min-width: 92px;
@@ -1177,7 +1178,7 @@ button[aria-label="Close"]:focus {
         img {
           object-fit: contain;
           display: inline-block;
-          // border-radius: 20px;
+          // border-radius: 20px;.p-galleria-thumbnail-items-container
         }
       }
 
@@ -1213,7 +1214,8 @@ button[aria-label="Close"]:focus {
 
   .p-galleria-content p-galleriaitem .p-galleria-item-container .p-galleria-item {
     max-width: 100%;
-    img{
+
+    img {
       max-width: 100%;
     }
   }
@@ -1226,5 +1228,23 @@ button[aria-label="Close"]:focus {
       height: 15px;
       width: 15px;
     }
+  }
+
+  .p-galleria-thumbnail-container {
+    justify-content: center;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .p-element.p-galleria-thumbnail-prev::before,
+  .p-element.p-galleria-thumbnail-next::before {
+    content: '';
+    display: block;
+    width: 20px; 
+    height: 20px; 
+    background-image: url('/assets/images/icons/angleDown.svg'); 
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
