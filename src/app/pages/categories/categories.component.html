@@ -44,7 +44,7 @@
 
           <p class="no-data-found">No Data Found</p>
           }@else { @for (post of data; track $index) {
-          <div class="product-card">
+          <div class="col-lg-3 px-2">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>
           } }

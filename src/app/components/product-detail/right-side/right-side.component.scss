@@ -1,0 +1,127 @@
+.right-side {
+    max-width: 508px;
+    min-width: 508px;
+    padding-left: 30px;
+  
+    .p-galleria-item-container {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  
+  .icon-btn {
+    height: 50px;
+    min-width: 50px;
+    background: #fff;
+  
+    &:focus-within {
+      outline: none;
+    }
+  
+    &:hover {
+      background: transparent;
+    }
+  }
+  
+  
+  .img-slider {
+    min-height: 450px;
+    max-height: 450px;
+  }
+  
+  .img-container {
+    max-height: 450px;
+  }
+  .qty-input {
+    height: 50px;
+    width: 80px;
+    background: #f2f2f2;
+  }
+  
+  .buttons {
+    button {
+      padding: 12px;
+      border-color: #ffc107;
+  
+      &:hover {
+        background: #f2f2f2;
+      }
+    }
+  
+    .buy-btn:hover {
+      background: #ffc107ef;
+  
+    }
+  }
+  
+  .user-img {
+    height: 45px;
+    width: 45px;
+  }
+  
+  .product-detail-section {
+    .sim-box {
+      height: 218px;
+    }
+  
+    .colored-box-container {
+      column-gap: 20px;
+    }
+  }
+  
+  .similar-product-container {
+    .wishlist {
+      height: 35px;
+      min-width: 35px;
+      top: 10px;
+      right: 10px;
+    }
+  }
+  
+  .bolt-icon {
+    min-width: 40px;
+    height: 40px;
+  }
+  
+  .mt-10 {
+    margin-top: 150px;
+  }
+  
+  
+  @media (max-width: 1140px) {
+    .right-side {
+      max-width: 100%;
+      min-width: 50%;
+    }
+  }
+  @media (max-width: 768px) {
+    .right-side {
+        padding-top: 30px;
+        padding-left: 0;
+    }
+  }
+  @media (max-width: 992px) {
+    .right-side {
+      max-width: 100%;
+      min-width: 45%;
+    }
+  }
+  
+  .card {
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  
+  @media (max-width:576px) {
+    .sm-products {
+      column-gap: 4%;
+      row-gap: 30px;
+  
+      .col-6 {
+        flex: 0 0 48%;
+        max-width: 48%;
+      }
+    }
+  }
+  
