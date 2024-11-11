@@ -1,23 +1,6 @@
 <main class="mt-16 chat-container pt-2">
-  <div class="tabs-container">
-    <div
-      class="tab"
-      [ngClass]="{ active: selectedTab === 'buying' }"
-      (click)="selectTab('buying')"
-    >
-      Buying
-    </div>
-    <div
-      class="tab"
-      [ngClass]="{ active: selectedTab === 'selling' }"
-      (click)="selectTab('selling')"
-    >
-      Selling
-    </div>
-  </div>
-
   <div class="container-fluid">
-    <div class="d-flex">
+    <div class="d-flex pt-4">
       <div class="chat left-side border-r mr-4">
         <div
           class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3"
@@ -27,12 +10,12 @@
           </div>
         </div>
         <div class="message-content pl-2 pr-1">
-          <div class="input-search rounded-2 py-1 px-3 mb-3">
+          <div class="input-search rounded-2 py-1 px-3 mb-3 d-flex align-items-center">
             <i class="fa fa-search mr-2"></i>
             <input
               type="text"
               placeholder="Search..."
-              class="border-0 bg-transparent py-2"
+              class="border-0 bg-transparent py-2 flex-grow-1"
               (input)="onSearch($event.target)"
             />
           </div>
@@ -119,6 +102,22 @@
         </div>
       </div>
       <div class="chat right-side flex-grow-1">
+        <div class="tabs-container">
+          <div
+            class="tab"
+            [ngClass]="{ active: selectedTab === 'buying' }"
+            (click)="selectTab('buying')"
+          >
+            Buying
+          </div>
+          <div
+            class="tab"
+            [ngClass]="{ active: selectedTab === 'selling' }"
+            (click)="selectTab('selling')"
+          >
+            Selling
+          </div>
+        </div>
         <div
           *ngIf="conversationBox.length === 0 && !selectedUser"
           class="text-center p-5"
