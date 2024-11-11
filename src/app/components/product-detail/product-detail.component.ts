@@ -67,6 +67,7 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 4
     }
   ];
+  isFullScreen = false
 
 
   ngOnInit(): void {
@@ -234,5 +235,8 @@ export class ProductDetailComponent implements OnInit {
     this.screenWidth = event.target.innerWidth;
     this.screenHeight = event.target.innerHeight;
     console.log(this.screenWidth);
+  }
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
   }
 }

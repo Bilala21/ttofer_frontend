@@ -41,6 +41,9 @@ $tt-offer-theme: mat.define-theme((color: (theme-type: light,
 // *{
 //   border: 1px solid red;
 // }
+.product-detail-container{
+  padding-top: 10px;
+}
 
 @media (width < 1030px) {
   .sm-xl-font {
@@ -973,6 +976,9 @@ button[aria-label="Close"]:focus {
 
 /* Adjust height for mobile screens */
 @media (max-width: 576px) {
+  .product-detail-container{
+    padding-top: 0px;
+  }
   .img-wrapper {
     height: var(--mobile-img-height, 150px);
     /* Custom height for mobile */
