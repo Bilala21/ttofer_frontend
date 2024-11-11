@@ -1,6 +1,7 @@
 .right-side {
   max-width: 508px;
   min-width: 508px;
+  padding-left: 30px;
 
   .p-galleria-item-container {
     margin-left: auto;
@@ -86,9 +87,11 @@
   margin-top: 150px;
 }
 
-@media (max-width: 1024px) {
+
+@media (max-width: 1140px) {
   .right-side {
     max-width: 100%;
+    min-width: 50%;
   }
 }
 
