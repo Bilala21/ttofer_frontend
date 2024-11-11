@@ -1,28 +1,21 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
-import { MainServicesService } from '../../shared/services/main-services.service';
+import { ChangeDetectorRef, Component, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../shared/services/authentication/Auth.service';
-import { Extension } from '../../helper/common/extension/extension';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgIf } from '@angular/common';
-import { GlobalStateService } from '../../shared/services/state/global-state.service';
+import { GlobalStateService } from '../../../shared/services/state/global-state.service';
+import { AuthService } from '../../../shared/services/authentication/Auth.service';
+import { Extension } from '../../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { MakeOfferModalComponent } from '../modals/make-offer-modal/make-offer-modal.component';
-import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
-import { GalleriaModule } from 'primeng/galleria';
-import { RightSideComponent } from './right-side/right-side.component';
-
+import { MainServicesService } from '../../../shared/services/main-services.service';
+import { MakeOfferModalComponent } from '../../modals/make-offer-modal/make-offer-modal.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-product-detail',
+  selector: 'app-right-side',
   standalone: true,
-  imports: [RightSideComponent, RouterLink, GalleriaModule, SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent, NgIf, CardShimmerComponent],
-  templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss'
+  imports: [RouterLink,NgIf],
+  templateUrl: './right-side.component.html',
+  styleUrl: './right-side.component.scss'
 })
-export class ProductDetailComponent implements OnInit {
+export class RightSideComponent {
   screenWidth: number;
   screenHeight: number;
   constructor(private cdRef: ChangeDetectorRef, private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
