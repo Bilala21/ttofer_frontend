@@ -514,19 +514,13 @@
 
       <!-- tabs-screen -->
       <!-- Purchases & Sales -->
-      <div *ngIf="selectedTab === 'purchasesSales'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-7 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-2 d-flex justify-content-end">
-                <i class="fas fa-shopping-cart title-icon"></i>
-              </div>
-              <div class="col-10 pl-0">
-                <h3 class="right-side-top-title">Purchases & Sales</h3>
-              </div>
+      <div *ngIf="selectedTab === 'purchasesSales'" class="col-md-7">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-shopping-cart title-icon mr-2"></i>
+                <h3 class="right-side-top-title"> 
+                  Purchases & Sales
+                </h3>
             </div>
-          </div>
-        </div>
         <hr />
         <!-- tabs-start -->
         <div class="row">
@@ -903,22 +897,14 @@
         </div>
       </div>
       <!-- paymentDeposit -->
-      <div *ngIf="selectedTab === 'paymentDeposit'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-2 d-flex justify-content-end">
-                <i class="fas fa-credit-card title-icon"></i>
-              </div>
-              <div class="col-10 pl-0">
+      <div *ngIf="selectedTab === 'paymentDeposit'" class="col-md-7">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-credit-card title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Payment & Deposit method</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row">
-          <div class="col-md-10 mx-auto">
+          <div class="col-md-11 mx-auto">
             <div
               class="btn-group w-100"
               role="group"
@@ -950,18 +936,10 @@
               </button>
             </div>
           </div>
-          <div class="col-md-10 mx-auto mt-5" *ngIf="activeButtonPayment ===1">
-            <div class="row">
-              <div class="col-6 text-center mx-auto">
-                <!-- <h6 class="sm-cat-text3">Total Balance</h6>
-                    <h4>AED 5000</h4> -->
-              </div>
-              <div class="col-12">
+
+          <div class="col-md-10 mx-auto mt-3" *ngIf="activeButtonPayment ===1">
                 <div class="row justify-content-between">
-                  <div class="col-2">
                     <h6 style="font-size: 14px" class="sm-cat-text4">Cards</h6>
-                  </div>
-                  <div class="col-5" style="text-align: end">
                     <h6
                       class="sm-cat-text4"
                       (click)="openNewCardModal()"
@@ -969,7 +947,7 @@
                     >
                       Add new card
                     </h6>
-                  </div>
+                 
                 </div>
                 <div
                   class="row justify-content-between align-items-center mt-3"
@@ -1032,9 +1010,8 @@
                     <hr />
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
+
           <div class="col-10 mx-auto mt-5" *ngIf="activeButtonPayment === 2">
             <div class="row">
               <div class="col-md-8 mx-auto mt-5 text-center">
@@ -1044,25 +1021,17 @@
                   >When you have shipping purchase or sale, You’ll see it
                   here</span
                 >
-              </div>
+            </div>
             </div>
           </div>
         </div>
       </div>
       <!-- savedItems -->
       <div *ngIf="selectedTab === 'savedItems'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-7 text-center mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-heart title-icon"></i>
-              </div>
-              <div class="col-6 col-md-8 col-5 pl-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-heart title-icon mr-2"></i>
                 <h3 class="right-side-top-title text-left">Saved Items</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <!-- content -->
         <div class="mt-5">
@@ -1162,18 +1131,10 @@
       </div>
       <!-- notification -->
       <div *ngIf="selectedTab === 'notification'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-bell title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-bell title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Notifications</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="mt-md-5">
           <div *ngIf="notificationList.length == 0">
@@ -1328,18 +1289,10 @@
       </div>
       <!-- editPost -->
       <div *ngIf="selectedTab === 'editPost'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-edit title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-edit title-icon mr-2"></i>
                 <h3 class="right-side-top-title mt-1">Edit Post</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
 
         <div class="row">
@@ -1839,18 +1792,10 @@
       </div>
       <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-plus-circle title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-plus-circle title-icon mr-2"></i>
                 <h3 class="right-side-top-title mt-1">Add Post</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row">
           <div class="col-12 mx-auto">
@@ -2368,22 +2313,10 @@
       </div>
       <!-- accountSetting -->
       <div *ngIf="selectedTab === 'accountSetting'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <!-- <div class="col-2">
-                <i class="fas fa-cog fa-2x"></i>
-                Settings icon
-               </div> -->
-              <div class="col-2 col-md-5 d-flex justify-content-end">
-                <i class="fas fas fa-cog title-icon"></i>
-              </div>
-              <div class="col-10 col-md-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fas fa-cog title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Account Setting</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row margin-top-class">
           <div
@@ -2477,17 +2410,9 @@
         *ngIf="selectedTab === 'boostPlus' && !showDiv"
         class="col-xl-7 col-md-7"
       >
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-rocket title-icon"></i>
-              </div>
-              <div class="col-6 col-md-6 m-0 p-0">
-                <h3 class="right-side-top-title">Boost Plus</h3>
-              </div>
-            </div>
-          </div>
+         <div class="row align-items-center justify-content-center margin-top-right-side-class">
+            <i class="fas fa-rocket title-icon"></i>
+              <h3 class="right-side-top-title">Boost Plus</h3>
         </div>
         <hr />
         <div class="row">
@@ -2551,17 +2476,9 @@
       </div>
       <!-- customLinks -->
       <div *ngIf="selectedTab === 'customLinks'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-link title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-link title-icon mr-2"></i>
                 <h1 class="right-side-top-title">Custom Link</h1>
-              </div>
-            </div>
-          </div>
         </div>
         <hr />
         <div class="row">
@@ -2587,15 +2504,9 @@
       </div>
       <!-- helpCenter -->
       <div *ngIf="selectedTab === 'helpCenter'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-12 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-question title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-question title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Help Center</h3>
-              </div>
             </div>
             <hr />
             <div class="row">
@@ -2614,8 +2525,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
       <!-- showDiv  -->
       <div *ngIf="showDiv" class="col-xl-7 col-md-7">
@@ -2745,8 +2654,6 @@
     <!-- </div> -->
     <!-- </div> -->
   </div>
-
-  <!-- <app-footer></app-footer> -->
 
   <div
     class="modal fade"
