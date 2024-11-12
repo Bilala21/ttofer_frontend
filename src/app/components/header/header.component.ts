@@ -9,11 +9,12 @@ import { LoginModalComponent } from "../../pages/login-modal/login-modal.compone
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule],
+  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule,FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -32,7 +33,7 @@ export class HeaderNavigationComponent implements OnInit {
   cartItems: any = [];
   notificationList: any = [];
   unReadNotification: any = 0;
-
+  searchTerm:any
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -209,5 +210,10 @@ goOnNotification(){
         this.unReadNotification = this.notificationList.filter((item:any )=>item.status == "unread")
         this.loading = false;
       });
+  }
+  navigateToSearch(): void {
+    this.router.navigate(['post/post-category'], {
+      queryParams: { name: 'featured', search: this.searchTerm }
+    });
   }
 }
