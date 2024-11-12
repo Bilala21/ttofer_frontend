@@ -8,7 +8,7 @@
             <p>Factory New, Fedex 2Day, 30 Day Return - MobileWorldNY</p>
   
             <div class="d-flex align-items-center border-b border-t py-2">
-              <a routerLink="/" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
+              <a [routerLink]="['/review', product.user_id]" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
                 <img [src]="
                   product?.user?.img
                     ? product?.user?.img
@@ -21,7 +21,7 @@
                   <div class="fw-normal">
                     <span class="text-yellow-800 d-block">★★★★★</span>
                     <a
-                      [routerLink]="['/userProfile', product.user_id]"
+                      
                       class="text-dark text-decoration-underline mr-2"
                       >Seller's other itmes</a
                     >
