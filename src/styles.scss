@@ -1027,10 +1027,6 @@ button[aria-label="Close"]:focus {
 .auction-product-container {
   .main-image-container {
     padding-top: 20px;
-
-    // img {
-    //   object-fit: contain !important;
-    // }
   }
 }
 
@@ -1038,11 +1034,6 @@ button[aria-label="Close"]:focus {
   .main-image-container {
     padding-top: 20px;
     text-align: center;
-
-    // img {
-    //   object-fit: contain !important;
-    //   width: auto !important;
-    // }
   }
 }
 
@@ -1237,14 +1228,28 @@ button[aria-label="Close"]:focus {
 
 
 @media (min-width: 768px) {
+
   .p-element.p-galleria-thumbnail-prev::before,
   .p-element.p-galleria-thumbnail-next::before {
     content: '';
     display: block;
-    width: 20px; 
-    height: 20px; 
-    background-image: url('/assets/images/icons/angleDown.svg'); 
+    width: 20px;
+    height: 20px;
+    background-image: url('/assets/images/icons/angleDown.svg');
     background-size: contain;
     background-repeat: no-repeat;
   }
+}
+
+.p-galleria-thumbnail-wrapper button {
+  opacity: 0;
+  transition: all 300ms ease-in-out;
+}
+
+.p-galleria-thumbnail-wrapper:hover button {
+  opacity: 1;
+}
+
+.p-galleria-thumbnail-prev {
+  transform: rotate(180deg);
 }

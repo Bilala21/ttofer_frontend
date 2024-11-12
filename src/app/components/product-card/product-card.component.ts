@@ -24,6 +24,7 @@ export class ProductCardComponent {
   getYear(date: string) {
     return new Date(date).getFullYear();
   }
+
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
 
@@ -46,6 +47,7 @@ export class ProductCardComponent {
   }
 
   toggleWishlist(item: any) {
+    console.log(item, "item");
     if (!this.currentUserId) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
@@ -60,13 +62,11 @@ export class ProductCardComponent {
       next: (res: any) => {
         if (res.success) {
           this.globalStateService.currentState.subscribe((state) => {
-            console.log(state);
             if (state.isFilterActive) {
-              this.wishlistWithProductType(state.auctionProducts, item)
-              console.log(state.filteredProducts);
+              this.wishlistWithProductType(state.filteredProducts, item)
             }
             else if (item.ProductType == 'auction') {
-              this.wishlistWithProductType(state.filteredProducts, item)
+              this.wishlistWithProductType(state.auctionProducts, item)
             }
             else {
               this.wishlistWithProductType(state.featuredProducts, item)
@@ -81,12 +81,11 @@ export class ProductCardComponent {
       }
     });
   }
+
   getUserWishListItem(item: any) {
     if (item) {
       return item.user_id === this.currentUserId ? true : false
     }
     return false
   }
-
-
 }

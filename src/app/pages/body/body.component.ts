@@ -51,6 +51,7 @@ export class BodyComponent implements OnDestroy {
         this.featuredPosts = response.featureProduct.data.data;
         this.globalStateService.setAuctionProducts(response.auctionProduct.data.data)
         this.globalStateService.setFeaturedProducts(response.featureProduct.data.data)
+        this.globalStateService.isFilterActive(false)
         this.loading = false
       },
       error: (err) => {
