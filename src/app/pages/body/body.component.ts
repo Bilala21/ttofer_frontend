@@ -49,12 +49,10 @@ export class BodyComponent implements OnDestroy {
       next: (response) => {
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
-        console.log( this.featuredPosts);
-
-      // this.globalStateService.setFilteredProducts()
-      // this.startCountdowns();
-      this.loading = false
-    },
+        this.globalStateService.setAuctionProducts(response.auctionProduct.data.data)
+        this.globalStateService.setFeaturedProducts(response.featureProduct.data.data)
+        this.loading = false
+      },
       error: (err) => {
         console.error('Error occurred while fetching data', err);
         this.loading = false
@@ -64,36 +62,36 @@ export class BodyComponent implements OnDestroy {
 
   }
 
-getBanners(){
-  this.mainServices.getBanners().subscribe({
-    next: (res) => {
-      this.promotionBanners = res.data.map((item: any) => {
-        return {
-          banner: item?.img
-        }
-      })
-    },
-    error: (error) => {
-      console.error('Error occurred while fetching data', error);
-    }
-  })
-}
-startCountdowns() {
-  this.auctionPosts.forEach((item: any) => {
-    const datePart = item.ending_date.split('T')[0];
-    const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
+  getBanners() {
+    this.mainServices.getBanners().subscribe({
+      next: (res) => {
+        this.promotionBanners = res.data.map((item: any) => {
+          return {
+            banner: item?.img
+          }
+        })
+      },
+      error: (error) => {
+        console.error('Error occurred while fetching data', error);
+      }
+    })
+  }
+  startCountdowns() {
+    this.auctionPosts.forEach((item: any) => {
+      const datePart = item.ending_date.split('T')[0];
+      const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
 
-    const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-      item.calculateRemaningTime = remainingTime;
-      item.isBid = remainingTime !== 'Bid Expired';
-      this.cdr.detectChanges();
+      const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
+        item.calculateRemaningTime = remainingTime;
+        item.isBid = remainingTime !== 'Bid Expired';
+        this.cdr.detectChanges();
+      });
+
+      this.countdownSubscriptions.push(subscription);
     });
+  }
 
-    this.countdownSubscriptions.push(subscription);
-  });
-}
-
-ngOnDestroy(): void {
-  this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
-}
+  ngOnDestroy(): void {
+    this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 }

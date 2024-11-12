@@ -4,17 +4,20 @@ import { BehaviorSubject } from 'rxjs';
 interface AppState {
   tab: { index: number; tabName: string };
   prodTab: { key: string; value: string };
-  users: any[]; // You might want to define a specific user type here
+  users: any[];
   categories: any[];
   subCategories: any[];
   filteredProducts: any[];
+  auctionProducts: any[];
+  featuredProducts: any[];
   isLoggedInd: boolean;
-  wishListItems: number[]; // Assuming wishlist items are identified by their IDs
+  wishListItems: number[];
   currentUser: any,
   temp_token: any
   isLoggedIn: boolean,
   cartState: any[],
-  offerModal: string
+  offerModal: string,
+  isFilterActive: boolean
 }
 
 @Injectable({
@@ -34,7 +37,10 @@ export class GlobalStateService {
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,
     cartState: [],
-    offerModal: ""
+    offerModal: "",
+    auctionProducts: [],
+    featuredProducts: [],
+    isFilterActive: false
   };
   public filterCriteria: any = {
     location: []
@@ -90,7 +96,14 @@ export class GlobalStateService {
     this.stateSubject.next(newState);
   }
 
-
+  isFilterActive(value: boolean) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      isFilterActive: value
+    };
+    this.stateSubject.next(newState);
+  }
 
 
   setOfferModal(modal_type: string) {
@@ -138,6 +151,23 @@ export class GlobalStateService {
     const newState = {
       ...currentState,
       filteredProducts: data
+    };
+    this.stateSubject.next(newState);
+  }
+
+  setFeaturedProducts(data: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      featuredProducts: data
+    };
+    this.stateSubject.next(newState);
+  }
+  setAuctionProducts(data: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      auctionProducts: data
     };
     this.stateSubject.next(newState);
   }

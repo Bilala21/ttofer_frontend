@@ -35,11 +35,11 @@ export class AppFiltersComponent implements OnInit {
   filter_fields: any = {
     "mobiles": {
       "seller_types": ["Verified", "Unverified"],
-      "conditions": ["All", "New", "Used","Refurbished"],
+      "conditions": ["All", "New", "Used", "Refurbished"],
     },
     "electronics & appliance": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Any","Refurbished", "New","Used"],
+      "conditions": ["Any", "Refurbished", "New", "Used"],
     },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
@@ -51,7 +51,7 @@ export class AppFiltersComponent implements OnInit {
     "property for rent": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Furnished", "Unfurnished"],
-      "rent_is_paid": ["Yearly","Monthly", "Quarterly", "Bi-Yearly"],
+      "rent_is_paid": ["Yearly", "Monthly", "Quarterly", "Bi-Yearly"],
       "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
@@ -79,11 +79,11 @@ export class AppFiltersComponent implements OnInit {
     },
     "fashion & beauty": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All","New","Used"],
+      "conditions": ["All", "New", "Used"],
     },
     "kids": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All","new","Used"],
+      "conditions": ["All", "new", "Used"],
     },
     "delivery": ["Local Delivery", "Pick Up", "Shipping"]
   };
@@ -140,7 +140,7 @@ export class AppFiltersComponent implements OnInit {
   fetchSubCategories() {
     if (this.id) {
       this.mainServicesService.getSubCategories(this.id).subscribe({
-        next: (res:any) => {
+        next: (res: any) => {
           this.subCategories = res?.data;
         },
         error: (err) => {
@@ -154,10 +154,10 @@ export class AppFiltersComponent implements OnInit {
     const modifiedFilter = { ...this.filterCriteria, location: this.filterCriteria.location.join(',') };
     this.mainServicesService.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
-        // Check if 'res' and 'res.data' are not null or undefined
         if (res && res.data.data) {
           this.startCountdowns(res.data.data);
           this.globalStateService.setFilteredProducts(res.data.data);
+          this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');
         }
@@ -205,6 +205,6 @@ export class AppFiltersComponent implements OnInit {
         }
       });
     }
-   
+
   }
 }

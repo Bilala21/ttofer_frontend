@@ -160,7 +160,7 @@ export class HeaderNavigationComponent implements OnInit {
           console.log(err);
         },
       })
-      this.router.navigate(['/cart'])
+      // this.router.navigate(['/cart'])
     }
   }
   goOnNotification() {
