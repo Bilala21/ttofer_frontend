@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center position-absolute flht">
               <button
                 class="btn shadow bg-white p-0 wishlist mr-2 rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none full-screen-icon"
-                aria-label="Add to Wishlist">
+                aria-label="Add to Wishlist" (click)="isFullScreen= !isFullScreen">
                 <i class="fas fa-expand" style="font-size: 1.5em;"></i>
               </button>
               <button (click)="toggleWishlist(product)"
@@ -23,10 +23,11 @@
             </div>
 
             <p-galleria [verticalThumbnailViewPortHeight]="'500px'"
-              [thumbnailsPosition]="screenWidth< 768?'bottom':'left'" [numVisible]="5"
+              [thumbnailsPosition]="screenWidth< 768 || isFullScreen?'bottom':'left'" [numVisible]="5"
               [changeItemOnIndicatorHover]="true" [value]="product.photo" [showItemNavigators]="true"
               [showThumbnailNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="false"
-              [changeItemOnIndicatorHover]="true" [showItemNavigators]="true">
+              [changeItemOnIndicatorHover]="true" [showItemNavigators]="true" [fullScreen]="isFullScreen"
+              [(visible)]="isFullScreen">
 
               <ng-template pTemplate="item" let-item>
                 <img [src]="item.src" loading="lazy" class="d-block w-100 obj-fit-content slider-img"

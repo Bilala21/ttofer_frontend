@@ -230,7 +230,13 @@ export class ProductDetailComponent implements OnInit {
     this.screenWidth = event.target.innerWidth;
     this.screenHeight = event.target.innerHeight;
   }
-  toggleFullScreen() {
-    this.isFullScreen = !this.isFullScreen;
-  }
+  // toggleFullscreen() {
+  //   const elem = document.querySelector('p-galleria');
+  //   if (elem && !document.fullscreenElement) {
+  //     elem.requestFullscreen().catch(err => console.error("Fullscreen error:", err));
+  //   } else if (document.fullscreenElement) {
+  //     document.exitFullscreen();
+  //   }
+  // }
+  
 }
