@@ -1,7 +1,8 @@
 <!-- CODED BY BILAL -->
 <main class="mt-16">
-  <div class="container-fluid xs-px-0">
-    <div class="mt-3 xs-px-0">
+  <div class="container-fluid product-detail-container">
+    <div class="">
+    <div class="xs-px-0">
       <div>
         <app-slider [slides]="promotionBanners"></app-slider>
       </div>
@@ -19,7 +20,7 @@
         <app-filters />
       </aside>
       <!-- PRODUCT SIDE -->
-      <div class="flex-grow-1 pl-4 xs-px-0">
+      <div class="flex-grow-1 pl-lg-4 xs-px-0">
         <div class="text-center mb-4 buttons d-flex align-items-center justify-content-center xs-between">
           @if (!["3","4","8"].includes(id)) {
           <button type="button"
@@ -30,7 +31,10 @@
             class="btn py-2 px-3 {{activeTab=='featured' || activeTab=='looking'?'bg-dark text-white':'border-1'}}"
             (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
         </div>
-        <div class="row px-0 row-gap">
+         
+        <div class="w-100 product-main mt-4">
+
+        
           @if(loading){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
           <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
             <app-card-shimmer />
@@ -45,8 +49,13 @@
           </div>
           } }
         </div>
+        
+        <div class="text-center my-5" *ngIf="data.length > 10">
+          <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </main>
 <!-- END  BY BILAL -->

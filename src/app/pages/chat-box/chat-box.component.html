@@ -1,4 +1,21 @@
-<main class="mt-16 chat-container pt-2">
+<main class="mt-16 chat-container pt-2 product-detail-container">
+  <div class="tabs-container">
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'buying' }"
+      (click)="selectTab('buying')"
+    >
+      Buying
+    </div>
+    <div
+      class="tab"
+      [ngClass]="{ active: selectedTab === 'selling' }"
+      (click)="selectTab('selling')"
+    >
+      Selling
+    </div>
+  </div>
+
   <div class="container-fluid">
     <div class="d-flex pt-4">
       <div class="chat left-side border-r mr-4">

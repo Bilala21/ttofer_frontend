@@ -1450,7 +1450,7 @@ export class ProfilePageComponent {
     }
   }
   onImageUpload(event: any): void {
-    // debugger
+    // 
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
     }
@@ -1936,7 +1936,7 @@ export class ProfilePageComponent {
         this.sellingList = res;
         console.log(res);
         this.loading = false;
-        debugger;
+        ;
         this.soldList = res.data?.archive.data;
         this.purchaseListTemp = res.data?.buying.data;
         this.sellingListTemp = res.data?.selling.data;
@@ -1952,7 +1952,7 @@ export class ProfilePageComponent {
     this.mainServices
       .getNotification(this.currentUserId)
       .subscribe((res: any) => {
-        // debugger
+        // 
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
           return (
@@ -2088,7 +2088,7 @@ export class ProfilePageComponent {
     };
     this.mainServices.wishListProduct(input).subscribe(
       (res: any) => {
-        debugger
+        
         this.savedItems = res.data;
 
         this.savedItems.isAuction =
@@ -2314,7 +2314,7 @@ export class ProfilePageComponent {
     }
   }
   markAsSold(product: any) {
-    // debugger
+    // 
     localStorage.setItem('soldItems', JSON.stringify(product));
     this.router.navigate(['/markAsSold/', product.id]);
   }
@@ -2330,7 +2330,7 @@ export class ProfilePageComponent {
     });
   }
   onLocationFound(location: string) {
-    debugger;
+    ;
     this.locationId = location;
   }
   cat(cat: any) {

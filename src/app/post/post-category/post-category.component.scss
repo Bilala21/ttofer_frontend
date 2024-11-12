@@ -1,132 +1,75 @@
-.product-card {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+// Variables
+$gap: 22px;
+$card-bg: #fff;
+$card-border-radius: 8px;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+$transform-distance: -5px;
+
+// Breakpoints
+$breakpoint-xs: 576px;
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 992px;
+$breakpoint-desktop: 1200px;
+
+// Mixin for card layout
+@mixin card-layout($flex-basis) {
+  flex: 1 1 calc(#{$flex-basis} - #{$gap});
+  max-width: calc(#{$flex-basis} - #{$gap});
 }
-.main-card-container{
+
+// Styling
+.product-main {
   display: flex;
   flex-wrap: wrap;
+  justify-content: start;
+  gap: $gap;
+  @media (min-width: $breakpoint-desktop) {
+    max-width: $breakpoint-desktop;
+    margin: 0 auto; // Center on larger screens
+  }
 }
+
+// Common card styles
+.product-card,
 .shimmer-card {
-  position: relative;
-     width: 100%;
-     padding-right: 15px;
-     padding-left: 15px;
+  border-radius: $card-border-radius;
 }
 
-@media (min-width: 768px) {
-  .product-card {
-      -ms-flex: 0 0 50%;
-      flex: 0 0 50%;
-      max-width: 50%;
+// For screens below 576px - 1 card per row
+@media (max-width: $breakpoint-xs) {
+  .product-card, .shimmer-card {
+    @include card-layout(calc(100% + 22px) );
   }
-  .shimmer-card {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 48%;
-}
 }
 
-@media (min-width: 1100px) {
-  .product-card {
-      -ms-flex: 0 0 33.333333%;
-      flex: 0 0 33.333333%;
-      max-width: 33.333333%;
+// For screens below 768px (mobile) - 2 cards per row
+@media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
+  .product-card, 
+  .shimmer-card {
+    @include card-layout(calc(50% + 22px));
   }
-  .shimmer-card {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 32.333333%;
-}
+  .product-main {
+    gap: 12px;
+  }
 }
 
-// @media (min-width: 1300px) {
-//   .product-card {
-//       -ms-flex: 0 0 25%;
-//       flex: 0 0 25%;
-//       max-width: 25%;
-//   }
-// }
-
-.filter-sidebar,
-.post-list {
-  height: 100vh;
-  overflow-y: auto;
-
-}
-.post-list{
-  overflow-x: hidden;
+// For screens 768px and above - 3 cards per row
+@media (min-width: $breakpoint-mobile) {
+  .product-card, .shimmer-card {
+    @include card-layout(33.333%);
+  }
+  .product-main {
+    gap: 31px;
+  }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #88888884;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-.btngroup.active {
-  background-color: #343a40;
-  color: white;
-}
-
-.custom-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.custom-row > div {
-  margin-bottom: 0;
-}
-
-
-.custom-row .col-5,
-.custom-row .col-2 {
-  flex: 1;
-  margin-bottom: 0;
-}
-
-.total-result{
-  color: #636A80;
-   margin-left: 5px;
-   font-size: 15px;
-}
-.result-count{
-  color: black;
-}
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px;
-  width: 300px;
-  height: 100vh;
-  background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  z-index: 999;
-  transition: left 0.3s ease;
-  overflow-y: auto;
-}
-
-.sidebar.active {
-  left: 0;
-}
-
-.tab-btn{
-  border: 1px solid #9CA3AF;
-}
-
-.page-dropdown{
-  border-radius: 1vh;
+// For screens 992px and above (tablet and up) - 3 cards per row
+@media (min-width: $breakpoint-tablet) {
+  .product-card, .shimmer-card {
+    @include card-layout(25%);
+  }
+  .product-main {
+    gap: 29px;
+  }
 }

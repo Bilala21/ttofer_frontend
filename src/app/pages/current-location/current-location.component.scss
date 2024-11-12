@@ -1,0 +1,36 @@
+.logo-for-map {
+  position: absolute;
+  bottom: 0px;
+  left: 5%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width : 990px) {
+    .logo-for-map {
+        left: 7%;
+      
+      }
+}
+
+@media (max-width : 600px) {
+    .logo-for-map {
+        left: 7%;
+      
+      }
+}
+
+@media (max-width : 500px) {
+    .logo-for-map {
+        left: 12%;
+      
+      }
+}
+
+@media (max-width : 400px) {
+    .logo-for-map {
+        left: 16%;  
+      }
+}

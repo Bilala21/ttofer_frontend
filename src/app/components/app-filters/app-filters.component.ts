@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf],
+  imports: [FormsModule, NgxSliderModule, NgIf,NgFor],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
@@ -110,7 +110,8 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-
+  selectedCategory:any
+  categories:any
   constructor(
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
@@ -127,13 +128,20 @@ export class AppFiltersComponent implements OnInit {
       this.id = params.get('id');
       this.slug = params.get('slug');
       this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
-      this.fetchSubCategories();
+      // this.fetchSubCategories();
+    });
+    this.route.queryParams.subscribe(queryParams => {
+      const search = queryParams['search'];
+      if (search) {
+        // Call handleFilter if 'search' is present
+        this.handleFilter({ key: 'search', value: search });
+      }
     });
 
     // Subscribe to global product state
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
-      this.fetchData();
+      // this.fetchData();
     });
   }
 
@@ -180,8 +188,9 @@ export class AppFiltersComponent implements OnInit {
       }
     } else {
       this.filterCriteria[filter.key] = filter.value;
+      this.fetchData();
+
     }
-    this.fetchData();
   }
 
   handlePrice(event: any) {

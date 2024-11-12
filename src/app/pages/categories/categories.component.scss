@@ -1,45 +1,75 @@
-.buttons button {
-  min-width: 110px;
+// Variables
+$gap: 22px;
+$card-bg: #fff;
+$card-border-radius: 8px;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+$transform-distance: -5px;
+
+// Breakpoints
+$breakpoint-xs: 576px;
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 992px;
+$breakpoint-desktop: 1200px;
+
+// Mixin for card layout
+@mixin card-layout($flex-basis) {
+  flex: 1 1 calc(#{$flex-basis} - #{$gap});
+  max-width: calc(#{$flex-basis} - #{$gap});
 }
 
+// Styling
+.product-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: $gap;
+  @media (min-width: $breakpoint-desktop) {
+    max-width: $breakpoint-desktop;
+    margin: 0 auto; // Center on larger screens
+  }
+}
+
+// Common card styles
+.product-card,
 .shimmer-card {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  border-radius: $card-border-radius;
 }
 
-@media (min-width: 768px) {
-  .product-card {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
+// For screens below 576px - 1 card per row
+@media (max-width: $breakpoint-xs) {
+  .product-card, .shimmer-card {
+    @include card-layout(calc(100% + 22px) );
   }
+}
 
+// For screens below 768px (mobile) - 2 cards per row
+@media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
+  .product-card, 
   .shimmer-card {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 48%;
+    @include card-layout(calc(50% + 15px));
+  }
+  .product-main {
+    gap: 12px;
   }
 }
 
-@media (min-width: 1100px) {
-  .product-card {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+// For screens 768px and above - 3 cards per row
+@media (min-width: $breakpoint-mobile) {
+  .product-card, .shimmer-card {
+    @include card-layout(33.333%);
   }
-
-  .shimmer-card {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 32.333333%;
+  .product-main {
+    gap: 31px;
   }
 }
 
-@media (max-width: 576px) {
-  .xs-px-3 {
-    padding-left: 15px;
-    padding-right: 15px;
+// For screens 992px and above (tablet and up) - 3 cards per row
+@media (min-width: $breakpoint-tablet) {
+  .product-card, .shimmer-card {
+    @include card-layout(25%);
+  }
+  .product-main {
+    gap: 29px;
   }
 }

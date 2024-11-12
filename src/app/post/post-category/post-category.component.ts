@@ -26,7 +26,7 @@ export class PostCategoryComponent implements OnInit {
   auctionPosts: any = [];
   featuredPosts: any = [];
 
-
+  hasSearchParam: boolean = false
 
 
   handleTab(tab: string) {

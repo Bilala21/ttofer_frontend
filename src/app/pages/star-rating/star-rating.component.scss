@@ -3,13 +3,16 @@
 //     flex-direction: row;
 //   }
   
-  .star {
+  // .star {
     
-    font-size: 2rem;
-    color: #d3d3d3;
+  //   font-size: rem;
+  //   color: #d3d3d3;
+  //   cursor: pointer;
+  // }
+   .star{
     cursor: pointer;
-  }
-  
+    color: #d3d3d3;
+   }
   .star.filled {
     color: #ffc107; /* filled star color */
   }

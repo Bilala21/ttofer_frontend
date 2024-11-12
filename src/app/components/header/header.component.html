@@ -6,7 +6,7 @@
                     <!-- left-list-start -->
                     <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
                         <!-- web-logo-start -->
-                        <li class="xs-pl-16 mr-4 xs-mr-0">
+                        <li class="xs-pl-16 mr-lg-4 xs-mr-0">
                             <a routerLink="/body">
                                 <img src="/assets/images/LOGO.png" alt="App logo" loading="lazy" width="50"
                                     class="header-logo">
@@ -41,7 +41,7 @@
                                     d="M338.29 338.29 448 448"></path>
                             </svg>
                         </li>
-                        <li class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item">
+                        <li class="fs-14 d-flex align-items-center ml-lg-2 text-slate-400 location-item">
                             <!-- <i class="fa fa-map-marker-alt fs-20 mr-2"></i> -->
                             <svg stroke="currentColor" class="fs-22 mr-1" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -92,14 +92,14 @@
                             </a>
 
                             <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
-                            <div class="notification-dropdown p-3">
-                                <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center">
+                            <div class="notification-dropdown">
+                                <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center p-3">
                                     <span>No Notification</span>
                                 </div>
-                                <h4 *ngIf="notificationList.length > 0">Notification</h4>
+                                <h4 class="pl-3 mt-3" *ngIf="notificationList.length > 0">Notification</h4>
                                 <div *ngIf="notificationList.length > 0">
-                                    <div class="row">
-                                        <div class="col-md-10 mx-auto main-cart-items">
+                                    <div class="">
+                                        <div class="col-md-10 mx-auto main-cart-items p-0">
                                             <div class="mt-3" *ngFor="let data of notificationList">
                                                 <!-- routerLink="/review/{{ data.user_id }}" -->
                                                 <a routerLink="/notification"
