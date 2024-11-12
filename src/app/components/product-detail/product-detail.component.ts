@@ -76,11 +76,9 @@ export class ProductDetailComponent implements OnInit {
     this.loading = true
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
-        this.product = value.data;
+        this.product = value.data
         this.attributes = JSON.parse(value.data.attributes)
         this.loading = false
-        this.productView()
-
         console.log(JSON.parse(value.data.attributes), 'attributes');
       },
       error: (err) => {
@@ -91,7 +89,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   productView() {
-    debugger
     const productViewDetail = {
       product_id: this.productId,
       user_id: this.currentUserid
