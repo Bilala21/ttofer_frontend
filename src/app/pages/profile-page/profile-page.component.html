@@ -620,8 +620,8 @@
                 >
                   <img
                     src="{{
-                      data.photos && data.photos.length > 0
-                        ? data.photos[0].src
+                      data.photo && data.photo.length > 0
+                        ? data.photo[0].src
                         : 'assets/images/default-img.jpg'
                     }}"
                     alt="Item Image"
@@ -650,19 +650,29 @@
                   >
                     <span class="card-title">{{ data.title }}</span>
                     <span class="view-count"
-                      >{{ data.views.total_views || 0 }} Views</span
+                      >{{ data.view_count || 0 }} Views</span
                     >
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="avatars d-flex">
                       <img
-                        *ngFor="let user of data.views.users.slice(0, 4)"
-                        [src]="user.user.img"
-                        [alt]="user.name"
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 1"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 2"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 3"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 4"
                       />
                     </div>
                   </div>
-                  
                   <div class="action-text">
                     Sell faster <span>|</span>
                     <span
