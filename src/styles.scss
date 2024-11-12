@@ -1262,3 +1262,7 @@ button[aria-label="Close"]:focus {
 .p-galleria-thumbnail-prev {
   transform: rotate(180deg);
 }
+.map-container {
+  width: 100% !important;
+  max-height: 300px;
+}

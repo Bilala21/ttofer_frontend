@@ -88,17 +88,16 @@
   margin-top: 150px;
 }
 
-.heart-icon{
+.heart-icon {}
 
-}
-.flht{
+.flht {
   top: 10px;
   right: 10px;
   z-index: 99;
 }
-.full-screen-icon{
 
-}
+.full-screen-icon {}
+
 @media (max-width: 1140px) {
   .right-side {
     max-width: 100%;
@@ -124,7 +123,8 @@
     height: 300px !important;
     object-fit: contain;
   }
-  .icon-btn{
+
+  .icon-btn {
     height: 37px;
     min-width: 37px;
     font-size: 16px !important;
@@ -149,7 +149,9 @@
       padding: 0;
     }
   }
-  .product-detail-container{
+
+  .product-detail-container {
     padding-top: 0;
   }
 }
+
