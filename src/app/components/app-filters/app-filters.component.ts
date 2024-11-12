@@ -126,7 +126,7 @@ export class AppFiltersComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
+      this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
       this.fetchSubCategories();
     });
 
