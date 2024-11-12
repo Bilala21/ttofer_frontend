@@ -7,43 +7,39 @@
       <div class="product-detail-content d-flex flex-lg-row md-mt-5">
         <div class="left-side flex-grow-1 w-100">
           <div class="position-relative">
-            <button
-            class="btn  position-absolute shadow bg-white p-0 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none full-screen-icon"
-            aria-label="Add to Wishlist">
-            <i class="fas fa-expand" style="font-size: 1.5em;"></i>              
-            <!--  (click)="toggleWishlist(postData)"wishList.includes(postData.id) || getUserWishListItem(postData) <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
-              aria-hidden="true"></i> -->
-          </button>
-            <button
-            class="btn  position-absolute shadow bg-white p-0 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
-            aria-label="Add to Wishlist">
-            <!-- <span class="fs-19 mr-1 mt-1">102</span> -->
-            <i class="{{ true ?'fas':'far'}} fa-heart fs-19"
-              aria-hidden="true"></i>
-              
-            <!--  (click)="toggleWishlist(postData)"wishList.includes(postData.id) || getUserWishListItem(postData) <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
-              aria-hidden="true"></i> -->
-          </button>
+            <div class="d-flex align-items-center position-absolute flht">
+              <button
+                class="btn shadow bg-white p-0 wishlist mr-2 rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none full-screen-icon"
+                aria-label="Add to Wishlist">
+                <i class="fas fa-expand" style="font-size: 1.5em;"></i>
+              </button>
+              <button (click)="toggleWishlist(product)"
+                class="btn rounded-pill shadow bg-white p-2 wishlist rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
+                aria-label="Add to Wishlist">
+                <span class="pr-2">12</span>
+                <i class="{{product?.user_wishlist?.user_id==currentUserid ?'fas':'far'}} fa-heart fs-19"
+                  aria-hidden="true"></i>
+              </button>
+            </div>
 
-            <p-galleria [verticalThumbnailViewPortHeight]="'500px'" [thumbnailsPosition]="screenWidth< 768?'bottom':'left'" [numVisible]="5" [changeItemOnIndicatorHover]="true"
-          [value]="product.photo" [showItemNavigators]="true" [showThumbnailNavigators]="true"
-           [responsiveOptions]="responsiveOptions" [circular]="false" [changeItemOnIndicatorHover]="true" [showItemNavigators]="true">
-           <ng-template pTemplate="item" let-item>
-             <img [src]="item.src" loading="lazy" class="d-block w-100 obj-fit-content slider-img"
-               style="height: 450px" />
-           </ng-template>
-           <ng-template pTemplate="thumbnail" let-item>
-             <img [src]="item.src" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
-           </ng-template>
-         </p-galleria>
-            <!-- <div style="z-index: 1;position:absolute;right: 10px;top: 10px;"> -->
-             
-             
-            <!-- </div> -->
+            <p-galleria [verticalThumbnailViewPortHeight]="'500px'"
+              [thumbnailsPosition]="screenWidth< 768?'bottom':'left'" [numVisible]="5"
+              [changeItemOnIndicatorHover]="true" [value]="product.photo" [showItemNavigators]="true"
+              [showThumbnailNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="false"
+              [changeItemOnIndicatorHover]="true" [showItemNavigators]="true">
+
+              <ng-template pTemplate="item" let-item>
+                <img [src]="item.src" loading="lazy" class="d-block w-100 obj-fit-content slider-img"
+                  style="height: 450px" />
+              </ng-template>
+              <ng-template pTemplate="thumbnail" let-item>
+                <img [src]="item.src" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
+              </ng-template>
+            </p-galleria>
           </div>
-          
-         <app-right-side *ngIf="screenWidth < 768"/>
-                   <!-- similar products -->
+
+          <app-right-side *ngIf="screenWidth < 768" [product]="product" (handleWishlist)="toggleWishlist($event)" />
+          <!-- similar products -->
           <hr class="my-5">
           <div class="similar-product-container pr-5 xs-px-0">
             <div class="fw-semibold fs-24">Similar Items</div>
@@ -78,7 +74,7 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768"/>
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" (handleWishlist)="toggleWishlist($event)" />
       </div>
 
       <!-- more detail about product -->

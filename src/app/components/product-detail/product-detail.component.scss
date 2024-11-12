@@ -89,17 +89,15 @@
 }
 
 .heart-icon{
-  z-index: 1;
-  width: 65px !important;
-  right: 5px;
-  top: 5px;
-  padding-top: -10px;
+
+}
+.flht{
+  top: 10px;
+  right: 10px;
+  z-index: 99;
 }
 .full-screen-icon{
-  z-index: 1;
-  width: 40px !important;
-  right: 74px;
-  top: 5px;
+
 }
 @media (max-width: 1140px) {
   .right-side {
