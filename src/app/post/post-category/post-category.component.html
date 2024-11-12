@@ -22,7 +22,7 @@
         <div class="text-center mb-4">
           <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
             (click)="handleTab('auction')"> Auction Products </button>
-          <button type="button" class="btn py-2 px-3 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
+          <button type="button" class="btn py-2 px-2 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
             (click)="handleTab('featured')"> Feature Products</button>
         </div>
         @if (!data.length) {
