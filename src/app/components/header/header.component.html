@@ -15,12 +15,12 @@
                         <!-- search-bar-start -->
                         <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
                             <!-- search-input -->
-                            <input [(ngModel)]="searchTerm" type="text" placeholder="Search" class="w-100 fs-18 border-1">
+                            <input type="text" placeholder="Search" class="w-100 fs-18 border-1">
                             <!-- search-btn -->
                             <button class="search-btn position-relative border-0 bg-dark-850 text-white">
                                 <!-- search-icon -->
                                 <!-- <i class="fas fa-search"></i> -->
-                                <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                                <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path fill="none" stroke-miterlimit="10" stroke-width="32"
                                         d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
@@ -147,7 +147,7 @@
                         <!-- cart-start -->
                         <li class="cart-container">
                             <!-- Cart Icon with Badge -->
-                            <a (click)="cart()" class="text-decoration-none position-relative">
+                            <a routerLink="/cart" (click)="cart()" class="text-decoration-none position-relative">
                                 <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -169,13 +169,13 @@
                                     <p>Items you've selected</p>
                                     <div class="main-cart-items">
                                         <div *ngFor="let item of cartItems" class="cart-item">
-                                            <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
+                                            <img [src]="item.product.image_path.src" alt="{{ item.product.title }}" class="cart-item-image">
                                             <div class="cart-item-details">
-                                                <p>{{ item.description.slice(1,25) + '...' }}</p>
+                                                <p>{{ item.product.title}}</p>
+                                                <p>{{ item.description?.slice(1,25) + '...' }}</p>
                                                 <div class="d-flex justify-content-between">
-                                                    <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                                    <span>Qty {{item.quantity}}</span>
-
+                                                    <span>{{ item.product.fix_price | currency:'AED ':'symbol':'1.2-2' }}</span>
+                                                    <span>Qty {{item.qty}}</span>
                                                 </div>
                                             </div>
                                         </div>

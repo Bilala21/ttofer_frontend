@@ -76,11 +76,9 @@ export class ProductDetailComponent implements OnInit {
     this.loading = true
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
-        this.product = value.data;
+        this.product = value.data
         this.attributes = JSON.parse(value.data.attributes)
         this.loading = false
-        this.productView()
-
         console.log(JSON.parse(value.data.attributes), 'attributes');
       },
       error: (err) => {
@@ -91,7 +89,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   productView() {
-    debugger
     const productViewDetail = {
       product_id: this.productId,
       user_id: this.currentUserid
@@ -152,6 +149,14 @@ export class ProductDetailComponent implements OnInit {
     }
   }
   addToCart(product: any) {
+    this.mainServices.adToCartItem({ product_id: product.id }).subscribe({
+      next: (res: any) => {
+        this.toastr.warning(res.message, 'success');
+      },
+      error: (err) => {
+
+      },
+    })
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -162,6 +167,7 @@ export class ProductDetailComponent implements OnInit {
     else {
       this.globalStateService.updateCart(product)
     }
+
   }
   handleProductQty(event: any, product: any) {
     this.globalStateService.updateCart({ ...product, quantity: event.value })

@@ -5,13 +5,13 @@
         <app-slider [slides]="promotionBanners"></app-slider>
       </div>
       <div class="permotion-banners">
+        @if (promotionBanners.length > 0) {
         <app-promotion-slider
-          *ngIf="promotionBanners.length > 0"
-          [banners]="promotionBanners.slice(0, getBannerSliceCount())"
+          [banners]="promotionBanners.slice(0, 2)"
           bannerClass="body-banner"
-        ></app-promotion-slider>
+        />
+        }
       </div>
-      
     </div>
     <div class="d-block d-lg-flex pt-5">
       <aside class="product-filter pt-4">

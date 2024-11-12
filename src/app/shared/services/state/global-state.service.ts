@@ -4,17 +4,20 @@ import { BehaviorSubject } from 'rxjs';
 interface AppState {
   tab: { index: number; tabName: string };
   prodTab: { key: string; value: string };
-  users: any[]; // You might want to define a specific user type here
+  users: any[];
   categories: any[];
   subCategories: any[];
   filteredProducts: any[];
+  auctionProducts: any[];
+  featuredProducts: any[];
   isLoggedInd: boolean;
-  wishListItems: number[]; // Assuming wishlist items are identified by their IDs
+  wishListItems: number[];
   currentUser: any,
   temp_token: any
   isLoggedIn: boolean,
   cartState: any[],
-  offerModal: string
+  offerModal: string,
+  isFilterActive: boolean
 }
 
 @Injectable({
@@ -34,7 +37,10 @@ export class GlobalStateService {
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,
     cartState: [],
-    offerModal:""
+    offerModal: "",
+    auctionProducts: [],
+    featuredProducts: [],
+    isFilterActive: false
   };
   public filterCriteria: any = {
     location: []
@@ -53,43 +59,58 @@ export class GlobalStateService {
   }
 
   updateCart(data: any, isRemove = false) {
-    const currentState = this.stateSubject.value;
-    const existingItem = currentState.cartState.find((item) => item.id === data.id);
     let updatedCartState;
-    console.log(data, "cart state");
-    if (isRemove) {
-      updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
+    const currentState = this.stateSubject.value;
+    if (Array.isArray(data)) {
+      updatedCartState = data
     }
     else {
-      if (existingItem) {
-        updatedCartState = currentState.cartState.map((item) => {
-          if (item.id === data.id) {
-            return { ...item, quantity: data.quantity };
-          }
-          return item;
-        }).filter(item => item.quantity > 0);
+      const existingItem = currentState.cartState.find((item) => item.id === data.id);
+      // console.log(data, "cart state");
+      if (isRemove) {
+        updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
       }
       else {
-        const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
-        updatedCartState = [...currentState.cartState, productInfo];
+
+        if (existingItem) {
+          updatedCartState = currentState.cartState.map((item) => {
+            if (item.id === data.id) {
+              return { ...item, quantity: data.quantity };
+            }
+            return item;
+          }).filter(item => item.quantity > 0);
+        }
+        else {
+          // const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
+          updatedCartState = [...currentState.cartState, data];
+        }
+
       }
     }
     const newState: any = {
       ...currentState,
       cartState: updatedCartState,
     };
+
     localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
     this.stateSubject.next(newState);
   }
 
-
-
-
-  setOfferModal(modal_type:string) {
+  isFilterActive(value: boolean) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      offerModal:modal_type
+      isFilterActive: value
+    };
+    this.stateSubject.next(newState);
+  }
+
+
+  setOfferModal(modal_type: string) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      offerModal: modal_type
     };
     this.stateSubject.next(newState);
   }
@@ -130,6 +151,23 @@ export class GlobalStateService {
     const newState = {
       ...currentState,
       filteredProducts: data
+    };
+    this.stateSubject.next(newState);
+  }
+
+  setFeaturedProducts(data: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      featuredProducts: data
+    };
+    this.stateSubject.next(newState);
+  }
+  setAuctionProducts(data: any) {
+    const currentState = this.stateSubject.value;
+    const newState = {
+      ...currentState,
+      auctionProducts: data
     };
     this.stateSubject.next(newState);
   }

@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -16,27 +16,43 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
-  constructor(private authService:AuthService ,private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
-  wishList: any = []
   currentUserId: any = this.extension.getUserId();
 
   getYear(date: string) {
     return new Date(date).getFullYear();
   }
+
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
 
   }
 
-  toggleWishlist(item: any) {
-    const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
+  wishlistWithProductType(productType: any, item: any) {
+    productType.map((prod: any) => {
+      if (item.id == prod.id) {
+        if (!item.user_wishlist) {
+          prod.user_wishlist = {
+            user_id: this.currentUserId,
+            product_id: item.id,
+          }
+        }
+        else {
+          prod.user_wishlist = null
+        }
+      }
+    })
   }
+
+  toggleWishlist(item: any) {
+    console.log(item, "item");
+    if (!this.currentUserId) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
     let input = {
       user_id: this.currentUserId,
       product_id: item.id
@@ -45,13 +61,18 @@ export class ProductCardComponent {
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.success) {
+          this.globalStateService.currentState.subscribe((state) => {
+            if (state.isFilterActive) {
+              this.wishlistWithProductType(state.filteredProducts, item)
+            }
+            else if (item.ProductType == 'auction') {
+              this.wishlistWithProductType(state.auctionProducts, item)
+            }
+            else {
+              this.wishlistWithProductType(state.featuredProducts, item)
+            }
+          })
           this.toastr.success(res.message, 'Success');
-
-          if (this.wishList.includes(item.id)) {
-            this.wishList = this.wishList.filter((itemId: any) => itemId !== item.id);
-          } else {
-            this.wishList = [...this.wishList, item.id];
-          }
         }
       },
       error: (err) => {
@@ -60,10 +81,11 @@ export class ProductCardComponent {
       }
     });
   }
+
   getUserWishListItem(item: any) {
-     // const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserId)
-    // return matched ? true : false
+    if (item) {
+      return item.user_id === this.currentUserId ? true : false
+    }
     return false
   }
-
 }
