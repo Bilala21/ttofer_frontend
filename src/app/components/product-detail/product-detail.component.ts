@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { Extension } from '../../helper/common/extension/extension';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { ToastrService } from 'ngx-toastr';
@@ -25,30 +24,15 @@ import { RightSideComponent } from './right-side/right-side.component';
 export class ProductDetailComponent implements OnInit {
   screenWidth: number;
   screenHeight: number;
-  constructor(private cdRef: ChangeDetectorRef, private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
-    private route: ActivatedRoute, public extension: Extension,
-    private mainServices: MainServicesService,
-  ) {
-    this.currentUserid = extension.getUserId();
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-  }
-
-  @ViewChild(MakeOfferModalComponent) MakeOfferModalComponent!: MakeOfferModalComponent;
   center!: google.maps.LatLngLiteral;
   zoom = 14;
   productId: any = null
   product: any = {};
-  wishList: any = []
   attributes: any = {}
   currentUser: any = {}
   loading: boolean = false
   currentUserid: any;
-  promotionBanners: any = [
-    {
-      banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
-    },
-  ]
+  isFullScreen = false
   images: any = [
 
   ];
@@ -67,11 +51,17 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 4
     }
   ];
-  isFullScreen = false
 
+  constructor(private cdRef: ChangeDetectorRef, private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
+    private route: ActivatedRoute, public extension: Extension,
+    private mainServices: MainServicesService,
+  ) {
+    this.currentUserid = extension.getUserId();
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+  }
 
   ngOnInit(): void {
-    // this.getCurrentLocation();
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
@@ -85,7 +75,6 @@ export class ProductDetailComponent implements OnInit {
         this.loading = false
       },
     })
-
   }
 
   productView() {
@@ -101,9 +90,9 @@ export class ProductDetailComponent implements OnInit {
 
     })
   }
+
   toggleWishlist(item: any) {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
+    if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
@@ -117,11 +106,11 @@ export class ProductDetailComponent implements OnInit {
       next: (res: any) => {
         if (res.success) {
           this.toastr.success(res.message, 'Success');
-
-          if (this.wishList.includes(item.id)) {
-            this.wishList = this.wishList.filter((itemId: any) => itemId !== item.id);
-          } else {
-            this.wishList = [...this.wishList, item.id];
+          if (item.id == this.product.id) {
+            this.product.user_wishlist = !item.user_wishlist ? {
+              user_id: this.currentUserid,
+              product_id: item.id,
+            } : null
           }
         }
       },
@@ -132,13 +121,6 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  getUserWishListItem(item: any) {
-    // const matched = item.user_wishlist.find((prod: any) => prod.user_id == this.currentUserid)
-    // return matched ? true : false
-    return false
-  }
-
-
   buyProduct(product: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -148,6 +130,7 @@ export class ProductDetailComponent implements OnInit {
       return;
     }
   }
+
   addToCart(product: any) {
     this.mainServices.adToCartItem({ product_id: product.id }).subscribe({
       next: (res: any) => {
@@ -169,9 +152,11 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
+
   handleProductQty(event: any, product: any) {
     this.globalStateService.updateCart({ ...product, quantity: event.value })
   }
+
   contactSeller(product: any, user: any): void {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -198,6 +183,7 @@ export class ProductDetailComponent implements OnInit {
     }
     this.globalStateService.setOfferModal(modal_type)
   }
+
   ngAfterViewInit() {
     this.cdRef.detectChanges(); // Trigger change detection if needed
   }
@@ -243,9 +229,14 @@ export class ProductDetailComponent implements OnInit {
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     this.screenHeight = event.target.innerHeight;
-    console.log(this.screenWidth);
   }
-  toggleFullScreen() {
-    this.isFullScreen = !this.isFullScreen;
-  }
+  // toggleFullscreen() {
+  //   const elem = document.querySelector('p-galleria');
+  //   if (elem && !document.fullscreenElement) {
+  //     elem.requestFullscreen().catch(err => console.error("Fullscreen error:", err));
+  //   } else if (document.fullscreenElement) {
+  //     document.exitFullscreen();
+  //   }
+  // }
+  
 }
