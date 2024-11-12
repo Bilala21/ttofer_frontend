@@ -6,7 +6,7 @@
                     <!-- left-list-start -->
                     <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
                         <!-- web-logo-start -->
-                        <li class="xs-pl-16 mr-lg-4 xs-mr-0">
+                        <li class="xs-pl-16 mr-4 xs-mr-0">
                             <a routerLink="/body">
                                 <img src="/assets/images/LOGO.png" alt="App logo" loading="lazy" width="50"
                                     class="header-logo">
@@ -15,12 +15,12 @@
                         <!-- search-bar-start -->
                         <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
                             <!-- search-input -->
-                            <input type="text" placeholder="Search" class="w-100 fs-18 border-1">
+                            <input [(ngModel)]="searchTerm" type="text" placeholder="Search" class="w-100 fs-18 border-1">
                             <!-- search-btn -->
                             <button class="search-btn position-relative border-0 bg-dark-850 text-white">
                                 <!-- search-icon -->
                                 <!-- <i class="fas fa-search"></i> -->
-                                <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                                <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path fill="none" stroke-miterlimit="10" stroke-width="32"
                                         d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
@@ -41,7 +41,7 @@
                                     d="M338.29 338.29 448 448"></path>
                             </svg>
                         </li>
-                        <li class="fs-14 d-flex align-items-center ml-lg-2 text-slate-400 location-item">
+                        <li class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item">
                             <!-- <i class="fa fa-map-marker-alt fs-20 mr-2"></i> -->
                             <svg stroke="currentColor" class="fs-22 mr-1" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -92,14 +92,14 @@
                             </a>
 
                             <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
-                            <div class="notification-dropdown">
-                                <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center p-3">
+                            <div class="notification-dropdown p-3">
+                                <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center">
                                     <span>No Notification</span>
                                 </div>
-                                <h4 class="pl-3 mt-3" *ngIf="notificationList.length > 0">Notification</h4>
+                                <h4 *ngIf="notificationList.length > 0">Notification</h4>
                                 <div *ngIf="notificationList.length > 0">
-                                    <div class="">
-                                        <div class="col-md-10 mx-auto main-cart-items p-0">
+                                    <div class="row">
+                                        <div class="col-md-10 mx-auto main-cart-items">
                                             <div class="mt-3" *ngFor="let data of notificationList">
                                                 <!-- routerLink="/review/{{ data.user_id }}" -->
                                                 <a routerLink="/notification"
@@ -147,7 +147,7 @@
                         <!-- cart-start -->
                         <li class="cart-container">
                             <!-- Cart Icon with Badge -->
-                            <a routerLink="/cart" (click)="cart()" class="text-decoration-none position-relative">
+                            <a (click)="cart()" class="text-decoration-none position-relative">
                                 <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -169,13 +169,13 @@
                                     <p>Items you've selected</p>
                                     <div class="main-cart-items">
                                         <div *ngFor="let item of cartItems" class="cart-item">
-                                            <img [src]="item.product.image_path.src" alt="{{ item.product.title }}" class="cart-item-image">
+                                            <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
                                             <div class="cart-item-details">
-                                                <p>{{ item.product.title}}</p>
-                                                <p>{{ item.description?.slice(1,25) + '...' }}</p>
+                                                <p>{{ item.description.slice(1,25) + '...' }}</p>
                                                 <div class="d-flex justify-content-between">
-                                                    <span>{{ item.product.fix_price | currency:'AED ':'symbol':'1.2-2' }}</span>
-                                                    <span>Qty {{item.qty}}</span>
+                                                    <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
+                                                    <span>Qty {{item.quantity}}</span>
+
                                                 </div>
                                             </div>
                                         </div>

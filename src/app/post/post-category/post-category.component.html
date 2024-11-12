@@ -1,24 +1,24 @@
 <main class="mt-16">
-  <div class="container-fluid product-detail-container">
-    <div class="mx-auto xs-px-0">
+  <div class="container-fluid ">
+    <div class="mx-auto mt-3 xs-px-0">
       <div>
         <app-slider [slides]="promotionBanners"></app-slider>
       </div>
       <div class="permotion-banners">
-        @if (promotionBanners.length > 0) {
         <app-promotion-slider
-          [banners]="promotionBanners.slice(0, 2)"
+          *ngIf="promotionBanners.length > 0"
+          [banners]="promotionBanners.slice(0, getBannerSliceCount())"
           bannerClass="body-banner"
-        />
-        }
+        ></app-promotion-slider>
       </div>
+      
     </div>
     <div class="d-block d-lg-flex pt-5">
       <aside class="product-filter pt-4">
         <app-filters />
       </aside>
       <!-- PRODUCT SIDE -->
-      <div class="flex-grow-1 pl-lg-4 xs-px-0">
+      <div class="flex-grow-1 pl-4 xs-px-0">
         <div class="text-center mb-4">
           <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
             (click)="handleTab('auction')"> Auction Products </button>
@@ -26,10 +26,10 @@
             (click)="handleTab('featured')"> Feature Products</button>
         </div>
         @if (!data.length) {
-          <div class="text-center text-dark-400 pt-5">Data not found</div>
+        <div class="text-center text-dark-400 pt-5">Data not found</div>
         }
         @else {
-          <div class="w-100 product-main">
+        <div class="row px-0 row-gap">
           @if(!data.length){
             @for(data of [1,2,3,4,5,6,7,8,9];track $index){
               <div
@@ -40,16 +40,13 @@
               
             }
           }@else { @for (post of data; track $index) {
-          <div class="product-card">
+          <div class="col-lg-4">
             <app-product-card
               [postData]="post"
               postDetialUrl="auction-product-detail"
             />
           </div>
           } }
-        </div>
-        <div class="text-center my-5" *ngIf="data.length > 10">
-          <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
         </div>
         }
       </div>

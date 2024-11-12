@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf],
+  imports: [FormsModule, NgxSliderModule, NgIf,NgFor],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
@@ -35,11 +35,11 @@ export class AppFiltersComponent implements OnInit {
   filter_fields: any = {
     "mobiles": {
       "seller_types": ["Verified", "Unverified"],
-      "conditions": ["All", "New", "Used", "Refurbished"],
+      "conditions": ["All", "New", "Used","Refurbished"],
     },
     "electronics & appliance": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Any", "Refurbished", "New", "Used"],
+      "conditions": ["Any","Refurbished", "New","Used"],
     },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
@@ -51,7 +51,7 @@ export class AppFiltersComponent implements OnInit {
     "property for rent": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Furnished", "Unfurnished"],
-      "rent_is_paid": ["Yearly", "Monthly", "Quarterly", "Bi-Yearly"],
+      "rent_is_paid": ["Yearly","Monthly", "Quarterly", "Bi-Yearly"],
       "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
@@ -79,11 +79,11 @@ export class AppFiltersComponent implements OnInit {
     },
     "fashion & beauty": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All", "New", "Used"],
+      "conditions": ["All","New","Used"],
     },
     "kids": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All", "new", "Used"],
+      "conditions": ["All","new","Used"],
     },
     "delivery": ["Local Delivery", "Pick Up", "Shipping"]
   };
@@ -110,7 +110,8 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-
+  selectedCategory:any
+  categories:any
   constructor(
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
@@ -126,21 +127,44 @@ export class AppFiltersComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
-      this.fetchSubCategories();
+      this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
+      // this.fetchSubCategories();
+    });
+    this.route.queryParams.subscribe(queryParams => {
+      const search = queryParams['search'];
+      if (search) {
+        // Call handleFilter if 'search' is present
+        this.handleFilter({ key: 'search', value: search });
+      }
     });
 
     // Subscribe to global product state
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
-      this.fetchData();
+      // this.fetchData();
     });
-  }
+    if(!this.id){
+      this.globalStateService.currentState.subscribe((state) => {
+        this.categories =state.categories
+      })
+    }else if(this.id){
+     this.fetchSubCategories(this.id);
 
-  fetchSubCategories() {
-    if (this.id) {
-      this.mainServicesService.getSubCategories(this.id).subscribe({
-        next: (res: any) => {
+    }
+   
+  }
+  selectCategory(category: any): void {
+    this.selectedCategory = category;
+    this.categoryWithFilters = this.filter_fields?.[this.selectedCategory.slug.toLowerCase()];
+
+    this.fetchSubCategories(this.selectedCategory.id)
+    // Optionally load subcategories based on selected category
+    // this.subCategories = this.loadSubCategories(category.id);
+  }
+  fetchSubCategories(category_id:any) {
+    if (category_id) {
+      this.mainServicesService.getSubCategories(category_id).subscribe({
+        next: (res:any) => {
           this.subCategories = res?.data;
         },
         error: (err) => {
@@ -154,10 +178,10 @@ export class AppFiltersComponent implements OnInit {
     const modifiedFilter = { ...this.filterCriteria, location: this.filterCriteria.location.join(',') };
     this.mainServicesService.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
+        // Check if 'res' and 'res.data' are not null or undefined
         if (res && res.data.data) {
           this.startCountdowns(res.data.data);
           this.globalStateService.setFilteredProducts(res.data.data);
-          this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');
         }
@@ -180,8 +204,9 @@ export class AppFiltersComponent implements OnInit {
       }
     } else {
       this.filterCriteria[filter.key] = filter.value;
+      this.fetchData();
+
     }
-    this.fetchData();
   }
 
   handlePrice(event: any) {
@@ -205,6 +230,6 @@ export class AppFiltersComponent implements OnInit {
         }
       });
     }
-
+   
   }
 }
