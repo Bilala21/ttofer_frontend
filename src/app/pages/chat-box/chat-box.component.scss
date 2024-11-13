@@ -32,7 +32,7 @@
       }
     }
 
-   
+
   }
 
   .right-side {
@@ -71,15 +71,16 @@
       }
 
       .msg-content {
-        background:rgb(231, 230, 230);
+        background: rgb(231, 230, 230);
 
         img {
           width: 15px;
           height: 15px;
         }
       }
+
       .user-msg-content {
-        background:#D9FDD3;
+        background: #D9FDD3;
 
         img {
           width: 15px;
@@ -99,22 +100,32 @@
     }
   }
 }
+
 .scrollable-messages {
-  max-height: 400px; /* Adjust the height as per your layout */
-  overflow-y: auto;  /* Enable vertical scrolling */
+  max-height: 400px;
+  /* Adjust the height as per your layout */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
   padding-right: 10px;
-  padding-left: 10px; /* To prevent the scrollbar from overlapping with content */
+  padding-left: 10px;
+  /* To prevent the scrollbar from overlapping with content */
 }
+
 .scrollable-content {
   max-height: calc(100vh - 350px);
   overflow-y: auto;
 }
+
 .small-profile-image {
-  width: 24px; /* Adjust size as needed */
+  width: 24px;
+  /* Adjust size as needed */
   height: 24px;
-  border: 2px solid #fff; /* Optional: Adds a white border around the image */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+  border: 2px solid #fff;
+  /* Optional: Adds a white border around the image */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  /* Optional: Adds a subtle shadow */
 }
+
 .tabs-container {
   display: flex;
   justify-content: space-between;
@@ -136,15 +147,19 @@
 }
 
 .tab.active {
-  background-color: #ffdd54; /* The yellow shade */
+  background-color: #ffdd54;
+  /* The yellow shade */
   color: black;
 }
+
 .message-input .btn {
-  padding: 0.5rem; /* Adjust padding to match the style */
+  padding: 0.5rem;
+  /* Adjust padding to match the style */
 }
 
 .message-input .send-button {
-  right: 10px; /* Adjust to the desired spacing from the edge */
+  right: 10px;
+  /* Adjust to the desired spacing from the edge */
 }
 
 .message-input .position-relative {
@@ -153,8 +168,10 @@
 }
 
 .message-input input[type="file"] {
-  display: none; /* Keep it hidden */
+  display: none;
+  /* Keep it hidden */
 }
+
 .suggestions-box {
   border-radius: 8px;
   padding: 10px;
@@ -162,7 +179,7 @@
 }
 
 .suggestion-item {
-  background:#ffc107;
+  background: #ffc107;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -174,14 +191,35 @@
 .pointer {
   cursor: pointer;
 }
+
 .no-chat-icon {
   font-size: 2rem;
-  color: #ffc107; /* Applies yellow color */
+  color: #ffc107;
+  /* Applies yellow color */
 }
+
 .text-gold {
-  color: #FFD700; /* Gold color */
+  color: #FFD700;
+  /* Gold color */
 }
 
 .text-gray {
-  color: #d1d1d1; /* Gray color for unfilled stars */
+  color: #d1d1d1;
+  /* Gray color for unfilled stars */
+}
+
+
+@media (max-width:767px) {
+  .left-side {
+    margin-right: 0 !important;
+    width: 100%;
+    border-right: none;
+  }
+
+  .xs-d-none {
+    display: none;
+  }
+  .back-btn{
+    // display: block;
+  }
 }
