@@ -510,6 +510,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- tabs-screen -->
@@ -938,74 +939,64 @@
           </div>
 
           <div class="col-md-10 mx-auto mt-3" *ngIf="activeButtonPayment ===1">
-                <div class="row justify-content-between">
-                    <h6 style="font-size: 14px" class="sm-cat-text4">Cards</h6>
-                    <h6
-                      class="sm-cat-text4"
+                <div class="d-flex justify-content-between fs-14 fw-bold">
+                    <span class="">Cards</span>
+                    <span
+                      class="cur-pointer"
                       (click)="openNewCardModal()"
-                      style="cursor: pointer; font-size: 14px"
                     >
                       Add new card
-                    </h6>
+                    </span>
                  
                 </div>
                 <div
-                  class="row justify-content-between align-items-center mt-3"
+                  class="d-flex justify-content-between align-items-center mt-3"
                   *ngFor="let data of paymentDeposit"
                 >
-                  <div class="col-12">
-                    <div class="row align-items-center">
-                      <div class="col-9">
-                        <div class="row align-items-center">
-                          <div class="col-md-3 col-4 text-center">
-                            <div
-                              class="sm-p-5"
-                              style="
-                                padding: 15px;
-                                border: 1px solid #ececec;
-                                border-radius: 10px;
-                              "
-                            >
+                  <div class="w-100">
+                    <div class="d-flex align-items-center justify-content-between">
+
+                      <div class="d-flex align-items-center">
+
+                            <div class="card-image">
                               <img
                                 src="{{ data.img }}"
                                 class="w-100"
-                                alt=""
+                                alt="card-image"
                                 loading="lazy"
                               />
                             </div>
-                          </div>
-                          <div class="col-md-9 col-8">
-                            <h6 style="font-size: 16px" class="sm-cat-text4">
+
+                            <div class="ml-3">
+
+                            <h6 class="fs-16">
                               {{ data.detail1 }}
                             </h6>
-                            <div class="d-flex">
-                              <span style="font-size: 12px" class="sm-font"
-                                >{{ data.detail2 }}
+
+                            <div class="d-flex fs-12">
+                              <span>{{ data.detail2 }}
                               </span>
-                              <h6
+                              <span
                                 (click)="openModal()"
-                                style="
-                                  margin-left: 5px;
-                                  cursor: pointer;
-                                  font-size: 12px;
-                                "
-                                class="text-hover sm-font"
+                                class="text-hover cur-pointer ml-1 fw-semibold"
                               >
                                 {{ data.btn }}
-                              </h6>
+                              </span>
                             </div>
-                          </div>
-                        </div>
+
+                            </div>
+
                       </div>
-                      <div class="col-2" style="text-align: end">
+
+                      <div class="text-right" style="text-align: end">
                         <input
-                          class="form-check-input"
-                          style="cursor: pointer"
+                          class="form-check-input cur-pointer"
                           type="radio"
                           name="flexRadioDefault"
                           id="{{ data.id }}"
                         />
                       </div>
+
                     </div>
                     <hr />
                   </div>
@@ -1027,7 +1018,7 @@
         </div>
       </div>
       <!-- savedItems -->
-      <div *ngIf="selectedTab === 'savedItems'" class="col-xl-7 col-md-7">
+      <div *ngIf="selectedTab === 'savedItems'" class="col-md-7">
             <div class="row align-items-center justify-content-center margin-top-right-side-class">
                 <i class="fas fa-heart title-icon mr-2"></i>
                 <h3 class="right-side-top-title text-left">Saved Items</h3>
@@ -2406,10 +2397,7 @@
         </div>
       </div>
       <!-- boostPlus -->
-      <div
-        *ngIf="selectedTab === 'boostPlus' && !showDiv"
-        class="col-xl-7 col-md-7"
-      >
+      <div *ngIf="selectedTab === 'boostPlus' && !showDiv" class="col-xl-7 col-md-7">
          <div class="row align-items-center justify-content-center margin-top-right-side-class">
             <i class="fas fa-rocket title-icon"></i>
               <h3 class="right-side-top-title">Boost Plus</h3>

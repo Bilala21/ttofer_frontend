@@ -1,0 +1,184 @@
+<div
+  class="d-block d-xl-none mt-5 position-absolute"
+  style="
+    left: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    padding: 25px;
+    width: 100%;
+  "
+  *ngIf="showMore"
+>
+  <!-- transactions -->
+  <div class="row mt-4">
+    <h4 class="side-bar-tabs-heading fs-19 text-dark-800 fw-bold">
+      Transactions
+    </h4>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'purchasesSales' }"
+      (click)="selectTab('purchasesSales')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-shopping-cart icon-outline fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
+            Purchases & Sales
+          </h6>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="col-12 mt-2 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
+      (click)="selectTab('paymentDeposit')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-credit-card fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">
+            Payment & Deposit method
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- save -->
+  <div class="row mt-4">
+    <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'savedItems' }"
+      (click)="selectTab('savedItems')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-heart fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Saved items</h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 mt-2 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'notification' }"
+      (click)="selectTab('notification')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-bell fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Notifications</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- my-post -->
+  <div class="row mt-4">
+    <h4 class="fs-19 text-dark-800 fw-bold">My Posts</h4>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'editPost' }"
+      (click)="selectTab('editPost')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-edit fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'addPost' }"
+      (click)="selectTab('addPost')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-plus-circle fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- account -->
+  <div class="row mt-4">
+    <h4 class="fs-19 text-dark-800 fw-bold">Account</h4>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'accountSetting' }"
+      (click)="selectTab('accountSetting')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-cog fs-20"></i>
+          <!-- Settings icon -->
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Account Setting</h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'boostPlus' }"
+      (click)="selectTab('boostPlus')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-rocket fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 mt-2 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'customLinks' }"
+      (click)="selectTab('customLinks')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-link fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Custom Profile Link</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- help -->
+  <div class="row mt-4">
+    <h4 class="fs-19 text-dark-800 fw-bold">Help</h4>
+    <div
+      class="col-12 mt-3 p-2 onHover pointer"
+      [ngClass]="{ active: selectedTab === 'helpCenter' }"
+      (click)="selectTab('helpCenter')"
+    >
+      <div class="row align-items-center">
+        <div class="col-2 d-flex justify-content-end">
+          <i class="fas fa-question fs-20"></i>
+        </div>
+        <div class="col-10 m-0 p-0">
+          <h6 class="fs-16 text-dark-800 fw-light m-0">Help Center</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
