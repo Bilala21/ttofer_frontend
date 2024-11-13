@@ -121,14 +121,23 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   savedItems() {
-    localStorage.setItem('currentTab', "savedItems");
-    this.router.navigate(['/profilePage', `${this.currentUser.id}`])
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
+    }else {
+      const userData = JSON.parse(storedData);
+      const userId = userData?.id;
+      if (userId) {
+        this.router.navigate([`/selling/${userId}`]);
+        localStorage.setItem('currentTab', "savedItems");
+        this.router.navigate(['/profilePage', `${userId}`])  
+      }
     }
+    
+ 
+    
   }
   openSelling() {
     const storedData = localStorage.getItem('key');
@@ -142,6 +151,16 @@ export class HeaderNavigationComponent implements OnInit {
       if (userId) {
         this.router.navigate([`/selling/${userId}`]);
       }
+    }
+  }
+  goOnCart(){
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.router.navigate(['/cart'])
     }
   }
   cart() {

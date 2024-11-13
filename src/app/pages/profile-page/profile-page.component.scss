@@ -96,7 +96,11 @@
     }
   }
 }
-
+.card-image{
+  padding: 15px;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+}
 @media (max-width: 1024px) {
   .profile-main-container {
     margin-top: 8.5rem;
