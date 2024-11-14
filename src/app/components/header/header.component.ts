@@ -27,8 +27,8 @@ export class HeaderNavigationComponent implements OnInit {
   categories: any = [];
   showSearch: boolean = false;
   private imageUrlSubscription: Subscription | undefined;
-  screenWidth: number = window.innerWidth;
-  screenHeight: number = window.innerHeight;
+  screenWidth: number;
+  screenHeight: number;
   imgUrl: string | null = null;
   tempToken: boolean = false
   cartItems: any = [];
@@ -49,26 +49,30 @@ export class HeaderNavigationComponent implements OnInit {
       this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
     })
     this.currentUserid = extension.getUserId();
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.getScreenSize();
+    this.screenWidth = event.target.innerWidth;
+    this.screenHeight = event.target.innerHeight;
+    this.getScreenSize()
   }
 
   getScreenSize() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
 
-    if (this.screenWidth < 1024 && this.screenWidth > 768) {
-      this.categoryLimit = 4;
-    }
-    else if (this.screenWidth < 768) {
+    if (this.screenWidth > 1024) {
+      this.categoryLimit = 12;
+    } else if (this.screenWidth <= 1024 && this.screenWidth > 768) {
+      this.categoryLimit = 6;
+    } else if (this.screenWidth <= 768) {
       this.categoryLimit = 2;
     }
-    else {
-      this.categoryLimit = 12;
-    }
+
+    console.log(`Screen Width: ${this.screenWidth}, Category Limit: ${this.categoryLimit}`);
   }
 
   showSearchBar() {

@@ -1,7 +1,7 @@
 <main class="mt-16">
-  <div class="container-fluid">
+  <div class="container-fluid xs-pt-4">
     <!-- profile-main-container -->
-    <div class="row justify-content-between product-detail-container ">
+    <div class="row justify-content-between product-detail-container">
       <div class="col-xl-4 col-md-5 position-relative">
         <img
           (click)="openMore()"
@@ -1460,7 +1460,7 @@
             <div class="row mt-3">
               <div class="col-6">
                 <label
-                  >Category (required)<span class="text-danger">*</span></label
+                  >Category<span class="text-danger">*</span></label
                 >
                 <select
                   class="form-select form-control input-class-add-form"
@@ -1492,8 +1492,8 @@
               </div>
 
               <div class="col-6">
-                <label
-                  >Subcategory (required)<span class="text-danger"
+                <label class="subcategory-label"
+                  >Subcategory<span class="text-danger"
                     >*</span
                   ></label
                 >
@@ -1537,7 +1537,7 @@
                 row-gap: 0px;
                 column-gap: 35px;
               "
-            >
+            class="categoryFields">
               <div
                 class="row mt-3"
                 *ngFor="let field of categoryFields[selectedCategoryId]"
@@ -1966,7 +1966,7 @@
             <div class="row mt-3">
               <div class="col-6">
                 <label
-                  >Category (required)<span class="text-danger">*</span></label
+                  >Category<span class="text-danger">*</span></label
                 >
                 <select
                   class="form-select form-control input-class-add-form"
@@ -1996,8 +1996,8 @@
               </div>
 
               <div class="col-6">
-                <label
-                  >Subcategory (required)<span class="text-danger"
+                <label class="subcategory-label"
+                  >Subcategory<span class="text-danger"
                     >*</span
                   ></label
                 >
@@ -2036,7 +2036,7 @@
                 row-gap: 0px;
                 column-gap: 35px;
               "
-            >
+           class="categoryFields" >
               <div
                 class="row mt-3"
                 *ngFor="let field of categoryFields[selectedCategoryId]"
@@ -2435,7 +2435,7 @@
                 <div class="d-flex justify-content-center w-100">
                   <button
                     (click)="openBoostModal()"
-                    class="btn btn-outline-dark w-50 mt-5"
+                    class="btn btn-outline-dark w-50 mt-5 xs-w-fit"
                   >
                     <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
                   </button>
@@ -3233,7 +3233,7 @@
                 </div>
                 <div class="col-5 mt-4 mx-auto text-center">
                   <button
-                    class="btn btn-dark w-100"
+                    class="btn btn-dark w-100 xs-w-fit"
                     style="border-radius: 15px; padding: 10px"
                   >
                     Start Free Trial!

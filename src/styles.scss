@@ -1066,6 +1066,10 @@ button[aria-label="Close"]:focus {
     /* Full width for small screens */
     max-width: 100%;
   }
+
+  .map-container {
+    margin-top: 40px;
+  }
 }
 
 .no-data-found {
@@ -1277,16 +1281,18 @@ button[aria-label="Close"]:focus {
   }
 
   .p-element.p-galleria-thumbnail-next {
-    &:hover{
+    &:hover {
       background: #fff;
       opacity: .8;
     }
   }
+
   .p-element.p-galleria-thumbnail-prev {
     svg {
       transform: rotate(180deg);
     }
-    &:hover{
+
+    &:hover {
       background: #fff;
       opacity: .8;
     }
@@ -1334,4 +1340,13 @@ button[aria-label="Close"]:focus {
     width: 25px;
     height: 25px;
   }
+}
+
+.modal-open .show.modal {
+  background: #00000069;
+}
+
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  height: auto !important;
+  max-height: 400px;
 }
