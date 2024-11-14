@@ -6,7 +6,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 @Component({
   selector: 'app-current-location',
   standalone: true,
-  imports: [NgIf,GoogleMapsModule],
+  imports: [GoogleMapsModule],
   templateUrl: './current-location.component.html',
   styleUrl: './current-location.component.scss'
 })
@@ -18,18 +18,13 @@ export class CurrentLocationComponent implements OnInit {
   address: string = '';
 
   ngOnInit(): void {}
-
-  // Function to handle marker drag end event
   onMarkerDragEnd(event: any) :any{
     if (event.latLng) {
       this.markerPosition = event.latLng.toJSON();
       this.getAddress(this.markerPosition.lat, this.markerPosition.lng);
     }
   }
-
-  // Function to get address from latitude and longitude
-  getAddress(lat: number, lng: number) {
-    
+  getAddress(lat: number, lng: number) {  
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results:any, status) => {
       if (status === 'OK' && results[0]) {

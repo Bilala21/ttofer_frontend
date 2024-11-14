@@ -16,6 +16,7 @@ export class PhoneSignInComponent {
   @Output() closeModalEvent = new EventEmitter<void>(); // Define event emitter
   @Output() backEvent = new EventEmitter<void>(); // Event emitter for back button
 
+
   email: string = '';
   phone: string = '';
   password: string = '';
@@ -29,6 +30,7 @@ export class PhoneSignInComponent {
   backButton() {
     this.backEvent.emit();
   }
+ 
   isFormValid(): boolean {
     return (
       this.email.trim() !== '' && this.password.trim() !== ''

@@ -1,27 +1,54 @@
-<div class="modal fade"  #loginModal id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered {{showRegisterBox?'register-modal':''}}" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<!-- <button type="button" class="back" (click)="back()" aria-label="Close">
+<div
+  class="modal fade"
+  #loginModal
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered {{
+      showRegisterBox ? 'register-modal' : ''
+    }}"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <button type="button" class="back" (click)="back()" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button> -->
-					<h4 class="modal-title"
-						*ngIf="!showPhoneBox && !showEmailBox && !showRegisterBox && !showForgotBox && !showOTPBox"
-						id="loginModalLabel">Sign up/Log in</h4>
-					<button type="button" class="close" (click)="closeModal()" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<!-- Modal Body -->
-				<div class="modal-body ">
-					<div class="row">
-						<div class="col-10 mx-auto" *ngIf="showPhoneBox">
-							<!-- <div class="text-center">
+        <h4
+          class="modal-title"
+          *ngIf="
+            !showPhoneBox &&
+            !showEmailBox &&
+            !showRegisterBox &&
+            !showForgotBox &&
+            !showOTPBox
+          "
+          id="loginModalLabel"
+        >
+          Sign up/Log in
+        </h4>
+        <button
+          type="button"
+          class="close"
+          (click)="closeModal()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-10 mx-auto" *ngIf="showPhoneBox">
+            <!-- <div class="text-center">
 								<h6 class="">Phone</h6>
 								<img src="assets/images/phone-img.png" class="w-75 mt-3" alt="">
 							</div> -->
-							<!-- <div class="row">
+            <!-- <div class="row">
 								<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
 									<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
 
@@ -53,88 +80,160 @@
 									(click)="loginWithPhone()">Sign
 									in</button>
 							</div> -->
-              <app-phone-sign-in
+            <app-phone-sign-in
               (backEvent)="backButton()"
-              (closeModalEvent)="closeModal()">
+              (closeModalEvent)="closeModal()"
+            >
             </app-phone-sign-in>
-						</div>
-						<div class="col-10 mx-auto" *ngIf="showForgotBox">
-							<div class="text-center">
-								<h6 class="">Email</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
-							</div>
-							<div class="mt-4">
-								<label>Email</label>
-								<input #emailInput="ngModel" [(ngModel)]="email" name="email" type="text"
-									placeholder="Enter Your Email" class="form-control" style="border-radius: 18px;"
-									required>
-							</div>
-							<div class="mt-4">
-								<button class="btn btn-dark w-100" (click)="openOTP()"
-									style="border-radius: 20px; padding: 10px;" [disabled]="!emailInput.value">Send
-									OTP</button>
-							</div>
-						</div>
-						<div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
-							<div class="text-center">
-								<h6 class="">Phone Number</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy">
-							</div>
-							<div class="mt-4">
-								<label>Phone</label>
-								<input #emailInput="ngModel" [(ngModel)]="email" name="phone" type="text"
-									placeholder="Enter Your Phone" class="form-control" style="border-radius: 18px;"
-									required>
-							</div>
-							<div class="mt-4">
-								<button class="btn btn-dark w-100" (click)="openOTP()"
-									style="border-radius: 20px; padding: 10px;" [disabled]="!emailInput.value">Send
-									OTP</button>
-							</div>
-						</div>
-						<div class="col-10 mx-auto" *ngIf="showOTPBox">
-							<div class="text-center">
-								<h6 class="">Verify</h6>
-								<img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy">
-							</div>
-							<div class="mt-4">
-								<p>Please type in the OTP code we sent to your email. It's an extra step to make sure
-									it's really you and keep your account safe.</p>
-								<span>Verification Code Sent to name&commat;dummy.com</span>
-							</div>
-							<div class="row mt-4">
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-								<div class="col-2">
-									<input type="text" class="form-control" style="border-radius: 10px;">
-								</div>
-							</div>
-							<div class="mt-4 text-center">
-								<button class="btn btn-dark w-100"
-									style="border-radius: 20px; padding: 10px;">Verify</button>
-								<span style="cursor: pointer;" class="mt-3">Didn’t Receive OTP?</span>
-								<h6 style="cursor: pointer;" class="mt-3">Resend Code</h6>
-							</div>
-						</div>
-						<div class="col-10 mx-auto" *ngIf="showEmailBox">
-							<!-- <div class="text-center">
+          </div>
+          <div class="col-10 mx-auto" *ngIf="showForgotBox">
+            <div class="text-center">
+              <h6 class="">Email</h6>
+              <img
+                src="assets/images/email-img.png"
+                class="w-75 mt-3"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+            <div class="mt-4">
+              <label>Email</label>
+              <input
+                #emailInput="ngModel"
+                [(ngModel)]="email"
+                name="email"
+                type="text"
+                placeholder="Enter Your Email"
+                class="form-control"
+                style="border-radius: 18px"
+                required
+              />
+            </div>
+            <div class="mt-4">
+              <button
+                class="btn btn-dark w-100"
+                (click)="openOTP()"
+                style="border-radius: 20px; padding: 10px"
+                [disabled]="!emailInput.value"
+              >
+                Send OTP
+              </button>
+            </div>
+          </div>
+          <div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
+            <div class="text-center">
+              <h6 class="">Phone Number</h6>
+              <img
+                src="assets/images/email-img.png"
+                class="w-75 mt-3"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+            <div class="mt-4">
+              <label>Phone</label>
+              <input
+                #emailInput="ngModel"
+                [(ngModel)]="email"
+                name="phone"
+                type="text"
+                placeholder="Enter Your Phone"
+                class="form-control"
+                style="border-radius: 18px"
+                required
+              />
+            </div>
+            <div class="mt-4">
+              <button
+                class="btn btn-dark w-100"
+                (click)="openOTP()"
+                style="border-radius: 20px; padding: 10px"
+                [disabled]="!emailInput.value"
+              >
+                Send OTP
+              </button>
+            </div>
+          </div>
+          <div class="col-10 mx-auto" *ngIf="showOTPBox">
+            <div class="text-center">
+              <h6 class="">Verify</h6>
+              <img
+                src="assets/images/verify-img.png"
+                class="w-75 mt-3"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+            <div class="mt-4">
+              <p>
+                Please type in the OTP code we sent to your email. It's an extra
+                step to make sure it's really you and keep your account safe.
+              </p>
+              <span>Verification Code Sent to name&commat;dummy.com</span>
+            </div>
+            <div class="row mt-4">
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="border-radius: 10px"
+                />
+              </div>
+            </div>
+            <div class="mt-4 text-center">
+              <button
+                class="btn btn-dark w-100"
+                style="border-radius: 20px; padding: 10px"
+              >
+                Verify
+              </button>
+              <span style="cursor: pointer" class="mt-3"
+                >Didn’t Receive OTP?</span
+              >
+              <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
+            </div>
+          </div>
+          <div class="col-10 mx-auto" *ngIf="showEmailBox">
+            <!-- <div class="text-center">
 								<h6 class="">Email</h6>
 								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
 							</div> -->
-							<!-- <div class="row">
+            <!-- <div class="row">
 								<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
 									<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
 
@@ -162,18 +261,19 @@
 								<button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
 									[disabled]="!isFormValid()" (click)="signInWithEmail()">Sign in</button>
 							</div> -->
-              <app-email-sign-in
+            <app-email-sign-in
               (backEvent)="backButton()"
-              (closeModalEvent)="closeModal()">
+              (closeModalEvent)="closeModal()"
+              (forgetEvent)="openForgotEmail()"
+            >
             </app-email-sign-in>
-
-						</div>
-						<div class="col-11 mx-auto" *ngIf="showRegisterBox">
-							<!-- <div class="text-center">
+          </div>
+          <div class="col-11 mx-auto" *ngIf="showRegisterBox">
+            <!-- <div class="text-center">
 								<h6 class="">Profile Detail</h6>
 								<img src="assets/images/register-img.png" class="w-50 mt-3" alt="">
 							</div> -->
-							<!-- <div class="row">
+            <!-- <div class="row">
 
 							<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
 								<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
@@ -236,48 +336,82 @@
 										[disabled]="!ValidFor()" (click)="confirmRegistration()">Confirm</button>
 								</div>
 							</div> -->
-              <app-register
+            <app-register
               (backEvent)="backButton()"
-              (closeModalEvent)="closeModal()">
+              (closeModalEvent)="closeModal()"
+            >
             </app-register>
+          </div>
 
-						</div>
-
-						<div class="col-10 mx-auto "
-							*ngIf="!showPhoneBox && !showEmailBox && !showRegisterBox && !showForgotBox && !showOTPBox && !showForgotPhoneBox">
-							<button class="btn btn-outline-dark btn-block" style="border-radius: 18px;" (click)="googleSignIn()">
-								<img src="https://img.icons8.com/color/48/000000/google-logo.png"  alt="Google" loading="lazy" />
-								Continue
-								with Google
-							</button>
-							<!-- <button class="btn btn-dark btn-block" style="border-radius: 18px;">
+          <div
+            class="col-10 mx-auto"
+            *ngIf="
+              !showPhoneBox &&
+              !showEmailBox &&
+              !showRegisterBox &&
+              !showForgotBox &&
+              !showOTPBox &&
+              !showForgotPhoneBox
+            "
+          >
+            <button
+              class="btn btn-outline-dark btn-block"
+              style="border-radius: 18px"
+              (click)="googleSignIn()"
+            >
+              <img
+                src="https://img.icons8.com/color/48/000000/google-logo.png"
+                alt="Google"
+                loading="lazy"
+              />
+              Continue with Google
+            </button>
+            <!-- <button class="btn btn-dark btn-block" style="border-radius: 18px;">
 								<img src="https://img.icons8.com/ios-filled/50/ffffff/mac-os.png" alt="Apple" />
 								Continue
 								with Apple
 							</button> -->
-							<button class="btn btn-outline-dark btn-block" (click)="openPhone()"
-								style="border-radius: 18px;">
-								<i class="fas fa-phone fs-20 text-center d-block mb-1 fa-rotate-90 mr-3"></i> Continue
-								with Phone
-							</button>
-							<button class="btn btn-outline-dark btn-block" (click)="openEmail()"
-								style="border-radius: 18px;">
-								<i class="fas fa-envelope fs-20 text-center d-block mb-1 mr-3"></i> Continue
-								with Email
-							</button>
-							<span class="mt-3">Don't have an account? <a style="color: black; cursor: pointer; text-decoration: underline;"
-									(click)="openRegister()">Register</a></span>
-							<p class="mt-5 text-center">
-								By moving forward, you're agreeing to our <a href="#">Terms of Service</a> and
-								recognizing
-								that you've checked out our <a href="#">Privacy Policy</a> to understand how we handle
-								your
-								information.
-							</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
+            <button
+              class="btn btn-outline-dark btn-block"
+              (click)="openPhone()"
+              style="border-radius: 18px"
+            >
+              <i
+                class="fas fa-phone fs-20 text-center d-block mb-1 fa-rotate-90 mr-3"
+              ></i>
+              Continue with Phone
+            </button>
+            <button
+              class="btn btn-outline-dark btn-block"
+              (click)="openEmail()"
+              style="border-radius: 18px"
+            >
+              <i
+                class="fas fa-envelope fs-20 text-center d-block mb-1 mr-3"
+              ></i>
+              Continue with Email
+            </button>
+            <span class="mt-3"
+              >Don't have an account?
+              <a
+                style="
+                  color: black;
+                  cursor: pointer;
+                  text-decoration: underline;
+                "
+                (click)="openRegister()"
+                >Register</a
+              ></span
+            >
+            <p class="mt-5 text-center">
+              By moving forward, you're agreeing to our
+              <a href="#">Terms of Service</a> and recognizing that you've
+              checked out our <a href="#">Privacy Policy</a> to understand how
+              we handle your information.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

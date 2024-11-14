@@ -1,8 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
-  ViewChild,
 } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor } from '@angular/common';
@@ -13,8 +11,6 @@ import { FooterComponent } from '../../shared/shared-components/footer/footer.co
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import {
   catchError,
-  debounceTime,
-  distinctUntilChanged,
   filter,
   of,
   Subject,
@@ -418,15 +414,12 @@ export class ChatBoxComponent {
       }
     }
   }
-
   confirmSend(): void {
     this.closePreviewModal();
   }
-
   isFileImage(file: File): boolean {
     return file.type.startsWith('image/');
   }
-
   closePreviewModal(): void {
     this.showPreviewModal = false;
     this.selectedFile = null;
@@ -440,7 +433,6 @@ export class ChatBoxComponent {
   onSearch(event: any) {
     this.searchSubject.next(event.value);
   }
-
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       sessionStorage.removeItem('productData');

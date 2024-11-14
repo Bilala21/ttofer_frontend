@@ -403,18 +403,16 @@ export class LoginModalComponent {
   )
   }
   openEmail() {
-    this.showEmailBox = true
+  this.showEmailBox = true
   }
   openRegister() {
     this.showRegisterBox = true
   }
   openOTP() {
-
     let input = {
       email:this.email
     }
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
-
       this.otpVerify = res.otp
       console.log(this.otpVerify)
       this.showSuccessMessage(res.msg)
@@ -423,7 +421,6 @@ export class LoginModalComponent {
       this.showForgotBox = false
     },
     (err:any)=>{
-
       this.showSuccessMessage(err.error.msg)
       this.loading = false
     }
@@ -434,6 +431,7 @@ export class LoginModalComponent {
     this.showPhoneBox = false
   }
   openForgotEmail() {
+    debugger
     this.showForgotBox = true
     this.showEmailBox = false
   }
@@ -455,7 +453,6 @@ export class LoginModalComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeModal() {
     const modal = document.getElementById('loginModal');
     if (modal) {
