@@ -3,7 +3,6 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { SharedModule } from "../../shared/shared.module";
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { forkJoin } from 'rxjs';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer.component";
@@ -22,9 +21,10 @@ export class CategoriesComponent {
   }
   promotionBanners: any = []
   activeTab: any = "auction"
-  data: any = []
+  data: any = {}
   loading: any = true
   id: any = null
+  currentPage:number=1
   handleTab(tab: string) {
 
     this.activeTab = tab
@@ -34,8 +34,9 @@ export class CategoriesComponent {
     this.getBanners()
 
     this.globalStateService.currentState.subscribe((state) => {
-      this.data = state.filteredProducts.filter((item:any) => item.ProductType == this.activeTab );
-      this.globalStateService.productlength = state.filteredProducts?.length
+      this.currentPage=state.filteredProducts?.current_page
+      this.data = state.filteredProducts?.data?.filter((item:any) => item.ProductType == this.activeTab );
+      this.globalStateService.productlength = state.filteredProducts?.data?.length
       this.loading = false
     })
     this.route.paramMap.subscribe(params => {

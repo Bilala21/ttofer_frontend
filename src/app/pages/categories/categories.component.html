@@ -40,7 +40,7 @@
             <app-card-shimmer />
           </div>
 
-          } }@else if( data.length == 0) {
+          } }@else if( data?.length == 0) {
 
           <p class="no-data-found">No Data Found</p>
           }@else { @for (post of data; track $index) {
@@ -50,7 +50,7 @@
           } }
         </div>
         
-        <div class="text-center my-5" *ngIf="data.length > 10">
+        <div class="text-center my-5" *ngIf="data?.length > 10">
           <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
         </div>
       </div>

@@ -7,7 +7,7 @@ interface AppState {
   users: any[];
   categories: any[];
   subCategories: any[];
-  filteredProducts: any[];
+  filteredProducts: any;
   auctionProducts: any[];
   featuredProducts: any[];
   isLoggedInd: boolean;
@@ -32,7 +32,7 @@ export class GlobalStateService {
     wishListItems: [],
     currentUser: {},
     subCategories: [],
-    filteredProducts: [],
+    filteredProducts:{},
     prodTab: { key: "ProductType", value: "auction" },
     temp_token: localStorage.getItem("tempToken"),
     isLoggedIn: false,

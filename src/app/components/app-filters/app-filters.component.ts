@@ -156,7 +156,7 @@ export class AppFiltersComponent implements OnInit {
       next: (res: any) => {
         if (res && res.data.data) {
           this.startCountdowns(res.data.data);
-          this.globalStateService.setFilteredProducts(res.data.data);
+          this.globalStateService.setFilteredProducts(res.data);
           this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');
