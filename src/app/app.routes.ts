@@ -25,6 +25,7 @@ import { NgModule } from '@angular/core';
 import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.component';
+import { FAQComponent } from './pages/f-a-q/f-a-q.component';
 
 export const routes: Routes = [
 
@@ -124,6 +125,10 @@ export const routes: Routes = [
     {
         path: 'checkout',
         component: CheckOutPageComponent
+    },
+    {
+        path: 'faq',
+        component: FAQComponent
     },
     {
         path: 'auth',

@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { BodyComponent } from '../../../pages/body/body.component';
 import { Extension } from '../../../helper/common/extension/extension';
 import { GlobalStateService } from '../../services/state/global-state.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [BodyComponent],
+  imports: [BodyComponent,RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

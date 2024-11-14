@@ -1,0 +1,28 @@
+<main class="mt-16">
+    <div class="container my-5 genaral-color">
+      <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+      <div id="faqAccordion">
+        <div class="card" *ngFor="let item of faqItems; let i = index">
+          <div class="card-header genaral-color" [id]="'faqHeading' + i">
+            <h5 class="mb-0 d-flex justify-content-between align-items-center">
+              <button 
+                class="btn btn-link faq-toggle text-left flex-grow-1 d-flex justify-content-between align-items-center genaral-color" 
+                data-toggle="collapse" 
+                [attr.data-target]="'#faq' + i" 
+                aria-expanded="false" 
+                [attr.aria-controls]="'faq' + i">
+                <span>{{ item.question }}</span>
+                <i class="fas fa-chevron-down ml-2"></i>
+              </button>
+            </h5>
+          </div>
+          <div [id]="'faq' + i" class="collapse" [attr.aria-labelledby]="'faqHeading' + i" data-parent="#faqAccordion">
+            <div class="card-body">
+              {{ item.answer }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
