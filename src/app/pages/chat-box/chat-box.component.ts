@@ -1,6 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
 } from '@angular/core';
 import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor } from '@angular/common';
@@ -60,8 +63,10 @@ export class ChatBoxComponent {
   userDetail: any;
   reviewRating: any = 2;
   userlocation: any;
+  isSmallScrenn: boolean = false
+  screenWidth: number;
   constructor(
-   private  toastr:ToastrService,
+    private toastr: ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
     private router: Router,
@@ -70,6 +75,7 @@ export class ChatBoxComponent {
   ) {
     this.currentUserid = extension.getUserId();
     this.getAllChatsOfUser();
+    this.screenWidth = window.innerWidth;
   }
   selectUser(user: any) {
     this.selectedUser = user;
@@ -456,4 +462,14 @@ export class ChatBoxComponent {
       )
       .subscribe();
   }
+  handleSmScreen() {
+    this.isSmallScrenn = !this.isSmallScrenn
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = event.target.innerWidth;
+    if (this.screenWidth > 767) { } this.isSmallScrenn = false
+  }
 }
+

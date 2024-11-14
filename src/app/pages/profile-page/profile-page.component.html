@@ -1,6 +1,7 @@
 <main class="mt-16">
-  <div class="container-fluid">
-    <div class="row justify-content-between profile-main-container">
+  <div class="container-fluid xs-pt-4">
+    <!-- profile-main-container -->
+    <div class="row justify-content-between product-detail-container">
       <div class="col-xl-4 col-md-5 position-relative">
         <img
           (click)="openMore()"
@@ -509,6 +510,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- tabs-screen -->
@@ -939,84 +941,66 @@
               </button>
             </div>
           </div>
-          <div class="col-md-10 mx-auto mt-5" *ngIf="activeButtonPayment ===1">
-            <div class="row">
-              <div class="col-6 text-center mx-auto">
-                <!-- <h6 class="sm-cat-text3">Total Balance</h6>
-                    <h4>AED 5000</h4> -->
-              </div>
-              <div class="col-12">
-                <div class="row justify-content-between">
-                  <div class="col-2">
-                    <h6 style="font-size: 14px" class="sm-cat-text4">Cards</h6>
-                  </div>
-                  <div class="col-5" style="text-align: end">
-                    <h6
-                      class="sm-cat-text4"
+
+          <div class="col-md-10 mx-auto mt-3" *ngIf="activeButtonPayment ===1">
+                <div class="d-flex justify-content-between fs-14 fw-bold">
+                    <span class="">Cards</span>
+                    <span
+                      class="cur-pointer"
                       (click)="openNewCardModal()"
-                      style="cursor: pointer; font-size: 14px"
                     >
                       Add new card
-                    </h6>
-                  </div>
+                    </span>
+                 
                 </div>
                 <div
-                  class="row justify-content-between align-items-center mt-3"
+                  class="d-flex justify-content-between align-items-center mt-3"
                   *ngFor="let data of paymentDeposit"
                 >
-                  <div class="col-12">
-                    <div class="row align-items-center">
-                      <div class="col-9">
-                        <div class="row align-items-center">
-                          <div class="col-md-3 col-4 text-center">
-                            <div
-                              class="sm-p-5"
-                              style="
-                                padding: 15px;
-                                border: 1px solid #ececec;
-                                border-radius: 10px;
-                              "
-                            >
+                  <div class="w-100">
+                    <div class="d-flex align-items-center justify-content-between">
+
+                      <div class="d-flex align-items-center">
+
+                            <div class="card-image">
                               <img
                                 src="{{ data.img }}"
                                 class="w-100"
-                                alt=""
+                                alt="card-image"
                                 loading="lazy"
                               />
                             </div>
-                          </div>
-                          <div class="col-md-9 col-8">
-                            <h6 style="font-size: 16px" class="sm-cat-text4">
+
+                            <div class="ml-3">
+
+                            <h6 class="fs-16">
                               {{ data.detail1 }}
                             </h6>
-                            <div class="d-flex">
-                              <span style="font-size: 12px" class="sm-font"
-                                >{{ data.detail2 }}
+
+                            <div class="d-flex fs-12">
+                              <span>{{ data.detail2 }}
                               </span>
-                              <h6
+                              <span
                                 (click)="openModal()"
-                                style="
-                                  margin-left: 5px;
-                                  cursor: pointer;
-                                  font-size: 12px;
-                                "
-                                class="text-hover sm-font"
+                                class="text-hover cur-pointer ml-1 fw-semibold"
                               >
                                 {{ data.btn }}
-                              </h6>
+                              </span>
                             </div>
-                          </div>
-                        </div>
+
+                            </div>
+
                       </div>
-                      <div class="col-2" style="text-align: end">
+
+                      <div class="text-right" style="text-align: end">
                         <input
-                          class="form-check-input"
-                          style="cursor: pointer"
+                          class="form-check-input cur-pointer"
                           type="radio"
                           name="flexRadioDefault"
                           id="{{ data.id }}"
                         />
                       </div>
+
                     </div>
                     <hr />
                   </div>
@@ -1039,14 +1023,9 @@
         </div>
       </div>
       <!-- savedItems -->
-      <div *ngIf="selectedTab === 'savedItems'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-7 text-center mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-heart title-icon"></i>
-              </div>
-              <div class="col-6 col-md-8 col-5 pl-0">
+      <div *ngIf="selectedTab === 'savedItems'" class="col-md-7">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-heart title-icon mr-2"></i>
                 <h3 class="right-side-top-title text-left">Saved Items</h3>
               </div>
             </div>
@@ -1505,7 +1484,7 @@
             <div class="row mt-3">
               <div class="col-6">
                 <label
-                  >Category (required)<span class="text-danger">*</span></label
+                  >Category<span class="text-danger">*</span></label
                 >
                 <select
                   class="form-select form-control input-class-add-form"
@@ -1537,8 +1516,8 @@
               </div>
 
               <div class="col-6">
-                <label
-                  >Subcategory (required)<span class="text-danger"
+                <label class="subcategory-label"
+                  >Subcategory<span class="text-danger"
                     >*</span
                   ></label
                 >
@@ -1582,7 +1561,7 @@
                 row-gap: 0px;
                 column-gap: 35px;
               "
-            >
+            class="categoryFields">
               <div
                 class="row mt-3"
                 *ngFor="let field of categoryFields[selectedCategoryId]"
@@ -2017,7 +1996,7 @@
             <div class="row mt-3">
               <div class="col-6">
                 <label
-                  >Category (required)<span class="text-danger">*</span></label
+                  >Category<span class="text-danger">*</span></label
                 >
                 <select
                   class="form-select form-control input-class-add-form"
@@ -2047,8 +2026,8 @@
               </div>
 
               <div class="col-6">
-                <label
-                  >Subcategory (required)<span class="text-danger"
+                <label class="subcategory-label"
+                  >Subcategory<span class="text-danger"
                     >*</span
                   ></label
                 >
@@ -2087,7 +2066,7 @@
                 row-gap: 0px;
                 column-gap: 35px;
               "
-            >
+           class="categoryFields" >
               <div
                 class="row mt-3"
                 *ngFor="let field of categoryFields[selectedCategoryId]"
@@ -2458,21 +2437,10 @@
         </div>
       </div>
       <!-- boostPlus -->
-      <div
-        *ngIf="selectedTab === 'boostPlus' && !showDiv"
-        class="col-xl-7 col-md-7"
-      >
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-rocket title-icon"></i>
-              </div>
-              <div class="col-6 col-md-6 m-0 p-0">
-                <h3 class="right-side-top-title">Boost Plus</h3>
-              </div>
-            </div>
-          </div>
+      <div *ngIf="selectedTab === 'boostPlus' && !showDiv" class="col-xl-7 col-md-7">
+         <div class="row align-items-center justify-content-center margin-top-right-side-class">
+            <i class="fas fa-rocket title-icon"></i>
+              <h3 class="right-side-top-title">Boost Plus</h3>
         </div>
         <hr />
         <div class="row">
@@ -2507,7 +2475,7 @@
                 <div class="d-flex justify-content-center w-100">
                   <button
                     (click)="openBoostModal()"
-                    class="btn btn-outline-dark w-50 mt-5"
+                    class="btn btn-outline-dark w-50 mt-5 xs-w-fit"
                   >
                     <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
                   </button>
@@ -3323,7 +3291,7 @@
                 </div>
                 <div class="col-5 mt-4 mx-auto text-center">
                   <button
-                    class="btn btn-dark w-100"
+                    class="btn btn-dark w-100 xs-w-fit"
                     style="border-radius: 15px; padding: 10px"
                   >
                     Start Free Trial!

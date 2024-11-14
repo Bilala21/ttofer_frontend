@@ -1,6 +1,17 @@
 
 <form [formGroup]="registerForm">
+  <!-- register-img -->
+  <div class="row">
+    <div class="cur-pointer">
+      <i class="fa fa-arrow-left fs-12" (click)="backButton()"></i>
+    </div>
+    <div class="col-12 text-center">
+      <h6 class="fs-20">Registration</h6>
+      <img src="assets/images/register-img.png" class="w-50 mt-3" alt="">
+    </div>
+  </div>
 <div class="row mt-5">
+
   <div class="col-6">
     <label>First Name</label>
     <input type="text" placeholder="First Name" class="form-control"

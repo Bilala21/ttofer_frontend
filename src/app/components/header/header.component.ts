@@ -26,8 +26,8 @@ export class HeaderNavigationComponent implements OnInit {
   categories: any = [];
   showSearch: boolean = false;
   private imageUrlSubscription: Subscription | undefined;
-  screenWidth: number = window.innerWidth;
-  screenHeight: number = window.innerHeight;
+  screenWidth: number;
+  screenHeight: number;
   imgUrl: string | null = null;
   tempToken: boolean = false
   cartItems: any = [];
@@ -46,26 +46,31 @@ export class HeaderNavigationComponent implements OnInit {
     globalStateService.currentState.subscribe((state) => {
       this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
     })
+    this.currentUserid = extension.getUserId();
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.getScreenSize();
+    this.screenWidth = event.target.innerWidth;
+    this.screenHeight = event.target.innerHeight;
+    this.getScreenSize()
   }
 
   getScreenSize() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
 
-    if (this.screenWidth < 1024 && this.screenWidth > 768) {
-      this.categoryLimit = 4;
-    }
-    else if (this.screenWidth < 768) {
+    if (this.screenWidth > 1024) {
+      this.categoryLimit = 12;
+    } else if (this.screenWidth <= 1024 && this.screenWidth > 768) {
+      this.categoryLimit = 6;
+    } else if (this.screenWidth <= 768) {
       this.categoryLimit = 2;
     }
-    else {
-      this.categoryLimit = 12;
-    }
+
+    console.log(`Screen Width: ${this.screenWidth}, Category Limit: ${this.categoryLimit}`);
   }
 
   showSearchBar() {
@@ -151,15 +156,24 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-  savedItems(){
-    localStorage.setItem('currentTab',"savedItems");
-    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
+  savedItems() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
+    }else {
+      const userData = JSON.parse(storedData);
+      const userId = userData?.id;
+      if (userId) {
+        this.router.navigate([`/selling/${userId}`]);
+        localStorage.setItem('currentTab', "savedItems");
+        this.router.navigate(['/profilePage', `${userId}`])  
+      }
     }
+    
+ 
+    
   }
   openSelling() {
     const storedData = localStorage.getItem('key');
@@ -175,26 +189,45 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-cart(){
-  const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }else{
-    this.router.navigate(['/cart'])
+  goOnCart(){
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.router.navigate(['/cart'])
+    }
   }
-}
-goOnNotification(){
-  const storedData = localStorage.getItem('key');
-  if (!storedData) {
-    this.toastr.warning('Plz login first than try again !', 'Warning');
-    this.authService.triggerOpenModal();
-    return;
-  }else{
-    localStorage.setItem('currentTab',"notification");
-    this.router.navigate(['/profilePage',`${this.currentUser.id}`])
-  }  
+  cart() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.mainServicesService.getCartPorduct().subscribe({
+        next: (value: any) => {
+          this.globalStateService.updateCart(value.data)
+          console.log(value);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      })
+      // this.router.navigate(['/cart'])
+    }
+  }
+  goOnNotification() {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      localStorage.setItem('currentTab', "notification");
+      this.router.navigate(['/profilePage', `${this.currentUser.id}`])
+    }
   }
   getNotification() {
     this.loading = true;
