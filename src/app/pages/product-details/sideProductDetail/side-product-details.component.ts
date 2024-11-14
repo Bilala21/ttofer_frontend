@@ -57,6 +57,8 @@ export class SideProductDetailsComponent {
   }
 
   ngOnInit() {
+    debugger
+    console.log(this.attributesObject)
     this.getCurrentLocation();
     this.loadMap();
   }

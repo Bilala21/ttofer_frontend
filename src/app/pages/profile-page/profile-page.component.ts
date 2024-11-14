@@ -1716,16 +1716,71 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
+  checkattribute(){
+    debugger
+    console.log(this.attributes)
+  }
+  async AddProductFirstStep() {
+    if (!this.validateForm()) {
+      return;
+    }
+    let formData = new FormData();
 
+    // Append video files to formData
+    if (this.selectedVideo && this.selectedVideo.file) {
+      formData.append('video[]', this.selectedVideo.file, this.selectedVideo.file.name);
+    }
+
+    // Append other fields
+    formData.append(
+      'user_id',
+      this.currentUserId ? Number(this.currentUserId).toString() : '0'
+    );
+    formData.append('title', this.title);
+    formData.append('description', this.description);
+
+    try {
+      const token = localStorage.getItem('authToken');
+      this.isLoading = true;
+
+      // Fetch request to send formData
+      const response = await fetch(
+        'https://www.ttoffer.com/backend/public/api/add-product-first-step',
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
+      );
+
+      // Parse JSON response
+      const data = await response.json();
+
+      if (response.ok) {
+        this.productId = data.product_id;
+        await this.addProductImage();
+        // this.attributes();
+        await this.addProductSecondStep();
+      }
+    } catch (error) {
+      this.isLoading = false;
+
+      this.handleError(error);
+    } finally {
+      this.isLoading = false;
+    }
+  }
   async addProductSecondStep() {
-    this.attributes['category_id'] = this.selectedCategoryId;
-    this.attributes['category_name'] = this.getCategoryNameById(
-      this.selectedCategoryId
-    );
-    this.attributes['sub_category_id'] = this.selectedSubCategoryId;
-    this.attributes['sub_category_name'] = this.getSubCategoryNameById(
-      this.selectedSubCategoryId
-    );
+    // this.attributes['category_id'] = this.selectedCategoryId;
+    // this.attributes['category_name'] = this.getCategoryNameById(
+    //   this.selectedCategoryId
+    // );
+    // this.attributes['sub_category_id'] = this.selectedSubCategoryId;
+    // this.attributes['sub_category_name'] = this.getSubCategoryNameById(
+    //   this.selectedSubCategoryId
+    // );
     let input = {
       product_id: this.productId,
       category_id: this.selectedCategoryId,

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { catchError, of, Subscription } from "rxjs";
 import { LookupService } from "../../shared/services/lookup/lookup.service";
@@ -11,6 +11,7 @@ import { AuthService } from "../../shared/services/authentication/Auth.service";
 import { EmailSignInComponent } from "../email-sign-in/email-sign-in.component";
 import { PhoneSignInComponent } from "../phone-sign-in/phone-sign-in.component";
 import { RegisterComponent } from "../register/register.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-login-modal',
@@ -60,8 +61,9 @@ export class LoginModalComponent {
   private modalSubscription!: Subscription;
   // categories! : category []
   @ViewChild('loginModal') loginModal!: ElementRef;
+  @ViewChildren('otpField') otpFields!: QueryList<ElementRef>;
   constructor(
-    private router: Router, private mainServices: MainServicesService, private extention: Extension,
+    private router: Router, private mainServices: MainServicesService, private extention: Extension,private toastr:ToastrService,
     private snackBar: MatSnackBar,
     private authService: AuthService) {
     // this.inputFields = new Array(6);
@@ -415,13 +417,14 @@ export class LoginModalComponent {
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
       this.otpVerify = res.otp
       console.log(this.otpVerify)
-      this.showSuccessMessage(res.msg)
+      this.toastr.success(res.msg, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
       this.showForgotBox = false
     },
     (err:any)=>{
-      this.showSuccessMessage(err.error.msg)
+      debugger
+      this.toastr.error(err.error.msg, 'Error');
       this.loading = false
     }
   )
@@ -529,6 +532,38 @@ export class LoginModalComponent {
 
     this.loading = false;
 }
+otpInputs: any[] = new Array(6); // Adjust for the number of OTP inputs
 
+onInputChange(event: any, index: number) {
+  const input = event.target;
+  if (input.value.length === 1) {
+    // Move to the next input if it exists
+    const nextInput = this.otpFields.toArray()[index + 1];
+    nextInput?.nativeElement.focus();
+  }
+}
 
+onBackspace(event: any, index: number) {
+  const input = event.target;
+  if (input.value.length === 0 && index > 0) {
+    // Move to the previous input if it exists
+    const previousInput = this.otpFields.toArray()[index - 1];
+    previousInput?.nativeElement.focus();
+  }
+}
+onPaste(event: ClipboardEvent) {
+  event.preventDefault();
+  const pastedData = event.clipboardData?.getData('text') || '';
+
+  // Populate each OTP input field with the corresponding character from pasted data
+  this.otpFields.forEach((field, index) => {
+    field.nativeElement.value = pastedData[index] || ''; // Populate only if there's data
+  });
+
+  // Focus on the last filled input field
+  const lastFilledField = this.otpFields.toArray()[
+    Math.min(pastedData.length, this.otpInputs.length) - 1
+  ];
+  lastFilledField?.nativeElement.focus();
+}
 }

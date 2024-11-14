@@ -13,7 +13,7 @@ export class MainServicesService {
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: any
   ) { }
-  // private Url = 'https://www.control.ttoffer.com/';
+   Url = 'https://www.ttoffer.com/backend/public/api';
   // private getHeaders(): HttpHeaders {
   //   let headersConfig:any = {
   //     'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export class MainServicesService {
     return this.http.get(`${Constants.baseApi}` + '/mark/conversation/read/' + conversation_id).pipe();
   }
   addProductFirstStep(input: FormData): Observable<any> {
-    return this.http.post<any>(`${Constants.baseApi}` + '/add-product-first-step', input, {
+    return this.http.post<any>(`${this.Url}` + '/add-product-first-step', input, {
       headers: this.getHeaders(),
       reportProgress: true,
       observe: "events"
@@ -116,7 +116,7 @@ export class MainServicesService {
     );
   }
   addProductSecondStep(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/add-product-second-step', input).pipe();
+    return this.http.post(`${this.Url}` + '/add-product-second-step', input).pipe();
   }
   editProductSecondStep(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/edit-product-second-step', input).pipe();
@@ -125,10 +125,10 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/add-product-third-step', input).pipe();
   }
   editProductThirdStep(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/edit-product-third-step', input).pipe();
+    return this.http.post(`${this.Url}` + '/edit-product-third-step', input).pipe();
   }
   addProductLastStep(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/add-product-last-step', input).pipe();
+    return this.http.post(`${this.Url}` + '/add-product-last-step', input).pipe();
   }
   editProductLastStep(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/edit-product-last-step', input).pipe();

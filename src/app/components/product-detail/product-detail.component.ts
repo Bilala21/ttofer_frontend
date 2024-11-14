@@ -66,10 +66,10 @@ export class ProductDetailComponent implements OnInit {
     this.loading = true
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
+        debugger
         this.product = value.data
         this.attributes = JSON.parse(value.data.attributes)
         this.loading = false
-        console.log(JSON.parse(value.data.attributes), 'attributes');
       },
       error: (err) => {
         this.loading = false

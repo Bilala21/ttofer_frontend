@@ -155,79 +155,47 @@
             </div>
           </div>
           <div class="col-10 mx-auto" *ngIf="showOTPBox">
-            <div class="text-center">
-              <h6 class="">Verify</h6>
-              <img
-                src="assets/images/verify-img.png"
-                class="w-75 mt-3"
-                alt=""
-                loading="lazy"
-              />
-            </div>
-            <div class="mt-4">
-              <p>
-                Please type in the OTP code we sent to your email. It's an extra
-                step to make sure it's really you and keep your account safe.
-              </p>
-              <span>Verification Code Sent to name&commat;dummy.com</span>
-            </div>
-            <div class="row mt-4">
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="col-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-            </div>
-            <div class="mt-4 text-center">
-              <button
-                class="btn btn-dark w-100"
-                style="border-radius: 20px; padding: 10px"
-              >
-                Verify
-              </button>
-              <span style="cursor: pointer" class="mt-3"
-                >Didn’t Receive OTP?</span
-              >
-              <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
-            </div>
-          </div>
+			<div class="text-center">
+			  <h6>Verify</h6>
+			  <img
+				src="assets/images/verify-img.png"
+				class="w-75 mt-3"
+				alt="Verification Image"
+				loading="lazy"
+			  />
+			</div>
+			<div class="mt-4">
+			  <p>
+				Please type in the OTP code we sent to your email. It's an extra step to make sure it's really you and keep your account safe.
+			  </p>
+			  <span>Verification Code Sent to {{this.email}}</span>
+			</div>
+			<div class="row mt-4">
+			  <div class="col-2" *ngFor="let otpInput of otpInputs; let i = index">
+				<input
+				#otpField
+				  type="text"
+				  class="form-control text-center"
+				  style="border-radius: 10px"
+				  maxlength="1"
+				  (input)="onInputChange($event, i)"
+				  (keydown.backspace)="onBackspace($event, i)"
+				  (paste)="i === 0 ? onPaste($event) : null"
+				/>
+			  </div>
+			</div>
+			<div class="mt-4 text-center">
+			  <button
+				class="btn btn-dark w-100"
+				style="border-radius: 20px; padding: 10px"
+			  >
+				Verify
+			  </button>
+			  <span style="cursor: pointer" class="mt-3">Didn’t Receive OTP?</span>
+			  <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
+			</div>
+		  </div>
+		  
           <div class="col-10 mx-auto" *ngIf="showEmailBox">
             <!-- <div class="text-center">
 								<h6 class="">Email</h6>
