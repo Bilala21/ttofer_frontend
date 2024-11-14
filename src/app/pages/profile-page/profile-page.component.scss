@@ -109,11 +109,13 @@
     }
   }
 }
-.card-image{
+
+.card-image {
   padding: 15px;
   border: 1px solid #ececec;
   border-radius: 10px;
 }
+
 @media (max-width: 1024px) {
   .profile-main-container {
     margin-top: 8.5rem;
@@ -847,5 +849,50 @@
 
   .subcategory-label {
     padding-top: 16px;
+  }
+
+  .col-md-7 {
+    padding-left: 0;
+    padding-right: 0;
+
+    .col-md-11.mx-auto,
+    .col-md-10.mx-auto.mt-3 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .col-md-10.mx-auto {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .sidebar-content {
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+
+      .col-md-10.mx-auto {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
+  .row.margin-top-class {
+    .col-12 {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+
+      .col-md-6.col-10,
+      .col-2.d-flex {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        .col-2.d-flex.align-content-center {
+          padding-left: 0;
+        }
+      }
+
+    }
   }
 }
