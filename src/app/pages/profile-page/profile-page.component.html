@@ -515,19 +515,13 @@
 
       <!-- tabs-screen -->
       <!-- Purchases & Sales -->
-      <div *ngIf="selectedTab === 'purchasesSales'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-7 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-2 d-flex justify-content-end">
-                <i class="fas fa-shopping-cart title-icon"></i>
-              </div>
-              <div class="col-10 pl-0">
-                <h3 class="right-side-top-title">Purchases & Sales</h3>
-              </div>
+      <div *ngIf="selectedTab === 'purchasesSales'" class="col-md-7">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-shopping-cart title-icon mr-2"></i>
+                <h3 class="right-side-top-title"> 
+                  Purchases & Sales
+                </h3>
             </div>
-          </div>
-        </div>
         <hr />
         <!-- tabs-start -->
         <div class="row">
@@ -652,19 +646,29 @@
                   >
                     <span class="card-title">{{ data.title }}</span>
                     <span class="view-count"
-                      >{{ data.views.total_views || 0 }} Views</span
+                      >{{ data.view_count || 0 }} Views</span
                     >
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="avatars d-flex">
                       <img
-                        *ngFor="let user of data.views.users.slice(0, 4)"
-                        [src]="user.img"
-                        [alt]="user.name"
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 1"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 2"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 3"
+                      />
+                      <img
+                        src="/assets/images/profile-placeholder.png"
+                        alt="User 4"
                       />
                     </div>
                   </div>
-                  
                   <div class="action-text">
                     Sell faster <span>|</span>
                     <span
@@ -812,8 +816,8 @@
                 >
                   <img
                     src="{{
-                      data.photos && data.photos.length > 0
-                        ? data.photos[0].src
+                      data.photo && data.photo.length > 0
+                        ? data.photo[0].src
                         : 'assets/images/default-img.jpg'
                     }}"
                     alt="Item Image"
@@ -894,22 +898,14 @@
         </div>
       </div>
       <!-- paymentDeposit -->
-      <div *ngIf="selectedTab === 'paymentDeposit'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-2 d-flex justify-content-end">
-                <i class="fas fa-credit-card title-icon"></i>
-              </div>
-              <div class="col-10 pl-0">
+      <div *ngIf="selectedTab === 'paymentDeposit'" class="col-md-7">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-credit-card title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Payment & Deposit method</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row">
-          <div class="col-md-10 mx-auto">
+          <div class="col-md-11 mx-auto">
             <div
               class="btn-group w-100"
               role="group"
@@ -1005,9 +1001,8 @@
                     <hr />
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
+
           <div class="col-10 mx-auto mt-5" *ngIf="activeButtonPayment === 2">
             <div class="row">
               <div class="col-md-8 mx-auto mt-5 text-center">
@@ -1017,7 +1012,7 @@
                   >When you have shipping purchase or sale, You’ll see it
                   here</span
                 >
-              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -1027,10 +1022,7 @@
             <div class="row align-items-center justify-content-center margin-top-right-side-class">
                 <i class="fas fa-heart title-icon mr-2"></i>
                 <h3 class="right-side-top-title text-left">Saved Items</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <!-- content -->
         <div class="mt-5">
@@ -1130,18 +1122,10 @@
       </div>
       <!-- notification -->
       <div *ngIf="selectedTab === 'notification'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-bell title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-bell title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Notifications</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="mt-md-5">
           <div *ngIf="notificationList.length == 0">
@@ -1296,18 +1280,10 @@
       </div>
       <!-- editPost -->
       <div *ngIf="selectedTab === 'editPost'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-edit title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-edit title-icon mr-2"></i>
                 <h3 class="right-side-top-title mt-1">Edit Post</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
 
         <div class="row">
@@ -1768,9 +1744,11 @@
                 />
               </div>
             </div>
+           <div class="mt-2">
             <app-current-location
               
             ></app-current-location>
+           </div>
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
@@ -1805,18 +1783,10 @@
       </div>
       <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-4 col-md-4 d-flex justify-content-end">
-                <i class="fas fa-plus-circle title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-plus-circle title-icon mr-2"></i>
                 <h3 class="right-side-top-title mt-1">Add Post</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row">
           <div class="col-12 mx-auto">
@@ -2303,9 +2273,11 @@
                 </div>
               </div>
             </div>
-
-            <app-current-location
-            ></app-current-location>
+            <div class="mt-2">
+              <app-current-location
+              ></app-current-location>
+            </div>
+            
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
@@ -2314,7 +2286,7 @@
               <div class="col-md-6 ml-auto">
                 <button
                   class="btn btn-dark w-100"
-                  (click)="checkattribute()"
+                  (click)="addCompleteProduct()"
                   [disabled]="isLoading"
                 >
                   <span *ngIf="!isLoading">Post</span>
@@ -2332,22 +2304,10 @@
       </div>
       <!-- accountSetting -->
       <div *ngIf="selectedTab === 'accountSetting'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <!-- <div class="col-2">
-                <i class="fas fa-cog fa-2x"></i>
-                Settings icon
-               </div> -->
-              <div class="col-2 col-md-5 d-flex justify-content-end">
-                <i class="fas fas fa-cog title-icon"></i>
-              </div>
-              <div class="col-10 col-md-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fas fa-cog title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Account Setting</h3>
-              </div>
             </div>
-          </div>
-        </div>
         <hr />
         <div class="row margin-top-class">
           <div
@@ -2504,17 +2464,9 @@
       </div>
       <!-- customLinks -->
       <div *ngIf="selectedTab === 'customLinks'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-9 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-link title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-link title-icon mr-2"></i>
                 <h1 class="right-side-top-title">Custom Link</h1>
-              </div>
-            </div>
-          </div>
         </div>
         <hr />
         <div class="row">
@@ -2540,15 +2492,9 @@
       </div>
       <!-- helpCenter -->
       <div *ngIf="selectedTab === 'helpCenter'" class="col-xl-7 col-md-7">
-        <div class="row">
-          <div class="col-md-12 mx-auto margin-top-right-side-class">
-            <div class="row align-items-center">
-              <div class="col-5 col-md-5 d-flex justify-content-end">
-                <i class="fas fa-question title-icon"></i>
-              </div>
-              <div class="col-6 m-0 p-0">
+            <div class="row align-items-center justify-content-center margin-top-right-side-class">
+                <i class="fas fa-question title-icon mr-2"></i>
                 <h3 class="right-side-top-title">Help Center</h3>
-              </div>
             </div>
             <hr />
             <div class="row">
@@ -2567,8 +2513,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
       <!-- showDiv  -->
       <div *ngIf="showDiv" class="col-xl-7 col-md-7">
@@ -2698,8 +2642,6 @@
     <!-- </div> -->
     <!-- </div> -->
   </div>
-
-  <!-- <app-footer></app-footer> -->
 
   <div
     class="modal fade"

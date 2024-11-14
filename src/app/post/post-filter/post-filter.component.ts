@@ -54,7 +54,6 @@ export class PostFilterComponent implements OnInit {
       if (this.category_id) {
         this.categories = await this.lookupService.GetProductCategories();
         this.categoryName = this.categories.filter(x => x.id == this.category_id)[0].name;
-        // Fetch subcategories when the category_id changes
         this.subCategories = await this.lookupService.GetProductSubCategories(this.category_id);
       } else {
         this.subCategories = [];

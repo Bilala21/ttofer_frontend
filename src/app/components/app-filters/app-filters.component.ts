@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf,NgFor],
+  imports: [FormsModule, NgxSliderModule, NgIf],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
@@ -91,7 +91,7 @@ export class AppFiltersComponent implements OnInit {
   filterCriteria: any = {
     location: []
   };
-  value: number = 5;
+  minValue: number = 5;
   highValue: number = 1000;
   priceOptions: Options = {
     floor: 0,
@@ -110,8 +110,7 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-  selectedCategory:any
-  categories:any
+
   constructor(
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
@@ -123,48 +122,29 @@ export class AppFiltersComponent implements OnInit {
 
 
   ngOnInit() {
-    // Subscribe to route parameters
+
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
       this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
-      // this.fetchSubCategories();
-    });
-    this.route.queryParams.subscribe(queryParams => {
-      const search = queryParams['search'];
-      if (search) {
-        // Call handleFilter if 'search' is present
-        this.handleFilter({ key: 'search', value: search });
-      }
+      this.fetchSubCategories();
     });
 
-    // Subscribe to global product state
+    this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
+    console.log(this.filterCriteria, 'filterCriteria');
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
-      // this.fetchData();
+      this.fetchData();
     });
-    if(!this.id){
-      this.globalStateService.currentState.subscribe((state) => {
-        this.categories =state.categories
-      })
-    }else if(this.id){
-     this.fetchSubCategories(this.id);
-
-    }
-   
+    this.minValue = this.filterCriteria?.min_price
+    this.highValue = this.filterCriteria?.max_price
+    this.radiusValue = this.filterCriteria?.radius
   }
-  selectCategory(category: any): void {
-    this.selectedCategory = category;
-    this.categoryWithFilters = this.filter_fields?.[this.selectedCategory.slug.toLowerCase()];
 
-    this.fetchSubCategories(this.selectedCategory.id)
-    // Optionally load subcategories based on selected category
-    // this.subCategories = this.loadSubCategories(category.id);
-  }
-  fetchSubCategories(category_id:any) {
-    if (category_id) {
-      this.mainServicesService.getSubCategories(category_id).subscribe({
-        next: (res:any) => {
+  fetchSubCategories() {
+    if (this.id) {
+      this.mainServicesService.getSubCategories(this.id).subscribe({
+        next: (res: any) => {
           this.subCategories = res?.data;
         },
         error: (err) => {
@@ -182,6 +162,8 @@ export class AppFiltersComponent implements OnInit {
         if (res && res.data.data) {
           this.startCountdowns(res.data.data);
           this.globalStateService.setFilteredProducts(res.data.data);
+          this.globalStateService.setFilteredProducts(res.data);
+          this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');
         }
@@ -204,9 +186,9 @@ export class AppFiltersComponent implements OnInit {
       }
     } else {
       this.filterCriteria[filter.key] = filter.value;
-      this.fetchData();
-
     }
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.fetchData();
   }
 
   handlePrice(event: any) {

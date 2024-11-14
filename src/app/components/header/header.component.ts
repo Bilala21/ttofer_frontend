@@ -10,6 +10,7 @@ import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-header-navigation',
@@ -32,12 +33,13 @@ export class HeaderNavigationComponent implements OnInit {
   tempToken: boolean = false
   cartItems: any = [];
   notificationList: any = [];
+  currentUserid:any
   unReadNotification: any = 0;
   searchTerm:any
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
-    private authService: AuthService,
+    private authService: AuthService,private extension:Extension,
     private router: Router, private toastr: ToastrService,
 
     private service: SharedDataService

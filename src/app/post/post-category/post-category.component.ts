@@ -18,7 +18,7 @@ export class PostCategoryComponent implements OnInit {
   postCols = 'col-12 col-md-6 col-lg-6 col-xl-4';
   feature = [];
   auction = [];
-  data:any[]=[]
+  data: any = {}
   countdownSubscriptions: Subscription[] = [];
   loading:any = true
   promotionBanners: any = [];
@@ -67,13 +67,9 @@ export class PostCategoryComponent implements OnInit {
     this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
     this.globalStateService.currentState.subscribe((state) => {
       this.data = state.filteredProducts;
-      this.globalStateService.productlength= state.filteredProducts?.length
-      // this.activeTab = state.prodTab
-
+      console.log(this.data,"this.data");
+      this.globalStateService.productlength = state.filteredProducts?.data?.length
     })
-    setTimeout(()=>{
-    this.loading = false
-    },2000)
   }
   getBannerSliceCount(): number {
     return this.hasSearchParam ? 0 : 2;

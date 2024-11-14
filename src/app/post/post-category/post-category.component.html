@@ -23,12 +23,12 @@
           <button type="button" class="btn py-2 px-2 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
             (click)="handleTab('featured')"> Feature Products</button>
         </div>
-        @if (!data.length) {
-        <div class="text-center text-dark-400 pt-5">Data not found</div>
+        @if (!data?.data.length) {
+          <div class="text-center text-dark-400 pt-5">Data not found</div>
         }
         @else {
-        <div class="row px-0 row-gap">
-          @if(!data.length){
+          <div class="w-100 product-main">
+          @if(!data?.data.length){
             @for(data of [1,2,3,4,5,6,7,8,9];track $index){
               <div
               class="m-1 p-0 border-1 rounded-2 shimmer-card"
@@ -36,14 +36,17 @@
               <app-card-shimmer/>
               </div>
             }
-          }@else { @for (post of data; track $index) {
-          <div class="col-lg-4">
+          }@else { @for (post of data?.data; track $index) {
+          <div class="product-card">
             <app-product-card
               [postData]="post"
               postDetialUrl="auction-product-detail"
             />
           </div>
           } }
+        </div>
+        <div class="text-center my-5" *ngIf="data?.data.length > 10">
+          <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
         </div>
         }
       </div>
