@@ -51,7 +51,7 @@
         </div>
         
         <div class="text-center my-5" *ngIf="data?.length > 10">
-          <button class="btn load-more-btn fs-18 fw-semibold">Load more</button>
+          <button class="btn load-more-btn fs-18 fw-semibold" (click)="handleLoadMore(currentPage)">Load more</button>
         </div>
       </div>
     </div>

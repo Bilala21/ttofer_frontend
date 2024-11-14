@@ -91,7 +91,7 @@ export class AppFiltersComponent implements OnInit {
   filterCriteria: any = {
     location: []
   };
-  value: number = 5;
+  minValue: number = 5;
   highValue: number = 1000;
   priceOptions: Options = {
     floor: 0,
@@ -122,7 +122,7 @@ export class AppFiltersComponent implements OnInit {
 
 
   ngOnInit() {
-    // Subscribe to route parameters
+
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
@@ -130,11 +130,15 @@ export class AppFiltersComponent implements OnInit {
       this.fetchSubCategories();
     });
 
-    // Subscribe to global product state
+    this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
+    console.log(this.filterCriteria, 'filterCriteria');
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
       this.fetchData();
     });
+    this.minValue = this.filterCriteria?.min_price
+    this.highValue = this.filterCriteria?.max_price
+    this.radiusValue = this.filterCriteria?.radius
   }
 
   fetchSubCategories() {
@@ -181,6 +185,7 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria[filter.key] = filter.value;
     }
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchData();
   }
 

@@ -14,7 +14,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
-  imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent,NgIf]
+  imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent, NgIf]
 })
 export class CategoriesComponent {
   constructor(private route: ActivatedRoute, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
@@ -24,7 +24,7 @@ export class CategoriesComponent {
   data: any = {}
   loading: any = true
   id: any = null
-  currentPage:number=1
+  currentPage: number = 1
   handleTab(tab: string) {
 
     this.activeTab = tab
@@ -34,33 +34,54 @@ export class CategoriesComponent {
     this.getBanners()
 
     this.globalStateService.currentState.subscribe((state) => {
-      this.currentPage=state.filteredProducts?.current_page
-      this.data = state.filteredProducts?.data?.filter((item:any) => item.ProductType == this.activeTab );
+      this.currentPage = state.filteredProducts?.current_page
+      this.data = state.filteredProducts?.data?.filter((item: any) => item.ProductType == this.activeTab);
       this.globalStateService.productlength = state.filteredProducts?.data?.length
       this.loading = false
     })
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
-    if(["3","4","8"].includes(this.id)){
-      this.handleTab('featured')
-    }else{
-       this.handleTab("auction")
+      if (["3", "4", "8"].includes(this.id)) {
+        this.handleTab('featured')
+      } else {
+        this.handleTab("auction")
       }
     });
-    
+
   }
-  getBanners(){
+  getBanners() {
     this.mainServices.getBanners().subscribe({
-      next:(res)=>{
-          this.promotionBanners = res.data.map((item:any)=>{
-            return{
-              banner:item?.img
-            }
-          })
+      next: (res) => {
+        this.promotionBanners = res.data.map((item: any) => {
+          return {
+            banner: item?.img
+          }
+        })
       },
-      error:(error)=>{
+      error: (error) => {
         console.error('Error occurred while fetching data', error);
       }
     })
   }
+
+  handleLoadMore(page: number) {
+    let filters = JSON.parse(localStorage.getItem("filters") as string)
+    const modifiedFilter = { ...filters, page: page + 1, location: filters.location.join(',') };
+    ;
+
+    this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
+      next: (res: any) => {
+        if (res && res.data.data) {
+          this.globalStateService.setFilteredProducts(res.data);
+          this.globalStateService.isFilterActive(true)
+        } else {
+          console.log('No data found in response');
+        }
+      },
+      error: (err) => {
+        console.log('Error fetching filtered products', err);
+      }
+    });
+  }
+
 }
