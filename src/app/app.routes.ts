@@ -26,6 +26,7 @@ import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.comp
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.component';
 import { FAQComponent } from './pages/f-a-q/f-a-q.component';
+import { ContactFormComponent } from './pages/contact-form/contact-form.component';
 
 export const routes: Routes = [
 
@@ -110,10 +111,10 @@ export const routes: Routes = [
         path: 'term-of-condition',
         component: TermOfConditionComponent
     },
-    {
-        path: 'contact-us',
-        component: ContactUsComponent
-    },
+    // {
+    //     path: 'contact-us',
+    //     component: ContactUsComponent
+    // },
     {
         path: 'markAsSold/:id',
         component: MarkAsSoldComponent
@@ -125,6 +126,10 @@ export const routes: Routes = [
     {
         path: 'checkout',
         component: CheckOutPageComponent
+    },
+    {
+        path: 'contact-us',
+        component: ContactFormComponent
     },
     {
         path: 'faq',

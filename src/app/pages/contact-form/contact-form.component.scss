@@ -1,0 +1,11 @@
+.custom-textarea {
+    height: auto; /* Allow the height to adjust based on rows */
+    resize: vertical; /* Optionally allows users to manually resize the textarea */
+    min-height: calc(1.5em * 4); /* Approximate minimum height based on rows */
+  }
+  .main-container-contact{
+    max-width: 600px;
+    margin:0 auto;
+    padding: 10px 15px 0px 15px;
+
+  }

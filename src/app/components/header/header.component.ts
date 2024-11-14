@@ -71,8 +71,6 @@ export class HeaderNavigationComponent implements OnInit {
     } else if (this.screenWidth <= 768) {
       this.categoryLimit = 2;
     }
-
-    console.log(`Screen Width: ${this.screenWidth}, Category Limit: ${this.categoryLimit}`);
   }
 
   showSearchBar() {
