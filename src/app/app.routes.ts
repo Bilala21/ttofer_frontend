@@ -28,6 +28,7 @@ import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.com
 import { FAQComponent } from './pages/f-a-q/f-a-q.component';
 import { ContactFormComponent } from './pages/contact-form/contact-form.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 export const routes: Routes = [
 
@@ -42,6 +43,10 @@ export const routes: Routes = [
         path: 'product-detail/:id/:slug',
         component: ProductDetailComponent
         // component: ProductDetailsComponent
+    },
+    {
+        path: 'notifications',
+        component: NotificationsComponent
     },
     {
         path: 'profilePage/:id',
