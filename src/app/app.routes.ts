@@ -26,6 +26,7 @@ import { AuthModalComponent } from './components/auth/auth-modal/auth-modal.comp
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.component';
 import { FAQComponent } from './pages/f-a-q/f-a-q.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 export const routes: Routes = [
 
@@ -40,6 +41,10 @@ export const routes: Routes = [
         path: 'product-detail/:id/:slug',
         component: ProductDetailComponent
         // component: ProductDetailsComponent
+    },
+    {
+        path: 'notifications',
+        component: NotificationsComponent
     },
     {
         path: 'profilePage/:id',

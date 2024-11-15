@@ -109,41 +109,7 @@ export class HeaderNavigationComponent implements OnInit {
       return acc + item.fix_price * item.quantity;
     }, 0);
   }
-  ngOnInit(): void {
-    this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
-      (url: string | null) => {
-        this.imgUrl = url;
-      }
-    );
 
-    if (this.currentUser && this.currentUser.img) {
-      this.imgUrl = this.currentUser.img;
-    }
-
-    this.loading = true;
-    this.getScreenSize();
-    this.mainServicesService.getCategories().subscribe({
-      next: (res: any) => {
-        this.categories = res.data;
-        this.loading = false;
-        this.globalStateService.setCategories(res.data);
-      },
-      error: (err) => {
-        console.log(err);
-        this.loading = false;
-      }
-    });
-
-    // ADD TO CARD FUNCTIONALITY
-    this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
-      this.cartItems = state.cartState
-
-    })
-    if (this.currentUser?.id) {
-      this.getNotification() 
-    }
-  }
 
   openChat() {
     const storedData = localStorage.getItem('key');
@@ -251,5 +217,45 @@ export class HeaderNavigationComponent implements OnInit {
     this.router.navigate(['post/post-category'], {
       queryParams: { name: 'featured', search: this.searchTerm }
     });
+  }
+  ngOnInit(): void {
+    this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
+      (url: string | null) => {
+        this.imgUrl = url;
+      }
+    );
+
+    if (this.currentUser && this.currentUser.img) {
+      this.imgUrl = this.currentUser.img;
+    }
+
+    this.loading = true;
+    this.getScreenSize();
+    this.mainServicesService.getCategories().subscribe({
+      next: (res: any) => {
+        this.categories = res.data;
+        this.loading = false;
+        console.log(res,"test12");
+        this.globalStateService.setCategories(res.data);
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+      }
+    });
+
+    // ADD TO CARD FUNCTIONALITY
+    this.globalStateService.currentState.subscribe((state) => {
+      this.currentUser = state.currentUser;
+
+      this.cartItems = state.cartState;
+
+    })
+    if (this.currentUser?.id) {
+      this.getNotification()
+    }
+    if (this.currentUserid) {
+      this.cart()
+    }
   }
 }
