@@ -1,9 +1,9 @@
 <main class="mt-16">
     <div class="container pt-2">
         <div class=" rounded mt-5" *ngIf="!loading">
-            <ul class="list-unstyled d-flex align-items-center tabs justify-content-center m-0 py-4">
-                <li *ngFor="let tab of ['all','unread','read']; let index">
-                    <button class="p-0 border-1 border-yellow {{activeTab ==tab ?'bg-yellow-800':''}}"
+            <ul class="list-unstyled d-flex align-items-center overflow-hidden tabs justify-content-center mx-auto border-1 rounded-pill">
+                <li *ngFor="let tab of ['all','unread','read']; let index" class="flex-grow-1 h-100 d-flex align-items-center {{activeTab ==tab ?'bg-yellow-800':''}}">
+                    <button class="w-100 p-0 border-0"
                         (click)="handleTab(tab)">{{tab}}</button>
                 </li>
             </ul>
