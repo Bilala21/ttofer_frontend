@@ -3,6 +3,10 @@
     height: 55px;
     li{
         width: 120px;
+        &:nth-child(2){
+            border-left: 1px solid #d8dfe0;
+            border-right: 1px solid #d8dfe0;
+        }
     }
     button {
         background: transparent;
