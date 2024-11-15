@@ -27,6 +27,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { CheckOutPageComponent } from './pages/check-out-page/check-out-page.component';
 import { FAQComponent } from './pages/f-a-q/f-a-q.component';
 import { ContactFormComponent } from './pages/contact-form/contact-form.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 
 export const routes: Routes = [
 
@@ -130,6 +131,10 @@ export const routes: Routes = [
     {
         path: 'contact-us',
         component: ContactFormComponent
+    },
+    {
+        path: 'about-us',
+        component: AboutUsComponent
     },
     {
         path: 'faq',
