@@ -189,10 +189,13 @@ export class AppFiltersComponent implements OnInit {
     this.fetchData();
   }
 
-  handlePrice(event: any) {
-    this.minPrice = event.value;
-    this.maxPrice = event.highValue;
+  handleMinMaxPrice() {
+    this.filterCriteria['min_price'] = this.minValue;
+    this.filterCriteria['max_price'] = this.highValue;
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.fetchData();
   }
+
 
   startCountdowns(data: []) {
     if (data.length > 0) {
