@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class PhoneSignInComponent {
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() backEvent = new EventEmitter<void>();
+  @Output() forgetEvent = new EventEmitter<void>(); // Event emitter for back button
 
   phoneSignInForm!: FormGroup;  // Declare the FormGroup for the form
 
@@ -49,7 +50,9 @@ export class PhoneSignInComponent {
       this.getAuth();
     } 
   }
-
+  openForgot(){
+    this.forgetEvent.emit();
+  }
   getAuth() {
     this.loading = true;
     const input = {

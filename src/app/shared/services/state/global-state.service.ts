@@ -12,7 +12,7 @@ interface AppState {
   featuredProducts: any[];
   isLoggedInd: boolean;
   wishListItems: number[];
-  currentUser: any,
+  currentUser: any
   temp_token: any
   isLoggedIn: boolean,
   cartState: any[],
@@ -53,7 +53,7 @@ export class GlobalStateService {
   product = this.productSubject.asObservable();
 
   constructor() {
-    const currentUser = JSON.parse(localStorage.getItem("key") || '{}');
+    const currentUser = JSON.parse(localStorage.getItem("key") || 'null');
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, currentUser: currentUser });
   }

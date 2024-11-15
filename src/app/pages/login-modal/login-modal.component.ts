@@ -55,6 +55,7 @@ export class LoginModalComponent {
   imgUrl: any;
   onlineCount: number = 0;
   dropdownVisible = false;
+  phoneNumber:any
   private intervalId: any;
   loading = false;
   currentUserId:string="";
@@ -495,6 +496,27 @@ export class LoginModalComponent {
     }
     this.loading=true
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
+      this.loading=false
+      this.otpVerify = res.otp
+      console.log(this.otpVerify)
+      this.toastr.success(res.msg, 'Success');
+      this.showOTPBox = true
+      this.showForgotPhoneBox = false
+      this.showForgotBox = false
+    },
+    (err:any)=>{
+      debugger
+      this.toastr.error(err.error.msg, 'Error');
+      this.loading = false
+    }
+  )
+  }
+  openOTPNumber(){
+    let input = {
+      phone:this.phoneNumber
+    }
+    this.loading=true
+    this.mainServices.forgetPasswordNumber(input).subscribe((res:any) => {
       this.loading=false
       this.otpVerify = res.otp
       console.log(this.otpVerify)

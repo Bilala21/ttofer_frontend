@@ -714,7 +714,6 @@ export class ProfilePageComponent {
           this.selectedCategoryId = this.categories[0].id;
           this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
-          this.initializeForm();
         }
       },
       (error) => {
@@ -1785,7 +1784,7 @@ export class ProfilePageComponent {
       product_id: this.productId,
       category_id: this.selectedCategoryId,
       sub_category_id: this.selectedSubCategoryId,
-      condition: this.attributes['condition'], // Extract condition from attributes
+      condition: this.attributes['condition'] || 'New', // Extract condition from attributes
       make_and_model: this.attributes['make_and_model'], // Extract make and model from attributes
       mileage: this.attributes['mileage'], // Extract mileage from attributes
       color: this.attributes['color'], // Extract color from attributes
@@ -2361,6 +2360,9 @@ export class ProfilePageComponent {
       this.mainServices.getSubCategories(this.selectedCategoryId).subscribe(
         (data: any) => {
           this.subCategory = data.data;
+          this.attributes={}
+          this.initializeForm();
+
         },
         (error) => {}
       );

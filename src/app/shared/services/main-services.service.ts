@@ -194,6 +194,9 @@ export class MainServicesService {
   forgetPassword(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/forgot-password', input).pipe();
   }
+  forgetPasswordNumber(input: any) {
+    return this.http.post(`${Constants.baseApi}` + '/forgot-password-phone', input).pipe();
+  }
   loginWithPhone(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/login-phone', input).pipe();
   }

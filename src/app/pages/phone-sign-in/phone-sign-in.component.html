@@ -27,7 +27,7 @@
     <small *ngIf="phoneSignInForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
   </div>
   <div style="text-align: end;">
-    <a style="cursor: pointer;" ><span>Forgot Password?</span></a>
+    <a style="cursor: pointer;" (click)="openForgot()" ><span>Forgot Password?</span></a>
   </div>
 </div>
 </form>

@@ -83,6 +83,8 @@
             <app-phone-sign-in
               (backEvent)="backButton()"
               (closeModalEvent)="closeModal()"
+			  (forgetEvent)="openForgot()"
+
             >
             </app-phone-sign-in>
            
@@ -140,7 +142,7 @@
               <label>Phone</label>
               <input
                 #emailInput="ngModel"
-                [(ngModel)]="email"
+                [(ngModel)]="phoneNumber"
                 name="phone"
                 type="text"
                 placeholder="Enter Your Phone"
@@ -151,7 +153,7 @@
             </div>
             <div class="mt-4">
              
-			  <button (click)="openOTP()" class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;" 
+			  <button (click)="openOTPNumber()" class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;" 
 			  [disabled]="loading">
 		<ng-container *ngIf="!loading; else spinner">
 			Send OTP
