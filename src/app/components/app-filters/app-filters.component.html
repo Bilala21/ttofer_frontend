@@ -222,7 +222,7 @@
                 <div id="collapselocationradius" class="collapse show" aria-labelledby="locationradius">
                     <div class="card-body p-0 mt-2">
                         <ngx-slider [(value)]="radiusValue" [options]="radiusOptions"
-                            (focusout)="handleFilter({key:'radius', value: radiusValue})" />
+                            (userChangeEnd)="handleFilter({key:'radius', value: radiusValue})" />
                         <!-- <input type="range" class="fs-20 w-100" name="locationradius"> -->
                     </div>
                 </div>
@@ -237,9 +237,8 @@
                     Price
                 </button>
                 <div id="collapseprice" class="collapse show" aria-labelledby="price">
-                    <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions" 
-                    (focusout)="handleFilter({key:'min_price', value: minValue})"
-                    />
+                    <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions"
+                        (userChangeEnd)="handleMinMaxPrice()" />
 
                     <div class="d-flex align-items-center price-box mb-3 d-none">
                         <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
