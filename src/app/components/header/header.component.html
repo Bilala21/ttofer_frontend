@@ -78,9 +78,9 @@
                             </svg>
                         </li>
                         <!-- notification-start -->
-                        <li class="notification-container" (click)="goOnNotification()">
+                        <li class="notification-container">
                             <!-- Cart Icon with Badge -->
-                            <a class="text-decoration-none position-relative">
+                            <a routerLink="/notifications" class="text-decoration-none position-relative">
                                 <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -89,8 +89,9 @@
                                 </svg>
                                 <span class="badge"
                                     *ngIf="unReadNotification.length > 0">{{unReadNotification.length}}</span>
-                            </a>
+                            </a> 
 
+                            
                             <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
                             <div class="notification-dropdown">
                                 <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center p-3">
