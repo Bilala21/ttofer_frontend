@@ -1,33 +1,38 @@
 <div class="row">
   <div class="cur-pointer">
     <i class="fa fa-arrow-left fs-12" (click)="backButton()"></i>
-
   </div>
   <div class="col-12 text-center">
     <h6 class="fs-20">Phone</h6>
-  <img src="assets/images/phone-img.png" class="w-50 mt-3" alt="" loading="lazy">
+    <img src="assets/images/phone-img.png" class="w-50 mt-3" alt="" loading="lazy">
   </div>
 </div>
+<form [formGroup]="phoneSignInForm">
 <div class="mt-4">
   <label>Phone</label>
-  <input #phoneInput="ngModel" [(ngModel)]="phone" name="phone" type="text"
-    placeholder="Enter Your Phone Number" class="form-control"
+  <input formControlName="phone" type="text" placeholder="Enter Your Phone Number" class="form-control"
     style="border-radius: 10px;" required>
-</div>
-<div class="mt-4">
-  <label>Password</label>
-  <input #passwordInput="ngModel" [(ngModel)]="password" name="password" type="password"
-    placeholder="Enter Your Password" class="form-control" style="border-radius: 10px;"
-    required>
-  <div style="text-align: end;">
-    
-    <a style="cursor: pointer;" ><span >Forgot Password
-        ?</span></a>
+  <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="error-message">
+    <small *ngIf="phoneSignInForm.get('phone')?.hasError('required')">Phone number is required.</small>
+    <small *ngIf="phoneSignInForm.get('phone')?.hasError('pattern')">Please enter a valid phone number.</small>
   </div>
 </div>
+
+<div class="mt-4">
+  <label>Password</label>
+  <input formControlName="password" type="password" placeholder="Enter Your Password" class="form-control"
+    style="border-radius: 10px;" required>
+  <div *ngIf="phoneSignInForm.get('password')?.invalid && phoneSignInForm.get('password')?.touched" class="error-message">
+    <small *ngIf="phoneSignInForm.get('password')?.hasError('required')">Password is required.</small>
+    <small *ngIf="phoneSignInForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+  </div>
+  <div style="text-align: end;">
+    <a style="cursor: pointer;" ><span>Forgot Password?</span></a>
+  </div>
+</div>
+</form>
+
 <div class="mt-4">
   <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
-    [disabled]="!phoneInput.value || !passwordInput.value"
-    (click)="loginWithPhone()">Sign
-    in</button>
+ (click)="loginWithPhone()">Sign in</button>
 </div>

@@ -136,6 +136,7 @@ export class HeaderNavigationComponent implements OnInit {
 
     // ADD TO CARD FUNCTIONALITY
     this.globalStateService.currentState.subscribe((state) => {
+      this.currentUser = state.currentUser;
       this.cartItems = state.cartState
 
     })

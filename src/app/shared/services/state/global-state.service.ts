@@ -95,7 +95,10 @@ export class GlobalStateService {
     localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
     this.stateSubject.next(newState);
   }
-
+  updateUserState(user: any) {
+    const currentState = this.stateSubject.value;
+    this.stateSubject.next({ ...currentState, currentUser: user });
+  }
   isFilterActive(value: boolean) {
     const currentState = this.stateSubject.value;
     const newState = {

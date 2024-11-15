@@ -1,80 +1,95 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { Extension } from '../../helper/common/extension/extension';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Location } from '@angular/common'; // Ensure you import Location from @angular/common
-import { FormsModule } from '@angular/forms';
+import { Location, NgIf } from '@angular/common';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'; // Import necessary classes for reactive forms
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phone-sign-in',
   standalone: true,
-  imports:[FormsModule],
+  imports: [FormsModule, ReactiveFormsModule,NgIf], // Add ReactiveFormsModule here
   templateUrl: './phone-sign-in.component.html',
   styleUrl: './phone-sign-in.component.scss'
 })
 export class PhoneSignInComponent {
-  @Output() closeModalEvent = new EventEmitter<void>(); // Define event emitter
-  @Output() backEvent = new EventEmitter<void>(); // Event emitter for back button
+  @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() backEvent = new EventEmitter<void>();
 
+  phoneSignInForm!: FormGroup;  // Declare the FormGroup for the form
 
-  email: string = '';
-  phone: string = '';
-  password: string = '';
   loading = false;
   currentUser: any = [];
-  constructor(
-    private mainServices: MainServicesService, private extention: Extension,
-    private location: Location, private snackBar: MatSnackBar){
 
-    }
+  constructor(
+    private mainServices: MainServicesService,
+    private snackBar: MatSnackBar,private toastr:ToastrService,
+    private location: Location,
+    private fb: FormBuilder // Inject FormBuilder
+  ) {
+    // Initialize the form with validations
+    this.phoneSignInForm = this.fb.group({
+      phone: ['', [Validators.required,]],  // Example for phone number validation (10 digits)
+      password: ['', [Validators.required,]],  // Password must be at least 6 characters long
+    });
+  }
+
   backButton() {
     this.backEvent.emit();
   }
- 
-  isFormValid(): boolean {
-    return (
-      this.email.trim() !== '' && this.password.trim() !== ''
 
-    );
+  // Check if the form is valid
+  isFormValid(): boolean {
+    return this.phoneSignInForm.valid;
   }
+
   loginWithPhone() {
+    debugger
     if (this.isFormValid()) {
       this.getAuth();
-    }
+    } 
   }
-  getAuth() {
-    this.loading = true
-    let input = {
-      email: this.email,
-      password: this.password
-    }
-    // this.closeModal();
-    this.mainServices.getAuthByLogin(input).subscribe(res => {
-      res
-      localStorage.setItem('authToken', res.data.token);
-      const jsonString = JSON.stringify(res.data.user);
-      localStorage.setItem("key", jsonString);
-      const jsonStringGetData = localStorage.getItem('key');
-      this.currentUser = jsonStringGetData ? JSON.parse(jsonStringGetData) : [];
-      this.loading = false;
-      this.location.go  (this.location.path());
-      window.location.reload();
-      // this.closeModal()
-    this.closeModalEvent.emit();
 
-    },
-    (err:any)=>{
-      this.showSuccessMessage(err.error.message)
-      this.loading=false
-    }
-  )
+  getAuth() {
+    this.loading = true;
+    const input = {
+      phone: this.phoneSignInForm.value.phone,
+      password: this.phoneSignInForm.value.password
+    };
+    this.mainServices.getAuthByLoginNumber(input).subscribe(
+      (res) => {
+        localStorage.setItem('authToken', res.data.token);
+        const jsonString = JSON.stringify(res.data.user);
+        localStorage.setItem('key', jsonString);
+        const jsonStringGetData = localStorage.getItem('key');
+        this.currentUser = jsonStringGetData ? JSON.parse(jsonStringGetData) : [];
+        this.loading = false;
+        this.location.go(this.location.path());
+        // window.location.reload();
+        this.closeModalEvent.emit();
+      },
+      (err: any) => {
+        this.showErrorMessage(err.error.message);
+        this.loading = false;
+      }
+    );
   }
-  showSuccessMessage(message: string) {
+
+  showErrorMessage(message: string) {
     this.snackBar.open(message, '', {
-      duration: 100000,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
-      panelClass: ['success-snackbar']
+      panelClass: ['error-snackbar'],
+    });
+  }
+
+  showSuccessMessage(message: string) {
+    this.snackBar.open(message, '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar'],
     });
   }
 }

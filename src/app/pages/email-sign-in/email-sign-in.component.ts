@@ -3,6 +3,7 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '../../shared/services/state/global-state.service';
 
 @Component({
   selector: 'app-email-sign-in',
@@ -19,7 +20,7 @@ export class EmailSignInComponent {
   @Output() forgetEvent = new EventEmitter<void>(); // Event emitter for back button
   constructor(
     private mainServices: MainServicesService,
-    private toaster: ToastrService
+    private toaster: ToastrService,private globalStateService:GlobalStateService
   ) {
     this.emailForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -52,10 +53,10 @@ export class EmailSignInComponent {
         localStorage.setItem('authToken', res.data.token);
         const jsonString = JSON.stringify(res.data.user);
         localStorage.setItem("key", jsonString);
-        
+        this.globalStateService.updateUserState(res.data.user);
         this.toaster.success('You are logged in successfully', 'Success');
         this.closeModalEvent.emit();
-        window.location.reload();
+        // window.location.reload();
       },
       error: (err) => {
         this.loading = false;

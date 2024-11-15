@@ -44,6 +44,12 @@ export class MainServicesService {
       // catchError()
     );
   }
+  getAuthByLoginNumber(input: any): Observable<any> {
+
+    return this.http.post(`${Constants.baseApi}` + '/login-phone', input).pipe(
+      // catchError()
+    );
+  }
   // getFeatureProduct(): Observable<any> {
   //   return this.http.post(`${Constants.baseApi}/featured-products`, null, { headers: this.getHeaders() });
   // }
@@ -226,6 +232,12 @@ export class MainServicesService {
   }
   removeCartItem(data: any) {
     return this.http.post('https://ttoffer.com/backend/public/api/cart/remove', data);
+  }
+  otpVerify(data: any) {
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);
+  }
+  newPassword(data: any) {
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/new-password', data);
   }
   // getProductById(url: string): Observable<any> {
   //   return this.http.get<any>(`${Constants.baseApi}/${url}`);
