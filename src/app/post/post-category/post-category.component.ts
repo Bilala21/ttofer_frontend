@@ -31,6 +31,7 @@ export class PostCategoryComponent implements OnInit {
 
   handleTab(tab: string) {
     this.activeTab = tab;
+    localStorage.setItem('postCategoryTab', tab);
     this.globalStateService.updateProdTab("productType", tab);
   }
 
@@ -59,6 +60,8 @@ export class PostCategoryComponent implements OnInit {
 
 
   ngOnInit() {
+    const savedTab = localStorage.getItem('postCategoryTab');
+    this.activeTab = savedTab ? savedTab : "auction";
     this.getBanners()
     this.handleTab(this.activeTab)
     this.route.queryParams.subscribe((params) => {
@@ -87,6 +90,10 @@ export class PostCategoryComponent implements OnInit {
       }
     })
   }
+  ngOnDestroy() {
+    // Remove specific filter data key from localStorage
+    localStorage.removeItem("postCategoryTab");
 
+  }
 }
 

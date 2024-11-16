@@ -2273,6 +2273,32 @@
                 </div>
               </div>
             </div>
+
+            <div class="mt-2">
+              <div class="">
+                <label>Shipping Type</label>
+                <select
+                  class="form-select form-control input-class-add-form"
+                  [ngClass]="{ 'border-primary': pricingCatId == 'Auction' }"
+                  [(ngModel)]="pricingCatId"
+                  aria-label="Default select example"
+                >
+                  <option
+                    *ngFor="let type of deliveryType"
+                    [value]="type.id"
+                  >
+                    {{ type.name }}
+                  </option>
+                </select>
+                <!-- <div
+                  *ngIf="validationErrors['type']"
+                  class="text-danger"
+                >
+                  {{ validationErrors["pricingCategory"] }}
+                </div> -->
+              </div>
+            </div>
+
             <div class="mt-2">
               <app-current-location
               ></app-current-location>

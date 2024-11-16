@@ -161,6 +161,11 @@ export class ProfilePageComponent {
     { id: 'Auction', name: 'Auction' },
     { id: 'SellToTTOffer', name: 'Sell To TTOffer' },
   ];
+  deliveryType: any = [
+    { id: 'shipping', name: 'Shipping' },
+    { id: 'local_delivery', name: 'Local Delivery' },
+    { id: 'pick_up', name: 'Pick Up' },
+  ];
   brandList: any = [
     { id: 'Samsung', name: 'Samsung' },
     { id: 'Infinix', name: 'Infinix' },

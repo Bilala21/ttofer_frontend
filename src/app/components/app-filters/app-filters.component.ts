@@ -215,4 +215,10 @@ export class AppFiltersComponent implements OnInit {
     }
 
   }
+
+  ngOnDestroy() {
+    // Remove specific filter data key from localStorage
+    localStorage.removeItem("filters");
+
+  }
 }
