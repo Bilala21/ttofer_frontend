@@ -94,5 +94,6 @@ export class BodyComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.countdownSubscriptions.forEach((subscription) => subscription.unsubscribe());
+    console.log(this.auctionPosts)
   }
 }

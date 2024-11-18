@@ -13,7 +13,7 @@
       class="text-decoration-none pointer-cursor"
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
       [ngClass]="{'disabled-link': postData.ProductType == 'auction'}">
-      <figure class="card-top position-relative {{!postData?.photo[0]?.src ? 'falback-css rounded-2':''}}">
+      <figure *ngIf="postData?.photo?.length" class="card-top position-relative {{!postData?.photo[0]?.src ? 'falback-css rounded-2':''}}">
         <img loading="lazy" *ngIf="postData?.photo[0]?.src" src={{postData?.photo[0]?.src}}
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
