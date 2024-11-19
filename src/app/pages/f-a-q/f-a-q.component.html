@@ -1,22 +1,28 @@
 <main class="mt-16">
-    <div class="container my-5 genaral-color pt-4">
-      <h2 class="text-center mb-4 fs-24">Frequently Asked Questions</h2>
-      <div id="faqAccordion">
-        <div class="card mb-3 border-0" *ngFor="let item of faqItems; let i = index">
-          <div class="card-header genaral-color px-0 py-2 border-0" [id]="'faqHeading' + i">
-            <h5 class="mb-0 d-flex justify-content-between align-items-center">
-              <button 
-                class="btn btn-link faq-toggle text-left flex-grow-1 d-flex justify-content-between align-items-center genaral-color" 
-                data-toggle="collapse" 
-                [attr.data-target]="'#faq' + i" 
-                aria-expanded="false" 
-                [attr.aria-controls]="'faq' + i">
+  <div class="container my-5 genaral-color pt-4">
+    <h2 class="text-center mb-4 fs-24">Frequently Asked Questions</h2>
+    <div id="faqAccordion">
+      <div class="category" *ngFor="let category of faqItems; let categoryIndex = index">
+        <h3 class="text-uppercase mt-4 fs-20 fw-semibold">{{ category.category }}</h3>
+        <div class="card mb-3 border-0" *ngFor="let item of category.questions; let questionIndex = index">
+          <div class="card-header genaral-color px-0 py-2 border-0" [id]="'faqHeading' + categoryIndex + '-' + questionIndex">
+            <h5 class="mb-0 d-flex justify-content-between align-items-center ">
+              <button
+                class="btn btn-link faq-toggle text-left flex-grow-1 d-flex justify-content-between align-items-center genaral-color"
+                data-toggle="collapse"
+                [attr.data-target]="'#faq' + categoryIndex + '-' + questionIndex"
+                aria-expanded="false"
+                [attr.aria-controls]="'faq' + categoryIndex + '-' + questionIndex">
                 <span>{{ item.question }}</span>
                 <i class="fas fa-chevron-down ml-2"></i>
               </button>
             </h5>
           </div>
-          <div [id]="'faq' + i" class="collapse" [attr.aria-labelledby]="'faqHeading' + i" data-parent="#faqAccordion">
+          <div
+            [id]="'faq' + categoryIndex + '-' + questionIndex"
+            class="collapse"
+            [attr.aria-labelledby]="'faqHeading' + categoryIndex + '-' + questionIndex"
+            data-parent="#faqAccordion">
             <div class="card-body">
               {{ item.answer }}
             </div>
@@ -24,5 +30,5 @@
         </div>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>

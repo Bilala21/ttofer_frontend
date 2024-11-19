@@ -197,9 +197,12 @@ header {
     }
 
 }
-
-
-
+.active-category{
+    color: #ffc107 !important; 
+    font-weight: bold !important; 
+    // text-decoration: underline !important;
+  }
+  
 @media (max-width:1024px) {
     .md-fs-12 {
         font-size: 12px;

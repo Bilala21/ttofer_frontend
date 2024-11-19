@@ -72,8 +72,6 @@ export class HeaderNavigationComponent implements OnInit {
     } else if (this.screenWidth <= 768) {
       this.categoryLimit = 2;
     }
-
-    console.log(`Screen Width: ${this.screenWidth}, Category Limit: ${this.categoryLimit}`);
   }
 
   showSearchBar() {
@@ -132,18 +130,18 @@ export class HeaderNavigationComponent implements OnInit {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
-    }else {
+    } else {
       const userData = JSON.parse(storedData);
       const userId = userData?.id;
       if (userId) {
         this.router.navigate([`/selling/${userId}`]);
         localStorage.setItem('currentTab', "savedItems");
-        this.router.navigate(['/profilePage', `${userId}`])  
+        this.router.navigate(['/profilePage', `${userId}`])
       }
     }
-    
- 
-    
+
+
+
   }
   openSelling() {
     const storedData = localStorage.getItem('key');
@@ -159,7 +157,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-  goOnCart(){
+  goOnCart() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -220,6 +218,9 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    if (JSON.parse(localStorage.getItem("categoryId") as string)) {
+      this.activeCategory = JSON.parse(localStorage.getItem("categoryId") as string)
+    }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
         this.imgUrl = url;
@@ -236,7 +237,7 @@ this.getCurrentCity()
       next: (res: any) => {
         this.categories = res.data;
         this.loading = false;
-        console.log(res,"test12");
+        console.log(res, "test12");
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {

@@ -25,11 +25,13 @@ export class CategoriesComponent {
   id: any = null
   currentPage: number = 1
   handleTab(tab: string) {
-    this.activeTab = tab
-    this.globalStateService.loading=true
-    this.globalStateService.updateProdTab("ProductType", tab)
+      this.activeTab = tab
+      localStorage.setItem('categoryTab', tab);
+      this.globalStateService.updateProdTab("ProductType", tab)
   }
   ngOnInit(): void {
+    const savedTab = localStorage.getItem('categoryTab');
+    this.activeTab = savedTab ? savedTab : "auction";
     this.getBanners()
 
     this.globalStateService.currentState.subscribe((state) => {
@@ -45,7 +47,7 @@ export class CategoriesComponent {
       if (["3", "4", "8"].includes(this.id)) {
         this.handleTab('featured')
       } else {
-        this.handleTab("auction")
+          this.handleTab(this.activeTab)
       }
     });
 
@@ -83,6 +85,13 @@ export class CategoriesComponent {
         console.log('Error fetching filtered products', err);
       }
     });
+  }
+
+    ngOnDestroy() {
+    // Remove specific filter data key from localStorage
+    this.globalStateService.setActiveCategory(0);
+    localStorage.removeItem("categoryTab");
+    localStorage.removeItem("categoryId");
   }
 
 }
