@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
@@ -6,13 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf],
+  imports: [FormsModule, NgxSliderModule, NgIf,CommonModule,MatTooltipModule],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
@@ -37,16 +38,16 @@ export class AppFiltersComponent implements OnInit {
       "seller_types": ["Verified", "Unverified"],
       "conditions": ["All", "New", "Used", "Refurbished"],
     },
-    "electronics & appliance": {
-      "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Any", "Refurbished", "New", "Used"],
-    },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Ready", "Off plan"],
       "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
+    },
+    "vehicles": {
+      "seller_types": ["Owner", "Dealer"],
+      "conditions": ["All", "New", "Used",],
     },
     "property for rent": {
       "seller_types": ["Landlord", "Agent"],
@@ -56,9 +57,10 @@ export class AppFiltersComponent implements OnInit {
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
     },
-    "vehicles": {
-      "seller_types": ["Owner", "Dealer"],
-      "conditions": ["All", "New", "Used",],
+    // electronics & appliances
+    "electronics & appliances": {
+      "seller_types": ["Landlord", "Agent"],
+      "conditions": ["Any", "Refurbished", "New", "Used"],
     },
     "bikes": {
       "seller_types": ["Owner", "Dealer"],
@@ -73,11 +75,15 @@ export class AppFiltersComponent implements OnInit {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["Refurbished", "Dealer"],
     },
-    "furniture & home decor": {
+    "animals": {
+    },
+    // furniture and home decor
+    "furniture and home decor": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["Refurbished", "Dealer"],
     },
-    "fashion & beauty": {
+    // fashion and beauty
+    "fashion and beauty": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "New", "Used"],
     },
@@ -110,7 +116,8 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-
+  hideFilter: boolean = false
+  isLgScreen: boolean = false
   constructor(
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
@@ -122,18 +129,20 @@ export class AppFiltersComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.checkScreenSize();
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
+      this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
       this.fetchSubCategories();
     });
 
-    this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
+    if (JSON.parse(localStorage.getItem("filters") as string)) {
+      this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
     console.log(this.filterCriteria, 'filterCriteria');
+    }
     this.globalStateService.product.subscribe(state => {
-      this.filterCriteria[state.prodTab.key] = state.prodTab.value;
+      this.filterCriteria[state.prodTab?.key] = state.prodTab.value;
       this.fetchData();
     });
     this.minValue = this.filterCriteria?.min_price
@@ -215,7 +224,29 @@ export class AppFiltersComponent implements OnInit {
     }
 
   }
+  // Toggle the filter visibility for smaller screens
+  hideAndShow(): void {
+    this.hideFilter = !this.hideFilter;
+  }
 
+  // Detect window resize events
+  @HostListener('window:resize', [])
+  onResize(): void {
+    this.checkScreenSize();
+  }
+
+  // Check if the current screen size is above 'lg'
+  private checkScreenSize(): void {
+    const lgBreakpoint = 992; // Bootstrap's 'lg' breakpoint (in pixels)
+    this.isLgScreen = window.innerWidth >= lgBreakpoint;
+
+    // Ensure filter is always visible on larger screens
+    if (this.isLgScreen) {
+      this.hideFilter = false;
+    }else{
+      this.hideFilter = true;
+    }
+  }
   ngOnDestroy() {
     // Remove specific filter data key from localStorage
     localStorage.removeItem("filters");

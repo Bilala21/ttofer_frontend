@@ -43,14 +43,15 @@ $breakpoint-desktop: 1200px;
   }
 }
 
-// For screens below 768px (mobile) - 2 cards per row
+// For screens below 768px (mobile) - 2 cards per row (min-width: $breakpoint-xs) and
 @media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
   .product-card, 
   .shimmer-card {
-    @include card-layout(calc(50% + 22px));
+    @include card-layout(calc(50% + 8px));
   }
   .product-main {
     gap: 12px;
+    justify-content: space-between;
   }
 }
 

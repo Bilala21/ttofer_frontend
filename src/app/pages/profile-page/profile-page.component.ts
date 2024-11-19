@@ -891,19 +891,55 @@ export class ProfilePageComponent {
       this.updateProductImage();
     }
   }
+  // onFileChange(event: any) {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     for (let i = 0; i < event.target.files.length; i++) {
+  //       this.imageFilesAbc.push(event.target.files[i]);
+  //       this.readFileAsDataURL(event.target.files[i]);
+  //     }
+  //   }
+  // }
+  // readFileAsDataURL(file: File) {
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.selectedFiles.push({ src: reader.result as string });
+  //     this.validateForm();
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
   onFileChange(event: any) {
+    const allowedExtensions = ['png', 'jpg','jpeg'];
+    //this.validationErrors = {}; // Clear previous errors
+  
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
-        this.imageFilesAbc.push(event.target.files[i]);
-        this.readFileAsDataURL(event.target.files[i]);
+        const file = event.target.files[i];
+        console.log(file);
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+           
+        if (allowedExtensions.includes(fileExtension || '')) {
+          this.imageFilesAbc.push(file);
+          this.readFileAsDataURL(file); // Process the file
+        } else {
+          // Add validation error for invalid file type
+          this.validationErrors['uploadImage'] = 
+            'Only .png and .jpg files are allowed.';
+        }
       }
+    } else {
+      // Set validation error if no files are uploaded
+      this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
+  
+    // Validate the form state after handling file changes
+    this.validateForm();
   }
+  
   readFileAsDataURL(file: File) {
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedFiles.push({ src: reader.result as string });
-      this.validateForm();
+      this.validateForm(); // Validate the form after successfully reading the file
     };
     reader.readAsDataURL(file);
   }

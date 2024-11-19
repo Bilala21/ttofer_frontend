@@ -1,10 +1,20 @@
 <div>
-    <h2 class="fs-20 text-capitalize">{{slug}}</h2>
-    <div class="fs-18 mb-2">
+        <h2 class="fs-20 text-capitalize">{{slug}}</h2>
+    <div class="fs-18 mb-2 d-flex justify-content-between">
+       <div>
         <strong>{{globalStateService.productlength}}</strong>
         <span class="pl-1 text-dark-400 fs-14">Results Found</span>
+       </div>
+       <img  src="/assets/images/filter-icon.svg" 
+       *ngIf="!isLgScreen" 
+        (click)="hideAndShow()"
+       style="width: 30px; height: 30px;" 
+       class="cur-pointer"
+       alt="filter-image" 
+       title="Filter Options"
+       />
     </div>
-    <div class="accordion" id="productFilter">
+    <div class="accordion" id="productFilter" [ngClass]="{ 'hideFilter': hideFilter }">
         <!-- SUB CATEGORIES -->
         <div class="sub-categories border-1 rounded-2 px-3">
             <button id="headingOne" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold" type="button"
@@ -35,7 +45,7 @@
                 </button>
                 <div id="collapseSellerType" class="collapse show" aria-labelledby="sellerType">
                     <div class="card-body p-0 mt-2">
-                        @for (item of categoryWithFilters.seller_types; track $index) {
+                        @for (item of categoryWithFilters?.seller_types; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="seller_type"
                                 [checked]="filterCriteria?.seller_id === item"
@@ -57,7 +67,7 @@
                 </button>
                 <div id="collapsecondition" class="collapse show" aria-labelledby="condition">
                     <div class="card-body p-0 mt-2">
-                        @for (item of categoryWithFilters.conditions; track $index) {
+                        @for (item of categoryWithFilters?.conditions; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="condition"
                                 [checked]="filterCriteria?.condition === item"
@@ -70,7 +80,7 @@
             </div>
             }
             <!-- BEDROOMS -->
-            @if (id==3 || id==4) { <div class="border-b">
+            @if (id==2 || id==4) { <div class="border-b">
                 <button id="bedrooms" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapsebedrooms" aria-expanded="false"
                     aria-controls="collapsebedrooms">
@@ -82,7 +92,7 @@
                             <input type="number" class="fs-14 form-control" name="bedrooms"
                                 placeholder="Enter how much berroms?">
                         </div>
-                        @for (item of categoryWithFilters.bedrooms; track $index) {
+                        @for (item of categoryWithFilters?.bedrooms; track $index) {
                         <div class="d-fle align-items-center mb-3 d-none">
                             <input type="radio" class="fs-20" name="bedrooms"
                                 (change)="handleFilter({key:'bedrooms',value:item})">
@@ -105,7 +115,7 @@
                             <input type="number" class="fs-14 form-control" name="bathrooms"
                                 placeholder="Enter how much bathrooms?">
                         </div>
-                        @for (item of categoryWithFilters.bathrooms; track $index) {
+                        @for (item of categoryWithFilters?.bathrooms; track $index) {
                         <div class="d-fle align-items-center mb-3 d-none">
                             <input type="radio" class="fs-20" name="bathrooms"
                                 (change)="handleFilter({key:'bathrooms',value:item})">
@@ -124,7 +134,7 @@
                 </button>
                 <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
                     <div class="card-body p-0 mt-2">
-                        @for (item of categoryWithFilters.rent_is_paid; track $index) {
+                        @for (item of categoryWithFilters?.rent_is_paid; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="rent_is_paid"
                                 (change)="handleFilter({key:'rent_is_paid',value:item})">
@@ -144,7 +154,7 @@
                 </button>
                 <div id="collapsetypeofwork" class="collapse show" aria-labelledby="typeofwork">
                     <div class="card-body p-0 mt-2">
-                        @for (item of categoryWithFilters.typeofwork; track $index) {
+                        @for (item of categoryWithFilters?.typeofwork; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="typeofwork"
                                 (change)="handleFilter({key:'typeofwork',value:item})">
@@ -155,7 +165,7 @@
                 </div>
             </div>
             <!-- DELIVERY -->
-            <div class="border-b" *ngIf="!['8','3','4'].includes(id)">
+            <div class="border-b" *ngIf="!['8','2','4'].includes(id)">
                 <button id="delivery" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapsedelivery" aria-expanded="false"
                     aria-controls="collapsedelivery">
@@ -199,7 +209,7 @@
             </div>
 
             <!-- area size -->
-            <div class="border-b" *ngIf="id==3 || id==4">
+            <div class="border-b" *ngIf="id==2 || id==4">
                 <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapserent_is_paid" aria-expanded="false"
                     aria-controls="collapserent_is_paid">

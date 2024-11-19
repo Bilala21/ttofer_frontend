@@ -36,6 +36,7 @@ export class HeaderNavigationComponent implements OnInit {
   unReadNotification: any = 0;
   searchTerm: any
   currentUserid: any = null
+  activeCategory:any = 0
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -216,6 +217,9 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    if (JSON.parse(localStorage.getItem("categoryId") as string)) {
+      this.activeCategory = JSON.parse(localStorage.getItem("categoryId") as string)
+    }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
         this.imgUrl = url;
@@ -252,5 +256,14 @@ export class HeaderNavigationComponent implements OnInit {
     if (this.currentUserid) {
       this.cart()
     }
+  }
+  updateCategory(categoryId: number): void {
+    this.globalStateService.setActiveCategory(categoryId);
+    // this.activeCategory = categoryId
+    localStorage.setItem('categoryId',categoryId.toString())
+    this.globalStateService.currentState.subscribe((state) => {
+      this.activeCategory = state.activeCategory;
+      
+    });
   }
 }

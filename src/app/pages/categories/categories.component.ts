@@ -88,8 +88,9 @@ export class CategoriesComponent {
 
     ngOnDestroy() {
     // Remove specific filter data key from localStorage
+    this.globalStateService.setActiveCategory(0);
     localStorage.removeItem("categoryTab");
-
+    localStorage.removeItem("categoryId");
   }
 
 }

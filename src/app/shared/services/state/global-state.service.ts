@@ -17,7 +17,8 @@ interface AppState {
   isLoggedIn: boolean,
   cartState: any[],
   offerModal: string,
-  isFilterActive: boolean
+  isFilterActive: boolean,
+  activeCategory: number
 }
 
 @Injectable({
@@ -40,7 +41,8 @@ export class GlobalStateService {
     offerModal: "",
     auctionProducts: [],
     featuredProducts: [],
-    isFilterActive: false
+    isFilterActive: false,
+    activeCategory:0
   };
   public filterCriteria: any = {
     location: []
@@ -220,5 +222,9 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, ...newState });
   }
-
+  setActiveCategory(categoryId: number): void {
+    // this.activeCategory = categoryId; // Update the active category
+    const currentState = this.stateSubject.value;
+    this.stateSubject.next({ ...currentState, activeCategory :categoryId});
+  }
 }
