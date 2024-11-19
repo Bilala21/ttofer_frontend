@@ -21,9 +21,9 @@ import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 export class AppFiltersComponent implements OnInit {
   loading: boolean = false
   locationLoading: boolean = false
-  location: any= {
-    city:"",
-    sublocality:""
+  location: any = {
+    city: "",
+    sublocality: ""
   }
   categories: any = []
   isCategory: boolean = false
@@ -137,41 +137,43 @@ export class AppFiltersComponent implements OnInit {
     private mainServices: MainServicesService,
     private cd: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService
+
   ) { }
 
 
   ngOnInit() {
-    this.checkScreenSize();
-    this.globalStateService.currentState.subscribe(state => {
-      const item = state?.categories.find(cat => cat.id === +this.id)
-      this.categories = state.categories
 
-      setTimeout(() => {
-        this.loading = false
-        console.log(this.id, 'this.id', item)
-        if(item){
-          this.isCategory=true
-          this.filterCriteria['category'] = { ...item }
-        }
-      }, 2000)
-      // console.log(state.categories, 'state123')
-    })
+    this.checkScreenSize();
     this.filters = JSON.parse(localStorage.getItem("filters") as string)
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      if (this.filters?.category.id && !params.get('name')) {
-        // console.log(this.filters?.category.slug, 'this.filters?.category.slug')
+      this.globalStateService.currentState.subscribe(state => {
+        this.categories = state.categories
+      })
+      if (params.get('id')) {
         this.isCategory = true
-        this.slug = this.filters?.category.name
-        this.fetchSubCategories(this.filters?.category.id);
+        this.slug = this.filters?.category.slug
+        this.fetchSubCategories(this.filters?.category.id?this.filters?.category.id:this.id);
         this.categoryWithFilters = this.filter_fields?.[this.filters?.category.slug?.toLowerCase()];
+        this.loading= false
       }
-      else {
+
+      else if(params.get('name') && this.id) {
+        this.loading = false
+        this.globalStateService.currentState.subscribe(state => {
+          const item = state?.categories.find(cat => cat.id === +this.id)
+          this.categories = state.categories
+          if (item) {
+            this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
+            this.isCategory = true
+            this.filterCriteria['category'] = item
+          }
+        })
         this.fetchSubCategories(this.id);
-        this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
       }
     });
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe((event: any) => {
@@ -181,16 +183,18 @@ export class AppFiltersComponent implements OnInit {
 
     if (JSON.parse(localStorage.getItem("filters") as string)) {
       this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
-      // console.log(this.filterCriteria, 'filterCriteria');
     }
+
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab?.key] = state.prodTab.value;
       this.fetchData();
     });
-    this.minValue = this.filterCriteria?.min_price?this.filterCriteria?.min_price:5
-    this.highValue = this.filterCriteria?.max_price?this.filterCriteria?.max_price:1000
-    this.radiusValue = this.filterCriteria?.radius?this.filterCriteria?.radius:1
+
+    this.minValue = this.filterCriteria?.min_price ? this.filterCriteria?.min_price : 5
+    this.highValue = this.filterCriteria?.max_price ? this.filterCriteria?.max_price : 1000
+    this.radiusValue = this.filterCriteria?.radius ? this.filterCriteria?.radius : 1
   }
+
   selectCategory(item: any) {
     this.fetchSubCategories(item.id);
     this.filterCriteria['category'] = { ...item }
@@ -251,12 +255,12 @@ export class AppFiltersComponent implements OnInit {
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchData();
   }
-  handleMinPrice(value:number){
+  handleMinPrice(value: number) {
     this.filterCriteria['min_price'] = value;
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchData();
   }
-  handleMaxPrice(value:number){
+  handleMaxPrice(value: number) {
     this.filterCriteria['max_price'] = value;
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchData();
@@ -315,19 +319,19 @@ export class AppFiltersComponent implements OnInit {
     geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
       if (status === 'OK' && results[0]) {
         const addressComponents = results[0].address_components;
-        addressComponents.forEach((component: any)=>{
-          
-          if(component.types.includes('locality')){
-            this.location={...this.location,city:component.long_name}
+        addressComponents.forEach((component: any) => {
+
+          if (component.types.includes('locality')) {
+            this.location = { ...this.location, city: component.long_name }
           }
-          else if(component.types.includes("neighborhood")){
-            this.location={...this.location,sublocality:component.long_name}
+          else if (component.types.includes("neighborhood")) {
+            this.location = { ...this.location, sublocality: component.long_name }
           }
         })
-        this.locationLoading=false
+        this.locationLoading = false
       } else {
         console.error('Geocoder failed:', status);
-        this.locationLoading=false
+        this.locationLoading = false
         this.location = 'Unable to fetch city';
       }
     })
@@ -350,8 +354,8 @@ export class AppFiltersComponent implements OnInit {
       this.location = 'Geolocation not supported';
     }
   }
-  handleLocation(){
-    this.locationLoading=true
+  handleLocation() {
+    this.locationLoading = true
     this.getCurrentCity()
   }
 
