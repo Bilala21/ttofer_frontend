@@ -39,7 +39,7 @@
             </p-galleria>
           </div>
 
-          <app-right-side *ngIf="screenWidth < 768" [product]="product" [attributes]="attributes" (handleWishlist)="toggleWishlist($event)" />
+          <app-right-side *ngIf="screenWidth < 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
           <!-- similar products -->
           <hr class="my-5">
           <div class="similar-product-container pr-5 xs-px-0">
@@ -75,7 +75,7 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768" [product]="product" (handleWishlist)="toggleWishlist($event)" />
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
       </div>
 
       <!-- more detail about product -->
@@ -84,24 +84,22 @@
         <div class="order-lg-3 order-2">
           <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
             <h2 class="fw-semibold fs-24">Details</h2>
-            <div class="d-flex align-items-center colored-box-container">
-              <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2 ">
-                <span>Brand</span>
-                <span class="fw-semibold">Apple</span>
-              </div>
-              <div class="flex-grow-1 px-3 d-flex justify-content-between align-content-center bg-gray-450 py-2">
-                <span>Condition</span>
-                <span class="fw-semibold">Used</span>
+            <div class="row">
+              <div class="col-md-6 mb-2" *ngFor="let item of parsedAttributes  | keyvalue ">
+                <div class="d-flex justify-content-between align-items-center bg-gray-450 py-2 px-3 rounded">
+                  <span class="text-uppercase fw-semibold">{{ item.key | titlecase }}</span>
+                  <span>{{ item.value }}</span>
+                </div>
               </div>
             </div>
           </div>
+          
 
           <!-- description -->
           <div class="border p-3 mb-2 w-100 mt-3 rounded">
             <h2 class="fw-semibold fs-24">Description</h2>
-            <span class="d-block fs-14">Iphone 12pro 256GB PTA APPROVED</span>
-            <span class="d-block fs-14">Water Pack 9/10 CONDITION</span>
-            <span class="d-block fs-14">3UTOOL OK</span>
+            <span class="d-block fs-14">{{product.description}}</span>
+            
           </div>
 
           <hr>
