@@ -31,6 +31,8 @@ export class ProductDetailComponent implements OnInit {
   currentUser: any = {}
   loading: boolean = false
   currentUserid: any;
+  parsedAttributes: { [key: string]: string | number } = {};
+
   isFullScreen = false
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom = 15; // Adjust zoom level to your preference
@@ -64,7 +66,7 @@ export class ProductDetailComponent implements OnInit {
     this.screenHeight = window.innerHeight;
   }
 
-  ngOnInit(): void {
+  ngOnInit():any {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
   
@@ -73,8 +75,8 @@ export class ProductDetailComponent implements OnInit {
         debugger;
         this.product = value.data;
   
-        this.attributes = JSON.parse(value.data.attributes);
-  
+         this.attributes = JSON.parse(value.data.attributes);
+        this.parsedAttributes=this.parseAttributes(this.attributes)
         const lat = Number(this.product.latitude);
         const lng = Number(this.product.longitude);
   
@@ -214,5 +216,31 @@ export class ProductDetailComponent implements OnInit {
   //     document.exitFullscreen();
   //   }
   // }
+  private parseAttributes(value: any): any {
+    try {
+      debugger;
+      let attributes = JSON.parse(value);
+  
+      // Safely parse attributes
+      let parsedAttributes: any = {};
+      for (const [key, val] of Object.entries(attributes)) {
+        parsedAttributes[key] =
+          typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
+      }
+      return parsedAttributes;
+    } catch (error) {
+      console.error('Error parsing attributes:', error);
+      return {}; // Return an empty object in case of an error
+    }
+  }
+  
+  private isJson(str: string): boolean {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
   
 }

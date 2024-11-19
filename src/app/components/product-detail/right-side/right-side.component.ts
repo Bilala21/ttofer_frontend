@@ -14,17 +14,17 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
   styleUrl: './right-side.component.scss'
 })
 export class RightSideComponent {
+  @Input() product: any = {};
+  @Input()  parsedAttributes: { [key: string]: string | number } = {};
+
+
   constructor(private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
     public extension: Extension,
   ) {
     this.currentUserid = extension.getUserId();
-    console.log(this.attributes)
   }
-  parsedAttributes: { [key: string]: any } = {}; 
   productId: any = null
-  @Input() product: any = {};
-  @Input() attributes: any = {};
-
+  
   
   loading: boolean = false
   currentUserid: any;
@@ -90,9 +90,8 @@ export class RightSideComponent {
     this.globalStateService.setOfferModal(modal_type)
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['product'] && changes['product'].currentValue) {
-      this.parseAttributes(changes['product'].currentValue);
-    }
+    debugger
+    console.log(this.parsedAttributes)
   }
 
   private parseAttributes(value: any): void {
