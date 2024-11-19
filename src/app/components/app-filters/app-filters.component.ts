@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit,HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
@@ -8,16 +8,25 @@ import { filter, Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf,CommonModule,MatTooltipModule],
+  imports: [FormsModule, NgxSliderModule, NgIf, CommonModule, MatTooltipModule, CardShimmerComponent],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'] // Corrected from styleUrl to styleUrls
 })
 export class AppFiltersComponent implements OnInit {
+  loading: boolean = false
+  locationLoading: boolean = false
+  location: any= {
+    city:"",
+    sublocality:""
+  }
+  categories: any = []
+  isCategory: boolean = false
   slug: any = "";
   minPrice: number = 0;
   maxPrice: number = 150;
@@ -36,7 +45,7 @@ export class AppFiltersComponent implements OnInit {
   filter_fields: any = {
     "mobiles": {
       "seller_types": ["Verified", "Unverified"],
-      "conditions": ["All", "New", "Used","Refurbished"],
+      "conditions": ["All", "New", "Used", "Refurbished"],
     },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
@@ -52,7 +61,7 @@ export class AppFiltersComponent implements OnInit {
     "property for rent": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Furnished", "Unfurnished"],
-      "rent_is_paid": ["Yearly","Monthly", "Quarterly", "Bi-Yearly"],
+      "rent_is_paid": ["Yearly", "Monthly", "Quarterly", "Bi-Yearly"],
       "bedrooms": [1, 2, 3, 4, 5, 6, 7, 8],
       "bathrooms": [1, 2, 3, 4, 5],
       "area_size": [1, 2, 3, 4, 5],
@@ -85,15 +94,15 @@ export class AppFiltersComponent implements OnInit {
     // fashion and beauty
     "fashion and beauty": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All","New","Used"],
+      "conditions": ["All", "New", "Used"],
     },
     "kids": {
       "seller_types": ["Landlord", "Agent"],
-      "conditions": ["All","new","Used"],
+      "conditions": ["All", "new", "Used"],
     },
     "delivery": ["Local Delivery", "Pick Up", "Shipping"]
   };
-  filters:any
+  filters: any
   filterCriteria: any = {
     location: []
   };
@@ -116,7 +125,7 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-  isNavigatingAway:any=false
+  isNavigatingAway: any = false
   hideFilter: boolean = false
   isLgScreen: boolean = false
   constructor(
@@ -133,39 +142,73 @@ export class AppFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.checkScreenSize();
+    this.globalStateService.currentState.subscribe(state => {
+      const item = state?.categories.find(cat => cat.id === +this.id)
+      this.categories = state.categories
+
+      setTimeout(() => {
+        this.loading = false
+        console.log(this.id, 'this.id', item)
+        if(item){
+          this.isCategory=true
+          this.filterCriteria['category'] = { ...item }
+        }
+      }, 2000)
+      // console.log(state.categories, 'state123')
+    })
+    this.filters = JSON.parse(localStorage.getItem("filters") as string)
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.slug = params.get('slug');
-      this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
-      this.fetchSubCategories();
+      if (this.filters?.category.id && !params.get('name')) {
+        // console.log(this.filters?.category.slug, 'this.filters?.category.slug')
+        this.isCategory = true
+        this.slug = this.filters?.category.name
+        this.fetchSubCategories(this.filters?.category.id);
+        this.categoryWithFilters = this.filter_fields?.[this.filters?.category.slug?.toLowerCase()];
+      }
+      else {
+        this.fetchSubCategories(this.id);
+        this.categoryWithFilters = this.filter_fields?.[this.slug?.toLowerCase()];
+      }
     });
     this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe((event: any) => {
         this.isNavigatingAway = true;
       });
-    this.filters = JSON.parse(localStorage.getItem("filters") as string)
+
 
     if (JSON.parse(localStorage.getItem("filters") as string)) {
       this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
-    console.log(this.filterCriteria, 'filterCriteria');
+      // console.log(this.filterCriteria, 'filterCriteria');
     }
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab?.key] = state.prodTab.value;
       this.fetchData();
     });
-    this.minValue = this.filterCriteria?.min_price
-    this.highValue = this.filterCriteria?.max_price
-    this.radiusValue = this.filterCriteria?.radius
+    this.minValue = this.filterCriteria?.min_price?this.filterCriteria?.min_price:5
+    this.highValue = this.filterCriteria?.max_price?this.filterCriteria?.max_price:1000
+    this.radiusValue = this.filterCriteria?.radius?this.filterCriteria?.radius:1
+  }
+  selectCategory(item: any) {
+    this.fetchSubCategories(item.id);
+    this.filterCriteria['category'] = { ...item }
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.slug = item.name
+    this.isCategory = true
   }
 
-  fetchSubCategories() {
-    if (this.id) {
-      this.mainServicesService.getSubCategories(this.id).subscribe({
+  fetchSubCategories(id: number) {
+    this.loading = true
+    if (id) {
+      this.mainServicesService.getSubCategories(id).subscribe({
         next: (res: any) => {
           this.subCategories = res?.data;
+          this.loading = false
         },
         error: (err) => {
+          this.loading = false
           console.log(err);
         }
       });
@@ -194,7 +237,7 @@ export class AppFiltersComponent implements OnInit {
 
 
   handleFilter(filter: any) {
-    this.globalStateService.loading=true
+    this.globalStateService.loading = true
     if (filter.key === "location") {
       const locIndex = this.filterCriteria.location.indexOf(filter.value);
       if (locIndex > -1) {
@@ -205,6 +248,16 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria[filter.key] = filter.value;
     }
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.fetchData();
+  }
+  handleMinPrice(value:number){
+    this.filterCriteria['min_price'] = value;
+    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.fetchData();
+  }
+  handleMaxPrice(value:number){
+    this.filterCriteria['max_price'] = value;
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchData();
   }
@@ -231,7 +284,7 @@ export class AppFiltersComponent implements OnInit {
         }
       });
     }
-   
+
   }
   // Toggle the filter visibility for smaller screens
   hideAndShow(): void {
@@ -252,9 +305,59 @@ export class AppFiltersComponent implements OnInit {
     // Ensure filter is always visible on larger screens
     if (this.isLgScreen) {
       this.hideFilter = false;
-    }else{
+    } else {
       this.hideFilter = true;
     }
+  }
+
+  getCityFromCoordinates(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
+      if (status === 'OK' && results[0]) {
+        const addressComponents = results[0].address_components;
+        addressComponents.forEach((component: any)=>{
+          
+          if(component.types.includes('locality')){
+            this.location={...this.location,city:component.long_name}
+          }
+          else if(component.types.includes("neighborhood")){
+            this.location={...this.location,sublocality:component.long_name}
+          }
+        })
+        this.locationLoading=false
+      } else {
+        console.error('Geocoder failed:', status);
+        this.locationLoading=false
+        this.location = 'Unable to fetch city';
+      }
+    })
+  }
+  getCurrentCity(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          this.getCityFromCoordinates(lat, lng);
+        },
+        (error) => {
+          console.warn('Geolocation permission denied or error:', error);
+          this.handleLocationDenied();
+        }
+      );
+    } else {
+      console.error('Geolocation not supported by the browser.');
+      this.location = 'Geolocation not supported';
+    }
+  }
+  handleLocation(){
+    this.locationLoading=true
+    this.getCurrentCity()
+  }
+
+  handleLocationDenied(): void {
+    // Set a default city or an error message if the user denies location access
+    this.location = 'Belarus'; // Default fallback location
   }
   ngOnDestroy() {
     if (this.isNavigatingAway) {
