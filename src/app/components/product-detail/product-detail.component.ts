@@ -72,7 +72,7 @@ export class ProductDetailComponent implements OnInit {
   
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
-        debugger;
+        // debugger;
         this.product = value.data;
   
          this.attributes = JSON.parse(value.data.attributes);
@@ -102,7 +102,7 @@ export class ProductDetailComponent implements OnInit {
       product_id: this.productId,
       user_id: this.currentUserid
     }
-    debugger
+    // debugger
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {
 

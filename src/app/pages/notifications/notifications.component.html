@@ -3,7 +3,7 @@
         <div class=" rounded mt-5" *ngIf="!loading">
             <ul class="list-unstyled d-flex align-items-center overflow-hidden tabs justify-content-center mx-auto border-1 rounded-pill">
                 <li *ngFor="let tab of ['all','unread','read']; let index" class="flex-grow-1 h-100 d-flex align-items-center {{activeTab ==tab ?'bg-yellow-800':''}}">
-                    <button class="w-100 p-0 border-0"
+                    <button class="w-100 h-100 p-0 border-0"
                         (click)="handleTab(tab)">{{tab}}</button>
                 </li>
             </ul>
