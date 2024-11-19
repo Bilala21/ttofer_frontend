@@ -1,0 +1,69 @@
+<main class="mt-16 w-100">
+  <div class="main-container-contact">
+    <div class="d-flex justify-content-center">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"></path><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"></path></svg>
+    </div>
+    <h2 class="text-center fw-bold fs1-8">Contact Us</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="Enter your name"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': submitted && f.get('name')?.errors }"
+        />
+        <div
+          *ngIf="submitted && f.get('name')?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.get('name')?.errors?.['required']">
+            Name is required.
+          </div>
+          <div *ngIf="f.get('name')?.errors?.['minlength']">
+            Name must be at least 3 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Enter your email"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid': submitted && f.get('email')?.errors }"
+        />
+        <div
+          *ngIf="submitted && f.get('email')?.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.get('email')?.errors?.['required']">
+            Email is required.
+          </div>
+          <div *ngIf="f.get('email')?.errors?.['email']">
+            Please enter a valid email address.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea
+          class="form-control custom-textarea"
+          id="message"
+          rows="10"
+          placeholder="Enter your message"
+          formControlName="message"
+        ></textarea>
+      </div>
+     <div class="d-flex justify-content-center">
+         <button type="submit" class="btn bg-yellow-800 fs-16 mt-3 fw-semibold w-25">Submit</button>
+     </div>
+    </form>
+  </div>
+</main>

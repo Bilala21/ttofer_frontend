@@ -4,12 +4,12 @@ import { GlobalStateService } from '../../../shared/services/state/global-state.
 import { AuthService } from '../../../shared/services/authentication/Auth.service';
 import { Extension } from '../../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-right-side',
   standalone: true,
-  imports: [RouterLink, NgIf],
+  imports: [RouterLink, NgIf,NgFor,CommonModule],
   templateUrl: './right-side.component.html',
   styleUrl: './right-side.component.scss'
 })
@@ -18,15 +18,21 @@ export class RightSideComponent {
     public extension: Extension,
   ) {
     this.currentUserid = extension.getUserId();
+    console.log(this.attributes)
   }
-
+  parsedAttributes: { [key: string]: any } = {}; 
   productId: any = null
   @Input() product: any = {};
-  attributes: any = {}
+  @Input() attributes: any = {};
+
+  
   loading: boolean = false
   currentUserid: any;
   @Output() handleWishlist = new EventEmitter<any>();
-
+  ngAfterViewInit(): void {
+    // Additional initialization logic can go here if needed
+    // this.parseAttributes(); // Ensure parsing occurs after the view is initialized
+  }
 
   toggleWishlist(item: any) {
     this.handleWishlist.emit(item)
@@ -83,5 +89,35 @@ export class RightSideComponent {
     }
     this.globalStateService.setOfferModal(modal_type)
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['product'] && changes['product'].currentValue) {
+      this.parseAttributes(changes['product'].currentValue);
+    }
+  }
 
+  private parseAttributes(value: any): void {
+    try {
+      // debugger
+      let attributes = JSON.parse(value.attributes);
+       let attributesParse=JSON.parse(attributes);
+
+      // Clear and assign parsed attributes
+      this.parsedAttributes = {};
+      for (const [key, val] of Object.entries(attributesParse)) {
+        this.parsedAttributes[key] =
+          typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
+      }
+    } catch (error) {
+      console.error('Error parsing attributes:', error);
+    }
+  }
+
+  private isJson(str: string): boolean {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }

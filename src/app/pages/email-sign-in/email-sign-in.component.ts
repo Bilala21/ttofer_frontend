@@ -3,6 +3,7 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '../../shared/services/state/global-state.service';
 
 @Component({
   selector: 'app-email-sign-in',
@@ -14,30 +15,27 @@ import { ToastrService } from 'ngx-toastr';
 export class EmailSignInComponent {
   emailForm: FormGroup;
   loading: boolean = false;
-
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() backEvent = new EventEmitter<void>();
-
+  @Output() forgetEvent = new EventEmitter<void>(); // Event emitter for back button
   constructor(
     private mainServices: MainServicesService,
-    private location: Location,
-    private toaster: ToastrService
+    private toaster: ToastrService,private globalStateService:GlobalStateService
   ) {
-    // Initialize the reactive form
     this.emailForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
     });
   }
-
   backButton() {
     this.backEvent.emit();
   }
-
+ openForgot(){
+    this.forgetEvent.emit();
+  }
   isFormValid(): boolean {
     return this.emailForm.valid;
   }
-
   signInWithEmail() {
     if (this.isFormValid()) {
       this.getAuth();
@@ -45,7 +43,6 @@ export class EmailSignInComponent {
       this.toaster.error('Please enter valid details.', 'Invalid Input');
     }
   }
-//rana haroon code//
   getAuth() {
     this.loading = true;
     const input = this.emailForm.value;
@@ -56,10 +53,10 @@ export class EmailSignInComponent {
         localStorage.setItem('authToken', res.data.token);
         const jsonString = JSON.stringify(res.data.user);
         localStorage.setItem("key", jsonString);
-        
+        this.globalStateService.updateUserState(res.data.user);
         this.toaster.success('You are logged in successfully', 'Success');
         this.closeModalEvent.emit();
-        window.location.reload();
+        // window.location.reload();
       },
       error: (err) => {
         this.loading = false;
@@ -71,5 +68,4 @@ export class EmailSignInComponent {
       }
     });
   }
-  
 }

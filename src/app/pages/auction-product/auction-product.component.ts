@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { RelatedCarouselComponent } from "../carousels/related-carousel/related-carousel.component";
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
-import { ProductCarouselComponent } from "../carousels/product-carousel/product-carousel.component";
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
+import { RelatedCarouselComponent } from '../carousels/related-carousel/related-carousel.component';
+import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
+import { ProductCarouselComponent } from '../carousels/product-carousel/product-carousel.component';
+import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -10,7 +10,7 @@ import { Extension } from '../../helper/common/extension/extension';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from '../../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -29,36 +29,34 @@ import { ToastrService } from 'ngx-toastr';
     FormsModule,
     NgxSpinnerComponent,
     RouterModule,
-    SharedModule
-]
+    SharedModule,
+  ],
 })
 export class AuctionProductComponent {
-  dummy =[{src:"/assets/images/no-img.png"}]
+  dummy = [{ src: '/assets/images/no-img.png' }];
   promotionBanners: any = [
     {
-      banner: "https://images.olx.com.pk/thumbnails/493379125-800x600.webp"
+      banner: 'https://images.olx.com.pk/thumbnails/493379125-800x600.webp',
     },
-  ]
+  ];
   showBid: boolean = false;
   allowedToBid: boolean = false;
-  isVerified:boolean=false;
-  profileImg: any[] = [
-  ]
-
-  liveAuction: any[] = []
-  productId: any ;
+  isVerified: boolean = false;
+  profileImg: any[] = [];
+  liveAuction: any[] = [];
+  productId: any;
   auctionProduct: any[] = [];
   auctionProductTemp: any[] = [];
-  currentUserid: number = 0
+  currentUserid: number = 0;
   offerPrice: number = 0;
   center: google.maps.LatLngLiteral = { lat: 24, lng: 12 };
   zoom = 4;
-  price: any
+  price: any;
   bidlist: any[] = [];
-  maxPrice:number = 0
+  maxPrice: number = 0;
   loading = false;
-  calculateRemaningTime!:string;
-  IsBit:boolean=false;
+  calculateRemaningTime!: string;
+  IsBit: boolean = false;
   priceOptions!: number[];
   constructor(
     private route: ActivatedRoute,
@@ -66,9 +64,9 @@ export class AuctionProductComponent {
     private extension: Extension,
     private snackBar: MatSnackBar,
     private spinner: NgxSpinnerService,
-    public toastr:ToastrService
+    public toastr: ToastrService
   ) {
-    this.currentUserid = extension.getUserId()
+    this.currentUserid = extension.getUserId();
   }
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id')!;
@@ -76,15 +74,15 @@ export class AuctionProductComponent {
     this.getBid();
   }
 
-  showSuccessMessage(message:string) {
+  showSuccessMessage(message: string) {
     this.snackBar.open(message, '', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
-      panelClass: ['success-snackbar']
+      panelClass: ['success-snackbar'],
     });
   }
-  
+
   // getUserId() {
   //   const jsonStringGetData = localStorage.getItem('key');
   //   if (jsonStringGetData) {
@@ -94,7 +92,7 @@ export class AuctionProductComponent {
   // }
 
   showInput() {
-    this.showBid = !this.showBid
+    this.showBid = !this.showBid;
   }
 
   openModal() {
@@ -125,22 +123,22 @@ export class AuctionProductComponent {
       }
     }
   }
-
   getAuctionProduct() {
     this.loading = true;
-    this.mainServices.getAuctionProduct().subscribe(res => {
-      console.log("Auction Response ",res.data);
-      
-      this.auctionProduct = res.data
-      this.auctionProductTemp = res.data
+    this.mainServices.getAuctionProduct().subscribe((res) => {
+      console.log('Auction Response ', res.data);
+
+      this.auctionProduct = res.data;
+      this.auctionProductTemp = res.data;
       this.auctionProduct = this.auctionProduct.filter((item) => {
-      console.log(item)
-          return item.id == this.productId;
+        console.log(item);
+        return item.id == this.productId;
       });
-      console.log("data",this.auctionProduct)
-      this.allowedToBid = this.auctionProduct.filter((item) => {
-        return item.user_id == this.currentUserid;
-      }).length <= 0;
+      console.log('data', this.auctionProduct);
+      this.allowedToBid =
+        this.auctionProduct.filter((item) => {
+          return item.user_id == this.currentUserid;
+        }).length <= 0;
 
       this.loading = false;
       this.auctionProduct = this.auctionProduct.map((item) => {
@@ -150,45 +148,47 @@ export class AuctionProductComponent {
           const endDate = new Date(item.ending_date);
           const timeDiff = endDate.getDate() - startDate.getDate();
           remainingDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-          remainingDays = timeDiff
+          remainingDays = timeDiff;
         }
         return {
           ...item,
-          remainingDays: remainingDays
+          remainingDays: remainingDays,
         };
       });
       this.startCountdowns();
 
-      console.log(this.auctionProduct)
-    })
+      console.log(this.auctionProduct);
+    });
   }
-
   startCountdowns() {
     this.auctionProduct.forEach((item, index) => {
-      const datePart = item.ending_date.split('T')[0]; 
-      const endingDateTimeString = `${datePart}T${item.ending_time}:00.000Z`; 
-      const endingDateTime = new Date(endingDateTimeString).getTime(); 
+      const datePart = item.ending_date.split('T')[0];
+      const endingDateTimeString = `${datePart}T${item.ending_time}:00.000Z`;
+      const endingDateTime = new Date(endingDateTimeString).getTime();
       const intervalId = setInterval(() => {
         const nowUTC = Date.now();
         const timeDifference = endingDateTime - nowUTC;
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
           clearInterval(intervalId);
-          this.calculateRemaningTime='Bid Time Finished';
-          this.IsBit=false
+          this.calculateRemaningTime = 'Bid Time Finished';
+          this.IsBit = false;
         } else {
-          this.calculateRemaningTime= this.formatTimeDifference(timeDifference)+ ' remaining';
-          this.IsBit=true;
+          this.calculateRemaningTime =
+            this.formatTimeDifference(timeDifference) + ' remaining';
+          this.IsBit = true;
         }
       }, 1000); // Update every second
     });
   }
-
   formatTimeDifference(timeDifference: number): string {
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const hours = Math.floor(
+      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
     let formattedTime = '';
     if (days > 0) {
       formattedTime += `${days}d `;
@@ -200,72 +200,70 @@ export class AuctionProductComponent {
       formattedTime += `${minutes}m `;
     }
     formattedTime += `${seconds}s`;
-
     return formattedTime;
   }
-
-  placeBid(price:any) {
-  
+  placeBid(price: any) {
     if (price < this.maxPrice) {
-      this.loading = false; 
-
+      this.loading = false;
       this.toastr.error(`Bid should be higher than ${this.maxPrice} `, 'Error');
-
       return;
     }
-  
     const input = {
       user_id: this.currentUserid,
       product_id: this.productId,
       price: price,
     };
-  
     try {
       this.mainServices.placeBid(input).subscribe({
         next: (res: any) => {
-          this.toastr.success(`Bid Placed for AED ${input.price} successfully`, 'Success');
+          this.toastr.success(
+            `Bid Placed for AED ${input.price} successfully`,
+            'Success'
+          );
           this.getBid();
           this.loading = false;
           this.closeModal();
           console.log(res);
         },
         error: (err: any) => {
-          const errorMessage = err?.error?.message || 'Failed to place bid. Please try again later.';
+          const errorMessage =
+            err?.error?.message ||
+            'Failed to place bid. Please try again later.';
           this.toastr.error(errorMessage, 'Error');
           this.loading = false;
           console.error(err);
-        }
+        },
       });
     } catch (error) {
-      this.toastr.error('An unexpected error occurred. Please try again later.', 'Error');
+      this.toastr.error(
+        'An unexpected error occurred. Please try again later.',
+        'Error'
+      );
       this.loading = false;
     }
   }
-  
-
   getBid() {
     this.loading = true;
     let input = {
       product_id: this.productId,
-    }
+    };
     this.mainServices.getPlacedBids(input).subscribe((res: any) => {
       this.liveAuction = res.data;
 
-      res.data.forEach((item:any) => {
-        
+      res.data.forEach((item: any) => {
         if (item.user && item.user.img && this.profileImg.length < 5) {
           const imgObject = { img: item.user.img };
           this.profileImg.push(imgObject);
         }
       });
-      console.log('live auction', this.liveAuction,res,this.profileImg)
+      console.log('live auction', this.liveAuction, res, this.profileImg);
       if (this.liveAuction && this.liveAuction.length > 0) {
         const prices = this.liveAuction.map((item) => item.price);
         this.maxPrice = Math.max(...prices);
         this.generatePriceOptions();
       }
       this.loading = false;
-    })
+    });
   }
   generatePriceOptions(): void {
     const increment = 2000; // Define the fixed increment value
@@ -276,17 +274,17 @@ export class AuctionProductComponent {
       this.maxPrice + increment * 4,
     ];
   }
-  
+
   bid26() {
-    this.price = "26000"
+    this.price = '26000';
   }
   bid28() {
-    this.price = "28000"
+    this.price = '28000';
   }
   bid32() {
-    this.price = "32000"
+    this.price = '32000';
   }
   bid35() {
-    this.price = "35000"
+    this.price = '35000';
   }
 }

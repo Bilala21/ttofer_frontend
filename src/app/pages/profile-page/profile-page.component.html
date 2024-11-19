@@ -1347,7 +1347,7 @@
                   #fileInput
                   type="file"
                   (change)="onEditFileChange($event)"
-                  accept="image/*"
+                  accept="image/png,image/jpg,image/jpeg"
                   style="display: none"
                   multiple
                   [disabled]="!editProductData"
@@ -1835,8 +1835,9 @@
                 <input
                   #fileInput
                   type="file"
-                  (change)="onFileChange($event)"
-                  accept="image/*"
+                  (change)="onFileChange($event);onFieldChange('uploadImage')
+                  "
+                  accept="image/png,image/jpg,image/jpeg"
                   style="display: none"
                   multiple
                 />
@@ -2274,13 +2275,17 @@
               </div>
             </div>
             <div class="mt-2">
-              <app-current-location
-              ></app-current-location>
+              <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
+
             </div>
             
-            <div *ngIf="locationId">
+            <!-- <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
+            
+            <!-- <div *ngIf="locationId">
+              <p>Received Location: {{ locationId }}</p>
+            </div> -->
 
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
@@ -2399,7 +2404,7 @@
       <!-- boostPlus -->
       <div *ngIf="selectedTab === 'boostPlus' && !showDiv" class="col-xl-7 col-md-7">
          <div class="row align-items-center justify-content-center margin-top-right-side-class">
-            <i class="fas fa-rocket title-icon"></i>
+            <i class="fas fa-rocket title-icon mr-2"></i>
               <h3 class="right-side-top-title">Boost Plus</h3>
         </div>
         <hr />

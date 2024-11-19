@@ -1,26 +1,24 @@
 <main class="mt-16">
-  <div class="container-fluid product-detail-container">
-    <div class="mx-auto xs-px-0">
+  <div class="container-fluid ">
+    <div class="mx-auto mt-3 xs-px-0">
       <div>
         <app-slider [slides]="promotionBanners"></app-slider>
       </div>
       <div class="permotion-banners">
-        @if (promotionBanners.length > 0) {
         <app-promotion-slider
-          [banners]="promotionBanners.slice(0, 2)"
+          *ngIf="promotionBanners.length > 0"
+          [banners]="promotionBanners.slice(0, getBannerSliceCount())"
           bannerClass="body-banner"
-        />
-        }
-      </div>
+        ></app-promotion-slider>
+      </div>      
     </div>
     <div class="d-block d-lg-flex pt-5">
       <aside class="product-filter pt-4">
         <app-filters />
       </aside>
-      <!-- PRODUCT SIDE -->
-      <div class="flex-grow-1 pl-lg-4 xs-px-0">
-        <div class="text-center mb-4 buttons d-flex align-items-center justify-content-center xs-between">
-          <button type="button" class="btn py-2 px-2 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
+      <div class="flex-grow-1 pl-4 xs-px-0">
+        <div class="text-center mb-4">
+          <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
             (click)="handleTab('auction')"> Auction Products </button>
           <button type="button" class="btn py-2 px-2 {{activeTab=='featured'?'bg-dark text-white':'border-1'}}"
             (click)="handleTab('featured')"> Feature Products</button>
@@ -37,7 +35,6 @@
               >
               <app-card-shimmer/>
               </div>
-              
             }
           }@else { @for (post of data?.data; track $index) {
           <div class="product-card">

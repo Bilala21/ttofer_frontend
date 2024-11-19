@@ -34,14 +34,16 @@ export class HeaderNavigationComponent implements OnInit {
   cartItems: any = [];
   notificationList: any = [];
   unReadNotification: any = 0;
+  city: any
   searchTerm: any
   currentUserid: any = null
+  activeCategory: any = 0
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
-    private authService: AuthService,
+    private authService: AuthService, private extension: Extension,
     private router: Router, private toastr: ToastrService,
-    public extension: Extension,
+
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -71,8 +73,6 @@ export class HeaderNavigationComponent implements OnInit {
     } else if (this.screenWidth <= 768) {
       this.categoryLimit = 2;
     }
-
-    console.log(`Screen Width: ${this.screenWidth}, Category Limit: ${this.categoryLimit}`);
   }
 
   showSearchBar() {
@@ -110,6 +110,7 @@ export class HeaderNavigationComponent implements OnInit {
     }, 0);
   }
 
+
   openChat() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -130,18 +131,18 @@ export class HeaderNavigationComponent implements OnInit {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
-    }else {
+    } else {
       const userData = JSON.parse(storedData);
       const userId = userData?.id;
       if (userId) {
         this.router.navigate([`/selling/${userId}`]);
         localStorage.setItem('currentTab', "savedItems");
-        this.router.navigate(['/profilePage', `${userId}`])  
+        this.router.navigate(['/profilePage', `${userId}`])
       }
     }
-    
- 
-    
+
+
+
   }
   openSelling() {
     const storedData = localStorage.getItem('key');
@@ -157,7 +158,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
     }
   }
-  goOnCart(){
+  goOnCart() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -218,12 +219,15 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    if (JSON.parse(localStorage.getItem("categoryId") as string)) {
+      this.activeCategory = JSON.parse(localStorage.getItem("categoryId") as string)
+    }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
         this.imgUrl = url;
       }
     );
-
+    this.getCurrentCity()
     if (this.currentUser && this.currentUser.img) {
       this.imgUrl = this.currentUser.img;
     }
@@ -234,7 +238,7 @@ export class HeaderNavigationComponent implements OnInit {
       next: (res: any) => {
         this.categories = res.data;
         this.loading = false;
-        console.log(res,"test12");
+        console.log(res, "test12");
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
@@ -245,7 +249,9 @@ export class HeaderNavigationComponent implements OnInit {
 
     // ADD TO CARD FUNCTIONALITY
     this.globalStateService.currentState.subscribe((state) => {
-      this.cartItems = state.cartState
+      this.currentUser = state.currentUser;
+
+      this.cartItems = state.cartState;
 
     })
     if (this.currentUser?.id) {
@@ -255,4 +261,51 @@ export class HeaderNavigationComponent implements OnInit {
       this.cart()
     }
   }
+  getCityFromCoordinates(lat: number, lng: number): void{
+    const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
+        if (status === 'OK' && results[0]) {
+          const addressComponents = results[0].address_components;
+          const cityComponent = addressComponents.find((component: any) =>
+            component.types.includes('locality')
+          );
+          this.city = cityComponent ? cityComponent.long_name : 'City not found';
+        } else {
+          console.error('Geocoder failed:', status);
+          this.city = 'Unable to fetch city';
+        }
+  })
+  }
+  getCurrentCity(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          this.getCityFromCoordinates(lat, lng);
+        },
+        (error) => {
+          console.warn('Geolocation permission denied or error:', error);
+          this.handleLocationDenied();
+        }
+      );
+    } else {
+      console.error('Geolocation not supported by the browser.');
+      this.city = 'Geolocation not supported';
+    }
+  }
+
+  handleLocationDenied(): void {
+    // Set a default city or an error message if the user denies location access
+    this.city = 'Belarus'; // Default fallback location
+  }
+      updateCategory(categoryId: number): void {
+      this.globalStateService.setActiveCategory(categoryId);
+      // this.activeCategory = categoryId
+      localStorage.setItem('categoryId',categoryId.toString())
+      this.globalStateService.currentState.subscribe((state) => {
+        this.activeCategory = state.activeCategory;
+        
+      });
+    }
 }

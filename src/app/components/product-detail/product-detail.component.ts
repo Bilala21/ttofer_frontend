@@ -24,8 +24,7 @@ import { RightSideComponent } from './right-side/right-side.component';
 export class ProductDetailComponent implements OnInit {
   screenWidth: number;
   screenHeight: number;
-  center!: google.maps.LatLngLiteral;
-  zoom = 14;
+  
   productId: any = null
   product: any = {};
   attributes: any = {}
@@ -33,6 +32,10 @@ export class ProductDetailComponent implements OnInit {
   loading: boolean = false
   currentUserid: any;
   isFullScreen = false
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom = 15; // Adjust zoom level to your preference
+  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
   images: any = [
 
   ];
@@ -63,26 +66,41 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id')!;
-    this.loading = true
+    this.loading = true;
+  
     this.mainServices.getProductById({ product_id: this.productId }).subscribe({
       next: (value) => {
-        this.product = value.data
-        this.attributes = JSON.parse(value.data.attributes)
-        this.loading = false
-        console.log(JSON.parse(value.data.attributes), 'attributes');
+        // debugger;
+        this.product = value.data;
+  
+        this.attributes = JSON.parse(value.data.attributes);
+  
+        const lat = Number(this.product.latitude);
+        const lng = Number(this.product.longitude);
+  
+        if (!isNaN(lat) && !isNaN(lng)) {
+          this.center = { lat, lng };
+          this.markerPosition = this.center; // Marker positioned at the center
+        } else {
+          console.error('Invalid latitude or longitude:', { lat, lng });
+        }
+  
+        this.loading = false;
       },
       error: (err) => {
-        this.loading = false
+        console.error('Error fetching product:', err);
+        this.loading = false;
       },
-    })
+    });
   }
+  
 
   productView() {
     const productViewDetail = {
       product_id: this.productId,
       user_id: this.currentUserid
     }
-    debugger
+    // debugger
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {
 
@@ -183,48 +201,6 @@ export class ProductDetailComponent implements OnInit {
     }
     this.globalStateService.setOfferModal(modal_type)
   }
-
-  ngAfterViewInit() {
-    this.cdRef.detectChanges(); // Trigger change detection if needed
-  }
-
-  getCurrentLocation(): void {
-    this.loading = true;
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.center = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          this.loading = false;
-          // this.initializeMap(); // Initialize the map once location is set
-          // this.cdRef.detectChanges(); // Detect changes to update view
-        },
-        (error) => {
-          console.error("Geolocation failed:", error);
-          this.loading = false;
-        }
-      );
-    } else {
-      console.error("Browser doesn't support geolocation.");
-    }
-
-  }
-
-  loadMap(): void {
-    this.loading = true;
-    const mapProperties = {
-      center: this.center,
-      zoom: this.zoom,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    };
-    const mapDiv = document.getElementById('map-div');
-    if (mapDiv) {
-      new google.maps.Map(mapDiv as HTMLElement, mapProperties);
-    }
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;

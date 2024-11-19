@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { catchError, of, Subscription } from "rxjs";
 import { LookupService } from "../../shared/services/lookup/lookup.service";
 import { MainServicesService } from "../../shared/services/main-services.service";
@@ -11,15 +11,17 @@ import { AuthService } from "../../shared/services/authentication/Auth.service";
 import { EmailSignInComponent } from "../email-sign-in/email-sign-in.component";
 import { PhoneSignInComponent } from "../phone-sign-in/phone-sign-in.component";
 import { RegisterComponent } from "../register/register.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-login-modal',
   standalone: true,
-  imports: [FormsModule, CommonModule, EmailSignInComponent, PhoneSignInComponent, RegisterComponent],
+  imports: [FormsModule, CommonModule, EmailSignInComponent, PhoneSignInComponent, RegisterComponent,ReactiveFormsModule],
   templateUrl: './login-modal.component.html',
   styleUrl: './login-modal.component.scss'
 })
 export class LoginModalComponent {
+  showResetpassword:any=false
   isMenuDropdownOpen = false;
   @ViewChild('inputFields')
   isMobileMenuVisible: boolean = false;
@@ -53,15 +55,19 @@ export class LoginModalComponent {
   imgUrl: any;
   onlineCount: number = 0;
   dropdownVisible = false;
+  phoneNumber:any
   private intervalId: any;
   loading = false;
   currentUserId:string="";
   errorMessage!:string;
+  emailForForgotPassword:any
+  resetPassword!:FormGroup
   private modalSubscription!: Subscription;
   // categories! : category []
   @ViewChild('loginModal') loginModal!: ElementRef;
+  @ViewChildren('otpField') otpFields!: QueryList<ElementRef>;
   constructor(
-    private router: Router, private mainServices: MainServicesService, private extention: Extension,
+    private router: Router, private mainServices: MainServicesService, private extention: Extension,private toastr:ToastrService,
     private snackBar: MatSnackBar,
     private authService: AuthService) {
     // this.inputFields = new Array(6);
@@ -88,6 +94,14 @@ export class LoginModalComponent {
     this.isMobileMenuVisible = !this.isMobileMenuVisible;
   }
   ngOnInit() {
+    this.resetPassword = new FormGroup({
+      email: new FormControl({ value: '', disabled: true }),
+      password: new FormControl('', [Validators.required]),
+      password_confirmation: new FormControl('', [Validators.required])
+    });
+    
+    // Set the email value explicitly
+    
     
   }
 
@@ -128,16 +142,83 @@ export class LoginModalComponent {
 
   }
 
-  isOTPComplete(): boolean {
-    return this.otp.every(value => value.trim() !== '');
-  }
-
   verifyOTP() {
-    if (this.isOTPComplete()) {
-      console.log('OTP:', this.otp.join(''));
+    // debugger
+    // Combine the OTP inputs into a single string
+    const otp = this.getOtpValue();
+
+    // Make sure the OTP is complete
+    if (otp.length === this.otpInputs.length) {
+      // API endpoint
+
+      // Prepare the payload with OTP and email
+      const payload = {
+        otp:otp,
+        email: this.emailForForgotPassword,
+      };
+   this.loading=true
+      // Send POST request to the API
+      this.mainServices.otpVerify(payload).subscribe(
+        (response:any) => {
+          this.toastr.success(response.msg, 'Success');
+          this.loading=false
+          this.resetPassword.get('email')?.setValue(this.emailForForgotPassword);
+
+          // Show the reset password section
+          this.showResetpassword = true;
+          this.showOTPBox = false;
+          this.showForgotPhoneBox = false;
+          this.showForgotBox = false;
+          this.showEmailBox = false;
+          this.showPhoneBox = false;
+          this.showRegisterBox = false;
+        },
+        (error) => {
+          this.loading=false
+          this.toastr.error(error.error.msg, 'Error');
+          // Handle error if needed
+        }
+      );
+    } else {
+      console.log('OTP is incomplete.');
     }
   }
+  isFormValidforgot(): boolean {
+    return this.resetPassword.valid;
+  }
+  forgotPasswordChange() {
+    // debugger
+    // Combine the OTP inputs into a single string
 
+    // Make sure the OTP is complete
+ 
+    this.loading = true;
+    this.resetPassword.get('email')?.enable();
+
+    const formData = this.resetPassword.value;
+      // Send POST request to the API
+      this.mainServices.newPassword(formData).subscribe(
+        (response:any) => {
+          this.toastr.success(response.msg, 'Success');
+          this.loading = false;
+
+          // Show the reset password section
+          this.showResetpassword = false;
+          this.showOTPBox = false;
+          this.showForgotPhoneBox = false;
+          this.showForgotBox = false;
+          this.showEmailBox = false;
+          this.showPhoneBox = false;
+          this.showRegisterBox = false;
+        },
+        (error) => {
+          this.toastr.error(error.error.msg, 'Error');
+          this.loading = false;
+
+          // Handle error if needed
+        }
+      );
+  }
   focusNextInput(index: number) {
     if (index < this.otp.length - 1 && this.otp[index].trim() !== '') {
       this.inputFields[index + 1].nativeElement.focus();
@@ -198,6 +279,7 @@ export class LoginModalComponent {
   googleSignIn() {
     this.authService.signInWithGoogle().subscribe({
       next: (result:any) => {
+        // debugger
         const user = result.user;
         if (user) {
 
@@ -403,28 +485,49 @@ export class LoginModalComponent {
   )
   }
   openEmail() {
-    this.showEmailBox = true
+  this.showEmailBox = true
   }
   openRegister() {
     this.showRegisterBox = true
   }
   openOTP() {
-
     let input = {
-      email:this.email
+      email:this.emailForForgotPassword
     }
+    this.loading=true
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
-
+      this.loading=false
       this.otpVerify = res.otp
       console.log(this.otpVerify)
-      this.showSuccessMessage(res.msg)
+      this.toastr.success(res.msg, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
       this.showForgotBox = false
     },
     (err:any)=>{
-
-      this.showSuccessMessage(err.error.msg)
+      // debugger
+      this.toastr.error(err.error.msg, 'Error');
+      this.loading = false
+    }
+  )
+  }
+  openOTPNumber(){
+    let input = {
+      phone:this.phoneNumber
+    }
+    this.loading=true
+    this.mainServices.forgetPasswordNumber(input).subscribe((res:any) => {
+      this.loading=false
+      this.otpVerify = res.otp
+      console.log(this.otpVerify)
+      this.toastr.success(res.msg, 'Success');
+      this.showOTPBox = true
+      this.showForgotPhoneBox = false
+      this.showForgotBox = false
+    },
+    (err:any)=>{
+      // debugger
+      this.toastr.error(err.error.msg, 'Error');
       this.loading = false
     }
   )
@@ -434,6 +537,7 @@ export class LoginModalComponent {
     this.showPhoneBox = false
   }
   openForgotEmail() {
+    // debugger
     this.showForgotBox = true
     this.showEmailBox = false
   }
@@ -455,7 +559,6 @@ export class LoginModalComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeModal() {
     const modal = document.getElementById('loginModal');
     if (modal) {
@@ -532,6 +635,44 @@ export class LoginModalComponent {
 
     this.loading = false;
 }
+otpInputs: any[] = new Array(6).fill(''); // Adjust for the number of OTP inputs
 
+onInputChange(event: any, index: number) {
+  const input = event.target;
+  if (input.value.length === 1) {
+    // Move to the next input if it exists
+    const nextInput = this.otpFields.toArray()[index + 1];
+    nextInput?.nativeElement.focus();
+  }
+}
+
+onBackspace(event: any, index: number) {
+  const input = event.target;
+  if (input.value.length === 0 && index > 0) {
+    // Move to the previous input if it exists
+    const previousInput = this.otpFields.toArray()[index - 1];
+    previousInput?.nativeElement.focus();
+  }
+}
+onPaste(event: ClipboardEvent) {
+  event.preventDefault();
+  const pastedData = event.clipboardData?.getData('text') || '';
+
+  // Populate each OTP input field with the corresponding character from pasted data
+  this.otpFields.forEach((field, index) => {
+    field.nativeElement.value = pastedData[index] || ''; // Populate only if there's data
+  });
+
+  // Focus on the last filled input field
+  const lastFilledField = this.otpFields.toArray()[
+    Math.min(pastedData.length, this.otpInputs.length) - 1
+  ];
+  lastFilledField?.nativeElement.focus();
+}
+getOtpValue(): string {
+// debugger
+  // Map over otpFields to gather values, then join them into a single string
+  return this.otpFields.toArray().map(field => field.nativeElement.value).join('');
+}
 
 }
