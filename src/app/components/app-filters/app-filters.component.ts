@@ -145,7 +145,7 @@ if(this.filters){
   this.filterCriteria["category_id"]=this.id;
   localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.globalStateService.product.subscribe(state => {
-      debugger
+      // // debugger
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
       this.fetchData();
     });

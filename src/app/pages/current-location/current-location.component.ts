@@ -59,7 +59,7 @@ export class CurrentLocationComponent implements OnInit {
   }
 
   getAddress(lat: number, lng: number): void {
-    debugger
+    // debugger
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results:any, status:any) => {
       if (status === 'OK' && results[0]) {
@@ -82,9 +82,9 @@ export class CurrentLocationComponent implements OnInit {
 
   // Initialize the autocomplete functionality
   initializeAutocomplete() {
-    debugger
+    // debugger
     if (google && google.maps ) {
-      debugger
+      // debugger
       const autocomplete = new google.maps.places.Autocomplete(this.searchInput.nativeElement);
 
       if (this.map?.googleMap) {
@@ -94,7 +94,7 @@ export class CurrentLocationComponent implements OnInit {
 
       // Listen for when the user selects a place from the autocomplete dropdown
       autocomplete.addListener('place_changed', () => {
-        debugger
+        // debugger
         this.ngZone.run(() => {
           const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 

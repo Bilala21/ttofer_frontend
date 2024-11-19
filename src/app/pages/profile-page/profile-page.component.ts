@@ -1699,7 +1699,7 @@ export class ProfilePageComponent {
     lng: number;
     address: string;
   }): void {
-    debugger;
+    // debugger;
     // Use the location data as needed
     this.locationId = location;
   }
@@ -1733,7 +1733,7 @@ export class ProfilePageComponent {
 
     formData.append('category_id', this.selectedCategoryId.toString());
     formData.append('sub_category_id', this.selectedSubCategoryId.toString());
-    debugger;
+    // debugger;
     const mainCategory = String(
       this.getCategoryNameById(this.selectedCategoryId) || ''
     );
@@ -1815,7 +1815,7 @@ export class ProfilePageComponent {
     }
   }
   getCategoryNameById(categoryId: number): string {
-    debugger;
+    // debugger;
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
   }
@@ -1826,7 +1826,7 @@ export class ProfilePageComponent {
     return subCategory ? subCategory.name : '';
   }
   checkattribute() {
-    debugger;
+    // debugger;
     console.log(this.attributes);
   }
   async AddProductFirstStep() {

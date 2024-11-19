@@ -97,7 +97,7 @@ export class RightSideComponent {
 
   private parseAttributes(value: any): void {
     try {
-      debugger
+      // debugger
       let attributes = JSON.parse(value.attributes);
        let attributesParse=JSON.parse(attributes);
 
