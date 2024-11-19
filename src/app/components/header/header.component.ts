@@ -15,7 +15,7 @@ import { Extension } from '../../helper/common/extension/extension';
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule, FormsModule],
+  imports: [RouterLink, NgFor, NgIf, LoaderComponent, LoginModalComponent, CommonModule,FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -33,15 +33,16 @@ export class HeaderNavigationComponent implements OnInit {
   tempToken: boolean = false
   cartItems: any = [];
   notificationList: any = [];
+  currentUserid:any
   unReadNotification: any = 0;
-  searchTerm: any
-  currentUserid: any = null
+  city:any
+  searchTerm:any
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
-    private authService: AuthService,
+    private authService: AuthService,private extension:Extension,
     private router: Router, private toastr: ToastrService,
-    public extension: Extension,
+
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -90,8 +91,8 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.signOut();
       this.loading = false;
       this.currentUser = ""
-      this.notificationList = [];
-      this.unReadNotification = 0;
+      this.notificationList= [];
+      this.unReadNotification= 0;
       this.router.navigate(['']).then(() => {
         this.toastr.success('Logged out successfully', 'Success');
       });
@@ -109,6 +110,7 @@ export class HeaderNavigationComponent implements OnInit {
       return acc + item.fix_price * item.quantity;
     }, 0);
   }
+
 
   openChat() {
     const storedData = localStorage.getItem('key');
@@ -208,7 +210,7 @@ export class HeaderNavigationComponent implements OnInit {
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
           );
         });
-        this.unReadNotification = this.notificationList.filter((item: any) => item.status == "unread")
+        this.unReadNotification = this.notificationList.filter((item:any )=>item.status == "unread")
         this.loading = false;
       });
   }
@@ -223,7 +225,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
-
+this.getCurrentCity()
     if (this.currentUser && this.currentUser.img) {
       this.imgUrl = this.currentUser.img;
     }
@@ -245,7 +247,9 @@ export class HeaderNavigationComponent implements OnInit {
 
     // ADD TO CARD FUNCTIONALITY
     this.globalStateService.currentState.subscribe((state) => {
-      this.cartItems = state.cartState
+      this.currentUser = state.currentUser;
+
+      this.cartItems = state.cartState;
 
     })
     if (this.currentUser?.id) {
@@ -254,5 +258,44 @@ export class HeaderNavigationComponent implements OnInit {
     if (this.currentUserid) {
       this.cart()
     }
+  }
+  getCurrentCity(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          this.getCityFromCoordinates(lat, lng);
+        },
+        (error) => {
+          console.warn('Geolocation permission denied or error:', error);
+          this.handleLocationDenied();
+        }
+      );
+    } else {
+      console.error('Geolocation not supported by the browser.');
+      this.city = 'Geolocation not supported';
+    }
+  }
+
+  handleLocationDenied(): void {
+    // Set a default city or an error message if the user denies location access
+    this.city = 'Belarus'; // Default fallback location
+  }
+
+  getCityFromCoordinates(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results:any, status) => {
+      if (status === 'OK' && results[0]) {
+        const addressComponents = results[0].address_components;
+        const cityComponent = addressComponents.find((component:any) =>
+          component.types.includes('locality')
+        );
+        this.city = cityComponent ? cityComponent.long_name : 'City not found';
+      } else {
+        console.error('Geocoder failed:', status);
+        this.city = 'Unable to fetch city';
+      }
+    });
   }
 }

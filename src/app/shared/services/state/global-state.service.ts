@@ -12,7 +12,7 @@ interface AppState {
   featuredProducts: any[];
   isLoggedInd: boolean;
   wishListItems: number[];
-  currentUser: any,
+  currentUser: any
   temp_token: any
   isLoggedIn: boolean,
   cartState: any[],
@@ -46,6 +46,7 @@ export class GlobalStateService {
     location: []
   }
   public productlength: any;
+  public loading: any = true
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
@@ -53,7 +54,7 @@ export class GlobalStateService {
   product = this.productSubject.asObservable();
 
   constructor() {
-    const currentUser = JSON.parse(localStorage.getItem("key") || '{}');
+    const currentUser = JSON.parse(localStorage.getItem("key") || 'null');
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, currentUser: currentUser });
   }
@@ -95,7 +96,10 @@ export class GlobalStateService {
     localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
     this.stateSubject.next(newState);
   }
-
+  updateUserState(user: any) {
+    const currentState = this.stateSubject.value;
+    this.stateSubject.next({ ...currentState, currentUser: user });
+  }
   isFilterActive(value: boolean) {
     const currentState = this.stateSubject.value;
     const newState = {

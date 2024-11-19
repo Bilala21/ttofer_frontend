@@ -17,17 +17,16 @@ import { NgIf } from '@angular/common';
   imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent, NgIf]
 })
 export class CategoriesComponent {
-  constructor(private route: ActivatedRoute, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
+  constructor(private route: ActivatedRoute, public globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
   }
   promotionBanners: any = []
   activeTab: any = "auction"
   data: any = {}
-  loading: any = true
   id: any = null
   currentPage: number = 1
   handleTab(tab: string) {
-
     this.activeTab = tab
+    this.globalStateService.loading=true
     this.globalStateService.updateProdTab("ProductType", tab)
   }
   ngOnInit(): void {
@@ -35,11 +34,13 @@ export class CategoriesComponent {
 
     this.globalStateService.currentState.subscribe((state) => {
       this.currentPage = state.filteredProducts?.current_page
-      this.data = state.filteredProducts?.data?.filter((item: any) => item.ProductType == this.activeTab);
-      this.globalStateService.productlength = state.filteredProducts?.data?.length
-      this.loading = false
+      debugger
+      this.data = state.filteredProducts.filter((item: any) => item.ProductType == this.activeTab);
+      this.globalStateService.productlength = this.data?.length
+      this.globalStateService.loading=false
     })
     this.route.paramMap.subscribe(params => {
+      debugger
       this.id = params.get('id');
       if (["3", "4", "8"].includes(this.id)) {
         this.handleTab('featured')
@@ -72,7 +73,7 @@ export class CategoriesComponent {
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
         if (res && res.data.data) {
-          this.globalStateService.setFilteredProducts(res.data);
+          this.globalStateService.setFilteredProducts(res.data.data);
           this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');

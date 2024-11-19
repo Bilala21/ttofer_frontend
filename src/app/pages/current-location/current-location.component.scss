@@ -7,7 +7,12 @@
   font-size: 14px;
   text-align: center;
 }
-
+.search-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto; // Center the search box
+  position: relative;
+}
 @media (max-width : 990px) {
     .logo-for-map {
         left: 7%;

@@ -125,3 +125,15 @@
     }
   }
   
+  .attributes-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 1rem; /* Adjust spacing between items */
+  }
+  
+  .attribute-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  

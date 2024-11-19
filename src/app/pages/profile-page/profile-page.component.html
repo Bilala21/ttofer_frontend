@@ -1835,7 +1835,8 @@
                 <input
                   #fileInput
                   type="file"
-                  (change)="onFileChange($event)"
+                  (change)="onFileChange($event);onFieldChange('uploadImage')
+                  "
                   accept="image/*"
                   style="display: none"
                   multiple
@@ -2274,13 +2275,13 @@
               </div>
             </div>
             <div class="mt-2">
-              <app-current-location
-              ></app-current-location>
+              <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
+
             </div>
             
-            <div *ngIf="locationId">
+            <!-- <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
-            </div>
+            </div> -->
 
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">

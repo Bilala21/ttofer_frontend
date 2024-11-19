@@ -1072,11 +1072,16 @@ button[aria-label="Close"]:focus {
   }
 }
 
+.no-data-container {
+  margin-top: 25px;
+  display: flex;  
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
+
 .no-data-found {
-  width: 100%;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  max-width: 15%; /* Ensures the image doesn't overflow */
+  height: auto;
 }
 
 .form-control {
@@ -1085,8 +1090,8 @@ button[aria-label="Close"]:focus {
 }
 
 // Modal Content Style
-.custom-modal-content {
-  // border-radius: 20px;
+.modal-content {
+  border-radius: 24px;
 }
 
 // Modal Body Style
