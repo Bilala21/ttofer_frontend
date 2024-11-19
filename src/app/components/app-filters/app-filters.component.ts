@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { FormsModule } from '@angular/forms';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { NgIf } from '@angular/common';
 
@@ -87,7 +87,7 @@ export class AppFiltersComponent implements OnInit {
     },
     "delivery": ["Local Delivery", "Pick Up", "Shipping"]
   };
-
+  filters:any
   filterCriteria: any = {
     location: []
   };
@@ -110,8 +110,10 @@ export class AppFiltersComponent implements OnInit {
     ceil: 1000,
     hideLimitLabels: true,
   };
-
+  isNavigatingAway:any=false
   constructor(
+    private router: Router,
+
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
     public globalStateService: GlobalStateService,
@@ -129,10 +131,21 @@ export class AppFiltersComponent implements OnInit {
       this.categoryWithFilters = this.filter_fields?.[this.slug.toLowerCase()];
       this.fetchSubCategories();
     });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        this.isNavigatingAway = true;
+      });
+    this.filters = JSON.parse(localStorage.getItem("filters") as string)
 
-    this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
-    console.log(this.filterCriteria, 'filterCriteria');
+if(this.filters){
+  this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
+
+}
+  this.filterCriteria["category_id"]=this.id;
+  localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.globalStateService.product.subscribe(state => {
+      debugger
       this.filterCriteria[state.prodTab.key] = state.prodTab.value;
       this.fetchData();
     });
@@ -162,7 +175,6 @@ export class AppFiltersComponent implements OnInit {
         if (res && res.data.data) {
           this.startCountdowns(res.data.data);
           this.globalStateService.setFilteredProducts(res.data.data);
-          this.globalStateService.setFilteredProducts(res.data);
           this.globalStateService.isFilterActive(true)
         } else {
           console.log('No data found in response');
@@ -177,6 +189,7 @@ export class AppFiltersComponent implements OnInit {
 
 
   handleFilter(filter: any) {
+    this.globalStateService.loading=true
     if (filter.key === "location") {
       const locIndex = this.filterCriteria.location.indexOf(filter.value);
       if (locIndex > -1) {
@@ -202,19 +215,23 @@ export class AppFiltersComponent implements OnInit {
   startCountdowns(data: []) {
     if (data.length > 0) {
       data.forEach((item: any) => {
-        // console.log(item.ProductType, "item.productType");
         if (item.ProductType === 'auction') {
           const datePart = item.ending_date.split('T')[0];
           const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
           const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
             item.calculateRemaningTime = remainingTime;
             item.isBid = remainingTime !== 'Bid Expired';
-            // this.cd.detectChanges();
           });
           this.countdownSubscriptions.push(subscription);
         }
       });
     }
    
+  }
+  ngOnDestroy() {
+    // Remove editPost data from localStorage if navigating away
+    if (this.isNavigatingAway) {
+      localStorage.removeItem('filters');
+    }
   }
 }

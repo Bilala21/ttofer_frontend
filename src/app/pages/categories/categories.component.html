@@ -35,14 +35,17 @@
         <div class="w-100 product-main mt-4">
 
         
-          @if(loading){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
+          @if(globalStateService.loading
+          ){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
           <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
             <app-card-shimmer />
           </div>
 
           } }@else if( data?.length == 0) {
-
-          <p class="no-data-found">No Data Found</p>
+            
+            <div class="no-data-container" >
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>          <!-- <p class="no-data-found">No Data Found</p> -->
           }@else { @for (post of data; track $index) {
           <div class="product-card">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />

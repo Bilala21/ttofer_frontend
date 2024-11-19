@@ -30,16 +30,16 @@
               [(visible)]="isFullScreen">
 
               <ng-template pTemplate="item" let-item>
-                <img [src]="item.src" loading="lazy" class="d-block w-100 obj-fit-content slider-img"
+                <img [src]="item.url" loading="lazy" class="d-block w-100 obj-fit-content slider-img"
                   style="height: 450px" />
               </ng-template>
               <ng-template pTemplate="thumbnail" let-item>
-                <img [src]="item.src" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
+                <img [src]="item.url" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
               </ng-template>
             </p-galleria>
           </div>
 
-          <app-right-side *ngIf="screenWidth < 768" [product]="product" (handleWishlist)="toggleWishlist($event)" />
+          <app-right-side *ngIf="screenWidth < 768" [product]="product" [attributes]="attributes" (handleWishlist)="toggleWishlist($event)" />
           <!-- similar products -->
           <hr class="my-5">
           <div class="similar-product-container pr-5 xs-px-0">
@@ -109,12 +109,21 @@
           <div class="md-pt-0 pt-3">
             <h2 class="fw-semibold fs-24">Location</h2>
             <div>
-              <div class="d-block fs-14">Ras Al Khor, Dubai, UAE</div>
-              <div class="map-div mt-2">
-                <google-map [center]="center" [zoom]="zoom" />
+              <div class="d-block fs-14">{{ product?.location }}</div>
+              <div class="map-div mt-2" style="height: 300px;">
+                <google-map
+                  [center]="center"
+                  [zoom]="zoom"
+                >
+                  <map-marker
+                    [position]="markerPosition"
+                    [options]="markerOptions"
+                  ></map-marker>
+                </google-map>
               </div>
             </div>
           </div>
+          
         </div>
       </section>
       <app-make-offer-modal [product]="product" />

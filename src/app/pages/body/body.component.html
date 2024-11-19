@@ -37,8 +37,10 @@
           </div>
           }
           }@else if(auctionPosts.length == 0){
-          <p class="no-data-found">No Data Found</p>
-          }@else{ @for (post of auctionPosts.slice(0,10); track $index) {
+            <div class="no-data-container" >
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+            }@else{ @for (post of auctionPosts.slice(0,10); track $index) {
           <div class="product-card">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>
@@ -66,8 +68,10 @@
             </div>
           </div>
           } }@else if(featuredPosts.length == 0){
-          <p class="no-data-found">No Data Found</p>
-          }@else { @for (post of featuredPosts.slice(0,10); track $index) {
+            <div class="no-data-container" >
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+            }@else { @for (post of featuredPosts.slice(0,10); track $index) {
           <div class="product-card">
             <app-product-card [postData]="post" postDetialUrl="product-detail" />
           </div>

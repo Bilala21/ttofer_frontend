@@ -180,8 +180,8 @@ export class ProfilePageComponent {
     { id: 'Amana', name: 'Amana' },
   ];
   conditionList: any = [
-    { id: 'New', name: 'New' },
-    { id: 'Used', name: 'Used' },
+    { id: 'new', name: 'New' },
+    { id: 'use', name: 'Used' },
     { id: 'Refurbished', name: 'Refurbished' },
     { id: 'Other', name: 'Other' },
   ];
@@ -398,6 +398,16 @@ export class ProfilePageComponent {
         model: 'color',
         options: this.colorList,
       },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '2': [
       {
@@ -417,6 +427,16 @@ export class ProfilePageComponent {
         type: 'select',
         model: 'color',
         options: this.colorList,
+      },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
       },
     ],
     '3': [
@@ -521,6 +541,16 @@ export class ProfilePageComponent {
         model: 'color',
         options: this.colorList,
       },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '6': [
       {
@@ -530,6 +560,16 @@ export class ProfilePageComponent {
         options: this.engineCapacityList,
       },
       { label: 'Model', type: 'input', model: 'model', placeholder: 'Model' },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '7': [
       {
@@ -600,6 +640,16 @@ export class ProfilePageComponent {
         model: 'color',
         options: this.colorList,
       },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '11': [
       {
@@ -609,6 +659,16 @@ export class ProfilePageComponent {
         options: this.conditionKidsList,
       },
       { label: 'Toy', type: 'input', model: 'toy', placeholder: 'Toy' },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '12': [
       { label: 'Age', type: 'select', model: 'age', options: this.ageList },
@@ -618,6 +678,16 @@ export class ProfilePageComponent {
         model: 'breed',
         options: this.breedList,
       },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
   };
 
@@ -625,6 +695,7 @@ export class ProfilePageComponent {
   selectedFile: any;
   loading = false;
   editProductData: any = null;
+  productForm!: FormGroup;
   constructor(
     private decimalPipe: DecimalPipe,
     private toastr: ToastrService,
@@ -643,6 +714,10 @@ export class ProfilePageComponent {
     this.categoryForm = this.fb.group({});
   }
   ngOnInit() {
+    this.productForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+    });
     console.log(this.categoryForm, 'this.pricingCatId');
     let currentTab: any = localStorage.getItem('currentTab');
 
@@ -897,7 +972,7 @@ export class ProfilePageComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedFiles.push({ src: reader.result as string });
-      this.validateForm();
+      // this.validateForm();
     };
     reader.readAsDataURL(file);
   }
@@ -997,7 +1072,7 @@ export class ProfilePageComponent {
           method: 'POST',
           body: formData,
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -1449,7 +1524,7 @@ export class ProfilePageComponent {
     }
   }
   onImageUpload(event: any): void {
-    // 
+    //
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
     }
@@ -1566,7 +1641,6 @@ export class ProfilePageComponent {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
 
-    // Validate attributes for the selected category
     const requiredFields = this.categoryFields[this.selectedCategoryId] || [];
     requiredFields.forEach((field) => {
       if (!this.attributes[field.model]) {
@@ -1574,7 +1648,6 @@ export class ProfilePageComponent {
       }
     });
 
-    // Specific validation for different pricing categories
     switch (this.pricingCatId) {
       case 'Auction':
         if (!this.startingPrice) {
@@ -1621,128 +1694,162 @@ export class ProfilePageComponent {
       delete this.validationErrors[fieldModel];
     }
   }
+  handleLocationChange(location: {
+    lat: number;
+    lng: number;
+    address: string;
+  }): void {
+    debugger;
+    // Use the location data as needed
+    this.locationId = location;
+  }
+
   async addCompleteProduct() {
     if (!this.validateForm()) {
-        return;
+      return;
     }
 
     this.isLoading = true;
 
     let formData = new FormData();
-    formData.append('user_id', this.currentUserId ? Number(this.currentUserId).toString() : '0');
+    formData.append(
+      'user_id',
+      this.currentUserId ? Number(this.currentUserId).toString() : '0'
+    );
     formData.append('title', this.title || '');
     formData.append('description', this.description || '');
 
     if (this.selectedVideo?.file) {
-        formData.append('video', this.selectedVideo.file, this.selectedVideo.file.name);
+      formData.append(
+        'video',
+        this.selectedVideo.file,
+        this.selectedVideo.file.name
+      );
     }
 
     this.imageFilesAbc.forEach((file) => {
-        formData.append('image[]', file, file.name);
+      formData.append('image[]', file, file.name);
     });
 
     formData.append('category_id', this.selectedCategoryId.toString());
     formData.append('sub_category_id', this.selectedSubCategoryId.toString());
-    
-   
-    // Append non-empty attribute values
-    // if (this.attributes['condition']) formData.append('condition', this.attributes['condition']);
-    // if (this.attributes['make_and_model']) formData.append('make_and_model', this.attributes['make_and_model']);
-    // if (this.attributes['mileage']) formData.append('mileage', this.attributes['mileage']);
-    // if (this.attributes['color']) formData.append('color', this.attributes['color']);
-    // if (this.attributes['brand']) formData.append('brand', this.attributes['brand']);
-    // if (this.attributes['model']) formData.append('model', this.attributes['model']);
-    // if (this.attributes['edition']) formData.append('edition', this.attributes['edition']);
-    // if (this.attributes['authenticity']) formData.append('authenticity', this.attributes['authenticity']);
-
-    // Append JSON stringified attributes
+    debugger;
+    const mainCategory = String(
+      this.getCategoryNameById(this.selectedCategoryId) || ''
+    );
+    const subCategory = String(
+      this.getSubCategoryNameById(this.selectedSubCategoryId) || ''
+    );  
+   formData.append('main_category', JSON.stringify(mainCategory));
+    formData.append('sub_category', JSON.stringify(subCategory));
+    formData.append('condition', this.attributes['condition']);
+    if (this.attributes['make_and_model'])
+      formData.append('make_and_model', this.attributes['make_and_model']);
+    if (this.attributes['mileage'])
+      formData.append('mileage', this.attributes['mileage']);
+    if (this.attributes['color'])
+      formData.append('color', this.attributes['color']);
+    if (this.attributes['brand'])
+      formData.append('brand', this.attributes['brand']);
+    if (this.attributes['model'])
+      formData.append('model', this.attributes['model']);
+    if (this.attributes['Delivery'])
+      formData.append('delivery_type', this.attributes['Delivery']);
+    formData.append('edition', this.attributes['edition']);
+    formData.append('authenticity', this.attributes['authenticity']);
     formData.append('attributes', JSON.stringify(this.attributes));
-
-    // Add pricing and auction information
     if (this.pricingCatId === 'Auction') {
-        formData.append('productType', 'auction');
-        formData.append('auction_price', this.startingPrice?.toString() || '');
-        formData.append('starting_date', this.startingDate?.toISOString() || '');
-        formData.append('starting_time', this.startingTime.toString() || '');
-        formData.append('ending_date', this.endingDate?.toISOString() || '');
-        formData.append('ending_time', this.endingTime.toString() || '');
+      formData.append('product_type', 'auction');
+      formData.append(
+        'auction_initial_price',
+        this.startingPrice?.toString() || ''
+      );
+      formData.append(
+        'auction_final_price',
+        this.final_price?.toString() || ''
+      );
+      formData.append(
+        'auction_starting_date',
+        this.startingDate?.toISOString() || ''
+      );
+      formData.append(
+        'auction_ending_date',
+        this.endingDate?.toISOString() || ''
+      );
+      formData.append(
+        'auction_starting_time',
+        this.startingTime.toString() || ''
+      );
+      formData.append('auction_ending_time', this.endingTime.toString() || '');
     } else if (this.pricingCatId === 'FixedPrice') {
-        formData.append('productType', 'featured');
-        formData.append('fix_price', this.price?.toString() || '');
+      formData.append('product_type', 'featured');
+      formData.append('fix_price', this.price?.toString() || '');
     } else {
-        formData.append('productType', 'other');
+      formData.append('product_type', 'other');
     }
-
-    // Add location if not empty
-    if (this.locationId) formData.append('location', this.locationId);
-
+    if (this.locationId) formData.append('location', this.locationId.address);
+    if (this.locationId) formData.append('latitude', this.locationId.lat);
+    if (this.locationId) formData.append('longitude', this.locationId.lng);
     try {
-        const token = localStorage.getItem('authToken');
-        const response = await fetch(`${Constants.baseApi}/products`, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            this.toastr.success('Product is live now!', 'Success');
-            this.router.navigate(['']);
-        } else {
-            console.error('Product creation failed', data);
-            this.toastr.error('Product creation failed', 'Error');
-        }
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${Constants.baseApi}/products`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        this.toastr.success('Product is live now!', 'Success');
+        this.router.navigate(['']);
+      } else {
+        console.error('Product creation failed', data);
+        this.toastr.error('Product creation failed', 'Error');
+      }
     } catch (error) {
-        console.error('An error occurred while adding the product:', error);
-        this.toastr.error('An error occurred while adding the product', 'Error');
+      console.error('An error occurred while adding the product:', error);
+      this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
-        this.isLoading = false;
+      this.isLoading = false;
     }
-}
-
-
-
+  }
   getCategoryNameById(categoryId: number): string {
+    debugger;
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
   }
-
   getSubCategoryNameById(subCategoryId: number): string {
     const subCategory = this.subCategory.find(
       (subCat: any) => subCat.id == subCategoryId
     );
     return subCategory ? subCategory.name : '';
   }
-  checkattribute(){
-    debugger
-    console.log(this.attributes)
+  checkattribute() {
+    debugger;
+    console.log(this.attributes);
   }
   async AddProductFirstStep() {
     if (!this.validateForm()) {
       return;
     }
     let formData = new FormData();
-
-    // Append video files to formData
     if (this.selectedVideo && this.selectedVideo.file) {
-      formData.append('video[]', this.selectedVideo.file, this.selectedVideo.file.name);
+      formData.append(
+        'video[]',
+        this.selectedVideo.file,
+        this.selectedVideo.file.name
+      );
     }
-
-    // Append other fields
     formData.append(
       'user_id',
       this.currentUserId ? Number(this.currentUserId).toString() : '0'
     );
     formData.append('title', this.title);
     formData.append('description', this.description);
-
     try {
       const token = localStorage.getItem('authToken');
       this.isLoading = true;
-
-      // Fetch request to send formData
       const response = await fetch(
         'https://www.ttoffer.com/backend/public/api/add-product-first-step',
         {
@@ -1753,10 +1860,7 @@ export class ProfilePageComponent {
           },
         }
       );
-
-      // Parse JSON response
       const data = await response.json();
-
       if (response.ok) {
         this.productId = data.product_id;
         await this.addProductImage();
@@ -1765,7 +1869,6 @@ export class ProfilePageComponent {
       }
     } catch (error) {
       this.isLoading = false;
-
       this.handleError(error);
     } finally {
       this.isLoading = false;
@@ -1794,7 +1897,6 @@ export class ProfilePageComponent {
       authenticity: '',
       attributes: JSON.stringify(this.attributes), // Convert attributes to JSON string
     };
-
     try {
       const res = await this.mainServices
         .addProductSecondStep(input)
@@ -1807,10 +1909,8 @@ export class ProfilePageComponent {
       this.isLoading = false;
     }
   }
-
   async addProductThirdStep() {
     let input;
-
     if (this.pricingCatId === 'Auction') {
       input = {
         productType: 'auction',
@@ -1831,7 +1931,6 @@ export class ProfilePageComponent {
     } else {
       input = { product_id: this.productId, productType: 'other' };
     }
-
     try {
       const res = await this.mainServices
         .addProductThirdStep(input)
@@ -1844,13 +1943,11 @@ export class ProfilePageComponent {
       this.isLoading = false;
     }
   }
-
   async addProductLastStep() {
     let input = {
       product_id: this.productId,
       location: this.locationId,
     };
-
     try {
       const res: any = await this.mainServices
         .addProductLastStep(input)
@@ -1865,12 +1962,9 @@ export class ProfilePageComponent {
       this.isLoading = false;
     }
   }
-
-  // Centralized error handling
   handleError(error: any) {
     this.loading = false;
   }
-
   EditProductSeccondStep() {
     try {
       let input = {
@@ -1888,7 +1982,6 @@ export class ProfilePageComponent {
         authenticity: '',
         attributes: JSON.stringify(this.categoryForm.value),
       };
-
       this.mainServices.editProductSecondStep(input).subscribe(
         (res) => {
           this.EditProductThirdStep();
@@ -1904,7 +1997,6 @@ export class ProfilePageComponent {
       this.isLoading = false;
     }
   }
-
   EditProductThirdStep() {
     this.loading = true;
     try {
@@ -1938,7 +2030,6 @@ export class ProfilePageComponent {
           // fix_price: this.price,
         };
       }
-
       this.mainServices.editProductThirdStep(input).subscribe(
         (res) => {
           this.editProductLastStep();
@@ -1953,7 +2044,6 @@ export class ProfilePageComponent {
       this.isLoading = false;
     }
   }
-
   editProductLastStep() {
     this.loading = true;
     try {
@@ -1961,7 +2051,6 @@ export class ProfilePageComponent {
         product_id: this.productId,
         location: this.locationId,
       };
-
       this.mainServices.editProductLastStep(input).subscribe(
         (res: any) => {
           localStorage.removeItem('editProduct');
@@ -1990,7 +2079,6 @@ export class ProfilePageComponent {
         this.sellingList = res;
         console.log(res);
         this.loading = false;
-        ;
         this.soldList = res.data?.archive.data;
         this.purchaseListTemp = res.data?.buying.data;
         this.sellingListTemp = res.data?.selling.data;
@@ -2000,20 +2088,17 @@ export class ProfilePageComponent {
       },
     });
   }
-
   getNotification() {
     this.loading = true;
     this.mainServices
       .getNotification(this.currentUserId)
       .subscribe((res: any) => {
-        // 
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
           return (
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
           );
         });
-        console.log('Notification:', this.notificationList);
         this.loading = false;
       });
   }
@@ -2090,19 +2175,15 @@ export class ProfilePageComponent {
   updateUserInfo(field: string, value: any) {
     this.isDisabled = true;
     this.loading = true;
-
     let input;
     if (field === 'password') {
-      // Pass both old and new passwords as input
       input = {
         old_password: value.old_password,
         password: value.password,
       };
     } else {
-      // Pass single value for other fields
       input = { [field]: value };
     }
-
     const updateMethods: any = {
       phone: () => this.mainServices.updateNumber(input),
       email: () => this.mainServices.updateEmail(input),
@@ -2110,7 +2191,6 @@ export class ProfilePageComponent {
       location: () => this.mainServices.updateLocation(input),
       name: () => this.mainServices.updateUserName(input),
     };
-
     if (updateMethods[field]) {
       updateMethods[field]().subscribe({
         next: (res: any) => {
@@ -2134,20 +2214,15 @@ export class ProfilePageComponent {
       this.isDisabled = false;
     }
   }
-
   wishListProduct() {
-    // this.loading = true
     var input = {
       user_id: this.currentUserId,
     };
     this.mainServices.wishListProduct(input).subscribe(
       (res: any) => {
-        
         this.savedItems = res.data;
-
         this.savedItems.isAuction =
           this.savedItems.fix_price == null ? true : false;
-        // this.loading = false;
       },
       (err: any) => {}
     );
@@ -2178,24 +2253,17 @@ export class ProfilePageComponent {
   parseDate(event: any, type: 'start' | 'end'): Date {
     const date = (event.target as HTMLInputElement).value;
     const selectedDate = date ? new Date(date) : new Date();
-
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time for comparison
     selectedDate.setHours(0, 0, 0, 0); // Ensure no time component for comparison
-
-    // Check if the selected date is in the past
     if (selectedDate < today) {
       event.target.value = ''; // Clear the input field
       return new Date(); // Return the current date as a fallback
     }
-
-    // Additional check for end date
     if (type === 'end' && this.startingDate) {
       const startingDate = new Date(this.startingDate);
       startingDate.setHours(0, 0, 0, 0); // Reset time for comparison
-
       if (selectedDate < startingDate) {
-        // Ending date is less than the starting date
         this.toastr.error(
           'Ending date cannot be earlier than the starting date.',
           'Error'
@@ -2215,31 +2283,25 @@ export class ProfilePageComponent {
   }
   parseETime(event: any): void {
     const selectedEndingTime = event.target.value;
-
     if (!this.startingTime) {
       this.toastr.error('Please select a starting time first.', 'Error');
       setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
-
     const selectedStartingTime = this.startingTime;
-
     if (!this.startingDate || !this.endingDate) {
       this.showErrorMessage('Invalid date selected.');
       setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
-
     const selectedEndingDate = new Date(this.endingDate);
     const selectedStartingDate = new Date(this.startingDate);
-
     const startTime = new Date(
       `${selectedStartingDate.toDateString()} ${selectedStartingTime}`
     );
     const endTime = new Date(
       `${selectedEndingDate.toDateString()} ${selectedEndingTime}`
     );
-
     if (
       selectedStartingDate.toDateString() === selectedEndingDate.toDateString()
     ) {
@@ -2251,7 +2313,6 @@ export class ProfilePageComponent {
         setTimeout(() => (this.endingTime = ''), 1);
         return;
       }
-
       const timeDifference =
         (endTime.getTime() - startTime.getTime()) / (1000 * 60);
       if (timeDifference < 30) {
@@ -2263,22 +2324,17 @@ export class ProfilePageComponent {
         return;
       }
     }
-
     this.endingTime = selectedEndingTime;
   }
-
   parseSTime(event: any): void {
     const selectedStartingTime = event.target.value;
-
     if (!this.startingDate) {
       this.showErrorMessage('Invalid date selected.');
       setTimeout(() => (this.startingTime = ''), 1);
       return;
     }
-
     const selectedStartingDate = new Date(this.startingDate);
     const currentDateTime = new Date();
-
     const [hours, minutes] = selectedStartingTime.split(':').map(Number);
     const startTime = new Date(
       selectedStartingDate.getFullYear(),
@@ -2287,7 +2343,6 @@ export class ProfilePageComponent {
       hours,
       minutes
     );
-
     if (
       selectedStartingDate.toDateString() === currentDateTime.toDateString()
     ) {
@@ -2297,46 +2352,32 @@ export class ProfilePageComponent {
         return;
       }
     }
-
     this.startingTime = selectedStartingTime;
   }
-
-  // Format a Date object as 'yyyy-MM-dd'
   formatDate(date: any): string {
-    // If the input is a string, convert it to a Date object
     if (typeof date === 'string') {
       date = new Date(date);
     }
-
-    // Check if date is a valid Date object
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       console.error('Invalid date object passed:', date);
       return ''; // Return an empty string or a default value
     }
-
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-
-  // Example method to get today's date as 'yyyy-MM-dd'
   getTodayDate(): string {
     return new Date().toISOString().split('T')[0];
   }
-
-  // Method to get current time in 'HH:MM' format
   getCurrentTime(): string {
     const now = new Date();
     const utcHours = String(now.getUTCHours()).padStart(2, '0');
     const utcMinutes = String(now.getUTCMinutes()).padStart(2, '0');
     return `${utcHours}:${utcMinutes}`;
   }
-
-  // Get minimum time based on the selected date
   getMinTime(type: 'start' | 'end'): string {
     const todayDate = this.getTodayDate();
-
     if (type === 'start') {
       if (this.startingDate) {
         const formattedStartDate = this.formatDate(this.startingDate);
@@ -2352,7 +2393,6 @@ export class ProfilePageComponent {
       }
       return '00:00';
     }
-
     return '00:00';
   }
   getSubcategories(categoryId: any): void {
@@ -2360,22 +2400,19 @@ export class ProfilePageComponent {
       this.mainServices.getSubCategories(this.selectedCategoryId).subscribe(
         (data: any) => {
           this.subCategory = data.data;
-          this.attributes={}
+          this.attributes = {};
           this.initializeForm();
-
         },
         (error) => {}
       );
     } else {
-      this.subCategory = []; // Clear subcategories if no category is selected
+      this.subCategory = []; 
     }
   }
   markAsSold(product: any) {
-    // 
     localStorage.setItem('soldItems', JSON.stringify(product));
     this.router.navigate(['/markAsSold/', product.id]);
   }
-
   addCumtomLink() {
     let input = {
       custom_link: this.customLink,
@@ -2387,7 +2424,6 @@ export class ProfilePageComponent {
     });
   }
   onLocationFound(location: string) {
-    ;
     this.locationId = location;
   }
   cat(cat: any) {
@@ -2406,7 +2442,6 @@ export class ProfilePageComponent {
     }
   }
   ngOnDestroy() {
-    // Remove editPost data from localStorage if navigating away
     if (this.isNavigatingAway) {
       localStorage.removeItem('editProduct');
     }

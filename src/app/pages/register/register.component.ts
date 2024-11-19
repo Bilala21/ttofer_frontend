@@ -3,7 +3,7 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { Extension } from '../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 import { CommonModule, Location } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { catchError } from 'rxjs';
 
 @Component({
@@ -16,7 +16,18 @@ import { catchError } from 'rxjs';
 export class RegisterComponent {
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() backEvent = new EventEmitter<void>();
-
+  public passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value || '';
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+    const valid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+  
+    return valid
+      ? null
+      : { passwordStrength: 'Password must include an uppercase, lowercase, number, and special character.' };
+  }
   registerForm: FormGroup;
   errorMessage!: string;
   loading = false;
@@ -34,7 +45,7 @@ export class RegisterComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
       confirmPassword: ['', Validators.required]
     }, { validators: passwordMatchValidator() });
   }
@@ -89,7 +100,19 @@ export class RegisterComponent {
       this.isLoading = false; 
     }
   }
-  
+  getPasswordErrorMessage() {
+    const control = this.registerForm.get('password');
+    if (control?.hasError('required')) {
+      return 'Password is required.';
+    }
+    if (control?.hasError('minlength')) {
+      return 'Password must be at least 8 characters long.';
+    }
+    if (control?.hasError('passwordStrength')) {
+      return control.getError('passwordStrength');
+    }
+    return '';
+  } 
   
 }
 export function passwordMatchValidator(): ValidatorFn {

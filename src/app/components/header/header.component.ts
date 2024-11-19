@@ -35,6 +35,7 @@ export class HeaderNavigationComponent implements OnInit {
   notificationList: any = [];
   currentUserid:any
   unReadNotification: any = 0;
+  city:any
   searchTerm:any
   constructor(
     private globalStateService: GlobalStateService,
@@ -224,7 +225,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
-
+this.getCurrentCity()
     if (this.currentUser && this.currentUser.img) {
       this.imgUrl = this.currentUser.img;
     }
@@ -257,5 +258,44 @@ export class HeaderNavigationComponent implements OnInit {
     if (this.currentUserid) {
       this.cart()
     }
+  }
+  getCurrentCity(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          this.getCityFromCoordinates(lat, lng);
+        },
+        (error) => {
+          console.warn('Geolocation permission denied or error:', error);
+          this.handleLocationDenied();
+        }
+      );
+    } else {
+      console.error('Geolocation not supported by the browser.');
+      this.city = 'Geolocation not supported';
+    }
+  }
+
+  handleLocationDenied(): void {
+    // Set a default city or an error message if the user denies location access
+    this.city = 'Belarus'; // Default fallback location
+  }
+
+  getCityFromCoordinates(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results:any, status) => {
+      if (status === 'OK' && results[0]) {
+        const addressComponents = results[0].address_components;
+        const cityComponent = addressComponents.find((component:any) =>
+          component.types.includes('locality')
+        );
+        this.city = cityComponent ? cityComponent.long_name : 'City not found';
+      } else {
+        console.error('Geocoder failed:', status);
+        this.city = 'Unable to fetch city';
+      }
+    });
   }
 }

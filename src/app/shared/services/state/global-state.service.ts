@@ -46,6 +46,7 @@ export class GlobalStateService {
     location: []
   }
   public productlength: any;
+  public loading: any = true
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
