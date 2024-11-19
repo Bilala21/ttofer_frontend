@@ -68,7 +68,7 @@
     </div>
   </div>
   <div class="attributes-container">
-    <div class="attribute-item" *ngFor="let item of parsedAttributes | keyvalue">
+    <div class="attribute-item" *ngFor="let item of parsedAttributes  | keyvalue">
       <span class="fw-semibold mx-2">{{ item.key | titlecase }}:</span>
       <span class="fw-normal">{{ item.value }}</span>
     </div>
