@@ -38,10 +38,6 @@ export class AppFiltersComponent implements OnInit {
       "seller_types": ["Verified", "Unverified"],
       "conditions": ["All", "New", "Used","Refurbished"],
     },
-    "electronics & appliance": {
-      "seller_types": ["Landlord", "Agent"],
-      "conditions": ["Any","Refurbished", "New","Used"],
-    },
     "property for sale": {
       "seller_types": ["Landlord", "Agent"],
       "conditions": ["All", "Ready", "Off plan"],
@@ -150,16 +146,12 @@ export class AppFiltersComponent implements OnInit {
       });
     this.filters = JSON.parse(localStorage.getItem("filters") as string)
 
-if(this.filters){
-  this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
-
-}
-  this.filterCriteria["category_id"]=this.id;
-  localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    if (JSON.parse(localStorage.getItem("filters") as string)) {
+      this.filterCriteria = JSON.parse(localStorage.getItem("filters") as string)
+    console.log(this.filterCriteria, 'filterCriteria');
+    }
     this.globalStateService.product.subscribe(state => {
       this.filterCriteria[state.prodTab?.key] = state.prodTab.value;
-      // // debugger
-      this.filterCriteria[state.prodTab.key] = state.prodTab.value;
       this.fetchData();
     });
     this.minValue = this.filterCriteria?.min_price
@@ -241,8 +233,30 @@ if(this.filters){
     }
    
   }
+  // Toggle the filter visibility for smaller screens
+  hideAndShow(): void {
+    this.hideFilter = !this.hideFilter;
+  }
+
+  // Detect window resize events
+  @HostListener('window:resize', [])
+  onResize(): void {
+    this.checkScreenSize();
+  }
+
+  // Check if the current screen size is above 'lg'
+  private checkScreenSize(): void {
+    const lgBreakpoint = 992; // Bootstrap's 'lg' breakpoint (in pixels)
+    this.isLgScreen = window.innerWidth >= lgBreakpoint;
+
+    // Ensure filter is always visible on larger screens
+    if (this.isLgScreen) {
+      this.hideFilter = false;
+    }else{
+      this.hideFilter = true;
+    }
+  }
   ngOnDestroy() {
-    // Remove editPost data from localStorage if navigating away
     if (this.isNavigatingAway) {
       localStorage.removeItem('filters');
     }
