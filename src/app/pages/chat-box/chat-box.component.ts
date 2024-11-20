@@ -198,14 +198,14 @@ export class ChatBoxComponent {
     if (productData && userData) {
       this.productDetail = JSON.parse(productData);
       this.productId = this.productDetail.id;
-      this.productImage = this.productDetail.photo[0].src;
+      this.productImage = this.productDetail?.photo[0]?.src;
       this.productPrice = this.productDetail.fix_price
         ? this.productDetail.fix_price
         : this.productDetail.auction_price;
       this.userDetail = JSON.parse(userData);
-      this.userImage = this.userDetail.img;
-      this.userName = this.userDetail.name;
-      this.sellerId = this.userDetail.id;
+      this.userImage = this.userDetail?.img;
+      this.userName = this.userDetail?.name;
+      this.sellerId = this.userDetail?.id;
       this.buyerId = this.currentUserid;
       this.selectedUser = this.userDetail;
     }
