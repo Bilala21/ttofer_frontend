@@ -61,7 +61,8 @@ export class LoginModalComponent {
   currentUserId:string="";
   errorMessage!:string;
   emailForForgotPassword:any
-  resetPassword!:FormGroup
+  resetPassword!:FormGroup;
+  resending:boolean=false
   private modalSubscription!: Subscription;
   // categories! : category []
   @ViewChild('loginModal') loginModal!: ElementRef;
@@ -499,15 +500,33 @@ export class LoginModalComponent {
       this.loading=false
       this.otpVerify = res.otp
       console.log(this.otpVerify)
-      this.toastr.success(res.msg, 'Success');
+      this.toastr.success(res.message, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
       this.showForgotBox = false
     },
     (err:any)=>{
       // debugger
-      this.toastr.error(err.error.msg, 'Error');
+      this.toastr.error(err.error.errors?.email?.[0] || 'An error occurred', 'Error');
       this.loading = false
+    }
+  )
+  }
+  resendCodeToEmail(){
+    let input = {
+      email:this.emailForForgotPassword
+    }
+    this.resending=true
+    this.mainServices.forgetPassword(input).subscribe((res:any) => {
+      this.resending=false
+      this.otpVerify = res.otp
+      this.toastr.success(res.message, 'Success');
+      
+    },
+    (err:any)=>{
+      // debugger
+      this.toastr.error(err.error.errors?.email?.[0] || 'An error occurred', 'Error');
+      this.resending = false
     }
   )
   }
