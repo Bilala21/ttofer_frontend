@@ -65,7 +65,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}/auction-products`, null);
   }
   addWishList(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/toggle-wishlist-product', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/wishlist/toggle', input).pipe();
   }
   removeWishList(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/remove-wishlist-products', input).pipe();

@@ -28,10 +28,10 @@
     </div>
   </div>
 
-  <div class="fw-bold fs-22 pt-3">AED {{product.ProductType !=='auction'? product.fix_price:
+  <div class="fw-bold fs-22 pt-3">AED {{product.product_type !=='auction'? product.fix_price:
     product.auction_price}}
   </div>
-  <div class="mb-2" *ngIf="product.ProductType !=='auction'">
+  <div class="mb-2" *ngIf="product.product_type !=='auction'">
     <p class="m-0">or Best Offer</p>
     <div class="text-slate-300 fs-14">
       Was AED 1,800.00 <span class="text-danger fw-normal mr-2">(39% off)</span>
@@ -56,7 +56,7 @@
               </div> -->
   </div>
 
-  <div class="mb-2" *ngIf="product.ProductType =='auction'">
+  <div class="mb-2" *ngIf="product.product_type =='auction'">
     <div class="d-flex align-content-center">
       <a routerLink="/" class="text-decoration-underline">15 bids</a>
       <div class="fw-normal d-flex align-content-center">
@@ -76,12 +76,12 @@
   
   
 
-  <div class="mb-3 mt-2" *ngIf="product.ProductType !=='auction'">
+  <div class="mb-3 mt-2" *ngIf="product.product_type !=='auction'">
     <span class="fw-normal">Sale ends in:</span>
     <span class="fw-semibold ml-2">6d 15h</span>
   </div>
 
-  <div class="fs-14 " *ngIf="product.ProductType !=='auction'">
+  <div class="fs-14 " *ngIf="product.product_type !=='auction'">
     <span class="fw-normal">Quantity</span>
     <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2"
       (change)="handleProductQty($event.target,product)" />
@@ -92,20 +92,20 @@
   <!-- make offer buttons common-->
   <div class="pt-4">
     <div class="buttons ">
-      <button *ngIf="product.ProductType !=='auction'" (click)="buyProduct(product)" type="button"
+      <button *ngIf="product.product_type !=='auction'" (click)="buyProduct(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
         <a routerLink="/" class="fs-18 fw-normal text-decoration-none text-dark-650">Buy It Now</a>
       </button>
 
-      <button *ngIf="product.ProductType !=='auction'" (click)="addToCart(product)" type="button"
+      <button *ngIf="product.product_type !=='auction'" (click)="addToCart(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650">
         Add to cart
       </button>
 
       <button type="button"
-        class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650 {{product.ProductType == 'auction'?'bg-yellow-800':''}}"
-        (click)="product.ProductType !== 'auction' ? showOfferModal('offer') : showOfferModal('bid')">
-        {{ product.ProductType !== 'auction' ? 'Make Offer' : 'Place bid' }}
+        class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650 {{product.product_type == 'auction'?'bg-yellow-800':''}}"
+        (click)="product.product_type !== 'auction' ? showOfferModal('offer') : showOfferModal('bid')">
+        {{ product.product_type !== 'auction' ? 'Make Offer' : 'Place bid' }}
       </button>
 
       <button (click)="toggleWishlist(product)" type="button"
