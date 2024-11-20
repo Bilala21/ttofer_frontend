@@ -12,6 +12,7 @@ import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { TempFormComponent } from '../../components/temp-form/temp-form.component';
 import { NgIf } from '@angular/common';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-body',
@@ -21,6 +22,7 @@ import { NgIf } from '@angular/common';
   imports: [NgIf, HeaderComponent, ProductCardComponent, TempFormComponent, FooterComponent, ProductCarouselComponent, SharedModule, RouterLink, CardShimmerComponent],
 })
 export class BodyComponent implements OnDestroy {
+  currentUserId: any = this.extension.getUserId();
   auctionPosts: any = [];
   featuredPosts: any = [];
   countdownSubscriptions: Subscription[] = [];
@@ -31,7 +33,8 @@ export class BodyComponent implements OnDestroy {
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService,
-    private globalStateService: GlobalStateService
+    private globalStateService: GlobalStateService,
+    private extension:Extension
   ) {
     globalStateService.currentState.subscribe((state) => {
       this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
@@ -67,6 +70,21 @@ getBanners(){
     },
     error: (error) => {
       console.error('Error occurred while fetching data', error);
+    }
+  })
+}
+handlesUserWishlist(item:any){
+  this.featuredPosts.map((prod: any) => {
+    if (item.id == prod.id) {
+      if (!item.user_wishlist) {
+        prod.user_wishlist = {
+          user_id: this.currentUserId,
+          product_id: item.id,
+        }
+      }
+      else {
+        prod.user_wishlist = null
+      }
     }
   })
 }

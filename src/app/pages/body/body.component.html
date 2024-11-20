@@ -42,7 +42,7 @@
             </div>
             }@else{ @for (post of auctionPosts.slice(0,10); track $index) {
           <div class="product-card">
-            <app-product-card [postData]="post" postDetialUrl="product-detail" />
+            <app-product-card [postData]="post" postDetialUrl="product-detail" (handlesUserWishlist)="handlesUserWishlist($event)"/>
           </div>
           } }
         </div>
@@ -73,7 +73,7 @@
             </div>
             }@else { @for (post of featuredPosts.slice(0,10); track $index) {
           <div class="product-card">
-            <app-product-card [postData]="post" postDetialUrl="product-detail" />
+            <app-product-card [postData]="post" postDetialUrl="product-detail" (handlesUserWishlist)="handlesUserWishlist($event)"/>
           </div>
           } }
         </div>
