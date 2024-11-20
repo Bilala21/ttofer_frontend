@@ -4,11 +4,11 @@
 <div *ngIf="!loading">
     <h2 class="fs-20 text-capitalize">{{slug}}</h2>
     <div class="fs-18 mb-2 d-flex justify-content-between">
-        <div *ngIf="globalStateService.productlength">
-            <strong>{{globalStateService.productlength}}</strong>
+        <!-- <div *ngIf="globalStateService.productlength"> -->
+            <!-- <strong>{{globalStateService.productlength}}</strong> -->
             <!-- <span class="pl-1 text-dark-400 fs-14" *ngIf="!globalStateService.productlength">Results Found</span> -->
-        </div>
-        <img src="/assets/images/filter-icon.svg" *ngIf="!isLgScreen" (click)="hideAndShow()"
+        <!-- </div> -->
+        <img src="/assets/images/filter-icon.svg" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter"
             style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" />
     </div>
     <div class="accordion" id="productFilter" [ngClass]="{ 'hideFilter': hideFilter }">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <!-- SUB CATEGORIES -->
-        <div *ngIf="isCategory" class="mt-3">
+        <div *ngIf="subCategories.length" class="mt-3">
             <div class="sub-categories border-1 rounded-2 px-3">
                 <button id="headingOne" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
