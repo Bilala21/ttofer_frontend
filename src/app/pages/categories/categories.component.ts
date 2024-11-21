@@ -7,49 +7,54 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer.component";
 import { ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
-  imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent, NgIf]
+  imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent, NgIf,NgFor]
 })
-export class CategoriesComponent {
-  constructor(private route: ActivatedRoute, public globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
+export class CategoriesComponent{
+  constructor(private extension:Extension,private route: ActivatedRoute, public globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
+
+   
   }
+  currentUserId: any = this.extension.getUserId();
   promotionBanners: any = []
   activeTab: any = "auction"
   data: any = {}
   id: any = null
   currentPage: number = 1
+  countdownSubscriptions: Subscription[] = [];
+  loading:boolean=false
+  filters:any={}
+
   handleTab(tab: string) {
       this.activeTab = tab
       localStorage.setItem('categoryTab', tab);
-      this.globalStateService.updateProdTab("ProductType", tab)
+      this.fetchData({...this.filters,product_type:this.activeTab,category_id:this.id})
   }
+
   ngOnInit(): void {
     const savedTab = localStorage.getItem('categoryTab');
     this.activeTab = savedTab ? savedTab : "auction";
     this.getBanners()
-
-    this.globalStateService.currentState.subscribe((state) => {
-      this.currentPage = state.filteredProducts?.current_page
-      // debugger
-      this.data=state.filteredProducts.filter((item: any) => item.product_type == this.activeTab);
-      this.globalStateService.productlength = this.data?.length
-      this.globalStateService.loading=false
-    })
     this.route.paramMap.subscribe(params => {
-      // debugger
-      this.id = params.get('id');
-      if (["3", "4", "8"].includes(this.id)) {
-        this.handleTab('featured')
-      } else {
-          this.handleTab(this.activeTab)
+      const slug:any=params.get('slug')
+      if (slug.indexOf('-') < 0) {
+        this.activeTab = slug;
+        this.fetchData({product_type:this.activeTab})
       }
-    });
+      else{
+        const category_id=slug.slice(0,slug.indexOf('-'))
+        this.fetchData({product_type:this.activeTab,category_id})
+      }
+    })
+
 
   }
   getBanners() {
@@ -74,12 +79,12 @@ export class CategoriesComponent {
 
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
-        if (res && res.data.data) {
-          this.globalStateService.setFilteredProducts(res.data.data);
-          this.globalStateService.isFilterActive(true)
-        } else {
-          console.log('No data found in response');
-        }
+        // if (res && res.data.data) {
+        //   this.globalStateService.setFilteredProducts(res.data.data);
+        //   this.globalStateService.isFilterActive(true)
+        // } else {
+        //   console.log('No data found in response');
+        // }
       },
       error: (err) => {
         console.log('Error fetching filtered products', err);
@@ -87,6 +92,64 @@ export class CategoriesComponent {
     });
   }
 
+  fetchData(filterCriteria:any, isWishlist:boolean=false) {
+    console.log(filterCriteria,'filterCriteria1')
+    this.filters=filterCriteria
+
+    this.loading=isWishlist?false:true
+    const modifiedFilter = filterCriteria.location?{ ...filterCriteria, location: filterCriteria.location.join(','),product_type:this.activeTab }:filterCriteria;
+    this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
+      next: (res: any) => {
+        if (res && res.data.data) {
+          this.startCountdowns(res.data.data);
+          this.data=res.data.data
+          console.log(res)
+        } else {
+          console.log('No data found in response');
+        }
+        this.loading=false
+      },
+      error: (err) => {
+        console.log('Error fetching filtered products', err);
+        this.loading=false
+      }
+    });
+  }
+
+   startCountdowns(data: []) {
+    if (data.length > 0) {
+      data.forEach((item: any) => {
+        if (item.ProductType === 'auction') {
+          const datePart = item.ending_date.split('T')[0];
+          const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
+          const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
+            item.calculateRemaningTime = remainingTime;
+            item.isBid = remainingTime !== 'Bid Expired';
+          });
+          this.countdownSubscriptions.push(subscription);
+        }
+      });
+    }
+
+  }
+
+handlesUserWishlist(item:any){
+  this.fetchData(this.filters,true)
+  // console.log(item,'item123')
+  // this.data.map((prod: any) => {
+  //   if (item.id == prod.id) {
+  //     if (!item.user_wishlist) {
+  //       prod.user_wishlist = {
+  //         user_id: this.currentUserId,
+  //         product_id: item.id,
+  //       }
+  //     }
+  //     else {
+  //       prod.user_wishlist = null
+  //     }
+  //   }
+  // })
+}
     ngOnDestroy() {
     // Remove specific filter data key from localStorage
     this.globalStateService.setActiveCategory(0);

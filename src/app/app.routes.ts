@@ -62,7 +62,7 @@ export const routes: Routes = [
         component: ProfilePageComponent
     },
     {
-        path: 'category/:id/:slug',
+        path: 'category/:slug',
         component: CategoriesComponent
     },
     {
