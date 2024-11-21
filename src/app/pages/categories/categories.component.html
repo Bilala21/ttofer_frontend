@@ -48,7 +48,8 @@
             </div>
             @if (data.length) {
               <div class="product-card" *ngFor="let post of data">
-                <app-product-card [postData]="post" postDetialUrl="product-detail" />
+                <app-product-card [postData]="post" postDetialUrl="product-detail" (handlesUserWishlist)="handlesUserWishlist($event)"/>
+                <!-- <app-product-card [postData]="post" postDetialUrl="product-detail" /> -->
               </div>
             }
             <!-- @if(loading

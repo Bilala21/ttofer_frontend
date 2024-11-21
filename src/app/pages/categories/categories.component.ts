@@ -9,6 +9,7 @@ import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-categories',
@@ -18,10 +19,11 @@ import { Subscription } from 'rxjs';
   imports: [SharedModule, AppFiltersComponent, ProductCardComponent, CardShimmerComponent, NgIf,NgFor]
 })
 export class CategoriesComponent{
-  constructor(private route: ActivatedRoute, public globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
-    // this.fetchData(this.getParams())
+  constructor(private extension:Extension,private route: ActivatedRoute, public globalStateService: GlobalStateService, private mainServices: MainServicesService, private countdownTimerService: CountdownTimerService, private cd: ChangeDetectorRef) {
+
    
   }
+  currentUserId: any = this.extension.getUserId();
   promotionBanners: any = []
   activeTab: any = "auction"
   data: any = {}
@@ -36,18 +38,22 @@ export class CategoriesComponent{
       localStorage.setItem('categoryTab', tab);
       this.fetchData({...this.filters,product_type:this.activeTab,category_id:this.id})
   }
+
   ngOnInit(): void {
     const savedTab = localStorage.getItem('categoryTab');
     this.activeTab = savedTab ? savedTab : "auction";
     this.getBanners()
     this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
-      this.activeTab = params.get('name');
-      console.log(params,'params012')
-      // route_params={product_type:params.get('name')}
-    });
-    this.fetchData({product_type:this.activeTab,category_id:this.id})
-    
+      const slug:any=params.get('slug')
+      if (slug.indexOf('-') < 0) {
+        this.activeTab = slug;
+        this.fetchData({product_type:this.activeTab})
+      }
+      else{
+        this.fetchData({product_type:this.activeTab})
+      }
+    })
+
 
   }
   getBanners() {
@@ -85,10 +91,11 @@ export class CategoriesComponent{
     });
   }
 
-  fetchData(filterCriteria:any) {
+  fetchData(filterCriteria:any, isWishlist:boolean=false) {
     console.log(filterCriteria,'filterCriteria1')
     this.filters=filterCriteria
-    this.loading=true
+
+    this.loading=isWishlist?false:true
     const modifiedFilter = filterCriteria.location?{ ...filterCriteria, location: filterCriteria.location.join(',') }:filterCriteria;
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
@@ -125,16 +132,23 @@ export class CategoriesComponent{
 
   }
 
-  getParams(){
-    // let route_params:any={}
-    this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
-      this.activeTab = params.get('name');
-      // route_params={product_type:params.get('name')}
-    });
-    // return route_params
-  }
-
+handlesUserWishlist(item:any){
+  this.fetchData(this.filters,true)
+  // console.log(item,'item123')
+  // this.data.map((prod: any) => {
+  //   if (item.id == prod.id) {
+  //     if (!item.user_wishlist) {
+  //       prod.user_wishlist = {
+  //         user_id: this.currentUserId,
+  //         product_id: item.id,
+  //       }
+  //     }
+  //     else {
+  //       prod.user_wishlist = null
+  //     }
+  //   }
+  // })
+}
     ngOnDestroy() {
     // Remove specific filter data key from localStorage
     this.globalStateService.setActiveCategory(0);

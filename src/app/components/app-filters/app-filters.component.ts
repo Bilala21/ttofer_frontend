@@ -148,19 +148,12 @@ export class AppFiltersComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     this.loading = true;
-    const featureName=this.route.snapshot.queryParamMap.get('name')
-    this.slug =this.route.snapshot.paramMap.get('slug');
-    if(featureName){
-      this.handleFilterEvent.emit({product_type:featureName})
-    }
-    // this.route.paramMap.subscribe(params => {
-    // this.route.paramMap.subscribe(params => {
-    //   console.log(params,'params12')
-    //   console.log(params, 'filter params')
-    //   this.id = params.get('id');
-    //   this.slug = params.get('slug');
-    
-    // })
+    this.route.paramMap.subscribe(params => {
+      const slug:any=params.get('slug')
+      if (slug.indexOf('-') > 0) {
+        this.slug = slug.slice(slug.indexOf('-')+1,).replace(/-/g, ' ');
+      }
+    })
     this.mainServicesService.getCategories().subscribe({
       next: (res: any) => {
         this.categories = res.data;
@@ -171,7 +164,7 @@ export class AppFiltersComponent implements OnInit {
         this.loading = false;
       }
     });
-    if(this.id){
+    if (this.id) {
       this.fetchSubCategories(this.id)
     }
 
@@ -227,7 +220,7 @@ export class AppFiltersComponent implements OnInit {
   }
 
   selectCategory(item: any) {
-    this.router.navigate(['/category', item.id, item.slug]);
+    this.router.navigate(['/category', item.id + '-' + item.slug]);
     this.filterCriteria['category'] = { ...item }
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchSubCategories(item.id)
