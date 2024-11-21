@@ -238,7 +238,6 @@ export class HeaderNavigationComponent implements OnInit {
       next: (res: any) => {
         this.categories = res.data;
         this.loading = false;
-        console.log(res, "test12");
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
