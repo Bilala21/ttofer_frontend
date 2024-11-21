@@ -50,7 +50,8 @@ export class CategoriesComponent{
         this.fetchData({product_type:this.activeTab})
       }
       else{
-        this.fetchData({product_type:this.activeTab})
+        const category_id=slug.slice(0,slug.indexOf('-'))
+        this.fetchData({product_type:this.activeTab,category_id})
       }
     })
 
