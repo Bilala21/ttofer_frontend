@@ -90,13 +90,13 @@ export class RightSideComponent {
     this.globalStateService.setOfferModal(modal_type)
   }
   ngOnChanges(changes: SimpleChanges): void {
-    debugger
+    
     console.log(this.parsedAttributes)
   }
 
   private parseAttributes(value: any): void {
     try {
-      // debugger
+      // 
       let attributes = JSON.parse(value.attributes);
        let attributesParse=JSON.parse(attributes);
 

@@ -6,7 +6,7 @@
                     <!-- left-list-start -->
                     <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
                         <!-- web-logo-start -->
-                        <li class="xs-pl-16 mr-4 xs-mr-0">
+                        <li class="xs-pl-16 mr-md-4 xs-mr-0">
                             <a routerLink="/body">
                                 <img src="/assets/images/LOGO.png" alt="App logo" loading="lazy" width="50"
                                     class="header-logo">
@@ -56,7 +56,7 @@
                     </ul>
                     <!-- right-list-start -->
                     <ul
-                        class="list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-3 fs-14 xs-pr-16">
+                        class="list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                         <!-- saveItem-start -->
                         <li class="" style="cursor: pointer;">
                             <svg (click)="savedItems()" stroke="currentColor" class="fs-22" fill="currentColor"
@@ -214,7 +214,7 @@
                         <!-- profile-start -->
                         @if (currentUser) {
                         <li class="user-profile cursor-pointer position-relative">
-                            <button class="btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
+                            <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold"
                                 type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <img class="user-Profile" [src]="
@@ -255,7 +255,7 @@
             @if(!loading){
             <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
                 <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
-                    <a routerLink="/category/{{category.id}}/{{category.name}}"
+                    <a routerLink="/category/{{category.id}}/{{category.slug}}"
                         class="category-color text-decoration-none" (click)="updateCategory(category.id)"
                         [ngClass]="{ 'active-category': activeCategory === category.id }">{{category.name}} </a>
                 </li>
@@ -269,7 +269,7 @@
                         <div class="dropdown-menu white-space-nowrap pb-0 right-0 shadow-md rounded-0"
                             aria-labelledby="moreCategoriesDropdown">
                             <a *ngFor="let category of categories.slice(categoryLimit)"
-                                routerLink="/category/{{category.id}}/{{category.name}}"
+                                routerLink="/category/{{category.id}}/{{category.slug}}"
                                 (click)="updateCategory(category.id)"
                                 [ngClass]="{ 'active-category': activeCategory === category.id }"
                                 class="category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>
