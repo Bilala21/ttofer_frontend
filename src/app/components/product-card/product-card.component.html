@@ -1,12 +1,9 @@
 <div class="product-card p-2 border-1 rounded-2 xs-mx-auto">
-
   <article class="position-relative">
     <button (click)="toggleWishlist(postData)"
       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"
       aria-label="Add to Wishlist">
       <i class="{{postData?.user_wishlist?.user_id === currentUserId ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
-      <!-- <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
-        aria-hidden="true"></i> -->
     </button>
     <a [attr.aria-disabled]="postData.ProductType == 'auction' ? false :  'true'"
       [routerLink]="postDetialUrl !== 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug"

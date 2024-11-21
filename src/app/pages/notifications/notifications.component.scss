@@ -28,7 +28,8 @@
     }
 
     &:hover {
-        opacity: .7;
+        box-shadow: 0 .5rem 3rem rgba(0, 0, 0, 0.241);
+        // opacity: .7;
     }
 }
 
