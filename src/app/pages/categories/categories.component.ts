@@ -37,7 +37,7 @@ export class CategoriesComponent {
     this.globalStateService.currentState.subscribe((state) => {
       this.currentPage = state.filteredProducts?.current_page
       // debugger
-      this.data = state.filteredProducts.filter((item: any) => item.ProductType == this.activeTab);
+      this.data=state.filteredProducts.filter((item: any) => item.product_type == this.activeTab);
       this.globalStateService.productlength = this.data?.length
       this.globalStateService.loading=false
     })

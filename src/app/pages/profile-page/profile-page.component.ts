@@ -446,6 +446,12 @@ export class ProfilePageComponent {
     ],
     '3': [
       {
+        label: 'Year Built',
+        type: 'input',
+        model: 'yearBuilt',
+        placeholder: 'Year Built',
+      },
+      {
         label: 'Bed Rooms',
         type: 'select',
         model: 'bedrooms',
@@ -464,30 +470,41 @@ export class ProfilePageComponent {
         options: this.BathRoomList,
       },
       {
-        label: 'Year Built',
-        type: 'input',
-        model: 'yearBuilt',
-        placeholder: 'Year Built',
+        label: 'Condition',
+        type: 'select',
+        model: 'condition',
+        options: this.conditionList,
       },
+     
       {
         label: 'Completion',
         type: 'select',
         model: 'compStatus',
         options: this.CombitanStatusList,
       },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
+      },
     ],
     '4': [
+      {
+        label: 'Year Built',
+        type: 'input',
+        model: 'yearBuilt',
+        placeholder: 'Year Built',
+      },
       {
         label: 'Bed Rooms',
         type: 'select',
         model: 'bedrooms',
         options: this.bedRoomList,
-      },
-      {
-        label: 'Area/Size',
-        type: 'input',
-        model: 'area',
-        placeholder: 'Area/Size in Sqft',
       },
       {
         label: 'Bath Room',
@@ -496,11 +513,19 @@ export class ProfilePageComponent {
         options: this.BathRoomList,
       },
       {
-        label: 'Year Built',
+        label: 'Area/Size',
         type: 'input',
-        model: 'yearBuilt',
-        placeholder: 'Year Built',
+        model: 'area',
+        placeholder: 'Area/Size in Sqft',
       },
+      
+      {
+        label: 'Condition',
+        type: 'select',
+        model: 'condition',
+        options: this.conditionList,
+      },
+      
       {
         label: 'Features',
         type: 'select',
@@ -512,6 +537,16 @@ export class ProfilePageComponent {
         type: 'select',
         model: 'furnisheable',
         options: this.FurnishableList,
+      },
+      {
+        label: 'Delivery Type',
+        type: 'select',
+        model: 'Delivery',
+        options: [
+          { id: 'Local Delivery', name: 'Local Delivery' },
+          { id: 'Pick Up', name: 'Pick up' },
+          { id: 'Shipping', name: 'Shipping' },
+        ],
       },
     ],
     '5': [
@@ -1846,7 +1881,6 @@ export class ProfilePageComponent {
         this.toastr.success('Product is live now!', 'Success');
         this.router.navigate(['']);
       } else {
-        console.error('Product creation failed', data);
         this.toastr.error('Product creation failed', 'Error');
       }
     } catch (error) {

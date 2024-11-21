@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -89,4 +89,70 @@ export class ProductCardComponent {
     }
     return false
   }
-}
+  
+  iconMapping:any = {
+    brand: 'fa-tag', // Icon for brand
+    condition: 'fa-cogs',   // Icon for condition
+    storage: 'fa-hdd',      // Icon for storage
+    color: 'fa-paint-brush', // Icon for color
+    mileage: 'fa-road',      // Icon for mileage
+    fuelType: 'fa-gas-pump', // Icon for fuelType
+    delivery: 'fa-truck',    // Icon for delivery
+    engineCapacity: 'fa-car', // Icon for engineCapacity
+    model: 'fa-cogs',        // Icon for model
+    year: 'fa-calendar',     // Icon for year
+    bedrooms: 'fa-bed',
+    yearBuilt: 'fa-calendar-alt',      // Icon for bedrooms
+    area: 'fa-expand',       // Icon for area/size
+    bathRoom: 'fa-bath',     // Icon for bathRoom
+    completion: 'fa-check-circle', // Icon for completion status
+    fearture: 'fa-star',     // Icon for features
+    furnisheable: 'fa-couch', // Icon for furnished
+    make_and_model: 'fa-car', // Icon for make and model
+    type: 'fa-tshirt',       // Icon for fashion type
+    age: 'fa-child',         // Icon for age
+    breed: 'fa-paw',         // Icon for breed
+    toy: 'fa-toy',           // Icon for toy
+    positionType: 'fa-briefcase', // Icon for position type
+    companyName: 'fa-building', // Icon for company name
+    salary: 'fa-money-bill-wave', // Icon for salary
+    salaryPeriod: 'fa-calendar-alt', // Icon for salary period
+    careerLevel: 'fa-level-up-alt', // Icon for career level
+  };
+  
+  private parseAttributes(value: any): any {
+    try {
+      debugger
+      const attributes = JSON.parse(value); // Parse the JSON string
+      const attributes2 = JSON.parse(attributes); // Parse the JSON string
+
+      let parsedAttributes: any = [];
+      for (const [key, val] of Object.entries(attributes2)) {
+        parsedAttributes.push({
+          key,
+          value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
+          icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
+        });
+      }
+
+      return parsedAttributes; // Return an array of attributes with icons
+    } catch (error) {
+      console.error('Error parsing attributes:', error);
+      return []; // Return an empty array in case of an error
+    }
+  }
+
+  private isJson(str: string): boolean {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  getParsedAttributes() {
+    const parsedAttributes = this.parseAttributes(this.postData.attributes);
+    return parsedAttributes.slice(0, 3); // Limit to first 3 attributes
+  }
+  }
+
