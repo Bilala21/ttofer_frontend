@@ -64,17 +64,6 @@ export class ProductCardComponent {
         console.log(res)
         if (res.status) {
           this.handlesUserWishlist.emit(item)
-          // this.globalStateService.currentState.subscribe((state) => {
-          //   if (state.isFilterActive) {
-          //     this.wishlistWithProductType(state.filteredProducts, item)
-          //   }
-          //   else if (item.product_type == 'auction') {
-          //     this.wishlistWithProductType(state.auctionProducts, item)
-          //   }
-          //   else {
-          //     this.wishlistWithProductType(state.featuredProducts, item)
-          //   }
-          // })
           this.toastr.success(res.message, 'Success');
         }
       },

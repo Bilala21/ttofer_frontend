@@ -151,6 +151,7 @@ export class AppFiltersComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const slug:any=params.get('slug')
       if (slug.indexOf('-') > 0) {
+        this.id=slug.slice(0,slug.indexOf('-'))
         this.slug = slug.slice(slug.indexOf('-')+1,).replace(/-/g, ' ');
       }
     })
@@ -221,7 +222,7 @@ export class AppFiltersComponent implements OnInit {
 
   selectCategory(item: any) {
     this.router.navigate(['/category', item.id + '-' + item.slug]);
-    this.filterCriteria['category'] = { ...item }
+    this.filterCriteria['category_id'] = item.id
     localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchSubCategories(item.id)
   }

@@ -97,7 +97,7 @@ export class CategoriesComponent{
     this.filters=filterCriteria
 
     this.loading=isWishlist?false:true
-    const modifiedFilter = filterCriteria.location?{ ...filterCriteria, location: filterCriteria.location.join(',') }:filterCriteria;
+    const modifiedFilter = filterCriteria.location?{ ...filterCriteria, location: filterCriteria.location.join(','),product_type:this.activeTab }:filterCriteria;
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
         if (res && res.data.data) {
