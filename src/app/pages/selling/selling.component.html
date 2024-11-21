@@ -5,13 +5,13 @@
                 <div class="col-xl-5 col-md-7 mx-auto">
                     <div class="row align-items-center">
                         <div class="col-4">
-                            <img *ngIf="sellingList[0].photo.length > 0" style="border-radius:10px; height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;"
-                                [src]="sellingList[0].photo[0].src" class="w-100 " alt="" loading="lazy">
+                            <img *ngIf="sellingList[0]?.photo?.length > 0" style="border-radius:10px; height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;"
+                                [src]="sellingList[0]?.photo[0]?.src" class="w-100 " alt="" loading="lazy">
                         </div>
                         <div class="col-8">
-                            <h4 style="font-size:16px">{{sellingList[0].title}}</h4>
+                            <h4 style="font-size:16px">{{sellingList[0]?.title}}</h4>
                             <!-- <span>{{sellingList[0].fix_price}}</span> -->
-                            <span style="font-size:12px">{{sellingList[0].auction_price}}</span>
+                            <span style="font-size:12px">{{sellingList[0]?.auction_price}}</span>
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-between mt-5">
@@ -22,7 +22,7 @@
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"></path></svg>
                                 </div>
                                 <a style="text-decoration: none; color:white"
-                                    routerLink="/product-detail/{{sellingList[0].id}}">
+                                    routerLink="/product-detail/{{sellingList[0]?.id}}">
                                     <div class="mt-2">
                                         <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">View </h6>
                                         <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Post</h6>
@@ -96,19 +96,19 @@
                     <div *ngIf="showPerformance">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <img *ngIf="sellingList[0].photo[0].src" [src]="sellingList[0].photo[0].src" style="border-radius:10px;width:70px;height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;" alt="" loading="lazy">
+                                <img *ngIf="sellingList[0]?.photo[0]?.src" [src]="sellingList[0]?.photo[0]?.src" style="border-radius:10px;width:70px;height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;" alt="" loading="lazy">
                             </div>
                             <div class="ml-2">
-                                <h4 class="sm-cat-text4" style="font-size:16px">{{sellingList[0].title}}</h4>
-                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0].is_sold<=0">Not Sold</span>
-                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0].is_sold>0">Sold</span>
+                                <h4 class="sm-cat-text4" style="font-size:16px">{{sellingList[0]?.title}}</h4>
+                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0]?.is_sold<=0">Not Sold</span>
+                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0]?.is_sold>0">Sold</span>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-5">
                                 <span class="sm-cat-text3"
                                     style="font-size: 3vh; font-weight: bold;margin-right: 1vh;" style="font-size:12px">Total Views:</span>
-                                <span class="sm-cat-text3">{{sellingList[0].views_count}}</span>
+                                <span class="sm-cat-text3">{{sellingList[0]?.views_count}}</span>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -133,16 +133,16 @@
                                         <div class="col-md-10">
                                             <div class="row align-items-center">
                                                 <div class="col-2">
-                                                    <img src="{{data.sender.img}}" class="imageSize" alt="" loading="lazy">
+                                                    <img src="{{data?.sender?.img}}" class="imageSize" alt="" loading="lazy">
                                                 </div>
                                                 <div class="col-8">
-                                                    <h5 style="font-size:16px">{{data.sender.name}}</h5>
-                                                    <span style="font-size:12px">{{data.message}}</span>
+                                                    <h5 style="font-size:16px">{{data?.sender.name}}</h5>
+                                                    <span style="font-size:12px">{{data?.message}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-2">
-                                            <span style="font-size:12px">{{data.created_at | date}}</span>
+                                            <span style="font-size:12px">{{data?.created_at | date}}</span>
                                         </div>
                                     </div>
                                     <hr>

@@ -65,19 +65,14 @@ export interface CategoryField {
   providers: [DecimalPipe],
   imports: [
     CommonModule,
-    HeaderComponent,
     NgFor,
     MatDialogModule,
-    FooterComponent,
-    SellingComponent,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     NgFor,
     MatSnackBarModule,
-    NotificationComponent,
     NgxDropzoneModule,
-    ReviewPageComponent,
     PaymentComponent,
     StarRatingComponent,
     CurrentLocationComponent,
@@ -85,6 +80,7 @@ export interface CategoryField {
 })
 export class ProfilePageComponent {
   activeButtonPayment: number = 1;
+  selectedCategorySlug:any
   editStartingPrice: any;
   edit_final_price: any;
   editStartingTime: any;
@@ -168,13 +164,38 @@ export class ProfilePageComponent {
   ];
   brandList: any = [
     { id: 'Samsung', name: 'Samsung' },
-    { id: 'Infinix', name: 'Infinix' },
-    { id: 'Xiaomi', name: 'Xiaomi' },
-    { id: 'Motorola', name: 'Motorola' },
-    { id: 'Huawei', name: 'Huawei' },
     { id: 'Apple', name: 'Apple' },
+    { id: 'Huawei', name: 'Huawei' },
+    { id: 'Xiaomi', name: 'Xiaomi' },
+    { id: 'Infinix', name: 'Infinix' },
+    { id: 'Motorola', name: 'Motorola' },
+    { id: 'Sony', name: 'Sony' },
+    { id: 'Nokia', name: 'Nokia' },
+    { id: 'LG', name: 'LG' },
+    { id: 'Oppo', name: 'Oppo' },
+    { id: 'Vivo', name: 'Vivo' },
+    { id: 'Realme', name: 'Realme' },
+    { id: 'OnePlus', name: 'OnePlus' },
+    { id: 'Google', name: 'Google' },
+    { id: 'HTC', name: 'HTC' },
+    { id: 'BlackBerry', name: 'BlackBerry' },
+    { id: 'Lenovo', name: 'Lenovo' },
+    { id: 'Asus', name: 'Asus' },
+    { id: 'Tecno', name: 'Tecno' },
+    { id: 'ZTE', name: 'ZTE' },
+    { id: 'Micromax', name: 'Micromax' },
+    { id: 'Honor', name: 'Honor' },
+    { id: 'Itel', name: 'Itel' },
+    { id: 'Panasonic', name: 'Panasonic' },
+    { id: 'Alcatel', name: 'Alcatel' },
+    { id: 'Meizu', name: 'Meizu' },
+    { id: 'Coolpad', name: 'Coolpad' },
+    { id: 'TCL', name: 'TCL' },
+    { id: 'Sharp', name: 'Sharp' },
+    { id: 'Philips', name: 'Philips' },
     { id: 'Other', name: 'Other' },
   ];
+  
   brandElectornicsList: any = [
     { id: 'Dawlence', name: 'Dawlence' },
     { id: 'Pel', name: 'Pel' },
@@ -209,9 +230,41 @@ export class ProfilePageComponent {
     { id: 'White', name: 'White' },
     { id: 'Black', name: 'Black' },
     { id: 'Red', name: 'Red' },
+    { id: 'Blue', name: 'Blue' },
+    { id: 'Green', name: 'Green' },
+    { id: 'Yellow', name: 'Yellow' },
+    { id: 'Gray', name: 'Gray' },
+    { id: 'Silver', name: 'Silver' },
+    { id: 'Gold', name: 'Gold' },
+    { id: 'Orange', name: 'Orange' },
+    { id: 'Purple', name: 'Purple' },
+    { id: 'Pink', name: 'Pink' },
+    { id: 'Brown', name: 'Brown' },
+    { id: 'Maroon', name: 'Maroon' },
+    { id: 'Beige', name: 'Beige' },
+    { id: 'Turquoise', name: 'Turquoise' },
+    { id: 'Teal', name: 'Teal' },
+    { id: 'Navy', name: 'Navy' },
+    { id: 'Ivory', name: 'Ivory' },
+    { id: 'Magenta', name: 'Magenta' },
+    { id: 'Cyan', name: 'Cyan' },
+    { id: 'Lime', name: 'Lime' },
+    { id: 'Olive', name: 'Olive' },
+    { id: 'Peach', name: 'Peach' },
+    { id: 'Burgundy', name: 'Burgundy' },
+    { id: 'Charcoal', name: 'Charcoal' },
+    { id: 'Mint', name: 'Mint' },
+    { id: 'Lavender', name: 'Lavender' },
     { id: 'Other', name: 'Other' },
   ];
+  
+  occupancyStatus: any = [
+    { id: 'Vacant', name: 'Vacant' },
+    { id: 'Occupied', name: 'Occupied' },
+    
+  ];
   typeList: any = [{ id: 'Apartment', name: 'Apartment' }];
+  
   bedRoomList: any = [
     { id: '1', name: '1' },
     { id: '2', name: '2' },
@@ -261,7 +314,62 @@ export class ProfilePageComponent {
     { id: 'Audi', name: 'Audi' },
     { id: 'BMW', name: 'BMW' },
     { id: 'Corolla', name: 'Corolla' },
+    { id: 'Mercedes-Benz', name: 'Mercedes-Benz' },
+    { id: 'Tesla Model 3', name: 'Tesla Model 3' },
+    { id: 'Ford Mustang', name: 'Ford Mustang' },
+    { id: 'Chevrolet Camaro', name: 'Chevrolet Camaro' },
+    { id: 'Honda Civic', name: 'Honda Civic' },
+    { id: 'Toyota Prius', name: 'Toyota Prius' },
+    { id: 'Nissan Altima', name: 'Nissan Altima' },
+    { id: 'Hyundai Sonata', name: 'Hyundai Sonata' },
+    { id: 'Volkswagen Passat', name: 'Volkswagen Passat' },
+    { id: 'Porsche 911', name: 'Porsche 911' },
+    { id: 'Lamborghini Huracan', name: 'Lamborghini Huracan' },
+    { id: 'Ferrari F8', name: 'Ferrari F8' },
+    { id: 'Kia Optima', name: 'Kia Optima' },
+    { id: 'Jeep Wrangler', name: 'Jeep Wrangler' },
+    { id: 'Range Rover', name: 'Range Rover' },
+    { id: 'Mazda CX-5', name: 'Mazda CX-5' },
+    { id: 'Subaru Outback', name: 'Subaru Outback' },
+    { id: 'Chevrolet Tahoe', name: 'Chevrolet Tahoe' },
+    { id: 'Dodge Charger', name: 'Dodge Charger' },
+    { id: 'Volvo XC90', name: 'Volvo XC90' },
+    { id: 'GMC Sierra', name: 'GMC Sierra' },
+    { id: 'Toyota Hilux', name: 'Toyota Hilux' },
+    { id: 'Ford F-150', name: 'Ford F-150' },
+    { id: 'Honda Accord', name: 'Honda Accord' },
+    { id: 'Suzuki Swift', name: 'Suzuki Swift' },
+    { id: 'Peugeot 208', name: 'Peugeot 208' },
+    { id: 'Mitsubishi Outlander', name: 'Mitsubishi Outlander' },
+    { id: 'Jaguar XF', name: 'Jaguar XF' },
+    { id: 'Fiat 500', name: 'Fiat 500' },
+    { id: 'Lexus RX', name: 'Lexus RX' },
+    { id: 'Hyundai Tucson', name: 'Hyundai Tucson' },
+    { id: 'Ford Explorer', name: 'Ford Explorer' },
+    { id: 'Mazda 3', name: 'Mazda 3' },
+    { id: 'Nissan Rogue', name: 'Nissan Rogue' },
+    { id: 'Chrysler Pacifica', name: 'Chrysler Pacifica' },
+    { id: 'Chevrolet Malibu', name: 'Chevrolet Malibu' },
+    { id: 'Cadillac Escalade', name: 'Cadillac Escalade' },
+    { id: 'Toyota Camry', name: 'Toyota Camry' },
+    { id: 'Ford Escape', name: 'Ford Escape' },
+    { id: 'Volkswagen Tiguan', name: 'Volkswagen Tiguan' },
+    { id: 'BMW X5', name: 'BMW X5' },
+    { id: 'Audi Q5', name: 'Audi Q5' },
+    { id: 'Kia Sportage', name: 'Kia Sportage' },
+    { id: 'Honda CR-V', name: 'Honda CR-V' },
+    { id: 'Hyundai Elantra', name: 'Hyundai Elantra' },
+    { id: 'Mercedes GLE', name: 'Mercedes GLE' },
+    { id: 'Jeep Cherokee', name: 'Jeep Cherokee' },
+    { id: 'Tesla Model Y', name: 'Tesla Model Y' },
+    { id: 'Toyota RAV4', name: 'Toyota RAV4' },
+    { id: 'Subaru Forester', name: 'Subaru Forester' },
+    { id: 'Nissan Pathfinder', name: 'Nissan Pathfinder' },
+    { id: 'Dodge Durango', name: 'Dodge Durango' },
+    { id: 'Lexus ES', name: 'Lexus ES' },
   ];
+  
+  
   yearList: any = [
     { id: '2021', name: '2021' },
     { id: '2000', name: '2000' },
@@ -360,14 +468,13 @@ export class ProfilePageComponent {
   toyList: any = [{ id: 'Doll', name: 'Doll' }];
   locationList: any = [{ id: 'America', name: 'America' }];
   compStatusId: any;
-  CombitanStatusList: any = [
+  CompletionStatusList: any = [
     { id: 'Off plan', name: 'Off plan' },
     { id: 'Ready', name: 'Ready' },
     { id: 'Other', name: 'Other' },
   ];
   furnisheableId: any;
   FurnishableList: any = [
-    { id: 'All', name: 'All' },
     { id: 'Furnished', name: 'Furnished' },
     { id: 'Unfurnished', name: 'Unfurnished' },
   ];
@@ -378,7 +485,7 @@ export class ProfilePageComponent {
     { id: '3', name: '3' },
   ];
   categoryFields: { [key: string]: CategoryField[] } = {
-    '1': [
+    'mobiles': [
       {
         label: 'Brand',
         type: 'select',
@@ -389,7 +496,7 @@ export class ProfilePageComponent {
         label: 'Condition',
         type: 'select',
         model: 'condition',
-        options: this.conditionList,
+        options: this.conditionKidsList,
       },
       {
         label: 'Storage Capacity',
@@ -480,7 +587,7 @@ export class ProfilePageComponent {
         label: 'Completion',
         type: 'select',
         model: 'compStatus',
-        options: this.CombitanStatusList,
+        options: this.CompletionStatusList,
       },
       {
         label: 'Delivery Type',
@@ -493,18 +600,18 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '4': [
-      {
-        label: 'Year Built',
-        type: 'input',
-        model: 'yearBuilt',
-        placeholder: 'Year Built',
-      },
+    'property-for-sale': [
       {
         label: 'Bed Rooms',
         type: 'select',
         model: 'bedrooms',
         options: this.bedRoomList,
+      },
+      {
+        label: 'Area/Size',
+        type: 'input',
+        model: 'area',
+        placeholder: 'Area/Size in Sqft',
       },
       {
         label: 'Bath Room',
@@ -513,19 +620,11 @@ export class ProfilePageComponent {
         options: this.BathRoomList,
       },
       {
-        label: 'Area/Size',
+        label: 'Year Built',
         type: 'input',
-        model: 'area',
-        placeholder: 'Area/Size in Sqft',
-      },
-      
-      {
-        label: 'Condition',
-        type: 'select',
-        model: 'condition',
-        options: this.conditionList,
-      },
-      
+        model: 'yearBuilt',
+        placeholder: 'Year Built',
+      },    
       {
         label: 'Features',
         type: 'select',
@@ -539,21 +638,66 @@ export class ProfilePageComponent {
         options: this.FurnishableList,
       },
       {
-        label: 'Delivery Type',
+        label: 'Total Closing Fee',
+        type: 'input',
+        model: 'total_closing_fee',
+        placeholder:'Total Closing Fee',
+      },  
+      {
+        label: 'Developer',
+        type: 'input',
+        model: '_developer',
+        placeholder:'Developer',
+      }, 
+      {
+        label: 'Annual Community Fee',
+        type: 'input',
+        model: 'annual_community_fee',
+        placeholder:'Annual Community Fee',
+      },     
+      {
+        label: 'Property Reference ID #',
+        type: 'input',
+        model: 'property_reference_id',
+        placeholder:'Property Reference ID #',
+      },  
+      {
+        label: 'Buy Transfer Fee',
+        type: 'input',
+        model: 'buy_transfer_fee',
+        placeholder:'Buy Transfer Fee',
+      }, 
+      {
+        label: 'Seller Transfer Fee',
+        type: 'input',
+        model: 'seller_transfer_fee',
+        placeholder:'Seller Transfer Fee',
+      }, 
+      {
+        label: 'Maintenance Fee',
+        type: 'input',
+        model: 'maintenance_fee',
+        placeholder:'Maintenance Fee',
+      }, 
+      {
+        label: 'Occupancy Status',
         type: 'select',
-        model: 'Delivery',
-        options: [
-          { id: 'Local Delivery', name: 'Local Delivery' },
-          { id: 'Pick Up', name: 'Pick up' },
-          { id: 'Shipping', name: 'Shipping' },
-        ],
+        model: 'occupancy status',
+        options: this.occupancyStatus,
       },
+      {
+        label: 'Completion',
+        type: 'select',
+        model: 'completion',
+        options: this.CompletionStatusList,
+      },
+      
     ],
-    '5': [
+    'vehicles': [
       {
         label: 'Make and Model',
         type: 'select',
-        model: 'make_and_model',
+        model: 'Make and Model',
         options: this.makeAndModelList,
       },
       { label: 'Year', type: 'input', model: 'year', placeholder: 'Year' },
@@ -827,6 +971,7 @@ export class ProfilePageComponent {
           );
         } else {
           this.selectedCategoryId = this.categories[0].id;
+          this.onCategoryChange(this.selectedCategoryId)
           this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
         }
@@ -838,15 +983,15 @@ export class ProfilePageComponent {
   }
   initializeForm() {
     // Initialize form controls dynamically based on the selected category
-    const fields = this.categoryFields[this.selectedCategoryId];
+    const fields = this.categoryFields[this.selectedCategorySlug];
     fields.forEach((field) => {
       this.categoryForm.addControl(
         field.model,
         this.fb.control('', Validators.required)
       );
     });
-    if (this.categoryFields[this.selectedCategoryId]) {
-      this.categoryFields[this.selectedCategoryId].forEach((field: any) => {
+    if (this.categoryFields[this.selectedCategorySlug]) {
+      this.categoryFields[this.selectedCategorySlug].forEach((field: any) => {
         // If the field type is select, set the default value to the first option
         if (field.type === 'select' && field.options.length > 0) {
           this.attributes[field.model] = field.options[0].id; // Set default to the first option
@@ -1718,7 +1863,7 @@ export class ProfilePageComponent {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
 
-    const requiredFields = this.categoryFields[this.selectedCategoryId] || [];
+    const requiredFields = this.categoryFields[this.selectedCategorySlug] || [];
     requiredFields.forEach((field) => {
       if (!this.attributes[field.model]) {
         this.validationErrors[field.model] = `${field.label} is required.`;
@@ -1776,12 +1921,13 @@ export class ProfilePageComponent {
     lng: number;
     address: string;
   }): void {
-    // debugger;
+    // ;
     // Use the location data as needed
     this.locationId = location;
   }
 
   async addCompleteProduct() {
+    
     if (!this.validateForm()) {
       return;
     }
@@ -1810,7 +1956,7 @@ export class ProfilePageComponent {
 
     formData.append('category_id', this.selectedCategoryId.toString());
     formData.append('sub_category_id', this.selectedSubCategoryId.toString());
-    // debugger;
+    // ;
     const mainCategory = String(
       this.getCategoryNameById(this.selectedCategoryId) || ''
     );
@@ -1819,7 +1965,7 @@ export class ProfilePageComponent {
     );  
    formData.append('main_category', JSON.stringify(mainCategory));
     formData.append('sub_category', JSON.stringify(subCategory));
-    formData.append('condition', this.attributes['condition']);
+    if (this.attributes['make_and_model']) formData.append('condition', this.attributes['condition']);
     if (this.attributes['make_and_model'])
       formData.append('make_and_model', this.attributes['make_and_model']);
     if (this.attributes['mileage'])
@@ -1847,12 +1993,13 @@ export class ProfilePageComponent {
       );
       formData.append(
         'auction_starting_date',
-        this.startingDate?.toISOString() || ''
+        this.startingDate ? this.startingDate.toISOString().split('T')[0] : ''
       );
       formData.append(
         'auction_ending_date',
-        this.endingDate?.toISOString() || ''
+        this.endingDate ? this.endingDate.toISOString().split('T')[0] : ''
       );
+      
       formData.append(
         'auction_starting_time',
         this.startingTime.toString() || ''
@@ -1891,7 +2038,7 @@ export class ProfilePageComponent {
     }
   }
   getCategoryNameById(categoryId: number): string {
-    // debugger;
+    // ;
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
   }
@@ -1901,146 +2048,8 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
-  checkattribute() {
-    // debugger;
-    console.log(this.attributes);
-  }
-  async AddProductFirstStep() {
-    if (!this.validateForm()) {
-      return;
-    }
-    let formData = new FormData();
-    if (this.selectedVideo && this.selectedVideo.file) {
-      formData.append(
-        'video[]',
-        this.selectedVideo.file,
-        this.selectedVideo.file.name
-      );
-    }
-    formData.append(
-      'user_id',
-      this.currentUserId ? Number(this.currentUserId).toString() : '0'
-    );
-    formData.append('title', this.title);
-    formData.append('description', this.description);
-    try {
-      const token = localStorage.getItem('authToken');
-      this.isLoading = true;
-      const response = await fetch(
-        'https://www.ttoffer.com/backend/public/api/add-product-first-step',
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-          },
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        this.productId = data.product_id;
-        await this.addProductImage();
-        // this.attributes();
-        await this.addProductSecondStep();
-      }
-    } catch (error) {
-      this.isLoading = false;
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-  async addProductSecondStep() {
-    // this.attributes['category_id'] = this.selectedCategoryId;
-    // this.attributes['category_name'] = this.getCategoryNameById(
-    //   this.selectedCategoryId
-    // );
-    // this.attributes['sub_category_id'] = this.selectedSubCategoryId;
-    // this.attributes['sub_category_name'] = this.getSubCategoryNameById(
-    //   this.selectedSubCategoryId
-    // );
-    let input = {
-      product_id: this.productId,
-      category_id: this.selectedCategoryId,
-      sub_category_id: this.selectedSubCategoryId,
-      condition: this.attributes['condition'] || 'New', // Extract condition from attributes
-      make_and_model: this.attributes['make_and_model'], // Extract make and model from attributes
-      mileage: this.attributes['mileage'], // Extract mileage from attributes
-      color: this.attributes['color'], // Extract color from attributes
-      brand: this.attributes['brand'], // Extract brand from attributes
-      model: this.attributes['model'], // Extract model from attributes
-      edition: '',
-      authenticity: '',
-      attributes: JSON.stringify(this.attributes), // Convert attributes to JSON string
-    };
-    try {
-      const res = await this.mainServices
-        .addProductSecondStep(input)
-        .toPromise();
-      await this.addProductThirdStep();
-    } catch (error) {
-      this.isLoading = false;
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-  async addProductThirdStep() {
-    let input;
-    if (this.pricingCatId === 'Auction') {
-      input = {
-        productType: 'auction',
-        product_id: this.productId,
-        auction_price: this.startingPrice,
-        starting_date: this.startingDate?.toISOString(),
-        starting_time: this.startingTime.toString(),
-        ending_date: this.endingDate?.toISOString(),
-        ending_time: this.endingTime.toString(),
-        final_price: this.final_price,
-      };
-    } else if (this.pricingCatId === 'FixedPrice') {
-      input = {
-        productType: 'featured',
-        product_id: this.productId,
-        fix_price: this.price,
-      };
-    } else {
-      input = { product_id: this.productId, productType: 'other' };
-    }
-    try {
-      const res = await this.mainServices
-        .addProductThirdStep(input)
-        .toPromise();
-      await this.addProductLastStep();
-    } catch (error) {
-      this.isLoading = false;
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-  async addProductLastStep() {
-    let input = {
-      product_id: this.productId,
-      location: this.locationId,
-    };
-    try {
-      const res: any = await this.mainServices
-        .addProductLastStep(input)
-        .toPromise();
-      this.toastr.success('Product is live now!', 'Success');
-      this.isLoading = false;
-      this.router.navigate(['']);
-    } catch (error) {
-      this.isLoading = false;
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-  handleError(error: any) {
-    this.loading = false;
-  }
+ 
+  
   EditProductSeccondStep() {
     try {
       let input = {
@@ -2303,29 +2312,7 @@ export class ProfilePageComponent {
       (err: any) => {}
     );
   }
-  // parseDate(event: any): Date {
 
-  //   let date = (event.target as HTMLTextAreaElement).value;
-  //   let dateString: string = date;
-  //   if (dateString) {
-  //     return new Date(dateString);
-  //   }
-  //   return new Date();
-  // }
-  // parseSTime(event: Event): any {
-
-  //   const input = event.target as HTMLInputElement;
-  //   this.startingTime = input.value;
-  // }
-  // parseETime(event: Event): any {
-
-  //   const input = event.target as HTMLInputElement;
-  //   this.endingTime = input.value;
-  // }
-  // parseDate(event: any): Date {
-  //   const date = (event.target as HTMLInputElement).value;
-  //   return date ? new Date(date) : new Date();
-  // }
   parseDate(event: any, type: 'start' | 'end'): Date {
     const date = (event.target as HTMLInputElement).value;
     const selectedDate = date ? new Date(date) : new Date();
@@ -2476,6 +2463,7 @@ export class ProfilePageComponent {
       this.mainServices.getSubCategories(this.selectedCategoryId).subscribe(
         (data: any) => {
           this.subCategory = data.data;
+          this.selectedSubCategoryId=this.subCategory[0].id
           this.attributes = {};
           this.initializeForm();
         },
@@ -2522,4 +2510,11 @@ export class ProfilePageComponent {
       localStorage.removeItem('editProduct');
     }
   }
+  onCategoryChange(categoryId: number): void {
+    
+    const selectedCategory = this.categories.find((cat:any) => cat.id == categoryId);
+    this.selectedCategorySlug = selectedCategory?.slug || null;
+    this.attributes = {}; // Reset attributes when category changes
+  }
+  
 }

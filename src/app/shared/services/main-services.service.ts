@@ -95,7 +95,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/get-offer', input).pipe();
   }
   getAllChatsOfUser(currentUserid: number) {
-    return this.http.get(`${Constants.baseApi}` + '/get/user/all/chats/' + currentUserid).pipe();
+    return this.http.get(`${Constants.baseApi}` + `/user/${{currentUserid}}/chats` );
   }
   getConversation(conversation_id: number) {
     return this.http.get(`${Constants.baseApi}` + '/get/conversation/' + conversation_id).pipe();
@@ -146,7 +146,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/signup', input).pipe();
   }
   getSelling() {
-    return this.http.get(`${Constants.baseApi}` + '/selling-screen').pipe();
+    return this.http.get(`${Constants.baseApi}` + '/sale-purchase/history').pipe();
   }
 
   wishListProduct(input: any) {

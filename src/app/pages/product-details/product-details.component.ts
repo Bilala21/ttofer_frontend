@@ -21,11 +21,8 @@ import { SideProductDetailsComponent } from "./sideProductDetail/side-product-de
     templateUrl: './product-details.component.html',
     styleUrl: './product-details.component.scss',
     imports: [
-    HeaderComponent,
-    FooterComponent,
     ProductCarouselComponent,
     RelatedCarouselComponent,
-    NgIf,
     FormsModule,
     GoogleMapsModule,
     CommonModule,
@@ -186,7 +183,7 @@ export class ProductDetailsComponent {
           return item.user_id == this.currentUserid;
         }).length <= 0;
        if (this.featuredProducts[0].attributes) {
-        // debugger
+        // 
         this.attributesObject = JSON.parse(this.featuredProducts[0].attributes);
         this.parsedAttributes = this.attributesObject?.attributes;
         console.log("product",this.featuredProducts[0].photo)

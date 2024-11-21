@@ -14,7 +14,7 @@ import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf, CommonModule, MatTooltipModule, CardShimmerComponent],
+  imports: [FormsModule, NgxSliderModule, NgIf, CommonModule, MatTooltipModule],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss']
 })

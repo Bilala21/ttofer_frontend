@@ -27,11 +27,9 @@ declare var bootstrap: any;
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss',
   imports: [
-    HeaderComponent,
     NgFor,
     CommonModule,
     ReactiveFormsModule,
-    FooterComponent,
     FormsModule,
   ],
 })

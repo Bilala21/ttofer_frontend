@@ -1,7 +1,7 @@
 <div *ngIf="categories.length">
     <h1 class="fs-24 fw-bold my-4 text-center pt-2">All Categories</h1>
     <div class="row overflow-auto category-list xs-flex-nowrap">
-        <a *ngFor="let item of categories; let last = last" routerLink="/category/{{item.id}}/{{item.slug}}" class="w-xl-1 col-xl-1 col-md-2 xs-mw-20">
+        <a *ngFor="let item of categories; let last = last" routerLink="/category/{{item.slug}}" class="w-xl-1 col-xl-1 col-md-2 xs-mw-20">
             <img src={{item.ImgSrc}} alt={{item.name}} loading="lazy" class="rounded-pill img-fluid w-100"
                >
                <!-- [ngStyle]="{'background-color': item.color}" -->
