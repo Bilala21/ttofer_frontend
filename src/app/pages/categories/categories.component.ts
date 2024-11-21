@@ -51,6 +51,7 @@ export class CategoriesComponent{
       }
       else{
         const category_id=slug.slice(0,slug.indexOf('-'))
+        alert(category_id)
         this.fetchData({product_type:this.activeTab,category_id})
       }
     })
@@ -93,6 +94,7 @@ export class CategoriesComponent{
   }
 
   fetchData(filterCriteria:any, isWishlist:boolean=false) {
+    localStorage.setItem('filters', JSON.stringify(filterCriteria));
     console.log(filterCriteria,'filterCriteria1')
     this.filters=filterCriteria
 

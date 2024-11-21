@@ -222,8 +222,8 @@ export class AppFiltersComponent implements OnInit {
 
   selectCategory(item: any) {
     this.router.navigate(['/category', item.id + '-' + item.slug]);
-    this.filterCriteria['category_id'] = item.id
-    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    // this.filterCriteria['category_id'] = item.id
+    // localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
     this.fetchSubCategories(item.id)
   }
 
@@ -275,16 +275,16 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria[filter.key] = filter.value;
     }
-    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
-    this.handleFilterEvent.emit(this.filterCriteria)
+    // localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    this.handleFilterEvent.emit({...this.filterCriteria,category_id:this.id})
     // this.fetchData();
   }
 
   handleMinMaxPrice() {
     this.filterCriteria['min_price'] = this.minValue;
     this.filterCriteria['max_price'] = this.highValue;
-    localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
-    this.fetchData();
+    // localStorage.setItem("filters", JSON.stringify(this.filterCriteria))
+    // this.fetchData();
   }
 
   // startCountdowns(data: []) {
@@ -372,7 +372,7 @@ export class AppFiltersComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.isNavigatingAway) {
-      localStorage.removeItem('filters');
+      // localStorage.removeItem('filters');
     }
   }
 }

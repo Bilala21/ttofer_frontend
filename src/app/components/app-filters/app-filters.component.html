@@ -2,7 +2,7 @@
     <!-- <app-card-shimmer /> -->
 </div>
 <div *ngIf="categories.length">
-    <h2 class="fs-20 text-capitalize">{{slug}}{{id}}</h2>
+    <h2 class="fs-20 text-capitalize">{{slug}}</h2>
     <div class="fs-18 mb-2 d-flex justify-content-between">
         <!-- <div *ngIf="globalStateService.productlength"> -->
             <!-- <strong>{{globalStateService.productlength}}</strong> -->
@@ -23,7 +23,7 @@
                     @for (item of categories; track $index) {
                     <div class="d-flex align-items-center mb-3">
                         <input type="radio" class="fs-20" name="category"
-                            [checked]="filterCriteria?.category?.id === item?.id"
+                            [checked]="item?.id == id"
                             (change)="selectCategory(item)">
                         <span class="pl-1 fs-14">{{ item?.name }}</span>
                     </div>
