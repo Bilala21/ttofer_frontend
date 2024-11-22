@@ -47,8 +47,7 @@ export class ProductCardComponent {
   // }
 
   toggleWishlist(item: any) {
-    
-    console.log(item, "item");
+
     if (!this.currentUserId) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
@@ -61,7 +60,6 @@ export class ProductCardComponent {
 
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
-        console.log(res)
         if (res.status) {
           this.handlesUserWishlist.emit(item)
           this.toastr.success(res.message, 'Success');

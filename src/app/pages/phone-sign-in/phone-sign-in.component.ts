@@ -45,7 +45,7 @@ export class PhoneSignInComponent {
   }
 
   loginWithPhone() {
-    // debugger
+    // // debugger
     if (this.isFormValid()) {
       this.getAuth();
     } 

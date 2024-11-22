@@ -8,16 +8,16 @@
       <!-- <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
         aria-hidden="true"></i> -->
     </button>
-    <a [attr.aria-disabled]="postData.ProductType == 'auction' ? false :  'true'"
+    <a [attr.aria-disabled]="postData.product_type == 'auction' ? false :  'true'"
       [routerLink]="postDetialUrl !== 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug"
       class="text-decoration-none pointer-cursor"
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
-      [ngClass]="{'disabled-link': postData.ProductType == 'auction'}">
+      [ngClass]="{'disabled-link': postData.product_type == 'auction'}">
       <figure class="card-top position-relative {{!postData?.photo[0]?.url ? 'falback-css rounded-2':''}}">
         <img loading="lazy" *ngIf="postData?.photo[0]?.url" src={{postData?.photo[0]?.url}}
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
-          <button *ngIf="postData.ProductType =='auction'" class="btn bg-yellow-700 py-1 fs-14 fw-normal text-dark"
+          <button *ngIf="postData.product_type =='auction'" class="btn bg-yellow-700 py-1 fs-14 fw-normal text-dark"
             aria-label="Special Offer">Special
             Offer</button>
         </figcaption>
@@ -29,7 +29,7 @@
       </figure>
 
       <section class="card-bottom pb-1 text-gray-400">
-        <div class="d-flex align-items-center justify-content-between" *ngIf="postData.ProductType =='auction'">
+        <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction'">
           <span class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
             {{postData?.isBid ? postData.calculateRemaningTime + ' remaining' : 'Bid Expired' }}
           </span>
@@ -58,7 +58,7 @@
       </section>
     </a>
   </article>
-  <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}" *ngIf="postData.ProductType == 'auction'"
+  <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}" *ngIf="postData.product_type == 'auction'"
     class="mt-2 btn bg-dark-650 text-white py-2 pointer-cursor rounded-2 w-100 hover-able-btn" aria-label="Bid Now">Bid
     Now</a>
 </div>

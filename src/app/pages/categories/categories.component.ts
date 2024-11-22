@@ -69,6 +69,7 @@ export class CategoriesComponent {
         this.fetchData({ ...this.filters, product_type: this.activeTab });
       } else {
         const category_id = slug.slice(0, slug.indexOf('-'));
+        this.id=category_id
         this.fetchData({
           ...this.filters,
           product_type: this.activeTab,
@@ -134,8 +135,9 @@ export class CategoriesComponent {
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
         if (res && res.data.data) {
-          this.startCountdowns(res.data.data);
           this.data = res.data.data;
+          this.loading = false;
+          this.startCountdowns(res.data.data);
         } else {
           console.log('No data found in response');
         }
@@ -167,20 +169,20 @@ export class CategoriesComponent {
   }
 
   handlesUserWishlist(item: any) {
-    // this.fetchData(this.filters,true)
-    console.log(item, 'item123');
-    this.data.map((prod: any) => {
-      if (item.id == prod.id) {
-        if (!item.user_wishlist) {
-          prod.user_wishlist = {
-            user_id: this.currentUserId,
-            product_id: item.id,
-          };
-        } else {
-          prod.user_wishlist = null;
-        }
-      }
-    });
+    this.fetchData(this.filters,true)
+    // this.data.map((prod: any) => {
+    //   if (item.id == prod.id) {
+    //     console.log(item, 'item123');
+    //     if (!item.user_wishlist) {
+    //       prod.user_wishlist = {
+    //         user_id: this.currentUserId,
+    //         product_id: item.id,
+    //       };
+    //     } else {
+    //       prod.user_wishlist = null;
+    //     }
+    //   }
+    // });
   }
   ngOnDestroy() {
     this.globalStateService.setActiveCategory(0);
