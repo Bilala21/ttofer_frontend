@@ -7,7 +7,7 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from "../../components/card-shimmer/card-shimmer.component";
 import { ActivatedRoute } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Extension } from '../../helper/common/extension/extension';
 
@@ -41,18 +41,19 @@ export class CategoriesComponent{
 
   ngOnInit(): void {
     const savedTab = localStorage.getItem('categoryTab');
+  this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+
     this.activeTab = savedTab ? savedTab : "auction";
     this.getBanners()
     this.route.paramMap.subscribe(params => {
       const slug:any=params.get('slug')
       if (slug.indexOf('-') < 0) {
         this.activeTab = slug;
-        this.fetchData({product_type:this.activeTab})
+        this.fetchData({...this.filters,product_type:this.activeTab})
       }
       else{
         const category_id=slug.slice(0,slug.indexOf('-'))
-        alert(category_id)
-        this.fetchData({product_type:this.activeTab,category_id})
+        this.fetchData({...this.filters,product_type:this.activeTab,category_id})
       }
     })
 
@@ -94,6 +95,7 @@ export class CategoriesComponent{
   }
 
   fetchData(filterCriteria:any, isWishlist:boolean=false) {
+    console.log(filterCriteria,'filters')
     localStorage.setItem('filters', JSON.stringify(filterCriteria));
     console.log(filterCriteria,'filterCriteria1')
     this.filters=filterCriteria
@@ -121,7 +123,7 @@ export class CategoriesComponent{
    startCountdowns(data: []) {
     if (data.length > 0) {
       data.forEach((item: any) => {
-        if (item.ProductType === 'auction') {
+        if (item.product_type === 'auction') {
           const datePart = item.ending_date.split('T')[0];
           const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
           const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {

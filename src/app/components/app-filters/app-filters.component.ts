@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, HostListener, EventEmitter, Output } from '@angular/core';
+import { ChmngeDetectorRef, Component, OnInit, HostListener, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router, RouterLink } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
