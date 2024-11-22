@@ -27,12 +27,10 @@
       </div>
       <div class="d-block d-lg-flex">
         <aside class="product-filter">
-          <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length"/>
+          <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" />
         </aside>
         <!-- PRODUCT SIDE -->
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
-
-
           <div class="w-100 product-main">
             @if (loading) {
             @for (data of [1,2,3,4,5,6,7,8,9];track $index) {
@@ -41,8 +39,6 @@
             </div>
             }
             }
-
-
             <div class="no-data-container" *ngIf="!data.length">
               <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
             </div>
@@ -50,26 +46,8 @@
             <div class="product-card" *ngFor="let post of data">
               <app-product-card [postData]="post" postDetialUrl="product-detail"
                 (handlesUserWishlist)="handlesUserWishlist($event)" />
-              <!-- <app-product-card [postData]="post" postDetialUrl="product-detail" /> -->
             </div>
             }
-            <!-- @if(loading
-            ){ @for(data of [1,2,3,4,5,6,7,8,9];track $index){
-            <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
-              <app-card-shimmer />
-            </div>
-
-            } }@else if( data?.length == 0) {
-
-            <div class="no-data-container">
-              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
-            </div>
-            
-            }@else { @for (post of data; track $index) {
-            <div class="product-card">
-              <app-product-card [postData]="post" postDetialUrl="product-detail" />
-            </div>
-            } } -->
           </div>
 
           <div class="text-center my-5" *ngIf="data?.length > 10">

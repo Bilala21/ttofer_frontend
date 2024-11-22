@@ -23,7 +23,7 @@ $breakpoint-desktop: 1200px;
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  padding-top:36px;
+  padding-top:50px;
   gap: $gap;
   @media (min-width: $breakpoint-desktop) {
     max-width: $breakpoint-desktop;
