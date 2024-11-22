@@ -12,10 +12,8 @@
         ></app-promotion-slider>
       </div> -->
     </div>
-    <div class="d-block d-lg-flex pt-5">
-      <aside class="product-filter pt-4">
-        <app-filters />
-      </aside>
+    <div class="d-block d-lg-flex pt-5">'
+      <app-filters />
       <div class="flex-grow-1 pl-lg-4 xs-px-0">
         <div class="text-center mb-4">
           <button type="button" class="btn py-2 px-3 mr-1 {{activeTab=='auction'?'text-white bg-dark':'border-1'}}"
@@ -31,7 +29,7 @@
           @if(!data?.length){
             @for(data of [1,2,3,4,5,6,7,8,9];track $index){
               <div
-              class="m-1 p-0 border-1 rounded-2 shimmer-card"
+              class="my-1 p-0 border-1 rounded-2 shimmer-card"
               >
               <app-card-shimmer/>
               </div>

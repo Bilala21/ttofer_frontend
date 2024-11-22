@@ -103,25 +103,13 @@ export class BodyComponent implements OnDestroy {
         error: (err) => {},
       });
     }
-    // this.featuredPosts.map((prod: any) => {
-    //   if (item.id == prod.id) {
-    //     if (!item.user_wishlist) {
-    //       prod.user_wishlist = {
-    //         user_id: this.currentUserId,
-    //         product_id: item.id,
-    //       }
-    //     }
-    //     else {
-    //       prod.user_wishlist = null
-    //     }
-    //   }
-    // })
   }
 
   startCountdowns() {
     this.auctionPosts.forEach((item: any) => {
       const datePart = item.ending_date.split('T')[0];
       const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
+      
 
       const subscription = this.countdownTimerService
         .startCountdown(endingDateTime)

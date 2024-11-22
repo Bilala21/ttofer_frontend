@@ -1,5 +1,5 @@
 
-<div *ngIf="categories.length">
+<aside *ngIf="categories.length" class="product-filter">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
         <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
@@ -294,4 +294,4 @@
             </div>
         </div>
     </div>
-</div>
+</aside>

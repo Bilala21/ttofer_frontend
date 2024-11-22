@@ -26,15 +26,13 @@
           (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
       </div>
       <div class="d-block d-lg-flex">
-        <aside class="product-filter">
-          <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" />
-        </aside>
+        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" />
         <!-- PRODUCT SIDE -->
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
           <div class="w-100 product-main">
             @if (loading) {
-            @for (data of [1,2,3,4,5,6,7,8,9];track $index) {
-            <div class="m-1 p-0 border-1 rounded-2 shimmer-card">
+            @for (data of [1,2,3,4,5,6,7,8,];track $index) {
+            <div class="p-0 border-1 rounded-2 shimmer-card">
               <app-card-shimmer />
             </div>
             }
