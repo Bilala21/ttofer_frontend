@@ -146,11 +146,11 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/signup', input).pipe();
   }
   getSelling() {
-    return this.http.get(`${Constants.baseApi}` + '/selling-screen').pipe();
+    return this.http.get(`${Constants.baseApi}` + '/products/selling').pipe();
   }
 
   wishListProduct(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/wishlist-products', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/wishlist/products', input).pipe();
   }
   markAsSold(productId: any) {
     return this.http.get(`${Constants.baseApi}` + '/mark-product-sold/' + productId).pipe();
@@ -228,13 +228,13 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/products/view', data);
   }
   adToCartItem(data: any) {
-    return this.http.post('https://ttoffer.com/backend/public/api/cart/add', data);
+    return this.http.post(`${Constants.baseApi}`+'/cart/add', data);
   }
   getCartPorduct() {
-    return this.http.get('https://ttoffer.com/backend/public/api/cart');
+    return this.http.get(`${Constants.baseApi}`+'/cart');
   }
   removeCartItem(data: any) {
-    return this.http.post('https://ttoffer.com/backend/public/api/cart/remove', data);
+    return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
   }
   otpVerify(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);
