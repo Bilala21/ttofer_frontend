@@ -1975,7 +1975,7 @@
                     'is-invalid': validationErrors['selectedCategoryId']
                   }"
                   [(ngModel)]="selectedCategoryId"
-                  (change)="
+                  (change)="onCategoryChange(selectedCategoryId);
                     getSubcategories(selectedCategoryId);
                     onFieldChange('category')
                   "
@@ -2040,7 +2040,7 @@
            class="categoryFields" >
               <div
                 class="row mt-3"
-                *ngFor="let field of categoryFields[selectedCategoryId]"
+                *ngFor="let field of categoryFields[selectedCategorySlug]"
               >
                 <div
                   class="col-md-6"

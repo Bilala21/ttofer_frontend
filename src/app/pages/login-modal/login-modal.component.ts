@@ -144,7 +144,7 @@ export class LoginModalComponent {
   }
 
   verifyOTP() {
-    // debugger
+    // 
     // Combine the OTP inputs into a single string
     const otp = this.getOtpValue();
 
@@ -188,7 +188,7 @@ export class LoginModalComponent {
     return this.resetPassword.valid;
   }
   forgotPasswordChange() {
-    // debugger
+    // 
     // Combine the OTP inputs into a single string
 
     // Make sure the OTP is complete
@@ -280,7 +280,7 @@ export class LoginModalComponent {
   googleSignIn() {
     this.authService.signInWithGoogle().subscribe({
       next: (result:any) => {
-        // debugger
+        // 
         const user = result.user;
         if (user) {
 
@@ -506,7 +506,7 @@ export class LoginModalComponent {
       this.showForgotBox = false
     },
     (err:any)=>{
-      // debugger
+      // 
       this.toastr.error(err.error.errors?.email?.[0] || 'An error occurred', 'Error');
       this.loading = false
     }
@@ -524,7 +524,7 @@ export class LoginModalComponent {
       
     },
     (err:any)=>{
-      // debugger
+      // 
       this.toastr.error(err.error.errors?.email?.[0] || 'An error occurred', 'Error');
       this.resending = false
     }
@@ -545,7 +545,7 @@ export class LoginModalComponent {
       this.showForgotBox = false
     },
     (err:any)=>{
-      // debugger
+      // 
       this.toastr.error(err.error.msg, 'Error');
       this.loading = false
     }
@@ -556,7 +556,7 @@ export class LoginModalComponent {
     this.showPhoneBox = false
   }
   openForgotEmail() {
-    // debugger
+    // 
     this.showForgotBox = true
     this.showEmailBox = false
   }
@@ -689,7 +689,7 @@ onPaste(event: ClipboardEvent) {
   lastFilledField?.nativeElement.focus();
 }
 getOtpValue(): string {
-// debugger
+// 
   // Map over otpFields to gather values, then join them into a single string
   return this.otpFields.toArray().map(field => field.nativeElement.value).join('');
 }

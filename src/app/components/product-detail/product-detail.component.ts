@@ -218,19 +218,19 @@ export class ProductDetailComponent implements OnInit {
   // }
   private parseAttributes(value: any): any {
     try {
-      ;
       let attributes = JSON.parse(value);
-  
-      // Safely parse attributes
       let parsedAttributes: any = {};
       for (const [key, val] of Object.entries(attributes)) {
+        if (key.includes('_')) {
+          continue;
+        }
+  
         parsedAttributes[key] =
           typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
       }
       return parsedAttributes;
     } catch (error) {
-      console.error('Error parsing attributes:', error);
-      return {}; // Return an empty object in case of an error
+      return {}; 
     }
   }
   
@@ -242,5 +242,6 @@ export class ProductDetailComponent implements OnInit {
       return false;
     }
   }
+  
   
 }

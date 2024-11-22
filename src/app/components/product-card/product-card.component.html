@@ -34,8 +34,10 @@
             {{postData?.isBid ? postData.calculateRemaningTime + ' remaining' : 'Bid Expired' }}
           </span>
         </div>
-        <p class="m-0 pt-2">{{postData.title}}</p>
-
+        <p class="m-0 pt-2">
+          {{ postData.title.length > 33 ? postData.title.slice(0, 33) + '...' : postData.title }}
+        </p>
+        
         <section class="py-2 d-flex align-items-center card-icons">
           <!-- Loop through the parsed attributes dynamically -->
           <div *ngFor="let attribute of getParsedAttributes()">
@@ -52,8 +54,10 @@
 
         <address class="d-flex align-items-center m-0 mb-1">
           <i class="fa fa-map-marker-alt fs-14 mr-2" aria-hidden="true"></i>
-          <span class="fs-14">{{ postData.location?.slice(0, 25) }}...</span>
-        </address>
+          <span class="fs-14">
+            {{ postData.location?.length > 25 ? postData.location.slice(0, 25) + '...' : postData.location }}
+          </span>
+                  </address>
       </section>
     </a>
   </article>

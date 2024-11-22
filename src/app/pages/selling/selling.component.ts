@@ -16,7 +16,7 @@ import { Extension } from '../../helper/common/extension/extension';
   standalone: true,
   templateUrl: './selling.component.html',
   styleUrl: './selling.component.scss',
-  imports: [FormsModule, CommonModule, RouterLink, NgIf, NgClass, NgFor, CardComponent, HeaderComponent, FooterComponent, SellingNotfoundComponent, TabsComponent]
+  imports: [FormsModule, CommonModule, RouterLink, NgIf, NgFor]
 })
 
 export class SellingComponent {
@@ -211,8 +211,9 @@ export class SellingComponent {
   getSelling() {
     this.loading = true
     this.mainServices.getSelling().subscribe((res:any) => {
-      this.sellingList = res.data.selling
-      this.sellingList = this.sellingList.filter((item:any) => {
+      debugger
+      this.sellingList = res.data.selling.data
+      this.sellingList = this.sellingList?.filter((item:any) => {
         return item.id == this.sellingId;
       });
       console.log(this.sellingList)
