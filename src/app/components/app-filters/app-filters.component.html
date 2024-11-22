@@ -1,13 +1,10 @@
-<div *ngIf="loading">
-    <!-- <app-card-shimmer /> -->
-</div>
+
 <div *ngIf="categories.length">
-    <h2 class="fs-20 text-capitalize">{{slug}}{{id}}</h2>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
+        <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
+    </div>
     <div class="fs-18 mb-2 d-flex justify-content-between">
-        <!-- <div *ngIf="globalStateService.productlength"> -->
-            <!-- <strong>{{globalStateService.productlength}}</strong> -->
-            <!-- <span class="pl-1 text-dark-400 fs-14" *ngIf="!globalStateService.productlength">Results Found</span> -->
-        <!-- </div> -->
         <img src="/assets/images/filter-icon.svg" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter"
             style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" />
     </div>
@@ -23,7 +20,7 @@
                     @for (item of categories; track $index) {
                     <div class="d-flex align-items-center mb-3">
                         <input type="radio" class="fs-20" name="category"
-                            [checked]="filterCriteria?.category?.id === item?.id"
+                            [checked]="item?.id == id"
                             (change)="selectCategory(item)">
                         <span class="pl-1 fs-14">{{ item?.name }}</span>
                     </div>
@@ -44,7 +41,7 @@
                         @for (item of subCategories; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="subcate"
-                                [checked]="filterCriteria?.sub_category_id === item.id"
+                                [checked]="filterCriteria?.sub_category_id == item.id"
                                 (change)="handleFilter({ key: 'sub_category_id', value: item.id })">
                             <span class="pl-1 fs-14">{{ item.name }}</span>
                         </div>
@@ -64,7 +61,7 @@
                     </button>
                     <div id="collapseSellerType" class="collapse show" aria-labelledby="sellerType">
                         <div class="card-body p-0 mt-2">
-                            @for (item of categoryWithFilters?.seller_types; track $index) {
+                            @for (item of filter_fields[slugName]?.seller_types; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="radio" class="fs-20" name="seller_type"
                                     [checked]="filterCriteria?.seller_id === item"
@@ -77,7 +74,7 @@
                 </div>
 
                 <!-- CONDITIONS -->
-                @if(!['property for sale','property for rent'].includes(slug)){
+                @if(!['services','jobs','animals'].includes(slugName)){
                 <div class="border-b">
                     <button id="condition" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                         type="button" data-toggle="collapse" data-target="#collapsecondition" aria-expanded="false"
@@ -86,7 +83,7 @@
                     </button>
                     <div id="collapsecondition" class="collapse show" aria-labelledby="condition">
                         <div class="card-body p-0 mt-2">
-                            @for (item of categoryWithFilters?.conditions; track $index) {
+                            @for (item of filter_fields[slugName]?.conditions; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="radio" class="fs-20" name="condition"
                                     [checked]="filterCriteria?.condition === item"
@@ -108,12 +105,12 @@
                     <div id="collapsebedrooms" class="collapse show" aria-labelledby="bedrooms">
                         <div class="card-body p-0 mt-2">
                             <div class="d-flex align-items-center mb-3">
-                                <input type="number" class="fs-14 form-control" name="bedrooms"
+                                <input type="number" class="fs-14 form-control" min="1" name="bedrooms"
                                     placeholder="Enter how much berroms?">
                             </div>
-                            @for (item of categoryWithFilters?.bedrooms; track $index) {
+                            @for (item of filter_fields[slugName]?.bedrooms; track $index) {
                             <div class="d-fle align-items-center mb-3 d-none">
-                                <input type="radio" class="fs-20" name="bedrooms"
+                                <input type="radio" class="fs-20" min="1" name="bedrooms"
                                     (change)="handleFilter({key:'bedrooms',value:item})">
                                 <span class="pl-1 fs-14 text-capitalize">{{item}} Bedrooms</span>
                             </div>
@@ -134,7 +131,7 @@
                                 <input type="number" class="fs-14 form-control" name="bathrooms"
                                     placeholder="Enter how much bathrooms?">
                             </div>
-                            @for (item of categoryWithFilters?.bathrooms; track $index) {
+                            @for (item of filter_fields[slugName]?.bathrooms; track $index) {
                             <div class="d-fle align-items-center mb-3 d-none">
                                 <input type="radio" class="fs-20" name="bathrooms"
                                     (change)="handleFilter({key:'bathrooms',value:item})">
@@ -145,7 +142,7 @@
                     </div>
                 </div>
                 <!-- Area size -->
-                <div class="border-b" *ngIf="id=='4'">
+                <div class="border-b" *ngIf="slugName==='property-for-rent'">
                     <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                         type="button" data-toggle="collapse" data-target="#collapserent_is_paid" aria-expanded="false"
                         aria-controls="collapserent_is_paid">
@@ -153,7 +150,7 @@
                     </button>
                     <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
                         <div class="card-body p-0 mt-2">
-                            @for (item of categoryWithFilters?.rent_is_paid; track $index) {
+                            @for (item of filter_fields[slugName]?.rent_is_paid; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="radio" class="fs-20" name="rent_is_paid"
                                     (change)="handleFilter({key:'rent_is_paid',value:item})">
@@ -173,7 +170,7 @@
                     </button>
                     <div id="collapsetypeofwork" class="collapse show" aria-labelledby="typeofwork">
                         <div class="card-body p-0 mt-2">
-                            @for (item of categoryWithFilters?.typeofwork; track $index) {
+                            @for (item of filter_fields[slugName]?.typeofwork; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="radio" class="fs-20" name="typeofwork"
                                     (change)="handleFilter({key:'typeofwork',value:item})">
@@ -227,7 +224,7 @@
                             @for (item of locations; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="checkbox" class="fs-20" name="location"
-                                    [checked]="filterCriteria?.location.includes(item)"
+                                    [checked]="filterCriteria?.location?.includes(item)?true:false"
                                     (change)="handleFilter({key:'location',value:item})">
                                 <span class="pl-1 fs-14">{{item}}</span>
                             </div>
@@ -280,13 +277,13 @@
 
                         <div class="d-flex align-items-center price-box mb-3 d-none">
                             <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                <input type="text"  placeholder="200" [(ngModel)]="minValue"
+                                <input type="text"  placeholder="200" [(ngModel)]="minValue" min="1"
                                     class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
                                     >
                                 <span class="fs-12 text-dark-400">AED</span>
                             </div>
                             <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                <input type="text" placeholder="300" [(ngModel)]="highValue"
+                                <input type="text" placeholder="300" [(ngModel)]="highValue" min="1"
                                     class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
                                     >
                                 <span class="fs-12 text-dark-400">AED</span>
