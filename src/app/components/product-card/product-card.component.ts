@@ -113,7 +113,7 @@ export class ProductCardComponent {
   
   private parseAttributes(value: any): any {
     try {
-      debugger
+      // debugger
       const attributes = JSON.parse(value); // Parse the JSON string
       const attributes2 = JSON.parse(attributes); // Parse the JSON string
 
