@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -13,80 +18,90 @@ import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { RightSideComponent } from './right-side/right-side.component';
 
-
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [RightSideComponent, RouterLink, GalleriaModule, SharedModule, NgIf, GoogleMapsModule, RouterLink, MakeOfferModalComponent, NgIf, CardShimmerComponent],
+  imports: [
+    RightSideComponent,
+    RouterLink,
+    GalleriaModule,
+    SharedModule,
+    NgIf,
+    GoogleMapsModule,
+    RouterLink,
+    MakeOfferModalComponent,
+    NgIf,
+    CardShimmerComponent,
+  ],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss'
+  styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
   screenWidth: number;
   screenHeight: number;
-  
-  productId: any = null
+
+  productId: any = null;
   product: any = {};
-  attributes: any = {}
-  currentUser: any = {}
-  loading: boolean = false
+  attributes: any = {};
+  currentUser: any = {};
+  loading: boolean = false;
   currentUserid: any;
   parsedAttributes: { [key: string]: string | number } = {};
 
-  isFullScreen = false
+  isFullScreen = false;
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom = 15; // Adjust zoom level to your preference
   markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   markerOptions: google.maps.MarkerOptions = { draggable: false };
-  images: any = [
-
-  ];
+  images: any = [];
   position: string = 'left';
   responsiveOptions = [
     {
       breakpoint: '1024px',
-      numVisible: 5
+      numVisible: 5,
     },
     {
       breakpoint: '768px',
-      numVisible: 4
+      numVisible: 4,
     },
     {
       breakpoint: '560px',
-      numVisible: 4
-    }
+      numVisible: 4,
+    },
   ];
 
-  constructor(private cdRef: ChangeDetectorRef, private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
-    private route: ActivatedRoute, public extension: Extension,
-    private mainServices: MainServicesService,
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private router: Router,
+    private globalStateService: GlobalStateService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    public extension: Extension,
+    private mainServices: MainServicesService
   ) {
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
   }
 
-  ngOnInit():any {
-    this.productId = this.route.snapshot.paramMap.get('id')!;
-    this.loading = true;
-  
-    this.mainServices.getProductById({ product_id: this.productId }).subscribe({
+  fetchData(productId: number) {
+    this.mainServices.getProductById({ product_id: productId }).subscribe({
       next: (value) => {
         // ;
         this.product = value.data;
-  
-         this.attributes = JSON.parse(value.data.attributes);
-        this.parsedAttributes=this.parseAttributes(this.attributes)
+        this.attributes = JSON.parse(value.data.attributes);
+        this.parsedAttributes = this.parseAttributes(this.attributes);
         const lat = Number(this.product.latitude);
         const lng = Number(this.product.longitude);
-  
+
         if (!isNaN(lat) && !isNaN(lng)) {
           this.center = { lat, lng };
-          this.markerPosition = this.center; // Marker positioned at the center
+          this.markerPosition = this.center;
         } else {
           console.error('Invalid latitude or longitude:', { lat, lng });
         }
-  
+
         this.loading = false;
       },
       error: (err) => {
@@ -95,7 +110,11 @@ export class ProductDetailComponent implements OnInit {
       },
     });
   }
-  
+  ngOnInit(): any {
+    this.productId = this.route.snapshot.paramMap.get('id')!;
+    this.loading = true;
+    this.fetchData(this.productId);
+  }
 
   productView() {
     const productViewDetail = {
@@ -104,11 +123,8 @@ export class ProductDetailComponent implements OnInit {
     }
     // 
     this.mainServices.storeProductView(productViewDetail).subscribe({
-      next: (value) => {
-
-      }
-
-    })
+      next: (value) => {},
+    });
   }
 
   toggleWishlist(item: any) {
@@ -119,25 +135,20 @@ export class ProductDetailComponent implements OnInit {
     }
     let input = {
       user_id: this.currentUserid,
-      product_id: item.id
+      product_id: item.id,
     };
 
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
-        if (res.success) {
+        if (res.status) {
           this.toastr.success(res.message, 'Success');
-          if (item.id == this.product.id) {
-            this.product.user_wishlist = !item.user_wishlist ? {
-              user_id: this.currentUserid,
-              product_id: item.id,
-            } : null
-          }
+          this.fetchData(item.id);
         }
       },
       error: (err) => {
         const error = err.error.message;
         this.toastr.error(error, 'Error');
-      }
+      },
     });
   }
 
@@ -156,25 +167,21 @@ export class ProductDetailComponent implements OnInit {
       next: (res: any) => {
         this.toastr.warning(res.message, 'success');
       },
-      error: (err) => {
-
-      },
-    })
+      error: (err) => {},
+    });
     const storedData = localStorage.getItem('key');
     if (!storedData) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
 
       this.authService.triggerOpenModal();
       return;
+    } else {
+      this.globalStateService.updateCart(product);
     }
-    else {
-      this.globalStateService.updateCart(product)
-    }
-
   }
 
   handleProductQty(event: any, product: any) {
-    this.globalStateService.updateCart({ ...product, quantity: event.value })
+    this.globalStateService.updateCart({ ...product, quantity: event.value });
   }
 
   contactSeller(product: any, user: any): void {
@@ -194,6 +201,15 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  showOfferModal(modal_type: string) {
+    const storedData = localStorage.getItem('key');
+    if (!storedData) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
+    this.globalStateService.setOfferModal(modal_type)
+  }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
@@ -224,7 +240,7 @@ export class ProductDetailComponent implements OnInit {
       return {}; 
     }
   }
-  
+
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);

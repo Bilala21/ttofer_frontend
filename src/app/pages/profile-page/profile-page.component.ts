@@ -1093,7 +1093,7 @@ export class ProfilePageComponent {
         const fileExtension = file.name.split('.').pop()?.toLowerCase();           
         if (allowedExtensions.includes(fileExtension || '')) {
           this.imageFilesAbc.push(file);
-          this.readFileAsDataURL(file); // Process the file
+          this.readFileAsDataURL(file); 
         } else {
           this.validationErrors['uploadImage'] = 
             'Only .png and .jpg files are allowed.';
@@ -1104,7 +1104,6 @@ export class ProfilePageComponent {
     }
     this.validateForm();
   }
-  
   readFileAsDataURL(file: File) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -1140,7 +1139,6 @@ export class ProfilePageComponent {
       id: file.id,
       product_id: file.product_id,
     };
-
     this.mainServices.deleteProductImage(input).subscribe((res) => {
       this.toastr.success('Product image deleted successfully', 'Success');
       if (this.editProductData) {
@@ -1156,7 +1154,6 @@ export class ProfilePageComponent {
       }
     });
   }
-
   async updateProductImage() {
     this.imageloading = true;
     let formData = new FormData();
@@ -1167,7 +1164,6 @@ export class ProfilePageComponent {
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
     );
-
     try {
       const token = localStorage.getItem('authToken');
       const response = await fetch(
@@ -1180,7 +1176,6 @@ export class ProfilePageComponent {
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         this.EditImageFilesAbc = [];
@@ -1213,7 +1208,7 @@ export class ProfilePageComponent {
           method: 'POST',
           body: formData,
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
@@ -1228,7 +1223,6 @@ export class ProfilePageComponent {
       this.imageloading = false;
     }
   }
-
   confirmSelection(): void {
     if (
       this.selectedImageIndex > -1 &&
@@ -1237,10 +1231,8 @@ export class ProfilePageComponent {
      
     }
   }
-
   selectedVideos: Array<{ url: string }> = [];
-  selectedVideo: any | null = null;
-
+  selectedVideo: any | null = null
   onVideosSelected(event: any): void {
     const files = event.target.files;
     for (let file of files) {
@@ -1267,7 +1259,6 @@ export class ProfilePageComponent {
       this.selectedVideo = { url: videoURL, file: file };
     }
   }
-
   removeVideo(): void {
     this.selectedVideo = null; 
   }
@@ -1283,7 +1274,6 @@ export class ProfilePageComponent {
       this.selectedVideoIndex = -1; 
     }
   }
-
   confirmVideoSelection(): void {
     if (
       this.selectedVideoIndex > -1 &&
@@ -1660,7 +1650,6 @@ export class ProfilePageComponent {
       });
   }
   validateForm(): boolean {
-    // ;
     this.validationErrors = {};
     if (!this.title) {
       this.validationErrors['title'] = 'Please add a title.';
@@ -1678,14 +1667,12 @@ export class ProfilePageComponent {
     if (this.selectedFiles.length == 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
-
     const requiredFields = this.categoryFields[this.selectedCategorySlug] || [];
     requiredFields.forEach((field) => {
       if (!this.attributes[field.model]) {
         this.validationErrors[field.model] = `${field.label} is required.`;
       }
     });
-
     switch (this.pricingCatId) {
       case 'Auction':
         if (!this.startingPrice) {
@@ -2104,25 +2091,24 @@ export class ProfilePageComponent {
     const date = (event.target as HTMLInputElement).value;
     const selectedDate = date ? new Date(date) : new Date();
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time for comparison
-    selectedDate.setHours(0, 0, 0, 0); // Ensure no time component for comparison
+    today.setHours(0, 0, 0, 0); 
+    selectedDate.setHours(0, 0, 0, 0); 
     if (selectedDate < today) {
-      event.target.value = ''; // Clear the input field
-      return new Date(); // Return the current date as a fallback
+      event.target.value = '';
+      return new Date(); 
     }
     if (type === 'end' && this.startingDate) {
       const startingDate = new Date(this.startingDate);
-      startingDate.setHours(0, 0, 0, 0); // Reset time for comparison
+      startingDate.setHours(0, 0, 0, 0); 
       if (selectedDate < startingDate) {
         this.toastr.error(
           'Ending date cannot be earlier than the starting date.',
           'Error'
         );
-        event.target.value = ''; // Clear the ending date input
-        return this.startingDate; // Return the starting date as fallback
+        event.target.value = ''; 
+        return this.startingDate; 
       }
     }
-
     return selectedDate;
   }
   getTomorrowDate(): string {
