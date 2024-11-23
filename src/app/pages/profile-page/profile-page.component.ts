@@ -521,7 +521,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '2': [
+    'electronics-appliances': [
       {
         label: 'Brand',
         type: 'select',
@@ -551,7 +551,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '3': [
+    'property-for-rent': [
       {
         label: 'Year Built',
         type: 'input',
@@ -755,7 +755,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '7': [
+    'job': [
       {
         label: 'Type',
         type: 'select',
@@ -805,24 +805,12 @@ export class ProfilePageComponent {
         options: this.careerLevelList,
       },
     ],
-    '9': [
+    'fashion-beauty': [
       {
-        label: 'Choose Type',
-        type: 'select',
-        model: 'type',
-        options: this.fashionTypeList,
-      },
-      {
-        label: 'Condition',
-        type: 'select',
-        model: 'condition',
-        options: this.conditionList,
-      },
-      {
-        label: 'Color',
-        type: 'select',
-        model: 'color',
-        options: this.colorList,
+        label: 'Product Description',
+        type: 'input',
+        model: 'description',
+        placeholder:'Product Description',
       },
       {
         label: 'Delivery Type',
@@ -835,14 +823,13 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '11': [
+    'kids': [
       {
         label: 'Condition',
         type: 'select',
         model: 'condition',
         options: this.conditionKidsList,
       },
-      { label: 'Toy', type: 'input', model: 'toy', placeholder: 'Toy' },
       {
         label: 'Delivery Type',
         type: 'select',
@@ -854,13 +841,16 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '12': [
-      { label: 'Age', type: 'select', model: 'age', options: this.ageList },
+    'animals': [
+      { label: 'Age',
+        type: 'select',
+        model: 'age', 
+        options: this.ageList },
       {
         label: 'Breed',
-        type: 'select',
+        type: 'input',
         model: 'breed',
-        options: this.breedList,
+        placeholder:'Breed',
       },
       {
         label: 'Delivery Type',
@@ -902,7 +892,6 @@ export class ProfilePageComponent {
       title: ['', Validators.required],
       description: ['', Validators.required],
     });
-    console.log(this.categoryForm, 'this.pricingCatId');
     let currentTab: any = localStorage.getItem('currentTab');
 
     if (
@@ -977,7 +966,6 @@ export class ProfilePageComponent {
         }
       },
       (error) => {
-        console.error('Error fetching categories:', error); // Handle error
       }
     );
   }
@@ -998,10 +986,6 @@ export class ProfilePageComponent {
         }
       });
     }
-  }
-
-  showfor() {
-    console.log(this.categoryForm);
   }
   showOtp() {
     this.showOTPBox = true;
@@ -1026,7 +1010,6 @@ export class ProfilePageComponent {
     this.showDiv = true;
   }
   onSelectImage(event: any) {
-    console.log(event);
     this.imagesFiles.push(...event.addedFiles);
   }
   copyCustomLink() {
@@ -1038,24 +1021,14 @@ export class ProfilePageComponent {
         );
       })
       .catch((err) => {
-        console.error('Could not copy text: ', err);
       });
   }
-
-  // handleInputChange() {
-  //   console.log('Starting Time:', this.startingTime);
-  //   console.log('Ending Time:', this.endingTime);
-  //   console.log('Starting Date:', this.startingDate);
-  //   console.log('Ending Date:', this.endingDate);
-  // }
-
   selectTab(tab: string) {
     this.selectedTab = tab;
     localStorage.setItem('currentTab', this.selectedTab);
     this.showDiv = false;
     this.showMore = false;
   }
-
   toggleActive(buttonIndex: number) {
     this.activeButton = buttonIndex;
   }
@@ -1065,17 +1038,8 @@ export class ProfilePageComponent {
   sellingList: any = [];
   sellingListTemp: any = [];
   purchaseListTemp: any = [];
-  purchaseSale: any[] = [
-    // { img: 'assets/images/light-clothes-img.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img2.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img3.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-clothes-img.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img2.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img3.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-  ];
-
+  purchaseSale: any[] = [];
   savedItems: any = [];
-
   paymentDeposit: any[] = [
     {
       img: 'assets/images/Applelogo.svg',
@@ -1108,34 +1072,10 @@ export class ProfilePageComponent {
       id: 'flexRadioDefault2',
     },
   ];
-
   selectedFiles: Array<{ src: string }> = [];
   selectedImagesList: File[] = [];
   selectedImageIndex: number = -1;
   selectedVideoIndex: number = -1;
-
-  // onFilesSelected(event: any): void {
-
-  //   const files = event.target.files;
-  //   this.selectedImagesList.push(files[0])
-  //   for (let file of files) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.selectedFiles.push({ src: e.target.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // onFileSelected(event: Event) {
-  //
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files) {
-  //     this.filesabc = Array.from(input.files);
-  //   } else {
-  //     this.filesabc = [];
-  //   }
-  // }
   onEditFileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
@@ -1145,47 +1085,23 @@ export class ProfilePageComponent {
       this.updateProductImage();
     }
   }
-  // onFileChange(event: any) {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     for (let i = 0; i < event.target.files.length; i++) {
-  //       this.imageFilesAbc.push(event.target.files[i]);
-  //       this.readFileAsDataURL(event.target.files[i]);
-  //     }
-  //   }
-  // }
-  // readFileAsDataURL(file: File) {
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     this.selectedFiles.push({ src: reader.result as string });
-  //     this.validateForm();
-  //   };
-  //   reader.readAsDataURL(file);
-  // }
   onFileChange(event: any) {
     const allowedExtensions = ['png', 'jpg','jpeg'];
-    //this.validationErrors = {}; // Clear previous errors
-  
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
         const file = event.target.files[i];
-        console.log(file);
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();
-           
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();           
         if (allowedExtensions.includes(fileExtension || '')) {
           this.imageFilesAbc.push(file);
           this.readFileAsDataURL(file); // Process the file
         } else {
-          // Add validation error for invalid file type
           this.validationErrors['uploadImage'] = 
             'Only .png and .jpg files are allowed.';
         }
       }
     } else {
-      // Set validation error if no files are uploaded
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
-  
-    // Validate the form state after handling file changes
     this.validateForm();
   }
   
@@ -1193,8 +1109,7 @@ export class ProfilePageComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedFiles.push({ src: reader.result as string });
-      // this.validateForm();
-      this.validateForm(); // Validate the form after successfully reading the file
+      this.validateForm(); 
     };
     reader.readAsDataURL(file);
   }
@@ -1205,26 +1120,12 @@ export class ProfilePageComponent {
     };
     reader.readAsDataURL(file);
   }
-  // onFilesSelected(event: any): void {
-  //
-  //   const files = event.target.files;
-  //   for (let file of files) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.selectedFiles.push({ url: e.target.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
   selectImage(index: number): void {
     this.selectedImageIndex = index;
   }
-
   openMore() {
     this.showMore = !this.showMore;
   }
-
   deleteSelectedImage(): void {
     if (
       this.selectedImageIndex > -1 &&
@@ -1241,44 +1142,27 @@ export class ProfilePageComponent {
     };
 
     this.mainServices.deleteProductImage(input).subscribe((res) => {
-      //
       this.toastr.success('Product image deleted successfully', 'Success');
-
       if (this.editProductData) {
-        // Retrieve existing editProductData from localStorage
         const editProductDataStr = localStorage.getItem('editProduct');
         if (editProductDataStr) {
-          // Parse the existing data
           const editProductData = JSON.parse(editProductDataStr);
-
-          // Filter the photo array to remove the photo with the specified id
           editProductData.photo = editProductData.photo.filter(
             (photo: any) => photo.id !== input.id
           );
-
-          // Save the updated object back to localStorage
           localStorage.setItem('editProduct', JSON.stringify(editProductData));
-
-          // Update the local instance if necessary
           this.editProductData = editProductData; // Optional, if you want to keep it in sync
         }
       }
-
-      console.log(res);
     });
   }
 
   async updateProductImage() {
     this.imageloading = true;
-
     let formData = new FormData();
-
-    // Append image files to formData
     this.EditImageFilesAbc.forEach((file, index) => {
       formData.append(`src[]`, file, file.name);
     });
-
-    // Append product ID
     formData.append(
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
@@ -1286,8 +1170,6 @@ export class ProfilePageComponent {
 
     try {
       const token = localStorage.getItem('authToken');
-
-      // Fetch request to upload the image
       const response = await fetch(
         'https://www.ttoffer.com/backend/public/api/upload-image',
         {
@@ -1302,63 +1184,45 @@ export class ProfilePageComponent {
       if (response.ok) {
         const data = await response.json();
         this.EditImageFilesAbc = [];
-        //
         this.imageloading = false;
         localStorage.setItem('editProduct', JSON.stringify(data.data));
         this.editProductData = localStorage.getItem('editProduct');
         this.editProductData = JSON.parse(this.editProductData);
       } else {
-        console.error('Image upload failed', await response.json());
       }
     } catch (error) {
-      // Handle fetch error
-      console.error('Image upload failed', error);
     } finally {
       this.imageloading = false;
     }
   }
   async addProductImage() {
     this.imageloading = true;
-
     let formData = new FormData();
-
-    // Append image files to formData
     this.imageFilesAbc.forEach((file, index) => {
       formData.append(`src[]`, file, file.name);
     });
-
-    // Append product ID
     formData.append(
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
     );
-
     try {
       const token = localStorage.getItem('authToken');
-
-      // Fetch request to upload the image
       const response = await fetch(
         'https://www.ttoffer.com/backend/public/api/upload-image',
         {
           method: 'POST',
           body: formData,
           headers: {
-            // 'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
         }
       );
-
-      // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
       } else {
         this.loading = false;
-        console.error('Image upload failed', await response.json());
       }
     } catch (error) {
-      // Handle fetch error
-      console.error('Image upload failed', error);
     } finally {
       this.loading = false;
       this.imageloading = false;
@@ -1370,10 +1234,7 @@ export class ProfilePageComponent {
       this.selectedImageIndex > -1 &&
       this.selectedImageIndex < this.selectedFiles.length
     ) {
-      console.log(
-        'Image selected:',
-        this.selectedFiles[this.selectedImageIndex]
-      );
+     
     }
   }
 
@@ -1389,16 +1250,11 @@ export class ProfilePageComponent {
   }
   onVideoSelected(event: any): void {
     const file = event.target.files[0];
-
-    // Check if a video is already selected
     if (this.selectedVideo) {
       this.toastr.error('You cannot upload more than one video.', 'Error');
       return;
     }
-
-    // Check if the file exists
     if (file) {
-      // Check the file size (20 MB limit)
       const maxFileSize = 20 * 1024 * 1024; // 20 MB in bytes
       if (file.size > maxFileSize) {
         this.toastr.error(
@@ -1407,26 +1263,24 @@ export class ProfilePageComponent {
         );
         return;
       }
-
       const videoURL = URL.createObjectURL(file);
       this.selectedVideo = { url: videoURL, file: file };
     }
   }
 
   removeVideo(): void {
-    this.selectedVideo = null; // Clear the selected video
+    this.selectedVideo = null; 
   }
   selectVideo(index: number): void {
     this.selectedVideoIndex = index;
   }
-
   deleteSelectedVideo(): void {
     if (
       this.selectedVideoIndex > -1 &&
       this.selectedVideoIndex < this.selectedVideos.length
     ) {
       this.selectedVideos.splice(this.selectedVideoIndex, 1);
-      this.selectedVideoIndex = -1; // Reset selection
+      this.selectedVideoIndex = -1; 
     }
   }
 
@@ -1435,14 +1289,9 @@ export class ProfilePageComponent {
       this.selectedVideoIndex > -1 &&
       this.selectedVideoIndex < this.selectedVideos.length
     ) {
-      // Perform any action needed on selection
-      console.log(
-        'Video selected:',
-        this.selectedVideos[this.selectedVideoIndex]
-      );
+      
     }
   }
-
   openModal() {
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -1456,7 +1305,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeModal() {
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -1471,7 +1319,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openNewCardModal() {
     const modal = document.getElementById('newCardModal');
     if (modal) {
@@ -1485,7 +1332,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeNewCardModal() {
     const modal = document.getElementById('newCardModal');
     if (modal) {
@@ -1500,7 +1346,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   closeUserNameModal() {
     const modal = document.getElementById('userNameModal');
     if (modal) {
@@ -1515,7 +1360,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openNumberModal() {
     const modal = document.getElementById('numberModal');
     if (modal) {
@@ -1529,7 +1373,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeNumberModal() {
     const modal = document.getElementById('numberModal');
     if (modal) {
@@ -1544,7 +1387,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openEmailModal() {
     const modal = document.getElementById('emailModal');
     if (modal) {
@@ -1571,7 +1413,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeVerifyEmailModal() {
     const modal = document.getElementById('verifyEmailModal');
     if (modal) {
@@ -1586,7 +1427,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openVerifyPhoneModal() {
     const modal = document.getElementById('verifyPhoneModal');
     if (modal) {
@@ -1600,7 +1440,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeVerifyPhoneModal() {
     const modal = document.getElementById('verifyPhoneModal');
     if (modal) {
@@ -1615,7 +1454,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   closeEmailModal() {
     const modal = document.getElementById('emailModal');
     if (modal) {
@@ -1643,7 +1481,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closePasswordModal() {
     const modal = document.getElementById('passwordModal');
     if (modal) {
@@ -1658,7 +1495,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openLocationModal() {
     const modal = document.getElementById('locationModal');
     if (modal) {
@@ -1672,7 +1508,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeLocationModal() {
     const modal = document.getElementById('locationModal');
     if (modal) {
@@ -1687,7 +1522,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1701,7 +1535,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1716,7 +1549,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openBoostPlanModal() {
     const modal = document.getElementById('boostModal');
     if (modal) {
@@ -1730,7 +1562,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeBoostPlanModal() {
     const modal = document.getElementById('boostModal');
     if (modal) {
@@ -1746,22 +1577,18 @@ export class ProfilePageComponent {
     }
   }
   onImageUpload(event: any): void {
-    //
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
     }
     this.updateProfile();
   }
-
   updateProfile(): void {
     if (this.selectedFile) {
       let formData = new FormData();
-      console.log(this.selectedFile);
       formData.append('user_id', this.currentUserId.toString());
       formData.append('img', this.selectedFile);
       let url = `https://ttoffer.com/backend/public/api/update/user`;
-      let token = localStorage.getItem('authToken');
-
+      let token = localStorage.getItem('authToken')
       fetch(url, {
         method: 'POST',
         headers: {
@@ -1789,20 +1616,11 @@ export class ProfilePageComponent {
         });
     }
   }
-
   UpdateLocalUserData(data: any) {
     const jsonString = JSON.stringify(data);
     localStorage.setItem('key', jsonString);
     this.getCurrentUser();
   }
-
-  // triggerFileInput(): void {
-  //   const fileInput = document.getElementById(
-  //     'image-upload'
-  //   ) as HTMLInputElement;
-  //   fileInput.click();
-  // }
-
   EditProductFirstStep() {
     let formData = new FormData();
     this.filesabc.forEach((file) => formData.append('video', file, file.name));
@@ -1834,13 +1652,11 @@ export class ProfilePageComponent {
     )
       .then((response) => response.json()) // Convert the response to JSON
       .then((data) => {
-        console.log('File upload successful', data);
         this.productId = data.product_id;
         this.EditProductSeccondStep(); // Call the next step if upload is successful
       })
       .catch((error) => {
         this.isLoading = false;
-        console.error('File upload failed', error);
       });
   }
   validateForm(): boolean {
@@ -1907,10 +1723,8 @@ export class ProfilePageComponent {
       default:
         break;
     }
-
     return Object.keys(this.validationErrors).length === 0;
   }
-
   onFieldChange(fieldModel: string): void {
     if (this.validationErrors[fieldModel]) {
       delete this.validationErrors[fieldModel];
@@ -1921,19 +1735,13 @@ export class ProfilePageComponent {
     lng: number;
     address: string;
   }): void {
-    // ;
-    // Use the location data as needed
     this.locationId = location;
   }
-
-  async addCompleteProduct() {
-    
+  async addCompleteProduct() {   
     if (!this.validateForm()) {
       return;
     }
-
     this.isLoading = true;
-
     let formData = new FormData();
     formData.append(
       'user_id',
@@ -1941,7 +1749,6 @@ export class ProfilePageComponent {
     );
     formData.append('title', this.title || '');
     formData.append('description', this.description || '');
-
     if (this.selectedVideo?.file) {
       formData.append(
         'video',
@@ -1949,14 +1756,11 @@ export class ProfilePageComponent {
         this.selectedVideo.file.name
       );
     }
-
     this.imageFilesAbc.forEach((file) => {
       formData.append('image[]', file, file.name);
     });
-
     formData.append('category_id', this.selectedCategoryId.toString());
     formData.append('sub_category_id', this.selectedSubCategoryId.toString());
-    // ;
     const mainCategory = String(
       this.getCategoryNameById(this.selectedCategoryId) || ''
     );
@@ -1998,8 +1802,7 @@ export class ProfilePageComponent {
       formData.append(
         'auction_ending_date',
         this.endingDate ? this.endingDate.toISOString().split('T')[0] : ''
-      );
-      
+      ); 
       formData.append(
         'auction_starting_time',
         this.startingTime.toString() || ''
@@ -2031,14 +1834,12 @@ export class ProfilePageComponent {
         this.toastr.error('Product creation failed', 'Error');
       }
     } catch (error) {
-      console.error('An error occurred while adding the product:', error);
       this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
       this.isLoading = false;
     }
   }
   getCategoryNameById(categoryId: number): string {
-    // ;
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
   }
@@ -2048,8 +1849,6 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
- 
-  
   EditProductSeccondStep() {
     try {
       let input = {
@@ -2070,15 +1869,12 @@ export class ProfilePageComponent {
       this.mainServices.editProductSecondStep(input).subscribe(
         (res) => {
           this.EditProductThirdStep();
-          console.log(res);
         },
         (error) => {
-          console.error(error);
           this.isLoading = false;
         }
       );
     } catch (error) {
-      console.error(error);
       this.isLoading = false;
     }
   }
@@ -2101,7 +1897,8 @@ export class ProfilePageComponent {
           ending_time: this.editEndingTime.toString(),
           final_price: this.edit_final_price,
         };
-      } else if (this.editpricingCatId === 'FixedPrice') {
+      }
+     else if (this.editpricingCatId === 'FixedPrice') {
         input = {
           productType: 'featured',
           product_id: this.productId,
@@ -2112,7 +1909,6 @@ export class ProfilePageComponent {
         input = {
           productType: 'other',
           product_id: this.productId,
-          // fix_price: this.price,
         };
       }
       this.mainServices.editProductThirdStep(input).subscribe(
@@ -2120,12 +1916,10 @@ export class ProfilePageComponent {
           this.editProductLastStep();
         },
         (error) => {
-          console.error(error);
           this.isLoading = false;
         }
       );
     } catch (error) {
-      console.error(error);
       this.isLoading = false;
     }
   }
@@ -2140,17 +1934,14 @@ export class ProfilePageComponent {
         (res: any) => {
           localStorage.removeItem('editProduct');
           this.toastr.success('Product updated successfully', 'Success');
-          console.log(res);
           this.isLoading = false;
           this.router.navigate(['']);
         },
         (error) => {
-          console.error(error);
           this.isLoading = false;
         }
       );
     } catch (error) {
-      console.error(error);
       this.isLoading = false;
     }
   }
@@ -2162,7 +1953,6 @@ export class ProfilePageComponent {
     this.mainServices.getSelling().subscribe({
       next: (res: any) => {
         this.sellingList = res;
-        console.log(res);
         this.loading = false;
         this.soldList = res.data?.archive.data;
         this.purchaseListTemp = res.data?.buying.data;
@@ -2196,7 +1986,7 @@ export class ProfilePageComponent {
         this.allowRating = this.currentUserProfile.Id == this.currentUserId;
         this.imageUrl = this.currentUserProfile.img;
       } else {
-        console.warn('localStorage is not available.');
+
       }
     }
   }
@@ -2279,7 +2069,6 @@ export class ProfilePageComponent {
     if (updateMethods[field]) {
       updateMethods[field]().subscribe({
         next: (res: any) => {
-          console.log(res);
           const jsonString = JSON.stringify(res.data);
           localStorage.setItem('key', jsonString);
           this.getCurrentUser();
@@ -2288,13 +2077,11 @@ export class ProfilePageComponent {
           this.toastr.success('Updated Successfully', 'Success');
         },
         error: (error: any) => {
-          console.error(error);
           this.loading = false;
           this.isDisabled = false;
         },
       });
     } else {
-      console.error(`No method found for updating ${field}`);
       this.loading = false;
       this.isDisabled = false;
     }
@@ -2307,7 +2094,7 @@ export class ProfilePageComponent {
       (res: any) => {
         this.savedItems = res.data;
         this.savedItems.isAuction =
-          this.savedItems.fix_price == null ? true : false;
+        this.savedItems.fix_price == null ? true : false;
       },
       (err: any) => {}
     );
@@ -2338,7 +2125,6 @@ export class ProfilePageComponent {
 
     return selectedDate;
   }
-
   getTomorrowDate(): string {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -2422,7 +2208,6 @@ export class ProfilePageComponent {
       date = new Date(date);
     }
     if (!(date instanceof Date) || isNaN(date.getTime())) {
-      console.error('Invalid date object passed:', date);
       return ''; // Return an empty string or a default value
     }
     const year = date.getFullYear();
@@ -2439,6 +2224,7 @@ export class ProfilePageComponent {
     const utcMinutes = String(now.getUTCMinutes()).padStart(2, '0');
     return `${utcHours}:${utcMinutes}`;
   }
+
   getMinTime(type: 'start' | 'end'): string {
     const todayDate = this.getTodayDate();
     if (type === 'start') {
@@ -2482,9 +2268,7 @@ export class ProfilePageComponent {
       custom_link: this.customLink,
     };
     this.mainServices.customLink(input).subscribe((res: any) => {
-      res;
       this.showSuccessMessage(res.message);
-      console.log('customLInt', res);
     });
   }
   onLocationFound(location: string) {

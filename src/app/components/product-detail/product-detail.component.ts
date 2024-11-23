@@ -194,15 +194,6 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  showOfferModal(modal_type: string) {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    }
-    this.globalStateService.setOfferModal(modal_type)
-  }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
