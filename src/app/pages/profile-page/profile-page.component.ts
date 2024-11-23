@@ -79,6 +79,7 @@ export interface CategoryField {
   ],
 })
 export class ProfilePageComponent {
+
   activeButtonPayment: number = 1;
   selectedCategorySlug:any
   editStartingPrice: any;
@@ -149,6 +150,42 @@ export class ProfilePageComponent {
   editEndingDate: any;
   soldList: any;
   private isNavigatingAway: boolean = false;
+  sections = [
+    {
+      title: 'Transactions',
+      items: [
+        { id: 'purchasesSales', label: 'Purchases & Sales', icon: 'fas fa-shopping-cart' },
+        { id: 'paymentDeposit', label: 'Payment & Deposit Method', icon: 'fas fa-credit-card' },
+      ],
+    },
+    {
+      title: 'Save',
+      items: [
+        { id: 'savedItems', label: 'Saved Items', icon: 'fas fa-heart' },
+        { id: 'notification', label: 'Notifications', icon: 'fas fa-bell' },
+      ],
+    },
+    {
+      title: 'My Posts',
+      items: [
+        { id: 'editPost', label: 'Edit Post', icon: 'fas fa-edit' },
+        { id: 'addPost', label: 'Add Post', icon: 'fas fa-plus-circle' },
+      ],
+    },
+    {
+      title: 'Account',
+      items: [
+        { id: 'accountSetting', label: 'Account Setting', icon: 'fas fa-cog' },
+        { id: 'boostPlus', label: 'Boost Plus', icon: 'fas fa-rocket' },
+        { id: 'customLinks', label: 'Custom Profile Link', icon: 'fas fa-link' },
+      ],
+    },
+    {
+      title: 'Help',
+      items: [{ id: 'helpCenter', label: 'Help Center', icon: 'fas fa-question' }],
+    },
+  ];
+  
   showNotif() {
     this.showNotification = true;
   }
@@ -368,8 +405,6 @@ export class ProfilePageComponent {
     { id: 'Dodge Durango', name: 'Dodge Durango' },
     { id: 'Lexus ES', name: 'Lexus ES' },
   ];
-  
-  
   yearList: any = [
     { id: '2021', name: '2021' },
     { id: '2000', name: '2000' },
@@ -987,25 +1022,7 @@ export class ProfilePageComponent {
       });
     }
   }
-  showOtp() {
-    this.showOTPBox = true;
-  }
-  showSuccessMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['success-snackbar'],
-    });
-  }
-  showErrorMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['error-snackbar'],
-    });
-  }
+
   openPage() {
     this.showDiv = true;
   }
@@ -1016,9 +1033,7 @@ export class ProfilePageComponent {
     navigator.clipboard
       .writeText(this.customLink)
       .then(() => {
-        this.showSuccessMessage(
-          `Profile link ${this.customLink} copied to clipboard!`
-        );
+       
       })
       .catch((err) => {
       });
@@ -1159,7 +1174,7 @@ export class ProfilePageComponent {
     let formData = new FormData();
     this.EditImageFilesAbc.forEach((file, index) => {
       formData.append(`src[]`, file, file.name);
-    });
+    }); 
     formData.append(
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
@@ -1336,182 +1351,10 @@ export class ProfilePageComponent {
       }
     }
   }
-  closeUserNameModal() {
-    const modal = document.getElementById('userNameModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openNumberModal() {
-    const modal = document.getElementById('numberModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  closeNumberModal() {
-    const modal = document.getElementById('numberModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openEmailModal() {
-    const modal = document.getElementById('emailModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  openVerifyEmailModal() {
-    const modal = document.getElementById('verifyEmailModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  closeVerifyEmailModal() {
-    const modal = document.getElementById('verifyEmailModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openVerifyPhoneModal() {
-    const modal = document.getElementById('verifyPhoneModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  closeVerifyPhoneModal() {
-    const modal = document.getElementById('verifyPhoneModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  closeEmailModal() {
-    const modal = document.getElementById('emailModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openPasswordModal() {
-    const modal = document.getElementById('passwordModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  closePasswordModal() {
-    const modal = document.getElementById('passwordModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openLocationModal() {
-    const modal = document.getElementById('locationModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  closeLocationModal() {
-    const modal = document.getElementById('locationModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
+
+ 
+ 
+ 
   openBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1611,44 +1454,7 @@ export class ProfilePageComponent {
     localStorage.setItem('key', jsonString);
     this.getCurrentUser();
   }
-  EditProductFirstStep() {
-    let formData = new FormData();
-    this.filesabc.forEach((file) => formData.append('video', file, file.name));
-    this.imageFilesAbc.forEach((file, index) => {
-      formData.append(`video[]`, file, file.name);
-    });
-    formData.append(
-      'user_id',
-      (this.currentUserId ? Number(this.currentUserId) : 0).toString()
-    );
-    formData.append('title', this.editTitle);
-    formData.append('description', this.editDescription);
-    formData.append(
-      'product_id',
-      (this.productId ? Number(this.productId) : 0).toString()
-    );
-    const token = localStorage.getItem('authToken');
-    this.isLoading = true;
-    fetch(
-      'https://www.ttoffer.com/backend/public/api/edit-product-first-step',
-      {
-        method: 'POST',
-        body: formData,
-        headers: {
-          // 'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-        },
-      }
-    )
-      .then((response) => response.json()) // Convert the response to JSON
-      .then((data) => {
-        this.productId = data.product_id;
-        this.EditProductSeccondStep(); // Call the next step if upload is successful
-      })
-      .catch((error) => {
-        this.isLoading = false;
-      });
-  }
+
   validateForm(): boolean {
     this.validationErrors = {};
     if (!this.title) {
@@ -1836,102 +1642,9 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
-  EditProductSeccondStep() {
-    try {
-      let input = {
-        user_id: this.currentUserId,
-        product_id: this.productId,
-        category_id: this.selectedCategoryId,
-        sub_category_id: this.selectedSubCategoryId,
-        condition: this.categoryForm.get('condition')?.value,
-        make_and_model: this.categoryForm.get('make_and_model')?.value,
-        mileage: this.categoryForm.get('mileage')?.value,
-        color: this.categoryForm.get('color')?.value,
-        brand: this.categoryForm.get('brand')?.value,
-        model: this.categoryForm.get('model')?.value,
-        edition: '',
-        authenticity: '',
-        attributes: JSON.stringify(this.categoryForm.value),
-      };
-      this.mainServices.editProductSecondStep(input).subscribe(
-        (res) => {
-          this.EditProductThirdStep();
-        },
-        (error) => {
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      this.isLoading = false;
-    }
-  }
-  EditProductThirdStep() {
-    this.loading = true;
-    try {
-      let input;
-      if (this.editpricingCatId === 'Auction') {
-        input = {
-          productType: 'auction',
-          product_id: this.productId,
-          auction_price: this.editStartingPrice.toString(),
-          starting_date: this.editStartingDate
-            ? new Date(this.editStartingDate).toISOString()
-            : null,
-          starting_time: this.editStartingTime.toString(),
-          ending_date: this.editEndingDate
-            ? new Date(this.editEndingDate).toISOString()
-            : null,
-          ending_time: this.editEndingTime.toString(),
-          final_price: this.edit_final_price,
-        };
-      }
-     else if (this.editpricingCatId === 'FixedPrice') {
-        input = {
-          productType: 'featured',
-          product_id: this.productId,
-          fix_price: this.editPrice,
-          auction_price: null,
-        };
-      } else {
-        input = {
-          productType: 'other',
-          product_id: this.productId,
-        };
-      }
-      this.mainServices.editProductThirdStep(input).subscribe(
-        (res) => {
-          this.editProductLastStep();
-        },
-        (error) => {
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      this.isLoading = false;
-    }
-  }
-  editProductLastStep() {
-    this.loading = true;
-    try {
-      let input = {
-        product_id: this.productId,
-        location: this.locationId,
-      };
-      this.mainServices.editProductLastStep(input).subscribe(
-        (res: any) => {
-          localStorage.removeItem('editProduct');
-          this.toastr.success('Product updated successfully', 'Success');
-          this.isLoading = false;
-          this.router.navigate(['']);
-        },
-        (error) => {
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      this.isLoading = false;
-    }
-  }
+
+ 
+
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
   }
@@ -2109,6 +1822,7 @@ export class ProfilePageComponent {
         return this.startingDate; 
       }
     }
+
     return selectedDate;
   }
   getTomorrowDate(): string {
@@ -2125,7 +1839,7 @@ export class ProfilePageComponent {
     }
     const selectedStartingTime = this.startingTime;
     if (!this.startingDate || !this.endingDate) {
-      this.showErrorMessage('Invalid date selected.');
+     
       setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
@@ -2164,7 +1878,6 @@ export class ProfilePageComponent {
   parseSTime(event: any): void {
     const selectedStartingTime = event.target.value;
     if (!this.startingDate) {
-      this.showErrorMessage('Invalid date selected.');
       setTimeout(() => (this.startingTime = ''), 1);
       return;
     }
@@ -2254,18 +1967,13 @@ export class ProfilePageComponent {
       custom_link: this.customLink,
     };
     this.mainServices.customLink(input).subscribe((res: any) => {
-      this.showSuccessMessage(res.message);
     });
   }
   onLocationFound(location: string) {
     this.locationId = location;
   }
-  cat(cat: any) {
-    cat;
-  }
-  subcat(subCat: any) {
-    subCat;
-  }
+ 
+
   removeImage(index: number, event: Event): void {
     event.stopPropagation(); // Prevent triggering the selectImage function
     this.selectedFiles.splice(index, 1); // Remove the image from the array

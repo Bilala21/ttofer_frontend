@@ -1,278 +1,68 @@
 <main class="mt-16">
   <div class="container-fluid xs-pt-4">
-    <!-- profile-main-container -->
     <div class="row justify-content-between product-detail-container">
       <div class="col-xl-4 col-md-5 position-relative">
-        <img
-          (click)="openMore()"
-          src="assets/images/more-icon.svg"
-          class="position-absolute d-block d-md-none"
-          loading="lazy"
-          style="left: 0; z-index: 1; margin-left: 15px; cursor: pointer"
-        />
-
-        <!-- mobile-screen -->
-        <div
-          class="d-block d-xl-none mt-5 position-absolute"
-          style="
-            left: 0;
-            background-color: #ffffff;
-            z-index: 999;
-            padding: 25px;
-            width: 100%;
-          "
-          *ngIf="showMore"
-        >
-          <!-- transactions -->
-          <div class="row mt-4">
-            <h4 class="side-bar-tabs-heading fs-19 text-dark-800 fw-bold">
-              Transactions
-            </h4>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'purchasesSales' }"
-              (click)="selectTab('purchasesSales')"
-            >
+        <img (click)="openMore()" src="assets/images/more-icon.svg" class="position-absolute d-block d-md-none"
+          loading="lazy" style="left: 0; z-index: 1; margin-left: 15px; cursor: pointer" />
+        <div class="d-block d-xl-none mt-5 position-absolute bg-white p-4 w-100" style="left: 0; z-index: 999;"
+          *ngIf="showMore">
+          <ng-container *ngFor="let section of sections">
+            <h4 class="fs-19 fw-bold text-dark-800">{{ section.title }}</h4>
+            <div *ngFor="let item of section.items" class="col-12 mt-3 p-2 onHover pointer"
+              [ngClass]="{ active: selectedTab === item.id }" (click)="selectTab(item.id)">
               <div class="row align-items-center">
                 <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-shopping-cart icon-outline fs-20"></i>
+                  <i [class]="item.icon + ' fs-20'"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
-                  <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
-                    Purchases & Sales
-                  </h6>
+                  <h6 class="fs-16 fw-light m-0 text-dark-800">{{ item.label }}</h6>
                 </div>
               </div>
             </div>
-
-            <div
-              class="col-12 mt-2 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
-              (click)="selectTab('paymentDeposit')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-credit-card fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Payment & Deposit method
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- save -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'savedItems' }"
-              (click)="selectTab('savedItems')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-heart fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Saved items</h6>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-12 mt-2 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'notification' }"
-              (click)="selectTab('notification')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-bell fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Notifications
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- my-post -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">My Posts</h4>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'editPost' }"
-              (click)="selectTab('editPost')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-edit fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'addPost' }"
-              (click)="selectTab('addPost')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-plus-circle fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- account -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Account</h4>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'accountSetting' }"
-              (click)="selectTab('accountSetting')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-cog fs-20"></i>
-                  <!-- Settings icon -->
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Account Setting
-                  </h6>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'boostPlus' }"
-              (click)="selectTab('boostPlus')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-rocket fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-12 mt-2 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'customLinks' }"
-              (click)="selectTab('customLinks')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-link fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Custom Profile Link
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- help -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Help</h4>
-            <div
-              class="col-12 mt-3 p-2 onHover pointer"
-              [ngClass]="{ active: selectedTab === 'helpCenter' }"
-              (click)="selectTab('helpCenter')"
-            >
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-question fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Help Center</h6>
-                </div>
-              </div>
-            </div>
-          </div>
+          </ng-container>
         </div>
-        <!-- profile-image -->
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="">
-              <div
-                class="w-100 d-flex flex-column flex-md-row justify-content-center align-content-center mx-auto"
-              >
-                <!-- profile-image -->
+              <div class="w-100 d-flex flex-column flex-md-row justify-content-center align-content-center mx-auto">
                 <div class="d-flex d-md-block justify-content-center">
                   <label for="image-upload" style="cursor: pointer;">
-                    <div
-                      style="
+                    <div style="
                         position: relative;
                         width: 130px;
                         height: 130px;
                         border: 0.5px solid gainsboro;
                         border-radius: 50%;
-                      "
-                      class="image-container"
-                    >
-                      <img
-                        style="
+                      " class="image-container">
+                      <img style="
                           width: 130px;
                           height: 130px;
                           border-radius: 50%;
                           object-fit: contain;
                           cursor: pointer;
                           z-index: 0;
-                        "
-                        id="uploaded-image"
-                        [src]="imageUrl ? imageUrl : defaultProfileUrl"
-                        loading="lazy"
-                      />
-                      <i
-                        class="fas fa-camera profile-icon-camera bg-danger-blue"
-                        style="position: absolute; bottom: 10px; right: 10px; cursor: pointer;"
-                      ></i>
+                        " id="uploaded-image" [src]="imageUrl ? imageUrl : defaultProfileUrl" loading="lazy" />
+                      <i class="fas fa-camera profile-icon-camera bg-danger-blue"
+                        style="position: absolute; bottom: 10px; right: 10px; cursor: pointer;"></i>
                     </div>
-                    <input
-                      #file
-                      type="file"
-                      id="image-upload"
-                      (change)="onImageUpload($event)"
-                      style="display: none"
-                    />
+                    <input #file type="file" id="image-upload" (change)="onImageUpload($event)" style="display: none" />
                   </label>
                 </div>
-                
-                <!-- user-data -->
-                <div
-                  class="d-flex flex-column ml-0 ml-md-4 mt-md-4 text-center text-md-left"
-                >
-                  <!-- user-name -->
+                <div class="d-flex flex-column ml-0 ml-md-4 mt-md-4 text-center text-md-left">
                   <div class="fs-14 text-capitalize fw-semibold">
                     {{ currentUserProfile.name }}
                   </div>
-                  <!-- joined -->
                   <div class="fs-14 text-capitalize mt-1">
-                    Joined: {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') : 'N/A' }}
+                    Joined: {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') :
+                    'N/A' }}
                   </div>
-                  <!-- address -->
                   <div class="fs-14 text-capitalize mt-1">
                     Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
-                  <!-- rating -->
                   <div class="d-flex justify-content-center align-items-center">
                     <div class="text-center">
-                      <app-star-rating
-                        [rating]="currentUserProfile.review_percentage"
-                        [allowRating]="this.allowRating"
-                      ></app-star-rating>
+                      <app-star-rating [rating]="currentUserProfile.review_percentage"
+                        [allowRating]="this.allowRating"></app-star-rating>
                     </div>
                     <div class="ml-3">
                       <p class="mb-0 fs-12">
@@ -281,41 +71,31 @@
                     </div>
                   </div>
                 </div>
-                <!--  -->
               </div>
-              <!-- user-lower-info -->
               <div class="w-100">
                 <ul class="text-decoration-none d-flex justify-content-center">
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">4</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Bought</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">10</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Sold</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">0</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Followers</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center fs-14">
                     <a href="#" class="text-decoration-none">
                       <span class="d-block text-black">0</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Following</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                 </ul>
@@ -323,246 +103,54 @@
             </div>
           </div>
         </div>
-        <!-- desktop-screen -->
         <div class="d-none d-md-block">
           <div class="sidebar-content">
-            <!-- transactions -->
-            <div class="row mt-4">
-              <h4 class="side-bar-tabs-heading fs-19 text-dark-800 fw-bold">
-                Transactions
-              </h4>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'purchasesSales' }"
-                (click)="selectTab('purchasesSales')"
-              >
+            <div *ngFor="let section of sections" class="row mt-4">
+              <h4 class="fs-19 text-dark-800 fw-bold">{{ section.title }}</h4>
+              <div *ngFor="let item of section.items" class="col-12 mt-3 p-2 onHover pointer"
+                [ngClass]="{ active: selectedTab === item.id }" (click)="selectTab(item.id)">
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-shopping-cart icon-outline fs-20"></i>
+                    <i [class]="item.icon" class="fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
-                    <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
-                      Purchases & Sales
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <!-- card -->
-              <div
-                class="col-12 mt-2 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
-                (click)="selectTab('paymentDeposit')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-credit-card"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Payment & Deposit method
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- save -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'savedItems' }"
-                (click)="selectTab('savedItems')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-heart fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Saved items
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-12 mt-2 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'notification' }"
-                (click)="selectTab('notification')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-bell fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Notifications
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- my-post -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">My Posts</h4>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'editPost' }"
-                (click)="selectTab('editPost')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-edit fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'addPost' }"
-                (click)="selectTab('addPost')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-plus-circle fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- account -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Account</h4>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'accountSetting' }"
-                (click)="selectTab('accountSetting')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-cog fs-20"></i>
-                    <!-- Settings icon -->
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Account Setting
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'boostPlus' }"
-                (click)="selectTab('boostPlus')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-rocket fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-12 mt-2 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'customLinks' }"
-                (click)="selectTab('customLinks')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-link fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Custom Profile Link
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- help -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Help</h4>
-              <div
-                class="col-12 mt-3 p-2 onHover pointer"
-                [ngClass]="{ active: selectedTab === 'helpCenter' }"
-                (click)="selectTab('helpCenter')"
-              >
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-question fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Help Center
-                    </h6>
+                    <h6 class="fs-16 text-dark-800 fw-light m-0">{{ item.label }}</h6>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-
-      <!-- tabs-screen -->
-      <!-- Purchases & Sales -->
       <div *ngIf="selectedTab === 'purchasesSales'" class="col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-shopping-cart title-icon mr-2"></i>
-                <h3 class="right-side-top-title"> 
-                  Purchases & Sales
-                </h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-shopping-cart title-icon mr-2"></i>
+          <h3 class="right-side-top-title">
+            Purchases & Sales
+          </h3>
+        </div>
         <hr />
         <!-- tabs-start -->
         <div class="row">
           <div class="col-md-10 mx-auto">
-            <div
-              class="btn-group w-100"
-              role="group"
-              aria-label="Basic example"
-            >
-              <button
-                type="button"
-                class="btn btngroup p-3 sm-p-2"
-                [ngClass]="{ active: activeButton === 2 }"
-                (click)="toggleActive(2)"
-                style="
+            <div class="btn-group w-100" role="group" aria-label="Basic example">
+              <button type="button" class="btn btngroup p-3 sm-p-2" [ngClass]="{ active: activeButton === 2 }"
+                (click)="toggleActive(2)" style="
                   border-radius: 30px 0px 0px 30px;
                   border: 1px solid #9ca3af;
-                "
-              >
+                ">
                 Buying
               </button>
-              <button
-                type="button"
-                class="btn btngroup p-3 sm-p-2"
-                [ngClass]="{ active: activeButton === 1 }"
-                (click)="toggleActive(1)"
-                style="border: 1px solid #9ca3af"
-              >
+              <button type="button" class="btn btngroup p-3 sm-p-2" [ngClass]="{ active: activeButton === 1 }"
+                (click)="toggleActive(1)" style="border: 1px solid #9ca3af">
                 Selling
               </button>
 
-              <button
-                type="button"
-                class="btn btngroup p-3 sm-p-2"
-                [ngClass]="{ active: activeButton === 3 }"
-                (click)="toggleActive(3)"
-                style="
+              <button type="button" class="btn btngroup p-3 sm-p-2" [ngClass]="{ active: activeButton === 3 }"
+                (click)="toggleActive(3)" style="
                   border-radius: 0px 30px 30px 0px;
                   border: 1px solid #9ca3af;
-                "
-              >
+                ">
                 History
               </button>
             </div>
@@ -589,178 +177,115 @@
 
           <!-- Actual data content will be displayed when loading is complete -->
           <ng-template #dataLoaded>
-            <div
-              *ngIf="
+            <div *ngIf="
                 activeButton === 1 &&
                 sellingListTemp &&
                 sellingListTemp?.length > 0
-              "
-              class=""
-            >
+              " class="">
               <!-- Your actual data card structure goes here -->
-              <div
-                class="card-container"
-                *ngFor="let data of sellingListTemp"
-                routerLink="/selling/{{ data.id }}"
-                style="cursor: pointer"
-              >
+              <div class="card-container" *ngFor="let data of sellingListTemp" routerLink="/selling/{{ data.id }}"
+                style="cursor: pointer">
                 <!-- Image border: 1px solid rgb(98, 95, 95); -->
-                <div
-                  class="z-0 position-relative"
-                  style="
+                <div class="z-0 position-relative" style="
                     width: 115px;
                     height: 115px;
                     border-radius: 10px;
                     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
-                  "
-                >
-                  <img
-                    src="{{
+                  ">
+                  <img src="{{
                       data.photo && data.photo.length > 0
                         ? data.photo[0].src
                         : 'assets/images/default-img.jpg'
-                    }}"
-                    alt="Item Image"
-                    class="w-100 h-100"
-                    loading="lazy"
-                    style="border-radius: 10px"
-                  />
+                    }}" alt="Item Image" class="w-100 h-100" loading="lazy" style="border-radius: 10px" />
                   <div
-                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
-                  >
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
                     AED
                     {{
-                      formatPrice(
-                        data?.auction_price
-                          ? data?.auction_price
-                          : data.fix_price
-                      )
+                    formatPrice(
+                    data?.auction_price
+                    ? data?.auction_price
+                    : data.fix_price
+                    )
                     }}
                   </div>
                 </div>
 
                 <!-- Content -->
                 <div class="ms-3 flex-grow-1 custom-margin-left">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
+                  <div class="d-flex justify-content-between align-items-center">
                     <span class="card-title">{{ data.title }}</span>
-                    <span class="view-count"
-                      >{{ data.view_count || 0 }} Views</span
-                    >
+                    <span class="view-count">{{ data.view_count || 0 }} Views</span>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
                     <div class="avatars d-flex">
-                      <img
-                        src="/assets/images/profile-placeholder.png"
-                        alt="User 1"
-                      />
-                      <img
-                        src="/assets/images/profile-placeholder.png"
-                        alt="User 2"
-                      />
-                      <img
-                        src="/assets/images/profile-placeholder.png"
-                        alt="User 3"
-                      />
-                      <img
-                        src="/assets/images/profile-placeholder.png"
-                        alt="User 4"
-                      />
+                      <img src="/assets/images/profile-placeholder.png" alt="User 1" />
+                      <img src="/assets/images/profile-placeholder.png" alt="User 2" />
+                      <img src="/assets/images/profile-placeholder.png" alt="User 3" />
+                      <img src="/assets/images/profile-placeholder.png" alt="User 4" />
                     </div>
                   </div>
                   <div class="action-text">
                     Sell faster <span>|</span>
-                    <span
-                      class="mark-as-sold"
-                      (click)="markAsSold(data)"
-                      style="cursor: pointer"
-                      >Mark as sold</span
-                    >
+                    <span class="mark-as-sold" (click)="markAsSold(data)" style="cursor: pointer">Mark as sold</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div
-              *ngIf="
+            <div *ngIf="
                 activeButton === 2 &&
                 purchaseListTemp &&
                 purchaseListTemp.length > 0
-              "
-              class=""
-            >
+              " class="">
               <!-- Your actual data card structure goes here -->
               <!-- buying -->
-              <div
-                class="card-container"
-                *ngFor="let data of purchaseListTemp"
-                routerLink="/product-detail/{{ data.id }}/{{data.slug}}"
-                style="cursor: pointer"
-              >
+              <div class="card-container" *ngFor="let data of purchaseListTemp"
+                routerLink="/product-detail/{{ data.id }}/{{data.slug}}" style="cursor: pointer">
                 <!-- Image Container -->
-                <div
-                  class="z-0 position-relative"
-                  style="
+                <div class="z-0 position-relative" style="
                     width: 115px;
                     height: 115px;
                     border-radius: 10px;
                     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
-                  "
-                >
-                  <img
-                    src="{{
+                  ">
+                  <img src="{{
                       data.photo && data.photo.length > 0
                         ? data.photo[0].src
                         : 'assets/images/default-img.jpg'
-                    }}"
-                    alt="Item Image"
-                    class="item-image"
-                    loading="lazy"
-                  />
+                    }}" alt="Item Image" class="item-image" loading="lazy" />
                   <div
-                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
-                  >
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
                     AED
                     {{
-                      formatPrice(
-                        data?.auction_price
-                          ? data?.auction_price
-                          : data.fix_price
-                      )
+                    formatPrice(
+                    data?.auction_price
+                    ? data?.auction_price
+                    : data.fix_price
+                    )
                     }}
                   </div>
                 </div>
 
                 <!-- Content -->
                 <div class="ms-3 flex-grow-1 custom-margin-left">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
+                  <div class="d-flex justify-content-between align-items-center">
                     <span class="card-title">{{ data.title }}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div
-              *ngIf="
+            <div *ngIf="
                 (sellingListTemp.length == 0 && activeButton == 1) ||
                 (purchaseListTemp.length == 0 && activeButton == 2)
-              "
-            >
+              ">
               <div class="col-12 text-center mx-auto">
-                <img
-                  src="assets/images/best-selling.png"
-                  style="width: 160px"
-                  alt=""
-                  loading="lazy"
-                />
+                <img src="assets/images/best-selling.png" style="width: 160px" alt="" loading="lazy" />
                 <h4 class="mt-5">
                   {{
-                    activeButton == 1
-                      ? "Begin Selling Items!"
-                      : "Begin Buying Items!"
+                  activeButton == 1
+                  ? "Begin Selling Items!"
+                  : "Begin Buying Items!"
                   }}
                 </h4>
                 <h5 class="mt-5">
@@ -769,106 +294,69 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img
-                      src="assets/images/play-store.svg"
-                      alt=""
-                      class="w-100"
-                      loading="lazy"
-                    />
+                    <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img
-                      src="assets/images/app-store.svg"
-                      alt=""
-                      class="w-100"
-                      loading="lazy"
-                    />
+                    <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                   </div>
                 </div>
               </div>
             </div>
             <!-- history -->
-            <div
-            *ngIf="
+            <div *ngIf="
               activeButton === 3 &&
               soldList &&
               soldList.length > 0
-            "
-            class=""
-          >
-            <!-- Your actual data card structure goes here -->
-            <!-- buying -->
-            <div
-                class="card-container"
-                *ngFor="let data of soldList"
-               
-                style="cursor: pointer"
-              >
+            " class="">
+              <!-- Your actual data card structure goes here -->
+              <!-- buying -->
+              <div class="card-container" *ngFor="let data of soldList" style="cursor: pointer">
                 <!-- Image border: 1px solid rgb(98, 95, 95); -->
-                <div
-                  class="z-0 position-relative"
-                  style="
+                <div class="z-0 position-relative" style="
                     width: 115px;
                     height: 115px;
                     border-radius: 10px;
                     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;
-                  "
-                >
-                  <img
-                    src="{{
+                  ">
+                  <img src="{{
                       data.photo && data.photo.length > 0
                         ? data.photo[0].src
                         : 'assets/images/default-img.jpg'
-                    }}"
-                    alt="Item Image"
-                    class="w-100 h-100"
-                    loading="lazy"
-                    style="border-radius: 10px"
-                  />
+                    }}" alt="Item Image" class="w-100 h-100" loading="lazy" style="border-radius: 10px" />
                   <div
-                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1"
-                  >
+                    class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
                     AED
                     {{
-                      formatPrice(
-                        data?.auction_price
-                          ? data?.auction_price
-                          : data.fix_price
-                      )
+                    formatPrice(
+                    data?.auction_price
+                    ? data?.auction_price
+                    : data.fix_price
+                    )
                     }}
                   </div>
                 </div>
 
                 <!-- Content -->
                 <div class="ms-3 flex-grow-1 custom-margin-left">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
+                  <div class="d-flex justify-content-between align-items-center">
                     <span class="card-title">{{ data.title }}</span>
-                    
+
                   </div>
 
                   <div class="action-text">
-                  {{data.is_sold==1?'Sold':'Bought'}}
-                   
-                </div>
+                    {{data.is_sold==1?'Sold':'Bought'}}
+
+                  </div>
                 </div>
               </div>
-          </div>
-            <div
-              *ngIf="
+            </div>
+            <div *ngIf="
                 sellingListTemp.length == 0 &&
                 soldList.length == 0 &&
                 activeButton == 3
-              "
-            >
+              ">
               <div class="col-12 text-center mx-auto">
-                <img
-                  src="assets/images/archieve-item.png"
-                  class="w-100"
-                  alt=""
-                  loading="lazy"
-                />
+                <img src="assets/images/archieve-item.png" class="w-100" alt="" loading="lazy" />
                 <h4 class="mt-5"></h4>
                 <h5 class="mt-5">
                   When you archieve an item, it’ll appear here
@@ -876,20 +364,10 @@
                 <span>Download our app</span>
                 <div class="w-100 d-flex justify-content-center mt-3">
                   <div class="mr-1" style="width: 140px">
-                    <img
-                      src="assets/images/play-store.svg"
-                      loading="lazy"
-                      alt=""
-                      class="w-100"
-                    />
+                    <img src="assets/images/play-store.svg" loading="lazy" alt="" class="w-100" />
                   </div>
                   <div class="ml-1" style="width: 140px">
-                    <img
-                      src="assets/images/app-store.svg"
-                      loading="lazy"
-                      alt=""
-                      class="w-100"
-                    />
+                    <img src="assets/images/app-store.svg" loading="lazy" alt="" class="w-100" />
                   </div>
                 </div>
               </div>
@@ -899,159 +377,103 @@
       </div>
       <!-- paymentDeposit -->
       <div *ngIf="selectedTab === 'paymentDeposit'" class="col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-credit-card title-icon mr-2"></i>
-                <h3 class="right-side-top-title">Payment & Deposit method</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-credit-card title-icon mr-2"></i>
+          <h3 class="right-side-top-title">Payment & Deposit method</h3>
+        </div>
         <hr />
         <div class="row">
           <div class="col-md-11 mx-auto">
-            <div
-              class="btn-group w-100"
-              role="group"
-              aria-label="Basic example"
-            >
-              <button
-                type="button"
-                class="btn btngroup p-3 sm-p-2 sm-font"
-                [ngClass]="{ active: activeButtonPayment === 1 }"
-                (click)="toggleActivePayement(1)"
-                style="
+            <div class="btn-group w-100" role="group" aria-label="Basic example">
+              <button type="button" class="btn btngroup p-3 sm-p-2 sm-font"
+                [ngClass]="{ active: activeButtonPayment === 1 }" (click)="toggleActivePayement(1)" style="
                   border-radius: 30px 0px 0px 30px;
                   border: 1px solid #9ca3af;
-                "
-              >
+                ">
                 Accounts
               </button>
-              <button
-                type="button"
-                class="btn btngroup p-3 sm-p-2 sm-font"
-                [ngClass]="{ active: activeButtonPayment === 2 }"
-                (click)="toggleActivePayement(2)"
-                style="
+              <button type="button" class="btn btngroup p-3 sm-p-2 sm-font"
+                [ngClass]="{ active: activeButtonPayment === 2 }" (click)="toggleActivePayement(2)" style="
                   border-radius: 0px 30px 30px 0px;
                   border: 1px solid #9ca3af;
-                "
-              >
+                ">
                 Transactions
               </button>
             </div>
           </div>
-
           <div class="col-md-10 mx-auto mt-3" *ngIf="activeButtonPayment ===1">
-                <div class="d-flex justify-content-between fs-14 fw-bold">
-                    <span class="">Cards</span>
-                    <span
-                      class="cur-pointer"
-                      (click)="openNewCardModal()"
-                    >
-                      Add new card
-                    </span>
-                 
-                </div>
-                <div
-                  class="d-flex justify-content-between align-items-center mt-3"
-                  *ngFor="let data of paymentDeposit"
-                >
-                  <div class="w-100">
-                    <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex justify-content-between fs-14 fw-bold">
+              <span class="">Cards</span>
+              <span class="cur-pointer" (click)="openNewCardModal()">
+                Add new card
+              </span>
 
-                      <div class="d-flex align-items-center">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3" *ngFor="let data of paymentDeposit">
+              <div class="w-100">
+                <div class="d-flex align-items-center justify-content-between">
 
-                            <div class="card-image">
-                              <img
-                                src="{{ data.img }}"
-                                class="w-100"
-                                alt="card-image"
-                                loading="lazy"
-                              />
-                            </div>
+                  <div class="d-flex align-items-center">
 
-                            <div class="ml-3">
-
-                            <h6 class="fs-16">
-                              {{ data.detail1 }}
-                            </h6>
-
-                            <div class="d-flex fs-12">
-                              <span>{{ data.detail2 }}
-                              </span>
-                              <span
-                                (click)="openModal()"
-                                class="text-hover cur-pointer ml-1 fw-semibold"
-                              >
-                                {{ data.btn }}
-                              </span>
-                            </div>
-
-                            </div>
-
-                      </div>
-
-                      <div class="text-right" style="text-align: end">
-                        <input
-                          class="form-check-input cur-pointer"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="{{ data.id }}"
-                        />
-                      </div>
-
+                    <div class="card-image">
+                      <img src="{{ data.img }}" class="w-100" alt="card-image" loading="lazy" />
                     </div>
-                    <hr />
+
+                    <div class="ml-3">
+
+                      <h6 class="fs-16">
+                        {{ data.detail1 }}
+                      </h6>
+                      <div class="d-flex fs-12">
+                        <span>{{ data.detail2 }}
+                        </span>
+                        <span (click)="openModal()" class="text-hover cur-pointer ml-1 fw-semibold">
+                          {{ data.btn }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right" style="text-align: end">
+                    <input class="form-check-input cur-pointer" type="radio" name="flexRadioDefault"
+                      id="{{ data.id }}" />
                   </div>
                 </div>
+                <hr />
+              </div>
+            </div>
           </div>
-
           <div class="col-10 mx-auto mt-5" *ngIf="activeButtonPayment === 2">
             <div class="row">
               <div class="col-md-8 mx-auto mt-5 text-center">
                 <img src="assets/images/truck-fast.svg" class="w-50" alt="" />
                 <h5>No shipping transactions</h5>
-                <span
-                  >When you have shipping purchase or sale, You’ll see it
-                  here</span
-                >
-            </div>
+                <span>When you have shipping purchase or sale, You’ll see it
+                  here</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <!-- savedItems -->
       <div *ngIf="selectedTab === 'savedItems'" class="col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-heart title-icon mr-2"></i>
-                <h3 class="right-side-top-title text-left">Saved Items</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-heart title-icon mr-2"></i>
+          <h3 class="right-side-top-title text-left">Saved Items</h3>
+        </div>
         <hr />
         <!-- content -->
         <div class="mt-5">
           <div *ngIf="savedItems.length == 0">
             <div class="col-12 text-center mx-auto">
-              <img
-                src="assets/images/No-data.png"
-                style="width: 160px"
-                alt=""
-                loading="lazy"
-              />
+              <img src="assets/images/No-data.png" style="width: 160px" alt="" loading="lazy" />
               <h5 class="mt-5">You have no saved items at the moment.</h5>
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img
-                    src="assets/images/play-store.svg"
-                    alt=""
-                    class="w-100"
-                    loading="lazy"
-                  />
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img
-                    src="assets/images/app-store.svg"
-                    alt=""
-                    class="w-100"
-                    loading="lazy"
-                  />
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1061,33 +483,21 @@
             <div class="row">
               <div class="col-md-10 mx-auto">
                 <div class="mt-3" *ngFor="let data of savedItems">
-                  <a
-                    routerLink="/product-detail/{{ data.product.id }}/{{data.product.slug}}"
-                    style="text-decoration: none; color: #1b2028"
-                  >
+                  <a routerLink="/product-detail/{{ data.product.id }}/{{data.product.slug}}"
+                    style="text-decoration: none; color: #1b2028">
                     <div class="row align-items-center">
                       <div class="col-4 col-lg-2 p-0">
-                        <div
-                          style="
+                        <div style="
                             width: 100px;
                             height: 100px;
                             object-fit: contain;
                             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-                          "
-                        >
+                          ">
                           @if(data.product.photo[0]?.src){
-                          <img
-                            [src]="data.product.photo[0]?.src"
-                            class="w-100 h-100"
-                            alt=""
-                          />
+                          <img [src]="data.product.photo[0]?.src" class="w-100 h-100" alt="" />
                           }@else{
-                          <img
-                            src="assets/images/default-img.jpg"
-                            class="w-100 h-100"
-                            alt="Default Image"
-                            loading="lazy"
-                          />
+                          <img src="assets/images/default-img.jpg" class="w-100 h-100" alt="Default Image"
+                            loading="lazy" />
                           }
                         </div>
                       </div>
@@ -1101,13 +511,10 @@
                         <div class="mt-2 d-flex justify-content-between">
                           <span class="sm-cat-text3" style="max-width: 70%">{{
                             data.product.location
-                          }}</span>
+                            }}</span>
                           <div>
-                            <span
-                              class="text-end sm-cat-text3"
-                              style="font-size: 10px"
-                              >{{ data.created_at | date }}</span
-                            >
+                            <span class="text-end sm-cat-text3" style="font-size: 10px">{{ data.created_at | date
+                              }}</span>
                           </div>
                         </div>
                       </div>
@@ -1122,38 +529,23 @@
       </div>
       <!-- notification -->
       <div *ngIf="selectedTab === 'notification'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-bell title-icon mr-2"></i>
-                <h3 class="right-side-top-title">Notifications</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-bell title-icon mr-2"></i>
+          <h3 class="right-side-top-title">Notifications</h3>
+        </div>
         <hr />
         <div class="mt-md-5">
           <div *ngIf="notificationList.length == 0">
             <div class="col-12 text-center mx-auto">
-              <img
-                src="assets/images/No-data.png"
-                style="width: 160px"
-                alt=""
-                loading="lazy"
-              />
+              <img src="assets/images/No-data.png" style="width: 160px" alt="" loading="lazy" />
               <h5 class="mt-5">You have no Notification at the moment.</h5>
               <span>Download our app</span>
               <div class="w-100 d-flex justify-content-center mt-3">
                 <div class="mr-1" style="width: 140px">
-                  <img
-                    src="assets/images/play-store.svg"
-                    alt=""
-                    class="w-100"
-                    loading="lazy"
-                  />
+                  <img src="assets/images/play-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
                 <div class="ml-1" style="width: 140px">
-                  <img
-                    src="assets/images/app-store.svg"
-                    alt=""
-                    class="w-100"
-                    loading="lazy"
-                  />
+                  <img src="assets/images/app-store.svg" alt="" class="w-100" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1162,46 +554,28 @@
             <div class="row">
               <div class="col-md-10 mx-auto">
                 <div class="mt-3" *ngFor="let data of notificationList">
-                  <a
-                    routerLink="/review/{{ data.user_id }}"
-                    style="text-decoration: none; color: #1b2028"
-                  >
+                  <a routerLink="/review/{{ data.user_id }}" style="text-decoration: none; color: #1b2028">
                     <div class="d-flex align-items-center">
                       <div class="mr-2">
                         @if(data.user?.img){
-                        <div
-                          class=""
-                          style="
+                        <div class="" style="
                             width: 50px;
                             height: 50px;
                             border-radius: 50%;
                             object-fit: contain;
-                          "
-                        >
-                          <img
-                            src="{{ data.user?.img }}"
-                            class="w-100 h-100"
-                            alt="proile-img-notification"
-                            style="border-radius: 50%"
-                            loading="lazy"
-                          />
+                          ">
+                          <img src="{{ data.user?.img }}" class="w-100 h-100" alt="proile-img-notification"
+                            style="border-radius: 50%" loading="lazy" />
                         </div>
                         }@else{
-                        <div
-                          style="
+                        <div style="
                             width: 50px;
                             height: 50px;
                             border-radius: 50%;
                             object-fit: contain;
-                          "
-                        >
-                          <img
-                            src="/assets/images/profile-icon.svg"
-                            class="w-100 h-100"
-                            alt="Default Image"
-                            style="border-radius: 50%"
-                            loading="lazy"
-                          />
+                          ">
+                          <img src="/assets/images/profile-icon.svg" class="w-100 h-100" alt="Default Image"
+                            style="border-radius: 50%" loading="lazy" />
                         </div>
                         }
                       </div>
@@ -1210,11 +584,8 @@
                         <h5 class="sm-cat-text4 m-0">{{ data.text }}</h5>
                         <div class="mt-1 d-flex justify-content-between">
                           <span class="sm-cat-text3">{{ data.status }}</span>
-                          <span
-                            class="text-end sm-cat-text3"
-                            style="font-size: 10px"
-                            >{{ data.created_at | date }}</span
-                          >
+                          <span class="text-end sm-cat-text3" style="font-size: 10px">{{ data.created_at | date
+                            }}</span>
                         </div>
                       </div>
                     </div>
@@ -1225,65 +596,13 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row mt-5">
-                        <div class="row col-12" *ngIf="!showNotification">
-                            <div class="col-9">
-
-                                <app-notification class="pointer"></app-notification>
-
-                            </div>
-                        </div>
-                    </div> -->
-
-        <!-- <div class="row" *ngIf="showNotification">
-                        <div class="col-12" style="margin-top: 20vh;">
-                            <div class="row">
-                                <div class="row justify-content-between">
-                                    <div class="col-12">
-                                        <div class="row align-items-center">
-                                            <div class="col-4">
-                                                <img src="assets/images/light-clothes-img.svg" class="w-100" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <h4 class="sm-cat-text4">Modern light clothes</h4>
-                                                <span>$500</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center justify-content-between">
-                                    <div class="col-md-6 mx-auto mt-5 text-center">
-                                        <h2>Rate Seller</h2>
-                                        <img src="assets/images/profile-img1.png" class="mt-5" alt="">
-                                        <h4>Darlene Robertson</h4>
-                                        <span>Manchester, UK</span>
-                                        <img src="assets/images/reviewStars.png" class="w-100" alt="">
-                                    </div>
-                                    <div class="col-12">
-                                        <textarea class="form-control mt-5" name="review" id="review"
-                                            style="height: 30vh; border-radius: 2vh;">How was your experience about this seller?</textarea>
-                                        <div class="row mt-5 justify-content-between">
-                                            <div class="col-md-5">
-                                                <button class="btn btn-dark w-100 p-2"
-                                                    style="border-radius: 4vh;">Review Seller</button>
-                                            </div>
-                                            <div class="col-md-5 sm-mt-5">
-                                                <button class="btn btn-dark w-100 p-2"
-                                                    style="border-radius: 4vh;">Skip</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
       </div>
       <!-- editPost -->
       <div *ngIf="selectedTab === 'editPost'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-edit title-icon mr-2"></i>
-                <h3 class="right-side-top-title mt-1">Edit Post</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-edit title-icon mr-2"></i>
+          <h3 class="right-side-top-title mt-1">Edit Post</h3>
+        </div>
         <hr />
 
         <div class="row">
@@ -1292,35 +611,17 @@
               <div class="row mb-3">
                 <div class="col-12 mx-auto">
                   <label class="fs-20 fw-semibold">
-                    Edit Image<span class="text-danger">*</span></label
-                  >
+                    Edit Image<span class="text-danger">*</span></label>
                   <div class="image-grid">
-                    <!-- <label>Upload Image</label> -->
-
-                    <div
-                      class="image-item"
-                      *ngFor="let file of editProductData?.photo; let i = index"
-                      (click)="selectImage(i)"
-                    >
-                      <img
-                        [src]="file.src"
-                        alt="Selected Image"
-                        class="img-thumbnail"
-                        style="width: 150px; height: 150px"
-                        loading="lazy"
-                      />
-                      <button
-                        type="button"
-                        class="delete-btn"
-                        (click)="deleteProductImage(file)"
-                      >
+                    <div class="image-item" *ngFor="let file of editProductData?.photo; let i = index"
+                      (click)="selectImage(i)">
+                      <img [src]="file.src" alt="Selected Image" class="img-thumbnail"
+                        style="width: 150px; height: 150px" loading="lazy" />
+                      <button type="button" class="delete-btn" (click)="deleteProductImage(file)">
                         &times;
                       </button>
                     </div>
-                    <div
-                      *ngIf="imageloading"
-                      class="image-item loading-indicator"
-                    >
+                    <div *ngIf="imageloading" class="image-item loading-indicator">
                       <div class="spinner"></div>
                       <!-- Spinner -->
                     </div>
@@ -1329,49 +630,23 @@
               </div>
             </div>
             <div class="row">
-              <div
-                class="col-12"
-                style="cursor: pointer"
-                [ngClass]="{ disabled: !editProductData }"
-              >
-                <img
-                  src="assets/images/add-post-img.png"
-                  class="w-100 {{
+              <div class="col-12" style="cursor: pointer" [ngClass]="{ disabled: !editProductData }">
+                <img src="assets/images/add-post-img.png" class="w-100 {{
                     editProductData ? 'pointer' : 'not-allowed'
-                  }}"
-                  alt=""
-                  loading="lazy"
-                  (click)="editProductData ? fileInput.click() : null"
-                />
-                <input
-                  #fileInput
-                  type="file"
-                  (change)="onEditFileChange($event)"
-                  accept="image/png,image/jpg,image/jpeg"
-                  style="display: none"
-                  multiple
-                  [disabled]="!editProductData"
-                />
+                  }}" alt="" loading="lazy" (click)="editProductData ? fileInput.click() : null" />
+                <input #fileInput type="file" (change)="onEditFileChange($event)"
+                  accept="image/png,image/jpg,image/jpeg" style="display: none" multiple
+                  [disabled]="!editProductData" />
               </div>
             </div>
             <div class="video-upload-container">
               <label class="fs-20 fw-semibold">Edit Video</label>
 
               <!-- Display the selected video if available -->
-              <div
-                *ngIf="selectedVideo"
-                class="position-relative video-wrapper"
-              >
-                <video
-                  controls
-                  [src]="selectedVideo.url"
-                  class="video-thumbnail w-100"
-                ></video>
+              <div *ngIf="selectedVideo" class="position-relative video-wrapper">
+                <video controls [src]="selectedVideo.url" class="video-thumbnail w-100"></video>
                 <!-- Close button to remove the video -->
-                <button
-                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                  (click)="removeVideo()"
-                >
+                <button class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeVideo()">
                   &times;
                 </button>
               </div>
@@ -1379,53 +654,23 @@
               <!-- Button to upload new video -->
               <div class="row">
                 <div class="col-12" style="cursor: pointer">
-                  <img
-                    src="assets/images/add-post-video.png"
-                    class="w-100 editProductData ? 'pointer' : 'not-allowed'"
-                    alt="Upload Video"
-                    (click)="editProductData ? videoInput.click() : null"
-                    loading="lazy"
-                  />
-                  <input
-                    #videoInput
-                    type="file"
-                    (change)="onVideoSelected($event)"
-                    accept="video/*"
-                    style="display: none"
-                    [disabled]="!editProductData"
-                  />
+                  <img src="assets/images/add-post-video.png" class="w-100 editProductData ? 'pointer' : 'not-allowed'"
+                    alt="Upload Video" (click)="editProductData ? videoInput.click() : null" loading="lazy" />
+                  <input #videoInput type="file" (change)="onVideoSelected($event)" accept="video/*"
+                    style="display: none" [disabled]="!editProductData" />
                 </div>
               </div>
             </div>
-            <div
-              class="row mt-5 justify-content-end align-items-center"
-              *ngIf="selectedVideos.length > 0"
-            >
+            <div class="row mt-5 justify-content-end align-items-center" *ngIf="selectedVideos.length > 0">
               <div class="col-md-4 col-6">
-                <button
-                  class="btn btn-outline-secondary w-100 sm-cat-text3"
-                  (click)="deleteSelectedVideo()"
-                >
-                  <img
-                    src="assets/images/trash.png"
-                    style="margin-right: 10px"
-                    alt=""
-                    loading="lazy"
-                  />
+                <button class="btn btn-outline-secondary w-100 sm-cat-text3" (click)="deleteSelectedVideo()">
+                  <img src="assets/images/trash.png" style="margin-right: 10px" alt="" loading="lazy" />
                   Delete Video
                 </button>
               </div>
               <div class="col-md-4 col-6">
-                <button
-                  class="btn btn-dark w-100 sm-cat-text3"
-                  (click)="confirmVideoSelection()"
-                >
-                  <img
-                    src="assets/images/gallerySelect.png"
-                    style="margin-right: 10px"
-                    alt=""
-                    loading="lazy"
-                  />
+                <button class="btn btn-dark w-100 sm-cat-text3" (click)="confirmVideoSelection()">
+                  <img src="assets/images/gallerySelect.png" style="margin-right: 10px" alt="" loading="lazy" />
                   Select Video
                 </button>
               </div>
@@ -1435,150 +680,80 @@
               <div class="col-12 mt-5">
                 <div>
                   <label>Title<span class="text-danger">*</span></label>
-                  <input
-                    type="text"
-                    class="form-control w-100 input-class-add-form"
-                    placeholder="Title"
-                    [(ngModel)]="editTitle"
-                    [disabled]="!editProductData"
-                  />
+                  <input type="text" class="form-control w-100 input-class-add-form" placeholder="Title"
+                    [(ngModel)]="editTitle" [disabled]="!editProductData" />
                 </div>
                 <div class="mt-3">
                   <label>Description<span class="text-danger">*</span></label>
-                  <textarea
-                    name="Description"
-                    placeholder="Description"
-                    [(ngModel)]="editDescription"
-                    class="form-control w-100 input-class-add-form"
-                    id=""
-                    ((input))="onFieldChange('description')"
-                    [disabled]="!editProductData"
-                  ></textarea>
+                  <textarea name="Description" placeholder="Description" [(ngModel)]="editDescription"
+                    class="form-control w-100 input-class-add-form" id="" ((input))="onFieldChange('description')"
+                    [disabled]="!editProductData"></textarea>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-6">
-                <label
-                  >Category<span class="text-danger">*</span></label
-                >
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [ngClass]="{
+                <label>Category<span class="text-danger">*</span></label>
+                <select class="form-select form-control input-class-add-form" [ngClass]="{
                     'is-invalid': validationErrors['selectedCategoryId']
-                  }"
-                  [(ngModel)]="selectedCategoryId"
-                  (change)="
+                  }" [(ngModel)]="selectedCategoryId" (change)="
                     getSubcategories(selectedCategoryId);
                     onFieldChange('category')
-                  "
-                  [disabled]="!editProductData"
-                  aria-label="Default select example"
-                >
+                  " [disabled]="!editProductData" aria-label="Default select example">
                   <option value="" disabled selected>Select a category</option>
-                  <option
-                    *ngFor="let category of categories"
-                    [value]="category.id"
-                  >
+                  <option *ngFor="let category of categories" [value]="category.id">
                     {{ category.name }}
                   </option>
                 </select>
-                <div
-                  *ngIf="validationErrors['selectedCategoryId']"
-                  class="text-danger mt-1"
-                >
+                <div *ngIf="validationErrors['selectedCategoryId']" class="text-danger mt-1">
                   {{ validationErrors["selectedCategoryId"] }}
                 </div>
               </div>
 
               <div class="col-6">
-                <label class="subcategory-label"
-                  >Subcategory<span class="text-danger"
-                    >*</span
-                  ></label
-                >
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [ngClass]="{
+                <label class="subcategory-label">Subcategory<span class="text-danger">*</span></label>
+                <select class="form-select form-control input-class-add-form" [ngClass]="{
                     'is-invalid': validationErrors['selectedSubCategoryId']
-                  }"
-                  [(ngModel)]="selectedSubCategoryId"
-                  (change)="onFieldChange('selectedSubCategoryId')"
-                  aria-label="Default select example"
-                  [disabled]="!editProductData"
-                >
+                  }" [(ngModel)]="selectedSubCategoryId" (change)="onFieldChange('selectedSubCategoryId')"
+                  aria-label="Default select example" [disabled]="!editProductData">
                   <option value="" disabled selected>
                     Select a subcategory
                   </option>
-                  <option
-                    *ngFor="let subCategory of subCategory"
-                    [value]="subCategory.id"
-                  >
+                  <option *ngFor="let subCategory of subCategory" [value]="subCategory.id">
                     {{ subCategory.name }}
                   </option>
                 </select>
-                <div
-                  *ngIf="validationErrors['selectedSubCategoryId']"
-                  class="text-danger mt-1"
-                >
+                <div *ngIf="validationErrors['selectedSubCategoryId']" class="text-danger mt-1">
                   {{ validationErrors["selectedSubCategoryId"] }}
                 </div>
               </div>
             </div>
 
             <hr />
-            <!-- ******************************Mobile****************************** -->
-            <div
-              [formGroup]="categoryForm"
-              style="
+            <div [formGroup]="categoryForm" style="
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
                 row-gap: 0px;
                 column-gap: 35px;
-              "
-            class="categoryFields">
-              <div
-                class="row mt-3"
-                *ngFor="let field of categoryFields[selectedCategoryId]"
-              >
-                <div
-                  class="col-md-6"
-                  *ngIf="field.type === 'select'"
-                  style="max-width: 100%; flex: 0 0 100%"
-                >
+              " class="categoryFields">
+              <div class="row mt-3" *ngFor="let field of categoryFields[selectedCategoryId]">
+                <div class="col-md-6" *ngIf="field.type === 'select'" style="max-width: 100%; flex: 0 0 100%">
                   <label>{{ field.label }}</label>
-                  <select
-                    class="form-select form-control input-class-add-form"
-                    [formControlName]="field.model"
-                    (change)="onFieldChange(field.model)"
-                    aria-label="Default select example"
-                    [disabled]="!editProductData"
-                  >
-                    <option
-                      *ngFor="let option of field.options"
-                      [value]="option.id"
-                      [disabled]="!editProductData"
-                    >
+                  <select class="form-select form-control input-class-add-form" [formControlName]="field.model"
+                    (change)="onFieldChange(field.model)" aria-label="Default select example"
+                    [disabled]="!editProductData">
+                    <option *ngFor="let option of field.options" [value]="option.id" [disabled]="!editProductData">
                       {{ option.name }}
                     </option>
                   </select>
                 </div>
 
-                <div
-                  class="col-md-6"
-                  *ngIf="field.type === 'input'"
-                  style="max-width: 100%; flex: 0 0 100%"
-                >
+                <div class="col-md-6" *ngIf="field.type === 'input'" style="max-width: 100%; flex: 0 0 100%">
                   <label>{{ field.label }}</label>
-                  <input
-                    type="text"
-                    class="form-control w-100 input-class-add-form"
-                    [formControlName]="field.model"
-                    (input)="onFieldChange(field.model)"
-                    [placeholder]="field.placeholder"
-                    [disabled]="!editProductData"
-                  />
+                  <input type="text" class="form-control w-100 input-class-add-form" [formControlName]="field.model"
+                    (input)="onFieldChange(field.model)" [placeholder]="field.placeholder"
+                    [disabled]="!editProductData" />
                 </div>
               </div>
             </div>
@@ -1587,206 +762,110 @@
             <div class="row mt-3">
               <div class="col-12">
                 <label>Pricing Categories</label>
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [(ngModel)]="editpricingCatId"
-                  aria-label="Default select example"
-                  [disabled]="!editProductData"
-                >
-                  <option
-                    *ngFor="let pricingCat of pricingCategories"
-                    [value]="pricingCat.id"
-                  >
+                <select class="form-select form-control input-class-add-form" [(ngModel)]="editpricingCatId"
+                  aria-label="Default select example" [disabled]="!editProductData">
+                  <option *ngFor="let pricingCat of pricingCategories" [value]="pricingCat.id">
                     {{ pricingCat.name }}
                   </option>
                 </select>
               </div>
             </div>
-            <div
-              class="row mt-3"
-              *ngIf="editpricingCatId == 'Auction'"
-              style="border: 1px solid gainsboro; border-radius: 5px"
-            >
+            <div class="row mt-3" *ngIf="editpricingCatId == 'Auction'"
+              style="border: 1px solid gainsboro; border-radius: 5px">
               <div class="col-12 p-3">
                 <label>Starting Bid</label>
-                <input
-                  type="number"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Starting Price"
-                  [(ngModel)]="editStartingPrice"
-                  [disabled]="!editProductData"
-                />
+                <input type="number" class="form-control w-100 input-class-add-form" placeholder="Starting Price"
+                  [(ngModel)]="editStartingPrice" [disabled]="!editProductData" />
               </div>
               <div class="col-12 p-3">
                 <label>Lowest Price</label>
-                <input
-                  type="number"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Lowest amount for your item"
-                  [(ngModel)]="edit_final_price"
-                  [disabled]="!editProductData"
-                />
+                <input type="number" class="form-control w-100 input-class-add-form"
+                  placeholder="Lowest amount for your item" [(ngModel)]="edit_final_price"
+                  [disabled]="!editProductData" />
               </div>
 
               <div class="row col-12 p-3">
                 <!-- Starting Time Field -->
                 <div class="col-6">
                   <label for="startTime">Starting Time</label>
-                  <input
-                    type="time"
-                    class="form-control input-class-add-form"
-                    id="startTime"
-                    name="startTime"
-                    [(ngModel)]="editStartingTime"
-                    (input)="parseSTime($event)"
-                    placeholder="Start Time"
-                    required
-                    [min]="getMinTime('start')"
-                    [disabled]="!editProductData"
-                  />
+                  <input type="time" class="form-control input-class-add-form" id="startTime" name="startTime"
+                    [(ngModel)]="editStartingTime" (input)="parseSTime($event)" placeholder="Start Time" required
+                    [min]="getMinTime('start')" [disabled]="!editProductData" />
                 </div>
 
                 <!-- Ending Time Field -->
                 <div class="col-6">
                   <label for="endingTime">Ending Time</label>
-                  <input
-                    type="time"
-                    class="form-control input-class-add-form"
-                    id="endingTime"
-                    name="endingTime"
-                    [(ngModel)]="editEndingTime"
-                    (input)="parseETime($event)"
-                    placeholder="Ending Time"
-                    required
-                    [min]="getMinTime('end')"
-                    [disabled]="!editProductData"
-                  />
+                  <input type="time" class="form-control input-class-add-form" id="endingTime" name="endingTime"
+                    [(ngModel)]="editEndingTime" (input)="parseETime($event)" placeholder="Ending Time" required
+                    [min]="getMinTime('end')" [disabled]="!editProductData" />
                 </div>
 
                 <!-- Starting Date Field -->
                 <div class="col-6 mt-2">
                   <label for="startDate">Starting Date</label>
-                  <input
-                    type="date"
-                    class="form-control input-class-add-form"
-                    id="startDate"
-                    name="startDate"
-                    [value]="
+                  <input type="date" class="form-control input-class-add-form" id="startDate" name="startDate" [value]="
                       editStartingDate
                         ? (editStartingDate | date : 'yyyy-MM-dd')
                         : getTodayDate()
-                    "
-                    (input)="editStartingDate = parseDate($event, 'start')"
-                    placeholder="Start Date"
-                    required
-                    [min]="getTodayDate()"
-                    [disabled]="!editProductData"
-                  />
+                    " (input)="editStartingDate = parseDate($event, 'start')" placeholder="Start Date" required
+                    [min]="getTodayDate()" [disabled]="!editProductData" />
                 </div>
 
                 <div class="col-6 mt-2">
                   <label for="endDate">Ending Date</label>
-                  <input
-                    type="date"
-                    class="form-control input-class-add-form"
-                    id="endDate"
-                    name="endDate"
-                    [value]="
+                  <input type="date" class="form-control input-class-add-form" id="endDate" name="endDate" [value]="
                       editEndingDate
                         ? (editEndingDate | date : 'yyyy-MM-dd')
                         : getTodayDate()
-                    "
-                    (input)="editEndingDate = parseDate($event, 'end')"
-                    placeholder="End Date"
-                    required
-                    [min]="
+                    " (input)="editEndingDate = parseDate($event, 'end')" placeholder="End Date" required [min]="
                       startingDate
                         ? (startingDate | date : 'yyyy-MM-dd')
                         : getTodayDate()
-                    "
-                    [disabled]="!editProductData"
-                  />
+                    " [disabled]="!editProductData" />
                 </div>
               </div>
             </div>
-            <div
-              class="row mt-3"
-              *ngIf="editpricingCatId == 'FixedPrice'"
-              style="border: 1px solid gainsboro; border-radius: 5px"
-            >
+            <div class="row mt-3" *ngIf="editpricingCatId == 'FixedPrice'"
+              style="border: 1px solid gainsboro; border-radius: 5px">
               <div class="col-12 p-3">
                 <label>Price<span class="text-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Price"
-                  [(ngModel)]="editPrice"
-                  [disabled]="!editProductData"
-                />
+                <input type="text" class="form-control w-100 input-class-add-form" placeholder="Price"
+                  [(ngModel)]="editPrice" [disabled]="!editProductData" />
               </div>
             </div>
-            <div
-              class="row mt-3"
-              *ngIf="editpricingCatId == 'SellToTTOffer'"
-              style="border: 1px solid gainsboro; border-radius: 5px"
-            >
+            <div class="row mt-3" *ngIf="editpricingCatId == 'SellToTTOffer'"
+              style="border: 1px solid gainsboro; border-radius: 5px">
               <div class="col-12 p-3">
                 <label>Date</label>
-                <input
-                  type="date"
-                  class="form-control input-class-add-form"
-                  id="dueDate"
-                  name="dueDate"
-                  #myDate
-                  placeholder="Due Date"
-                  required
-                  [disabled]="!editProductData"
-                />
+                <input type="date" class="form-control input-class-add-form" id="dueDate" name="dueDate" #myDate
+                  placeholder="Due Date" required [disabled]="!editProductData" />
               </div>
             </div>
-           <div class="mt-2">
-            <app-current-location
-              
-            ></app-current-location>
-           </div>
+            <div class="mt-2">
+              <app-current-location></app-current-location>
+            </div>
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
-            <!--
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            **************END*********************
-                            -->
+
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button
-                  [disabled]="!editProductData"
-                  class="btn btn-dark w-100"
-                  (click)="EditProductFirstStep()"
-                >
+                <button [disabled]="!editProductData" class="btn btn-dark w-100">
                   <span *ngIf="!isLoading">Update</span>
-                  <span
-                    *ngIf="isLoading"
-                    class="spinner-border spinner-border-sm text-light"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
+                    aria-hidden="true"></span>
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-plus-circle title-icon mr-2"></i>
-                <h3 class="right-side-top-title mt-1">Add Post</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-plus-circle title-icon mr-2"></i>
+          <h3 class="right-side-top-title mt-1">Add Post</h3>
+        </div>
         <hr />
         <div class="row">
           <div class="col-12 mx-auto">
@@ -1796,22 +875,10 @@
                   <div *ngIf="selectedFiles.length > 0" class="image-grid">
                     <!-- <label>Upload Image</label> -->
 
-                    <div
-                      class="image-item"
-                      *ngFor="let file of selectedFiles; let i = index"
-                    >
-                      <img
-                        [src]="file.src"
-                        alt="Selected Image"
-                        class="img-thumbnail"
-                        style="width: 150px; height: 150px"
-                        loading="lazy"
-                      />
-                      <button
-                        type="button"
-                        class="delete-btn"
-                        (click)="removeImage(i, $event)"
-                      >
+                    <div class="image-item" *ngFor="let file of selectedFiles; let i = index">
+                      <img [src]="file.src" alt="Selected Image" class="img-thumbnail"
+                        style="width: 150px; height: 150px" loading="lazy" />
+                      <button type="button" class="delete-btn" (click)="removeImage(i, $event)">
                         &times;
                       </button>
                     </div>
@@ -1822,29 +889,13 @@
             <!-- add image -->
             <div class="row">
               <div class="col-12" style="cursor: pointer">
-                <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold"
-                  >Add image<span class="text-danger">*</span></label
-                >
-                <img
-                  src="assets/images/add-post-img.png"
-                  class="w-100"
-                  alt=""
-                  (click)="fileInput.click()"
-                  loading="lazy"
-                />
-                <input
-                  #fileInput
-                  type="file"
-                  (change)="onFileChange($event);onFieldChange('uploadImage')
-                  "
-                  accept="image/png,image/jpg,image/jpeg"
-                  style="display: none"
-                  multiple
-                />
-                <div
-                  *ngIf="validationErrors['uploadImage']"
-                  class="text-danger mt-1"
-                >
+                <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image<span
+                    class="text-danger">*</span></label>
+                <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()"
+                  loading="lazy" />
+                <input #fileInput type="file" (change)="onFileChange($event);onFieldChange('uploadImage')
+                  " accept="image/png,image/jpg,image/jpeg" style="display: none" multiple />
+                <div *ngIf="validationErrors['uploadImage']" class="text-danger mt-1">
                   {{ validationErrors["uploadImage"] }}
                 </div>
               </div>
@@ -1854,20 +905,10 @@
               <label class="fs-20 fw-semibold">Add video</label>
 
               <!-- Display the selected video if available -->
-              <div
-                *ngIf="selectedVideo"
-                class="position-relative video-wrapper"
-              >
-                <video
-                  controls
-                  [src]="selectedVideo.url"
-                  class="video-thumbnail w-100"
-                ></video>
+              <div *ngIf="selectedVideo" class="position-relative video-wrapper">
+                <video controls [src]="selectedVideo.url" class="video-thumbnail w-100"></video>
                 <!-- Close button to remove the video -->
-                <button
-                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                  (click)="removeVideo()"
-                >
+                <button class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeVideo()">
                   &times;
                 </button>
               </div>
@@ -1875,53 +916,24 @@
               <!-- Button to upload new video -->
               <div class="row">
                 <div class="col-12" style="cursor: pointer">
-                  <img
-                    src="assets/images/add-post-video.png"
-                    class="w-100"
-                    alt="Upload Video"
-                    (click)="videoInput.click()"
-                    loading="lazy"
-                  />
-                  <input
-                    #videoInput
-                    type="file"
-                    (change)="onVideoSelected($event)"
-                    accept="video/*"
-                    style="display: none"
-                  />
+                  <img src="assets/images/add-post-video.png" class="w-100" alt="Upload Video"
+                    (click)="videoInput.click()" loading="lazy" />
+                  <input #videoInput type="file" (change)="onVideoSelected($event)" accept="video/*"
+                    style="display: none" />
                 </div>
               </div>
             </div>
             <!-- delete image -->
-            <div
-              class="row mt-5 justify-content-end align-items-center"
-              *ngIf="selectedVideos.length > 0"
-            >
+            <div class="row mt-5 justify-content-end align-items-center" *ngIf="selectedVideos.length > 0">
               <div class="col-md-4 col-6">
-                <button
-                  class="btn btn-outline-secondary w-100"
-                  (click)="deleteSelectedVideo()"
-                >
-                  <img
-                    src="assets/images/trash.png"
-                    style="margin-right: 10px"
-                    alt=""
-                    loading="lazy"
-                  />
+                <button class="btn btn-outline-secondary w-100" (click)="deleteSelectedVideo()">
+                  <img src="assets/images/trash.png" style="margin-right: 10px" alt="" loading="lazy" />
                   Delete Video
                 </button>
               </div>
               <div class="col-md-4 col-6">
-                <button
-                  class="btn btn-dark w-100"
-                  (click)="confirmVideoSelection()"
-                >
-                  <img
-                    src="assets/images/gallerySelect.png"
-                    style="margin-right: 10px"
-                    alt=""
-                    loading="lazy"
-                  />
+                <button class="btn btn-dark w-100" (click)="confirmVideoSelection()">
+                  <img src="assets/images/gallerySelect.png" style="margin-right: 10px" alt="" loading="lazy" />
                   Select Video
                 </button>
               </div>
@@ -1931,34 +943,17 @@
               <div class="col-12 mt-5">
                 <div>
                   <label>Title<span class="text-danger">*</span></label>
-                  <input
-                    type="text"
-                    class="form-control w-100 input-class-add-form"
-                    placeholder="Title"
-                    [(ngModel)]="title"
-                    (input)="onFieldChange('title')"
-                  />
-                  <div
-                    *ngIf="validationErrors['title']"
-                    class="text-danger mt-1"
-                  >
+                  <input type="text" class="form-control w-100 input-class-add-form" placeholder="Title"
+                    [(ngModel)]="title" (input)="onFieldChange('title')" />
+                  <div *ngIf="validationErrors['title']" class="text-danger mt-1">
                     {{ validationErrors["title"] }}
                   </div>
                 </div>
                 <div class="mt-3">
                   <label>Description<span class="text-danger">*</span></label>
-                  <textarea
-                    name="Description"
-                    placeholder="Description"
-                    [(ngModel)]="description"
-                    class="form-control w-100"
-                    id=""
-                    (input)="onFieldChange('description')"
-                  ></textarea>
-                  <div
-                    *ngIf="validationErrors['description']"
-                    class="text-danger mt-1"
-                  >
+                  <textarea name="Description" placeholder="Description" [(ngModel)]="description"
+                    class="form-control w-100" id="" (input)="onFieldChange('description')"></textarea>
+                  <div *ngIf="validationErrors['description']" class="text-danger mt-1">
                     {{ validationErrors["description"] }}
                   </div>
                 </div>
@@ -1966,62 +961,33 @@
             </div>
             <div class="row mt-3">
               <div class="col-6">
-                <label
-                  >Category<span class="text-danger">*</span></label
-                >
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [ngClass]="{
+                <label>Category<span class="text-danger">*</span></label>
+                <select class="form-select form-control input-class-add-form" [ngClass]="{
                     'is-invalid': validationErrors['selectedCategoryId']
-                  }"
-                  [(ngModel)]="selectedCategoryId"
-                  (change)="onCategoryChange(selectedCategoryId);
+                  }" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange(selectedCategoryId);
                     getSubcategories(selectedCategoryId);
                     onFieldChange('category')
-                  "
-                  aria-label="Default select example"
-                >
-                  <option
-                    *ngFor="let category of categories"
-                    [value]="category.id"
-                  >
+                  " aria-label="Default select example">
+                  <option *ngFor="let category of categories" [value]="category.id">
                     {{ category.name }}
                   </option>
                 </select>
-                <div
-                  *ngIf="validationErrors['selectedCategoryId']"
-                  class="text-danger mt-1"
-                >
+                <div *ngIf="validationErrors['selectedCategoryId']" class="text-danger mt-1">
                   {{ validationErrors["selectedCategoryId"] }}
                 </div>
               </div>
 
               <div class="col-6">
-                <label class="subcategory-label"
-                  >Subcategory<span class="text-danger"
-                    >*</span
-                  ></label
-                >
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [ngClass]="{
+                <label class="subcategory-label">Subcategory<span class="text-danger">*</span></label>
+                <select class="form-select form-control input-class-add-form" [ngClass]="{
                     'is-invalid': validationErrors['subcategory']
-                  }"
-                  [(ngModel)]="selectedSubCategoryId"
-                  (change)="onFieldChange('selectedSubCategoryId')"
-                  aria-label="Default select example"
-                >
-                  <option
-                    *ngFor="let subCategory of subCategory"
-                    [value]="subCategory.id"
-                  >
+                  }" [(ngModel)]="selectedSubCategoryId" (change)="onFieldChange('selectedSubCategoryId')"
+                  aria-label="Default select example">
+                  <option *ngFor="let subCategory of subCategory" [value]="subCategory.id">
                     {{ subCategory.name }}
                   </option>
                 </select>
-                <div
-                  *ngIf="validationErrors['selectedSubCategoryId']"
-                  class="text-danger mt-1"
-                >
+                <div *ngIf="validationErrors['selectedSubCategoryId']" class="text-danger mt-1">
                   {{ validationErrors["selectedSubCategoryId"] }}
                 </div>
               </div>
@@ -2029,71 +995,38 @@
 
             <hr />
             <!-- ******************************Mobile****************************** -->
-            <div
-              style="
+            <div style="
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
                 row-gap: 0px;
                 column-gap: 35px;
-              "
-           class="categoryFields" >
-              <div
-                class="row mt-3"
-                *ngFor="let field of categoryFields[selectedCategorySlug]"
-              >
-                <div
-                  class="col-md-6"
-                  *ngIf="field.type === 'select'"
-                  style="max-width: 100%; flex: 0 0 100%"
-                >
+              " class="categoryFields">
+              <div class="row mt-3" *ngFor="let field of categoryFields[selectedCategorySlug]">
+                <div class="col-md-6" *ngIf="field.type === 'select'" style="max-width: 100%; flex: 0 0 100%">
                   <label>{{ field.label }}</label>
-                  <select
-                    class="form-select form-control input-class-add-form"
-                    [ngClass]="{
+                  <select class="form-select form-control input-class-add-form" [ngClass]="{
                       'is-invalid': validationErrors[field.model]
-                    }"
-                    [(ngModel)]="attributes[field.model]"
-                    (change)="onFieldChange(field.model)"
-                    aria-label="Default select example"
-                  >
-                    <option
-                      *ngFor="let option of field.options"
-                      [value]="option.id"
-                    >
+                    }" [(ngModel)]="attributes[field.model]" (change)="onFieldChange(field.model)"
+                    aria-label="Default select example">
+                    <option *ngFor="let option of field.options" [value]="option.id">
                       {{ option.name }}
                     </option>
                   </select>
                   <!-- Error message for select fields -->
-                  <div
-                    *ngIf="validationErrors[field.model]"
-                    class="text-danger mt-1"
-                  >
+                  <div *ngIf="validationErrors[field.model]" class="text-danger mt-1">
                     {{ validationErrors[field.model] }}
                   </div>
                 </div>
 
-                <div
-                  class="col-md-6"
-                  *ngIf="field.type === 'input'"
-                  style="max-width: 100%; flex: 0 0 100%"
-                >
+                <div class="col-md-6" *ngIf="field.type === 'input'" style="max-width: 100%; flex: 0 0 100%">
                   <label>{{ field.label }}</label>
-                  <input
-                    type="text"
-                    class="form-control w-100 input-class-add-form"
-                    [ngClass]="{
+                  <input type="text" class="form-control w-100 input-class-add-form" [ngClass]="{
                       'is-invalid': validationErrors[field.model]
-                    }"
-                    [(ngModel)]="attributes[field.model]"
-                    (input)="onFieldChange(field.model)"
-                    [placeholder]="field.placeholder"
-                  />
+                    }" [(ngModel)]="attributes[field.model]" (input)="onFieldChange(field.model)"
+                    [placeholder]="field.placeholder" />
                   <!-- Error message for input fields -->
-                  <div
-                    *ngIf="validationErrors[field.model]"
-                    class="text-danger mt-1"
-                  >
+                  <div *ngIf="validationErrors[field.model]" class="text-danger mt-1">
                     {{ validationErrors[field.model] }}
                   </div>
                 </div>
@@ -2104,23 +1037,14 @@
             <div class="row mt-3">
               <div class="col-12">
                 <label>Pricing Categories</label>
-                <select
-                  class="form-select form-control input-class-add-form"
-                  [ngClass]="{ 'border-primary': pricingCatId == 'Auction' }"
-                  [(ngModel)]="pricingCatId"
-                  aria-label="Default select example"
-                >
-                  <option
-                    *ngFor="let pricingCat of pricingCategories"
-                    [value]="pricingCat.id"
-                  >
+                <select class="form-select form-control input-class-add-form"
+                  [ngClass]="{ 'border-primary': pricingCatId == 'Auction' }" [(ngModel)]="pricingCatId"
+                  aria-label="Default select example">
+                  <option *ngFor="let pricingCat of pricingCategories" [value]="pricingCat.id">
                     {{ pricingCat.name }}
                   </option>
                 </select>
-                <div
-                  *ngIf="validationErrors['pricingCategory']"
-                  class="text-danger"
-                >
+                <div *ngIf="validationErrors['pricingCategory']" class="text-danger">
                   {{ validationErrors["pricingCategory"] }}
                 </div>
               </div>
@@ -2130,145 +1054,78 @@
             <div class="row mt-3" *ngIf="pricingCatId == 'Auction'">
               <div class="col-12 p-3">
                 <label>Starting Bid</label>
-                <input
-                  type="number"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Starting Price"
-                  [(ngModel)]="startingPrice"
-                  (input)="onFieldChange('startingPrice')"
-                />
-                <div
-                  *ngIf="validationErrors['startingPrice']"
-                  class="text-danger"
-                >
+                <input type="number" class="form-control w-100 input-class-add-form" placeholder="Starting Price"
+                  [(ngModel)]="startingPrice" (input)="onFieldChange('startingPrice')" />
+                <div *ngIf="validationErrors['startingPrice']" class="text-danger">
                   {{ validationErrors["startingPrice"] }}
                 </div>
               </div>
               <div class="col-12 p-3">
                 <label>Lowest Price</label>
-                <input
-                  type="number"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Lowest amount for your item"
-                  [(ngModel)]="final_price"
-                  (input)="onFieldChange('final_price')"
-                />
-                <div
-                  *ngIf="validationErrors['final_price']"
-                  class="text-danger"
-                >
+                <input type="number" class="form-control w-100 input-class-add-form"
+                  placeholder="Lowest amount for your item" [(ngModel)]="final_price"
+                  (input)="onFieldChange('final_price')" />
+                <div *ngIf="validationErrors['final_price']" class="text-danger">
                   {{ validationErrors["final_price"] }}
                 </div>
               </div>
               <div class="row col-12 p-3">
                 <div class="col-6">
                   <label for="startTime">Starting Time</label>
-                  <input
-                    type="time"
-                    class="form-control input-class-add-form"
-                    id="startTime"
-                    [(ngModel)]="startingTime"
-                    (input)="parseSTime($event)"
-                    placeholder="Start Time"
-                    (input)="onFieldChange('startingTime')"
-                  />
-                  <div
-                    *ngIf="validationErrors['startingTime']"
-                    class="text-danger"
-                  >
+                  <input type="time" class="form-control input-class-add-form" id="startTime" [(ngModel)]="startingTime"
+                    (input)="parseSTime($event)" placeholder="Start Time" (input)="onFieldChange('startingTime')" />
+                  <div *ngIf="validationErrors['startingTime']" class="text-danger">
                     {{ validationErrors["startingTime"] }}
                   </div>
                 </div>
                 <div class="col-6">
                   <label for="endingTime">Ending Time</label>
-                  <input
-                    type="time"
-                    class="form-control input-class-add-form"
-                    id="endingTime"
-                    [(ngModel)]="endingTime"
-                    (input)="parseETime($event)"
-                    placeholder="Ending Time"
-                    (input)="onFieldChange('endingTime')"
-                  />
-                  <div
-                    *ngIf="validationErrors['endingTime']"
-                    class="text-danger"
-                  >
+                  <input type="time" class="form-control input-class-add-form" id="endingTime" [(ngModel)]="endingTime"
+                    (input)="parseETime($event)" placeholder="Ending Time" (input)="onFieldChange('endingTime')" />
+                  <div *ngIf="validationErrors['endingTime']" class="text-danger">
                     {{ validationErrors["endingTime"] }}
                   </div>
                 </div>
                 <div class="col-6 mt-2">
                   <label for="startDate">Starting Date</label>
-                  <input
-                    [disabled]="isEditPost"
-                    type="date"
-                    class="form-control input-class-add-form"
-                    name="startDate"
+                  <input [disabled]="isEditPost" type="date" class="form-control input-class-add-form" name="startDate"
                     [value]="
                       startingDate
                         ? (startingDate | date : 'yyyy-MM-dd')
                         : getTodayDate()
-                    "
-                    (input)="startingDate = parseDate($event, 'start')"
-                    placeholder="Start Date"
-                    required
-                    [min]="getTodayDate()"
-                  />
+                    " (input)="startingDate = parseDate($event, 'start')" placeholder="Start Date" required
+                    [min]="getTodayDate()" />
                 </div>
 
                 <div class="col-6 mt-2">
                   <label for="endDate">Ending Date</label>
-                  <input
-                    type="date"
-                    class="form-control input-class-add-form"
-                    id="endDate"
-                    name="endDate"
-                    [value]="
+                  <input type="date" class="form-control input-class-add-form" id="endDate" name="endDate" [value]="
                       endingDate
                         ? (endingDate | date : 'yyyy-MM-dd')
                         : getTomorrowDate()
-                    "
-                    (input)="endingDate = parseDate($event, 'end')"
-                    placeholder="End Date"
-                    required
-                    [min]="
+                    " (input)="endingDate = parseDate($event, 'end')" placeholder="End Date" required [min]="
                       startingDate
                         ? (startingDate | date : 'yyyy-MM-dd')
                         : getTodayDate()
-                    "
-                  />
+                    " />
                 </div>
               </div>
             </div>
-
-            <!-- Fixed Price Fields -->
             <div class="row mt-3" *ngIf="pricingCatId == 'FixedPrice'">
               <div class="col-12 p-3">
                 <label>Price<span class="text-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control w-100 input-class-add-form"
-                  placeholder="Price"
-                  [(ngModel)]="price"
-                  (input)="onFieldChange('price')"
-                />
+                <input type="text" class="form-control w-100 input-class-add-form" placeholder="Price"
+                  [(ngModel)]="price" (input)="onFieldChange('price')" />
                 <div *ngIf="validationErrors['price']" class="text-danger">
                   {{ validationErrors["price"] }}
                 </div>
               </div>
             </div>
-
-            <!-- Sell To TT Offer Fields -->
             <div class="row mt-3" *ngIf="pricingCatId == 'SellToTTOffer'">
               <div class="col-12 p-3">
                 <label>Date</label>
-                <input
-                  type="date"
-                  class="form-control input-class-add-form"
-                  id="dueDate"
-                  placeholder="Due Date"
-                  required
-                />
+                <input type="date" class="form-control input-class-add-form" id="dueDate" placeholder="Due Date"
+                  required />
                 <div *ngIf="validationErrors['dueDate']" class="text-danger">
                   {{ validationErrors["dueDate"] }}
                 </div>
@@ -2276,50 +1133,28 @@
             </div>
             <div class="mt-2">
               <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
-
             </div>
-            
-            <!-- <div *ngIf="locationId">
-              <p>Received Location: {{ locationId }}</p>
-            </div>
-            
-            <!-- <div *ngIf="locationId">
-              <p>Received Location: {{ locationId }}</p>
-            </div> -->
-
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button
-                  class="btn btn-dark w-100"
-                  (click)="addCompleteProduct()"
-                  [disabled]="isLoading"
-                >
+                <button class="btn btn-dark w-100" (click)="addCompleteProduct()" [disabled]="isLoading">
                   <span *ngIf="!isLoading">Post</span>
-                  <span
-                    *ngIf="isLoading"
-                    class="spinner-border spinner-border-sm text-light"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
+                    aria-hidden="true"></span>
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- accountSetting -->
       <div *ngIf="selectedTab === 'accountSetting'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fas fa-cog title-icon mr-2"></i>
-                <h3 class="right-side-top-title">Account Setting</h3>
-            </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fas fa-cog title-icon mr-2"></i>
+          <h3 class="right-side-top-title">Account Setting</h3>
+        </div>
         <hr />
         <div class="row margin-top-class">
-          <div
-            *ngFor="let item of userSetting"
-            (click)="openDialog(item.key, item.placeholder)"
-            class="col-12 pointer onHover p-4"
-          >
+          <div *ngFor="let item of userSetting" (click)="openDialog(item.key, item.placeholder)"
+            class="col-12 pointer onHover p-4">
             <div class="row justify-content-between">
               <div class="col-md-6 col-10">
                 <div class="row d-flex align-content-center">
@@ -2329,10 +1164,7 @@
                     <i [ngClass]="item.icon" class="w-100"></i>
                   </div>
                   <div class="col-10">
-                    <h6
-                      class="sm-cat-text4 account-Setting m-0"
-                      *ngIf="item.value; else addPlaceholder"
-                    >
+                    <h6 class="sm-cat-text4 account-Setting m-0" *ngIf="item.value; else addPlaceholder">
                       {{ item.value }}
                     </h6>
                     <ng-template #addPlaceholder>
@@ -2370,24 +1202,16 @@
           </div>
         </div>
 
-        <div
-          class="col-12 pointer onHover p-2"
-          *ngIf="
+        <div class="col-12 pointer onHover p-2" *ngIf="
             currentUserProfile.image_verified_at != null &&
             currentUserProfile.email_verified_at != null &&
             currentUserProfile.phone_verified_at != null
-          "
-        >
+          ">
           <div class="row justify-content-between">
             <div class="col-md-6 col-10">
               <div class="row">
                 <div class="col-2">
-                  <img
-                    src="assets/images/directbox-notif.svg"
-                    class="w-100"
-                    alt=""
-                    loading="lazy"
-                  />
+                  <img src="assets/images/directbox-notif.svg" class="w-100" alt="" loading="lazy" />
                 </div>
                 <div class="col-10">
                   <h6 class="sm-cat-text4 account-Setting">Join TruYou</h6>
@@ -2401,11 +1225,10 @@
           <hr />
         </div>
       </div>
-      <!-- boostPlus -->
       <div *ngIf="selectedTab === 'boostPlus' && !showDiv" class="col-xl-7 col-md-7">
-         <div class="row align-items-center justify-content-center margin-top-right-side-class">
-            <i class="fas fa-rocket title-icon mr-2"></i>
-              <h3 class="right-side-top-title">Boost Plus</h3>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-rocket title-icon mr-2"></i>
+          <h3 class="right-side-top-title">Boost Plus</h3>
         </div>
         <hr />
         <div class="row">
@@ -2414,12 +1237,7 @@
               <div class="col-12 mx-auto margin-top-class">
                 <div class="d-flex justify-content-center">
                   <div class="w-50">
-                    <img
-                      src="assets/images/boost-plus.svg"
-                      class="w-100"
-                      alt=""
-                      loading="lazy"
-                    />
+                    <img src="assets/images/boost-plus.svg" class="w-100" alt="" loading="lazy" />
                   </div>
                 </div>
                 <h4 class="mt-5 .right-side-top-title">
@@ -2438,10 +1256,7 @@
                   <span>Switch promotion to any item.</span>
                 </div>
                 <div class="d-flex justify-content-center w-100">
-                  <button
-                    (click)="openBoostModal()"
-                    class="btn btn-outline-dark w-50 mt-5 xs-w-fit"
-                  >
+                  <button (click)="openBoostModal()" class="btn btn-outline-dark w-50 mt-5 xs-w-fit">
                     <i class="fas fa-rocket fs-16 mt-1 mr-1"></i> Boost Plus
                   </button>
                 </div>
@@ -2449,16 +1264,11 @@
 
               <div class="col-12 mx-auto mt-5">
                 <h4>Ready a subscriber?</h4>
-                <span class="mt-3"
-                  >To change your subscription visit your App store. If you
+                <span class="mt-3">To change your subscription visit your App store. If you
                   cancel, your subscription will run to the end of this billing
-                  period</span
-                >
+                  period</span>
                 <div class="w-100 d-flex justify-content-center">
-                  <button
-                    (click)="openPage()"
-                    class="btn btn-dark w-50 bg-yellow-700 text-black mt-4"
-                  >
+                  <button (click)="openPage()" class="btn btn-dark w-50 bg-yellow-700 text-black mt-4">
                     Next
                   </button>
                 </div>
@@ -2467,11 +1277,10 @@
           </div>
         </div>
       </div>
-      <!-- customLinks -->
       <div *ngIf="selectedTab === 'customLinks'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-link title-icon mr-2"></i>
-                <h1 class="right-side-top-title">Custom Link</h1>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-link title-icon mr-2"></i>
+          <h1 class="right-side-top-title">Custom Link</h1>
         </div>
         <hr />
         <div class="row">
@@ -2479,47 +1288,32 @@
             <h5 class="fs-16 text-center text-md-left">
               This is your profile link. You can copy by clicking on this
             </h5>
-            <input
-              [disabled]="true"
-              type="text"
-              placeholder="ttoffer.com/profile/your profile name"
-              [(ngModel)]="customLink"
-              class="form-control input-class-add-form mt-3"
-            />
-            <button
-              class="btn bg-dark-650 w-100 text-white mt-2"
-              (click)="copyCustomLink()"
-            >
+            <input [disabled]="true" type="text" placeholder="ttoffer.com/profile/your profile name"
+              [(ngModel)]="customLink" class="form-control input-class-add-form mt-3" />
+            <button class="btn bg-dark-650 w-100 text-white mt-2" (click)="copyCustomLink()">
               Copy Profile Link
             </button>
           </div>
         </div>
       </div>
-      <!-- helpCenter -->
       <div *ngIf="selectedTab === 'helpCenter'" class="col-xl-7 col-md-7">
-            <div class="row align-items-center justify-content-center margin-top-right-side-class">
-                <i class="fas fa-question title-icon mr-2"></i>
-                <h3 class="right-side-top-title">Help Center</h3>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-11 mx-auto mt-4">
-                <div class="w-100 border d-flex align-content-center">
-                  <input
-                    type="text"
-                    class="form-control input-class-onFocus input-class-add-form border-0 flex-grow-1 pr-1"
-                    placeholder="Type a message"
-                  />
-                  <div
-                    class="flex justify-content-center align-content-center mr-3"
-                  >
-                    <i class="fas fa-paper-plane fs-19"></i>
-                  </div>
-                </div>
+        <div class="row align-items-center justify-content-center margin-top-right-side-class">
+          <i class="fas fa-question title-icon mr-2"></i>
+          <h3 class="right-side-top-title">Help Center</h3>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-11 mx-auto mt-4">
+            <div class="w-100 border d-flex align-content-center">
+              <input type="text" class="form-control input-class-onFocus input-class-add-form border-0 flex-grow-1 pr-1"
+                placeholder="Type a message" />
+              <div class="flex justify-content-center align-content-center mr-3">
+                <i class="fas fa-paper-plane fs-19"></i>
               </div>
             </div>
+          </div>
+        </div>
       </div>
-      <!-- showDiv  -->
       <div *ngIf="showDiv" class="col-xl-7 col-md-7">
         <div class="row">
           <div class="col-md-9 mx-auto margin-top-right-side-class">
@@ -2539,24 +1333,17 @@
           <div class="row">
             <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
               <div class="row">
-                <div
-                  class="col-11 mx-auto text-center"
-                  style="
+                <div class="col-11 mx-auto text-center" style="
                     border: 1px solid black;
                     border-radius: 15px;
                     padding: 10px;
-                  "
-                >
+                  ">
                   <span>Standard</span>
                   <h5>Boost 3 Days</h5>
                   <h4 style="font-weight: bolder" class="mt-3">AED 4.99</h4>
                   <div class="row">
                     <div class="col-11 mt-3 mx-auto">
-                      <button
-                        (click)="openBoostPlanModal()"
-                        class="btn w-100 btn-dark"
-                        style="border-radius: 20px"
-                      >
+                      <button (click)="openBoostPlanModal()" class="btn w-100 btn-dark" style="border-radius: 20px">
                         Subscribe
                       </button>
                     </div>
@@ -2571,24 +1358,17 @@
             <!-- 2nd -->
             <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
               <div class="row">
-                <div
-                  class="col-11 mx-auto text-center"
-                  style="
+                <div class="col-11 mx-auto text-center" style="
                     border: 1px solid black;
                     border-radius: 15px;
                     padding: 10px;
-                  "
-                >
+                  ">
                   <span>Best Value</span>
                   <h5>Boost Plus</h5>
                   <h4 style="font-weight: bolder" class="mt-3">AED 16.99</h4>
                   <div class="row">
                     <div class="col-11 mt-3 mx-auto">
-                      <button
-                        (click)="openBoostPlanModal()"
-                        class="btn w-100 btn-dark"
-                        style="border-radius: 20px"
-                      >
+                      <button (click)="openBoostPlanModal()" class="btn w-100 btn-dark" style="border-radius: 20px">
                         Subscribe
                       </button>
                     </div>
@@ -2611,24 +1391,17 @@
             <!-- 3th -->
             <div class="col-md-7 sm-mt-5 col-xl-4 mx-auto">
               <div class="row">
-                <div
-                  class="col-11 mx-auto text-center"
-                  style="
+                <div class="col-11 mx-auto text-center" style="
                     border: 1px solid black;
                     border-radius: 15px;
                     padding: 10px;
-                  "
-                >
+                  ">
                   <span>Basic</span>
                   <h5>Boost 1 days</h5>
                   <h4 style="font-weight: bolder" class="mt-3">AED 2.99</h4>
                   <div class="row">
                     <div class="col-11 mt-3 mx-auto">
-                      <button
-                        (click)="openBoostPlanModal()"
-                        class="btn w-100 btn-dark"
-                        style="border-radius: 20px"
-                      >
+                      <button (click)="openBoostPlanModal()" class="btn w-100 btn-dark" style="border-radius: 20px">
                         Subscribe
                       </button>
                     </div>
@@ -2644,293 +1417,14 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- </div> -->
+   
   </div>
-
-  <div
-    class="modal fade"
-    id="verifyPhoneModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="verifyPhoneLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="verifyEmail" tabindex="-1" role="dialog" aria-labelledby="verifyEmailLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="border-radius: 20px">
         <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeVerifyPhoneModal()"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Modal Body -->
-        <div class="modal-body mb-5">
-          <div class="row">
-            <div class="col-10 mx-auto" *ngIf="!showOTPBox">
-              <div class="text-center">
-                <h6 class="">Phone</h6>
-                <img
-                  src="assets/images/phone-img.png"
-                  class="w-75 mt-3"
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              <div class="mt-4">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="Enter Your Phone"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="mt-4">
-                <button
-                  (click)="showOtp()"
-                  class="btn btn-dark w-100"
-                  style="border-radius: 20px; padding: 10px"
-                >
-                  Verify Phone
-                </button>
-              </div>
-            </div>
-            <div class="col-10 mx-auto" *ngIf="showOTPBox">
-              <div class="text-center">
-                <h6 class="">Verify</h6>
-                <img
-                  src="assets/images/verify-img.png"
-                  class="w-75 mt-3"
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              <div class="mt-4">
-                <p>
-                  Please type in the OTP code we sent to your email. It's an
-                  extra step to make sure it's really you and keep your account
-                  safe.
-                </p>
-                <span>Verification Code Sent to name&commat;dummy.com</span>
-              </div>
-              <div class="row mt-4">
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-              </div>
-              <div class="mt-4 text-center">
-                <button
-                  class="btn btn-dark w-100"
-                  style="border-radius: 20px; padding: 10px"
-                >
-                  Verify
-                </button>
-                <span style="cursor: pointer" class="mt-3"
-                  >Didn’t Receive OTP?</span
-                >
-                <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="modal fade"
-    id="verifyEmailModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="verifyEmailLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="border-radius: 20px">
-        <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeVerifyEmailModal()"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Modal Body -->
-        <div class="modal-body mb-5">
-          <div class="row">
-            <div class="col-10 mx-auto" *ngIf="!showOTPBox">
-              <div class="text-center">
-                <h6 class="">Email</h6>
-                <img
-                  src="assets/images/email-img.png"
-                  class="w-75 mt-3"
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              <div class="mt-4">
-                <label>Email</label>
-                <input
-                  type="text"
-                  placeholder="Enter Your Email"
-                  class="form-control"
-                  style="border-radius: 10px"
-                />
-              </div>
-              <div class="mt-4">
-                <button
-                  (click)="showOtp()"
-                  class="btn btn-dark w-100"
-                  style="border-radius: 20px; padding: 10px"
-                >
-                  Verify Email
-                </button>
-              </div>
-            </div>
-            <div class="col-10 mx-auto" *ngIf="showOTPBox">
-              <div class="text-center">
-                <h6 class="">Verify</h6>
-                <img
-                  src="assets/images/verify-img.png"
-                  class="w-75 mt-3"
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              <div class="mt-4">
-                <p>
-                  Please type in the OTP code we sent to your email. It's an
-                  extra step to make sure it's really you and keep your account
-                  safe.
-                </p>
-                <span>Verification Code Sent to name&commat;dummy.com</span>
-              </div>
-              <div class="row mt-4">
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-                <div class="col-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    style="border-radius: 10px"
-                  />
-                </div>
-              </div>
-              <div class="mt-4 text-center">
-                <button
-                  class="btn btn-dark w-100"
-                  style="border-radius: 20px; padding: 10px"
-                >
-                  Verify
-                </button>
-                <span style="cursor: pointer" class="mt-3"
-                  >Didn’t Receive OTP?</span
-                >
-                <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="modal fade"
-    id="verifyEmail"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="verifyEmailLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="border-radius: 20px">
-        <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeModal()"
-            aria-label="Close"
-          >
+          <button type="button" class="close" (click)="closeModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -2944,49 +1438,30 @@
               <div class="row">
                 <div class="col-10 mx-auto mt-4">
                   <label> Card Name</label>
-                  <input
-                    type="text"
-                    style="border-radius: 10px; padding: 20px"
-                    class="form-control"
-                    placeholder="Card Name"
-                  />
+                  <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                    placeholder="Card Name" />
                 </div>
                 <div class="col-10 mx-auto mt-3">
                   <label> Card Number</label>
-                  <input
-                    type="text"
-                    style="border-radius: 10px; padding: 20px"
-                    class="form-control"
-                    placeholder="Card Number"
-                  />
+                  <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                    placeholder="Card Number" />
                 </div>
                 <div class="col-10 mx-auto mt-3">
                   <div class="row">
                     <div class="col-6 mx-auto">
                       <label> MM/YY</label>
-                      <input
-                        type="text"
-                        style="border-radius: 10px; padding: 20px"
-                        class="form-control"
-                        placeholder="MM/YY"
-                      />
+                      <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                        placeholder="MM/YY" />
                     </div>
                     <div class="col-6 mx-auto">
                       <label> CVV</label>
-                      <input
-                        type="text"
-                        style="border-radius: 10px; padding: 20px"
-                        class="form-control"
-                        placeholder="CVV"
-                      />
+                      <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                        placeholder="CVV" />
                     </div>
                   </div>
                 </div>
                 <div class="col-10 mx-auto mt-3">
-                  <button
-                    class="btn btn-dark w-100"
-                    style="border-radius: 20px; padding: 10px"
-                  >
+                  <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
                     Edit
                   </button>
                 </div>
@@ -2998,23 +1473,12 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="newCardModal"
-    tabindex="-2"
-    role="dialog"
-    aria-labelledby="newCardModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="newCardModal" tabindex="-2" role="dialog" aria-labelledby="newCardModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="border-radius: 20px">
         <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeNewCardModal()"
-            aria-label="Close"
-          >
+          <button type="button" class="close" (click)="closeNewCardModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -3031,49 +1495,30 @@
               <div class="row">
                 <div class="col-10 mx-auto mt-4">
                   <label> Card Name</label>
-                  <input
-                    type="text"
-                    style="border-radius: 10px; padding: 20px"
-                    class="form-control"
-                    placeholder="Card Name"
-                  />
+                  <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                    placeholder="Card Name" />
                 </div>
                 <div class="col-10 mx-auto mt-3">
                   <label> Card Number</label>
-                  <input
-                    type="text"
-                    style="border-radius: 10px; padding: 20px"
-                    class="form-control"
-                    placeholder="Card Number"
-                  />
+                  <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                    placeholder="Card Number" />
                 </div>
                 <div class="col-10 mx-auto mt-3">
                   <div class="row">
                     <div class="col-6 mx-auto">
                       <label> MM/YY</label>
-                      <input
-                        type="text"
-                        style="border-radius: 10px; padding: 20px"
-                        class="form-control"
-                        placeholder="MM/YY"
-                      />
+                      <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                        placeholder="MM/YY" />
                     </div>
                     <div class="col-6 mx-auto">
                       <label> CVV</label>
-                      <input
-                        type="text"
-                        style="border-radius: 10px; padding: 20px"
-                        class="form-control"
-                        placeholder="CVV"
-                      />
+                      <input type="text" style="border-radius: 10px; padding: 20px" class="form-control"
+                        placeholder="CVV" />
                     </div>
                   </div>
                 </div>
                 <div class="col-10 mx-auto mt-3">
-                  <button
-                    class="btn btn-dark w-100"
-                    style="border-radius: 20px; padding: 10px"
-                  >
+                  <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
                     Add Payment Method
                   </button>
                 </div>
@@ -3085,23 +1530,12 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="boostPlusModal"
-    tabindex="-8"
-    role="dialog"
-    aria-labelledby="boostPlusModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="boostPlusModal" tabindex="-8" role="dialog" aria-labelledby="boostPlusModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="border-radius: 20px">
         <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeBoostModal()"
-            aria-label="Close"
-          >
+          <button type="button" class="close" (click)="closeBoostModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -3115,75 +1549,48 @@
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 576 512"
-                    height="1.5em"
-                    width="1.5em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="1.5em"
+                    width="1.5em" xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
-                    ></path>
+                      d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z">
+                    </path>
                   </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Get more views</h6>
-                  <span
-                    >Promoted posts appear among the first spots buyers see and
-                    get an average of 14x more views.</span
-                  >
+                  <span>Promoted posts appear among the first spots buyers see and
+                    get an average of 14x more views.</span>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 512 512"
-                    height="1.5em"
-                    width="1.5em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em"
+                    width="1.5em" xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M256 32A224 224 0 0 0 99.596 95.68l11.12-2.66 38.24-13.41 44.198-8.44 17.383 17.38 27.81-15.892 32.778.498 5.96 7.946 48.17-10.43 73.005 22.35-33.77 13.904 8.442 34.763-16.885 10.925-10.43-52.144-22.844 1.987-3.476 25.824-23.838 9.933 2.48 33.77-14.897 2.484-10.926-19.37-5.463 15.397 12.416 22.844-39.73 40.725-3.973 12.414 6.457 17.878s-15.892 23.343-18.375 22.846c-2.484-.495-44.698-37.743-44.698-37.743l-26.32 15.395-20.86-31.288-18.375 1.49-24.83 69.032-17.88 4.967-38.454-52.088A224 224 0 0 0 256 480a224 224 0 0 0 224-224A224 224 0 0 0 256 32zm75.217 112.67l9.93 15.394-14.897 22.348-2.484 15.893-7.946-4.967h1.49l4.47-42.213 9.437-6.455zm-18.873 56.117l11.422 1.49-.993 11.422-29.796 5.462-.995-7.945 20.362-10.43zm-39.233 26.818l14.9 4.47-2.483 21.355-17.382-12.416 4.966-13.41zm-9.434 45.69l2.482 18.87H245.3l-.993-13.407 19.37-5.463zm39.728 3.476l33.772 8.94 16.885 20.858-45.193-11.918-11.918 4.965-19.866-21.85 26.32-.994zM198.12 289.685l27.316 8.443 33.77 17.38s-20.86 4.47-23.84 3.477c-2.98-.993-43.702-19.37-43.702-19.37l6.457-9.93zm116.21 10.43l10.43 24.83 22.347 13.906-4.966 34.763-25.326 23.342-26.322-21.355-27.314 8.94-19.367 13.903L230.9 369.64s8.442-26.82 10.428-27.812l19.37-5.96 8.443-19.366 7.448 12.912 25.326-6.457 12.416-22.844zm86.91 49.66l4.965 2.484-10.926 15.396-3.475-8.94 9.435-8.94zm-11.422 19.867s6.456 4.47 4.47 5.96c-1.987 1.49-27.81 19.367-27.81 19.367l-10.927-5.463 23.343-17.38 10.925-2.483zm-82.44 32.28l12.415.498-10.428 9.932-1.988-10.43z"
-                    ></path>
+                      d="M256 32A224 224 0 0 0 99.596 95.68l11.12-2.66 38.24-13.41 44.198-8.44 17.383 17.38 27.81-15.892 32.778.498 5.96 7.946 48.17-10.43 73.005 22.35-33.77 13.904 8.442 34.763-16.885 10.925-10.43-52.144-22.844 1.987-3.476 25.824-23.838 9.933 2.48 33.77-14.897 2.484-10.926-19.37-5.463 15.397 12.416 22.844-39.73 40.725-3.973 12.414 6.457 17.878s-15.892 23.343-18.375 22.846c-2.484-.495-44.698-37.743-44.698-37.743l-26.32 15.395-20.86-31.288-18.375 1.49-24.83 69.032-17.88 4.967-38.454-52.088A224 224 0 0 0 256 480a224 224 0 0 0 224-224A224 224 0 0 0 256 32zm75.217 112.67l9.93 15.394-14.897 22.348-2.484 15.893-7.946-4.967h1.49l4.47-42.213 9.437-6.455zm-18.873 56.117l11.422 1.49-.993 11.422-29.796 5.462-.995-7.945 20.362-10.43zm-39.233 26.818l14.9 4.47-2.483 21.355-17.382-12.416 4.966-13.41zm-9.434 45.69l2.482 18.87H245.3l-.993-13.407 19.37-5.463zm39.728 3.476l33.772 8.94 16.885 20.858-45.193-11.918-11.918 4.965-19.866-21.85 26.32-.994zM198.12 289.685l27.316 8.443 33.77 17.38s-20.86 4.47-23.84 3.477c-2.98-.993-43.702-19.37-43.702-19.37l6.457-9.93zm116.21 10.43l10.43 24.83 22.347 13.906-4.966 34.763-25.326 23.342-26.322-21.355-27.314 8.94-19.367 13.903L230.9 369.64s8.442-26.82 10.428-27.812l19.37-5.96 8.443-19.366 7.448 12.912 25.326-6.457 12.416-22.844zm86.91 49.66l4.965 2.484-10.926 15.396-3.475-8.94 9.435-8.94zm-11.422 19.867s6.456 4.47 4.47 5.96c-1.987 1.49-27.81 19.367-27.81 19.367l-10.927-5.463 23.343-17.38 10.925-2.483zm-82.44 32.28l12.415.498-10.428 9.932-1.988-10.43z">
+                    </path>
                   </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Add a boosted spot</h6>
-                  <span
-                    >Your item appears as a new post in search results as well
-                    as in the promoted spot.</span
-                  >
+                  <span>Your item appears as a new post in search results as well
+                    as in the promoted spot.</span>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-1 mb-2">
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 256 256"
-                    height="1.5em"
-                    width="1.5em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1.5em"
+                    width="1.5em" xmlns="http://www.w3.org/2000/svg">
                     <path d="M224,104l-48,48V56Z" opacity="0.2"></path>
                     <path
-                      d="M229.66,98.34l-48-48A8,8,0,0,0,168,56V96h-3A103.94,103.94,0,0,0,64.25,174a8,8,0,0,0,15.5,4A88,88,0,0,1,165,112h3v40a8,8,0,0,0,13.66,5.66l48-48A8,8,0,0,0,229.66,98.34ZM184,132.69V75.31L212.69,104ZM200,216a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V88a8,8,0,0,1,16,0V208H192A8,8,0,0,1,200,216Z"
-                    ></path>
+                      d="M229.66,98.34l-48-48A8,8,0,0,0,168,56V96h-3A103.94,103.94,0,0,0,64.25,174a8,8,0,0,0,15.5,4A88,88,0,0,1,165,112h3v40a8,8,0,0,0,13.66,5.66l48-48A8,8,0,0,0,229.66,98.34ZM184,132.69V75.31L212.69,104ZM200,216a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V88a8,8,0,0,1,16,0V208H192A8,8,0,0,1,200,216Z">
+                    </path>
                   </svg>
                 </div>
                 <div class="col-12">
                   <h6 class="mb-2">Boosted spots are shared</h6>
-                  <span
-                    >Don't worry if you don't see your item at the top of the
-                    feed. Spots are shared between sellers</span
-                  >
+                  <span>Don't worry if you don't see your item at the top of the
+                    feed. Spots are shared between sellers</span>
                 </div>
               </div>
             </div>
@@ -3193,23 +1600,12 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="boostModal"
-    tabindex="-9"
-    role="dialog"
-    aria-labelledby="boostModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="boostModal" tabindex="-9" role="dialog" aria-labelledby="boostModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="border-radius: 20px">
         <div class="modal-header border-0">
-          <button
-            type="button"
-            class="close"
-            (click)="closeBoostPlanModal()"
-            aria-label="Close"
-          >
+          <button type="button" class="close" (click)="closeBoostPlanModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -3223,42 +1619,29 @@
               <div class="row mt-3">
                 <app-payment></app-payment>
                 <div class="col-9 mx-auto text-center">
-                  <img
-                    src="assets/images/boost-plan.svg"
-                    class="w-100"
-                    alt=""
-                    loading="lazy"
-                  />
-                  <span class="mt-3"
-                    >Get an average of 20x more views each day</span
-                  >
+                  <img src="assets/images/boost-plan.svg" class="w-100" alt="" loading="lazy" />
+                  <span class="mt-3">Get an average of 20x more views each day</span>
                   <h5 class="mt-3">$19.99/mo after 3 day trial period</h5>
                   <span class="mt-3">No obligation, cancel anytime</span>
                   <span class="mt-3">Learn more</span>
                 </div>
                 <div class="col-5 mt-4 mx-auto text-center">
-                  <button
-                    class="btn btn-dark w-100 xs-w-fit"
-                    style="border-radius: 15px; padding: 10px"
-                  >
+                  <button class="btn btn-dark w-100 xs-w-fit" style="border-radius: 15px; padding: 10px">
                     Start Free Trial!
                   </button>
                   <span class="mt-3">Restore subscription</span>
                 </div>
                 <div class="col-11 text-center mx-auto mt-4">
-                  <span
-                    >Your iTunes account will be charged !19.99 per month for
+                  <span>Your iTunes account will be charged !19.99 per month for
                     the Boost Plus Subscription at the end of your 3-day free
                     trail unless you cancel the subscription at least 24 hours
                     before the end of the trial period.
                   </span>
                 </div>
                 <div class="col-11 text-center mx-auto">
-                  <span
-                    >By Purchasing the Boost Plus Subscription you agree to
+                  <span>By Purchasing the Boost Plus Subscription you agree to
                     Classified Online Market Place App Terms and Privacy
-                    Policy.</span
-                  >
+                    Policy.</span>
                 </div>
               </div>
             </div>
@@ -3266,31 +1649,16 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">...</div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
             <button type="button" class="btn btn-primary">Save changes</button>

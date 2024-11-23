@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     standalone: true,
     templateUrl: './auction-user-profile.component.html',
     styleUrl: './auction-user-profile.component.scss',
-    imports: [HeaderComponent, FooterComponent, NgFor, NgIf, StarRatingComponent,RouterLink]
+    imports: [ NgFor, NgIf, StarRatingComponent,RouterLink]
 })
 export class AuctionUserProfileComponent {
     activeTab: string = 'products';

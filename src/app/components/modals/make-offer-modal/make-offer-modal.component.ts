@@ -57,7 +57,7 @@ export class MakeOfferModalComponent implements OnInit {
       this.startCountdowns()
     }
     this.globalStateService.currentState.subscribe((state:any) => {
-      debugger
+      
       this.showConfirmModal = state.offerModal;
       this.liveBids=state.liveBids
     })
@@ -102,7 +102,7 @@ export class MakeOfferModalComponent implements OnInit {
   }
   placeBid() {
    
-    debugger
+    
     const input = {
       user_id: this.currentUserId,
       product_id: this.product.id,
@@ -111,7 +111,7 @@ export class MakeOfferModalComponent implements OnInit {
     try {
       this.mainServices.placeBid(input).subscribe({
         next: (res: any) => {
-          debugger
+          
           // this.toastr.success(
           //   `Bid Placed for AED ${input.price} successfully`,
           //   'Success'

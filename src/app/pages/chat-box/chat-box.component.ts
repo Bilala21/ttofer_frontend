@@ -92,17 +92,20 @@ export class ChatBoxComponent {
       this.conversationBox = [];
       this.suggestions = this.sellerSuggestions;
     }
-    this.chatBox = this.chatBox.sort((a: any, b: any) => {
-      return (
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      );
-    });
-    this.chatBox = this.chatBox.map((chat) => {
-      return {
-        ...chat,
-        formattedTime: this.timeAgo(chat.updated_at),
-      };
-    });
+    if(this.chatBox.length > 0){
+      this.chatBox = this.chatBox.sort((a: any, b: any) => {
+        return (
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        );
+      });
+      this.chatBox = this.chatBox.map((chat) => {
+        return {
+          ...chat,
+          formattedTime: this.timeAgo(chat.updated_at),
+        };
+      });
+    }
+   
   }
   timeAgo(dateString: string): string {
     const date = new Date(dateString);
@@ -223,14 +226,12 @@ export class ChatBoxComponent {
     const timeDifference = Math.abs(
       currentTime.getTime() - updatedAtDate.getTime()
     );
-
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
-
     if (minutes < 60) {
       return `${minutes} m`;
     } else if (hours < 24) {
@@ -306,10 +307,8 @@ export class ChatBoxComponent {
   markMessagesAsRead(conversationId: string) {
     this.mainServices.markMessagesAsRead(conversationId).subscribe({
       next: (response) => {
-        console.log('Messages marked as read:', response);
       },
       error: (error) => {
-        console.error('Error marking messages as read:', error);
       },
     });
   }
@@ -319,7 +318,6 @@ export class ChatBoxComponent {
   }
   sendMsg() {
     let receiverId: string;
-
     if (this.selectedConversation.data) {
       receiverId =
         this.currentUserid !== this.selectedConversation.data.Participant2.id
@@ -336,7 +334,6 @@ export class ChatBoxComponent {
       message: this.message,
       product_id: this.productId,
     };
-
     this.mainServices.sendMsg(input).subscribe((res: any) => {
       this.message = '';
       const newMessage = {
@@ -351,7 +348,6 @@ export class ChatBoxComponent {
             : this.selectedConversation.data.Participant2.img,
         formattedTime: this.formatMessageTime(new Date().toISOString()),
       };
-
       this.conversationBox.push(newMessage);
       this.cd.detectChanges();
     });
@@ -368,7 +364,6 @@ export class ChatBoxComponent {
       console.log(res);
     });
   }
-
   rejectOffer() {
     let input = {
       product_id: this.productId,
@@ -380,7 +375,6 @@ export class ChatBoxComponent {
       res;
     });
   }
-
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   sendMessage(message: string): void {
@@ -390,7 +384,6 @@ export class ChatBoxComponent {
       this.clearMessage();
     }
   }
-
   clearMessage(): void {
     this.selectedFile = null;
     this.previewUrl = null;
@@ -398,13 +391,11 @@ export class ChatBoxComponent {
   isImageFile: boolean = false;
   filePreview: string | null = null;
   showPreviewModal: boolean = false;
-
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
       this.isImageFile = this.isFileImage(file);
-
       if (this.isImageFile) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
@@ -433,7 +424,6 @@ export class ChatBoxComponent {
     this.selectedUserId = user.id;
   }
   searchSubject: Subject<string> = new Subject<string>();
-
   onSearch(event: any) {
     this.searchSubject.next(event.value);
   }
@@ -452,7 +442,6 @@ export class ChatBoxComponent {
             (item) => item.conversation_id !== conversation.conversation_id
           );
           this.toastr.success('Chat deleted successfully', 'Success');
-
         }),
         catchError((error) => {
           return of(null);
@@ -463,7 +452,6 @@ export class ChatBoxComponent {
   handleSmScreen() {
     this.isSmallScrenn = !this.isSmallScrenn
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;

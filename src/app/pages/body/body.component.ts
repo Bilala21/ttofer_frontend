@@ -21,11 +21,7 @@ import { Extension } from '../../helper/common/extension/extension';
   standalone: true,
   imports: [
     NgIf,
-    HeaderComponent,
     ProductCardComponent,
-    TempFormComponent,
-    FooterComponent,
-    ProductCarouselComponent,
     SharedModule,
     RouterLink,
     CardShimmerComponent,
