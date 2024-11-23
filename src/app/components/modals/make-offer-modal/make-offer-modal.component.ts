@@ -6,6 +6,7 @@ import { GlobalStateService } from '../../../shared/services/state/global-state.
 import { CountdownTimerService } from '../../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
 import { MainServicesService } from '../../../shared/services/main-services.service';
+import { Extension } from '../../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-make-offer-modal',
@@ -16,7 +17,7 @@ import { MainServicesService } from '../../../shared/services/main-services.serv
 })
 export class MakeOfferModalComponent implements OnInit {
   showConfirmModal: string = "";
-  currentUserid:any;
+  currentUserId:any;
   productId:any
   countdownSubscriptions: Subscription[] = [];
   isFinalStep: boolean = false;
@@ -26,8 +27,9 @@ export class MakeOfferModalComponent implements OnInit {
   liveBids:any
   @Input() product: any
 
-  constructor(private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
+  constructor(private extension:Extension,private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
     private countdownTimerService: CountdownTimerService) {
+      this.currentUserId=this.extension.getUserId()
     this.offerForm = this.fb.group({
       offer_price: [
         '',
@@ -57,8 +59,6 @@ export class MakeOfferModalComponent implements OnInit {
     this.globalStateService.currentState.subscribe((state:any) => {
       debugger
       this.showConfirmModal = state.offerModal;
-      this.currentUserid = state.currentUserId;
-      this.productId = state.productId;
       this.liveBids=state.liveBids
     })
   }
@@ -104,8 +104,8 @@ export class MakeOfferModalComponent implements OnInit {
    
     debugger
     const input = {
-      user_id: this.currentUserid,
-      product_id: this.productId,
+      user_id: this.currentUserId,
+      product_id: this.product.id,
       price: this.bidForm.value.bid_price,
     };
     try {
