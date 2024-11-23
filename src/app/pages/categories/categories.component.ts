@@ -150,23 +150,7 @@ export class CategoriesComponent {
     });
   }
 
-  startCountdowns(data: []) {
-    if (data.length > 0) {
-      data.forEach((item: any) => {
-        if (item.product_type === 'auction') {
-          const datePart = item.ending_date.split('T')[0];
-          const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
-          const subscription = this.countdownTimerService
-            .startCountdown(endingDateTime)
-            .subscribe((remainingTime) => {
-              item.calculateRemaningTime = remainingTime;
-              item.isBid = remainingTime !== 'Bid Expired';
-            });
-          this.countdownSubscriptions.push(subscription);
-        }
-      });
-    }
-  }
+
 
   handlesUserWishlist(item: any) {
     this.fetchData(this.filters,true)
@@ -184,10 +168,31 @@ export class CategoriesComponent {
     //   }
     // });
   }
+
+  startCountdowns(data:[]) {
+    if (data) {
+      data.forEach((item: any) => {
+        const datePart = item.auction_ending_date;
+
+        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
+        const subscription = this.countdownTimerService
+          .startCountdown(endingDateTime)
+          .subscribe((remainingTime) => {
+            item.calculateRemainingTime = remainingTime
+              ? remainingTime + ' remaining'
+              : 'Bid Expired';
+            this.cd.detectChanges();
+          });
+
+        this.countdownSubscriptions.push(subscription);
+      });
+    }
+  }
   ngOnDestroy() {
     this.globalStateService.setActiveCategory(0);
     localStorage.removeItem('categoryTab');
     localStorage.removeItem('categoryId');
     localStorage.removeItem('filters');
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

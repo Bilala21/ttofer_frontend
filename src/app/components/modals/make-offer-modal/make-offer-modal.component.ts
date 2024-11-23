@@ -1,6 +1,17 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../../shared/services/state/global-state.service';
 import { CountdownTimerService } from '../../../shared/services/countdown-timer.service';
@@ -11,43 +22,36 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule, NgIf],
   templateUrl: './make-offer-modal.component.html',
-  styleUrls: ['./make-offer-modal.component.scss']
+  styleUrls: ['./make-offer-modal.component.scss'],
 })
 export class MakeOfferModalComponent implements OnInit {
-  showConfirmModal: string = "";
+  showConfirmModal: string = '';
   countdownSubscriptions: Subscription[] = [];
   isFinalStep: boolean = false;
   offerForm: FormGroup;
   bidForm: FormGroup;
   router = inject(Router);
-  @Input() product: any
+  @Input() product: any;
 
-  constructor(private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,
-    private countdownTimerService: CountdownTimerService) {
+  constructor(
+    private fb: FormBuilder,
+    private globalStateService: GlobalStateService,
+    private cdr: ChangeDetectorRef,
+    private countdownTimerService: CountdownTimerService
+  ) {
+    
     this.offerForm = this.fb.group({
-      offer_price: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]*$')
-        ]
-      ],
+      offer_price: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       bid_price: [''],
       description: [''],
     });
     this.bidForm = this.fb.group({
-      bid_price: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]*$')
-        ]
-      ]
+      bid_price: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
   }
 
   handleFirstStep() {
-    this.showConfirmModal = "";
+    this.showConfirmModal = '';
   }
 
   onSubmit(): void {
@@ -55,55 +59,60 @@ export class MakeOfferModalComponent implements OnInit {
       this.offerForm.markAllAsTouched();
       if (this.offerForm.valid) {
         this.isFinalStep = true;
-      }
-
-      else {
+      } else {
         console.log('Form is invalid');
       }
-    }
-    else {
+    } else {
       this.bidForm.markAllAsTouched();
       if (this.bidForm.valid) {
         this.isFinalStep = true;
-      }
-
-      else {
+      } else {
         console.log('Form is invalid');
       }
     }
   }
 
   closeModal(event: any) {
-    if (event === 'close-modal' || event.target.classList.contains('close-modal')) {
-      this.isFinalStep = false
-      this.globalStateService.setOfferModal("")
-      this.offerForm.reset()
-      this.bidForm.reset()
+    if (
+      event === 'close-modal' ||
+      event.target.classList.contains('close-modal')
+    ) {
+      this.isFinalStep = false;
+      this.globalStateService.setOfferModal('');
+      this.offerForm.reset();
+      this.bidForm.reset();
     }
-
   }
   finalStemSubmit() {
-    this.closeModal('close-modal')
+    this.closeModal('close-modal');
   }
 
   startCountdowns() {
-    const datePart = this.product.ending_date.split('T')[0];
-    const endingDateTime = `${datePart}T${this.product.ending_time}:00.000Z`;
+    
+    const datePart = this.product.auction_ending_date.split('T')[0];
+    const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
+    console.log(endingDateTime)
 
-    const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-      this.product.calculateRemaningTime = remainingTime;
-      this.cdr.detectChanges();
-    });
+    const subscription = this.countdownTimerService
+      .startCountdown(endingDateTime)
+      .subscribe((remainingTime) => {
+        this.product.calculateRemaningTime = remainingTime;
+        this.cdr.detectChanges();
+      });
 
     this.countdownSubscriptions.push(subscription);
   }
 
   ngOnInit(): void {
-    if (this.product.ProductType == 'auction') {
-      this.startCountdowns()
+    if (this.product.product_type == 'auction') {
+      this.startCountdowns();
     }
     this.globalStateService.currentState.subscribe((state) => {
-      this.showConfirmModal = state.offerModal
-    })
+      this.showConfirmModal = state.offerModal;
+    });
+    console.log(1234567)
+  }
+  ngOnDestroy() {
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

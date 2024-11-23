@@ -61,6 +61,7 @@ export class BodyComponent implements OnDestroy {
       next: (response) => {
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
+        this.startCountdowns();
         this.loading = false;
       },
       error: (err) => {
@@ -91,41 +92,41 @@ export class BodyComponent implements OnDestroy {
     if (item.product_type === 'featured') {
       this.mainServices.getFeatureProduct().subscribe({
         next: (res) => {
-          this.featuredPosts=res.data.data
+          this.featuredPosts = res.data.data;
         },
         error: (err) => {},
       });
     } else {
       this.mainServices.getAuctionProduct().subscribe({
         next: (res) => {
-          this.auctionPosts=res.data.data
+          this.auctionPosts = res.data.data;
         },
         error: (err) => {},
       });
     }
   }
 
-  startCountdowns() {
-    this.auctionPosts.forEach((item: any) => {
-      const datePart = item.ending_date.split('T')[0];
-      const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
-      
-
-      const subscription = this.countdownTimerService
-        .startCountdown(endingDateTime)
-        .subscribe((remainingTime) => {
-          item.calculateRemaningTime = remainingTime;
-          item.isBid = remainingTime !== 'Bid Expired';
-          this.cdr.detectChanges();
-        });
-
-      this.countdownSubscriptions.push(subscription);
-    });
+  ngOnDestroy() {
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  ngOnDestroy(): void {
-    this.countdownSubscriptions.forEach((subscription) =>
-      subscription.unsubscribe()
-    );
+  startCountdowns() {
+    if (this.auctionPosts) {
+      this.auctionPosts.forEach((item: any) => {
+        const datePart = item.auction_ending_date;
+
+        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
+        const subscription = this.countdownTimerService
+          .startCountdown(endingDateTime)
+          .subscribe((remainingTime) => {
+            item.calculateRemainingTime = remainingTime
+              ? remainingTime + ' remaining'
+              : 'Bid Expired';
+            this.cdr.detectChanges();
+          });
+
+        this.countdownSubscriptions.push(subscription);
+      });
+    }
   }
 }
