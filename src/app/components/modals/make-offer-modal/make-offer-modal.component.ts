@@ -23,6 +23,7 @@ export class MakeOfferModalComponent implements OnInit {
   offerForm: FormGroup;
   bidForm: FormGroup;
   router = inject(Router);
+  liveBids:any
   @Input() product: any
 
   constructor(private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
@@ -58,6 +59,7 @@ export class MakeOfferModalComponent implements OnInit {
       this.showConfirmModal = state.offerModal;
       this.currentUserid = state.currentUserId;
       this.productId = state.productId;
+      this.liveBids=state.liveBids
     })
   }
   handleFirstStep() {
@@ -136,18 +138,21 @@ export class MakeOfferModalComponent implements OnInit {
     }
   }
   startCountdowns() {
-    debugger
-    const datePart = this.product.auction_ending_date
-    .split('T')[0];
-    const endingDateTime = `${datePart}T${this.product.auction_ending_time}:00.000Z`;
+    
+    const datePart = this.product.auction_ending_date.split('T')[0];
+    const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
+    console.log(endingDateTime)
 
-    const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-      this.product.calculateRemaningTime = remainingTime;
-      this.cdr.detectChanges();
-    });
+    const subscription = this.countdownTimerService
+      .startCountdown(endingDateTime)
+      .subscribe((remainingTime) => {
+        this.product.calculateRemaningTime = remainingTime;
+        this.cdr.detectChanges();
+      });
 
     this.countdownSubscriptions.push(subscription);
   }
+
 
  
 }

@@ -21,6 +21,7 @@ interface AppState {
   activeCategory: number,
   currentUserId: null,
   productId: null,
+  liveBids:null
 }
 
 @Injectable({
@@ -44,7 +45,8 @@ export class GlobalStateService {
     auctionProducts: [],
     featuredProducts: [],
     currentUserId: null,
-  productId: null,
+    productId: null,
+   liveBids:null,
     isFilterActive: false,
     activeCategory:0
   };
@@ -116,13 +118,14 @@ export class GlobalStateService {
   }
 
 
-  setOfferModal(modal_type: string,currentUserId?:any,productId?:any) {
+  setOfferModal(modal_type: string,currentUserId?:any,productId?:any,liveBids?:any) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
       offerModal: modal_type,
       currentUserId:currentUserId,
-      productId:productId
+      productId:productId,
+      liveBids:liveBids
     };
     this.stateSubject.next(newState);
   }

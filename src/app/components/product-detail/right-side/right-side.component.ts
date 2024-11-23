@@ -95,7 +95,7 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type,this.currentUserid,this.productId)
+    this.globalStateService.setOfferModal(modal_type,this.currentUserid,this.productId,this.liveAuction.length)
   }
   getBid() {
     this.loading = true;
@@ -111,7 +111,6 @@ export class RightSideComponent {
           this.profileImg.push(imgObject);
         }
       });
-      console.log('live auction', this.liveAuction, res, this.profileImg);
       if (this.liveAuction && this.liveAuction.length > 0) {
         const prices = this.liveAuction.map((item) => item.price);
         this.maxPrice = Math.max(...prices);
@@ -119,4 +118,5 @@ export class RightSideComponent {
       this.loading = false;
     });
   }
+  
 }

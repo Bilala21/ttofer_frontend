@@ -156,48 +156,48 @@ export class AuctionProductComponent {
       console.log(this.auctionProduct);
     });
   }
-  startCountdowns() {
-    this.auctionProduct.forEach((item, index) => {
-      const datePart = item.ending_date.split('T')[0];
-      const endingDateTimeString = `${datePart}T${item.ending_time}:00.000Z`;
-      const endingDateTime = new Date(endingDateTimeString).getTime();
-      const intervalId = setInterval(() => {
-        const nowUTC = Date.now();
-        const timeDifference = endingDateTime - nowUTC;
-        if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
-          clearInterval(intervalId);
-          this.calculateRemaningTime = 'Bid Time Finished';
-          this.IsBit = false;
-        } else {
-          this.calculateRemaningTime =
-            this.formatTimeDifference(timeDifference) + ' remaining';
-          this.IsBit = true;
-        }
-      }, 1000); // Update every second
-    });
-  }
-  formatTimeDifference(timeDifference: number): string {
-    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-    );
-    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    let formattedTime = '';
-    if (days > 0) {
-      formattedTime += `${days}d `;
+    startCountdowns() {
+      this.auctionProduct.forEach((item, index) => {
+        const datePart = item.ending_date.split('T')[0];
+        const endingDateTimeString = `${datePart}T${item.ending_time}:00.000Z`;
+        const endingDateTime = new Date(endingDateTimeString).getTime();
+        const intervalId = setInterval(() => {
+          const nowUTC = Date.now();
+          const timeDifference = endingDateTime - nowUTC;
+          if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
+            clearInterval(intervalId);
+            this.calculateRemaningTime = 'Bid Time Finished';
+            this.IsBit = false;
+          } else {
+            this.calculateRemaningTime =
+              this.formatTimeDifference(timeDifference) + ' remaining';
+            this.IsBit = true;
+          }
+        }, 1000); // Update every second
+      });
     }
-    if (hours > 0 || days > 0) {
-      formattedTime += `${hours}h `;
+    formatTimeDifference(timeDifference: number): string {
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      let formattedTime = '';
+      if (days > 0) {
+        formattedTime += `${days}d `;
+      }
+      if (hours > 0 || days > 0) {
+        formattedTime += `${hours}h `;
+      }
+      if (minutes > 0 || hours > 0 || days > 0) {
+        formattedTime += `${minutes}m `;
+      }
+      formattedTime += `${seconds}s`;
+      return formattedTime;
     }
-    if (minutes > 0 || hours > 0 || days > 0) {
-      formattedTime += `${minutes}m `;
-    }
-    formattedTime += `${seconds}s`;
-    return formattedTime;
-  }
   placeBid(price: any) {
     if (price < this.maxPrice) {
       this.loading = false;
