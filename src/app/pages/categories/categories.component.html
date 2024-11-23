@@ -26,7 +26,7 @@
           (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
       </div>
       <div class="d-block d-lg-flex">
-        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" />
+        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" [categoryId]="this.id"/>
         <!-- PRODUCT SIDE -->
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
           <div class="w-100 product-main">
