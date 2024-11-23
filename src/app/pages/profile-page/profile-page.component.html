@@ -1075,9 +1075,9 @@
                             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
                           "
                         >
-                          @if(data.product.photo[0]?.src){
+                          @if(data.product.photo[0]?.url){
                           <img
-                            [src]="data.product.photo[0]?.src"
+                            [src]="data.product.photo[0]?.url"
                             class="w-100 h-100"
                             alt=""
                           />
