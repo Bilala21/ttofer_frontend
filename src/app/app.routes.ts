@@ -163,7 +163,7 @@ export const routes: Routes = [
   //     import('./profile/profile.module').then((m) => m.ProfileModule),
   // },
   {
-    path: 'test-profile',
+    path: 'profile',
     loadChildren: () =>
       import('./profilemodule/profilemodule.module').then(
         (m) => m.ProfilemoduleModule

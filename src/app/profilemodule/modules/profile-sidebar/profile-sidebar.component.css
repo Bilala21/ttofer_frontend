@@ -1,0 +1,10 @@
+.menus{
+    row-gap: 15px;
+    &:first-child{
+        background-color: aqua;
+    }
+    .menu:hover{
+     color: #333;
+     background: #FFA700;
+    }
+}

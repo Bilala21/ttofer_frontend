@@ -2,9 +2,34 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfilemoduleComponent } from './profilemodule.component';
-import { ProfileSidebarComponent } from './profile-sidebar/profile-sidebar.component';
+import { ProfileSidebarComponent } from './modules/profile-sidebar/profile-sidebar.component';
 
-const routes: Routes = [{ path: '', component: ProfilemoduleComponent }];
+const routes: Routes = [
+  { path: '', component: ProfilemoduleComponent,
+    children:[
+      {
+        path: '',
+        redirectTo: 'sale-purchase',
+        pathMatch: 'full',
+      },
+      {
+        path: 'sale-purchase',
+        loadChildren: () =>
+          import('./modules/purchase-sale/purchase-sale.module').then(
+            (m) => m.PurchaseSaleModule
+          ),
+      },
+      {
+        path: 'payment',
+        loadChildren: () =>
+          import('./modules/payment/payment.module').then(
+            (m) => m.PaymentModule
+          ),
+      },
+    ]
+   },
+  
+];
 
 @NgModule({
   declarations: [ProfilemoduleComponent],
