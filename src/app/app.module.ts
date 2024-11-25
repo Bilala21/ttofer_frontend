@@ -18,7 +18,7 @@ import { FooterComponent } from './shared/shared-components/footer/footer.compon
   imports: [
     CommonModule,
     
-    RouterModule.forRoot([{ path: 'pages/profilemodule/transactions/sale-purchase', loadChildren: () => import('./profilemodule/transactions/sale-purchase/sale-purchase.module').then(m => m.SalePurchaseModule) }, { path: 'pages/profilemodule', loadChildren: () => import('./profilemodule/profilemodule.module').then(m => m.ProfilemoduleModule) }]),
+    RouterModule.forRoot([{ path: 'pages/profilemodule/transactions/sale-purchase', loadChildren: () => import('./profilemodule/transactions/sale-purchase/sale-purchase.module').then(m => m.SalePurchaseModule) }, { path: 'pages/profilemodule', loadChildren: () => import('./profilemodule/profilemodule.module').then(m => m.ProfilemoduleModule) }, { path: 'pages/profilemodule/payment', loadChildren: () => import('./profilemodule/payment/payment.module').then(m => m.PaymentModule) }]),
     FooterComponent,
     HeaderComponent,
   
