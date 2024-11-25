@@ -8,7 +8,7 @@
 }
 .term-title{
     margin-top: 10px;
-    color: #ffc107;
+    color: #FFA700;
     font-weight: 400 !important;
     line-height: 25px !important;
     font-size: 20px !important;
@@ -24,10 +24,10 @@
     text-align: justify;
 }
 .support-email{
-    color: #ffc107;
+    color: #FFA700;
 }
 .sub-Title{
-    color: #ffc107;
+    color: #FFA700;
     text-align: justify;
     padding-left: 22.5px;
 }

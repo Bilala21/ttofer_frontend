@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
     standalone: true,
     templateUrl: './review-page.component.html',
     styleUrl: './review-page.component.scss',
-    imports: [FooterComponent, StarRatingComponent,NgIf]
+    imports: [ StarRatingComponent,NgIf]
 })
 export class ReviewPageComponent {
 userId:any

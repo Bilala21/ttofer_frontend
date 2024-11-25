@@ -206,7 +206,7 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type);
+    this.globalStateService.setOfferModal(modal_type)
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

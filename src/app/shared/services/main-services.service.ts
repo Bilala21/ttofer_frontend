@@ -14,21 +14,7 @@ export class MainServicesService {
     @Inject(PLATFORM_ID) private platformId: any
   ) { }
    Url = 'https://www.ttoffer.com/backend/public/api';
-  // private getHeaders(): HttpHeaders {
-  //   let headersConfig:any = {
-  //     'Content-Type': 'application/json',
-  //   };
-
-  //   if (isPlatformBrowser(this.platformId)) {
-  //
-  //     const token = localStorage.getItem('authToken');
-  //     if (token) {
-  //       headersConfig['Authorization'] = `Bearer ${token}`;
-  //     }
-  //   }
-
-  //   return new HttpHeaders(headersConfig);
-  // }
+  
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
 
@@ -47,12 +33,9 @@ export class MainServicesService {
   getAuthByLoginNumber(input: any): Observable<any> {
 
     return this.http.post(`${Constants.baseApi}` + '/login-phone', input).pipe(
-      // catchError()
     );
   }
-  // getFeatureProduct(): Observable<any> {
-  //   return this.http.post(`${Constants.baseApi}/featured-products`, null, { headers: this.getHeaders() });
-  // }
+ 
   getBanners(): Observable<any> {
 
     return this.http.get(`${Constants.baseApi}/get-banners`);
@@ -105,7 +88,7 @@ export class MainServicesService {
 
   }
   sendMsg(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/send_msg', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/message/send', input).pipe();
   }
   markMessagesAsRead(conversation_id: any) {
     return this.http.get(`${Constants.baseApi}` + '/mark/conversation/read/' + conversation_id).pipe();

@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../../shared/services/state/global-state.service';
 import { CountdownTimerService } from '../../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
+import { MainServicesService } from '../../../shared/services/main-services.service';
+import { Extension } from '../../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-make-offer-modal',
@@ -15,15 +17,19 @@ import { Subscription } from 'rxjs';
 })
 export class MakeOfferModalComponent implements OnInit {
   showConfirmModal: string = "";
+  currentUserId:any;
+  productId:any
   countdownSubscriptions: Subscription[] = [];
   isFinalStep: boolean = false;
   offerForm: FormGroup;
   bidForm: FormGroup;
   router = inject(Router);
+  liveBids:any
   @Input() product: any
 
-  constructor(private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,
+  constructor(private extension:Extension,private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
     private countdownTimerService: CountdownTimerService) {
+      this.currentUserId=this.extension.getUserId()
     this.offerForm = this.fb.group({
       offer_price: [
         '',
@@ -45,7 +51,17 @@ export class MakeOfferModalComponent implements OnInit {
       ]
     });
   }
-
+  ngOnInit(): void {
+   
+    if (this.product.product_type == 'auction') {
+      this.startCountdowns()
+    }
+    this.globalStateService.currentState.subscribe((state:any) => {
+      
+      this.showConfirmModal = state.offerModal;
+      this.liveBids=state.liveBids
+    })
+  }
   handleFirstStep() {
     this.showConfirmModal = "";
   }
@@ -83,27 +99,58 @@ export class MakeOfferModalComponent implements OnInit {
 
   }
   finalStemSubmit() {
-    this.closeModal('close-modal')
   }
+  placeBid() { 
+    const input = {
+      user_id: this.currentUserId,
+      product_id: this.product.id,
+      price: this.bidForm.value.bid_price,
+    };
+    try {
+      this.mainServices.placeBid(input).subscribe({
+        next: (res: any) => {
+          
+          // this.toastr.success(
+          //   `Bid Placed for AED ${input.price} successfully`,
+          //   'Success'
+          // );
+          this.closeModal('close-modal')
 
+         
+        },
+        error: (err: any) => {
+          // const errorMessage =
+          //   err?.error?.message ||
+          //   'Failed to place bid. Please try again later.';
+          // this.toastr.error(errorMessage, 'Error');
+          // this.loading = false;
+          // console.error(err);
+        },
+      });
+    } catch (error) {
+      // this.toastr.error(
+      //   'An unexpected error occurred. Please try again later.',
+      //   'Error'
+      // );
+      // this.loading = false;
+    }
+  }
   startCountdowns() {
-    const datePart = this.product.ending_date.split('T')[0];
-    const endingDateTime = `${datePart}T${this.product.ending_time}:00.000Z`;
+    
+    const datePart = this.product.auction_ending_date.split('T')[0];
+    const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
+    console.log(endingDateTime)
 
-    const subscription = this.countdownTimerService.startCountdown(endingDateTime).subscribe((remainingTime) => {
-      this.product.calculateRemaningTime = remainingTime;
-      this.cdr.detectChanges();
-    });
+    const subscription = this.countdownTimerService
+      .startCountdown(endingDateTime)
+      .subscribe((remainingTime) => {
+        this.product.calculateRemaningTime = remainingTime;
+        this.cdr.detectChanges();
+      });
 
     this.countdownSubscriptions.push(subscription);
   }
 
-  ngOnInit(): void {
-    if (this.product.ProductType == 'auction') {
-      this.startCountdowns()
-    }
-    this.globalStateService.currentState.subscribe((state) => {
-      this.showConfirmModal = state.offerModal
-    })
-  }
+
+ 
 }

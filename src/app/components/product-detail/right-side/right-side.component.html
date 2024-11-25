@@ -29,7 +29,7 @@
   </div>
 
   <div class="fw-bold fs-22 pt-3">AED {{product.product_type !=='auction'? product.fix_price:
-    product.auction_price}}
+    product.auction_initial_price}}
   </div>
   <div class="mb-2" *ngIf="product.product_type !=='auction'">
     <p class="m-0">or Best Offer</p>
@@ -62,6 +62,117 @@
         <span>Monday, 04:05 <span>PM</span></span>
       </div>
     </div>
+    <div class="row mt-5 justify-content-center" >
+      <div class="col-11 col-md-12" style="
+        background-color: #f3f4f5;
+        padding: 2vh;
+        border-radius: 2vh;
+      ">
+        <div class="row">
+          <div class="col-6" style="border-right: 1px solid #787878; padding-right: 1vh">
+            <h6 class="starting-price">Starting price</h6>
+            <span class="auction-price">AED {{
+              product.auction_initial_price|| "N/A"
+              }}</span>
+            <div class="row mt-2">
+              <div class="col-6">
+                <div class="live-user-img-main">
+                  <!-- Display each image in a single row -->
+                  <div *ngFor="
+                    let data of profileImg;
+                    let i = index
+                  " class="d-flex me-2 mb-2">
+                    <img [src]="data?.img" alt="" class="live-user-img" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="h-100" style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                ">
+                  <div class="live-user-count">
+                    <span class="user-length-count">
+                      +{{ liveAuction.length }}
+                    </span>
+                  </div>
+                  <span class="are-live">are live</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <h6 class="starting-price">Current Bid Price</h6>
+            <span class="max-price">AED {{ maxPrice }}</span>
+            <div class="mt-3">
+              <span class="are-live"
+              >{{ calculateRemaningTime || "N/A" }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- live-action bids-mads -->
+    <div class="row mt-3" >
+      <div class="col-6">
+        <img src="assets/images/liveDot.svg" alt="" loading="lazy" />
+        <span class="live-auction">Live Auction</span>
+      </div>
+      <div class="col-6" style="text-align: end">
+        <span class="bids-made">{{ liveAuction.length }} Bids made</span>
+      </div>
+    </div>
+    <!-- bids-data -->
+    <div class="sidebar" >
+      <div class="biders">
+        <div class="row mt-3 align-items-center justify-content-between mx-0" *ngFor="let data of liveAuction">
+          <div class="col-8">
+            <div class="row align-items-center">
+              <div class="col-2">
+                <img loading="lazy" [src]="
+                  data?.user?.img
+                    ? data?.user?.img
+                    : '/assets/images/profile-placeholder.png'
+                " alt="" class="bider-users" />
+              </div>
+              <div class="col-9 mt-2">
+                <h6 class="m-0 p-0 bider-user">
+                  {{ data?.user?.name }}"
+                </h6>
+                <span class="bider-user-time">{{
+                  data?.created_at | date
+                  }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 bider-user-price">
+            <span class="">{{ data?.price }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- allowedToBid && IsBit -->
+    <!-- <div *ngIf="allowedToBid && IsBit" class="row mt-3 justify-content-between">
+    <div *ngFor="let price of priceOptions" class="col-1 sm-p-0">
+      <span
+        class="btn btn-outline-dark custom-price"
+        (click)="placeBid(price)"
+      >
+        {{ price}}
+      </span>
+    </div>
+    <div class="col-5">
+      <button
+        id="placeBid"
+        name="placeBid"
+        class="btn btn-dark w-100 custom-bid sm-p-2"
+        (click)="showInput()"
+      >
+        use custom bid
+      </button>
+    </div>
+  </div> -->
   </div>
   <div class="attributes-container">
     <div class="attribute-item" *ngFor="let item of parsedAttributes  | keyvalue">

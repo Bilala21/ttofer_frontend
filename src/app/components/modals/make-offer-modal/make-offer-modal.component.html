@@ -101,7 +101,7 @@
         <h4>Place your bid</h4>
         <div class="py-3">
           <p class="fw-bold">AED 1235</p>
-          <p>15 bids <span class="fs-20">.</span> 2d 9h left</p>
+          <p>{{liveBids}} bids <span class="fs-20">.</span> {{this.product.calculateRemaningTime}}</p>
         </div>
 
         <div class="d-flex align-content-center mt-2">
@@ -145,7 +145,7 @@
     <!-- END STEP 1 MODAL -->
 
     <!-- STEP 2 MODAL -->
-    <form class="{{isFinalStep?'':'d-none'}}" [formGroup]="offerForm" (ngSubmit)="finalStemSubmit()">
+    <form class="{{isFinalStep?'':'d-none'}}" [formGroup]="offerForm" >
       <div class="text-right">
         <button class="w-fit border-0 rounded-pill bg-gray-450 p-0 close-modal" data-dismiss="modal" aria-label="Close" (click)="closeModal($event)"><i
             class="fas fa-times fs-14 close-modal"></i>
@@ -187,7 +187,7 @@
             class="bg-transparent text-dark-650 rounded-pill border-yellow border-1 py-2 flex-grow-1 mr-3"
             (click)="isFinalStep=false">Edit
             bid</button>
-          <button type="submit" class="btn-yellow rounded-pill border-0 py-2 text-white flex-grow-1" (click)="finalStemSubmit()">Confirm
+          <button  class="btn-yellow rounded-pill border-0 py-2 text-white flex-grow-1" (click)="placeBid()">Confirm
             bid</button>
         </div>
       </div>

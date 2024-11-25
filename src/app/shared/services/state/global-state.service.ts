@@ -18,7 +18,10 @@ interface AppState {
   cartState: any[],
   offerModal: string,
   isFilterActive: boolean,
-  activeCategory: number
+  activeCategory: number,
+  currentUserId: null,
+  productId: null,
+  liveBids:null
 }
 
 @Injectable({
@@ -41,6 +44,9 @@ export class GlobalStateService {
     offerModal: "",
     auctionProducts: [],
     featuredProducts: [],
+    currentUserId: null,
+    productId: null,
+   liveBids:null,
     isFilterActive: false,
     activeCategory:0
   };
@@ -112,11 +118,14 @@ export class GlobalStateService {
   }
 
 
-  setOfferModal(modal_type: string) {
+  setOfferModal(modal_type: string,currentUserId?:any,productId?:any,liveBids?:any) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      offerModal: modal_type
+      offerModal: modal_type,
+      currentUserId:currentUserId,
+      productId:productId,
+      liveBids:liveBids
     };
     this.stateSubject.next(newState);
   }

@@ -5,22 +5,25 @@ import { Observable, interval, map, takeWhile } from 'rxjs';
   providedIn: 'root',
 })
 export class CountdownTimerService {
-  constructor() {}
+  constructor() {
+
+  }
 
   startCountdown(endDateTime: string): Observable<string> {
-    const endDate = new Date(endDateTime).getTime();
+    const endDate = new Date(endDateTime).getTime(); // Convert endDateTime to milliseconds
+
     return interval(1000).pipe(
       map(() => {
         const now = Date.now();
         const timeDifference = endDate - now;
 
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
-          return 'Bid Expired';
+          return 'Bid Expired'; // Return 'Bid Expired' when time is up
         } else {
-          return this.formatTimeDifference(timeDifference);
+          return this.formatTimeDifference(timeDifference); // Format remaining time
         }
       }),
-      takeWhile((time) => time !== 'Bid Expired') // Stop emitting after expiration
+      takeWhile((time) => time !== 'Bid Expired') // Stop the observable after expiration
     );
   }
 
@@ -40,8 +43,8 @@ export class CountdownTimerService {
     if (minutes > 0) {
       formattedTime += `${minutes}m `;
     }
-    formattedTime += `${seconds}s `;
+    formattedTime += `${seconds}s`;
 
-    return formattedTime;
+    return formattedTime ;
   }
 }

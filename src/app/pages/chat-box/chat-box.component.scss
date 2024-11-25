@@ -179,7 +179,7 @@
 }
 
 .suggestion-item {
-  background: #ffc107;
+  background: #FFA700;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -194,7 +194,7 @@
 
 .no-chat-icon {
   font-size: 2rem;
-  color: #ffc107;
+  color: #FFA700;
   /* Applies yellow color */
 }
 
@@ -219,7 +219,5 @@
   .xs-d-none {
     display: none;
   }
-  .back-btn{
-    // display: block;
-  }
+  
 }

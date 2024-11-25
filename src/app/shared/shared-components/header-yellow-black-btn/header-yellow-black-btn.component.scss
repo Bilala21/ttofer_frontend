@@ -1,0 +1,64 @@
+::ng-deep .three-btn-without-login {
+    border: 1px solid red;
+    .btn {
+      outline: none;
+      box-shadow: none;
+      &:focus,
+      &:active {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    .yellow-btn-nav,
+    .login-btn-nav {
+      outline: none;
+      &:focus,
+      &:active {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    a {
+      text-decoration: none;
+      outline: none;
+      &:focus,
+      &:active {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    display: flex;
+    justify-content: space-between;
+    .yellow-btn-nav {
+      font-size: 12px;
+      line-height: 16.37px;
+      font-weight: 700;
+      color: #292d32;
+      border-radius: 25px;
+      padding: 11px;
+      background-color: #FFA700;
+      &:hover {
+        background-color: #e0b012;
+      }
+      span {
+        padding-left: 2px;
+      }
+      img {
+        width: 24px;
+        padding-left: 6px;
+      }
+    }
+    .login-btn-nav {
+      font-size: 12px;
+      line-height: 16.37px;
+      font-weight: 700;
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 11px 15px;
+      background-color: #414141;
+      &:hover {
+        background-color: #585858;
+      }
+    }
+  }
+  

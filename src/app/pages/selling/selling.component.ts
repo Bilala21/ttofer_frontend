@@ -210,7 +210,7 @@ export class SellingComponent {
   getSelling() {
     this.loading = true
     this.mainServices.getSelling().subscribe((res:any) => {
-      debugger
+      
       this.sellingList = res.data.selling.data
       this.sellingList = this.sellingList?.filter((item:any) => {
         return item.id == this.sellingId;
