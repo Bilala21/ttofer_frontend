@@ -1,133 +1,14 @@
-<div class="row mt-4">
-    <h4>Transactions</h4>
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'purchasesSales'}"
-        (click)="selectTab('purchasesSales')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/receipt-item.svg" class="w-100" alt="" loading="lazy">
+<div class="d-none d-md-block">
+    <div class="sidebar-content">
+        <div *ngFor="let item of sidebarItems" class="mt-4">
+            <h4 class="fs-19 text-dark-800 fw-bold">{{ item.title }}</h4>
+            <!-- start menu items -->
+            <div class="menu" *ngFor="let menu of item.items">
+                <i [class]="menu.icon" class="fs-20"></i>
+                <span>{{ menu.label }} </span>
             </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Purchases & Sales</h6>
-            </div>
+            <!-- end menu items -->
         </div>
-    </div>
-    <div class="col-12 mt-2 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'paymentDeposit'}"
-        (click)="selectTab('paymentDeposit')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/card-tick.svg" class="w-100" alt="" loading="lazy">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Payment & Deposit method</h6>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mt-4">
-    <h4>Save</h4>
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === ''}"
-        (click)="selectTab('savedItems')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/heart-icon.svg" class="w-100" alt="" loading="lazy">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Saved items</h6>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 mt-2 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'notification'}"
-        (click)="selectTab('notification')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/notification-bing.svg" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Notifications</h6>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mt-4">
-    <h4>My Posts</h4>
-    <!-- <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'editPost'}" (click)="selectTab('editPost')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/gallery-edit.png" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Edit Post</h6>
-            </div>
-        </div>
-    </div> -->
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'addPost'}" (click)="selectTab('addPost')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/gallery-add.png" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Add Post</h6>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mt-4">
-    <h4>Account</h4>
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'accountSetting'}"
-        (click)="selectTab('accountSetting')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/user-edit.svg" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Account Setting 12345</h6>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'boostPlus'}"
-        (click)="selectTab('boostPlus')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/arrow-up.svg" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Boost Plus</h6>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 mt-2 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'customLinks'}"
-        (click)="selectTab('customLinks')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/link.svg" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Custom Profile Link</h6>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mt-4">
-    <h4>Help</h4>
-    <div class="col-12 mt-3 p-2 onHover pointer"
-        [ngClass]="{'active': selectedTab === 'helpCenter'}"
-        (click)="selectTab('helpCenter')">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="assets/images/message-question.svg" class="w-100" alt="">
-            </div>
-            <div class="col-10 m-0 p-0">
-                <h6>Help Center</h6>
-            </div>
-        </div>
+
     </div>
 </div>
