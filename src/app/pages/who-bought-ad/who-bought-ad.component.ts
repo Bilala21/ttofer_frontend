@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 import { NgFor } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -11,7 +10,7 @@ import { Extension } from '../../helper/common/extension/extension';
     standalone: true,
     templateUrl: './who-bought-ad.component.html',
     styleUrl: './who-bought-ad.component.scss',
-    imports: [FooterComponent, HeaderComponent, NgFor]
+    imports: [FooterComponent, NgFor]
 })
 export class WhoBoughtAdComponent {
   message:any [] = [

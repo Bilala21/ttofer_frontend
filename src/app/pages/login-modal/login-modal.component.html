@@ -15,9 +15,6 @@
   >
     <div class="modal-content">
       <div class="modal-header">
-        <!-- <button type="button" class="back" (click)="back()" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button> -->
         <h4
           class="modal-title"
           *ngIf="
@@ -44,51 +41,16 @@
       <!-- Modal Body -->
       <div class="modal-body">
         <div class="row">
+          <!-- login-with-phone -->
           <div class="col-10 mx-auto" *ngIf="showPhoneBox">
-            <!-- <div class="text-center">
-								<h6 class="">Phone</h6>
-								<img src="assets/images/phone-img.png" class="w-75 mt-3" alt="">
-							</div> -->
-            <!-- <div class="row">
-								<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
-									<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
-
-								</div>
-								<div class="col-lg-11 col-md-10 col-10 text-center">
-									<h6 class="">Phone</h6>
-								<img src="assets/images/phone-img.png" class="w-50 mt-3" alt="">
-								</div>
-							</div>
-							<div class="mt-4">
-								<label>Phone</label>
-								<input #phoneInput="ngModel" [(ngModel)]="phone" name="phone" type="text"
-									placeholder="Enter Your Phone Number" class="form-control"
-									style="border-radius: 10px;" required>
-							</div>
-							<div class="mt-4">
-								<label>Password</label>
-								<input #passwordInput="ngModel" [(ngModel)]="password" name="password" type="password"
-									placeholder="Enter Your Password" class="form-control" style="border-radius: 10px;"
-									required>
-								<div style="text-align: end;">
-									<a style="cursor: pointer;" (click)="openForgot()"><span>Forgot Password
-											?</span></a>
-								</div>
-							</div>
-							<div class="mt-4">
-								<button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
-									[disabled]="!phoneInput.value || !passwordInput.value"
-									(click)="loginWithPhone()">Sign
-									in</button>
-							</div> -->
-            <app-phone-sign-in
+              <app-phone-sign-in
               (backEvent)="backButton()"
               (closeModalEvent)="closeModal()"
               (forgetEvent)="openForgot()"
             >
             </app-phone-sign-in>
           </div>
-
+         <!-- forgot-password-with-email -->
           <div class="col-10 mx-auto" *ngIf="showForgotBox">
             <div class="text-center">
               <h6 class="">Email</h6>
@@ -128,7 +90,7 @@
               </button>
             </div>
           </div>
-
+         <!-- forgot-password-with-phone -->
           <div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
             <div class="text-center">
               <h6 class="">Phone Number</h6>
@@ -168,6 +130,7 @@
               </button>
             </div>
           </div>
+          <!-- OTP-screen -->
           <div class="col-10 mx-auto" *ngIf="showOTPBox">
             <div class="text-center">
               <h6>Verify</h6>
@@ -236,40 +199,8 @@
               </h6>
              </div>
           </div>
-
+          <!-- OTP-screen -->
           <div class="col-10 mx-auto" *ngIf="showEmailBox">
-            <!-- <div class="text-center">
-								<h6 class="">Email</h6>
-								<img src="assets/images/email-img.png" class="w-75 mt-3" alt="">
-							</div> -->
-            <!-- <div class="row">
-								<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
-									<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
-
-								</div>
-								<div class="col-lg-11 col-md-10 col-10 text-center">
-									<h6 class="">Email</h6>
-								<img src="assets/images/email-img.png" class="w-50 mt-3" alt="">
-								</div>
-							</div>
-							<div class="mt-4">
-								<label>Email</label>
-								<input type="text" placeholder="Enter Your Email" class="form-control"
-									style="border-radius: 10px;" [(ngModel)]="email">
-							</div>
-							<div class="mt-4">
-								<label>Password</label>
-								<input type="password" placeholder="Enter Your Password" class="form-control"
-									style="border-radius: 10px;" [(ngModel)]="password">
-								<div style="text-align: end;">
-									<a style="cursor: pointer;" (click)="openForgotEmail()"><span>Forgot Password
-											?</span></a>
-								</div>
-							</div>
-							<div class="mt-4">
-								<button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
-									[disabled]="!isFormValid()" (click)="signInWithEmail()">Sign in</button>
-							</div> -->
             <app-email-sign-in
               (backEvent)="backButton()"
               (closeModalEvent)="closeModal()"
@@ -509,15 +440,13 @@
             </button>
             <span class="mt-3"
               >Don't have an account?
-              <a
-                style="
-                  color: black;
-                  cursor: pointer;
-                  text-decoration: underline;
-                "
+              <span
+                class="for-link cur-pointer"
                 (click)="openRegister()"
-                >Register</a
-              ></span
+                >
+                Register
+                </span>
+              </span
             >
             <p class="mt-5 text-center">
               By moving forward, you're agreeing to our

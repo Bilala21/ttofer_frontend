@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 import { ActivatedRoute } from '@angular/router';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
     standalone: true,
     templateUrl: './review-page.component.html',
     styleUrl: './review-page.component.scss',
-    imports: [HeaderComponent, FooterComponent, StarRatingComponent,NgIf]
+    imports: [FooterComponent, StarRatingComponent,NgIf]
 })
 export class ReviewPageComponent {
 userId:any

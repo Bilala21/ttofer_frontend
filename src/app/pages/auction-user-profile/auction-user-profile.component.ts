@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 import { NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -13,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     standalone: true,
     templateUrl: './auction-user-profile.component.html',
     styleUrl: './auction-user-profile.component.scss',
-    imports: [HeaderComponent, FooterComponent, NgFor, NgIf, StarRatingComponent,RouterLink]
+    imports: [FooterComponent, NgFor, NgIf, StarRatingComponent,RouterLink]
 })
 export class AuctionUserProfileComponent {
     activeTab: string = 'products';

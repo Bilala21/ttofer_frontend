@@ -1,8 +1,7 @@
 import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SellingNotfoundComponent } from '../../components/selling/selling-notfound/selling-notfound.component';
 import { TabsComponent } from '../../components/selling/tabs/tabs.component';

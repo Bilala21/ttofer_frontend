@@ -5,12 +5,11 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import {
   catchError,

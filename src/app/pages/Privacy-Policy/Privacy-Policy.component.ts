@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 
 @Component({
@@ -8,7 +7,7 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
   standalone: true,
   templateUrl: './Privacy-Policy.component.html',
   styleUrls: ['./Privacy-Policy.component.css'],
-  imports: [HeaderComponent, FooterComponent, NgFor,  NgIf, CommonModule]
+  imports: [FooterComponent, NgFor,  NgIf, CommonModule]
 })
 export class PrivacyPolicyComponent implements OnInit {
   supportEmail!:string;

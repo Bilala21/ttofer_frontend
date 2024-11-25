@@ -6,8 +6,6 @@ import {
   DecimalPipe,
 } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
 import { SellingComponent } from '../selling/selling.component';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
@@ -31,7 +29,6 @@ import { blob } from 'stream/consumers';
 import { ReviewPageComponent } from '../review-page/review-page.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NotificationComponent } from '../notification/notification.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { CurrentLocationComponent } from '../current-location/current-location.component';
 import { SharedDataService } from '../../shared/services/shared-data.service';
