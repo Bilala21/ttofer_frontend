@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS,  provideHttpClient, withFetch } from '@angular/common/http';
-import { HeaderComponent } from './shared/shared-components/header/header.component';
 import { TokenizedInterceptor } from './shared/services/security/tokenized-Interceptor';
-import { FooterComponent } from './shared/shared-components/footer/footer.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -20,9 +19,6 @@ import { FooterComponent } from './shared/shared-components/footer/footer.compon
     
     RouterModule.forRoot([]),
     FooterComponent,
-    HeaderComponent,
-  
-    
 ],
   exports: [
     // HeaderComponent

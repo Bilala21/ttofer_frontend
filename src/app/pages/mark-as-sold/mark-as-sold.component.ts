@@ -1,7 +1,6 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -16,7 +15,6 @@ import { Extension } from '../../helper/common/extension/extension';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
     FooterComponent,
     FormsModule,
     RouterModule,

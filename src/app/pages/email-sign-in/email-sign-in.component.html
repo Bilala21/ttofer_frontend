@@ -12,7 +12,7 @@
     <label>Email</label>
     <input type="text" placeholder="Enter Your Email" class="form-control"
            formControlName="email"
-           style="border-radius: 10px;">
+           >
     <div *ngIf="emailForm.get('email')?.touched && emailForm.get('email')?.invalid" class="text-danger">
       <small *ngIf="emailForm.get('email')?.errors?.['required']">Email is required.</small>
       <small *ngIf="emailForm.get('email')?.errors?.['email']">Enter a valid email.</small>
@@ -22,16 +22,16 @@
     <label>Password</label>
     <input type="password" placeholder="Enter Your Password" class="form-control"
            formControlName="password"
-           style="border-radius: 10px;">
+           >
     <div *ngIf="emailForm.get('password')?.touched && emailForm.get('password')?.invalid" class="text-danger">
       <small *ngIf="emailForm.get('password')?.errors?.['required']">Password is required.</small>
     </div>
-    <div style="text-align: end;">
-      <a style="cursor: pointer;" (click)="openForgot()"><span>Forgot Password ?</span></a>
+    <div class="text-right">
+      <span class="for-link cur-pointer" (click)="openForgot()">Forgot Password ?</span>
     </div>
   </div>
   <div class="mt-4">
-    <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;" 
+    <button class="btn btn-dark w-100 p-2"  
             [disabled]="!isFormValid() || loading">
       <ng-container *ngIf="!loading; else spinner">
         Sign in

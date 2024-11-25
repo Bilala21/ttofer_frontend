@@ -59,10 +59,13 @@
                   <div class="fs-14 text-capitalize mt-1">
                     Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
-                  <div class="d-flex justify-content-center align-items-center">
-                    <div class="text-center">
-                      <app-star-rating [rating]="currentUserProfile.review_percentage"
-                        [allowRating]="this.allowRating"></app-star-rating>
+                  <!-- rating -->
+                  <div class="d-flex justify-content-center justify-content-md-start align-items-center ">
+                    <div class="">
+                      <app-star-rating
+                        [rating]="currentUserProfile.review_percentage"
+                        [allowRating]="this.allowRating"
+                      ></app-star-rating>
                     </div>
                     <div class="ml-3">
                       <p class="mb-0 fs-12">

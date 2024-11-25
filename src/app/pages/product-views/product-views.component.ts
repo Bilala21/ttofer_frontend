@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { ActivatedRoute } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -12,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: true,
   templateUrl: './product-views.component.html',
   styleUrl: './product-views.component.scss',
-  imports: [HeaderComponent, NgIf, NgFor, CommonModule, FormsModule]
+  imports: [NgIf, NgFor, CommonModule, FormsModule]
 })
 
 export class ProductViewsComponent {

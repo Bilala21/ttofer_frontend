@@ -5,12 +5,11 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import {
   catchError,
@@ -83,16 +82,16 @@ export class ChatBoxComponent {
     this.selectedTab = tab;
     if (this.selectedTab === 'buying') {
       this.selectedUserId = null;
-      this.chatBox = this.allChat.buyer_chats;
+      this.chatBox = this.allChat?.buyer_chats;
       this.conversationBox = [];
       this.suggestions = this.buyerSuggestions;
     } else {
       this.selectedUserId = null;
-      this.chatBox = this.allChat.seller_chats;
+      this.chatBox = this.allChat?.seller_chats;
       this.conversationBox = [];
       this.suggestions = this.sellerSuggestions;
     }
-    if(this.chatBox.length > 0){
+    if(this.chatBox?.length > 0){
       this.chatBox = this.chatBox.sort((a: any, b: any) => {
         return (
           new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
@@ -217,7 +216,6 @@ export class ChatBoxComponent {
       .subscribe((res: any) => {
         this.allChat = res.data;
         this.selectTab(this.selectedTab);
-        if (this.selectedUser != null) console.log(this.chatBox);
       });
   };
   getTimeDifference(updatedAt: string): string {

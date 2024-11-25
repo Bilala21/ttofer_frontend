@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { SharedModule } from '../../shared/shared.module';
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
+import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -17,10 +17,10 @@ import { Extension } from '../../helper/common/extension/extension';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
   imports: [
-    SharedModule,
     AppFiltersComponent,
     ProductCardComponent,
     CardShimmerComponent,
+    SliderComponent,
     NgIf,
     NgFor,
   ],

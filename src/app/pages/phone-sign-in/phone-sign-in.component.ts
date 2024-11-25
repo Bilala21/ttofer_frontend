@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'; // Import necessary classes for reactive forms
 import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '../../shared/services/state/global-state.service';
 
 @Component({
   selector: 'app-phone-sign-in',
@@ -26,7 +27,9 @@ export class PhoneSignInComponent {
     private mainServices: MainServicesService,
     private snackBar: MatSnackBar,private toastr:ToastrService,
     private location: Location,
-    private fb: FormBuilder // Inject FormBuilder
+    private fb: FormBuilder, // Inject FormBuilder
+    private toaster: ToastrService,
+    private globalStateService:GlobalStateService
   ) {
     // Initialize the form with validations
     this.phoneSignInForm = this.fb.group({
@@ -59,40 +62,43 @@ export class PhoneSignInComponent {
       phone: this.phoneSignInForm.value.phone,
       password: this.phoneSignInForm.value.password
     };
-    this.mainServices.getAuthByLoginNumber(input).subscribe(
-      (res) => {
+    this.mainServices.getAuthByLoginNumber(input).subscribe({
+      next: (res) => {
+        this.loading = false;
         localStorage.setItem('authToken', res.data.token);
         const jsonString = JSON.stringify(res.data.user);
-        localStorage.setItem('key', jsonString);
-        const jsonStringGetData = localStorage.getItem('key');
-        this.currentUser = jsonStringGetData ? JSON.parse(jsonStringGetData) : [];
-        this.loading = false;
-        this.location.go(this.location.path());
-        // window.location.reload();
+        localStorage.setItem("key", jsonString);
+        this.globalStateService.updateUserState(res.data.user);
+        this.toaster.success('You are logged in successfully', 'Success');
         this.closeModalEvent.emit();
+        // window.location.reload();
       },
-      (err: any) => {
-        this.showErrorMessage(err.error.message);
+      error: (err) => {
         this.loading = false;
+        const errorMessage = err.error?.message || 'An error occurred during login';
+        this.toaster.error(errorMessage, 'Error');
+      },
+      complete: () => {
+        this.loading=false;
       }
-    );
-  }
-
-  showErrorMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['error-snackbar'],
     });
   }
 
-  showSuccessMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['success-snackbar'],
-    });
-  }
+  // showErrorMessage(message: string) {
+  //   this.snackBar.open(message, '', {
+  //     duration: 3000,
+  //     horizontalPosition: 'center',
+  //     verticalPosition: 'top',
+  //     panelClass: ['error-snackbar'],
+  //   });
+  // }
+
+  // showSuccessMessage(message: string) {
+  //   this.snackBar.open(message, '', {
+  //     duration: 3000,
+  //     horizontalPosition: 'center',
+  //     verticalPosition: 'top',
+  //     panelClass: ['success-snackbar'],
+  //   });
+  // }
 }

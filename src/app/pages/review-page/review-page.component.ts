@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { HeaderComponent } from "../../shared/shared-components/header/header.component";
-import { FooterComponent } from "../../shared/shared-components/footer/footer.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 import { ActivatedRoute } from '@angular/router';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MatSnackBar } from '@angular/material/snack-bar';

@@ -6,9 +6,7 @@ import {
   DecimalPipe,
 } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
-import { SellingComponent } from '../selling/selling.component';
+
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import {
@@ -31,7 +29,6 @@ import { blob } from 'stream/consumers';
 import { ReviewPageComponent } from '../review-page/review-page.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NotificationComponent } from '../notification/notification.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { CurrentLocationComponent } from '../current-location/current-location.component';
 import { SharedDataService } from '../../shared/services/shared-data.service';
@@ -790,13 +787,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    'job': [
-      {
-        label: 'Type',
-        type: 'select',
-        model: 'type',
-        options: this.jobtypeList,
-      },
+    'jobs': [
       {
         label: 'Experience',
         type: 'select',
@@ -810,10 +801,16 @@ export class ProfilePageComponent {
         options: this.educationlist,
       },
       {
-        label: 'Salary',
-        type: 'select',
-        model: 'salary',
-        options: this.salaryList,
+        label: 'Salary From',
+        type: 'input',
+        model: 'Salary From',
+        placeholder:'Salary From',
+      },
+      {
+        label: 'Salary To',
+        type: 'input',
+        model: 'Salary To',
+        placeholder:'Salary To',
       },
       {
         label: 'Salary Period',
@@ -823,9 +820,9 @@ export class ProfilePageComponent {
       },
       {
         label: 'Company Name',
-        type: 'select',
+        type: 'input',
         model: 'companyName',
-        options: this.comanNameList,
+        placeholder:'Company Name',
       },
       {
         label: 'Position Type',
@@ -996,7 +993,6 @@ export class ProfilePageComponent {
         } else {
           this.selectedCategoryId = this.categories[0].id;
           this.onCategoryChange(this.selectedCategoryId)
-          this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
         }
       },
@@ -1351,10 +1347,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
- 
- 
- 
   openBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1577,7 +1569,11 @@ export class ProfilePageComponent {
       formData.append('delivery_type', this.attributes['Delivery']);
     formData.append('edition', this.attributes['edition']);
     formData.append('authenticity', this.attributes['authenticity']);
+    if(this.selectedCategorySlug=='jobs'){
+      this.attributes['Departement']
+    }
     formData.append('attributes', JSON.stringify(this.attributes));
+
     if (this.pricingCatId === 'Auction') {
       formData.append('product_type', 'auction');
       formData.append(
@@ -1601,6 +1597,7 @@ export class ProfilePageComponent {
         this.startingTime.toString() || ''
       );
       formData.append('auction_ending_time', this.endingTime.toString() || '');
+
     } else if (this.pricingCatId === 'FixedPrice') {
       formData.append('product_type', 'featured');
       formData.append('fix_price', this.price?.toString() || '');
@@ -1975,14 +1972,18 @@ export class ProfilePageComponent {
  
 
   removeImage(index: number, event: Event): void {
-    event.stopPropagation(); // Prevent triggering the selectImage function
-    this.selectedFiles.splice(index, 1); // Remove the image from the array
-    if (this.selectedImageIndex === index) {
-      this.selectedImageIndex = -1; // Reset selected image if the deleted image was selected
+    event.stopPropagation(); 
+    debugger
+    this.selectedFiles.splice(index, 1); 
+    this.imageFilesAbc.splice(index, 1); 
+      if (this.selectedImageIndex === index) {
+      this.selectedImageIndex = -1; 
     } else if (this.selectedImageIndex > index) {
-      this.selectedImageIndex -= 1; // Adjust the selected image index if necessary
+      this.selectedImageIndex -= 1; 
     }
+    
   }
+  
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       localStorage.removeItem('editProduct');
