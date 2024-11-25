@@ -29,143 +29,154 @@ import { FAQComponent } from './pages/f-a-q/f-a-q.component';
 import { ContactFormComponent } from './pages/contact-form/contact-form.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { WalletComponent } from './pages/wallet/wallet.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: BodyComponent,
+    pathMatch: 'full',
+  },
 
-
-    {
+  {
+    path: 'product-detail/:id/:slug',
+    component: ProductDetailComponent,
+    // component: ProductDetailsComponent
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+  },
+  {
+    path: 'profilePage/:id',
+    component: ProfilePageComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'wallet',
+        component: WalletComponent,
+      },
+      {
         path: '',
-        component: BodyComponent,
-        pathMatch: 'full'
-    },
-
-    {
-        path: 'product-detail/:id/:slug',
-        component: ProductDetailComponent
-        // component: ProductDetailsComponent
-    },
-    {
-        path: 'notifications',
-        component: NotificationsComponent
-    },
-    {
-        path: 'profilePage/:id',
-        component: ProfilePageComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'user/delete-account/:id',
-        component: DeleteAccountPageComponent
-    },
-    {
-        path: 'profilePageBy/:id/:slug',
-        component: ProfilePageComponent
-    },
-    {
-        path: 'category/:slug',
-        component: CategoriesComponent
-    },
-    {
-        path: 'chatBox/:id',
-        component: ChatBoxComponent
-    },
-    {
-        path: 'selling/:id',
-        component: SellingComponent
-    },
-    {
-        path: 'selling-detail/:id',
-        component: SellingDetailComponent
-    },
-    {
-        path: 'product-buyer',
-        component: ProductBuyerComponent
-    },
-    {
-        path: 'seller-review/:id',
-        component: SellerReveiwComponent
-    },
-    {
-        path: 'post-performance',
-        component: PostPerformanceComponent
-    },
-    {
-        path: 'whoBoughtAd/:id',
-        component: WhoBoughtAdComponent
-    },
-    {
-        path: 'review/:id',
-        component: ReviewPageComponent
-    },
-    {
-        path: 'auction-product-detail/:id/:name',
-        component: AuctionProductComponent
-    },
-    {
-        path: 'userProfile/:id',
-        component: AuctionUserProfileComponent
-    },
-    {
-        path: 'product-views/:id',
-        component: ProductViewsComponent
-    },
-    {
-        path: 'privacy-policy',
-        component: PrivacyPolicyComponent
-    },
-    {
-        path: 'term-of-condition',
-        component: TermOfConditionComponent
-    },
-    // {
-    //     path: 'contact-us',
-    //     component: ContactUsComponent
-    // },
-    {
-        path: 'markAsSold/:id',
-        component: MarkAsSoldComponent
-    },
-    {
-        path: 'cart',
-        component: ShoppingCartComponent
-    },
-    {
-        path: 'checkout',
-        component: CheckOutPageComponent
-    },
-    {
-        path: 'contact-us',
-        component: ContactFormComponent
-    },
-    {
-        path: 'about-us',
-        component: AboutUsComponent
-    },
-    {
-        path: 'faq',
-        component: FAQComponent
-    },
-    {
-        path: 'auth',
-        component: AuthModalComponent
-    },
-    {
-        path: 'post',
-        loadChildren: () => import('./post/post.module').then(m => m.PostModule)
-    },
-    {
-        path: 'profile',
-        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
-    },
-    {
-        path: '**',
-        redirectTo: '',
-        pathMatch: 'full'
-    }
+        redirectTo: '', // Default child route (if any)
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: 'user/delete-account/:id',
+    component: DeleteAccountPageComponent,
+  },
+  {
+    path: 'profilePageBy/:id/:slug',
+    component: ProfilePageComponent,
+  },
+  {
+    path: 'category/:slug',
+    component: CategoriesComponent,
+  },
+  {
+    path: 'chatBox/:id',
+    component: ChatBoxComponent,
+  },
+  {
+    path: 'selling/:id',
+    component: SellingComponent,
+  },
+  {
+    path: 'selling-detail/:id',
+    component: SellingDetailComponent,
+  },
+  {
+    path: 'product-buyer',
+    component: ProductBuyerComponent,
+  },
+  {
+    path: 'seller-review/:id',
+    component: SellerReveiwComponent,
+  },
+  {
+    path: 'post-performance',
+    component: PostPerformanceComponent,
+  },
+  {
+    path: 'whoBoughtAd/:id',
+    component: WhoBoughtAdComponent,
+  },
+  {
+    path: 'review/:id',
+    component: ReviewPageComponent,
+  },
+  {
+    path: 'auction-product-detail/:id/:name',
+    component: AuctionProductComponent,
+  },
+  {
+    path: 'userProfile/:id',
+    component: AuctionUserProfileComponent,
+  },
+  {
+    path: 'product-views/:id',
+    component: ProductViewsComponent,
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+  },
+  {
+    path: 'term-of-condition',
+    component: TermOfConditionComponent,
+  },
+  // {
+  //     path: 'contact-us',
+  //     component: ContactUsComponent
+  // },
+  {
+    path: 'markAsSold/:id',
+    component: MarkAsSoldComponent,
+  },
+  {
+    path: 'cart',
+    component: ShoppingCartComponent,
+  },
+  {
+    path: 'checkout',
+    component: CheckOutPageComponent,
+  },
+  {
+    path: 'contact-us',
+    component: ContactFormComponent,
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent,
+  },
+  {
+    path: 'faq',
+    component: FAQComponent,
+  },
+  {
+    path: 'auth',
+    component: AuthModalComponent,
+  },
+  {
+    path: 'post',
+    loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

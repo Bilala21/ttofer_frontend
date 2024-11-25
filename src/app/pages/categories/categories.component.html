@@ -15,20 +15,20 @@
         }
       </div> -->
       </div>
-      <div class="text-center mb-4 buttons d-flex align-items-center justify-content-center xs-between pt-5">
-        @if (!['job','services','property-for-rent','animals'].includes(slugName)) {
-        <button type="button"
-          class="btn py-2 px-2 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
-          (click)="handleTab(id==7?'hiring':'auction')"> {{id ==7?'Hiring':'Auction Products'}}</button>
-        }
-        <button type="button"
-          class="btn py-2 px-2 {{activeTab=='featured' || activeTab=='looking' || ['job','services','property-for-rent','animals'].includes(slugName)?'bg-dark text-white':'border-1'}}"
-          (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
-      </div>
-      <div class="d-block d-lg-flex">
-        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" [categoryId]="this.id"/>
+      <div class="d-block d-lg-flex pt-5">
+        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" [categoryId]="this.id" />
         <!-- PRODUCT SIDE -->
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
+          <div class="text-center buttons d-flex align-items-center justify-content-center xs-between">
+            @if (!['job','services','property-for-rent','animals'].includes(slugName)) {
+            <button type="button"
+              class="btn py-2 px-2 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
+              (click)="handleTab(id==7?'hiring':'auction')"> {{id ==7?'Hiring':'Auction Products'}}</button>
+            }
+            <button type="button"
+              class="btn py-2 px-2 {{activeTab=='featured' || activeTab=='looking' || ['job','services','property-for-rent','animals'].includes(slugName)?'bg-dark text-white':'border-1'}}"
+              (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
+          </div>
           <div class="w-100 product-main">
             @if (loading) {
             @for (data of [1,2,3,4,5,6,7,8,];track $index) {

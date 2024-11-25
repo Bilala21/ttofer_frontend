@@ -9,7 +9,6 @@ import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-categories',
@@ -27,7 +26,6 @@ import { Extension } from '../../helper/common/extension/extension';
 })
 export class CategoriesComponent {
   constructor(
-    private extension: Extension,
     private route: ActivatedRoute,
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
@@ -134,7 +132,15 @@ export class CategoriesComponent {
   }
 
   handlesUserWishlist(item: any) {
-    this.fetchData(this.filters, true);
+    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.fetchData(
+      {
+        ...this.filters,
+        product_type: this.activeTab,
+        category_id: this.id,
+      },
+      true
+    );
   }
 
   startCountdowns(data: []) {
