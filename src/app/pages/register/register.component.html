@@ -13,17 +13,17 @@
 <div class="row mt-5">
 
   <div class="col-6">
-    <label>First Name</label>
+    <label>First Name<span class="text-danger">*</span></label>
     <input type="text" placeholder="First Name" class="form-control"
-      style="border-radius: 13px;" formControlName="firstName">
+      formControlName="firstName">
     <div *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.touched || registerForm.get('firstName')?.dirty)" class="text-danger">
       First Name is required.
     </div>
   </div>
   <div class="col-6">
-    <label>Last Name</label>
+    <label>Last Name<span class="text-danger">*</span></label>
     <input type="text" placeholder="Last Name" class="form-control"
-      style="border-radius: 13px;" formControlName="lastName">
+       formControlName="lastName">
     <div *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.touched || registerForm.get('lastName')?.dirty)" class="text-danger">
       Last Name is required.
     </div>
@@ -31,9 +31,9 @@
 </div>
 <div class="row mt-4">
   <div class="col-12">
-    <label>Username</label>
+    <label>Username<span class="text-danger">*</span></label>
     <input type="text" placeholder="Username" class="form-control"
-      style="border-radius: 13px;" formControlName="username">
+       formControlName="username">
     <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)" class="text-danger">
       Username is required.
     </div>
@@ -41,9 +41,9 @@
 </div>
 <div class="row mt-4">
   <div class="col-12">
-    <label>Email</label>
+    <label>Email<span class="text-danger">*</span></label>
     <input type="email" placeholder="name@example.com" class="form-control"
-      style="border-radius: 13px;" formControlName="email">
+       formControlName="email">
     <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)" class="text-danger">
       Please enter a valid email.
     </div>
@@ -51,9 +51,9 @@
 </div>
 <div class="row mt-4">
   <div class="col-12">
-    <label>Phone</label>
+    <label>Phone<span class="text-danger">*</span></label>
     <input type="text" placeholder="+923044444444" class="form-control"
-      style="border-radius: 13px;" formControlName="phone">
+      formControlName="phone">
     <div *ngIf="registerForm.get('phone')?.invalid && (registerForm.get('phone')?.touched || registerForm.get('phone')?.dirty)" class="text-danger">
       Phone is required.
     </div>
@@ -61,9 +61,9 @@
 </div>
 <div class="row mt-4">
   <div class="col-12">
-    <label>Password</label>
+    <label>Password<span class="text-danger">*</span></label>
     <input type="password" placeholder="Your Password" class="form-control"
-      style="border-radius: 13px;" formControlName="password">
+       formControlName="password">
       <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)" class="text-danger">
         <small>{{ getPasswordErrorMessage() }}</small>
       </div>
@@ -71,15 +71,14 @@
 </div>
 <div class="row mt-4">
   <div class="col-12">
-    <label>Confirm Password</label>
+    <label>Confirm Password<span class="text-danger">*</span></label>
     <input type="password" placeholder="Confirm password" class="form-control"
-      style="border-radius: 13px;" formControlName="confirmPassword">
+      formControlName="confirmPassword">
     <div *ngIf="registerForm.hasError('passwordMismatch') && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)" class="text-danger">
       Passwords must match.
     </div>
     <button 
-  class="btn btn-dark w-100 mt-3" 
-  style="border-radius: 20px; padding: 10px;" 
+  class="btn btn-dark w-100 mt-3 py-2 rounded-2" 
   (click)="confirmRegistration()" 
   [disabled]="isLoading"
 >
