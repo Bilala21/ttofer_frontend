@@ -790,13 +790,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    'job': [
-      {
-        label: 'Type',
-        type: 'select',
-        model: 'type',
-        options: this.jobtypeList,
-      },
+    'jobs': [
       {
         label: 'Experience',
         type: 'select',
@@ -810,10 +804,16 @@ export class ProfilePageComponent {
         options: this.educationlist,
       },
       {
-        label: 'Salary',
-        type: 'select',
-        model: 'salary',
-        options: this.salaryList,
+        label: 'Salary From',
+        type: 'input',
+        model: 'Salary From',
+        placeholder:'Salary From',
+      },
+      {
+        label: 'Salary To',
+        type: 'input',
+        model: 'Salary To',
+        placeholder:'Salary To',
       },
       {
         label: 'Salary Period',
@@ -823,9 +823,9 @@ export class ProfilePageComponent {
       },
       {
         label: 'Company Name',
-        type: 'select',
+        type: 'input',
         model: 'companyName',
-        options: this.comanNameList,
+        placeholder:'Company Name',
       },
       {
         label: 'Position Type',
@@ -996,7 +996,6 @@ export class ProfilePageComponent {
         } else {
           this.selectedCategoryId = this.categories[0].id;
           this.onCategoryChange(this.selectedCategoryId)
-          this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
         }
       },
@@ -1351,10 +1350,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
- 
- 
- 
   openBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1975,14 +1970,18 @@ export class ProfilePageComponent {
  
 
   removeImage(index: number, event: Event): void {
-    event.stopPropagation(); // Prevent triggering the selectImage function
-    this.selectedFiles.splice(index, 1); // Remove the image from the array
-    if (this.selectedImageIndex === index) {
-      this.selectedImageIndex = -1; // Reset selected image if the deleted image was selected
+    event.stopPropagation(); 
+    debugger
+    this.selectedFiles.splice(index, 1); 
+    this.imageFilesAbc.splice(index, 1); 
+      if (this.selectedImageIndex === index) {
+      this.selectedImageIndex = -1; 
     } else if (this.selectedImageIndex > index) {
-      this.selectedImageIndex -= 1; // Adjust the selected image index if necessary
+      this.selectedImageIndex -= 1; 
     }
+    
   }
+  
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       localStorage.removeItem('editProduct');
