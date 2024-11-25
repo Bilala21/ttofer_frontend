@@ -6,44 +6,32 @@ import {
   Output,
   Input,
 } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationStart,
-  Router,
-  RouterLink,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { FormsModule } from '@angular/forms';
-import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
+import { filter_fields } from './json-data';
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [
-    FormsModule,
-    NgxSliderModule,
-    NgIf,
-    CommonModule,
-    MatTooltipModule,
-    CardShimmerComponent,
-  ],
+  imports: [FormsModule, NgxSliderModule, NgIf, CommonModule, MatTooltipModule],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'],
 })
 export class AppFiltersComponent implements OnInit {
   @Output() handleFilterEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Input() totalProducts:any=0
-  id: any = null;
+  @Input() totalProducts: any = 0;
+  @Input() categoryId: any = null;
+
+  filter_fields: any = filter_fields;
+  category_id: any = null;
   subCategories: any[] = [];
-  categoryWithFilters: any = {};
   categories: any = [];
-  isCategory: boolean = false;
   slug: any = '';
   slugName: any = '';
   loading: boolean = false;
@@ -53,84 +41,7 @@ export class AppFiltersComponent implements OnInit {
     sublocality: '',
   };
 
-  locations: string[] = [
-    'Dubai',
-    'Abu Dhabi',
-    'Ras Al-Khaimah',
-    'Ajman',
-    'New York, USA',
-    'Sharjah',
-  ];
-
   countdownSubscriptions: Subscription[] = [];
-  filter_fields: any = {
-    mobiles: {
-      seller_types: ['Verified', 'Unverified'],
-      conditions: ['All', 'New', 'Used', 'Refurbished'],
-    },
-    'property-for-sale': {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['All', 'Ready', 'Off plan'],
-      bedrooms: [1, 2, 3, 4, 5, 6, 7, 8],
-      bathrooms: [1, 2, 3, 4, 5],
-      area_size: [1, 2, 3, 4, 5],
-    },
-    vehicles: {
-      seller_types: ['Owner', 'Dealer'],
-      conditions: ['All', 'New', 'Used'],
-    },
-    'property-for-rent': {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['All', 'Furnished', 'Unfurnished'],
-      rent_is_paid: ['Yearly', 'Monthly', 'Quarterly', 'Bi-Yearly'],
-      bedrooms: [1, 2, 3, 4, 5, 6, 7, 8],
-      bathrooms: [1, 2, 3, 4, 5],
-      area_size: [1, 2, 3, 4, 5],
-    },
-    // electronics & appliances
-    'electronics-appliances': {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['Any', 'Refurbished', 'New', 'Used'],
-    },
-    bikes: {
-      seller_types: ['Owner', 'Dealer'],
-      conditions: ['All', 'New', 'Used'],
-    },
-    job: {
-      seller_types: ['Hiring', 'Looking'],
-      typeofwork: [
-        'Remote',
-        'Offline',
-        'Remote Full time',
-        'Remote Part time',
-        `Part
-        time`,
-        `Full time`,
-      ],
-    },
-    services: {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['Refurbished', 'Dealer'],
-    },
-    animals: {
-      seller_types: ['Landlord', 'Agent'],
-    },
-    // furniture and home decor
-    'furniture-home-decor': {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['All', 'New', 'Used'],
-    },
-    // fashion and beauty
-    'fashion-beauty': {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['All', 'New', 'Used'],
-    },
-    kids: {
-      seller_types: ['Landlord', 'Agent'],
-      conditions: ['All', 'new', 'Used'],
-    },
-    delivery: ['Local Delivery', 'Pick Up', 'Shipping'],
-  };
 
   filterCriteria: any = {
     location: [],
@@ -151,12 +62,15 @@ export class AppFiltersComponent implements OnInit {
     hideLimitLabels: true,
   };
 
-  areaSizeValue: number = 1;
+  areaSizeValue: number = 100;
   areaSizeOptions: Options = {
     floor: 0,
     ceil: 1000,
     hideLimitLabels: true,
   };
+
+  bathrooms: number = 1;
+  bedrooms: number = 2;
 
   isNavigatingAway: any = false;
   hideFilter: boolean = false;
@@ -166,8 +80,7 @@ export class AppFiltersComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
-    public globalStateService: GlobalStateService,
-    private countdownTimerService: CountdownTimerService
+    public globalStateService: GlobalStateService
   ) {}
 
   ngOnInit() {
@@ -177,9 +90,10 @@ export class AppFiltersComponent implements OnInit {
       const slug: any = params.get('slug');
       this.slugName = params.get('slug')?.slice(slug.indexOf('-') + 1);
       if (slug.indexOf('-') > 0) {
-        this.id = slug.slice(0, slug.indexOf('-'));
+        this.category_id = slug.slice(0, slug.indexOf('-'));
         this.slug = slug.slice(slug.indexOf('-') + 1).replace(/-/g, ' ');
       }
+      this.getAndSetLocalFilters(this.category_id);
     });
 
     this.mainServicesService.getCategories().subscribe({
@@ -192,27 +106,35 @@ export class AppFiltersComponent implements OnInit {
         this.loading = false;
       },
     });
-
-    if (this.id) {
-      this.fetchSubCategories(this.id);
+    if (this.category_id) {
+      this.fetchSubCategories(this.category_id);
     }
 
-    this.filterCriteria = JSON.parse(localStorage.getItem('filters') || '{}');
-    this.radiusValue = this.filterCriteria?.radius
-      ? this.filterCriteria?.radius
-      : 1;
-    this.minValue = this.filterCriteria?.min_price
-      ? this.filterCriteria?.min_price
-      : 20;
-    this.highValue = this.filterCriteria?.max_price
-      ? this.filterCriteria?.max_price
-      : 500;
+  }
+
+  getAndSetLocalFilters(id: number) {
+    const localData = JSON.parse(localStorage.getItem('filters') || '{}');
+    if (+id !== +this.categoryId) {
+      this.filterCriteria = {
+        product_type: localData?.product_type,
+        category_id: localData?.category_id,
+      };
+      this.fetchSubCategories(id);
+    } else {
+      this.filterCriteria = { ...localData };
+    }
+    console.log(this.filterCriteria, 'this.filterCriteria');
+    this.radiusValue = localData?.radius ? localData?.radius : 1;
+    this.minValue = localData?.min_price ? localData?.min_price : 20;
+    this.highValue = localData?.max_price ? localData?.max_price : 500;
+    this.areaSizeValue = localData?.area ? localData?.area : 100;
+    this.bedrooms = localData?.bedrooms ? localData?.bedrooms : 1;
+    this.bathrooms = localData?.bathrooms ? localData?.bathrooms : 2;
   }
 
   selectCategory(item: any) {
     this.router.navigate(['/category', item.id + '-' + item.slug]);
     this.fetchSubCategories(item.id);
-    localStorage.removeItem('filters');
   }
 
   fetchSubCategories(id: number) {
@@ -231,30 +153,16 @@ export class AppFiltersComponent implements OnInit {
     }
   }
 
-  fetchData() {
-    // const modifiedFilter = { ...this.filterCriteria, location: this.filterCriteria.location.join(',') };
-    // this.mainServicesService.getFilteredProducts(modifiedFilter).subscribe({
-    //   next: (res: any) => {
-    //     // Check if 'res' and 'res.data' are not null or undefined
-    //     if (res && res.data.data) {
-    //       this.startCountdowns(res.data.data);
-    //       this.globalStateService.setFilteredProducts(res.data.data);
-    //       this.globalStateService.isFilterActive(true)
-    //     } else {
-    //       console.log('No data found in response');
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.log('Error fetching filtered products', err);
-    //   }
-    // });
-  }
-
   handleFilter(filter: any) {
     if (filter.key === 'location') {
-      const locIndex = this.filterCriteria.location.indexOf(filter.value);
-      if (locIndex > -1) {
-        this.filterCriteria.location.splice(locIndex, 1);
+      this.filterCriteria = this.filterCriteria?.location
+        ? { ...this.filterCriteria }
+        : { ...this.filterCriteria, location: [] };
+
+      const index = this.filterCriteria.location.indexOf(filter.value);
+
+      if (index > -1) {
+        this.filterCriteria.location.splice(index, 1);
       } else {
         this.filterCriteria.location.push(filter.value);
       }
@@ -268,7 +176,6 @@ export class AppFiltersComponent implements OnInit {
     this.filterCriteria['min_price'] = this.minValue;
     this.filterCriteria['max_price'] = this.highValue;
     this.handleFilterEvent.emit({ ...this.filterCriteria });
-    // this.fetchData();
   }
 
   @HostListener('window:resize', [])

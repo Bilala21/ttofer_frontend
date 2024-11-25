@@ -4,7 +4,7 @@
     <button (click)="toggleWishlist(postData)"
       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"
       aria-label="Add to Wishlist">
-      <i class="{{postData?.user_wishlist?.id === currentUserId ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
+      <i class="{{postData?.user_wishlist?.user_id === currentUserId ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
       <!-- <i class="{{wishList.includes(postData.id) ||postData.id==postData.user_wishlist?.product_id && currentUserId==postData.user_wishlist?.user_id?'fas':'far'}} fa-heart fs-19"
         aria-hidden="true"></i> -->
     </button>
@@ -31,13 +31,13 @@
       <section class="card-bottom pb-1 text-gray-400">
         <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction'">
           <span class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
-            {{postData?.isBid ? postData.calculateRemaningTime + ' remaining' : 'Bid Expired' }}
+            {{postData.calculateRemainingTime }}
           </span>
         </div>
         <p class="m-0 pt-2">
           {{ postData.title.length > 33 ? postData.title.slice(0, 33) + '...' : postData.title }}
         </p>
-        
+
         <section class="py-2 d-flex align-items-center card-icons">
           <!-- Loop through the parsed attributes dynamically -->
           <div *ngFor="let attribute of getParsedAttributes()">
@@ -48,20 +48,21 @@
             </div>
           </div>
         </section>
-        
-        
-        
+
+
+
 
         <address class="d-flex align-items-center m-0 mb-1">
           <i class="fa fa-map-marker-alt fs-14 mr-2" aria-hidden="true"></i>
           <span class="fs-14">
             {{ postData.location?.length > 25 ? postData.location.slice(0, 25) + '...' : postData.location }}
           </span>
-                  </address>
+        </address>
       </section>
     </a>
   </article>
-  <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}" *ngIf="postData.product_type == 'auction'"
+  <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}"
+    *ngIf="postData.product_type == 'auction'"
     class="mt-2 btn bg-dark-650 text-white py-2 pointer-cursor rounded-2 w-100 hover-able-btn" aria-label="Bid Now">Bid
     Now</a>
 </div>

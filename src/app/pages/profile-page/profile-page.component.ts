@@ -6,7 +6,6 @@ import {
   DecimalPipe,
 } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import {
@@ -1569,11 +1568,7 @@ export class ProfilePageComponent {
       formData.append('delivery_type', this.attributes['Delivery']);
     formData.append('edition', this.attributes['edition']);
     formData.append('authenticity', this.attributes['authenticity']);
-    if(this.selectedCategorySlug=='jobs'){
-      this.attributes['Departement']
-    }
     formData.append('attributes', JSON.stringify(this.attributes));
-
     if (this.pricingCatId === 'Auction') {
       formData.append('product_type', 'auction');
       formData.append(
@@ -1597,7 +1592,6 @@ export class ProfilePageComponent {
         this.startingTime.toString() || ''
       );
       formData.append('auction_ending_time', this.endingTime.toString() || '');
-
     } else if (this.pricingCatId === 'FixedPrice') {
       formData.append('product_type', 'featured');
       formData.append('fix_price', this.price?.toString() || '');

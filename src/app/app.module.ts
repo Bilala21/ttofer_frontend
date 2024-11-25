@@ -17,7 +17,8 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [
     CommonModule,
     
-    RouterModule.forRoot([]),
+    // RouterModule.forRoot([{ path: 'pages/profilemodule/transactions/sale-purchase', loadChildren: () => import('./profilemodule/transactions/sale-purchase/sale-purchase.module').then(m => m.SalePurchaseModule) }, 
+    // { path: 'pages/profilemodule', loadChildren: () => import('./profilemodule/profilemodule.module').then(m => m.ProfilemoduleModule) }]),
     FooterComponent,
 ],
   exports: [

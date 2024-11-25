@@ -9,7 +9,6 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-categories',
@@ -27,14 +26,13 @@ import { Extension } from '../../helper/common/extension/extension';
 })
 export class CategoriesComponent {
   constructor(
-    private extension: Extension,
     private route: ActivatedRoute,
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
     private countdownTimerService: CountdownTimerService,
     private cd: ChangeDetectorRef
   ) {}
-  currentUserId: any = this.extension.getUserId();
+
   promotionBanners: any = [];
   activeTab: any = 'auction';
   data: any = {};
@@ -43,8 +41,7 @@ export class CategoriesComponent {
   countdownSubscriptions: Subscription[] = [];
   loading: boolean = false;
   filters: any = {};
-  slugName:any=''
-
+  slugName: any = '';
 
   handleTab(tab: string) {
     this.activeTab = tab;
@@ -59,6 +56,7 @@ export class CategoriesComponent {
   ngOnInit(): void {
     const savedTab = localStorage.getItem('categoryTab');
     this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+
     this.activeTab = savedTab ? savedTab : 'auction';
     this.getBanners();
     this.route.paramMap.subscribe((params) => {
@@ -69,7 +67,11 @@ export class CategoriesComponent {
         this.fetchData({ ...this.filters, product_type: this.activeTab });
       } else {
         const category_id = slug.slice(0, slug.indexOf('-'));
-        this.id=category_id
+        this.id = category_id;
+        if (this.filters?.category_id !== this.id) {
+          localStorage.setItem('filters', JSON.stringify({}));
+          this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+        }
         this.fetchData({
           ...this.filters,
           product_type: this.activeTab,
@@ -78,6 +80,7 @@ export class CategoriesComponent {
       }
     });
   }
+
   getBanners() {
     this.mainServices.getBanners().subscribe({
       next: (res) => {
@@ -95,43 +98,21 @@ export class CategoriesComponent {
 
   handleLoadMore(page: number) {
     let filters = JSON.parse(localStorage.getItem('filters') as string);
-    const modifiedFilter = {
-      ...filters,
-      page: page + 1,
-      location: filters.location.join(','),
-    };
-    this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
-      next: (res: any) => {
-        // if (res && res.data.data) {
-        //   this.globalStateService.setFilteredProducts(res.data.data);
-        //   this.globalStateService.isFilterActive(true)
-        // } else {
-        //   console.log('No data found in response');
-        // }
-      },
-      error: (err) => {
-        console.log('Error fetching filtered products', err);
-      },
-    });
+    this.fetchData(filters);
   }
 
   fetchData(filterCriteria: any, isWishlist: boolean = false) {
-    const filters = JSON.parse(localStorage.getItem('filters') || '{}');
-    const fitersData = { product_type: this.activeTab, ...filterCriteria };
-    localStorage.setItem(
-      'filters',
-      JSON.stringify({ ...filters, ...fitersData })
-    );
-    this.filters = filterCriteria;
-
     this.loading = isWishlist ? false : true;
-    const modifiedFilter = filterCriteria.location
-      ? {
-          ...filterCriteria,
-          location: filterCriteria.location.join(','),
-          product_type: this.activeTab,
-        }
-      : filterCriteria;
+    let modifiedFilter = {};
+    if (filterCriteria?.location) {
+      modifiedFilter = {
+        ...filterCriteria,
+        location: filterCriteria.location.join('.'),
+      };
+    } else {
+      modifiedFilter = filterCriteria;
+    }
+    localStorage.setItem('filters', JSON.stringify(filterCriteria));
     this.mainServices.getFilteredProducts(modifiedFilter).subscribe({
       next: (res: any) => {
         if (res && res.data.data) {
@@ -150,44 +131,43 @@ export class CategoriesComponent {
     });
   }
 
+  handlesUserWishlist(item: any) {
+    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.fetchData(
+      {
+        ...this.filters,
+        product_type: this.activeTab,
+        category_id: this.id,
+      },
+      true
+    );
+  }
+
   startCountdowns(data: []) {
-    if (data.length > 0) {
+    if (data) {
       data.forEach((item: any) => {
-        if (item.product_type === 'auction') {
-          const datePart = item.ending_date.split('T')[0];
-          const endingDateTime = `${datePart}T${item.ending_time}:00.000Z`;
-          const subscription = this.countdownTimerService
-            .startCountdown(endingDateTime)
-            .subscribe((remainingTime) => {
-              item.calculateRemaningTime = remainingTime;
-              item.isBid = remainingTime !== 'Bid Expired';
-            });
-          this.countdownSubscriptions.push(subscription);
-        }
+        const datePart = item.auction_ending_date;
+
+        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
+        const subscription = this.countdownTimerService
+          .startCountdown(endingDateTime)
+          .subscribe((remainingTime) => {
+            item.calculateRemainingTime = remainingTime
+              ? remainingTime + ' remaining'
+              : 'Bid Expired';
+            this.cd.detectChanges();
+          });
+
+        this.countdownSubscriptions.push(subscription);
       });
     }
   }
 
-  handlesUserWishlist(item: any) {
-    this.fetchData(this.filters,true)
-    // this.data.map((prod: any) => {
-    //   if (item.id == prod.id) {
-    //     console.log(item, 'item123');
-    //     if (!item.user_wishlist) {
-    //       prod.user_wishlist = {
-    //         user_id: this.currentUserId,
-    //         product_id: item.id,
-    //       };
-    //     } else {
-    //       prod.user_wishlist = null;
-    //     }
-    //   }
-    // });
-  }
   ngOnDestroy() {
     this.globalStateService.setActiveCategory(0);
     localStorage.removeItem('categoryTab');
     localStorage.removeItem('categoryId');
     localStorage.removeItem('filters');
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

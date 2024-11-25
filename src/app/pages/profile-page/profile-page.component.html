@@ -59,13 +59,10 @@
                   <div class="fs-14 text-capitalize mt-1">
                     Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
-                  <!-- rating -->
-                  <div class="d-flex justify-content-center justify-content-md-start align-items-center ">
-                    <div class="">
-                      <app-star-rating
-                        [rating]="currentUserProfile.review_percentage"
-                        [allowRating]="this.allowRating"
-                      ></app-star-rating>
+                  <div class="d-flex justify-content-center align-items-center">
+                    <div class="text-center">
+                      <app-star-rating [rating]="currentUserProfile.review_percentage"
+                        [allowRating]="this.allowRating"></app-star-rating>
                     </div>
                     <div class="ml-3">
                       <p class="mb-0 fs-12">
@@ -1037,7 +1034,7 @@
             </div>
 
             <hr />
-            <div class="row mt-3">
+            <div class="row mt-3" *ngIf="selectedCategorySlug !='jobs'">
               <div class="col-12">
                 <label>Pricing Categories</label>
                 <select class="form-select form-control input-class-add-form"
@@ -1420,7 +1417,7 @@
         </div>
       </div>
     </div>
-   
+
   </div>
   <div class="modal fade" id="verifyEmail" tabindex="-1" role="dialog" aria-labelledby="verifyEmailLabel"
     aria-hidden="true">

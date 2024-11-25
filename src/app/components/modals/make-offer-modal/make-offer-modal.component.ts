@@ -100,9 +100,7 @@ export class MakeOfferModalComponent implements OnInit {
   }
   finalStemSubmit() {
   }
-  placeBid() {
-   
-    
+  placeBid() { 
     const input = {
       user_id: this.currentUserId,
       product_id: this.product.id,

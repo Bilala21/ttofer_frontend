@@ -255,9 +255,13 @@
             @if(!loading){
             <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
                 <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
-                    <a routerLink="/category/{{category.id+'-'+category.slug}}"
-                        class="category-color text-decoration-none" (click)="updateCategory(category.id)"
-                        [ngClass]="{ 'active-category': activeCategory === category.id }">{{category.name}} </a>
+                    <a [routerLink]="['/category', category.id + '-' + category.slug]" 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    class="category-color text-decoration-none">
+                   {{category.name}}
+                 </a>
+                 
                 </li>
                 <li class="position-relative catagory-parent" *ngIf="categories.slice(categoryLimit).length">
                     <div class="dropdown pb-0">
@@ -270,8 +274,8 @@
                             aria-labelledby="moreCategoriesDropdown">
                             <a *ngFor="let category of categories.slice(categoryLimit)"
                                 routerLink="/category/{{category.id+'-'+category.slug}}"
-                                (click)="updateCategory(category.id)"
-                                [ngClass]="{ 'active-category': activeCategory === category.id }"
+                                routerLinkActive="active"
+                                [routerLinkActiveOptions]="{ exact: true }"
                                 class="category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>
                         </div>
                     </div>

@@ -1,13 +1,13 @@
 <div *ngIf="categories.length">
     <h1 class="fs-24 fw-bold my-4 text-center pt-2">All Categories</h1>
     <div class="row overflow-auto category-list xs-flex-nowrap">
-        <a *ngFor="let item of categories; let last = last" routerLink="/category/{{item.slug}}" class="w-xl-1 col-xl-1 col-md-2 xs-mw-20">
-            <img src={{item.ImgSrc}} alt={{item.name}} loading="lazy" class="rounded-pill img-fluid w-100"
+        <a *ngFor="let category of categories; let last = last" routerLink="/category/{{category.id+'-'+category.slug}}" class="w-xl-1 col-xl-1 col-md-2 xs-mw-20">
+            <img src={{category.ImgSrc}} alt={{category.name}} loading="lazy" class="rounded-pill img-fluid w-100"
                >
-               <!-- [ngStyle]="{'background-color': item.color}" -->
-            <span class="d-block text-center pt-2 fw-bold">{{item.name}}</span>
+               <!-- [ngStyle]="{'background-color': category.color}" -->
+            <span class="d-block text-center pt-2 fw-bold">{{category.name}}</span>
             <span *ngIf="last"
-                class="bg-yellow-800 rounded-pill fs-12 p-2 fw-normal mt-2 d-block white-space-nowrap">{{item.subTitle}}</span>
+                class="bg-yellow-800 rounded-pill fs-12 p-2 fw-normal mt-2 d-block white-space-nowrap">{{category.subTitle}}</span>
         </a>
     </div>
 </div>
