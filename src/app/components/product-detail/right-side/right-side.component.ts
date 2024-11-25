@@ -5,6 +5,7 @@ import { AuthService } from '../../../shared/services/authentication/Auth.servic
 import { Extension } from '../../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { MainServicesService } from '../../../shared/services/main-services.service';
 
 @Component({
   selector: 'app-right-side',
@@ -16,9 +17,13 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 export class RightSideComponent {
   @Input() product: any = {};
   @Input()  parsedAttributes: { [key: string]: string | number } = {};
+  liveAuction: any[] = [];
+  profileImg: any[] = [];
+  maxPrice: number = 0;
+  calculateRemaningTime!: string;
 
 
-  constructor(private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,
+  constructor(private mainServices:MainServicesService,private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,private route:ActivatedRoute,
     public extension: Extension,
   ) {
     this.currentUserid = extension.getUserId();
@@ -33,7 +38,10 @@ export class RightSideComponent {
     // Additional initialization logic can go here if needed
     // this.parseAttributes(); // Ensure parsing occurs after the view is initialized
   }
-
+  ngOnInit(){
+    this.productId = this.route.snapshot.paramMap.get('id');
+    this.getBid()
+  }
   toggleWishlist(item: any) {
     this.handleWishlist.emit(item)
   }
@@ -87,36 +95,28 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type)
+    this.globalStateService.setOfferModal(modal_type,this.currentUserid,this.productId,this.liveAuction.length)
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    
-    console.log(this.parsedAttributes)
-  }
+  getBid() {
+    this.loading = true;
+    let input = {
+      product_id: this.productId,
+    };
+    this.mainServices.getPlacedBids(input).subscribe((res: any) => {
+      this.liveAuction = res.data;
 
-  private parseAttributes(value: any): void {
-    try {
-      // 
-      let attributes = JSON.parse(value.attributes);
-       let attributesParse=JSON.parse(attributes);
-
-      // Clear and assign parsed attributes
-      this.parsedAttributes = {};
-      for (const [key, val] of Object.entries(attributesParse)) {
-        this.parsedAttributes[key] =
-          typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
+      res.data.forEach((item: any) => {
+        if (item.user && item.user.img && this.profileImg.length < 5) {
+          const imgObject = { img: item.user.img };
+          this.profileImg.push(imgObject);
+        }
+      });
+      if (this.liveAuction && this.liveAuction.length > 0) {
+        const prices = this.liveAuction.map((item) => item.price);
+        this.maxPrice = Math.max(...prices);
       }
-    } catch (error) {
-      console.error('Error parsing attributes:', error);
-    }
+      this.loading = false;
+    });
   }
-
-  private isJson(str: string): boolean {
-    try {
-      JSON.parse(str);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  
 }

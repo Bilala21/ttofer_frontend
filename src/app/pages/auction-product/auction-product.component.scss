@@ -265,9 +265,7 @@ font-size: 12px;
       .modal-header {
         border: none;
 
-        .close {
-          // Style for close button if needed
-        }
+        
       }
 
       .modal-body {
@@ -282,9 +280,7 @@ font-size: 12px;
                 font-weight: bolder;
               }
 
-              span {
-                // Additional styles if needed
-              }
+            
             }
 
             .mt-4 {
@@ -295,10 +291,7 @@ font-size: 12px;
                     border-radius: 20px;
                     padding: 10px;
 
-                    // Additional button style for Yes
-                    &:first-child {
-                      // Specific to "Yes, Place My Bid"
-                    }
+                   
 
                     // Additional button style for Cancel
                     &:last-child {
@@ -315,3 +308,4 @@ font-size: 12px;
     }
   }
 }
+

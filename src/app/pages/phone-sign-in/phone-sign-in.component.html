@@ -11,8 +11,8 @@
 <div class="mt-4">
   <label>Phone</label>
   <input formControlName="phone" type="text" placeholder="Enter Your Phone Number" class="form-control"
-    style="border-radius: 10px;" required>
-  <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="error-message">
+     required>
+  <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="text-danger">
     <small *ngIf="phoneSignInForm.get('phone')?.hasError('required')">Phone number is required.</small>
     <small *ngIf="phoneSignInForm.get('phone')?.hasError('pattern')">Please enter a valid phone number.</small>
   </div>
@@ -21,18 +21,26 @@
 <div class="mt-4">
   <label>Password</label>
   <input formControlName="password" type="password" placeholder="Enter Your Password" class="form-control"
-    style="border-radius: 10px;" required>
-  <div *ngIf="phoneSignInForm.get('password')?.invalid && phoneSignInForm.get('password')?.touched" class="error-message">
+     required>
+  <div *ngIf="phoneSignInForm.get('password')?.invalid && phoneSignInForm.get('password')?.touched" class="text-danger">
     <small *ngIf="phoneSignInForm.get('password')?.hasError('required')">Password is required.</small>
     <small *ngIf="phoneSignInForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
   </div>
-  <div style="text-align: end;">
-    <a style="cursor: pointer;" (click)="openForgot()" ><span>Forgot Password?</span></a>
+  <div class="text-right">
+      <span class="for-link cur-pointer" (click)="openForgot()">Forgot Password ?</span>
   </div>
 </div>
 </form>
 
+
 <div class="mt-4">
-  <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px;"
- (click)="loginWithPhone()">Sign in</button>
+  <button class="btn btn-dark w-100 p-2" (click)="loginWithPhone()"  
+          [disabled]="!isFormValid() || loading">
+    <ng-container *ngIf="!loading; else spinner">
+      Sign in
+    </ng-container>
+    <ng-template #spinner>
+      <i class="fa fa-spinner fa-spin"></i> Signing in...
+    </ng-template>
+  </button>
 </div>

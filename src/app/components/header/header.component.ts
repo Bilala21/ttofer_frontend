@@ -2,7 +2,6 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { LoaderComponent } from '../loader/loader.component';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { LoginModalComponent } from '../../pages/login-modal/login-modal.component';
@@ -19,7 +18,6 @@ import { Extension } from '../../helper/common/extension/extension';
     RouterLink,
     NgFor,
     NgIf,
-    LoaderComponent,
     LoginModalComponent,
     CommonModule,
     FormsModule,
@@ -205,6 +203,9 @@ export class HeaderNavigationComponent implements OnInit {
     } else {
       localStorage.setItem('currentTab', 'notification');
       this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
+      // localStorage.setItem('currentTab', "notification");
+      // this.router.navigate(['/notifications', `${this.currentUser.id}`])
+      this.router.navigate(['/notifications'])
     }
   }
   getNotification() {

@@ -2,12 +2,12 @@ import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { forkJoin, Subscription } from 'rxjs';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
-import { ProductCarouselComponent } from '../carousels/product-carousel/product-carousel.component';
-import { SharedModule } from '../../shared/shared.module';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { RouterLink } from '@angular/router';
+import { SliderComponent } from '../../components/slider/slider.component';
+import { PostCategoriesComponent } from '../../components/post-categories/post-categories.component';
+import { PromotionSliderComponent } from '../../components/promotion-slider/promotion-slider.component';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { TempFormComponent } from '../../components/temp-form/temp-form.component';
@@ -21,12 +21,10 @@ import { Extension } from '../../helper/common/extension/extension';
   standalone: true,
   imports: [
     NgIf,
-    HeaderComponent,
     ProductCardComponent,
-    TempFormComponent,
-    FooterComponent,
-    ProductCarouselComponent,
-    SharedModule,
+    PromotionSliderComponent,
+    PostCategoriesComponent,
+    SliderComponent,
     RouterLink,
     CardShimmerComponent,
   ],

@@ -93,7 +93,6 @@ export class AppFiltersComponent implements OnInit {
         this.category_id = slug.slice(0, slug.indexOf('-'));
         this.slug = slug.slice(slug.indexOf('-') + 1).replace(/-/g, ' ');
       }
-
       this.getAndSetLocalFilters(this.category_id);
     });
 
@@ -107,10 +106,10 @@ export class AppFiltersComponent implements OnInit {
         this.loading = false;
       },
     });
-
     if (this.category_id) {
       this.fetchSubCategories(this.category_id);
     }
+
   }
 
   getAndSetLocalFilters(id: number) {
@@ -120,6 +119,7 @@ export class AppFiltersComponent implements OnInit {
         product_type: localData?.product_type,
         category_id: localData?.category_id,
       };
+      this.fetchSubCategories(id);
     } else {
       this.filterCriteria = { ...localData };
     }

@@ -1,174 +1,30 @@
 <main class="mt-16">
   <div class="container-fluid xs-pt-4">
-    <!-- profile-main-container -->
     <div class="row justify-content-between product-detail-container">
       <div class="col-xl-4 col-md-5 position-relative">
         <img (click)="openMore()" src="assets/images/more-icon.svg" class="position-absolute d-block d-md-none"
           loading="lazy" style="left: 0; z-index: 1; margin-left: 15px; cursor: pointer" />
-
-        <!-- mobile-screen -->
-        <div class="d-block d-xl-none mt-5 position-absolute" style="
-            left: 0;
-            background-color: #ffffff;
-            z-index: 999;
-            padding: 25px;
-            width: 100%;
-          " *ngIf="showMore">
-          <!-- transactions -->
-          <div class="row mt-4">
-            <h4 class="side-bar-tabs-heading fs-19 text-dark-800 fw-bold">
-              Transactions
-            </h4>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'purchasesSales' }"
-              (click)="selectTab('purchasesSales')">
+        <div class="d-block d-xl-none mt-5 position-absolute bg-white p-4 w-100" style="left: 0; z-index: 999;"
+          *ngIf="showMore">
+          <ng-container *ngFor="let section of sections">
+            <h4 class="fs-19 fw-bold text-dark-800">{{ section.title }}</h4>
+            <div *ngFor="let item of section.items" class="col-12 mt-3 p-2 onHover pointer"
+              [ngClass]="{ active: selectedTab === item.id }" (click)="selectTab(item.id)">
               <div class="row align-items-center">
                 <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-shopping-cart icon-outline fs-20"></i>
+                  <i [class]="item.icon + ' fs-20'"></i>
                 </div>
                 <div class="col-10 m-0 p-0">
-                  <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
-                    Purchases & Sales
-                  </h6>
+                  <h6 class="fs-16 fw-light m-0 text-dark-800">{{ item.label }}</h6>
                 </div>
               </div>
             </div>
-
-            <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
-              (click)="selectTab('paymentDeposit')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-credit-card fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Payment & Deposit method
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- save -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'savedItems' }"
-              (click)="selectTab('savedItems')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-heart fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Saved items</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'notification' }"
-              (click)="selectTab('notification')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-bell fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Notifications
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- my-post -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">My Posts</h4>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'editPost' }"
-              (click)="selectTab('editPost')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-edit fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'addPost' }"
-              (click)="selectTab('addPost')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-plus-circle fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- account -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Account</h4>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'accountSetting' }"
-              (click)="selectTab('accountSetting')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-cog fs-20"></i>
-                  <!-- Settings icon -->
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Account Setting
-                  </h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'boostPlus' }"
-              (click)="selectTab('boostPlus')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-rocket fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'customLinks' }"
-              (click)="selectTab('customLinks')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-link fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">
-                    Custom Profile Link
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- help -->
-          <div class="row mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold">Help</h4>
-            <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'helpCenter' }"
-              (click)="selectTab('helpCenter')">
-              <div class="row align-items-center">
-                <div class="col-2 d-flex justify-content-end">
-                  <i class="fas fa-question fs-20"></i>
-                </div>
-                <div class="col-10 m-0 p-0">
-                  <h6 class="fs-16 text-dark-800 fw-light m-0">Help Center</h6>
-                </div>
-              </div>
-            </div>
-          </div>
+          </ng-container>
         </div>
-        <!-- profile-image -->
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="">
               <div class="w-100 d-flex flex-column flex-md-row justify-content-center align-content-center mx-auto">
-                <!-- profile-image -->
                 <div class="d-flex d-md-block justify-content-center">
                   <label for="image-upload" style="cursor: pointer;">
                     <div style="
@@ -192,23 +48,17 @@
                     <input #file type="file" id="image-upload" (change)="onImageUpload($event)" style="display: none" />
                   </label>
                 </div>
-
-                <!-- user-data -->
                 <div class="d-flex flex-column ml-0 ml-md-4 mt-md-4 text-center text-md-left">
-                  <!-- user-name -->
                   <div class="fs-14 text-capitalize fw-semibold">
                     {{ currentUserProfile.name }}
                   </div>
-                  <!-- joined -->
                   <div class="fs-14 text-capitalize mt-1">
                     Joined: {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') :
                     'N/A' }}
                   </div>
-                  <!-- address -->
                   <div class="fs-14 text-capitalize mt-1">
                     Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
-                  <!-- rating -->
                   <div class="d-flex justify-content-center align-items-center">
                     <div class="text-center">
                       <app-star-rating [rating]="currentUserProfile.review_percentage"
@@ -221,41 +71,31 @@
                     </div>
                   </div>
                 </div>
-                <!--  -->
               </div>
-              <!-- user-lower-info -->
               <div class="w-100">
                 <ul class="text-decoration-none d-flex justify-content-center">
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">4</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Bought</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">10</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Sold</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center">
                     <a href="#" class="text-decoration-none fs-14">
                       <span class="d-block text-black">0</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Followers</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                   <li class="text-center fs-14">
                     <a href="#" class="text-decoration-none">
                       <span class="d-block text-black">0</span>
-                      <!-- Number color -->
                       <span class="d-block text-blue">Following</span>
-                      <!-- "Bought" color -->
                     </a>
                   </li>
                 </ul>
@@ -263,187 +103,25 @@
             </div>
           </div>
         </div>
-        <!-- desktop-screen -->
         <div class="d-none d-md-block">
           <div class="sidebar-content">
-            <!-- transactions -->
-            <div class="row mt-4">
-              <h4 class="side-bar-tabs-heading fs-19 text-dark-800 fw-bold">
-                Transactions
-              </h4>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'purchasesSales' }"
-                (click)="selectTab('purchasesSales')">
+            <div *ngFor="let section of sections" class="row mt-4">
+              <h4 class="fs-19 text-dark-800 fw-bold">{{ section.title }}</h4>
+              <div *ngFor="let item of section.items" class="col-12 mt-3 p-2 onHover pointer"
+                [ngClass]="{ active: selectedTab === item.id }" (click)="selectTab(item.id)">
                 <div class="row align-items-center">
                   <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-shopping-cart icon-outline fs-20"></i>
+                    <i [class]="item.icon" class="fs-20"></i>
                   </div>
                   <div class="col-10 m-0 p-0">
-                    <h6 class="side-bar-tabs fs-16 text-dark-800 fw-light m-0">
-                      Purchases & Sales
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <!-- card -->
-              <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'paymentDeposit' }"
-                (click)="selectTab('paymentDeposit')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-credit-card"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Payment & Deposit method
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- save -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Save</h4>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'savedItems' }"
-                (click)="selectTab('savedItems')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-heart fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Saved items
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'notification' }"
-                (click)="selectTab('notification')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-bell fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Notifications
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- my-post -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">My Posts</h4>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'editPost' }"
-                (click)="selectTab('editPost')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-edit fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Edit Post</h6>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'addPost' }"
-                (click)="selectTab('addPost')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-plus-circle fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Add Post</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- account -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Account</h4>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'accountSetting' }"
-                (click)="selectTab('accountSetting')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-cog fs-20"></i>
-                    <!-- Settings icon -->
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Account Setting
-                    </h6>
-                  </div>
-                </div>
-              </div>
-
-              <!-- User wallet -->
-              <div class="col-12 mt-3 p-0 onHover pointer" (click)="selectedTab=''">
-                <a [routerLink]="['/profilePage',currentUserId, 'wallet']"
-                  class="fs-16 d-block text-dark-800 fw-light m-0" routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }" style="padding: 6px;">
-                  <div class="row align-items-center">
-                    <div class="col-2 d-flex justify-content-end">
-                      <i class="fas fa-wallet"></i>
-                      <!-- Settings icon -->
-                    </div>
-                    <div class="col-10 m-0 p-0">
-                      Wallet
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <!-- End user wallet -->
-
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'boostPlus' }"
-                (click)="selectTab('boostPlus')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-rocket fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">Boost Plus</h6>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 mt-2 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'customLinks' }"
-                (click)="selectTab('customLinks')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-link fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Custom Profile Link
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- help -->
-            <div class="row mt-4">
-              <h4 class="fs-19 text-dark-800 fw-bold">Help</h4>
-              <div class="col-12 mt-3 p-2 onHover pointer" [ngClass]="{ active: selectedTab === 'helpCenter' }"
-                (click)="selectTab('helpCenter')">
-                <div class="row align-items-center">
-                  <div class="col-2 d-flex justify-content-end">
-                    <i class="fas fa-question fs-20"></i>
-                  </div>
-                  <div class="col-10 m-0 p-0">
-                    <h6 class="fs-16 text-dark-800 fw-light m-0">
-                      Help Center
-                    </h6>
+                    <h6 class="fs-16 text-dark-800 fw-light m-0">{{ item.label }}</h6>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-
-      <!-- tabs-screen -->
-      <!-- Purchases & Sales -->
       <div *ngIf="selectedTab === 'purchasesSales'" class="col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fa-shopping-cart title-icon mr-2"></i>
@@ -723,7 +401,6 @@
               </button>
             </div>
           </div>
-
           <div class="col-md-10 mx-auto mt-3" *ngIf="activeButtonPayment ===1">
             <div class="d-flex justify-content-between fs-14 fw-bold">
               <span class="">Cards</span>
@@ -747,7 +424,6 @@
                       <h6 class="fs-16">
                         {{ data.detail1 }}
                       </h6>
-
                       <div class="d-flex fs-12">
                         <span>{{ data.detail2 }}
                         </span>
@@ -755,22 +431,17 @@
                           {{ data.btn }}
                         </span>
                       </div>
-
                     </div>
-
                   </div>
-
                   <div class="text-right" style="text-align: end">
                     <input class="form-check-input cur-pointer" type="radio" name="flexRadioDefault"
                       id="{{ data.id }}" />
                   </div>
-
                 </div>
                 <hr />
               </div>
             </div>
           </div>
-
           <div class="col-10 mx-auto mt-5" *ngIf="activeButtonPayment === 2">
             <div class="row">
               <div class="col-md-8 mx-auto mt-5 text-center">
@@ -925,58 +596,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row mt-5">
-                        <div class="row col-12" *ngIf="!showNotification">
-                            <div class="col-9">
-
-                                <app-notification class="pointer"></app-notification>
-
-                            </div>
-                        </div>
-                    </div> -->
-
-        <!-- <div class="row" *ngIf="showNotification">
-                        <div class="col-12" style="margin-top: 20vh;">
-                            <div class="row">
-                                <div class="row justify-content-between">
-                                    <div class="col-12">
-                                        <div class="row align-items-center">
-                                            <div class="col-4">
-                                                <img src="assets/images/light-clothes-img.svg" class="w-100" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <h4 class="sm-cat-text4">Modern light clothes</h4>
-                                                <span>$500</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center justify-content-between">
-                                    <div class="col-md-6 mx-auto mt-5 text-center">
-                                        <h2>Rate Seller</h2>
-                                        <img src="assets/images/profile-img1.png" class="mt-5" alt="">
-                                        <h4>Darlene Robertson</h4>
-                                        <span>Manchester, UK</span>
-                                        <img src="assets/images/reviewStars.png" class="w-100" alt="">
-                                    </div>
-                                    <div class="col-12">
-                                        <textarea class="form-control mt-5" name="review" id="review"
-                                            style="height: 30vh; border-radius: 2vh;">How was your experience about this seller?</textarea>
-                                        <div class="row mt-5 justify-content-between">
-                                            <div class="col-md-5">
-                                                <button class="btn btn-dark w-100 p-2"
-                                                    style="border-radius: 4vh;">Review Seller</button>
-                                            </div>
-                                            <div class="col-md-5 sm-mt-5">
-                                                <button class="btn btn-dark w-100 p-2"
-                                                    style="border-radius: 4vh;">Skip</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
       </div>
       <!-- editPost -->
       <div *ngIf="selectedTab === 'editPost'" class="col-xl-7 col-md-7">
@@ -994,8 +613,6 @@
                   <label class="fs-20 fw-semibold">
                     Edit Image<span class="text-danger">*</span></label>
                   <div class="image-grid">
-                    <!-- <label>Upload Image</label> -->
-
                     <div class="image-item" *ngFor="let file of editProductData?.photo; let i = index"
                       (click)="selectImage(i)">
                       <img [src]="file.src" alt="Selected Image" class="img-thumbnail"
@@ -1113,7 +730,6 @@
             </div>
 
             <hr />
-            <!-- ******************************Mobile****************************** -->
             <div [formGroup]="categoryForm" style="
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -1232,18 +848,10 @@
             <div *ngIf="locationId">
               <p>Received Location: {{ locationId }}</p>
             </div>
-            <!--
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            ***********************************
-                            **************END*********************
-                            -->
+
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
-                <button [disabled]="!editProductData" class="btn btn-dark w-100" (click)="EditProductFirstStep()">
+                <button [disabled]="!editProductData" class="btn btn-dark w-100">
                   <span *ngIf="!isLoading">Update</span>
                   <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
                     aria-hidden="true"></span>
@@ -1253,7 +861,6 @@
           </div>
         </div>
       </div>
-      <!-- addPost  -->
       <div *ngIf="selectedTab === 'addPost'" class="col-xl-7 col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fa-plus-circle title-icon mr-2"></i>
@@ -1427,7 +1034,7 @@
             </div>
 
             <hr />
-            <div class="row mt-3">
+            <div class="row mt-3" *ngIf="selectedCategorySlug !='jobs'">
               <div class="col-12">
                 <label>Pricing Categories</label>
                 <select class="form-select form-control input-class-add-form"
@@ -1504,8 +1111,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Fixed Price Fields -->
             <div class="row mt-3" *ngIf="pricingCatId == 'FixedPrice'">
               <div class="col-12 p-3">
                 <label>Price<span class="text-danger">*</span></label>
@@ -1516,8 +1121,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Sell To TT Offer Fields -->
             <div class="row mt-3" *ngIf="pricingCatId == 'SellToTTOffer'">
               <div class="col-12 p-3">
                 <label>Date</label>
@@ -1530,17 +1133,7 @@
             </div>
             <div class="mt-2">
               <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
-
             </div>
-
-            <!-- <div *ngIf="locationId">
-              <p>Received Location: {{ locationId }}</p>
-            </div>
-            
-            <!-- <div *ngIf="locationId">
-              <p>Received Location: {{ locationId }}</p>
-            </div> -->
-
             <div class="row mt-3">
               <div class="col-md-6 ml-auto">
                 <button class="btn btn-dark w-100" (click)="addCompleteProduct()" [disabled]="isLoading">
@@ -1553,7 +1146,6 @@
           </div>
         </div>
       </div>
-      <!-- accountSetting -->
       <div *ngIf="selectedTab === 'accountSetting'" class="col-xl-7 col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fas fa-cog title-icon mr-2"></i>
@@ -1633,7 +1225,6 @@
           <hr />
         </div>
       </div>
-      <!-- boostPlus -->
       <div *ngIf="selectedTab === 'boostPlus' && !showDiv" class="col-xl-7 col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fa-rocket title-icon mr-2"></i>
@@ -1686,7 +1277,6 @@
           </div>
         </div>
       </div>
-      <!-- customLinks -->
       <div *ngIf="selectedTab === 'customLinks'" class="col-xl-7 col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fa-link title-icon mr-2"></i>
@@ -1706,7 +1296,6 @@
           </div>
         </div>
       </div>
-      <!-- helpCenter -->
       <div *ngIf="selectedTab === 'helpCenter'" class="col-xl-7 col-md-7">
         <div class="row align-items-center justify-content-center margin-top-right-side-class">
           <i class="fas fa-question title-icon mr-2"></i>
@@ -1725,7 +1314,6 @@
           </div>
         </div>
       </div>
-      <!-- showDiv  -->
       <div *ngIf="showDiv" class="col-xl-7 col-md-7">
         <div class="row">
           <div class="col-md-9 mx-auto margin-top-right-side-class">
@@ -1829,158 +1417,8 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- </div> -->
-  </div>
 
-  <div class="modal fade" id="verifyPhoneModal" tabindex="-1" role="dialog" aria-labelledby="verifyPhoneLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="border-radius: 20px">
-        <div class="modal-header border-0">
-          <button type="button" class="close" (click)="closeVerifyPhoneModal()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Modal Body -->
-        <div class="modal-body mb-5">
-          <div class="row">
-            <div class="col-10 mx-auto" *ngIf="!showOTPBox">
-              <div class="text-center">
-                <h6 class="">Phone</h6>
-                <img src="assets/images/phone-img.png" class="w-75 mt-3" alt="" loading="lazy" />
-              </div>
-              <div class="mt-4">
-                <label>Phone</label>
-                <input type="text" placeholder="Enter Your Phone" class="form-control" style="border-radius: 10px" />
-              </div>
-              <div class="mt-4">
-                <button (click)="showOtp()" class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
-                  Verify Phone
-                </button>
-              </div>
-            </div>
-            <div class="col-10 mx-auto" *ngIf="showOTPBox">
-              <div class="text-center">
-                <h6 class="">Verify</h6>
-                <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy" />
-              </div>
-              <div class="mt-4">
-                <p>
-                  Please type in the OTP code we sent to your email. It's an
-                  extra step to make sure it's really you and keep your account
-                  safe.
-                </p>
-                <span>Verification Code Sent to name&commat;dummy.com</span>
-              </div>
-              <div class="row mt-4">
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-              </div>
-              <div class="mt-4 text-center">
-                <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
-                  Verify
-                </button>
-                <span style="cursor: pointer" class="mt-3">Didn’t Receive OTP?</span>
-                <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <div class="modal fade" id="verifyEmailModal" tabindex="-1" role="dialog" aria-labelledby="verifyEmailLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="border-radius: 20px">
-        <div class="modal-header border-0">
-          <button type="button" class="close" (click)="closeVerifyEmailModal()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Modal Body -->
-        <div class="modal-body mb-5">
-          <div class="row">
-            <div class="col-10 mx-auto" *ngIf="!showOTPBox">
-              <div class="text-center">
-                <h6 class="">Email</h6>
-                <img src="assets/images/email-img.png" class="w-75 mt-3" alt="" loading="lazy" />
-              </div>
-              <div class="mt-4">
-                <label>Email</label>
-                <input type="text" placeholder="Enter Your Email" class="form-control" style="border-radius: 10px" />
-              </div>
-              <div class="mt-4">
-                <button (click)="showOtp()" class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
-                  Verify Email
-                </button>
-              </div>
-            </div>
-            <div class="col-10 mx-auto" *ngIf="showOTPBox">
-              <div class="text-center">
-                <h6 class="">Verify</h6>
-                <img src="assets/images/verify-img.png" class="w-75 mt-3" alt="" loading="lazy" />
-              </div>
-              <div class="mt-4">
-                <p>
-                  Please type in the OTP code we sent to your email. It's an
-                  extra step to make sure it's really you and keep your account
-                  safe.
-                </p>
-                <span>Verification Code Sent to name&commat;dummy.com</span>
-              </div>
-              <div class="row mt-4">
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-                <div class="col-2">
-                  <input type="text" class="form-control" style="border-radius: 10px" />
-                </div>
-              </div>
-              <div class="mt-4 text-center">
-                <button class="btn btn-dark w-100" style="border-radius: 20px; padding: 10px">
-                  Verify
-                </button>
-                <span style="cursor: pointer" class="mt-3">Didn’t Receive OTP?</span>
-                <h6 style="cursor: pointer" class="mt-3">Resend Code</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal fade" id="verifyEmail" tabindex="-1" role="dialog" aria-labelledby="verifyEmailLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

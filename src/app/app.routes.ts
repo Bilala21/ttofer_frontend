@@ -2,17 +2,14 @@ import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.compo
 import { RouterModule, Routes } from '@angular/router';
 import { BodyComponent } from './pages/body/body.component';
 import { ProductViewsComponent } from './pages/product-views/product-views.component';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ChatBoxComponent } from './pages/chat-box/chat-box.component';
 import { WhoBoughtAdComponent } from './pages/who-bought-ad/who-bought-ad.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
-import { AuctionProductComponent } from './pages/auction-product/auction-product.component';
 import { AuctionUserProfileComponent } from './pages/auction-user-profile/auction-user-profile.component';
 import { PrivacyPolicyComponent } from './pages/Privacy-Policy/Privacy-Policy.component';
 import { TermOfConditionComponent } from './pages/term-of-condition/term-of-condition.component';
-import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { MarkAsSoldComponent } from './pages/mark-as-sold/mark-as-sold.component';
 import { SellingDetailComponent } from './pages/selling/detail/selling-detail.component';
 import { SellingComponent } from './pages/selling/selling.component';
@@ -107,10 +104,7 @@ export const routes: Routes = [
     path: 'review/:id',
     component: ReviewPageComponent,
   },
-  {
-    path: 'auction-product-detail/:id/:name',
-    component: AuctionProductComponent,
-  },
+  
   {
     path: 'userProfile/:id',
     component: AuctionUserProfileComponent,
@@ -159,15 +153,15 @@ export const routes: Routes = [
     path: 'auth',
     component: AuthModalComponent,
   },
-  {
-    path: 'post',
-    loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
-  },
-  {
-    path: 'profile',
-    loadChildren: () =>
-      import('./profile/profile.module').then((m) => m.ProfileModule),
-  },
+  // {
+  //   path: 'post',
+  //   loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
+  // },
+  // {
+  //   path: 'profile',
+  //   loadChildren: () =>
+  //     import('./profile/profile.module').then((m) => m.ProfileModule),
+  // },
   {
     path: 'test-profile',
     loadChildren: () =>

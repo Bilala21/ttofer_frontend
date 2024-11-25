@@ -6,9 +6,6 @@ import {
   DecimalPipe,
 } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/shared-components/header/header.component';
-import { FooterComponent } from '../../shared/shared-components/footer/footer.component';
-import { SellingComponent } from '../selling/selling.component';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import {
@@ -31,7 +28,6 @@ import { blob } from 'stream/consumers';
 import { ReviewPageComponent } from '../review-page/review-page.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NotificationComponent } from '../notification/notification.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { CurrentLocationComponent } from '../current-location/current-location.component';
 import { SharedDataService } from '../../shared/services/shared-data.service';
@@ -79,6 +75,7 @@ export interface CategoryField {
   ],
 })
 export class ProfilePageComponent {
+
   activeButtonPayment: number = 1;
   selectedCategorySlug:any
   editStartingPrice: any;
@@ -149,6 +146,42 @@ export class ProfilePageComponent {
   editEndingDate: any;
   soldList: any;
   private isNavigatingAway: boolean = false;
+  sections = [
+    {
+      title: 'Transactions',
+      items: [
+        { id: 'purchasesSales', label: 'Purchases & Sales', icon: 'fas fa-shopping-cart' },
+        { id: 'paymentDeposit', label: 'Payment & Deposit Method', icon: 'fas fa-credit-card' },
+      ],
+    },
+    {
+      title: 'Save',
+      items: [
+        { id: 'savedItems', label: 'Saved Items', icon: 'fas fa-heart' },
+        { id: 'notification', label: 'Notifications', icon: 'fas fa-bell' },
+      ],
+    },
+    {
+      title: 'My Posts',
+      items: [
+        { id: 'editPost', label: 'Edit Post', icon: 'fas fa-edit' },
+        { id: 'addPost', label: 'Add Post', icon: 'fas fa-plus-circle' },
+      ],
+    },
+    {
+      title: 'Account',
+      items: [
+        { id: 'accountSetting', label: 'Account Setting', icon: 'fas fa-cog' },
+        { id: 'boostPlus', label: 'Boost Plus', icon: 'fas fa-rocket' },
+        { id: 'customLinks', label: 'Custom Profile Link', icon: 'fas fa-link' },
+      ],
+    },
+    {
+      title: 'Help',
+      items: [{ id: 'helpCenter', label: 'Help Center', icon: 'fas fa-question' }],
+    },
+  ];
+  
   showNotif() {
     this.showNotification = true;
   }
@@ -368,8 +401,6 @@ export class ProfilePageComponent {
     { id: 'Dodge Durango', name: 'Dodge Durango' },
     { id: 'Lexus ES', name: 'Lexus ES' },
   ];
-  
-  
   yearList: any = [
     { id: '2021', name: '2021' },
     { id: '2000', name: '2000' },
@@ -521,7 +552,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '2': [
+    'electronics-appliances': [
       {
         label: 'Brand',
         type: 'select',
@@ -551,7 +582,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '3': [
+    'property-for-rent': [
       {
         label: 'Year Built',
         type: 'input',
@@ -755,13 +786,7 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '7': [
-      {
-        label: 'Type',
-        type: 'select',
-        model: 'type',
-        options: this.jobtypeList,
-      },
+    'jobs': [
       {
         label: 'Experience',
         type: 'select',
@@ -775,10 +800,16 @@ export class ProfilePageComponent {
         options: this.educationlist,
       },
       {
-        label: 'Salary',
-        type: 'select',
-        model: 'salary',
-        options: this.salaryList,
+        label: 'Salary From',
+        type: 'input',
+        model: 'Salary From',
+        placeholder:'Salary From',
+      },
+      {
+        label: 'Salary To',
+        type: 'input',
+        model: 'Salary To',
+        placeholder:'Salary To',
       },
       {
         label: 'Salary Period',
@@ -788,9 +819,9 @@ export class ProfilePageComponent {
       },
       {
         label: 'Company Name',
-        type: 'select',
+        type: 'input',
         model: 'companyName',
-        options: this.comanNameList,
+        placeholder:'Company Name',
       },
       {
         label: 'Position Type',
@@ -805,24 +836,12 @@ export class ProfilePageComponent {
         options: this.careerLevelList,
       },
     ],
-    '9': [
+    'fashion-beauty': [
       {
-        label: 'Choose Type',
-        type: 'select',
-        model: 'type',
-        options: this.fashionTypeList,
-      },
-      {
-        label: 'Condition',
-        type: 'select',
-        model: 'condition',
-        options: this.conditionList,
-      },
-      {
-        label: 'Color',
-        type: 'select',
-        model: 'color',
-        options: this.colorList,
+        label: 'Product Description',
+        type: 'input',
+        model: 'description',
+        placeholder:'Product Description',
       },
       {
         label: 'Delivery Type',
@@ -835,14 +854,13 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '11': [
+    'kids': [
       {
         label: 'Condition',
         type: 'select',
         model: 'condition',
         options: this.conditionKidsList,
       },
-      { label: 'Toy', type: 'input', model: 'toy', placeholder: 'Toy' },
       {
         label: 'Delivery Type',
         type: 'select',
@@ -854,13 +872,16 @@ export class ProfilePageComponent {
         ],
       },
     ],
-    '12': [
-      { label: 'Age', type: 'select', model: 'age', options: this.ageList },
+    'animals': [
+      { label: 'Age',
+        type: 'select',
+        model: 'age', 
+        options: this.ageList },
       {
         label: 'Breed',
-        type: 'select',
+        type: 'input',
         model: 'breed',
-        options: this.breedList,
+        placeholder:'Breed',
       },
       {
         label: 'Delivery Type',
@@ -902,7 +923,6 @@ export class ProfilePageComponent {
       title: ['', Validators.required],
       description: ['', Validators.required],
     });
-    console.log(this.categoryForm, 'this.pricingCatId');
     let currentTab: any = localStorage.getItem('currentTab');
 
     if (
@@ -972,12 +992,10 @@ export class ProfilePageComponent {
         } else {
           this.selectedCategoryId = this.categories[0].id;
           this.onCategoryChange(this.selectedCategoryId)
-          this.pricingCatId = this.pricingCategories[0].id; // Set default for new entries
           this.getSubcategories(this.categories[0].id);
         }
       },
       (error) => {
-        console.error('Error fetching categories:', error); // Handle error
       }
     );
   }
@@ -1000,62 +1018,27 @@ export class ProfilePageComponent {
     }
   }
 
-  showfor() {
-    console.log(this.categoryForm);
-  }
-  showOtp() {
-    this.showOTPBox = true;
-  }
-  showSuccessMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['success-snackbar'],
-    });
-  }
-  showErrorMessage(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['error-snackbar'],
-    });
-  }
   openPage() {
     this.showDiv = true;
   }
   onSelectImage(event: any) {
-    console.log(event);
     this.imagesFiles.push(...event.addedFiles);
   }
   copyCustomLink() {
     navigator.clipboard
       .writeText(this.customLink)
       .then(() => {
-        this.showSuccessMessage(
-          `Profile link ${this.customLink} copied to clipboard!`
-        );
+       
       })
       .catch((err) => {
-        console.error('Could not copy text: ', err);
       });
   }
-
-  // handleInputChange() {
-  //   console.log('Starting Time:', this.startingTime);
-  //   console.log('Ending Time:', this.endingTime);
-  //   console.log('Starting Date:', this.startingDate);
-  //   console.log('Ending Date:', this.endingDate);
-  // }
-
   selectTab(tab: string) {
     this.selectedTab = tab;
     localStorage.setItem('currentTab', this.selectedTab);
     this.showDiv = false;
     this.showMore = false;
   }
-
   toggleActive(buttonIndex: number) {
     this.activeButton = buttonIndex;
   }
@@ -1065,17 +1048,8 @@ export class ProfilePageComponent {
   sellingList: any = [];
   sellingListTemp: any = [];
   purchaseListTemp: any = [];
-  purchaseSale: any[] = [
-    // { img: 'assets/images/light-clothes-img.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img2.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img3.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-clothes-img.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img2.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-    // { img: 'assets/images/light-img3.svg', heading: 'Modern light clothes', elipsImg1: 'assets/images/Ellipse1.svg', elipsImg2: 'assets/images/Ellipse2.svg', elipsImg3: 'assets/images/Ellipse3.svg', elipsImg4: 'assets/images/Ellipse4.svg', subHeading1: 'Sale Faster', subHeading2: 'Mark As Sold' },
-  ];
-
+  purchaseSale: any[] = [];
   savedItems: any = [];
-
   paymentDeposit: any[] = [
     {
       img: 'assets/images/Applelogo.svg',
@@ -1108,34 +1082,10 @@ export class ProfilePageComponent {
       id: 'flexRadioDefault2',
     },
   ];
-
   selectedFiles: Array<{ src: string }> = [];
   selectedImagesList: File[] = [];
   selectedImageIndex: number = -1;
   selectedVideoIndex: number = -1;
-
-  // onFilesSelected(event: any): void {
-
-  //   const files = event.target.files;
-  //   this.selectedImagesList.push(files[0])
-  //   for (let file of files) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.selectedFiles.push({ src: e.target.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // onFileSelected(event: Event) {
-  //
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files) {
-  //     this.filesabc = Array.from(input.files);
-  //   } else {
-  //     this.filesabc = [];
-  //   }
-  // }
   onEditFileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
@@ -1145,56 +1095,30 @@ export class ProfilePageComponent {
       this.updateProductImage();
     }
   }
-  // onFileChange(event: any) {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     for (let i = 0; i < event.target.files.length; i++) {
-  //       this.imageFilesAbc.push(event.target.files[i]);
-  //       this.readFileAsDataURL(event.target.files[i]);
-  //     }
-  //   }
-  // }
-  // readFileAsDataURL(file: File) {
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     this.selectedFiles.push({ src: reader.result as string });
-  //     this.validateForm();
-  //   };
-  //   reader.readAsDataURL(file);
-  // }
   onFileChange(event: any) {
     const allowedExtensions = ['png', 'jpg','jpeg'];
-    //this.validationErrors = {}; // Clear previous errors
-  
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
         const file = event.target.files[i];
-        console.log(file);
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();
-           
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();           
         if (allowedExtensions.includes(fileExtension || '')) {
           this.imageFilesAbc.push(file);
-          this.readFileAsDataURL(file); // Process the file
+          this.readFileAsDataURL(file); 
         } else {
-          // Add validation error for invalid file type
           this.validationErrors['uploadImage'] = 
             'Only .png and .jpg files are allowed.';
         }
       }
     } else {
-      // Set validation error if no files are uploaded
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
-  
-    // Validate the form state after handling file changes
     this.validateForm();
   }
-  
   readFileAsDataURL(file: File) {
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedFiles.push({ src: reader.result as string });
-      // this.validateForm();
-      this.validateForm(); // Validate the form after successfully reading the file
+      this.validateForm(); 
     };
     reader.readAsDataURL(file);
   }
@@ -1205,26 +1129,12 @@ export class ProfilePageComponent {
     };
     reader.readAsDataURL(file);
   }
-  // onFilesSelected(event: any): void {
-  //
-  //   const files = event.target.files;
-  //   for (let file of files) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.selectedFiles.push({ url: e.target.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
   selectImage(index: number): void {
     this.selectedImageIndex = index;
   }
-
   openMore() {
     this.showMore = !this.showMore;
   }
-
   deleteSelectedImage(): void {
     if (
       this.selectedImageIndex > -1 &&
@@ -1239,55 +1149,33 @@ export class ProfilePageComponent {
       id: file.id,
       product_id: file.product_id,
     };
-
     this.mainServices.deleteProductImage(input).subscribe((res) => {
-      //
       this.toastr.success('Product image deleted successfully', 'Success');
-
       if (this.editProductData) {
-        // Retrieve existing editProductData from localStorage
         const editProductDataStr = localStorage.getItem('editProduct');
         if (editProductDataStr) {
-          // Parse the existing data
           const editProductData = JSON.parse(editProductDataStr);
-
-          // Filter the photo array to remove the photo with the specified id
           editProductData.photo = editProductData.photo.filter(
             (photo: any) => photo.id !== input.id
           );
-
-          // Save the updated object back to localStorage
           localStorage.setItem('editProduct', JSON.stringify(editProductData));
-
-          // Update the local instance if necessary
           this.editProductData = editProductData; // Optional, if you want to keep it in sync
         }
       }
-
-      console.log(res);
     });
   }
-
   async updateProductImage() {
     this.imageloading = true;
-
     let formData = new FormData();
-
-    // Append image files to formData
     this.EditImageFilesAbc.forEach((file, index) => {
       formData.append(`src[]`, file, file.name);
-    });
-
-    // Append product ID
+    }); 
     formData.append(
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
     );
-
     try {
       const token = localStorage.getItem('authToken');
-
-      // Fetch request to upload the image
       const response = await fetch(
         'https://www.ttoffer.com/backend/public/api/upload-image',
         {
@@ -1298,88 +1186,63 @@ export class ProfilePageComponent {
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         this.EditImageFilesAbc = [];
-        //
         this.imageloading = false;
         localStorage.setItem('editProduct', JSON.stringify(data.data));
         this.editProductData = localStorage.getItem('editProduct');
         this.editProductData = JSON.parse(this.editProductData);
       } else {
-        console.error('Image upload failed', await response.json());
       }
     } catch (error) {
-      // Handle fetch error
-      console.error('Image upload failed', error);
     } finally {
       this.imageloading = false;
     }
   }
   async addProductImage() {
     this.imageloading = true;
-
     let formData = new FormData();
-
-    // Append image files to formData
     this.imageFilesAbc.forEach((file, index) => {
       formData.append(`src[]`, file, file.name);
     });
-
-    // Append product ID
     formData.append(
       'product_id',
       this.productId ? Number(this.productId).toString() : '0'
     );
-
     try {
       const token = localStorage.getItem('authToken');
-
-      // Fetch request to upload the image
       const response = await fetch(
         'https://www.ttoffer.com/backend/public/api/upload-image',
         {
           method: 'POST',
           body: formData,
           headers: {
-            // 'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
-
-      // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
       } else {
         this.loading = false;
-        console.error('Image upload failed', await response.json());
       }
     } catch (error) {
-      // Handle fetch error
-      console.error('Image upload failed', error);
     } finally {
       this.loading = false;
       this.imageloading = false;
     }
   }
-
   confirmSelection(): void {
     if (
       this.selectedImageIndex > -1 &&
       this.selectedImageIndex < this.selectedFiles.length
     ) {
-      console.log(
-        'Image selected:',
-        this.selectedFiles[this.selectedImageIndex]
-      );
+     
     }
   }
-
   selectedVideos: Array<{ url: string }> = [];
-  selectedVideo: any | null = null;
-
+  selectedVideo: any | null = null
   onVideosSelected(event: any): void {
     const files = event.target.files;
     for (let file of files) {
@@ -1389,16 +1252,11 @@ export class ProfilePageComponent {
   }
   onVideoSelected(event: any): void {
     const file = event.target.files[0];
-
-    // Check if a video is already selected
     if (this.selectedVideo) {
       this.toastr.error('You cannot upload more than one video.', 'Error');
       return;
     }
-
-    // Check if the file exists
     if (file) {
-      // Check the file size (20 MB limit)
       const maxFileSize = 20 * 1024 * 1024; // 20 MB in bytes
       if (file.size > maxFileSize) {
         this.toastr.error(
@@ -1407,42 +1265,33 @@ export class ProfilePageComponent {
         );
         return;
       }
-
       const videoURL = URL.createObjectURL(file);
       this.selectedVideo = { url: videoURL, file: file };
     }
   }
-
   removeVideo(): void {
-    this.selectedVideo = null; // Clear the selected video
+    this.selectedVideo = null; 
   }
   selectVideo(index: number): void {
     this.selectedVideoIndex = index;
   }
-
   deleteSelectedVideo(): void {
     if (
       this.selectedVideoIndex > -1 &&
       this.selectedVideoIndex < this.selectedVideos.length
     ) {
       this.selectedVideos.splice(this.selectedVideoIndex, 1);
-      this.selectedVideoIndex = -1; // Reset selection
+      this.selectedVideoIndex = -1; 
     }
   }
-
   confirmVideoSelection(): void {
     if (
       this.selectedVideoIndex > -1 &&
       this.selectedVideoIndex < this.selectedVideos.length
     ) {
-      // Perform any action needed on selection
-      console.log(
-        'Video selected:',
-        this.selectedVideos[this.selectedVideoIndex]
-      );
+      
     }
   }
-
   openModal() {
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -1456,7 +1305,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeModal() {
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -1471,7 +1319,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openNewCardModal() {
     const modal = document.getElementById('newCardModal');
     if (modal) {
@@ -1485,7 +1332,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeNewCardModal() {
     const modal = document.getElementById('newCardModal');
     if (modal) {
@@ -1500,194 +1346,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
-  closeUserNameModal() {
-    const modal = document.getElementById('userNameModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
-  openNumberModal() {
-    const modal = document.getElementById('numberModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-
-  closeNumberModal() {
-    const modal = document.getElementById('numberModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
-  openEmailModal() {
-    const modal = document.getElementById('emailModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  openVerifyEmailModal() {
-    const modal = document.getElementById('verifyEmailModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-
-  closeVerifyEmailModal() {
-    const modal = document.getElementById('verifyEmailModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
-  openVerifyPhoneModal() {
-    const modal = document.getElementById('verifyPhoneModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-
-  closeVerifyPhoneModal() {
-    const modal = document.getElementById('verifyPhoneModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
-  closeEmailModal() {
-    const modal = document.getElementById('emailModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-  openPasswordModal() {
-    const modal = document.getElementById('passwordModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-
-  closePasswordModal() {
-    const modal = document.getElementById('passwordModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
-  openLocationModal() {
-    const modal = document.getElementById('locationModal');
-    if (modal) {
-      modal.classList.add('show');
-      modal.style.display = 'block';
-      modal.setAttribute('aria-modal', 'true');
-      modal.removeAttribute('aria-hidden');
-      document.body.classList.add('modal-open');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-
-  closeLocationModal() {
-    const modal = document.getElementById('locationModal');
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modal.removeAttribute('aria-modal');
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        document.body.removeChild(backdrop);
-      }
-    }
-  }
-
   openBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1701,7 +1359,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeBoostModal() {
     const modal = document.getElementById('boostPlusModal');
     if (modal) {
@@ -1716,7 +1373,6 @@ export class ProfilePageComponent {
       }
     }
   }
-
   openBoostPlanModal() {
     const modal = document.getElementById('boostModal');
     if (modal) {
@@ -1730,7 +1386,6 @@ export class ProfilePageComponent {
       document.body.appendChild(backdrop);
     }
   }
-
   closeBoostPlanModal() {
     const modal = document.getElementById('boostModal');
     if (modal) {
@@ -1746,22 +1401,18 @@ export class ProfilePageComponent {
     }
   }
   onImageUpload(event: any): void {
-    //
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
     }
     this.updateProfile();
   }
-
   updateProfile(): void {
     if (this.selectedFile) {
       let formData = new FormData();
-      console.log(this.selectedFile);
       formData.append('user_id', this.currentUserId.toString());
       formData.append('img', this.selectedFile);
       let url = `https://ttoffer.com/backend/public/api/update/user`;
-      let token = localStorage.getItem('authToken');
-
+      let token = localStorage.getItem('authToken')
       fetch(url, {
         method: 'POST',
         headers: {
@@ -1789,62 +1440,13 @@ export class ProfilePageComponent {
         });
     }
   }
-
   UpdateLocalUserData(data: any) {
     const jsonString = JSON.stringify(data);
     localStorage.setItem('key', jsonString);
     this.getCurrentUser();
   }
 
-  // triggerFileInput(): void {
-  //   const fileInput = document.getElementById(
-  //     'image-upload'
-  //   ) as HTMLInputElement;
-  //   fileInput.click();
-  // }
-
-  EditProductFirstStep() {
-    let formData = new FormData();
-    this.filesabc.forEach((file) => formData.append('video', file, file.name));
-    this.imageFilesAbc.forEach((file, index) => {
-      formData.append(`video[]`, file, file.name);
-    });
-    formData.append(
-      'user_id',
-      (this.currentUserId ? Number(this.currentUserId) : 0).toString()
-    );
-    formData.append('title', this.editTitle);
-    formData.append('description', this.editDescription);
-    formData.append(
-      'product_id',
-      (this.productId ? Number(this.productId) : 0).toString()
-    );
-    const token = localStorage.getItem('authToken');
-    this.isLoading = true;
-    fetch(
-      'https://www.ttoffer.com/backend/public/api/edit-product-first-step',
-      {
-        method: 'POST',
-        body: formData,
-        headers: {
-          // 'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-        },
-      }
-    )
-      .then((response) => response.json()) // Convert the response to JSON
-      .then((data) => {
-        console.log('File upload successful', data);
-        this.productId = data.product_id;
-        this.EditProductSeccondStep(); // Call the next step if upload is successful
-      })
-      .catch((error) => {
-        this.isLoading = false;
-        console.error('File upload failed', error);
-      });
-  }
   validateForm(): boolean {
-    // ;
     this.validationErrors = {};
     if (!this.title) {
       this.validationErrors['title'] = 'Please add a title.';
@@ -1862,14 +1464,12 @@ export class ProfilePageComponent {
     if (this.selectedFiles.length == 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
-
     const requiredFields = this.categoryFields[this.selectedCategorySlug] || [];
     requiredFields.forEach((field) => {
       if (!this.attributes[field.model]) {
         this.validationErrors[field.model] = `${field.label} is required.`;
       }
     });
-
     switch (this.pricingCatId) {
       case 'Auction':
         if (!this.startingPrice) {
@@ -1907,10 +1507,8 @@ export class ProfilePageComponent {
       default:
         break;
     }
-
     return Object.keys(this.validationErrors).length === 0;
   }
-
   onFieldChange(fieldModel: string): void {
     if (this.validationErrors[fieldModel]) {
       delete this.validationErrors[fieldModel];
@@ -1921,19 +1519,13 @@ export class ProfilePageComponent {
     lng: number;
     address: string;
   }): void {
-    // ;
-    // Use the location data as needed
     this.locationId = location;
   }
-
-  async addCompleteProduct() {
-    
+  async addCompleteProduct() {   
     if (!this.validateForm()) {
       return;
     }
-
     this.isLoading = true;
-
     let formData = new FormData();
     formData.append(
       'user_id',
@@ -1941,7 +1533,6 @@ export class ProfilePageComponent {
     );
     formData.append('title', this.title || '');
     formData.append('description', this.description || '');
-
     if (this.selectedVideo?.file) {
       formData.append(
         'video',
@@ -1949,14 +1540,11 @@ export class ProfilePageComponent {
         this.selectedVideo.file.name
       );
     }
-
     this.imageFilesAbc.forEach((file) => {
       formData.append('image[]', file, file.name);
     });
-
     formData.append('category_id', this.selectedCategoryId.toString());
     formData.append('sub_category_id', this.selectedSubCategoryId.toString());
-    // ;
     const mainCategory = String(
       this.getCategoryNameById(this.selectedCategoryId) || ''
     );
@@ -1998,8 +1586,7 @@ export class ProfilePageComponent {
       formData.append(
         'auction_ending_date',
         this.endingDate ? this.endingDate.toISOString().split('T')[0] : ''
-      );
-      
+      ); 
       formData.append(
         'auction_starting_time',
         this.startingTime.toString() || ''
@@ -2031,14 +1618,12 @@ export class ProfilePageComponent {
         this.toastr.error('Product creation failed', 'Error');
       }
     } catch (error) {
-      console.error('An error occurred while adding the product:', error);
       this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
       this.isLoading = false;
     }
   }
   getCategoryNameById(categoryId: number): string {
-    // ;
     const category = this.categories.find((cat: any) => cat.id == categoryId);
     return category ? category.name : '';
   }
@@ -2048,112 +1633,9 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
+
  
-  
-  EditProductSeccondStep() {
-    try {
-      let input = {
-        user_id: this.currentUserId,
-        product_id: this.productId,
-        category_id: this.selectedCategoryId,
-        sub_category_id: this.selectedSubCategoryId,
-        condition: this.categoryForm.get('condition')?.value,
-        make_and_model: this.categoryForm.get('make_and_model')?.value,
-        mileage: this.categoryForm.get('mileage')?.value,
-        color: this.categoryForm.get('color')?.value,
-        brand: this.categoryForm.get('brand')?.value,
-        model: this.categoryForm.get('model')?.value,
-        edition: '',
-        authenticity: '',
-        attributes: JSON.stringify(this.categoryForm.value),
-      };
-      this.mainServices.editProductSecondStep(input).subscribe(
-        (res) => {
-          this.EditProductThirdStep();
-          console.log(res);
-        },
-        (error) => {
-          console.error(error);
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      this.isLoading = false;
-    }
-  }
-  EditProductThirdStep() {
-    this.loading = true;
-    try {
-      let input;
-      if (this.editpricingCatId === 'Auction') {
-        input = {
-          productType: 'auction',
-          product_id: this.productId,
-          auction_price: this.editStartingPrice.toString(),
-          starting_date: this.editStartingDate
-            ? new Date(this.editStartingDate).toISOString()
-            : null,
-          starting_time: this.editStartingTime.toString(),
-          ending_date: this.editEndingDate
-            ? new Date(this.editEndingDate).toISOString()
-            : null,
-          ending_time: this.editEndingTime.toString(),
-          final_price: this.edit_final_price,
-        };
-      } else if (this.editpricingCatId === 'FixedPrice') {
-        input = {
-          productType: 'featured',
-          product_id: this.productId,
-          fix_price: this.editPrice,
-          auction_price: null,
-        };
-      } else {
-        input = {
-          productType: 'other',
-          product_id: this.productId,
-          // fix_price: this.price,
-        };
-      }
-      this.mainServices.editProductThirdStep(input).subscribe(
-        (res) => {
-          this.editProductLastStep();
-        },
-        (error) => {
-          console.error(error);
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      this.isLoading = false;
-    }
-  }
-  editProductLastStep() {
-    this.loading = true;
-    try {
-      let input = {
-        product_id: this.productId,
-        location: this.locationId,
-      };
-      this.mainServices.editProductLastStep(input).subscribe(
-        (res: any) => {
-          localStorage.removeItem('editProduct');
-          this.toastr.success('Product updated successfully', 'Success');
-          console.log(res);
-          this.isLoading = false;
-          this.router.navigate(['']);
-        },
-        (error) => {
-          console.error(error);
-          this.isLoading = false;
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      this.isLoading = false;
-    }
-  }
+
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
   }
@@ -2162,7 +1644,6 @@ export class ProfilePageComponent {
     this.mainServices.getSelling().subscribe({
       next: (res: any) => {
         this.sellingList = res;
-        console.log(res);
         this.loading = false;
         this.soldList = res.data?.archive.data;
         this.purchaseListTemp = res.data?.buying.data;
@@ -2196,7 +1677,7 @@ export class ProfilePageComponent {
         this.allowRating = this.currentUserProfile.Id == this.currentUserId;
         this.imageUrl = this.currentUserProfile.img;
       } else {
-        console.warn('localStorage is not available.');
+
       }
     }
   }
@@ -2279,7 +1760,6 @@ export class ProfilePageComponent {
     if (updateMethods[field]) {
       updateMethods[field]().subscribe({
         next: (res: any) => {
-          console.log(res);
           const jsonString = JSON.stringify(res.data);
           localStorage.setItem('key', jsonString);
           this.getCurrentUser();
@@ -2288,13 +1768,11 @@ export class ProfilePageComponent {
           this.toastr.success('Updated Successfully', 'Success');
         },
         error: (error: any) => {
-          console.error(error);
           this.loading = false;
           this.isDisabled = false;
         },
       });
     } else {
-      console.error(`No method found for updating ${field}`);
       this.loading = false;
       this.isDisabled = false;
     }
@@ -2307,7 +1785,7 @@ export class ProfilePageComponent {
       (res: any) => {
         this.savedItems = res.data;
         this.savedItems.isAuction =
-          this.savedItems.fix_price == null ? true : false;
+        this.savedItems.fix_price == null ? true : false;
       },
       (err: any) => {}
     );
@@ -2317,28 +1795,27 @@ export class ProfilePageComponent {
     const date = (event.target as HTMLInputElement).value;
     const selectedDate = date ? new Date(date) : new Date();
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time for comparison
-    selectedDate.setHours(0, 0, 0, 0); // Ensure no time component for comparison
+    today.setHours(0, 0, 0, 0); 
+    selectedDate.setHours(0, 0, 0, 0); 
     if (selectedDate < today) {
-      event.target.value = ''; // Clear the input field
-      return new Date(); // Return the current date as a fallback
+      event.target.value = '';
+      return new Date(); 
     }
     if (type === 'end' && this.startingDate) {
       const startingDate = new Date(this.startingDate);
-      startingDate.setHours(0, 0, 0, 0); // Reset time for comparison
+      startingDate.setHours(0, 0, 0, 0); 
       if (selectedDate < startingDate) {
         this.toastr.error(
           'Ending date cannot be earlier than the starting date.',
           'Error'
         );
-        event.target.value = ''; // Clear the ending date input
-        return this.startingDate; // Return the starting date as fallback
+        event.target.value = ''; 
+        return this.startingDate; 
       }
     }
 
     return selectedDate;
   }
-
   getTomorrowDate(): string {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -2353,7 +1830,7 @@ export class ProfilePageComponent {
     }
     const selectedStartingTime = this.startingTime;
     if (!this.startingDate || !this.endingDate) {
-      this.showErrorMessage('Invalid date selected.');
+     
       setTimeout(() => (this.endingTime = ''), 1);
       return;
     }
@@ -2392,7 +1869,6 @@ export class ProfilePageComponent {
   parseSTime(event: any): void {
     const selectedStartingTime = event.target.value;
     if (!this.startingDate) {
-      this.showErrorMessage('Invalid date selected.');
       setTimeout(() => (this.startingTime = ''), 1);
       return;
     }
@@ -2422,7 +1898,6 @@ export class ProfilePageComponent {
       date = new Date(date);
     }
     if (!(date instanceof Date) || isNaN(date.getTime())) {
-      console.error('Invalid date object passed:', date);
       return ''; // Return an empty string or a default value
     }
     const year = date.getFullYear();
@@ -2439,6 +1914,7 @@ export class ProfilePageComponent {
     const utcMinutes = String(now.getUTCMinutes()).padStart(2, '0');
     return `${utcHours}:${utcMinutes}`;
   }
+
   getMinTime(type: 'start' | 'end'): string {
     const todayDate = this.getTodayDate();
     if (type === 'start') {
@@ -2482,29 +1958,26 @@ export class ProfilePageComponent {
       custom_link: this.customLink,
     };
     this.mainServices.customLink(input).subscribe((res: any) => {
-      res;
-      this.showSuccessMessage(res.message);
-      console.log('customLInt', res);
     });
   }
   onLocationFound(location: string) {
     this.locationId = location;
   }
-  cat(cat: any) {
-    cat;
-  }
-  subcat(subCat: any) {
-    subCat;
-  }
+ 
+
   removeImage(index: number, event: Event): void {
-    event.stopPropagation(); // Prevent triggering the selectImage function
-    this.selectedFiles.splice(index, 1); // Remove the image from the array
-    if (this.selectedImageIndex === index) {
-      this.selectedImageIndex = -1; // Reset selected image if the deleted image was selected
+    event.stopPropagation(); 
+    debugger
+    this.selectedFiles.splice(index, 1); 
+    this.imageFilesAbc.splice(index, 1); 
+      if (this.selectedImageIndex === index) {
+      this.selectedImageIndex = -1; 
     } else if (this.selectedImageIndex > index) {
-      this.selectedImageIndex -= 1; // Adjust the selected image index if necessary
+      this.selectedImageIndex -= 1; 
     }
+    
   }
+  
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       localStorage.removeItem('editProduct');

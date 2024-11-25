@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS,  provideHttpClient, withFetch } from '@angular/common/http';
-import { HeaderComponent } from './shared/shared-components/header/header.component';
 import { TokenizedInterceptor } from './shared/services/security/tokenized-Interceptor';
-import { FooterComponent } from './shared/shared-components/footer/footer.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -18,11 +17,9 @@ import { FooterComponent } from './shared/shared-components/footer/footer.compon
   imports: [
     CommonModule,
     
-    RouterModule.forRoot([{ path: 'pages/profilemodule/transactions/sale-purchase', loadChildren: () => import('./profilemodule/transactions/sale-purchase/sale-purchase.module').then(m => m.SalePurchaseModule) }, { path: 'pages/profilemodule', loadChildren: () => import('./profilemodule/profilemodule.module').then(m => m.ProfilemoduleModule) }, { path: 'pages/profilemodule/payment', loadChildren: () => import('./profilemodule/payment/payment.module').then(m => m.PaymentModule) }]),
+    // RouterModule.forRoot([{ path: 'pages/profilemodule/transactions/sale-purchase', loadChildren: () => import('./profilemodule/transactions/sale-purchase/sale-purchase.module').then(m => m.SalePurchaseModule) }, 
+    // { path: 'pages/profilemodule', loadChildren: () => import('./profilemodule/profilemodule.module').then(m => m.ProfilemoduleModule) }]),
     FooterComponent,
-    HeaderComponent,
-  
-    
 ],
   exports: [
     // HeaderComponent

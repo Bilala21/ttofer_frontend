@@ -4,7 +4,6 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
@@ -25,7 +24,6 @@ import { RightSideComponent } from './right-side/right-side.component';
     RightSideComponent,
     RouterLink,
     GalleriaModule,
-    SharedModule,
     NgIf,
     GoogleMapsModule,
     RouterLink,
@@ -208,7 +206,7 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type);
+    this.globalStateService.setOfferModal(modal_type)
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

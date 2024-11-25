@@ -45,6 +45,6 @@ export class CountdownTimerService {
     }
     formattedTime += `${seconds}s`;
 
-    return formattedTime;
+    return formattedTime ;
   }
 }
