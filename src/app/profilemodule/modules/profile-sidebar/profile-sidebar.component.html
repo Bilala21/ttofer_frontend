@@ -1,22 +1,23 @@
-<div>
+<div class="w-100">
     <app-user-detail></app-user-detail>
-</div>
-<div class="d-none d-md-block">
-    <div class="sidebar-content">
-        <div *ngFor="let item of sidebarItems" class="mt-4">
-            <h4 class="fs-19 text-dark-800 fw-bold mb-4">{{ item.title }}</h4>
-            <!-- start menu items -->
-             <div class="d-flex flex-column  menus">
-            <a class="menu d-block rounded text-dark-400 px-3 py-2 text-decoration-none fs-18" *ngFor="let menu of item.items"  routerLink="{{menu.routerLink}}"
-            routerLinkActive="bg-yellow-800 "
-            [routerLinkActiveOptions]="{ exact: true }" >
 
-                <i [class]="menu.icon" class="fs-20 mr-2"></i>
-                <span>{{ menu.label }} </span>
-            </a>
-        </div>
-            <!-- end menu items -->
-        </div>
+    <div class="d-none d-md-block">
+        <div class="sidebar-content">
+            <div *ngFor="let item of sidebarItems" class="mt-4">
+                <h4 class="fs-19 text-dark-800 fw-bold mb-4">{{ item.title }}</h4>
+                <!-- start menu items -->
+                <div class="d-flex flex-column  menus">
+                    <a class="menu d-block rounded text-dark-400 px-2 py-2 text-decoration-none fs-18 mb-1"
+                        *ngFor="let menu of item.items" routerLink="{{menu.routerLink}}"
+                        routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }">
 
+                        <i [class]="menu.icon" class="fs-20 mr-2"></i>
+                        <span>{{ menu.label }} </span>
+                    </a>
+                </div>
+                <!-- end menu items -->
+            </div>
+
+        </div>
     </div>
 </div>
