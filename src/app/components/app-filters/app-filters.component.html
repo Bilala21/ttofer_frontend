@@ -15,7 +15,8 @@
                 Categories
             </button>
             <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne1">
-                <div class="card-body p-0 mt-2 overflow-auto scrollable-content">
+                <div class="card-body p-0 mt-2"
+                    [ngClass]="category_id?'overflow-auto scrollable-content':''">
                     @for (item of categories; track $index) {
                     <div class="d-flex align-items-center mb-3">
                         <input type="radio" class="fs-20" name="category" [checked]="item?.id == category_id"
@@ -105,8 +106,7 @@
                         <div class="card-body p-0 mt-2">
                             <div class="d-flex align-items-center mb-3">
                                 <input type="number" class="fs-14 form-control" min="1" name="bedrooms"
-                                    placeholder="Enter how much berroms?"
-                                    [(ngModel)]="bedrooms"
+                                    placeholder="Enter how much berroms?" [(ngModel)]="bedrooms"
                                     (focusout)="handleFilter({key:'bedrooms',value:bedrooms})">
                             </div>
                             @for (item of filter_fields[slugName]?.bedrooms; track $index) {
@@ -130,8 +130,7 @@
                         <div class="card-body p-0 mt-2">
                             <div class="d-flex align-items-center mb-3">
                                 <input type="number" class="fs-14 form-control" name="bathrooms"
-                                    placeholder="Enter how much bathrooms?"
-                                    [(ngModel)]="bathrooms"
+                                    placeholder="Enter how much bathrooms?" [(ngModel)]="bathrooms"
                                     (focusout)="handleFilter({key:'bathrooms',value:bathrooms})">
                             </div>
                             @for (item of filter_fields[slugName]?.bathrooms; track $index) {

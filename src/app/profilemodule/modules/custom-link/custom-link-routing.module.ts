@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomLinkComponent } from './components/custom-link/custom-link.component';
 
-const routes: Routes = [];
+const routes: Routes = [{ path: '', component: CustomLinkComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CustomLinkRoutingModule { }
+export class CustomLinkRoutingModule {}

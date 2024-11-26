@@ -5,8 +5,10 @@ import { ProfilemoduleComponent } from './profilemodule.component';
 import { ProfileSidebarComponent } from './modules/profile-sidebar/profile-sidebar.component';
 
 const routes: Routes = [
-  { path: '', component: ProfilemoduleComponent,
-    children:[
+  {
+    path: '',
+    component: ProfilemoduleComponent,
+    children: [
       {
         path: '',
         redirectTo: 'sale-purchase',
@@ -26,9 +28,22 @@ const routes: Routes = [
             (m) => m.PaymentModule
           ),
       },
-    ]
-   },
-  
+      {
+        path: 'help-center',
+        loadChildren: () =>
+          import('./modules/help-center/help-center.module').then(
+            (m) => m.HelpCenterModule
+          ),
+      },
+      {
+        path: 'custom-link',
+        loadChildren: () =>
+          import('./modules/help-center/help-center.module').then(
+            (m) => m.HelpCenterModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({

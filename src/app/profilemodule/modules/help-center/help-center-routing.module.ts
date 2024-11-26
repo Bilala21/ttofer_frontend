@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HelpCenterComponent } from './components/help-center/help-center.component';
 
-const routes: Routes = [];
+const routes: Routes = [{ path: '', component: HelpCenterComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HelpCenterRoutingModule { }
+export class HelpCenterRoutingModule {}

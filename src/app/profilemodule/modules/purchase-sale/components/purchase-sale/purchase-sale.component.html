@@ -1,4 +1,13 @@
-    <div class="flex-grow-1">
-        <p>purchase-sale works!</p>
-
+<section>
+    <div class="row align-items-center justify-content-center">
+        <i class="fas fa-shopping-cart fs-20 mr-2"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Purchases & Sales
+        </h1>
     </div>
+    <hr />
+    <div>
+        <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
+        <app-notfound [data]="notfoundData" *ngIf="!data.length" />
+    </div>
+</section>
