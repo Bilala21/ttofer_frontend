@@ -10,7 +10,7 @@
 <form [formGroup]="phoneSignInForm">
 <div class="mt-4">
   <label>Phone<span class="text-danger">*</span></label>
-  <input formControlName="phone" type="text" placeholder="Enter Your Phone Number" class="form-control"
+  <input formControlName="phone" type="text" placeholder="+923044444444" class="form-control"
      required>
   <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="text-danger">
     <small *ngIf="phoneSignInForm.get('phone')?.hasError('required')">Phone number is required.</small>

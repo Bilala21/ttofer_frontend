@@ -53,6 +53,9 @@
           </div>
          <!-- forgot-password-with-email -->
           <div class="col-10 mx-auto" *ngIf="showForgotBox">
+            <div class="cur-pointer">
+              <i class="fa fa-arrow-left fs-12" (click)="forgotEmailBack()"></i>
+            </div>
             <div class="text-center">
               <h6 class="">Email</h6>
               <img
@@ -91,6 +94,9 @@
           </div>
          <!-- forgot-password-with-phone -->
           <div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
+            <div class="cur-pointer">
+              <i class="fa fa-arrow-left fs-12" (click)="forgotPhoneBack()"></i>
+            </div>
             <div class="text-center">
               <h6 class="">Phone Number</h6>
               <img

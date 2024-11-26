@@ -384,6 +384,24 @@ export class LoginModalComponent {
     this.showOTPBox=false;
     this.showResetpassword=false;
   }
+  forgotPhoneBack(){
+    this.showRegisterBox=false;
+    this.showPhoneBox=true;
+    this.showEmailBox=false;
+    this.showForgotPhoneBox=false;
+    this.showForgotBox=false;
+    this.showOTPBox=false;
+    this.showResetpassword=false;
+  }
+  forgotEmailBack(){
+    this.showRegisterBox=false;
+    this.showPhoneBox=false;
+    this.showEmailBox=true;
+    this.showForgotPhoneBox=false;
+    this.showForgotBox=false;
+    this.showOTPBox=false;
+    this.showResetpassword=false;
+  }
   private isClickInsideDropdown(event: MouseEvent): boolean {
     // Check if the click target is the dropdown or a child of it
     const dropdownElement = document.querySelector('.dropdown-menu');

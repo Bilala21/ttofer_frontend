@@ -133,7 +133,7 @@ export class MainServicesService {
   }
 
   wishListProduct(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/wishlist-products', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/wishlist/products', input).pipe();
   }
   markAsSold(productId: any) {
     return this.http.get(`${Constants.baseApi}` + '/mark-product-sold/' + productId).pipe();

@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-md-2 col-3 mx-auto text-center">
+        <div class="col-md-2 col-3 mx-auto text-center ">
             <!-- <img src="assets/images/profile-img1.png" class="w-100" alt=""> -->
             <img *ngIf="auctionUserList?.img!=null" [src]="auctionUserList?.img" loading="lazy" style="height: 112px;
             width: 112px !important;
@@ -16,69 +16,69 @@
     </div>
     <div class="row mt-3">
         <div class="col-md-4 col-10 mx-auto">
-            <div class=" d-flex align-items-center  justify-content-center">
-                <div class="text-center pointer" style="margin: 0 10px;">
+            <div class=" d-flex justify-content-center">
+                <div class="text-center pointer mx-2">
                     <img [class.bg-success]="auctionUserList?.email_verified_at != null"
-                    [class.bg-danger]="auctionUserList?.email_verified_at == null" class="rounded-circle p-2" src="assets/images/E-sms.svg" loading="lazy" style="height: 15%;"
+                    [class.bg-danger]="auctionUserList?.email_verified_at == null" class="rounded-circle p-2" src="assets/images/E-sms.svg" loading="lazy" 
                         alt="">
                     <div class="mt-2">
-                        <h6 class="m-0 p-0 sm-cat-text1">Email</h6>
-                        <h6 class="m-0 p-0 sm-cat-text1">
+                        <h6 class="m-0 p-0 fs-16">Email</h6>
+                        <h6 class="m-0 p-0 fs-14">
                           {{ auctionUserList?.email_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
-                <div class="text-center" style="margin: 0 10px;">
+                <div class="text-center mx-2">
                     <img [class.bg-success]="auctionUserList?.image_verified_at != null"
-                    [class.bg-danger]="auctionUserList?.image_verified_at == null" class="rounded-circle p-2" src="assets/images/gallery.svg" loading="lazy" style="height: 15%;"
+                    [class.bg-danger]="auctionUserList?.image_verified_at == null" class="rounded-circle p-2" src="assets/images/gallery.svg" loading="lazy"
                         alt="">
                     <div class="mt-2">
-                        <h6 class="m-0 p-0 sm-cat-text1">Image</h6>
-                        <h6 class="m-0 p-0 sm-cat-text1">
+                        <h6 class="m-0 p-0 fs-16">Image</h6>
+                        <h6 class="m-0 p-0 fs-14">
                           {{ auctionUserList?.image_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
-                <div class="text-center pointer" style="margin: 0 10px;">
+                <div class="text-center pointer mx-2">
                         <img [class.bg-success]="auctionUserList?.phone_verified_at != null"
-                        [class.bg-danger]="auctionUserList?.phone_verified_at == null" class="rounded-circle p-2" src="assets/images/call.svg" style="height: 15%;"
+                        [class.bg-danger]="auctionUserList?.phone_verified_at == null" class="rounded-circle p-2" src="assets/images/call.svg"
                         alt="">
                     <div class="mt-2">
-                        <h6 class="m-0 p-0 sm-cat-text1">Phone</h6>
-                        <h6 class="m-0 p-0 sm-cat-text1">
+                        <h6 class="m-0 p-0 fs-16">Phone</h6>
+                        <h6 class="m-0 p-0 fs-14">
                           {{ auctionUserList?.phone_verified_at != null ? 'Verified' : 'Not Verified' }}
                       </h6>                    </div>
                 </div>
-                <div class="text-center" style="margin: 0 10px;" *ngIf="auctionUserList.image_verified_at != null && auctionUserList.email_verified_at != null && auctionUserList.phone_verified_at != null">
+                <div class="text-center mx-2" *ngIf="auctionUserList.image_verified_at != null && auctionUserList.email_verified_at != null && auctionUserList.phone_verified_at != null">
                     <img [class.bg-success]="auctionUserList?.is_true_you == '1'"
-                    [class.bg-danger]="auctionUserList.is_true_you == '0'" class="rounded-circle p-2" src="assets/images/E-verify.svg" style="height: 15%;"
+                    [class.bg-danger]="auctionUserList.is_true_you == '0'" class="rounded-circle p-2" src="assets/images/E-verify.svg"
                         alt="" loading="lazy">
                     <div class="mt-2">
-                        <h6 class="m-0 p-0 sm-cat-text1">Join</h6>
-                        <h6 class="m-0 p-0 sm-cat-text1">TruYou</h6>
+                        <h6 class="m-0 p-0 fs-16">Join</h6>
+                        <h6 class="m-0 p-0 fs-14">TruYou</h6>
                     </div>
                 </div>
-                <div class="text-center" style="margin: 0 10px;" style="cursor: pointer;" (click)="openModal()">
+                <div class="text-center mx-2" style="cursor: pointer;" (click)="openModal()">
                     <img src="assets/images/reportUser-icon.svg" alt="" loading="lazy">
                     <div class="mt-2">
-                        <h6 class="m-0 p-0 sm-cat-text1">Report</h6>
-                        <h6 class="m-0 p-0 sm-cat-text1">User</h6>
+                        <h6 class="m-0 p-0 fs-16">Report</h6>
+                        <h6 class="m-0 p-0 fs-14">User</h6>
                     </div>
                 </div>
             </div>
 
-            <div class="row mt-5 justify-content-between">
-                <div class="col-md-3 col-6" (click)="setActiveTab('products')" style="cursor: pointer;"
-                    [class.active-tab]="activeTab === 'products'">
-                    <h3 class="sm-cat-text4">Products</h3>
+            <div class="row mt-5 justify-content-between border">
+                <div class="col-md-3 col-6 cur-pointer" (click)="setActiveTab('products')" 
+                    >
+                    <h3 class="sm-cat-text4" [class.active-tab]="activeTab === 'products'">Products</h3>
                     <div *ngIf="activeTab === 'products'" class="active-line"></div>
                 </div>
-                <div class="col-md-3 col-6" (click)="setActiveTab('reviews')" style="cursor: pointer;"
-                    [class.active-tab]="activeTab === 'reviews'">
+                <div class="col-md-3 col-6 cur-pointer" (click)="setActiveTab('reviews')" 
+                    [class.active-tab]="activeTab === 'reviews'" []>
                     <h3 class="sm-cat-text4">Review</h3>
                     <div *ngIf="activeTab === 'reviews'" class="active-line"></div>
                 </div>
             </div>
 
-            <div class="content">
+            <div class="content"> 
                 <div *ngIf="activeTab === 'products'">
                     <div class="row align-items-center mt-3" *ngFor="let data of auctionUserList?.products"  routerLink="/product-detail/{{ data.id }}/{{data.slug}}">
                         <div class="col-md-4 col-6">

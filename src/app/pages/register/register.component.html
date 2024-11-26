@@ -80,7 +80,7 @@
     <button 
   class="btn btn-dark w-100 mt-3 py-2 rounded-2" 
   (click)="confirmRegistration()" 
-  [disabled]="isLoading"
+  [disabled]="!registerForm.valid || isLoading"
 >
   <span *ngIf="!isLoading">Confirm</span>
   <span *ngIf="isLoading">
