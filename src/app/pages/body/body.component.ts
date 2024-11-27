@@ -86,8 +86,8 @@ export class BodyComponent implements OnDestroy {
   }
 
   handlesUserWishlist(item: any) {
-    console.log(item, 'item');
-    if (item.product_type === 'featured') {
+    if (item.product_type !== 'auction') {
+      console.log(item, 'item');
       this.mainServices.getFeatureProduct().subscribe({
         next: (res) => {
           this.featuredPosts = res.data.data;

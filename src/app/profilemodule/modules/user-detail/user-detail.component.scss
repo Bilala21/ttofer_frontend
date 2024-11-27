@@ -1,0 +1,26 @@
+label {
+    width: 130px;
+    height: 130px;
+
+    .profile-icon-camera {
+        width: 33px;
+        height: 33px;
+        border-radius: 50%;
+        font-size: 17px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(65, 65, 65, 0.9294117647);
+        cursor: pointer;
+    }
+}
+
+.text-center p:first-child {
+    color: rgb(43, 176, 209);
+}
+.d-flex.align-items-center.pt-2{
+    column-gap: 20px;
+}

@@ -1,0 +1,42 @@
+<section class="pl-5">
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class="fas fa-credit-card mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Payment & Deposit method
+        </h1>
+    </div>
+    <hr />
+    <div>
+        <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
+        <div class="px-4 pt-4" *ngIf="activeIndex==1">
+            <div class="d-flex align-items-center justify-content-between mt-3">
+                <span>Cards</span>
+                <button class="bg-transparent border-0">Add new card</button>
+            </div>
+            <div class="mt-4 cards">
+                <button
+                    class="d-flex align-items-center bg-transparent border-0 w-100 pb-3 mb-4 border-b-1 position-relative"
+                    *ngFor="let item of [1,2,3,4,5]; let i=index" (click)="activeCard=i+1"
+                    [ngClass]="activeCard==i+1?'active-card':''">
+                    <div class="card-image border-1 rounded p-2">
+                        <img alt="card-image" loading="lazy" width="40" src="assets/images/Applelogo.svg">
+                    </div>
+                    <div class="ml-3">
+                        <h6 class="fs-16"> Apply Pay </h6>
+                        <div class="d-flex fs-12">
+                            <span>Default </span>
+                            <span class="text-hover cur-pointer ml-1 fw-semibold"> </span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="activeIndex && !data.length" class="text-center pt-5">
+            <img src="/assets/images/truck-fast.svg" alt="image">
+            <div class="fw-semibold pt-4 fs-20 pb-2">No shipping transactions</div>
+            <div>
+                When you have shipping purchase or sale, You’ll see it here
+            </div>
+        </div>
+    </div>
+</section>

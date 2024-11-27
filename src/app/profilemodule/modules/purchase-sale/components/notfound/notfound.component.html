@@ -1,0 +1,14 @@
+<div class="col-12 text-center mx-auto mt-5" [ngClass]="data.tabName">
+    <img src={{data.image}} alt="image" loading="lazy" [ngClass]="data.tabName+'-img'">
+    <h4 class="mt-5"> {{data.heading}}</h4>
+    <h5 class="mt-5" *ngIf="data.text"> {{data.text}}</h5>
+    <span>Download our app</span>
+    <div class="w-100 d-flex justify-content-center mt-3">
+        <div class="mr-1" style="width: 140px;">
+            <img src="assets/images/play-store.svg" alt="" loading="lazy" class="w-100">
+        </div>
+        <div class="ml-1" style="width: 140px;">
+            <img src="assets/images/app-store.svg" alt="" loading="lazy" class="w-100">
+        </div>
+    </div>
+</div>

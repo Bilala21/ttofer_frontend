@@ -1,0 +1,6 @@
+<div class="btn-group w-100 border rounded-pill overflow-hidden">
+    <button type="button" class="btn btngroup p-3 sm-p-2 text-capitalize" *ngFor="let tab of tabs; let i = index"
+        [ngClass]="{'bg-yellow-800': activeTab === i+1}" (click)="setActiveTab(tab,i+1)">
+        {{tab}}
+    </button>
+</div>

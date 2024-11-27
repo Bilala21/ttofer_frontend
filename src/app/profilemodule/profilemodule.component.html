@@ -1,5 +1,10 @@
-<main class="mt-16">
-    <div>
-        <app-profile-sidebar/>
+<main class="mt-16 d-flex container pt-5">
+    <div class="row w-100">
+        <div class="col-xl-4 col-md-5 position-relative pr-5">
+            <app-profile-sidebar />
+        </div>
+        <div class="flex-grow-1 profile-right-side">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </main>

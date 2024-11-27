@@ -88,10 +88,10 @@ export class AppFiltersComponent implements OnInit {
     this.loading = true;
     this.route.paramMap.subscribe((params) => {
       const slug: any = params.get('slug');
-      this.slugName = params.get('slug')?.slice(slug.indexOf('-') + 1);
-      if (slug.indexOf('-') > 0) {
-        this.category_id = slug.slice(0, slug.indexOf('-'));
-        this.slug = slug.slice(slug.indexOf('-') + 1).replace(/-/g, ' ');
+      this.slugName = params.get('slug')?.slice(0, slug.lastIndexOf('-'));
+      if (slug.lastIndexOf('-') > 0) {
+        this.category_id = slug.slice(slug.lastIndexOf('-') + 1);
+        this.slug = slug.slice(0, slug.lastIndexOf('-') + 1).replace(/-/g, ' ');
       }
       this.getAndSetLocalFilters(this.category_id);
     });
@@ -109,7 +109,6 @@ export class AppFiltersComponent implements OnInit {
     if (this.category_id) {
       this.fetchSubCategories(this.category_id);
     }
-
   }
 
   getAndSetLocalFilters(id: number) {
@@ -133,7 +132,7 @@ export class AppFiltersComponent implements OnInit {
   }
 
   selectCategory(item: any) {
-    this.router.navigate(['/category', item.id + '-' + item.slug]);
+    this.router.navigate(['/category', item.slug + '-' + item.id]);
     this.fetchSubCategories(item.id);
   }
 
