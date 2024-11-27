@@ -1,1 +1,15 @@
-<p>wallet-details works!</p>
+<section>
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class=" fas fs-20 fa-wallet mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Wallet
+        </h1>
+    </div>
+    <hr />
+    <div class="px-5 pt-4" aria-hidden="false">
+        <label for="">Email <span class="text-danger">*</span></label>
+        <input type="text" placeholder="Enter email" class="form-control" (input)="handleChange($event)">
+        <button tabindex="-1" type="button" (click)="openDialog()"
+            class="w-100 d-block bg-yellow-800 mt-4 border-0 btn py-10 {{isValid?'':'disabled'}}">Submit</button>
+    </div>
+</section>

@@ -56,6 +56,27 @@ const routes: Routes = [
             (m) => m.PostBoostingModule
           ),
       },
+      {
+        path: 'wallet',
+        loadChildren: () =>
+          import('./modules/wallet/wallet-routing.module').then(
+            (m) => m.WalletRoutingModule
+          ),
+      },
+      {
+        path: 'saved-items',
+        loadChildren: () =>
+          import('./modules/saved-items/saved-items.module').then(
+            (m) => m.SavedItemsModule
+          ),
+      },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('./modules/notifications/notifications-routing.module').then(
+            (m) => m.NotificationsRoutingModule
+          ),
+      },
     ],
   },
 ];

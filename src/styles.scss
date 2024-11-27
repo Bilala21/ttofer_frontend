@@ -280,6 +280,7 @@ button[aria-label="Close"]:focus {
 .fs-22 {
   font-size: 22px;
 }
+
 .fs-18 {
   font-size: 18px;
 }
@@ -1185,4 +1186,9 @@ button[aria-label="Close"]:focus {
       font-size: 16px;
     }
   }
+}
+
+.py-10 {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
