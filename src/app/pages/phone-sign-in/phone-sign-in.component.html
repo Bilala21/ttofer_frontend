@@ -9,8 +9,8 @@
 </div>
 <form [formGroup]="phoneSignInForm">
 <div class="mt-4">
-  <label>Phone</label>
-  <input formControlName="phone" type="text" placeholder="Enter Your Phone Number" class="form-control"
+  <label>Phone<span class="text-danger">*</span></label>
+  <input formControlName="phone" type="text" placeholder="+923044444444" class="form-control"
      required>
   <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="text-danger">
     <small *ngIf="phoneSignInForm.get('phone')?.hasError('required')">Phone number is required.</small>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="mt-4">
-  <label>Password</label>
+  <label>Password<span class="text-danger">*</span></label>
   <input formControlName="password" type="password" placeholder="Enter Your Password" class="form-control"
      required>
   <div *ngIf="phoneSignInForm.get('password')?.invalid && phoneSignInForm.get('password')?.touched" class="text-danger">
@@ -34,7 +34,7 @@
 
 
 <div class="mt-4">
-  <button class="btn btn-dark w-100 p-2" (click)="loginWithPhone()"  
+  <button class="btn btn-dark w-100 py-2 rounded-2" (click)="loginWithPhone()"  
           [disabled]="!isFormValid() || loading">
     <ng-container *ngIf="!loading; else spinner">
       Sign in

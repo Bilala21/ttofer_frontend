@@ -1,15 +1,16 @@
 .active-tab {
     cursor: pointer;
     position: relative;
+    border-bottom: 5px solid black;
 }
 
-.active-line {
-    height: 2px;
-    background-color: black;
-    width: 100%;
-    position: absolute;
-    bottom: -10px;
-}
+// .active-line {
+//     height: 2px;
+//     background-color: black;
+//     width: 100%;
+//     position: absolute;
+//     bottom: -10px;
+// }
 
 .content {
     margin-top: 20px;

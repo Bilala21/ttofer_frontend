@@ -59,7 +59,7 @@
                   <div class="fs-14 text-capitalize mt-1">
                     Address : {{ currentUserProfile.location || "N/A" }}
                   </div>
-                  <div class="d-flex justify-content-center align-items-center">
+                  <div class="d-flex justify-content-center justify-content-md-start align-items-center">
                     <div class="text-center">
                       <app-star-rating [rating]="currentUserProfile.review_percentage"
                         [allowRating]="this.allowRating"></app-star-rating>
@@ -493,8 +493,8 @@
                             object-fit: contain;
                             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
                           ">
-                          @if(data.product.photo[0]?.src){
-                          <img [src]="data.product.photo[0]?.src" class="w-100 h-100" alt="" />
+                          @if(data.user?.img){
+                          <img [src]="data?.user?.img" class="w-100 h-100" alt="" />
                           }@else{
                           <img src="assets/images/default-img.jpg" class="w-100 h-100" alt="Default Image"
                             loading="lazy" />

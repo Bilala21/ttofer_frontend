@@ -1411,7 +1411,7 @@ export class ProfilePageComponent {
       let formData = new FormData();
       formData.append('user_id', this.currentUserId.toString());
       formData.append('img', this.selectedFile);
-      let url = `https://ttoffer.com/backend/public/api/update/user`;
+      let url = `https://ttoffer.com/backend/public/web-api/v1/web/update/user`;
       let token = localStorage.getItem('authToken')
       fetch(url, {
         method: 'POST',
