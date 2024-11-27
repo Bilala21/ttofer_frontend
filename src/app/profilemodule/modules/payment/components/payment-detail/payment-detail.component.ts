@@ -1,12 +1,10 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-payment-detail',
   standalone: true,
-  imports: [],
   templateUrl: './payment-detail.component.html',
-  styleUrl: './payment-detail.component.scss'
+  styleUrl: './payment-detail.component.scss',
 })
-export class PaymentDetailComponent {
-
-}
+export class PaymentDetailComponent {}

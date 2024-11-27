@@ -42,6 +42,13 @@ const routes: Routes = [
             (m) => m.HelpCenterModule
           ),
       },
+      {
+        path: 'account-setting',
+        loadChildren: () =>
+          import('./modules/account-settings/account-settings.module').then(
+            (m) => m.AccountSettingsModule
+          ),
+      },
     ],
   },
 ];

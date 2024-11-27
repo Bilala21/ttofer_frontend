@@ -1715,10 +1715,11 @@ export class ProfilePageComponent {
       },
     ];
   }
+  
   openDialog(key: string, placeholder: any): void {
     const dialogRef = this.dialog.open(AccountSettingDialogeComponent, {
       width: '470px',
-      height: '322px',
+      height: '500px',
       data: { placeholder, key, currentUserProfile: this.currentUserProfile },
     });
 
