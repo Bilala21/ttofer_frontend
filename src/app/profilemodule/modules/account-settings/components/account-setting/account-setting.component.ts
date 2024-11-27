@@ -52,7 +52,7 @@ export class AccountSettingComponent implements OnInit {
           ...this.userSetting,
           [result.key]: result.value,
         };
-        console.log(data)
+        console.log(data);
         // this.mainServices.updateUserAccount(data);
       }
     });

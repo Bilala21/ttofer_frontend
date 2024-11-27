@@ -11,21 +11,21 @@
         <div class="px-4 pt-4" *ngIf="activeIndex==1">
             <div class="d-flex align-items-center justify-content-between mt-3">
                 <span>Cards</span>
-                <button class="bg-transparent border-0">Add new card</button>
+                <button class="bg-transparent border-0" (click)="openDialog()">Add new card</button>
             </div>
             <div class="mt-4 cards">
                 <button
                     class="d-flex align-items-center bg-transparent border-0 w-100 pb-3 mb-4 border-b-1 position-relative"
-                    *ngFor="let item of [1,2,3,4,5]; let i=index" (click)="activeCard=i+1"
+                    *ngFor="let card of paymentDeposit; let i=index" (click)="activeCard=i+1"
                     [ngClass]="activeCard==i+1?'active-card':''">
                     <div class="card-image border-1 rounded p-2">
-                        <img alt="card-image" loading="lazy" width="40" src="assets/images/Applelogo.svg">
+                        <img alt="card-image" loading="lazy" width="40" src="{{card.img}}">
                     </div>
-                    <div class="ml-3">
-                        <h6 class="fs-16"> Apply Pay </h6>
+                    <div class="ml-3 text-left">
+                        <h6 class="fs-16">{{card.name}}</h6>
                         <div class="d-flex fs-12">
-                            <span>Default </span>
-                            <span class="text-hover cur-pointer ml-1 fw-semibold"> </span>
+                            <span> {{card.isDefault?'Default':'Set as default'}}</span>
+                            <button *ngIf="!card.isDefault" type="button" class="text-hover cur-pointer ml-1 fw-semibold edit-btn border-0 bg-transparent py-0" (click)="hadleMakeDefault(card.name)">Edit</button>
                         </div>
                     </div>
                 </button>

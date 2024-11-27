@@ -38,8 +38,8 @@ const routes: Routes = [
       {
         path: 'custom-link',
         loadChildren: () =>
-          import('./modules/help-center/help-center.module').then(
-            (m) => m.HelpCenterModule
+          import('./modules/custom-link/custom-link.module').then(
+            (m) => m.CustomLinkModule
           ),
       },
       {
@@ -47,6 +47,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/account-settings/account-settings.module').then(
             (m) => m.AccountSettingsModule
+          ),
+      },
+      {
+        path: 'post-boosting',
+        loadChildren: () =>
+          import('./modules/post-boosting/post-boosting.module').then(
+            (m) => m.PostBoostingModule
           ),
       },
     ],
