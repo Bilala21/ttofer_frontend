@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { HeaderNavigationComponent } from './components/header/header.component';
+import { SupportModalComponent } from "./components/modals/support-modal/support-modal.component";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { HeaderNavigationComponent } from './components/header/header.component'
     RouterOutlet,
     CommonModule,
     HeaderNavigationComponent,
-  ],
+    SupportModalComponent
+],
 })
 export class AppComponent {
   constructor(private router: Router) {}
