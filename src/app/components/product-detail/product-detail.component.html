@@ -40,7 +40,8 @@
             </p-galleria>
           </div>
 
-          <app-right-side *ngIf="screenWidth < 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
+          <app-right-side *ngIf="screenWidth < 768" [product]="product" [parsedAttributes]="parsedAttributes"
+            (handleWishlist)="toggleWishlist($event)" />
           <!-- similar products -->
           <div class="similar-product-container pr-5 xs-px-0" *ngIf="product.product_type !=='auction'">
             <hr class="my-5">
@@ -76,7 +77,8 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes"
+          (handleWishlist)="toggleWishlist($event)" />
       </div>
 
       <!-- more detail about product -->
@@ -94,13 +96,13 @@
               </div>
             </div>
           </div>
-          
+
 
           <!-- description -->
           <div class="border p-3 mb-2 w-100 mt-3 rounded">
             <h2 class="fw-semibold fs-24">Description</h2>
             <span class="d-block fs-14">{{product.description}}</span>
-            
+
           </div>
 
           <hr>
@@ -110,23 +112,16 @@
             <div>
               <div class="d-block fs-14">{{ product?.location }}</div>
               <div class="map-div mt-2" style="height: 300px;">
-                <google-map
-                  [center]="center"
-                  [zoom]="zoom"
-                >
-                  <map-marker
-                    [position]="markerPosition"
-                    [options]="markerOptions"
-                  ></map-marker>
+                <google-map [center]="center" [zoom]="zoom">
+                  <map-marker [position]="markerPosition" [options]="markerOptions"></map-marker>
                 </google-map>
               </div>
             </div>
           </div>
-          
+
         </div>
       </section>
       <app-make-offer-modal [product]="product" />
     </div>
-
   </div>
 </main>
