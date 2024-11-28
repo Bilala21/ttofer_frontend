@@ -40,7 +40,7 @@ export class NotificationsComponent implements OnInit {
 
   getUserNotifications(userId: number) {
     this.loading = true
-    this.mainService.getNotification(userId).subscribe({
+    this.mainService.getNotification(userId,'all').subscribe({
       next: (res: any) => {
         this.notificatons = res.data
         this.loading = false

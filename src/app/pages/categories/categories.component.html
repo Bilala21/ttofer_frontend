@@ -37,7 +37,7 @@
             </div>
             }
             }
-            <div class="no-data-container" *ngIf="!data.length">
+            <div class="no-data-container" *ngIf="!data.length && !loading">
               <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
             </div>
             @if (data.length) {

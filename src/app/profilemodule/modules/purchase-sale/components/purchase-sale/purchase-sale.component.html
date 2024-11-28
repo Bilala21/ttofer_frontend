@@ -1,5 +1,5 @@
 <section>
-    <div class="row align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center mb-5">
         <i class="fas fa-shopping-cart fs-20 mr-2"></i>
         <h1 class="m-0 fs-28 fw-bold">
             Purchases & Sales
@@ -7,7 +7,49 @@
     </div>
     <hr />
     <div>
-        <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
-        <app-notfound [data]="notfoundData" *ngIf="!data.length" />
+        <div class="pt-2 pb-4">
+            <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
+        </div>
+
+        <!-- listing -->
+
+        <div *ngIf="data?.data?.length && !loading">
+            <div class="card-container" style="cursor: pointer;" tabindex="0" *ngFor="let post of data?.data">
+                <div class="z-0 position-relative"
+                    style="width: 115px; height: 115px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
+                    <img alt="Item Image" loading="lazy" class="w-100 h-100" style="border-radius: 10px;"
+                        src="assets/images/default-img.jpg">
+                    <div
+                        class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
+                        AED 4,000 </div>
+                </div>
+                <div class="ml-3 flex-grow-1 custom-margin-left">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="card-title">{{post.title}}</span>
+                        <span class="view-count">0 Views</span>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div class="avatars d-flex">
+                            <img src="/assets/images/profile-placeholder.png" alt="User 1">
+                            <img src="/assets/images/profile-placeholder.png" alt="User 2">
+                            <img src="/assets/images/profile-placeholder.png" alt="User 3">
+                            <img src="/assets/images/profile-placeholder.png" alt="User 4">
+                        </div>
+                    </div>
+                    <div class="action-text">
+                        Sell faster
+                        <span>|</span>
+                        <span class="mark-as-sold" style="cursor: pointer;">Mark as sold</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- simmer loader -->
+        <div *ngIf="loading"><app-shimmer-design /></div>
+        <!-- not found component -->
+        <div class="mt-4">
+            <app-notfound [data]="notfoundData" *ngIf="!data?.data?.length && !loading" />
+        </div>
     </div>
 </section>

@@ -1657,7 +1657,7 @@ export class ProfilePageComponent {
   getNotification() {
     this.loading = true;
     this.mainServices
-      .getNotification(this.currentUserId)
+      .getNotification(this.currentUserId,'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {

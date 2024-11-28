@@ -223,6 +223,7 @@ body {
   font-weight: 400;
   font-style: normal;
   color: #222;
+  font-size: 16px;
 }
 
 body {
@@ -279,6 +280,10 @@ button[aria-label="Close"]:focus {
 
 .fs-22 {
   font-size: 22px;
+}
+
+.fs-18 {
+  font-size: 18px;
 }
 
 .fs-28 {
@@ -1152,7 +1157,7 @@ button[aria-label="Close"]:focus {
 
 .cdk-overlay-pane.mat-mdc-dialog-panel {
   height: auto !important;
-  max-height: 400px;
+  // max-height: 400px;
 
 
 }
@@ -1164,4 +1169,27 @@ button[aria-label="Close"]:focus {
 
 .p-overflow-hidden .p-galleria-content p-galleriaitem {
   background: transparent;
+}
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  z-index: 99999 !important;
+}
+
+.mat-mdc-dialog-content {
+  max-height: 100% !important;
+}
+
+.add-new-card {
+  button {
+    span {
+      color: #333;
+      font-size: 16px;
+    }
+  }
+}
+
+.py-10 {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
