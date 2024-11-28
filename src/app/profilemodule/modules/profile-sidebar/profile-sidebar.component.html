@@ -9,10 +9,11 @@
                 <div class="d-flex flex-column  menus">
                     <a class="menu d-block rounded text-dark-400 px-2 py-2 text-decoration-none fs-18 mb-1"
                         *ngFor="let menu of item.items" routerLink="{{menu.routerLink}}"
-                        routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }">
+                        routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }"
+                        [ngStyle]="activeRoute && menu.id ==='purchasesSales' ? { 'background': '#ffae15' } : {}">
 
                         <i [class]="menu.icon" class="fs-20 mr-2"></i>
-                        <span>{{ menu.label }} </span>
+                        <span>{{ menu.label }}</span>
                     </a>
                 </div>
                 <!-- end menu items -->

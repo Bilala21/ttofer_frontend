@@ -8,6 +8,7 @@
     <hr />
     <div>
         <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
+
         <div class="px-4 pt-4" *ngIf="activeIndex==1">
             <div class="d-flex align-items-center justify-content-between mt-3">
                 <span>Cards</span>
@@ -25,18 +26,24 @@
                         <h6 class="fs-16">{{card.name}}</h6>
                         <div class="d-flex fs-12">
                             <span> {{card.isDefault?'Default':'Set as default'}}</span>
-                            <button *ngIf="!card.isDefault" type="button" class="text-hover cur-pointer ml-1 fw-semibold edit-btn border-0 bg-transparent py-0" (click)="hadleMakeDefault(card.name)">Edit</button>
+                            <button *ngIf="!card.isDefault" type="button"
+                                class="text-hover cur-pointer ml-1 fw-semibold edit-btn border-0 bg-transparent py-0"
+                                (click)="hadleMakeDefault(card.name)">Edit</button>
                         </div>
                     </div>
                 </button>
             </div>
         </div>
-        <div *ngIf="activeIndex && !data.length" class="text-center pt-5">
+
+        <div *ngIf="activeIndex && !data.length && loading" class="text-center pt-5">
             <img src="/assets/images/truck-fast.svg" alt="image">
             <div class="fw-semibold pt-4 fs-20 pb-2">No shipping transactions</div>
             <div>
                 When you have shipping purchase or sale, You’ll see it here
             </div>
+        </div>
+        <div *ngIf="loading">
+            <app-card-shimmer />
         </div>
     </div>
 </section>

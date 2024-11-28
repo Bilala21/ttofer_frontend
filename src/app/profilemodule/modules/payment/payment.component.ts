@@ -1,18 +1,20 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewCardComponent } from './components/add-new-card/add-new-card.component';
+import { CardShimmerComponent } from '../../../components/card-shimmer/card-shimmer.component';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
 })
-export class PaymentComponent {
+export class PaymentComponent implements OnInit {
   tabs = ['accounts', 'transaction'];
   activeIndex: number = 1;
   activeCard: number = 1;
   data: any = [];
+  loading = true;
 
   // This data is teporary
   paymentDeposit: any[] = [
@@ -42,6 +44,7 @@ export class PaymentComponent {
 
   getTab(tab: any) {
     this.activeIndex = tab.index;
+    this.loading=true
   }
 
   openDialog(): void {
@@ -63,5 +66,11 @@ export class PaymentComponent {
         card.isDefault = false;
       }
     });
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.loading = false;
+    }, 300);
   }
 }

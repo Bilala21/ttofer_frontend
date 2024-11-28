@@ -5,6 +5,7 @@ import { NotfoundComponent } from '../notfound/notfound.component';
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-purchase-sale',
@@ -22,7 +23,7 @@ import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.compone
   providers: [DecimalPipe],
 })
 export class PurchaseSaleComponent implements OnInit {
-  tabs = ['buying', 'selling', 'history'];
+  tabs: any = ['buying', 'selling', 'history'];
   sellingListTemp: any = [];
   activeIndex: number = 1;
   notFoundData: any = {};
@@ -31,7 +32,8 @@ export class PurchaseSaleComponent implements OnInit {
   loading: boolean = false;
   constructor(
     private decimalPipe: DecimalPipe,
-    private mainServices: MainServicesService
+    private mainServices: MainServicesService,
+    private route: ActivatedRoute
   ) {}
 
   getTab(tab: any) {
@@ -46,13 +48,12 @@ export class PurchaseSaleComponent implements OnInit {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
   }
   fecthData(tab: string) {
- 
     this.loading = true;
     this.mainServices.getSelling().subscribe({
       next: (res: any) => {
         this.data = res.data?.[tab];
         this.loading = false;
-        console.log(res)
+        console.log(res);
       },
       error: (err: any) => {
         this.loading = false;
@@ -61,6 +62,21 @@ export class PurchaseSaleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fecthData('buying');
+    let isSelling = false;
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.query) {
+        this.activeIndex = 2;
+        isSelling = true;
+      }
+      else{
+        this.activeIndex = 1;
+        isSelling = false;
+      }
+    });
+    if (isSelling) {
+      this.fecthData('selling');
+    } else {
+      this.fecthData('buying');
+    }
   }
 }
