@@ -227,9 +227,13 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/upload-image', input)
       .pipe();
   }
-  getNotification(userId: any) {
+  getNotification(userId: any, type: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/get/user/all/notifications/' + userId)
+      .get(
+        `${Constants.baseApi}` +
+          '/get/user/all/notifications/' +
+          { userId, type }
+      )
       .pipe();
   }
   customLink(input: any) {
