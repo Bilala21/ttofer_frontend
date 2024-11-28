@@ -159,8 +159,14 @@ export class MainServicesService {
   udpateProductImage(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/upload-image', input).pipe();
   }
-  getNotification(userId: any) {
-    return this.http.get(`${Constants.baseApi}` + '/get/user/all/notifications/' + userId).pipe();
+  getNotification(userId: any, type: any) {
+    return this.http
+      .get(
+        `${Constants.baseApi}` +
+          '/get/user/all/notifications/' +
+          { userId, type }
+      )
+      .pipe();
   }
   customLink(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/update/custom/link', input).pipe();

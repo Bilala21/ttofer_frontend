@@ -211,7 +211,7 @@ export class HeaderNavigationComponent implements OnInit {
   getNotification() {
     this.loading = true;
     this.mainServicesService
-      .getNotification(this.currentUser?.id)
+      .getNotification(this.currentUser?.id,'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {

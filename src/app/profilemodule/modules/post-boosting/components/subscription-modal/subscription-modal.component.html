@@ -9,9 +9,7 @@
         </div>
         <p class="pt-3">Get an average of 20x more views each day</p>
         <p class="fw-semibold">No obligation, cancel anytimeLearn more</p>
-        <a [routerLink]="['/routePath']" routerLinkActive="router-link-active"
-            class="py-10 rounded d-block text-dark-400 text-decoration-none bg-yellow-800 w-100 mb-4 py-2 fs-18 mt-4">Pay
-            now</a>
+        <a (click)="onNoClick()" [routerLink]="['/profile/sale-purchase']" routerLinkActive="router-link-active"  class="d-block text-dark-400 text-decoration-none bg-yellow-800 w-100 mb-4 py-2 fs-18 mt-4">Pay now</a>
         <p class="text-dark pb-3">
             Your iTunes account will be charged !19.99 per month for the Boost Plus Subscription at the end of your
             3-day free trail unless you cancel the subscription at least 24 hours before the end of the trial
