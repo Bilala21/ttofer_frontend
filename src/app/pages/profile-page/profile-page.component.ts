@@ -1410,7 +1410,7 @@ export class ProfilePageComponent {
       let formData = new FormData();
       formData.append('user_id', this.currentUserId.toString());
       formData.append('img', this.selectedFile);
-      let url = `https://ttoffer.com/backend/public/api/update/user`;
+      let url = `https://ttoffer.com/backend/public/web-api/v1/web/update/user`;
       let token = localStorage.getItem('authToken')
       fetch(url, {
         method: 'POST',
@@ -1656,7 +1656,7 @@ export class ProfilePageComponent {
   getNotification() {
     this.loading = true;
     this.mainServices
-      .getNotification(this.currentUserId)
+      .getNotification(this.currentUserId,'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
@@ -1714,10 +1714,11 @@ export class ProfilePageComponent {
       },
     ];
   }
+  
   openDialog(key: string, placeholder: any): void {
     const dialogRef = this.dialog.open(AccountSettingDialogeComponent, {
       width: '470px',
-      height: '322px',
+      height: '500px',
       data: { placeholder, key, currentUserProfile: this.currentUserProfile },
     });
 

@@ -62,14 +62,10 @@
         <span>Monday, 04:05 <span>PM</span></span>
       </div>
     </div>
-    <div class="row mt-5 justify-content-center" >
-      <div class="col-11 col-md-12" style="
-        background-color: #f3f4f5;
-        padding: 2vh;
-        border-radius: 2vh;
-      ">
+    <div class="mt-5" >
+      <div class="col-12 p-2 live-bids">
         <div class="row">
-          <div class="col-6" style="border-right: 1px solid #787878; padding-right: 1vh">
+          <div class="col-6 border-r pr-2">
             <h6 class="starting-price">Starting price</h6>
             <span class="auction-price">AED {{
               product.auction_initial_price|| "N/A"
@@ -87,13 +83,9 @@
                 </div>
               </div>
               <div class="col-6">
-                <div class="h-100" style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                ">
+                <div class="h-100 d-flex justify-content-center align-content-center">
                   <div class="live-user-count">
-                    <span class="user-length-count">
+                    <span class="user-length-count mr-1">
                       +{{ liveAuction.length }}
                     </span>
                   </div>
@@ -117,14 +109,14 @@
     <div class="row mt-3" >
       <div class="col-6">
         <img src="assets/images/liveDot.svg" alt="" loading="lazy" />
-        <span class="live-auction">Live Auction</span>
+        <span class="live-auction ml-1">Live Auction</span>
       </div>
       <div class="col-6" style="text-align: end">
         <span class="bids-made">{{ liveAuction.length }} Bids made</span>
       </div>
     </div>
     <!-- bids-data -->
-    <div class="sidebar" >
+    <div class="sidebar border" >
       <div class="biders">
         <div class="row mt-3 align-items-center justify-content-between mx-0" *ngFor="let data of liveAuction">
           <div class="col-8">

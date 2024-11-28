@@ -38,8 +38,43 @@ const routes: Routes = [
       {
         path: 'custom-link',
         loadChildren: () =>
-          import('./modules/help-center/help-center.module').then(
-            (m) => m.HelpCenterModule
+          import('./modules/custom-link/custom-link.module').then(
+            (m) => m.CustomLinkModule
+          ),
+      },
+      {
+        path: 'account-setting',
+        loadChildren: () =>
+          import('./modules/account-settings/account-settings.module').then(
+            (m) => m.AccountSettingsModule
+          ),
+      },
+      {
+        path: 'post-boosting',
+        loadChildren: () =>
+          import('./modules/post-boosting/post-boosting.module').then(
+            (m) => m.PostBoostingModule
+          ),
+      },
+      {
+        path: 'wallet',
+        loadChildren: () =>
+          import('./modules/wallet/wallet-routing.module').then(
+            (m) => m.WalletRoutingModule
+          ),
+      },
+      {
+        path: 'saved-items',
+        loadChildren: () =>
+          import('./modules/saved-items/saved-items.module').then(
+            (m) => m.SavedItemsModule
+          ),
+      },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('./modules/notifications/notifications-routing.module').then(
+            (m) => m.NotificationsRoutingModule
           ),
       },
       {

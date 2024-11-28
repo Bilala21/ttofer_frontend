@@ -23,7 +23,8 @@
             !showRegisterBox &&
             !showForgotBox &&
             !showOTPBox &&
-            !showResetpassword
+            !showResetpassword &&
+            !showForgotPhoneBox
           "
           id="loginModalLabel"
         >
@@ -52,6 +53,9 @@
           </div>
          <!-- forgot-password-with-email -->
           <div class="col-10 mx-auto" *ngIf="showForgotBox">
+            <div class="cur-pointer">
+              <i class="fa fa-arrow-left fs-12" (click)="forgotEmailBack()"></i>
+            </div>
             <div class="text-center">
               <h6 class="">Email</h6>
               <img
@@ -70,15 +74,13 @@
                 type="text"
                 placeholder="Enter Your Email"
                 class="form-control"
-                style="border-radius: 18px"
                 required
               />
             </div>
             <div class="mt-4">
               <button
                 (click)="openOTP()"
-                class="btn btn-dark w-100"
-                style="border-radius: 20px; padding: 10px"
+                class="btn btn-dark w-100 py-2 rounded-2"
                 [disabled]="!emailInput.value"
               >
                 <ng-container *ngIf="!loading; else spinner">
@@ -92,6 +94,9 @@
           </div>
          <!-- forgot-password-with-phone -->
           <div class="col-10 mx-auto" *ngIf="showForgotPhoneBox">
+            <div class="cur-pointer">
+              <i class="fa fa-arrow-left fs-12" (click)="forgotPhoneBack()"></i>
+            </div>
             <div class="text-center">
               <h6 class="">Phone Number</h6>
               <img
@@ -104,22 +109,20 @@
             <div class="mt-4">
               <label>Phone</label>
               <input
-                #emailInput="ngModel"
+                #phoneInput="ngModel"
                 [(ngModel)]="phoneNumber"
                 name="phone"
                 type="text"
                 placeholder="Enter Your Phone"
                 class="form-control"
-                style="border-radius: 18px"
                 required
               />
             </div>
             <div class="mt-4">
               <button
                 (click)="openOTPNumber()"
-                class="btn btn-dark w-100"
-                style="border-radius: 20px; padding: 10px"
-                [disabled]="loading"
+                class="btn btn-dark w-100 py-2 rounded-2"
+                [disabled]="!phoneInput.value || loading"
               >
                 <ng-container *ngIf="!loading; else spinner">
                   Send OTP
@@ -130,7 +133,7 @@
               </button>
             </div>
           </div>
-          <!-- OTP-screen -->
+          <!-- OTP-email-screen -->
           <div class="col-10 mx-auto" *ngIf="showOTPBox">
             <div class="text-center">
               <h6>Verify</h6>
@@ -160,7 +163,6 @@
                   #otpField
                   type="text"
                   class="form-control text-center"
-                  style="border-radius: 10px"
                   maxlength="1"
                   (input)="onInputChange($event, i)"
                   (keydown.backspace)="onBackspace($event, i)"
@@ -171,8 +173,7 @@
             <div class="mt-4 text-center">
               <button
                 (click)="verifyOTP()"
-                class="btn btn-dark w-100"
-                style="border-radius: 20px; padding: 10px"
+                class="btn btn-dark w-100 py-2 rounded-2"
                 [disabled]="loading"
               >
                 <ng-container *ngIf="!loading; else spinner">
@@ -199,7 +200,7 @@
               </h6>
              </div>
           </div>
-          <!-- OTP-screen -->
+          <!-- login-with-email -->
           <div class="col-10 mx-auto" *ngIf="showEmailBox">
             <app-email-sign-in
               (backEvent)="backButton()"
@@ -232,7 +233,7 @@
                   placeholder="Enter Your Email"
                   formControlName="email"
                   class="form-control"
-                  style="border-radius: 10px"
+                  
                 />
                 <div
                   *ngIf="
@@ -257,7 +258,7 @@
                   placeholder="Enter Your Password"
                   formControlName="password"
                   class="form-control"
-                  style="border-radius: 10px"
+                  
                 />
                 <div
                   *ngIf="
@@ -283,7 +284,7 @@
                   placeholder="Enter Your Password"
                   formControlName="password_confirmation"
                   class="form-control"
-                  style="border-radius: 10px"
+                  
                 />
                 <div
                   *ngIf="
@@ -300,8 +301,7 @@
               </div>
               <div class="mt-4">
                 <button
-                  class="btn btn-dark w-100"
-                  style="border-radius: 20px; padding: 10px"
+                  class="btn btn-dark w-100 py-2 rounded-2"
                   [disabled]="!isFormValidforgot() || loading"
                 >
                   <ng-container *ngIf="!loading; else spinner">
@@ -314,81 +314,15 @@
               </div>
             </form>
           </div>
+          <!-- registration-screen -->
           <div class="col-11 mx-auto" *ngIf="showRegisterBox">
-            <!-- <div class="text-center">
-								<h6 class="">Profile Detail</h6>
-								<img src="assets/images/register-img.png" class="w-50 mt-3" alt="">
-							</div> -->
-            <!-- <div class="row">
-
-							<div class="col-lg-1 col-md-2 col-2" style="font-size: 6px; cursor: pointer;">
-								<i class="fa fa-arrow-left fa-2x" (click)="backButton()"></i>
-
-							</div>
-							<div class="col-lg-11 col-md-10 col-10 text-center">
-
-								<h6 class="">Profile Detail</h6>
-								<img src="assets/images/register-img.png" class="w-50 mt-3" alt="">
-							</div>
-							</div>
-							<div class="row mt-5">
-								<div class="col-6">
-									<label>First Name</label>
-									<input type="text" placeholder="First Name" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="firstName">
-								</div>
-								<div class="col-6">
-									<label>Last Name</label>
-									<input type="text" placeholder="Last Name" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="lastName">
-								</div>
-							</div>
-							<div class="row mt-4">
-								<div class="col-12">
-									<label>Username</label>
-									<input type="text" placeholder="Username" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="username">
-								</div>
-							</div>
-							<div class="row mt-4">
-								<div class="col-12">
-									<label>Email/Phone</label>
-									<input type="text" placeholder="name@example.com" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="emailOrPhone">
-								</div>
-							</div>
-							<div class="row mt-4">
-								<div class="col-12">
-									<label>Phone</label>
-									<input type="text" placeholder="name@example.com" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="phone">
-								</div>
-							</div>
-							<div class="row mt-4">
-								<div class="col-12">
-									<label>Password</label>
-									<input type="password" placeholder="Your Password" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="password">
-								</div>
-							</div>
-
-							<div class="row mt-4">
-								<div class="col-12">
-									<label>Confirm Password</label>
-									<input type="password" placeholder="Confirm password" class="form-control"
-										style="border-radius: 13px;" [(ngModel)]="confirmPassword">
-										<div><span class="text-danger mt-2">{{errorMessage}}</span></div>
-									<button class="btn btn-dark w-100 mt-3" style="border-radius: 20px; padding: 10px;"
-										[disabled]="!ValidFor()" (click)="confirmRegistration()">Confirm</button>
-								</div>
-							</div> -->
-            <app-register
+           <app-register
               (backEvent)="backButton()"
               (closeModalEvent)="closeModal()"
             >
             </app-register>
           </div>
-
+          <!-- all-buttons-google-phone-email -->
           <div
             class="col-10 mx-auto"
             *ngIf="
@@ -402,8 +336,7 @@
             "
           >
             <button
-              class="btn btn-outline-dark btn-block"
-              style="border-radius: 18px"
+              class="btn btn-outline-dark btn-block py-2 rounded-2"
               (click)="googleSignIn()"
             >
               <img
@@ -419,9 +352,8 @@
 								with Apple
 							</button> -->
             <button
-              class="btn btn-outline-dark btn-block"
+              class="btn btn-outline-dark btn-block py-2 rounded-2"
               (click)="openPhone()"
-              style="border-radius: 18px"
             >
               <i
                 class="fas fa-phone fs-20 text-center d-block mb-1 fa-rotate-90 mr-3"
@@ -429,9 +361,8 @@
               Continue with Phone
             </button>
             <button
-              class="btn btn-outline-dark btn-block"
+              class="btn btn-outline-dark btn-block py-2 rounded-2"
               (click)="openEmail()"
-              style="border-radius: 18px"
             >
               <i
                 class="fas fa-envelope fs-20 text-center d-block mb-1 mr-3"

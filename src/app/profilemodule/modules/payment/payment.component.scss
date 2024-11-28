@@ -1,0 +1,35 @@
+.cards {
+
+    button::before,
+    button::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        right: 0;
+    }
+
+    button::before {
+        width: 20px;
+        height: 20px;
+        border: 1px solid;
+    }
+
+    button.active-card::after {
+        background: #000;
+        width: 15px;
+        height: 15px;
+        right: 2px;
+    }
+
+    .edit-btn {
+
+        &::after,
+        &::before {
+            all: unset;
+        }
+    }
+}
+
+button:focus {
+    outline: none;
+}

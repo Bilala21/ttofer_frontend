@@ -1,1 +1,68 @@
-<p>notifications works!</p>
+<section>
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class="fas fa-bell mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Notifications
+        </h1>
+    </div>
+    <hr />
+
+
+    <div>
+        <div class="pt-2 pb-4">
+            <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
+        </div>
+        <div class=" rounded mt-5" *ngIf="!loading">
+            <div *ngFor="let i of [1,2,3,4,5,]; let index"
+                class="notifications rounded d-flex border-b p-3 mb-4 cshadow {{index === 2?'unread':'bg-white'}}">
+                <div>
+                    <img src="/assets/images/profile-icon.svg" alt="" class="rounded-pill border-1">
+                </div>
+                <div class="flex-grow-1">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="user d-flex align-items-center">
+                            <span class="rounded-pill bg-success bulit mr-1"></span>
+                            <h1 class="fs-20 m-0">Bilal <span *ngIf="index === 2" class="fs-14">({{index===
+                                    2?'Unread':''}})</span></h1>
+                        </div>
+                        <span class="time fw-bold">{{index ===2?'Latest':'2h ago'}}</span>
+                    </div>
+                    <div>
+                        <p class="message pt-2">{{description.slice(0,index !==
+                            currentIndex?character:description.length)}}
+                            <button *ngIf="description.length > 250"
+                                class="bg-transparent border-0 p-0 load-more-btn fw-semibold"
+                                (click)=" index==currentIndex?readLess():readMore(index)">
+                                {{index==currentIndex?'Read less...':"Read more..."}}
+                            </button>
+                        </p>
+                    </div>
+                    <div class="notification-type d-flex align-items-center justify-content-end">
+                        <b class="mr-1 fs-16">Notification Type</b>
+                        <span class="fw-semibold fs-18">(Auction)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="loading">
+            <app-card-shimmer *ngFor="let i of [1,2,3]" />
+        </div>
+        <div>
+            <div class="text-center my-5">
+                <button class="btn load-more-btn fs-18 fw-semibold" (click)="loadMore()">Load more</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="not-found text-center pt-5" *ngIf="!loading && data.length">
+        <img src="/assets/images/No-data.png" alt="image" width="150">
+        <div class="pt-5 fs-20 fw-semibold">You have no notifications at the moment.</div>
+        <div class="pt-2">Download our app</div>
+        <div class="pt-4">
+            <img src="/assets/images/play-store.svg" alt="image" width="140" class="mr-2">
+            <img src="/assets/images/app-store.svg" alt="image" width="140">
+        </div>
+    </div>
+
+</section>

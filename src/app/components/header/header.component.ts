@@ -201,17 +201,17 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     } else {
-      localStorage.setItem('currentTab', 'notification');
-      this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
-      // localStorage.setItem('currentTab', "notification");
-      // this.router.navigate(['/notifications', `${this.currentUser.id}`])
-      this.router.navigate(['/notifications'])
+      // localStorage.setItem('currentTab', 'notification');
+      // this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
+      // // localStorage.setItem('currentTab', "notification");
+      // // this.router.navigate(['/notifications', `${this.currentUser.id}`])
+      this.router.navigate(['/profile/notifications'])
     }
   }
   getNotification() {
     this.loading = true;
     this.mainServicesService
-      .getNotification(this.currentUser?.id)
+      .getNotification(this.currentUser?.id,'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {

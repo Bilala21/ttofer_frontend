@@ -16,7 +16,7 @@ export class PostCategoriesComponent implements OnInit {
   ngOnInit() {
     this.globalStateService.currentState.subscribe((state) => {
       // 
-      this.categories = state.categories.length ? [...state.categories, { color: "#fff7eb", ImgSrc: '/assets/images/bit-coin.png', name: 'Crypto Market', subTitle: 'Coming Soon' }] : []
+      this.categories = state.categories.length ? [...state.categories, { color: "#fff7eb", ImgSrc: '/assets/images/bit-coin.png', name: 'Crypto Market', subTitle: 'Coming Soon',both:true },{ color: "#fff7eb", ImgSrc: '/assets/images/live-3.png', name: 'Live Sale', subTitle: 'Coming Soon',both:true }] : []
     })
   }
 

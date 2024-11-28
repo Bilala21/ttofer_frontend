@@ -3,6 +3,7 @@
     <div *ngIf="loading">
       <app-card-shimmer />
     </div>
+    <div></div>
     <div *ngIf="!loading">
       <div class="product-detail-content d-flex flex-lg-row md-mt-5">
         <div class="left-side flex-grow-1 w-100">
@@ -34,15 +35,15 @@
                   style="height: 450px" />
               </ng-template>
               <ng-template pTemplate="thumbnail" let-item>
-                <img [src]="item.url" loading="lazy" class="w-100 h-100 max-h-100 max-w-100" />
+                <img [src]="item.url" loading="lazy" class="w-100 h-100 max-h-100 max-w-100 rounded" />
               </ng-template>
             </p-galleria>
           </div>
 
           <app-right-side *ngIf="screenWidth < 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
           <!-- similar products -->
-          <hr class="my-5">
-          <div class="similar-product-container pr-5 xs-px-0">
+          <div class="similar-product-container pr-5 xs-px-0" *ngIf="product.product_type !=='auction'">
+            <hr class="my-5">
             <div class="fw-semibold fs-24">Similar Items</div>
             <span>Sponsored</span>
             <div class="d-flex align-content-center justify-content-end">
@@ -79,7 +80,7 @@
       </div>
 
       <!-- more detail about product -->
-      <section class="md-py-5" *ngIf="product.ProductType !=='auction'">
+      <section class="md-py-5" *ngIf="product.product_type !=='auction'">
         <!-- details -->
         <div class="order-lg-3 order-2">
           <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">

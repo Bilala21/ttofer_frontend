@@ -9,3 +9,7 @@ const routes: Routes = [{ path: '', component: CustomLinkComponent }];
   exports: [RouterModule],
 })
 export class CustomLinkRoutingModule {}
+
+
+
+

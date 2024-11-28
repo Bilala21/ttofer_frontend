@@ -1,1 +1,98 @@
-<p>post-boosting works!</p>
+<section class="pl-5">
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class="fas fa-rocket mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Boost Plus
+        </h1>
+    </div>
+    <hr />
+    <div class="pt-5">
+        <div *ngIf="!showNextStep">
+            <div class="text-center">
+                <img src="/assets/images/boost-plus.svg" alt="image">
+            </div>
+            <h4 class="fs-24 text-dark-800 fw-bold mb-4 pt-5">Sell faster with Boost Plus</h4>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Get an average of 20x more views each day</span>
+            </div>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Promote for multiple days</span>
+            </div>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Switch promotion to any item.</span>
+            </div>
+            <div (click)="openDialog()"
+                class="d-flex justify-content-center w-100 btn btn-outline-dark w-50 mt-5 xs-w-fit py-3">
+                <i class="fas fa-rocket fs-16 mt-1 mr-1"> </i>
+                Boost Plus
+            </div>
+            <h4 class="fs-24 text-dark-800 fw-bold pt-5">Sell faster with Boost Plus</h4>
+            <p>To change your subscription visit your App store. If you cancel, your subscription will run to the end of
+                this billing period</p>
+            <div class="d-flex justify-content-center w-100">
+                <button class="btn btn-outline-dark w-100 mt-5 xs-w-fit py-3 bg-yellow-800 border-0"
+                    (click)="handleNextStep()">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- cards -->
+        <div class="row" *ngIf="showNextStep">
+            <div class="col-md-4">
+                <div class="card rounded-2 p-3 text-center">
+                    <div>Basic</div>
+                    <div class="py-2 fw-semibold">Boost 1 days</div>
+                    <div class="fs-18 fw-bold">AED 2.99</div>
+                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('basic')">
+                        Subscribe
+                    </div>
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>Get an average of 20x more views each day</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card rounded-2 p-3 text-center">
+                    <div>Standard</div>
+                    <div class="py-2 fw-semibold">Boost 3 Days</div>
+                    <div class="fs-18 fw-bold">AED 4.99</div>
+                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('standard')">
+                        Subscribe
+                    </div>
+                </div>
+                <div class="d-flex mt-3 ">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>Switch promotion to any item.</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card rounded-2 p-3 text-center">
+                    <div>Best Value</div>
+                    <div class="py-2 fw-semibold">Boost Plus</div>
+                    <div class="fs-18 fw-bold">AED 16.99</div>
+                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('bestvalue')">
+                        Subscribe
+                    </div>
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>Get an average of 20x more viewseach day</span>
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>Promote for multiple days</span>
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>Switch promotion to any item.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

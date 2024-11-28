@@ -117,9 +117,9 @@ export class ProductDetailComponent implements OnInit {
   productView() {
     const productViewDetail = {
       product_id: this.productId,
-      user_id: this.currentUserid
-    }
-    // 
+      user_id: this.currentUserid,
+    };
+    //
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {},
     });
@@ -206,21 +206,13 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type)
+    this.globalStateService.setOfferModal(modal_type);
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     this.screenHeight = event.target.innerHeight;
   }
-  // toggleFullscreen() {
-  //   const elem = document.querySelector('p-galleria');
-  //   if (elem && !document.fullscreenElement) {
-  //     elem.requestFullscreen().catch(err => console.error("Fullscreen error:", err));
-  //   } else if (document.fullscreenElement) {
-  //     document.exitFullscreen();
-  //   }
-  // }
   private parseAttributes(value: any): any {
     try {
       let attributes = JSON.parse(value);
@@ -229,16 +221,17 @@ export class ProductDetailComponent implements OnInit {
         if (key.includes('_')) {
           continue;
         }
-  
+
         parsedAttributes[key] =
           typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
       }
       return parsedAttributes;
     } catch (error) {
-      return {}; 
+      return {};
     }
   }
 
+  
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);
@@ -247,6 +240,4 @@ export class ProductDetailComponent implements OnInit {
       return false;
     }
   }
-  
-  
 }
