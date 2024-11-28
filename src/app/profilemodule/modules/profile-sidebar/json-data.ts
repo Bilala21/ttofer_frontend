@@ -18,7 +18,7 @@ export const sideBarItems = [
       title: 'My Posts',
       items: [
         // { id: 'editPost', label: 'Edit Post', icon: 'fas fa-edit',routerLink:'/edit-post' },
-        { id: 'addPost', label: 'Add Post', icon: 'fas fa-plus-circle',routerLink:'/add-post' },
+        { id: 'addPost', label: 'Add Post', icon: 'fas fa-plus-circle',routerLink:'/profile/add-post' },
       ],
     },
     {

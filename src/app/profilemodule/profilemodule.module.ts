@@ -42,6 +42,13 @@ const routes: Routes = [
             (m) => m.HelpCenterModule
           ),
       },
+      {
+        path: 'add-post',
+        loadChildren: () =>
+          import('./modules/my-posts/my-posts.module').then(
+            (m) => m.MyPostsModule
+          ),
+      },
     ],
   },
 ];

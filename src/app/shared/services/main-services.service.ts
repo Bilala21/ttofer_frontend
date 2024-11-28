@@ -228,4 +228,8 @@ export class MainServicesService {
   // getProductById(url: string): Observable<any> {
   //   return this.http.get<any>(`${Constants.baseApi}/${url}`);
   // }
+  getAttributes(): Observable<any> {
+    return this.http.get<any>('assets/data.json');  // Adjust path to your JSON or API endpoint
+  }
+
 }

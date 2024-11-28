@@ -1,1 +1,306 @@
-<p>post-form works!</p>
+<form [formGroup]="addProductForm">
+  <div class="col-xl-7 col-md-7">
+    <div class="row align-items-center justify-content-center margin-top-right-side-class">
+      <i class="fas fa-plus-circle title-icon mr-2"></i>
+      <h3 class="right-side-top-title mt-1">Add Post</h3>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-12 mx-auto">
+        <div>
+          <div class="row mb-3">
+            <div class="col-12 mx-auto">
+              <div *ngIf="selectedFiles.length > 0" class="image-grid">
+                <div class="image-item" *ngFor="let file of selectedFiles; let i = index">
+                  <img [src]="file.src" alt="Selected Image" class="img-thumbnail" style="width: 150px; height: 150px"
+                    loading="lazy" />
+                  <button type="button" class="delete-btn" (click)="removeImage(i, $event)">
+                    &times;
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- add image -->
+        <div class="row">
+          <div class="col-12" style="cursor: pointer">
+            <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image<span class="text-danger">*</span></label>
+            <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()" loading="lazy" />
+            <input #fileInput type="file" (change)="onFileChange($event);onFieldChange('uploadImage')
+              " accept="image/png,image/jpg,image/jpeg" style="display: none" multiple />
+            <div *ngIf="validationErrors['uploadImage']" class="text-danger mt-1">
+              {{ validationErrors["uploadImage"] }}
+            </div>
+          </div>
+        </div>
+        <!-- add video -->
+        <div class="video-upload-container">
+          <label class="fs-20 fw-semibold">Add video</label>
+
+          <!-- Display the selected video if available -->
+          <div *ngIf="selectedVideo" class="position-relative video-wrapper">
+            <video controls [src]="selectedVideo.url" class="video-thumbnail w-100"></video>
+            <!-- Close button to remove the video -->
+            <button class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeVideo()">
+              &times;
+            </button>
+          </div>
+
+          <!-- Button to upload new video -->
+          <div class="row">
+            <div class="col-12" style="cursor: pointer">
+              <img src="assets/images/add-post-video.png" class="w-100" alt="Upload Video" (click)="videoInput.click()"
+                loading="lazy" />
+              <input #videoInput type="file" (change)="onVideoSelected($event)" accept="video/*"
+                style="display: none" />
+            </div>
+          </div>
+        </div>
+        <!-- delete image -->
+
+        <!-- title -->
+        <div class="row form-con">
+          <div class="col-12 mt-5">
+            <!-- Title Field -->
+            <div>
+              <label>Title<span class="text-danger">*</span></label>
+              <input type="text" class="form-control w-100 input-class-add-form" placeholder="Title"
+                formControlName="title" />
+              <div *ngIf="addProductForm.get('title')?.hasError('required') && addProductForm.get('title')?.touched"
+                class="text-danger mt-1">
+                Title is required.
+              </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="mt-3">
+              <label>Description<span class="text-danger">*</span></label>
+              <textarea placeholder="Description" formControlName="description" class="form-control w-100">
+              </textarea>
+              <!-- Error Messages -->
+              <div *ngIf="addProductForm.get('description')?.touched || addProductForm.get('description')?.dirty">
+                <!-- Required Error -->
+                <div *ngIf="addProductForm.get('description')?.hasError('required')" class="text-danger mt-1">
+                  Description is required.
+                </div>
+                <!-- MinLength Error -->
+                <div *ngIf="addProductForm.get('description')?.hasError('minlength')" class="text-danger mt-1">
+                  Description must be at least 20 characters long.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <label>Category<span class="text-danger"></span></label>
+            <p-dropdown 
+              [options]="categories" 
+              optionLabel="name" 
+              optionValue="id" 
+              formControlName="category_id"
+              placeholder="Select a Category"
+              class="form-control input-class-add-form"
+              [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }">
+            </p-dropdown>
+            <div *ngIf="validationErrors['selectedCategoryId']" class="text-danger mt-1">
+              {{ validationErrors["selectedCategoryId"] }}
+            </div>
+          </div>
+          
+
+          <div class="col-6">
+            <label class="subcategory-label">Subcategory<span class="text-danger">*</span></label>
+            <p-dropdown 
+              [options]="subCategory" 
+              optionLabel="name" 
+              optionValue="id" 
+              [ngClass]="{ 'is-invalid': validationErrors['selectedSubCategoryId'] }"
+              formControlName="sub_category_id"
+              placeholder="Select a Subcategory"
+              class="form-control input-class-add-form">
+            </p-dropdown>
+            <div *ngIf="validationErrors['selectedSubCategoryId']" class="text-danger mt-1">
+              {{ validationErrors["selectedSubCategoryId"] }}
+            </div>
+          </div>
+          
+        </div>
+
+        <hr />
+        <!-- ******************************Mobile****************************** -->
+        <div style="
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          row-gap: 20px;
+          column-gap: 35px;
+        " class="row categoryFields" formGroupName="attributes">
+          <!-- Dynamic Fields -->
+          <div class="row mt3" *ngFor="let field of categoryFields">
+            <!-- Select Field -->
+            <div class="col-md-6" *ngIf="field.type === 'select'" style="max-width: 100%; flex: 0 0 100%">
+              <label>{{ field.label }}</label>
+              <p-dropdown [options]="field.options" optionLabel="name" optionValue="id" [formControlName]="field.model"
+                [style]="{ width: '100%' }" [ngClass]="{
+                'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
+              }" placeholder="Select {{ field.label }}"></p-dropdown>
+              <!-- Error Message -->
+              <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')"
+                class="text-danger mt-1">
+                {{ field.label }} is required.
+              </div>
+            </div>
+
+            <!-- Input Field -->
+            <div class="col-md-6" *ngIf="field.type === 'input'" style="max-width: 100%; flex: 0 0 100%">
+              <label class="d-block">{{ field.label }}</label>
+              <input style="width: 100%;" pInputText type="text" class="attributes" [formControlName]="field.model"
+                [placeholder]="field.placeholder" [ngClass]="{
+                'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
+              }" />
+              <!-- Error Message -->
+              <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')"
+                class="text-danger mt-1">
+                {{ field.label }} is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <hr />
+        <div class="row mt-3" *ngIf="selectedCategorySlug != 'jobs'">
+          <div class="col-12">
+            <label>Pricing Categories</label>
+            <p-dropdown 
+              [options]="pricingCategories" 
+              formControlName="product_type"
+              optionLabel="name" 
+              optionValue="id"
+              (onChange)="onProductTypeChange($event.value)"
+              placeholder="Select a Pricing Category"
+              class="input-class-add-form">
+            </p-dropdown>
+            <div *ngIf="validationErrors['pricingCategory']" class="text-danger">
+              {{ validationErrors['pricingCategory'] }}
+            </div>
+          </div>
+        </div>
+        
+
+        <!-- Auction Fields -->
+        <div class="container mt-3" style="padding: 0;">
+          <!-- Row 1 -->
+          <div class="row" *ngIf="productType!='FixedPrice'">
+            <!-- Starting Bid -->
+            <div class="col-md-6 ">
+              <label for="startingBid">Starting Bid</label>
+              <p-inputNumber class="w-100" formControlName="auction_initial_price" inputId="startingBid" mode="currency" currency="AED" locale="en-US"
+                placeholder="Starting Price"></p-inputNumber>
+            </div>
+
+            <!-- Lowest Price -->
+            <div class="col-md-6">
+              <label for="lowestPrice">Lowest Price</label>
+              <p-inputNumber class="w-100" inputId="lowestPrice" mode="currency" currency="AED" locale="en-US"
+                placeholder="Lowest Price" formControlName="auction_final_price"></p-inputNumber>
+              <div *ngIf="validationErrors['final_price']" class="text-danger mt-1">
+                {{ validationErrors["final_price"] }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="row" *ngIf="productType != 'FixedPrice'">
+            <!-- Starting Time -->
+            <div class="col-md-6">
+              <label for="startTime">Starting Time</label>
+              <p-calendar 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                dateFormat="HH:mm" 
+                inputId="startTime" 
+                formControlName="auction_starting_time"
+                (onSelect)="onTimeChange('auction_starting_time', $event)">
+                <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                  <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                </ng-template>
+              </p-calendar>
+              <div *ngIf="addProductForm.get('auction_starting_time')?.invalid && addProductForm.get('auction_starting_time')?.touched" class="text-danger mt-1">
+                Starting time is required.
+              </div>
+            </div>
+        
+            <!-- Ending Time -->
+            <div class="col-md-6">
+              <label for="endingTime">Ending Time</label>
+              <p-calendar 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                dateFormat="HH:mm" 
+                inputId="endingTime" 
+                formControlName="auction_ending_time"
+                (onSelect)="onTimeChange('auction_ending_time', $event)">
+                <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                  <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                </ng-template>
+              </p-calendar>
+              <div *ngIf="addProductForm.get('auction_ending_time')?.invalid && addProductForm.get('auction_ending_time')?.touched" class="text-danger mt-1">
+                Ending time is required.
+              </div>
+            </div>
+          </div>
+          
+
+          <!-- Row 3 -->
+          <div class="row">
+            <!-- Start Date / End Date -->
+            <div class="col-md-6" *ngIf="productType != 'FixedPrice'">
+              <label for="dateRange">Start Date / End Date <span class="text-danger">*</span></label>
+              <p-calendar 
+                [(ngModel)]="rangeDates" 
+                selectionMode="range" 
+                [readonlyInput]="true" 
+                [showIcon]="true" 
+                (onSelect)="onDateRangeSelect(rangeDates)"
+                inputId="dateRange">
+              </p-calendar>
+              <div *ngIf="addProductForm.get('auction_start_date')?.invalid && addProductForm.get('auction_start_date')?.touched" class="text-danger">
+                Start date is required.
+              </div>
+              <div *ngIf="addProductForm.get('auction_end_date')?.invalid && addProductForm.get('auction_end_date')?.touched" class="text-danger">
+                End date is required.
+              </div>
+            </div>
+
+            <!-- Total Price -->
+            <div class="col-md-6" *ngIf="productType=='FixedPrice'">
+              <label for="totalPrice">Total Price</label>
+              <p-inputNumber class="w-100" inputId="totalPrice" mode="currency" currency="AED" locale="en-US"
+                placeholder="Total Price"></p-inputNumber>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-2">
+          <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6 ml-auto">
+            <button class="btn btn-dark w-100" (click)="addCompleteProduct()" [disabled]="isLoading">
+              <span *ngIf="!isLoading">Post</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
+                aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
