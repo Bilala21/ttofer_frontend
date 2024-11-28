@@ -1,5 +1,5 @@
 <section>
-    <div class="row align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center mb-5">
         <i class="fas fa-shopping-cart fs-20 mr-2"></i>
         <h1 class="m-0 fs-28 fw-bold">
             Purchases & Sales
@@ -48,6 +48,8 @@
         <!-- simmer loader -->
         <div *ngIf="loading"><app-shimmer-design /></div>
         <!-- not found component -->
-        <app-notfound [data]="notfoundData" *ngIf="!data?.data?.length && !loading" />
+        <div class="mt-4">
+            <app-notfound [data]="notfoundData" *ngIf="!data?.data?.length && !loading" />
+        </div>
     </div>
 </section>
