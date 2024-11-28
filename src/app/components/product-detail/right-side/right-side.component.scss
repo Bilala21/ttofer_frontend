@@ -90,7 +90,12 @@
      border-radius: 16px;
      background-color: #f3f4f5;
   }
-  
+  .biders{
+    max-height: 128px;
+    overflow-y: auto;
+    padding: 0px 5px;
+
+  }
   @media (max-width: 1140px) {
     .right-side {
       max-width: 100%;

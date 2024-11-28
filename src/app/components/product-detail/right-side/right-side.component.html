@@ -20,7 +20,7 @@
 
       <div class="fw-normal">
         <span class="text-yellow-800 d-block">★★★★★</span>
-        <a [routerLink]="['/userProfile', product.user_id]" class="text-dark text-decoration-underline mr-2">Seller's
+        <a  [routerLink]="['/userProfile', product.user_id]" [queryParams]="{ picy: true }" class="text-dark text-decoration-underline mr-2">Seller's
           other itmes</a>
         <a routerLink="/" class="text-dark text-decoration-underline"
           (click)="contactSeller(product, product.user)">Contact seller</a>
@@ -116,34 +116,31 @@
       </div>
     </div>
     <!-- bids-data -->
-    <div class="sidebar border" >
       <div class="biders">
-        <div class="row mt-3 align-items-center justify-content-between mx-0" *ngFor="let data of liveAuction">
-          <div class="col-8">
-            <div class="row align-items-center">
-              <div class="col-2">
-                <img loading="lazy" [src]="
+        <div class="mt-2 d-flex align-items-center justify-content-between mx-0 border-b" *ngFor="let data of liveAuction">
+         
+            <div class="align-items-center">
+             
+                <div class="user-img rounded-pill border d-flex align-items-center justify-content-center">
+                  <img loading="lazy" [src]="
                   data?.user?.img
                     ? data?.user?.img
                     : '/assets/images/profile-placeholder.png'
-                " alt="" class="bider-users" />
-              </div>
+                " loading="lazy" class="img-fluid max-h-100 rounded-pill" />
+                </div>
+             
               <div class="col-9 mt-2">
                 <h6 class="m-0 p-0 bider-user">
-                  {{ data?.user?.name }}"
+                  {{ data?.user?.name }}
                 </h6>
                 <span class="bider-user-time">{{
                   data?.created_at | date
                   }}</span>
               </div>
             </div>
-          </div>
-          <div class="col-2 bider-user-price">
-            <span class="">{{ data?.price }}</span>
-          </div>
+            <span class="bider-user-price">{{ data?.price }}</span>
         </div>
       </div>
-    </div>
     <!-- allowedToBid && IsBit -->
     <!-- <div *ngIf="allowedToBid && IsBit" class="row mt-3 justify-content-between">
     <div *ngFor="let price of priceOptions" class="col-1 sm-p-0">

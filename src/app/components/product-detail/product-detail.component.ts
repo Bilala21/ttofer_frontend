@@ -43,6 +43,8 @@ export class ProductDetailComponent implements OnInit {
   attributes: any = {};
   currentUser: any = {};
   loading: boolean = false;
+  similarLoading: boolean = false;
+  similarProductsData:any = [];
   currentUserid: any;
   parsedAttributes: { [key: string]: string | number } = {};
 
@@ -108,10 +110,26 @@ export class ProductDetailComponent implements OnInit {
       },
     });
   }
+  // fetch-similar-product
+  fetchSimilarProducts(productId: number) {
+    this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
+      next: (value) => {
+        // ;
+        this.similarProductsData = value.data;
+        console.log(this.similarProductsData,"similar product")
+        this.similarLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching product:', err);
+        this.similarLoading = false;
+      },
+    });
+  }
   ngOnInit(): any {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
     this.fetchData(this.productId);
+    this.fetchSimilarProducts(this.productId)
   }
 
   productView() {

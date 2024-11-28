@@ -69,7 +69,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/update/location', input).pipe();
   }
   getPlacedBids(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/get-placed-bids', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/get-product-bids', input).pipe();
   }
   makeOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
@@ -160,7 +160,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/upload-image', input).pipe();
   }
   getNotification(userId: any) {
-    return this.http.get(`${Constants.baseApi}` + '/get/user/all/notifications/' + userId).pipe();
+    return this.http.get(`${Constants.baseApi}` + '/get/user/unread/notifications/' + userId).pipe();
   }
   customLink(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/update/custom/link', input).pipe();
@@ -206,6 +206,9 @@ export class MainServicesService {
   }
   getProductById(data: any = {}): Observable<any> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/product-detail', data);
+  }
+  getSimilarProduct(data: any = {}): Observable<any> {
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/products/similar', data);
   }
   storeProductView(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/products/view', data);
