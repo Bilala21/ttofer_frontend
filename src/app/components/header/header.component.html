@@ -13,10 +13,11 @@
                             </a>
                         </li>
                         <!-- search-bar-start -->
-                        <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
+                        <li
+                            class="d-flex align-items-center flex-grow-1 search-bar position-relative{{showSearch?'show-search':''}}">
                             <!-- search-input -->
-                            <input [(ngModel)]="searchTerm" type="text" placeholder="Search"
-                                class="w-100 fs-18 border-1">
+                            <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
+                                class="w-100 fs-18 border-1" [value]="searchTerm">
                             <!-- search-btn -->
                             <button class="search-btn position-relative border-0 bg-dark-850 text-white">
                                 <!-- search-icon -->
@@ -31,6 +32,13 @@
                                         d="M338.29 338.29 448 448"></path>
                                 </svg>
                             </button>
+                            <ul *ngIf="searchTerm && !isSearched"
+                                class="suggestion-list position-absolute w-100 list-unstyled rounded bg-white overflow-auto">
+                                <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer"
+                                    (click)="handleSuggestion(item)">
+                                    {{item.name}}
+                                </li>
+                            </ul>
                         </li>
                         <!-- search-icon-start -->
                         <li (click)="showSearchBar()" class="d-md-none cur-pointer">
@@ -216,7 +224,8 @@
                         <!-- profile-start -->
                         @if (currentUser) {
                         <li class="user-profile cursor-pointer position-relative">
-                            <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
+                            <button
+                                class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                                 type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <img class="user-Profile" [src]="
@@ -273,7 +282,7 @@
                         <div class="dropdown-menu white-space-nowrap pb-0 right-0 shadow-md rounded-0"
                             aria-labelledby="moreCategoriesDropdown">
                             <a *ngFor="let category of categories.slice(categoryLimit)"
-                            [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
+                                [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{ exact: true }"
                                 class="category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>
                         </div>

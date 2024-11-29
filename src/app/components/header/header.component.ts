@@ -6,7 +6,12 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { LoginModalComponent } from '../../pages/login-modal/login-modal.component';
 import { SharedDataService } from '../../shared/services/shared-data.service';
-import { Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
@@ -42,9 +47,12 @@ export class HeaderNavigationComponent implements OnInit {
   notificationList: any = [];
   unReadNotification: any = 0;
   city: any;
-  searchTerm: any;
+  searchTerm: any = '';
   currentUserid: any = null;
   activeCategory: any = 0;
+  isSearched: boolean = false;
+  private searchSubject: Subject<string> = new Subject<string>();
+  suggestions: any = [];
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -65,6 +73,56 @@ export class HeaderNavigationComponent implements OnInit {
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+    this.suggestions = [
+      {
+        id: 1,
+        name: 'Mobile',
+      },
+      {
+        id: 2,
+        name: 'Cars',
+      },
+      {
+        id: 3,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+    ];
   }
 
   @HostListener('window:resize', ['$event'])
@@ -205,13 +263,13 @@ export class HeaderNavigationComponent implements OnInit {
       // this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
       // // localStorage.setItem('currentTab', "notification");
       // // this.router.navigate(['/notifications', `${this.currentUser.id}`])
-      this.router.navigate(['/profile/notifications'])
+      this.router.navigate(['/profile/notifications']);
     }
   }
   getNotification() {
     this.loading = true;
     this.mainServicesService
-      .getNotification(this.currentUser?.id,'all')
+      .getNotification(this.currentUser?.id, 'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
@@ -231,6 +289,7 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
       this.activeCategory = JSON.parse(
         localStorage.getItem('categoryId') as string
@@ -307,7 +366,35 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
 
+  handleSearch(event: any) {
+    const searchTerm = event.target.value;
+    this.searchSubject.next(searchTerm);
+  }
+
+  searchMessages(searchTerm: string) {
+    this.searchTerm = searchTerm;
+    this.isSearched = false;
+    console.log('Searching for:', searchTerm);
+  }
+
+  performSearch() {
+    this.searchSubject
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((searchTerm: string) => {
+        this.searchMessages(searchTerm);
+      });
+  }
+
+  setupSearchSubscription() {
+    this.performSearch();
+  }
+
   handleLocationDenied(): void {
     this.city = 'Belarus';
+  }
+
+  handleSuggestion(data: any) {
+    this.searchTerm = data.name;
+    this.isSearched = true;
   }
 }
