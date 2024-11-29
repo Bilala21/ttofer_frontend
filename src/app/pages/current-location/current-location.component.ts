@@ -18,9 +18,9 @@ export class CurrentLocationComponent implements OnInit {
   @ViewChild('searchBox') searchInput!: ElementRef;
   @ViewChild(GoogleMap) map!: GoogleMap;
   @Output() locationChange = new EventEmitter<{
-    lat: number;
-    lng: number;
-    address: string;
+    latitude: number;
+    longitude: number;
+    location: string;
   }>();
 
   ngOnInit(): void {
@@ -73,8 +73,8 @@ export class CurrentLocationComponent implements OnInit {
     });
   }
 
-  emitLocation(lat: number, lng: number, address: string): void {
-    this.locationChange.emit({ lat, lng, address });
+  emitLocation(latitude: number, longitude: number, location: string): void {
+    this.locationChange.emit({ latitude, longitude, location });
   }
   ngAfterViewInit(): void {
     this.initializeAutocomplete();

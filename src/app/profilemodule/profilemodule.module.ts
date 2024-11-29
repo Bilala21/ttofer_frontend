@@ -77,6 +77,13 @@ const routes: Routes = [
             (m) => m.NotificationsRoutingModule
           ),
       },
+      {
+        path: 'add-post',
+        loadChildren: () =>
+          import('./modules/my-posts/my-posts.module').then(
+            (m) => m.MyPostsModule
+          ),
+      },
     ],
   },
 ];

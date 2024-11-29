@@ -1193,3 +1193,90 @@ button[aria-label="Close"]:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+.py-15 {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+.post-form-container {
+  .form-control {
+    height: calc(1.5em + 0.75rem + 15px) !important;
+  }
+
+  .p-inputwrapper.form-control {
+    border: none !important;
+    padding: 0px;
+    height: calc(1.5em + 0.75rem + 15px) !important;
+
+    .p-dropdown {
+      height: 100%;
+      border-radius: 5px;
+      line-height: 33px;
+      padding-left: 15px;
+      border: 1px solid #ced4da;
+    }
+  }
+
+  .p-component:not(.p-inputnumber.p-component) {
+    border-radius: 5px;
+    line-height: 35px;
+    padding-left: 15px;
+    border: 1px solid #ced4da;
+  }
+
+  .post-form-container .p-inputwrapper.form-control .p-dropdown:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+  }
+
+  .p-inputnumber.p-component,
+  .p-calendar {
+    border: none !important;
+
+    .p-datepicker-trigger.p-button-icon-only {
+      background: rgb(0, 47, 52);
+      padding-left: 20px !important;
+      padding-right: 20px;
+      border-color: rgb(0, 47, 52) !important;
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+
+      &:focus {
+        outline: none;
+      }
+      .p-icon-wrapper{
+        color: #fff;
+        svg{
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .p-calendar {
+    input {
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+  }
+}
+
+.btn-yellow {
+  background: #ffae15;
+}
+
+.post-form-container textarea.form-control{
+  height: auto !important;
+}
+.p-overlay.p-component,.p-dropdown-panel.p-component{
+  padding-left: 0px !important;
+}
+.p-datepicker-calendar{
+  .p-highlight~ .p-hidden-accessible{
+    display: none;
+  }
+}

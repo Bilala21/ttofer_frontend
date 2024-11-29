@@ -111,22 +111,32 @@ export class ProductCardComponent {
   
   private parseAttributes(value: any): any {
     try {
-      // const attributes = JSON.parse(value); // Parse the JSON string
-      const attributes2 = JSON.parse(value); // Parse the JSON string
-
-      let parsedAttributes: any = [];
-      for (const [key, val] of Object.entries(attributes2)) {
-        parsedAttributes.push({
-          key,
-          value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
-          icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
-        });
+      let attributes = JSON.parse(value);
+      if(typeof attributes === 'string'){
+        const attributes2 = JSON.parse(attributes);
+        let parsedAttributes: any = [];
+        for (const [key, val] of Object.entries(attributes2)) {
+          parsedAttributes.push({
+            key,
+            value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
+            icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
+          });
+        }
+        return parsedAttributes;
+      }else if(typeof attributes != 'string'){
+        let parsedAttributes: any = [];
+        for (const [key, val] of Object.entries(attributes)) {
+          parsedAttributes.push({
+            key,
+            value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
+            icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
+          });
+        }
+        return parsedAttributes;
       }
-
-      return parsedAttributes; // Return an array of attributes with icons
     } catch (error) {
       console.error('Error parsing attributes:', error);
-      return []; // Return an empty array in case of an error
+      return []; 
     }
   }
 

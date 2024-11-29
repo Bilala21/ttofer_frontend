@@ -1010,7 +1010,6 @@ export class ProfilePageComponent {
     });
     if (this.categoryFields[this.selectedCategorySlug]) {
       this.categoryFields[this.selectedCategorySlug].forEach((field: any) => {
-        // If the field type is select, set the default value to the first option
         if (field.type === 'select' && field.options.length > 0) {
           this.attributes[field.model] = field.options[0].id; // Set default to the first option
         }
@@ -1144,6 +1143,7 @@ export class ProfilePageComponent {
       this.selectedImageIndex = -1;
     }
   }
+
   deleteProductImage(file: any) {
     const input = {
       id: file.id,
@@ -1517,7 +1517,7 @@ export class ProfilePageComponent {
   handleLocationChange(location: {
     lat: number;
     lng: number;
-    address: string;
+    location: string;
   }): void {
     this.locationId = location;
   }
@@ -1990,5 +1990,5 @@ export class ProfilePageComponent {
     this.selectedCategorySlug = selectedCategory?.slug || null;
     this.attributes = {}; // Reset attributes when category changes
   }
-  
+
 }
