@@ -104,6 +104,9 @@ export class MainServicesService {
       })
     );
   }
+  addProductCompleteStep (input: any) {
+    return this.http.post(`${this.Url}` + '/products', input).pipe();
+  }
   addProductSecondStep(input: any) {
     return this.http.post(`${this.Url}` + '/add-product-second-step', input).pipe();
   }
