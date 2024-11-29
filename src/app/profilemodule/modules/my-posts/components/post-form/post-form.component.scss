@@ -290,7 +290,10 @@
     }
   }
 }
-
+::ng-deep .p-disabled, .p-disabled  {
+  cursor:not-allowed !important;
+  color: #768379;
+}
 
 // bilal
 
