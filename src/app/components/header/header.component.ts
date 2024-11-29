@@ -60,7 +60,6 @@ export class HeaderNavigationComponent implements OnInit {
     private extension: Extension,
     private router: Router,
     private toastr: ToastrService,
-
     private service: SharedDataService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -284,8 +283,9 @@ export class HeaderNavigationComponent implements OnInit {
       });
   }
   navigateToSearch(): void {
-    this.router.navigate(['post/post-category'], {
-      queryParams: { name: 'featured', search: this.searchTerm },
+    console.log(this.router.url)
+    this.router.navigate([this.router.url], {
+      queryParams: { query: 'featured', search: this.searchTerm },
     });
   }
   ngOnInit(): void {

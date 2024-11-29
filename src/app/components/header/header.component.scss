@@ -23,7 +23,7 @@ header {
 
                 &:focus-visible {
                     outline: none;
-                    border-color: #00e4ea;
+                    border-color:#002f34;
                 }
             }
 
@@ -32,7 +32,8 @@ header {
                 border-bottom-left-radius: 0px;
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
-                padding: 12px 16px;
+                padding: 13.5px 16px;
+                margin-top: -0.5px;
                 border: none;
             }
         }
