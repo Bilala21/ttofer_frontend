@@ -88,7 +88,7 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.product = value.data;
-        this.attributes =value.data.attributes;
+        this.attributes=value.data.attributes;
         if(typeof this.attributes === 'string'){
           this.attributes = JSON.parse(value.data.attributes);
         }

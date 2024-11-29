@@ -61,7 +61,6 @@ export class PostFormComponent {
       auction_ending_time: ['', [ this.endingTimeValidator.bind(this)]],  
       auction_start_date: [this.currentDate], // Default value set to current date
       auction_end_date: [this.currentDate],   // Default value set to current date
-
       fix_price: [''],
       product_type:[''],
       latitude:[''],
@@ -393,10 +392,18 @@ export class PostFormComponent {
       this.isLoading = false;
     }
   }
-  
-  
+
   onProductTypeChange(selectedValue: string): void {
-    debugger
+    if(selectedValue=='featured'){
+      this.addProductForm.patchValue({
+        auction_initial_price: '',
+        auction_final_price: '',
+        auction_starting_time: '',
+        auction_ending_time: '',  
+        auction_start_date: '', // Default value set to current date
+        auction_end_date: '',   // Default value set to current date
+      })
+    }
     this.productType = selectedValue; // Check if selected value is "Featured"
   }
 }
