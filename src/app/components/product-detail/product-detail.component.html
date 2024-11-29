@@ -25,7 +25,7 @@
 
             <p-galleria [verticalThumbnailViewPortHeight]="'500px'"
               [thumbnailsPosition]="screenWidth< 768 || isFullScreen?'bottom':'left'" [numVisible]="5"
-              [changeItemOnIndicatorHover]="true" [value]="product.photo" [showItemNavigators]="true"
+              [changeItemOnIndicatorHover]="true" [value]="product.photos" [showItemNavigators]="true"
               [showThumbnailNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="false"
               [changeItemOnIndicatorHover]="true" [showItemNavigators]="true" [fullScreen]="isFullScreen"
               [(visible)]="isFullScreen">
@@ -61,7 +61,7 @@
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
                         aria-hidden="true" class="fa-heart far fs-19"></i></button>
-                        <img src={{item?.photo[0]?.url}} alt="image"
+                        <img src={{item?.photos[0]?.url}} alt="image"
                       class="img-fluid h-100 rounded-2">
                   </div>
                   <a [routerLink]="['/product-detail', item?.id, item?.slug]" class="text-left text-dark-650">
@@ -77,7 +77,7 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" />
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" (handleAddToCart)="addToCart($event)" />
       </div>
 
       <!-- more detail about product -->

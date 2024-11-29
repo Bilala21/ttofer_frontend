@@ -37,6 +37,7 @@ export class BodyComponent implements OnDestroy {
   loading = true;
   tempToken: boolean = false;
   promotionBanners: any = [];
+  footerBanners: any = [];
   constructor(
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,

@@ -23,28 +23,13 @@ import { MainServicesService } from '../../shared/services/main-services.service
   standalone: true,
 })
 export class ShoppingCartComponent implements OnInit {
-  quantities = Array.from({ length: 10 }, (_, i) => i + 1);
+  quantities = [1,2,3,4,5,6,7,8,9,10];
   checkAll: boolean = false
   isManual: boolean = false
-  cartItems: any[] = [
-    // {
-    //   title: 'Diamond of Expo',
-    //   description: '2.07 CTW Round Cut Lab Created Diamond',
-    //   price: 1385.00,
-    //   imageUrl: '/assets/images/silder-1.jpg',
-    //   seller: 'Diamond Expo',
-    //   rating: 4.5,
-    // },
-    // {
-    //   title: 'Sage Designs L.A.',
-    //   description: 'Lab Grown Oval Diamond Engagement Ring',
-    //   price: 1799.00,
-    //   imageUrl: '/assets/images/silder-2.jpg',
-    //   seller: 'Sage Designs L.A.',
-    //   rating: 4.8,
-    // }
-  ];
-  constructor(private router: Router, private globalStateService: GlobalStateService, private mainSerive: MainServicesService) { }
+  cartItems: any[] = [];
+  totalAmount:any = 0
+  totalLength:any = 0
+  constructor(private router: Router, private globalStateService: GlobalStateService, private mainService: MainServicesService) { }
   calculateTotal(): number {
     return this.cartItems.reduce((acc: any, item: any) => {
       return acc + item.product.fix_price * item.qty;
@@ -60,7 +45,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   removeItem(item: any) {
-    this.mainSerive.removeCartItem({ product_id: item.id }).subscribe({
+    this.mainService.removeCartItem({ product_id: item.id }).subscribe({
       next: (value) => {
 
       },
@@ -89,11 +74,20 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.globalStateService.currentState.subscribe((state) => {
-      console.log(state.cartState, 'state.cartState');
-      this.cartItems = state.cartState
+  cartList(){
+    this.mainService.getCartProducts().subscribe((state:any) => {
+      this.cartItems = state?.data
+      this.totalLength = state?.data.length
+      this.totalAmount = this.cartItems.reduce((sum, item) => sum + parseFloat(item.subtotal), 0);
     })
+  }
+
+  ngOnInit(): void {
+    this.cartList()
+    // this.globalStateService.currentState.subscribe((state) => {
+    //   console.log(state.cartState, 'state.cartState');
+    //   this.cartItems = state.cartState
+    // })
 
     // console.log(JSON.parse(localStorage.getItem("tempCartItem") as string).cartState, "temp cart item");
     // this.cartItems = [

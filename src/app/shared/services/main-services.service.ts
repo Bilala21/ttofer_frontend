@@ -223,13 +223,13 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/products/view', data);
   }
   adToCartItem(data: any) {
-    return this.http.post('https://ttoffer.com/backend/public/api/cart/add', data);
+    return this.http.post(`${Constants.baseApi}` + '/cart/add', data);
   }
-  getCartPorduct() {
-    return this.http.get('https://ttoffer.com/backend/public/api/cart');
+  getCartProducts() {
+    return this.http.get(`${Constants.baseApi}` + '/cart');
   }
   removeCartItem(data: any) {
-    return this.http.post('https://ttoffer.com/backend/public/api/cart/remove', data);
+    return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
   }
   otpVerify(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);

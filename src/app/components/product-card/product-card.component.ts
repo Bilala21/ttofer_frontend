@@ -111,8 +111,8 @@ export class ProductCardComponent {
   
   private parseAttributes(value: any): any {
     try {
-      const attributes = JSON.parse(value); // Parse the JSON string
-      const attributes2 = JSON.parse(attributes); // Parse the JSON string
+      // const attributes = JSON.parse(value); // Parse the JSON string
+      const attributes2 = JSON.parse(value); // Parse the JSON string
 
       let parsedAttributes: any = [];
       for (const [key, val] of Object.entries(attributes2)) {

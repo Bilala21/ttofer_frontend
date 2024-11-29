@@ -16,13 +16,13 @@
         <span class="ml-1 fs-14">Select All</span>
       </div>
       <div class="d-flex flex-column flex-md-row  justify-content-between w-100">
-        <div class="flex-grow-1 pr-3">
+        <div class="flex-grow-1 pr-md-3">
           <!-- Cart Items Section -->
           <div *ngFor="let item of cartItems" class="cart-item mb-3">
             <div class="item-details w-100">
               <div class="item-header d-block d-md-flex justify-content-between">
                 <div class="d-flex">
-                  <img [src]="item.product.image_path.src" alt="Product Image" class="seller-image" />
+                  <!-- <img *ngIf="item?.product?.image_path?.src" [src]="item?.product?.image_path?.src" alt="Product Image" class="seller-image" /> -->
                   <div>
                     <span class="product-title d-block">{{ item.product.title }}</span>
                     <span class="text-yellow-800 d-block ">★★★★★</span>
@@ -49,30 +49,24 @@
                       (change)="getCheckboxValue(false)">
                   </span>
                   <div class="product-image position-relative z-0">
-                    <img [src]="item.product.image_path.src" alt="Product Image" class="w-100 h-100" />
+                    <img [src]="item.product?.image_path?.src" alt="Product Image" class="w-100 h-100" />
                     <div
                       class="text-white pr-2 pl-3 price-tag position-absolute py-2 rounded d-flex align-items-center justify-content-center fs-10">
-                      {{ item.product.fix_price | currency : 'AED ' : 'symbol' : '1.2-2' }}
-                      <!-- {{
-                formatPrice(
-                  postData?.auction_price
-                    ? postData?.auction_price
-                    : postData.fix_price
-                )
-              }} -->
+                      {{ item.price | currency : 'AED ' : 'symbol' : '1.2-2' }}
                     </div>
                   </div>
                   <span class="product-description my-auto">{{ item.description }}</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-end  flex-grow-1 mt-2 mt-md-0">
-                  <span class="mr-5">
-                    <span class="mr-1">Qty</span>
+                  <span class="mr-5 d-flex">
+                    <span class="mr-4">Qty</span>
                     <select [(ngModel)]="item.qty" class="form-select ms-2">
-                      <option *ngFor="let qty of quantities" [value]="qty" [selected]="qty===1">{{qty }}
+                      <option *ngFor="let qty of quantities" [value]="qty" [selected]="qty===1">
+                        {{qty }}
                       </option>
                     </select>
                   </span>
-                  <span>AED {{item.fix_price}}</span>
+                  <span class="block">AED</span>
                 </div>
               </div>
 
@@ -91,13 +85,15 @@
         <!-- Cart Summary Section -->
         <div class="cart-summary">
           <div class="d-flex justify-content-between fw-normal">
-            <span class="fs-14" *ngIf="cartItems?.length">Items ({{ cartItems.length}})</span>
-            <span class="fs-14"> AED {{ calculateTotal() }}</span>
+            <span>Items ({{ totalLength }})</span>
+            <span *ngIf="!cartItems?.length">No items in the cart</span>
+            <span class="fs-14">AED {{ totalAmount }}</span>
           </div>
+        
           <hr>
           <div class="d-flex justify-content-between mb-3">
             <span class="fs-20">Subtotal:</span>
-            <span class="fs-20">AED {{ calculateTotal() }}</span>
+            <span class="fs-20">AED {{totalAmount}}</span>
           </div>
           <button mat-raised-button color="primary" (click)="goToCheckout()">Go to checkout</button>
         </div>
