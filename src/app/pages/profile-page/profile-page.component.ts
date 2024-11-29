@@ -1143,6 +1143,7 @@ export class ProfilePageComponent {
       this.selectedImageIndex = -1;
     }
   }
+
   deleteProductImage(file: any) {
     const input = {
       id: file.id,
@@ -1989,5 +1990,5 @@ export class ProfilePageComponent {
     this.selectedCategorySlug = selectedCategory?.slug || null;
     this.attributes = {}; // Reset attributes when category changes
   }
-  
+
 }

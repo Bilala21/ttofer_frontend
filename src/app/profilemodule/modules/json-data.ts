@@ -57,8 +57,8 @@ export const attributes:any={
       "type": "select",
       "model": "condition",
       "options":[
-          { "id": "New", "name": "New" },
-          { "id": "Used", "name": "Used" },
+          { "id": "new", "name": "New" },
+          { "id": "use", "name": "Used" },
           { "id": "Open Box", "name": "Open Box" },
           { "id": "Other", "name": "Other" }
         ]

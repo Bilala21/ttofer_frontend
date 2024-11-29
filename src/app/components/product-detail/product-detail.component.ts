@@ -88,7 +88,10 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.product = value.data;
-        this.attributes = JSON.parse(value.data.attributes);
+        this.attributes =value.data.attributes;
+        if(typeof this.attributes === 'string'){
+          this.attributes = JSON.parse(value.data.attributes);
+        }
         this.parsedAttributes = this.parseAttributes(this.attributes);
         const lat = Number(this.product.latitude);
         const lng = Number(this.product.longitude);
@@ -215,17 +218,31 @@ export class ProductDetailComponent implements OnInit {
   }
   private parseAttributes(value: any): any {
     try {
-      let attributes = JSON.parse(value);
-      let parsedAttributes: any = {};
-      for (const [key, val] of Object.entries(attributes)) {
-        if (key.includes('_')) {
-          continue;
+      if(typeof value ==='string'){
+        let attributes = JSON.parse(value);
+        let parsedAttributes: any = {};
+        for (const [key, val] of Object.entries(attributes)) {
+          if (key.includes('_')) {
+            continue;
+          }
+  
+          parsedAttributes[key] =
+            typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
         }
-
-        parsedAttributes[key] =
-          typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
+        return parsedAttributes;
+      }else if(typeof value !='string'){
+        let parsedAttributes: any = {};
+        for (const [key, val] of Object.entries(value)) {
+          if (key.includes('_')) {
+            continue;
+          }
+  
+          parsedAttributes[key] =
+            typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
+        }
+        return parsedAttributes;
       }
-      return parsedAttributes;
+     
     } catch (error) {
       return {};
     }
