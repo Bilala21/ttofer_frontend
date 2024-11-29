@@ -6,6 +6,7 @@ import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.component';
 import { ActivatedRoute } from '@angular/router';
+import { Extension } from '../../../../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-purchase-sale',
@@ -30,11 +31,15 @@ export class PurchaseSaleComponent implements OnInit {
   data: any = [];
   notfoundData = notFoundData['buying'];
   loading: boolean = false;
+  userId;
   constructor(
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private extension: Extension
+  ) {
+    this.userId = this.extension.getUserId();
+  }
 
   getTab(tab: any) {
     this.activeIndex = tab.index;
@@ -49,11 +54,11 @@ export class PurchaseSaleComponent implements OnInit {
   }
   fecthData(tab: string) {
     this.loading = true;
-    this.mainServices.getSelling().subscribe({
+    this.mainServices.getSelling(tab, this.userId).subscribe({
       next: (res: any) => {
-        this.data = res.data?.[tab];
+        this.data = res.data;
         this.loading = false;
-        console.log(res);
+        console.log(res.data);
       },
       error: (err: any) => {
         this.loading = false;
@@ -67,8 +72,7 @@ export class PurchaseSaleComponent implements OnInit {
       if (params.query) {
         this.activeIndex = 2;
         isSelling = true;
-      }
-      else{
+      } else {
         this.activeIndex = 1;
         isSelling = false;
       }
