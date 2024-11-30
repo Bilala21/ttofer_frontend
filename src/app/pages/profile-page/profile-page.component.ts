@@ -1968,7 +1968,7 @@ export class ProfilePageComponent {
 
   removeImage(index: number, event: Event): void {
     event.stopPropagation(); 
-    debugger
+    // debugger
     this.selectedFiles.splice(index, 1); 
     this.imageFilesAbc.splice(index, 1); 
       if (this.selectedImageIndex === index) {

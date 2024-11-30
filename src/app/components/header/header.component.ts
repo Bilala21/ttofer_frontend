@@ -1,12 +1,23 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule, DOCUMENT, NgFor, NgIf } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Renderer2,
+  Inject,
+} from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { LoginModalComponent } from '../../pages/login-modal/login-modal.component';
 import { SharedDataService } from '../../shared/services/shared-data.service';
-import { Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
@@ -42,9 +53,13 @@ export class HeaderNavigationComponent implements OnInit {
   notificationList: any = [];
   unReadNotification: any = 0;
   city: any;
-  searchTerm: any;
+  searchTerm: any = '';
   currentUserid: any = null;
   activeCategory: any = 0;
+  isSearched: boolean = false;
+  searched: boolean = false;
+  private searchSubject: Subject<string> = new Subject<string>();
+  suggestions: any = [];
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -52,8 +67,9 @@ export class HeaderNavigationComponent implements OnInit {
     private extension: Extension,
     private router: Router,
     private toastr: ToastrService,
-
-    private service: SharedDataService
+    private service: SharedDataService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
@@ -65,6 +81,36 @@ export class HeaderNavigationComponent implements OnInit {
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+    this.suggestions = [
+      {
+        id: 1,
+        name: 'Mobile',
+      },
+      {
+        id: 2,
+        name: 'Cars',
+      },
+      {
+        id: 3,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+      {
+        id: 4,
+        name: 'Mobile',
+      },
+    ];
   }
 
   @HostListener('window:resize', ['$event'])
@@ -185,7 +231,6 @@ export class HeaderNavigationComponent implements OnInit {
       this.mainServicesService.getCartPorduct().subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
-          console.log(value);
         },
         error: (err) => {
           console.log(err);
@@ -205,13 +250,13 @@ export class HeaderNavigationComponent implements OnInit {
       // this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
       // // localStorage.setItem('currentTab', "notification");
       // // this.router.navigate(['/notifications', `${this.currentUser.id}`])
-      this.router.navigate(['/profile/notifications'])
+      this.router.navigate(['/profile/notifications']);
     }
   }
   getNotification() {
     this.loading = true;
     this.mainServicesService
-      .getNotification(this.currentUser?.id,'all')
+      .getNotification(this.currentUser?.id, 'all')
       .subscribe((res: any) => {
         this.notificationList = res.data;
         this.notificationList = res.data.sort((a: any, b: any) => {
@@ -226,11 +271,26 @@ export class HeaderNavigationComponent implements OnInit {
       });
   }
   navigateToSearch(): void {
-    this.router.navigate(['post/post-category'], {
-      queryParams: { name: 'featured', search: this.searchTerm },
-    });
+    if (!this.searched && this.searchTerm) {
+      const uri = this.router.url;
+      if (uri.lastIndexOf('-') < 0) {
+        this.router.navigate(['category/featured'], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+      if (uri.lastIndexOf('-') > 0) {
+        const base_uri =
+          uri.indexOf('?') < 0 ? uri : uri.slice(0, uri.lastIndexOf('?'));
+        this.router.navigate([base_uri], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+      this.searched = true;
+    }
   }
   ngOnInit(): void {
+    document.body.addEventListener('click', this.onBodyClick.bind(this));
+    this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
       this.activeCategory = JSON.parse(
         localStorage.getItem('categoryId') as string
@@ -307,7 +367,50 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
 
+  handleSearch(event: any) {
+    const searchTerm = event.target.value;
+    this.searchSubject.next(searchTerm);
+  }
+
+  searchMessages(searchTerm: string) {
+    this.searchTerm = searchTerm;
+    this.isSearched = false;
+  }
+
+  performSearch() {
+    this.searchSubject
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((searchTerm: string) => {
+        this.searchMessages(searchTerm);
+      });
+  }
+
+  setupSearchSubscription() {
+    this.performSearch();
+  }
+
   handleLocationDenied(): void {
     this.city = 'Belarus';
+  }
+
+  handleSuggestion(data: any) {
+    this.searchTerm = data.name;
+    this.isSearched = true;
+    this.searched = false;
+  }
+
+  onBodyClick(event: any) {
+    if (
+      event.target instanceof HTMLElement &&
+      !event.target.classList.contains('not-hide')
+    ) {
+      this.isSearched = true;
+    } else if (event.target.tagName.toLowerCase() === 'input') {
+      this.isSearched = false;
+    }
+  }
+
+  ngOnDestroy() {
+    document.body.addEventListener('click', this.onBodyClick.bind(this));
   }
 }

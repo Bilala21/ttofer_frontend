@@ -171,7 +171,7 @@ this.onProductTypeChange(this.productType);
 
   }
   onDateSelect(event: any): void {
-    debugger
+    // debugger
     console.log('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {
@@ -325,14 +325,16 @@ this.onProductTypeChange(this.productType);
 
 
   async addCompleteProduct() {
+    debugger
     const imagesControl = this.addProductForm.get('image') as FormArray;
-
-    if (this.addProductForm.invalid || imagesControl.length === 0) {
-      this.addProductForm.markAllAsTouched();
+    if(imagesControl.length === 0){
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
+
+    }
+    if (this.addProductForm.invalid) {
+      this.addProductForm.markAllAsTouched();
       return;
     }
-  
     const formData = new FormData();
 
     const attributes = this.addProductForm.get('attributes')?.value;

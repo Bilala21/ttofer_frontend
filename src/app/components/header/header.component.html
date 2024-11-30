@@ -13,24 +13,32 @@
                             </a>
                         </li>
                         <!-- search-bar-start -->
-                        <li class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
+                        <li
+                            class="d-flex align-items-center flex-grow-1 search-bar position-relative{{showSearch?'show-search':''}}">
                             <!-- search-input -->
-                            <input [(ngModel)]="searchTerm" type="text" placeholder="Search"
-                                class="w-100 fs-18 border-1">
+                            <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
+                                class="w-100 fs-18 border-1 not-hide" [value]="searchTerm">
                             <!-- search-btn -->
-                            <button class="search-btn position-relative border-0 bg-dark-850 text-white">
+                            <button class="search-btn position-relative border-0 bg-dark-850 text-white" (click)="navigateToSearch()">
                                 <!-- search-icon -->
-                                <!-- <i class="fas fa-search"></i> -->
-                                <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22"
+                                <i class="fas fa-search fs-20"></i>
+                                <!-- <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22"
                                     fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" stroke-miterlimit="10" stroke-width="32"
+                                    <path (click)="navigateToSearch()" fill="none" stroke-miterlimit="10" stroke-width="32"
                                         d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
                                     </path>
                                     <path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"
                                         d="M338.29 338.29 448 448"></path>
-                                </svg>
+                                </svg> -->
                             </button>
+                            <ul *ngIf="searchTerm && !isSearched"
+                                class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
+                                <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer not-hide"
+                                    (click)="handleSuggestion(item)">
+                                    {{item.name}}
+                                </li>
+                            </ul>
                         </li>
                         <!-- search-icon-start -->
                         <li (click)="showSearchBar()" class="d-md-none cur-pointer">
@@ -216,7 +224,8 @@
                         <!-- profile-start -->
                         @if (currentUser) {
                         <li class="user-profile cursor-pointer position-relative">
-                            <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
+                            <button
+                                class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                                 type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <img class="user-Profile" [src]="
@@ -273,7 +282,7 @@
                         <div class="dropdown-menu white-space-nowrap pb-0 right-0 shadow-md rounded-0"
                             aria-labelledby="moreCategoriesDropdown">
                             <a *ngFor="let category of categories.slice(categoryLimit)"
-                            [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
+                                [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{ exact: true }"
                                 class="category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>
                         </div>

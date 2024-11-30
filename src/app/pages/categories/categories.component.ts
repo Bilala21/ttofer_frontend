@@ -59,24 +59,16 @@ export class CategoriesComponent {
 
     this.activeTab = savedTab ? savedTab : 'auction';
     this.getBanners();
+    let isQ: any = null;
+
     this.route.paramMap.subscribe((params) => {
-      const slug: any = params.get('slug');
-      this.slugName = params.get('slug')?.slice(slug.indexOf('-') + 1);
-      if (slug.indexOf('-') < 0) {
-        this.activeTab = slug;
-        this.fetchData({ ...this.filters, product_type: this.activeTab });
-      } else {
-        const category_id = slug.slice(0, slug.indexOf('-'));
-        this.id = category_id;
-        if (this.filters?.category_id !== this.id) {
-          localStorage.setItem('filters', JSON.stringify({}));
-          this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
-        }
-        this.fetchData({
-          ...this.filters,
-          product_type: this.activeTab,
-          category_id,
-        });
+      this.handleApi(params);
+    });
+
+    this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams?.search) {
+        this.handleApi(queryParams, true);
+        isQ = queryParams?.search;
       }
     });
   }
@@ -159,6 +151,47 @@ export class CategoriesComponent {
           });
 
         this.countdownSubscriptions.push(subscription);
+      });
+    }
+  }
+
+  handleApi(params: any, isQuery: boolean = false) {
+    console.log({ isQuery });
+    if (!isQuery && !params?.search) {
+      const slug: any = params.get('slug');
+      this.slugName = params.get('slug')?.slice(slug.lastIndexOf('-') + 1);
+      if (slug.indexOf('-') < 0) {
+        this.activeTab = slug;
+        this.fetchData({ ...this.filters, product_type: this.activeTab });
+      } else {
+        const category_id = slug.slice(slug.lastIndexOf('-') + 1);
+        this.id = category_id;
+        if (this.filters?.category_id !== this.id) {
+          localStorage.setItem('filters', JSON.stringify({}));
+          this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+        }
+        this.fetchData({
+          ...this.filters,
+          product_type: this.activeTab,
+          category_id,
+        });
+      }
+    }
+    if (this.id && params?.search) {
+      console.log('if 2');
+      this.fetchData({
+        ...this.filters,
+        product_type: this.activeTab,
+        category_id: this.id,
+        search: params?.search,
+      });
+    }
+    if (!this.id && params?.search) {
+      console.log('if 3');
+      this.fetchData({
+        ...this.filters,
+        product_type: this.activeTab,
+        search: params?.search,
       });
     }
   }
