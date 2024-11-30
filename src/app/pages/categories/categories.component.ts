@@ -204,3 +204,5 @@ export class CategoriesComponent {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
+
+
