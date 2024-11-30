@@ -149,6 +149,15 @@ this.onProductTypeChange(this.productType);
       });
     }
   }
+  // onTimeChange(fieldName: string, event: any) {
+  //   debugger
+  //   const time = event && event instanceof Date ? this.formatTime(event) : null;
+  //   if (time) {
+  //     this.addProductForm.patchValue({
+  //       [fieldName]: time,
+  //     });
+  //   }
+  // }
   formatTime(date: Date): string {
     // Formats the Date object to HH:mm
     const hours = date.getHours().toString().padStart(2, '0');
@@ -171,7 +180,7 @@ this.onProductTypeChange(this.productType);
 
   }
   onDateSelect(event: any): void {
-    debugger
+    // debugger
     console.log('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {

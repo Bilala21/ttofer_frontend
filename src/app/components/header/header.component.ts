@@ -1,5 +1,11 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule, DOCUMENT, NgFor, NgIf } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Renderer2,
+  Inject,
+} from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
@@ -51,6 +57,7 @@ export class HeaderNavigationComponent implements OnInit {
   currentUserid: any = null;
   activeCategory: any = 0;
   isSearched: boolean = false;
+  searched: boolean = false;
   private searchSubject: Subject<string> = new Subject<string>();
   suggestions: any = [];
   constructor(
@@ -60,8 +67,9 @@ export class HeaderNavigationComponent implements OnInit {
     private extension: Extension,
     private router: Router,
     private toastr: ToastrService,
-
-    private service: SharedDataService
+    private service: SharedDataService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
@@ -84,26 +92,6 @@ export class HeaderNavigationComponent implements OnInit {
       },
       {
         id: 3,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
         name: 'Mobile',
       },
       {
@@ -243,7 +231,6 @@ export class HeaderNavigationComponent implements OnInit {
       this.mainServicesService.getCartProducts().subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
-          console.log(value);
         },
         error: (err) => {
           console.log(err);
@@ -284,11 +271,25 @@ export class HeaderNavigationComponent implements OnInit {
       });
   }
   navigateToSearch(): void {
-    this.router.navigate(['post/post-category'], {
-      queryParams: { name: 'featured', search: this.searchTerm },
-    });
+    if (!this.searched && this.searchTerm) {
+      const uri = this.router.url;
+      if (uri.lastIndexOf('-') < 0) {
+        this.router.navigate(['category/featured'], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+      if (uri.lastIndexOf('-') > 0) {
+        const base_uri =
+          uri.indexOf('?') < 0 ? uri : uri.slice(0, uri.lastIndexOf('?'));
+        this.router.navigate([base_uri], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+      this.searched = true;
+    }
   }
   ngOnInit(): void {
+    document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
       this.activeCategory = JSON.parse(
@@ -374,7 +375,6 @@ export class HeaderNavigationComponent implements OnInit {
   searchMessages(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.isSearched = false;
-    console.log('Searching for:', searchTerm);
   }
 
   performSearch() {
@@ -396,5 +396,21 @@ export class HeaderNavigationComponent implements OnInit {
   handleSuggestion(data: any) {
     this.searchTerm = data.name;
     this.isSearched = true;
+    this.searched = false;
+  }
+
+  onBodyClick(event: any) {
+    if (
+      event.target instanceof HTMLElement &&
+      !event.target.classList.contains('not-hide')
+    ) {
+      this.isSearched = true;
+    } else if (event.target.tagName.toLowerCase() === 'input') {
+      this.isSearched = false;
+    }
+  }
+
+  ngOnDestroy() {
+    document.body.addEventListener('click', this.onBodyClick.bind(this));
   }
 }

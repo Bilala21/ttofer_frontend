@@ -59,13 +59,18 @@ export class CategoriesComponent {
 
     this.activeTab = savedTab ? savedTab : 'auction';
     this.getBanners();
+    this.route.queryParams.subscribe((queryParams: any) => {
+      console.log('Query parameters:', queryParams);
+      this.fetchData(queryParams?.search);
+    });
     this.route.paramMap.subscribe((params) => {
       const slug: any = params.get('slug');
       this.slugName = params.get('slug')?.slice(slug.indexOf('-') + 1);
       if (slug.indexOf('-') < 0) {
         this.activeTab = slug;
         this.fetchData({ ...this.filters, product_type: this.activeTab });
-      } else {
+      } 
+      else {
         const category_id = slug.slice(0, slug.indexOf('-'));
         this.id = category_id;
         if (this.filters?.category_id !== this.id) {
