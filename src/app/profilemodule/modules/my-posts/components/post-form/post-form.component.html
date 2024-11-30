@@ -8,12 +8,12 @@
 
   <div class="row r-gap-20">
 
-    <div *ngIf="selectedFiles.length > 0" class="row mx-0 mb-2 r-gap-10 px-2">
+    <div *ngIf="selectedFiles.length > 0" class="row mx-0 mb-2 r-gap-10 px-2 w-100">
       <div class="image-item col-md-2 px-1 position-relative" *ngFor="let file of selectedFiles; let i = index">
         <img [src]="file.src" alt="Selected Image" class="img-thumbnail h-100 w-100" loading="lazy" />
         <button type="button"
           class="border-0 delete-btn position-absolute rounded-pill bg-danger text-white fs-20 d-flex justify-content-center"
-          (click)="removeImage(i, $event)">
+          (click)="removeImage(i)">
           &times;
         </button>
       </div>
@@ -21,9 +21,9 @@
 
     <!-- add image -->
     <div class="col-12" style="cursor: pointer">
-      <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image<span class="text-danger">*</span></label>
+      <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image</label>
       <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()" loading="lazy" />
-      <input #fileInput type="file" (change)="onFileChange($event);onFieldChange('uploadImage')
+      <input #fileInput type="file" (change)="onFileChange($event)
             " accept="image/png,image/jpg,image/jpeg" style="display: none" multiple />
       <div *ngIf="validationErrors['uploadImage']" class="text-danger mt-1">
         {{ validationErrors["uploadImage"] }}
@@ -54,7 +54,7 @@
     <!-- title -->
 
     <div class="col-md-6">
-      <label>Title<span class="text-danger">*</span></label>
+      <label>Title</label>
       <input type="text" class="form-control w-100 input-class-add-form" placeholder="Title" formControlName="title" />
       <div *ngIf="addProductForm.get('title')?.hasError('required') && addProductForm.get('title')?.touched"
         class="text-danger mt-1">
@@ -74,7 +74,7 @@
     </div>
 
     <div class="col-6">
-      <label class="subcategory-label">Subcategory<span class="text-danger">*</span></label>
+      <label class="subcategory-label">Subcategory</label>
       <p-dropdown [options]="subCategory" optionLabel="name" optionValue="id"
         [ngClass]="{ 'is-invalid': validationErrors['selectedSubCategoryId'] }" formControlName="sub_category_id"
         placeholder="Select a Subcategory" class="form-control input-class-add-form">
@@ -84,103 +84,129 @@
       </div>
     </div>
 
-
-    @for (field of categoryFields; track $index) {
-    <!-- Select Field -->
-    <div class="col-md-6" *ngIf="field.type === 'select'">
-      <label>{{ field.label }}</label>
-      <p-dropdown [options]="field.options" optionLabel="name" optionValue="id" [formControlName]="field.model"
-        [style]="{ width: '100%' }" [ngClass]="{
+    <ng-container formGroupName="attributes">
+      @for (field of categoryFields; track $index) {
+      <!-- Select Field -->
+      <div class="col-md-6" *ngIf="field.type === 'select'">
+        <label>{{ field.label }}</label>
+        <p-dropdown [options]="field.options" optionLabel="name" optionValue="id" [formControlName]="field.model"
+          [style]="{ width: '100%' }" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }" placeholder="Select {{ field.label }}"></p-dropdown>
-      <!-- Error Message -->
-      <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
-        {{ field.label }} is required.
+        <!-- Error Message -->
+        <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
+          {{ field.label }} is required.
+        </div>
       </div>
-    </div>
 
-    <!-- Input Field -->
-    <div class="col-md-6" *ngIf="field.type === 'input'">
-      <label class="d-block">{{ field.label }}</label>
-      <input style="width: 100%;" pInputText type="text" class="attributes" [formControlName]="field.model"
-        [placeholder]="field.placeholder" [ngClass]="{
+      <!-- Input Field -->
+      <div class="col-md-6" *ngIf="field.type === 'input'">
+        <label class="d-block">{{ field.label }}</label>
+        <input style="width: 100%;" pInputText type="text" class="attributes" [formControlName]="field.model"
+          [placeholder]="field.placeholder" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }" />
-      <!-- Error Message -->
-      <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
-        {{ field.label }} is required.
+        <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
+          {{ field.label }} is required.
+        </div>
       </div>
-    </div>
-    }
-
+      }
+    </ng-container>
     @if (selectedCategorySlug != 'jobs') {
-    <div class="col-md-6">
+    <div class="col-12">
       <label>Pricing Categories</label>
       <p-dropdown [options]="pricingCategories" formControlName="product_type" optionLabel="name" optionValue="id"
         (onChange)="onProductTypeChange($event.value)" placeholder="Select a Pricing Category"
         class="input-class-add-form">
       </p-dropdown>
-      <div *ngIf="validationErrors['pricingCategory']" class="text-danger">
-        {{ validationErrors['pricingCategory'] }}
+      <div
+        *ngIf="addProductForm.get('product_type')?.hasError('product_type') && addProductForm.get('product_type')?.touched"
+        class="text-danger mt-1">
+        Pricing Category is required.
       </div>
     </div>
     }
 
     @if (productType!='featured') {
     <!-- Starting Bid -->
+
     <div class="col-md-6 ">
       <label for="startingBid">Starting Bid</label>
       <p-inputNumber class="w-100" formControlName="auction_initial_price" inputId="startingBid" mode="currency"
         currency="AED" locale="en-US" placeholder="Starting Price"></p-inputNumber>
+      <div
+        *ngIf="addProductForm.get('auction_initial_price')?.invalid && addProductForm.get('auction_initial_price')?.touched"
+        class="text-danger">
+        Starting Bid Price is required.
+      </div>
     </div>
-
     <!-- Lowest Price -->
     <div class="col-md-6">
       <label for="lowestPrice">Lowest Price</label>
       <p-inputNumber class="w-100" inputId="lowestPrice" mode="currency" currency="AED" locale="en-US"
         placeholder="Lowest Price" formControlName="auction_final_price"></p-inputNumber>
-      <div *ngIf="validationErrors['final_price']" class="text-danger mt-1">
-        {{ validationErrors["final_price"] }}
+      <div
+        *ngIf="addProductForm.get('auction_final_price')?.invalid && addProductForm.get('auction_final_price')?.touched"
+        class="text-danger">
+        Lowest Price is required.
       </div>
     </div>
 
     <div class="col-md-6">
-      <label for="startDate">Start Date <span class="text-danger">*</span></label>
+      <label for="startDate">Start Date </label>
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="startDate"
-        formControlName="auction_start_date" (onSelect)="onTimeChange('auction_start_date', $event)">
+        formControlName="auction_starting_date">
       </p-calendar>
-      <div
-        *ngIf="addProductForm.get('auction_start_date')?.invalid && addProductForm.get('auction_start_date')?.touched"
-        class="text-danger">
+      <div *ngIf="addProductForm.get('auction_starting_date')?.hasError('required') && addProductForm.get('auction_starting_date')?.touched"
+        class="text-danger mt-1">
         Start date is required.
       </div>
+      <div *ngIf="addProductForm.get('auction_starting_date')?.hasError('startDateAfterEndDate')"
+        class="text-danger mt-1">
+        Start date cannot be after the end date.
+      </div>
     </div>
+    
 
     <!-- End Date -->
     <div class="col-md-6">
-      <label for="endDate">End Date <span class="text-danger">*</span></label>
+      <label for="endDate">End Date </label>
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="endDate"
-        formControlName="auction_end_date" (onSelect)="onTimeChange('auction_ending_time', $event)">
+        formControlName="auction_ending_date"
+       >
       </p-calendar>
-      <div *ngIf="addProductForm.get('auction_end_date')?.invalid && addProductForm.get('auction_end_date')?.touched">
-        <div *ngIf="addProductForm.get('auction_end_date')?.hasError('required')">
-          End date is required.
-        </div>
-        <div *ngIf="addProductForm.get('auction_end_date')?.hasError('endDateBeforeStart')">
-          End date cannot be earlier than the start date.
-        </div>
+    
+      <!-- Display required error only when the field is touched and is required -->
+      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('required') &&
+                (addProductForm.get('auction_ending_date')?.touched || addProductForm.get('auction_ending_date')?.dirty)"
+        class="text-danger mt-1">
+        End date is required.
+      </div>
+    
+      <!-- Display noStartDate error only when the error is present -->
+      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('noStartDate')"
+        class="text-danger mt-1">
+        Please select the starting date first.
+      </div>
+    
+      <!-- Display endDateBeforeStart error only when the error is present -->
+      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('endDateBeforeStart')"
+        class="text-danger mt-1">
+        Ending date cannot be before the starting date.
       </div>
     </div>
+    
+    
 
     <!-- Starting Time -->
     <div class="col-md-6">
       <label for="startTime">Starting Time</label>
-      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="HH:mm" inputId="startTime"
+      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a"  inputId="startTime"
         formControlName="auction_starting_time" (onSelect)="onTimeChange('auction_starting_time', $event)">
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>
-      </p-calendar>
+</p-calendar>
       <div
         *ngIf="addProductForm.get('auction_starting_time')?.invalid && addProductForm.get('auction_starting_time')?.touched"
         class="text-danger mt-1">
@@ -192,9 +218,9 @@
 
     <!-- Ending Time -->
     <div
-      [ngClass]="addProductForm.get('product_type')?.value == 'auction' || addProductForm.get('product_type')?.value== 'other' ?'col-12' :'col-md-6'">
+      [ngClass]="addProductForm.get('product_type')?.value == 'auction' || addProductForm.get('product_type')?.value== 'other' ?'col-md-6' :'col-md-6'">
       <label for="endingTime">Ending Time</label>
-      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="HH:mm" inputId="endingTime"
+      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="endingTime"
         formControlName="auction_ending_time" (onSelect)="onTimeChange('auction_ending_time', $event)">
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
@@ -206,8 +232,17 @@
         <ng-container *ngIf="addProductForm.get('auction_ending_time')?.hasError('required')">
           Ending time is required.
         </ng-container>
-        <ng-container *ngIf="addProductForm.get('auction_ending_time')?.hasError('notEnoughTime')">
+        <ng-container *ngIf="
+      addProductForm.get('auction_ending_time')?.hasError('timeDifferenceError') &&
+      addProductForm.get('auction_ending_time')?.touched
+    " class="text-danger mt-1">
           Ending time must be at least 30 minutes after the starting time.
+        </ng-container>
+        <ng-container *ngIf="
+  addProductForm.get('auction_ending_time')?.hasError('timeOrderError') &&
+  addProductForm.get('auction_ending_time')?.touched
+" class="text-danger">
+          Ending time cannot be earlier than the starting time.
         </ng-container>
       </div>
     </div>
@@ -217,12 +252,16 @@
       <label for="totalPrice">Total Price</label>
       <p-inputNumber class="w-100" inputId="totalPrice" mode="currency" currency="AED" locale="en-US"
         formControlName="fix_price" placeholder="Total Price"></p-inputNumber>
+      <div *ngIf="addProductForm.get('fix_price')?.invalid && addProductForm.get('fix_price')?.touched"
+        class="text-danger">
+        Price is required.
+      </div>
     </div>
 
 
     <!-- Description Field -->
     <div class="col-12">
-      <label>Description<span class="text-danger">*</span></label>
+      <label>Description</label>
       <textarea placeholder="Description" formControlName="description" class="form-control w-100" rows="6">
           </textarea>
       <!-- Error Messages -->
