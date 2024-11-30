@@ -17,24 +17,24 @@
                             class="d-flex align-items-center flex-grow-1 search-bar position-relative{{showSearch?'show-search':''}}">
                             <!-- search-input -->
                             <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
-                                class="w-100 fs-18 border-1" [value]="searchTerm">
+                                class="w-100 fs-18 border-1 not-hide" [value]="searchTerm">
                             <!-- search-btn -->
-                            <button class="search-btn position-relative border-0 bg-dark-850 text-white">
+                            <button class="search-btn position-relative border-0 bg-dark-850 text-white" (click)="navigateToSearch()">
                                 <!-- search-icon -->
-                                <!-- <i class="fas fa-search"></i> -->
-                                <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22"
+                                <i class="fas fa-search fs-20"></i>
+                                <!-- <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22"
                                     fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" stroke-miterlimit="10" stroke-width="32"
+                                    <path (click)="navigateToSearch()" fill="none" stroke-miterlimit="10" stroke-width="32"
                                         d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
                                     </path>
                                     <path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"
                                         d="M338.29 338.29 448 448"></path>
-                                </svg>
+                                </svg> -->
                             </button>
                             <ul *ngIf="searchTerm && !isSearched"
-                                class="suggestion-list position-absolute w-100 list-unstyled rounded bg-white overflow-auto">
-                                <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer"
+                                class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
+                                <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer not-hide"
                                     (click)="handleSuggestion(item)">
                                     {{item.name}}
                                 </li>

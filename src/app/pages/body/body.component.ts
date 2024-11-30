@@ -3,14 +3,12 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { forkJoin, Subscription } from 'rxjs';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SliderComponent } from '../../components/slider/slider.component';
 import { PostCategoriesComponent } from '../../components/post-categories/post-categories.component';
 import { PromotionSliderComponent } from '../../components/promotion-slider/promotion-slider.component';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
-import { TempFormComponent } from '../../components/temp-form/temp-form.component';
 import { NgIf } from '@angular/common';
 import { Extension } from '../../helper/common/extension/extension';
 
@@ -33,6 +31,7 @@ export class BodyComponent implements OnDestroy {
   currentUserId: any = this.extension.getUserId();
   auctionPosts: any = [];
   featuredPosts: any = [];
+  searchedData: any = [];
   countdownSubscriptions: Subscription[] = [];
   loading = true;
   tempToken: boolean = false;
@@ -41,23 +40,29 @@ export class BodyComponent implements OnDestroy {
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService,
-    private globalStateService: GlobalStateService,
-    private extension: Extension
+    // private globalStateService: GlobalStateService,
+    private extension: Extension,
+    // private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    globalStateService.currentState.subscribe((state) => {
-      this.tempToken =
-        state.temp_token == '32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%'
-          ? true
-          : false;
-    });
+    // globalStateService.currentState.subscribe((state) => {
+    //   this.tempToken =
+    //     state.temp_token == '32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%'
+    //       ? true
+    //       : false;
+    // });
   }
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((queryParams: any) => {
+      console.log('Query parameters:', queryParams);
+      this.fetchData(queryParams?.search);
+    });
     forkJoin({
       auctionProduct: this.mainServices.getAuctionProduct(),
       featureProduct: this.mainServices.getFeatureProduct(),
     }).subscribe({
       next: (response) => {
-        debugger
+        // debugger;
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
         this.startCountdowns();
@@ -127,5 +132,36 @@ export class BodyComponent implements OnDestroy {
         this.countdownSubscriptions.push(subscription);
       });
     }
+  }
+  fetchData(query: string) {
+    this.loading = true;
+    this.auctionPosts=[]
+    this.featuredPosts=[]
+    this.mainServices.getFilteredProducts({ search: query }).subscribe({
+      next: (res: any) => {
+        if (res && res.data.data) {
+          console.log(res.data.data);
+          res.data.data.forEach((prod:any) => {
+            if (prod.product_type === 'auction') {
+              console.log(prod)
+              this.auctionPosts.push(prod);
+
+            } else {
+              console.log(prod)
+              this.featuredPosts.push(prod);
+            }
+          });
+          this.loading = false;
+          // this.startCountdowns(res.data.data);
+        } else {
+          console.log('No data found in response');
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        console.log('Error fetching filtered products', err);
+        this.loading = false;
+      },
+    });
   }
 }

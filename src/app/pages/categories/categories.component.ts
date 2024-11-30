@@ -59,6 +59,10 @@ export class CategoriesComponent {
 
     this.activeTab = savedTab ? savedTab : 'auction';
     this.getBanners();
+    this.route.queryParams.subscribe((queryParams: any) => {
+      console.log('Query parameters:', queryParams);
+      this.fetchData(queryParams?.search);
+    });
     this.route.paramMap.subscribe((params) => {
       const slug: any = params.get('slug');
       this.slugName = params.get('slug')?.slice(slug.indexOf('-') + 1);

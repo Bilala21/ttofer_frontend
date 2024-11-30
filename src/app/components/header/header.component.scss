@@ -1,12 +1,13 @@
 header {
     .suggestion-list {
+        max-height: calc(100vh - 200px);
         top: 52px;
-        max-height: 300px;
         box-shadow: 0px 9px 9px 0px #bcbcbc;
-
         li:hover {
             background: #dddddd;
         }
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
     }
 
     ul {
@@ -396,3 +397,4 @@ header {
         padding: 0px !important;
     }
 }
+

@@ -132,7 +132,7 @@ export class PostFormComponent {
     }
   }
   // onTimeChange(fieldName: string, event: any) {
-  //   debugger
+  //   // debugger
   //   const time = event && event instanceof Date ? this.formatTime(event) : null;
   //   if (time) {
   //     this.addProductForm.patchValue({
@@ -210,7 +210,7 @@ export class PostFormComponent {
       
   }
   onDateSelect(event: any): void {
-    debugger
+    // debugger
     console.log('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {
@@ -264,7 +264,7 @@ export class PostFormComponent {
   }
   removeImage(index: number, event: Event): void {
     event.stopPropagation(); 
-    debugger
+    // debugger
     this.selectedFiles.splice(index, 1); 
     this.productImageFiles.splice(index, 1); 
   }
@@ -326,7 +326,7 @@ export class PostFormComponent {
   
   async addCompleteProduct() {
     const formData = new FormData();
-    debugger;
+    // debugger;
   
     // Append files if `image` contains file objects
     this.productImageFiles.forEach((file, index) => {
@@ -396,7 +396,7 @@ export class PostFormComponent {
   
   
   onProductTypeChange(selectedValue: string): void {
-    debugger
+    // debugger
     this.productType = selectedValue; // Check if selected value is "Featured"
   }
 }
