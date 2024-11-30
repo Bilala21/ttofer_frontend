@@ -60,12 +60,16 @@ export class CategoriesComponent {
     this.activeTab = savedTab ? savedTab : 'auction';
     this.getBanners();
     let isQ: any = null;
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.handleApi(queryParams, true);
-      isQ = queryParams?.search;
-    });
+
     this.route.paramMap.subscribe((params) => {
       this.handleApi(params);
+    });
+
+    this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams?.search) {
+        this.handleApi(queryParams, true);
+        isQ = queryParams?.search;
+      }
     });
   }
 
@@ -153,7 +157,7 @@ export class CategoriesComponent {
 
   handleApi(params: any, isQuery: boolean = false) {
     console.log({ isQuery });
-    if (!isQuery) {
+    if (!isQuery && !params?.search) {
       const slug: any = params.get('slug');
       this.slugName = params.get('slug')?.slice(slug.lastIndexOf('-') + 1);
       if (slug.indexOf('-') < 0) {
@@ -172,11 +176,21 @@ export class CategoriesComponent {
           category_id,
         });
       }
-    } else if (this.id && params?.search) {
+    }
+    if (this.id && params?.search) {
+      console.log('if 2');
       this.fetchData({
         ...this.filters,
         product_type: this.activeTab,
         category_id: this.id,
+        search: params?.search,
+      });
+    }
+    if (!this.id && params?.search) {
+      console.log('if 3');
+      this.fetchData({
+        ...this.filters,
+        product_type: this.activeTab,
         search: params?.search,
       });
     }
