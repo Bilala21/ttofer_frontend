@@ -69,7 +69,8 @@ export class CategoriesComponent {
       if (slug.indexOf('-') < 0) {
         this.activeTab = slug;
         this.fetchData({ ...this.filters, product_type: this.activeTab });
-      } else {
+      } 
+      else {
         const category_id = slug.slice(0, slug.indexOf('-'));
         this.id = category_id;
         if (this.filters?.category_id !== this.id) {
