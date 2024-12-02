@@ -341,4 +341,7 @@ export class MainServicesService {
   getAttributes(): Observable<any> {
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
   }
+  getProfileData(): Observable<any> {
+    return this.http.get<any>(`${Constants.baseApi}` + '/profile'); // Adjust path to your JSON or API endpoint
+  }
 }

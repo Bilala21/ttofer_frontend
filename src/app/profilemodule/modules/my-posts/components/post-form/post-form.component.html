@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-md-6">
       <label>Category<span class="text-danger"></span></label>
       <p-dropdown [options]="categories" optionLabel="name" optionValue="id" formControlName="category_id"
         placeholder="Select a Category" class="form-control input-class-add-form"
@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-md-6">
       <label class="subcategory-label">Subcategory</label>
       <p-dropdown [options]="subCategory" optionLabel="name" optionValue="id"
         [ngClass]="{ 'is-invalid': validationErrors['selectedSubCategoryId'] }" formControlName="sub_category_id"

@@ -1,5 +1,5 @@
-<div>
-    <div class="d-flex align-items-center justify-content-cente">
+<div class="">
+    <div class="d-flex flex-column flex-lg-row  align-items-center justify-content-center justify-content-lg-start">
         <div>
             <label for="file" class="rounded-pill position-relative">
                 <img src="assets/images/profile-icon.svg" alt="profile image" class="img-fluid">
@@ -7,17 +7,18 @@
             </label>
             <input type="file" class="d-none" id="file">
         </div>
-        <div class="pl-3">
-            <div class="fw-semibold pb-2">Numan Khan</div>
-            <div class="fs-14 text-capitalize">
+        <!-- d-flex flex-column flex-lg-row justify-content-center justify-content-lg-start -->
+        <div class="pl-lg-3">
+            <div class="fw-semibold text-center text-lg-left">{{profileData.name}}</div>
+            <div class="fs-14 text-capitalize text-center text-lg-left">
                 Joined: <span> Nov 22, 2024</span>
             </div>
-            <div class="fs-14 text-capitalize">
+            <div class="fs-14 text-capitalize text-center text-lg-left">
                 Address: <span>N/A</span>
             </div>
         </div>
     </div>
-    <div class="d-flex align-items-center pt-2">
+    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2">
         <a class="text-center">
             <p class="m-0">4</p>
             <p>Bought</p>
@@ -27,11 +28,11 @@
             <p>Sold</p>
         </a>
         <a class="text-center">
-            <p class="m-0">4</p>
+            <p class="m-0">{{profileData.followers_count}}</p>
             <p>Followers</p>
         </a>
         <a class="text-center">
-            <p class="m-0">4</p>
+            <p class="m-0">{{profileData.following_count}}</p>
             <p>Followings</p>
         </a>
     </div>
