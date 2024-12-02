@@ -329,14 +329,12 @@ this.onProductTypeChange(this.productType);
     const imagesControl = this.addProductForm.get('image') as FormArray;
     if(imagesControl.length === 0){
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
-
     }
     if (this.addProductForm.invalid) {
       this.addProductForm.markAllAsTouched();
       return;
     }
     const formData = new FormData();
-
     const attributes = this.addProductForm.get('attributes')?.value;
     if (attributes) {
       if (attributes['condition']) formData.append('condition', attributes['condition']);
@@ -349,10 +347,8 @@ this.onProductTypeChange(this.productType);
       formData.append('edition', attributes['edition']);
       formData.append('authenticity', attributes['authenticity']);
     }
-    // Handle form controls dynamically
     Object.keys(this.addProductForm.controls).forEach((key) => {
       const control = this.addProductForm.get(key);
-  
       if (key === 'attributes' && control instanceof FormGroup) {
         if (Object.keys(control.value).length > 0) {
           formData.append(key, JSON.stringify(control.value));
@@ -372,8 +368,7 @@ this.onProductTypeChange(this.productType);
           formData.append(key, control.value);
         }
       }
-    });
-  
+    }); 
     try {
       const token = localStorage.getItem('authToken');
       this.isLoading=true;
@@ -383,8 +378,7 @@ this.onProductTypeChange(this.productType);
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-  
+      });  
       const data = await response.json();
       if (response.ok) {
         this.isLoading=false
@@ -392,18 +386,15 @@ this.onProductTypeChange(this.productType);
         this.router.navigate(['']);
       } else {
         this.isLoading=false
-
         this.toastr.error(data.message || 'Product creation failed', 'Error');
       }
     } catch (error) {
       this.isLoading=false
-
       this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
       this.isLoading = false;
     }
   }
-
   onProductTypeChange(selectedValue: string): void {
     if (selectedValue == 'featured') {
       this.addProductForm.get('auction_initial_price')?.clearValidators();
@@ -418,8 +409,8 @@ this.onProductTypeChange(this.productType);
         auction_final_price: '',
         auction_starting_time: '',
         auction_ending_time: '',
-        auction_start_date: '', // Default value set to current date
-        auction_end_date: '',   // Default value set to current date
+        auction_start_date: '', 
+        auction_end_date: '',   
       })
     }
     else if (selectedValue =='auction') {
