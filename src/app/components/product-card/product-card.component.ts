@@ -47,14 +47,14 @@ export class ProductCardComponent {
   // }
 
   toggleWishlist(item: any) {
-
-    if (!this.currentUserId) {
+  const data = this.extension.getUserId()
+    if (!this.extension.getUserId()) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     }
     let input = {
-      user_id: this.currentUserId,
+      user_id: this.extension.getUserId(),
       product_id: item.id
     };
 

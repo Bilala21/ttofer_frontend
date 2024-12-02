@@ -22,38 +22,61 @@ export class CheckOutPageComponent {
     zip: '',
     country: ''
   };
+  // paymentDeposit: any[] = [
+  //   {
+  //     img: 'assets/images/Applelogo.svg',
+  //     detail1: 'Apply Pay',
+  //     detail2: 'Default',
+  //     id: 'flexRadioDefault1',
+  //   },
+  //   {
+  //     img: 'assets/images/visalogo.svg',
+  //     detail1: 'Visa',
+  //     date: 'Expiry 06/2024',
+  //     detail2: 'Set as default',
+  //     btn: 'Edit',
+  //     id: 'flexRadioDefault2',
+  //   },
+  //   {
+  //     img: 'assets/images/StripLogo.svg',
+  //     detail1: 'Mastercard',
+  //     date: 'Expiry 06/2024',
+  //     detail2: 'Set as default',
+  //     btn: 'Edit',
+  //     id: 'flexRadioDefault2',
+  //   },
+  //   {
+  //     img: 'assets/images/GPay.svg',
+  //     detail1: 'Google Pay',
+  //     date: 'Expiry 06/2024',
+  //     detail2: 'Set as default',
+  //     btn: 'Edit',
+  //     id: 'flexRadioDefault2',
+  //   },
+  // ];
   paymentDeposit: any[] = [
     {
       img: 'assets/images/Applelogo.svg',
-      detail1: 'Apply Pay',
-      detail2: 'Default',
-      id: 'flexRadioDefault1',
+      detail1: 'Apple Pay',
+      id: 'paymentApplePay',
     },
     {
       img: 'assets/images/visalogo.svg',
       detail1: 'Visa',
-      date: 'Expiry 06/2024',
-      detail2: 'Set as default',
-      btn: 'Edit',
-      id: 'flexRadioDefault2',
+      id: 'paymentVisa',
     },
     {
       img: 'assets/images/StripLogo.svg',
       detail1: 'Mastercard',
-      date: 'Expiry 06/2024',
-      detail2: 'Set as default',
-      btn: 'Edit',
-      id: 'flexRadioDefault2',
+      id: 'paymentMastercard',
     },
     {
       img: 'assets/images/GPay.svg',
       detail1: 'Google Pay',
-      date: 'Expiry 06/2024',
-      detail2: 'Set as default',
-      btn: 'Edit',
-      id: 'flexRadioDefault2',
+      id: 'paymentGooglePay',
     },
   ];
+  
   cartItems = [
     {
       title: 'Diamond of Expo',

@@ -11,13 +11,8 @@
       class="text-decoration-none pointer-cursor"
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
       [ngClass]="{'disabled-link': postData.product_type == 'auction'}">
-      <figure
-      class="card-top position-relative"
-      [ngClass]="{
-        'fallback-css rounded-2': !(postData?.photo && postData?.photo.length > 0 && postData?.photo[0]?.url)
-      }"
-    >       
-     <img loading="lazy" [src]="postData?.photo?.length > 0 && postData?.photo[0]?.url ? postData.photo[0].url : '/assets/images/default-image.jpg'"
+      <figure class="card-top position-relative {{!postData?.photos[0]?.url ? 'falback-css rounded-2':''}}">
+        <img loading="lazy" *ngIf="postData?.photos[0]?.url" src={{postData?.photos[0]?.url}}
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
           <button *ngIf="postData.product_type =='auction'" class="btn bg-yellow-700 py-1 fs-14 fw-normal text-dark specialOffer"
@@ -34,11 +29,11 @@
       <section class="card-bottom pb-1 text-gray-400">
         <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction'">
           <span class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
-            {{postData.calculateRemainingTime }}
+            {{postData.calculateRemainingTime || "Bid Expired" }}
           </span>
         </div>
         <p class="m-0 pt-2">
-          {{ postData.title.length > 33 ? postData.title.slice(0, 33) + '...' : postData.title }}
+          {{ postData.title.length > 25 ? postData.title.slice(0, 25) + '...' : postData.title }}
         </p>
 
         <section class="py-2 d-flex align-items-center card-icons">

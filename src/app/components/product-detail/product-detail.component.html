@@ -18,14 +18,14 @@
                 class="btn rounded-pill shadow bg-white p-2 wishlist rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
                 aria-label="Add to Wishlist">
                 <span class="pr-2">12</span>
-                <i class="{{product?.user_wishlist?.user_id===currentUserid ?'fas':'far'}} fa-heart fs-19"
+                <i class="{{product.user_wishlist[0]?.user_id === currentUserid ? 'fas': 'far'}} fa-heart fs-19"
                   aria-hidden="true"></i>
               </button>
             </div>
 
             <p-galleria [verticalThumbnailViewPortHeight]="'500px'"
               [thumbnailsPosition]="screenWidth< 768 || isFullScreen?'bottom':'left'" [numVisible]="5"
-              [changeItemOnIndicatorHover]="true" [value]="product.photo" [showItemNavigators]="true"
+              [changeItemOnIndicatorHover]="true" [value]="product.photos" [showItemNavigators]="true"
               [showThumbnailNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="false"
               [changeItemOnIndicatorHover]="true" [showItemNavigators]="true" [fullScreen]="isFullScreen"
               [(visible)]="isFullScreen">
@@ -54,18 +54,19 @@
             </div>
             <!-- SIMILAR PRODUCTS -->
             <div class="row pt-4 sm-products">
-              @for (item of [1,2,3,4]; track $index) {
-              <div class="col-lg-4 col-6 xs-px-0">
+
+              @for (item of similarProductsData; track $index) {
+              <div class="col-lg-4 col-6 xs-px-0 mb-2">
                 <div class="sim-box">
-                  <div class="bg-gray-450 text-center p-3 rounded-2 position-relative mb-3">
+                  <div class="bg-gray-450 text-center rounded-2 position-relative mb-3">
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
                         aria-hidden="true" class="fa-heart far fs-19"></i></button>
-                    <img src="https://i.ebayimg.com/thumbs/images/g/ueQAAOSwQSBm9rcg/s-l500.jpg" alt="image"
-                      class="img-fluid max-h-100">
+                        <img src={{item?.photos[0]?.url}} alt="image"
+                      class="img-fluid h-100 rounded-2">
                   </div>
-                  <a routerLink="/" class="text-left text-dark-650">
-                    NEW Open Box Samsung Galaxy Z Fold 6 Silver 512GB Factory Unlocked (READ)
+                  <a [routerLink]="['/product-detail', item?.id, item?.slug]" class="text-left text-dark-650">
+                   {{item?.description.slice(0,20)}}
                   </a>
                   <div class="text-gray-300">
                     New (Other)
@@ -77,8 +78,7 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes"
-          (handleWishlist)="toggleWishlist($event)" />
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" (handleAddToCart)="addToCart($event)" />
       </div>
 
       <!-- more detail about product -->

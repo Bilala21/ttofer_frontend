@@ -141,7 +141,7 @@ this.onProductTypeChange(this.productType);
   }
   
   onTimeChange(fieldName: string, event: any) {
-    debugger
+    
     const time = event && event instanceof Date ? this.formatTime(event) : null;
     if (time) {
       this.addProductForm.patchValue({
@@ -171,7 +171,7 @@ this.onProductTypeChange(this.productType);
 
   }
   onDateSelect(event: any): void {
-    // debugger
+    // 
     console.log('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {
@@ -295,7 +295,7 @@ this.onProductTypeChange(this.productType);
     this.selectedVideo = null;
   }
   initializeForm() {
-    debugger
+    
     if (!this.selectedCategorySlug) return;
 
     // Get the fields for the selected category
@@ -358,7 +358,7 @@ this.onProductTypeChange(this.productType);
           formData.append(key, JSON.stringify(control.value));
         }
       } else if (control?.value instanceof Array) {
-        debugger
+        
         if (control.value.length > 0) {
           control.value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, item);
@@ -484,7 +484,7 @@ export function endDateValidator(startField: string): ValidatorFn {
     if (!formGroup) {
       return null;
     }
-debugger
+
     const startDate = formGroup.get(startField)?.value;
     const endDate = control.value;
 

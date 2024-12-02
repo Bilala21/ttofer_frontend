@@ -43,6 +43,8 @@ export class ProductDetailComponent implements OnInit {
   attributes: any = {};
   currentUser: any = {};
   loading: boolean = false;
+  similarLoading: boolean = false;
+  similarProductsData:any = [];
   currentUserid: any;
   parsedAttributes: { [key: string]: string | number } = {};
 
@@ -111,10 +113,26 @@ export class ProductDetailComponent implements OnInit {
       },
     });
   }
+  // fetch-similar-product
+  fetchSimilarProducts(productId: number) {
+    this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
+      next: (value) => {
+        // ;
+        this.similarProductsData = value.data;
+        console.log(this.similarProductsData,"similar product")
+        this.similarLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching product:', err);
+        this.similarLoading = false;
+      },
+    });
+  }
   ngOnInit(): any {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
     this.fetchData(this.productId);
+    this.fetchSimilarProducts(this.productId)
   }
 
   productView() {
@@ -164,21 +182,23 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(product: any) {
-    this.mainServices.adToCartItem({ product_id: product.id }).subscribe({
+    this.mainServices.adToCartItem({ product_id: product.id ,quantity:product.quantity , price:product.fix_price}).subscribe({
       next: (res: any) => {
         this.toastr.warning(res.message, 'success');
       },
-      error: (err) => {},
+      error: (err) => {
+        this.toastr.error(err.message,'error');
+      },
     });
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
+    // const storedData = localStorage.getItem('key');
+    // if (!storedData) {
+    //   this.toastr.warning('Plz login first than try again !', 'Warning');
 
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.globalStateService.updateCart(product);
-    }
+    //   this.authService.triggerOpenModal();
+    //   return;
+    // } else {
+    //   this.globalStateService.updateCart(product);
+    // }
   }
 
   handleProductQty(event: any, product: any) {

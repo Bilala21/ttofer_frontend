@@ -34,6 +34,7 @@ export class RightSideComponent {
   loading: boolean = false
   currentUserid: any;
   @Output() handleWishlist = new EventEmitter<any>();
+  @Output() handleAddToCart = new EventEmitter<any>();
   ngAfterViewInit(): void {
     // Additional initialization logic can go here if needed
     // this.parseAttributes(); // Ensure parsing occurs after the view is initialized
@@ -65,6 +66,8 @@ export class RightSideComponent {
       return;
     }
     else {
+      console.log("product",product)
+      this.handleAddToCart.emit({...product,quantity:1})
       this.globalStateService.updateCart(product)
     }
   }

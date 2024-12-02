@@ -182,7 +182,7 @@
                                         <div *ngFor="let item of cartItems" class="cart-item">
                                             <img [src]="item.image" alt="{{ item.title }}" class="cart-item-image">
                                             <div class="cart-item-details">
-                                                <p>{{ item.description.slice(1,25) + '...' }}</p>
+                                                <p>{{ item.description?.slice(1,25) + '...' }}</p>
                                                 <div class="d-flex justify-content-between">
                                                     <span>{{ item.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
                                                     <span>Qty {{item.quantity}}</span>
