@@ -1,5 +1,5 @@
 // Variables
-$gap: 10px;
+$gap: 15px;
 $card-bg: #fff;
 $card-border-radius: 8px;
 $shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -82,7 +82,7 @@ $breakpoint-desktop: 1200px;
 
   .product-card,
   .shimmer-card {
-    @include card-layout(25%);
+    @include card-layout(33.333%);
   }
 
   .product-main {

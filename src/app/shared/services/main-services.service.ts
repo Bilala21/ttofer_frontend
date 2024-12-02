@@ -133,7 +133,7 @@ export class MainServicesService {
         })
       );
   }
-  addProductCompleteStep (input: any) {
+  addProductCompleteStep(input: any) {
     return this.http.post(`${this.Url}` + '/products', input).pipe();
   }
   addProductSecondStep(input: any) {
@@ -257,6 +257,14 @@ export class MainServicesService {
     return this.http
       .post(`${Constants.baseApi}` + '/forgot-password', input)
       .pipe();
+  }
+
+  updateUserAccount(input: any): any {
+    console.log({ input });
+    return this.http.post<any[]>(
+      `${Constants.baseApi}` + '/get-all-products',
+      input
+    );
   }
   forgetPasswordNumber(input: any) {
     return this.http
