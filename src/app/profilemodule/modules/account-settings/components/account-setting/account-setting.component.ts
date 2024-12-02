@@ -32,7 +32,7 @@ export class AccountSettingComponent implements OnInit {
   constructor(
     private extension: Extension,
     public dialog: MatDialog,
-    mainServices: MainServicesService
+    private mainServices: MainServicesService
   ) {
     this.currentUserId = extension.getUserId();
   }
@@ -52,10 +52,18 @@ export class AccountSettingComponent implements OnInit {
           ...this.userSetting,
           [result.key]: result.value,
         };
-        console.log(data);
-        // this.mainServices.updateUserAccount(data);
+        console.log('User Data before update:', data); // Log the data
+        this.mainServices.updateUserAccount(data).subscribe(
+          (response: any) => {
+            console.log('User account updated successfully', response);
+          },
+          (error: any) => {
+            console.error('Error updating user account', error);
+          }
+        );
       }
     });
   }
+
   ngOnInit(): void {}
 }

@@ -85,9 +85,7 @@ export class MainServicesService {
       .pipe();
   }
   getPlacedBids(input: any) {
-    return this.http
-      .post(`${Constants.baseApi}` + '/get-placed-bids', input)
-      .pipe();
+    return this.http.post(`${Constants.baseApi}` + '/get-product-bids', input).pipe();
   }
   makeOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
@@ -135,7 +133,7 @@ export class MainServicesService {
         })
       );
   }
-  addProductCompleteStep (input: any) {
+  addProductCompleteStep(input: any) {
     return this.http.post(`${this.Url}` + '/products', input).pipe();
   }
   addProductSecondStep(input: any) {
@@ -225,6 +223,9 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/upload-image', input)
       .pipe();
   }
+  // getNotification(userId: any) {
+  //   return this.http.get(`${Constants.baseApi}` + '/get/user/unread/notifications/' + userId).pipe();
+  // }
   getNotification(userId: any, type: any) {
     return this.http
       .get(
@@ -257,6 +258,16 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/forgot-password', input)
       .pipe();
   }
+
+  updateUserAccount(input: any): any {
+    console.log({ input });
+    return this.http.post<any>(
+      `${Constants.baseApi}/profile/update`, 
+      input, 
+      { headers: this.getHeaders() }
+    );
+  }
+  
   forgetPasswordNumber(input: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/forgot-password-phone', input)
@@ -302,23 +313,20 @@ export class MainServicesService {
       data
     );
   }
+  getSimilarProduct(data: any = {}): Observable<any> {
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/products/similar', data);
+  }
   storeProductView(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/products/view', data);
   }
   adToCartItem(data: any) {
-    return this.http.post(
-      'https://ttoffer.com/backend/public/api/cart/add',
-      data
-    );
+    return this.http.post(`${Constants.baseApi}` + '/cart/add', data);
   }
-  getCartPorduct() {
-    return this.http.get('https://ttoffer.com/backend/public/api/cart');
+  getCartProducts() {
+    return this.http.get(`${Constants.baseApi}` + '/cart');
   }
   removeCartItem(data: any) {
-    return this.http.post(
-      'https://ttoffer.com/backend/public/api/cart/remove',
-      data
-    );
+    return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
   }
   otpVerify(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);

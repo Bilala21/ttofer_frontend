@@ -228,7 +228,7 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     } else {
-      this.mainServicesService.getCartPorduct().subscribe({
+      this.mainServicesService.getCartProducts().subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
         },

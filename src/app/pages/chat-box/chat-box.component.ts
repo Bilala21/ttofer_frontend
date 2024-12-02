@@ -214,7 +214,7 @@ export class ChatBoxComponent {
     this.mainServices
       .getAllChatsOfUser(this.currentUserid)
       .subscribe((res: any) => {
-        // debugger
+        // 
         this.allChat = res.data;
         this.selectTab(this.selectedTab);
       });

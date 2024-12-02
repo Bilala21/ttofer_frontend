@@ -2,31 +2,20 @@
 <main class="mt-16">
   <div class="container-fluid checkout-container product-detail-container">
     <div class="d-flex align-content-end mb-2">
-      <div class="mr-2 checkout-logo">
-        <img
-          src="/assets/images/LOGO.png"
-          class="w-100 h-100"
-          alt=""
-          srcset=""
-          loading="lazy"
-        />
-      </div>
       <h1 class="m-0 d-flex align-baseline mt-4 heading-checkout">Checkout</h1>
     </div>
 
     <div class="d-flex flex-column flex-md-row justify-content-between">
-      <div class="row flex-grow-1 mr-md-1">
+      <div class="flex-grow-1 mr-md-3">
+        
         <!-- Payment Section -->
-        <div class="col-md-12">
+        <div class="col-12 p-0">
           <div class="payment-section border p-3 mb-3">
             <div class="d-flex justify-content-between">
               <strong>Pay with</strong>
               <strong (click)="openNewCardModal()" class="" style="text-decoration: underline;cursor: pointer;"
                 >Add Card</strong
               >
-              <!-- <span class="">
-                You can split your payment for this order.
-              </span> -->
             </div>
             <div
               *ngFor="let payment of paymentDeposit; trackBy: trackById"
@@ -44,36 +33,15 @@
                 type="radio"
                 class=""
                 [(ngModel)]="paymentMethod"
-                [value]="payment.value"
-                [id]="payment.value"
+                [value]="payment.detail1"
+                [id]="payment.id"
               />
             </div>
-
-            <!-- <div class="form-check">
-              <input
-                type="radio"
-                class="form-check-input"
-                [(ngModel)]="paymentMethod"
-                value="card"
-                id="card"
-              />
-              <label class="form-check-label" for="card"> Add new card </label>
-            </div>
-            <div class="form-check">
-              <input
-                type="radio"
-                class="form-check-input"
-                [(ngModel)]="paymentMethod"
-                value="applepay"
-                id="applepay"
-              />
-              <label class="form-check-label" for="applepay">Apple Pay</label>
-            </div> -->
           </div>
         </div>
 
         <!-- Shipping Section -->
-        <div class="col-md-12">
+        <div class="col-12 p-0">
           <div class="shipping-section border p-3 mb-3">
             <h4>Ship to</h4>
             <span class="d-block fs-14">Haroon Irshad</span>
@@ -83,7 +51,7 @@
           </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-12 p-0">
           <div class="border p-3 mb-3">
             <h4>Review Order</h4>
             <div
@@ -166,7 +134,7 @@
         </div>
 
         <!-- ttoffer-gift -->
-        <div class="col-12">
+        <div class="col-12 p-0">
           <div class="pt-1 pb-4 pl-2 border">
             <h5 class="fs-16 fw-semibold mt-1">
               TToffer Gift Cards and coupons

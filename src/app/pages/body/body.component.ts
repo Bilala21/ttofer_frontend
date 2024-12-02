@@ -37,6 +37,7 @@ export class BodyComponent implements OnDestroy {
   loading = true;
   tempToken: boolean = false;
   promotionBanners: any = [];
+  footerBanners: any = [];
   constructor(
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,
@@ -57,7 +58,7 @@ export class BodyComponent implements OnDestroy {
       featureProduct: this.mainServices.getFeatureProduct(),
     }).subscribe({
       next: (response) => {
-        // debugger
+        // 
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
         this.startCountdowns();
