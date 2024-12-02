@@ -45,7 +45,7 @@ export class AccountSettingComponent implements OnInit {
       height: '322px',
       data: { placeholder, key, currentUserProfile: this.userSetting },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const data = {
@@ -53,18 +53,17 @@ export class AccountSettingComponent implements OnInit {
           [result.key]: result.value,
         };
         console.log('User Data before update:', data); // Log the data
-        this.mainServices.updateUserAccount(data)
-        // this.mainServices.updateUserAccount(data).subscribe(
-        //   (response) => {
-        //     console.log('User account updated successfully', response);
-        //   },
-        //   (error) => {
-        //     console.error('Error updating user account', error);
-        //   }
-        // );
+        this.mainServices.updateUserAccount(data).subscribe(
+          (response: any) => {
+            console.log('User account updated successfully', response);
+          },
+          (error: any) => {
+            console.error('Error updating user account', error);
+          }
+        );
       }
     });
   }
-  
+
   ngOnInit(): void {}
 }
