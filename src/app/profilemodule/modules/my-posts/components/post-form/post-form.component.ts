@@ -141,7 +141,7 @@ this.onProductTypeChange(this.productType);
   }
   
   onTimeChange(fieldName: string, event: any) {
-    debugger
+    
     const time = event && event instanceof Date ? this.formatTime(event) : null;
     if (time) {
       this.addProductForm.patchValue({
@@ -150,7 +150,7 @@ this.onProductTypeChange(this.productType);
     }
   }
   // onTimeChange(fieldName: string, event: any) {
-  //   debugger
+  //   
   //   const time = event && event instanceof Date ? this.formatTime(event) : null;
   //   if (time) {
   //     this.addProductForm.patchValue({
@@ -180,7 +180,7 @@ this.onProductTypeChange(this.productType);
 
   }
   onDateSelect(event: any): void {
-    // debugger
+    // 
     console.log('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {
@@ -304,7 +304,7 @@ this.onProductTypeChange(this.productType);
     this.selectedVideo = null;
   }
   initializeForm() {
-    debugger
+    
     if (!this.selectedCategorySlug) return;
 
     // Get the fields for the selected category
@@ -336,7 +336,7 @@ this.onProductTypeChange(this.productType);
   async addCompleteProduct() {
     const imagesControl = this.addProductForm.get('image') as FormArray;
 
-    if (this.addProductForm.invalid || imagesControl.length === 0) {
+    if (this.addProductForm.invalid || imagesControl.controls.length === 0) {
       this.addProductForm.markAllAsTouched();
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
       return;
@@ -365,7 +365,7 @@ this.onProductTypeChange(this.productType);
           formData.append(key, JSON.stringify(control.value));
         }
       } else if (control?.value instanceof Array) {
-        debugger
+        
         if (control.value.length > 0) {
           control.value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, item);
@@ -491,7 +491,7 @@ export function endDateValidator(startField: string): ValidatorFn {
     if (!formGroup) {
       return null;
     }
-debugger
+
     const startDate = formGroup.get(startField)?.value;
     const endDate = control.value;
 

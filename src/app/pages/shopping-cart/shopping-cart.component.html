@@ -38,6 +38,7 @@
               <div class="d-flex justify-content-between mt-3">
                 <input type="checkbox" [(ngModel)]="item.selected" />
                 <div>
+                  <label for="" class="mr-1">Qty</label>
                   <select [(ngModel)]="item.qty" (change)="calculateTotal()">
                     <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
                   </select>

@@ -29,7 +29,7 @@
       <section class="card-bottom pb-1 text-gray-400">
         <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction'">
           <span class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
-            {{postData.calculateRemainingTime }}
+            {{postData.calculateRemainingTime || "Bid Expired" }}
           </span>
         </div>
         <p class="m-0 pt-2">
