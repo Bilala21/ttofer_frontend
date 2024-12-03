@@ -13,6 +13,5 @@ export class SliderComponent implements OnInit {
   isLoading = false; 
  
   ngOnInit(): void {
-    console.log("slides...",this.slides)
   }
 }
