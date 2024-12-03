@@ -32,6 +32,7 @@ export class ShoppingCartComponent {
   isAllChecked: boolean = false;
   loading = true;
   userId;
+  selectedItems: any = [];
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -51,11 +52,9 @@ export class ShoppingCartComponent {
   }
 
   calculateTotal(): void {
-    this.totalAmount = this.cartItems.reduce(
-      (acc, item) =>
-        item.selected ? acc + item.product.fix_price * item.quantity : acc,
-      0
-    );
+    this.totalAmount = this.cartItems.reduce((acc, item) => {
+      return item.selected ? acc + item.product.fix_price * item.quantity : acc;
+    }, 0);
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
 
@@ -126,8 +125,6 @@ export class ShoppingCartComponent {
   updateSelectAll(prod: any): void {
     prod.selected = !prod.selected;
     let allSelected = true;
-
-    console.log(prod.selected);
     prod.selected
       ? (this.totalLength = this.totalLength + 1)
       : (this.totalLength = this.totalLength - 1);
@@ -141,8 +138,18 @@ export class ShoppingCartComponent {
     this.isAllChecked = allSelected;
   }
   updateQuantity(item: any) {
-    
-    this.calculateTotal();
+    this.mainService
+      .updateItemQty({
+        product_id: item.product_id,
+        user_id: item.user_id,
+        quantity: Number(item.quantity),
+      })
+      .subscribe({
+        next: (res) => {
+          this.calculateTotal();
+        },
+        error: (err) => {},
+      });
   }
   ngOnInit() {
     setTimeout(() => {

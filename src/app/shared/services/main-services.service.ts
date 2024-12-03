@@ -331,6 +331,9 @@ export class MainServicesService {
   removeCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
   }
+  updateItemQty(data: any) {
+    return this.http.post(`${Constants.baseApi}` + '/cart/update', data);
+  }
   otpVerify(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);
   }

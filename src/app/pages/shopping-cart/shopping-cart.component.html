@@ -73,8 +73,8 @@
             <span>Subtotal:</span>
             <span>AED {{ totalAmount }}</span>
           </div>
-          <a [routerLink]="['/checkout']" routerLinkActive="router-link-active">
-            <button class="btn-yellow w-100 btn-yellow btn rounded-pill py-10" [ngClass]="totalAmount?'':'disabled'">Go
+          <a [routerLink]="['/checkout']" routerLinkActive="router-link-active"  [ngClass]="totalAmount?'':'disabled'">
+            <button class="btn-yellow w-100 btn-yellow btn rounded-pill py-10">Go
               to
               Checkout</button>
           </a>

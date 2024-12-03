@@ -69,7 +69,6 @@ export class GlobalStateService {
 
   updateCart(data: any) {
     const currentState = this.stateSubject.value;
-    console.log(currentState);
     const newState: any = {
       ...currentState,
       cartState: Array.isArray(data)
