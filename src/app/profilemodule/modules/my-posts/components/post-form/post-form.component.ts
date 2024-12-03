@@ -149,15 +149,6 @@ this.onProductTypeChange(this.productType);
       });
     }
   }
-  // onTimeChange(fieldName: string, event: any) {
-  //   
-  //   const time = event && event instanceof Date ? this.formatTime(event) : null;
-  //   if (time) {
-  //     this.addProductForm.patchValue({
-  //       [fieldName]: time,
-  //     });
-  //   }
-  // }
   formatTime(date: Date): string {
     // Formats the Date object to HH:mm
     const hours = date.getHours().toString().padStart(2, '0');
@@ -334,14 +325,16 @@ this.onProductTypeChange(this.productType);
 
 
   async addCompleteProduct() {
+    debugger
     const imagesControl = this.addProductForm.get('image') as FormArray;
-
-    if (this.addProductForm.invalid || imagesControl.controls.length === 0) {
-      this.addProductForm.markAllAsTouched();
+    if(imagesControl.length === 0){
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
+
+    }
+    if (this.addProductForm.invalid) {
+      this.addProductForm.markAllAsTouched();
       return;
     }
-  
     const formData = new FormData();
 
     const attributes = this.addProductForm.get('attributes')?.value;

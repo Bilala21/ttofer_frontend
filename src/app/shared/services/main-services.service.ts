@@ -261,11 +261,13 @@ export class MainServicesService {
 
   updateUserAccount(input: any): any {
     console.log({ input });
-    return this.http.post<any[]>(
-      `${Constants.baseApi}` + '/get-all-products',
-      input
+    return this.http.post<any>(
+      `${Constants.baseApi}/profile/update`, 
+      input, 
+      { headers: this.getHeaders() }
     );
   }
+  
   forgetPasswordNumber(input: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/forgot-password-phone', input)
