@@ -3,7 +3,6 @@ import {
   Component,
   OnInit,
   HostListener,
-  Renderer2,
   Inject,
 } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
@@ -49,7 +48,6 @@ export class HeaderNavigationComponent implements OnInit {
   screenWidth: number;
   screenHeight: number;
   imgUrl: string | null = null;
-  tempToken: boolean = false;
   cartItems: any = [];
   notificationList: any = [];
   unReadNotification: any = 0;
@@ -71,16 +69,12 @@ activeRoute: any;
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
-    private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
   ) {
  this.sideBarItemss = sideBarItems
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
-      this.tempToken =
-        state.temp_token == '32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%'
-          ? true
-          : false;
+      this.cartItems = state.cartState;
     });
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
@@ -165,12 +159,6 @@ activeRoute: any;
     }
   }
 
-  subTotal() {
-    return this.cartItems.reduce((acc: any, item: any) => {
-      return acc + item.fix_price * item.quantity;
-    }, 0);
-  }
-
   openChat() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -185,6 +173,7 @@ activeRoute: any;
       }
     }
   }
+
   savedItems() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -201,6 +190,7 @@ activeRoute: any;
       }
     }
   }
+
   openSelling() {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -215,19 +205,8 @@ activeRoute: any;
       }
     }
   }
-  goOnCart() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.router.navigate(['/cart']);
-    }
-  }
-  cart() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
+  getCartItems() {
+    if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
@@ -235,12 +214,13 @@ activeRoute: any;
       this.mainServicesService.getCartProducts().subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
+          console.log(value.data);
+          this.cartItems = value.data;
         },
         error: (err) => {
           console.log(err);
         },
       });
-      // this.router.navigate(['/cart'])
     }
   }
   goOnNotification() {
@@ -324,17 +304,9 @@ activeRoute: any;
       },
     });
 
-    // ADD TO CARD FUNCTIONALITY
-    this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
-
-      this.cartItems = state.cartState;
-    });
     if (this.currentUser?.id) {
       this.getNotification();
-    }
-    if (this.currentUserid) {
-      this.cart();
+      this.getCartItems();
     }
   }
   getCityFromCoordinates(lat: number, lng: number): void {

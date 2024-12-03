@@ -1,84 +1,161 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
+import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
+import { Extension } from '../../helper/common/extension/extension';
 
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.scss'],
-  imports: [MatCheckboxModule, CommonModule, RouterLink, FormsModule],
+  imports: [
+    MatCheckboxModule,
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    CardShimmerComponent,
+  ],
   standalone: true,
 })
-export class ShoppingCartComponent implements OnInit {
-onCheckboxChange() {
-throw new Error('Method not implemented.');
-}
-  quantities = Array.from({ length: 10 }, (_, i) => i + 1); // Generate quantities 1-10
-  checkAll: boolean = false;
-  isManual: boolean = false;
+export class ShoppingCartComponent {
+  onCheckboxChange() {
+    throw new Error('Method not implemented.');
+  }
+  quantities = Array.from({ length: 10 }, (_, i) => i + 1);
   cartItems: any[] = [];
   totalAmount: number = 0;
   totalLength: number = 0;
+  isAllChecked: boolean = false;
+  loading = true;
+  userId;
+  selectedItems: any = [];
 
   constructor(
-    private router: Router,
     private globalStateService: GlobalStateService,
-    private mainService: MainServicesService
-  ) {}
-
-  calculateTotal(): void {
-    this.totalAmount = this.cartItems.reduce(
-      (acc, item) => acc + item.product.fix_price * item.qty,
-      0
-    );
+    private mainService: MainServicesService,
+    private extension: Extension
+  ) {
+    this.userId = extension.getUserId();
+    this.loading = true;
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState;
+      if (this.cartItems.length) {
+        setTimeout(() => {
+          this.loading = false;
+        }, 100);
+      }
+    });
   }
 
-  buyNow(item: any): void {
-    alert(`Purchasing ${item.product.title}`);
+  calculateTotal(): void {
+    this.totalAmount = this.cartItems.reduce((acc, item) => {
+      return item.selected ? acc + item.product.fix_price * item.quantity : acc;
+    }, 0);
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
 
   saveForLater(item: any): void {
-    alert(`${item.product.title} saved for later`);
+    this.cartItems.forEach((prod) => {
+      if (prod.id === item.id) {
+        if (!prod.is_saved) {
+          prod.is_saved = true;
+        } else {
+          prod.is_saved = false;
+        }
+      }
+    });
+
+    this.loading = false;
+    this.mainService
+      .toggleSaveItem({
+        product_id: item.id,
+        user_id: this.userId,
+        is_saved: true,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.cartItems.forEach((prod) => {
+            if (prod.id === item.id) {
+              if (!prod.is_saved) {
+                prod.is_saved = true;
+              } else {
+                prod.is_saved = false;
+              }
+            }
+          });
+        },
+        error: (err) => {
+          this.loading = false;
+        },
+      });
   }
 
   removeItem(item: any): void {
-    this.mainService.removeCartItem({ product_id: item.id }).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
-        this.calculateTotal();
-        this.totalLength = this.cartItems.length;
-        this.globalStateService.updateCart(item, true);
-      },
-      error: (err) => {
-        console.error('Error removing item:', err);
-      },
-    });
-  }
-
-  goToCheckout(): void {
-    this.router.navigate(['/checkout']);
+    this.mainService
+      .removeCartItem({ product_id: item.product.id, user_id: this.userId })
+      .subscribe({
+        next: () => {
+          this.totalLength = this.totalLength - 1;
+          this.globalStateService.updateCart(item.id);
+          this.calculateTotal();
+        },
+        error: (err) => {
+          console.error('Error removing item:', err);
+        },
+      });
   }
 
   toggleSelectAll(): void {
-    this.checkAll = !this.checkAll;
-    this.isManual = false;
-  }
-
-  cartList(): void {
-    this.mainService.getCartProducts().subscribe((state: any) => {
-      this.cartItems = state?.data || [];
-      this.totalLength = this.cartItems.length;
-      this.calculateTotal();
+    this.isAllChecked = !this.isAllChecked;
+    console.log(this.isAllChecked, 'this.isAllChecked');
+    this.cartItems.forEach((item) => {
+      console.log(item, 'items');
+      item.selected = this.isAllChecked;
     });
+    this.isAllChecked
+      ? (this.totalLength = this.cartItems.length)
+      : (this.totalLength = 0);
+    this.calculateTotal();
   }
 
-  ngOnInit(): void {
-    this.cartList();
+  updateSelectAll(prod: any): void {
+    prod.selected = !prod.selected;
+    let allSelected = true;
+    prod.selected
+      ? (this.totalLength = this.totalLength + 1)
+      : (this.totalLength = this.totalLength - 1);
+
+    this.cartItems.forEach((item) => {
+      if (!item.selected) {
+        allSelected = false;
+      }
+    });
+    this.calculateTotal();
+    this.isAllChecked = allSelected;
+  }
+  updateQuantity(item: any) {
+    this.mainService
+      .updateItemQty({
+        product_id: item.product_id,
+        user_id: item.user_id,
+        quantity: Number(item.quantity),
+      })
+      .subscribe({
+        next: (res) => {
+          this.calculateTotal();
+        },
+        error: (err) => {},
+      });
+  }
+  ngOnInit() {
+    setTimeout(() => {
+      if (Array.isArray(this.cartItems) && this.cartItems.length) {
+        this.toggleSelectAll();
+      }
+    }, 2000);
   }
 }
-
-

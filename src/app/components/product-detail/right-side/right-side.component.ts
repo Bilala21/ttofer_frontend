@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../../shared/services/state/global-state.service';
 import { AuthService } from '../../../shared/services/authentication/Auth.service';
@@ -10,41 +18,41 @@ import { MainServicesService } from '../../../shared/services/main-services.serv
 @Component({
   selector: 'app-right-side',
   standalone: true,
-  imports: [RouterLink, NgIf,NgFor,CommonModule],
+  imports: [RouterLink, NgIf, NgFor, CommonModule],
   templateUrl: './right-side.component.html',
-  styleUrl: './right-side.component.scss'
+  styleUrl: './right-side.component.scss',
 })
 export class RightSideComponent {
   @Input() product: any = {};
-  @Input()  parsedAttributes: { [key: string]: string | number } = {};
+  @Input() parsedAttributes: { [key: string]: string | number } = {};
   liveAuction: any[] = [];
   profileImg: any[] = [];
   maxPrice: number = 0;
   calculateRemaningTime!: string;
+  productId: any = null;
 
-
-  constructor(private mainServices:MainServicesService,private router: Router, private globalStateService: GlobalStateService, private toastr: ToastrService, private authService: AuthService,private route:ActivatedRoute,
-    public extension: Extension,
+  loading: boolean = false;
+  currentUserid;
+  @Output() handleWishlist = new EventEmitter<any>();
+  @Output() handleAddToCart = new EventEmitter<any>();
+  constructor(
+    private mainServices: MainServicesService,
+    private router: Router,
+    private globalStateService: GlobalStateService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    public extension: Extension
   ) {
     this.currentUserid = extension.getUserId();
   }
-  productId: any = null
-  
-  
-  loading: boolean = false
-  currentUserid: any;
-  @Output() handleWishlist = new EventEmitter<any>();
-  @Output() handleAddToCart = new EventEmitter<any>();
-  ngAfterViewInit(): void {
-    // Additional initialization logic can go here if needed
-    // this.parseAttributes(); // Ensure parsing occurs after the view is initialized
-  }
-  ngOnInit(){
+
+  ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
-    this.getBid()
+    this.getBid();
   }
   toggleWishlist(item: any) {
-    this.handleWishlist.emit(item)
+    this.handleWishlist.emit(item);
   }
 
   buyProduct(product: any) {
@@ -57,23 +65,38 @@ export class RightSideComponent {
     }
   }
 
-  addToCart(product: any) {
-    const storedData = localStorage.getItem('key');
-
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    }
-    else {
-      console.log("product",product)
-      this.handleAddToCart.emit({...product,quantity:1})
-      this.globalStateService.updateCart(product)
-    }
+  addToCart(item: any) {
+    this.mainServices
+      .adToCartItem({
+        product_id: item.id,
+        user_id: this.currentUserid,
+        quantity: 1,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.warning(res.message, 'success');
+          const payload = {
+            product: {
+              fix_price: item.fix_price,
+              photo: {
+                url: item.photos?.[0].url,
+              },
+              title: item.title,
+            },
+            user_id: item.user_id,
+            product_id: item.id,
+            quantity: 1,
+          };
+          this.globalStateService.updateCart([payload]);
+        },
+        error: (err) => {
+          this.toastr.error(err.message, 'error');
+        },
+      });
   }
 
   handleProductQty(event: any, product: any) {
-    this.globalStateService.updateCart({ ...product, quantity: event.value })
+    this.globalStateService.updateCart({ ...product, quantity: event.value });
   }
 
   contactSeller(product: any, user: any): void {
@@ -98,7 +121,12 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    this.globalStateService.setOfferModal(modal_type,this.currentUserid,this.productId,this.liveAuction.length)
+    this.globalStateService.setOfferModal(
+      modal_type,
+      this.currentUserid,
+      this.productId,
+      this.liveAuction.length
+    );
   }
   getBid() {
     this.loading = true;
@@ -121,5 +149,5 @@ export class RightSideComponent {
       this.loading = false;
     });
   }
-  
 }
+

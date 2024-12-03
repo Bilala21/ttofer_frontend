@@ -37,14 +37,13 @@ import { RightSideComponent } from './right-side/right-side.component';
 export class ProductDetailComponent implements OnInit {
   screenWidth: number;
   screenHeight: number;
-
   productId: any = null;
   product: any = {};
   attributes: any = {};
   currentUser: any = {};
   loading: boolean = false;
   similarLoading: boolean = false;
-  similarProductsData:any = [];
+  similarProductsData: any = [];
   currentUserid: any;
   parsedAttributes: { [key: string]: string | number } = {};
 
@@ -90,8 +89,8 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.product = value.data;
-        this.attributes =value.data.attributes;
-        if(typeof this.attributes === 'string'){
+        this.attributes = value.data.attributes;
+        if (typeof this.attributes === 'string') {
           this.attributes = JSON.parse(value.data.attributes);
         }
         this.parsedAttributes = this.parseAttributes(this.attributes);
@@ -119,7 +118,7 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.similarProductsData = value.data;
-        console.log(this.similarProductsData,"similar product")
+        console.log(this.similarProductsData, 'similar product');
         this.similarLoading = false;
       },
       error: (err) => {
@@ -182,26 +181,6 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  addToCart(product: any) {
-    this.mainServices.adToCartItem({ product_id: product.id ,quantity:product.quantity , price:product.fix_price}).subscribe({
-      next: (res: any) => {
-        this.toastr.warning(res.message, 'success');
-      },
-      error: (err) => {
-        this.toastr.error(err.message,'error');
-      },
-    });
-    // const storedData = localStorage.getItem('key');
-    // if (!storedData) {
-    //   this.toastr.warning('Plz login first than try again !', 'Warning');
-
-    //   this.authService.triggerOpenModal();
-    //   return;
-    // } else {
-    //   this.globalStateService.updateCart(product);
-    // }
-  }
-
   handleProductQty(event: any, product: any) {
     this.globalStateService.updateCart({ ...product, quantity: event.value });
   }
@@ -239,37 +218,35 @@ export class ProductDetailComponent implements OnInit {
   }
   private parseAttributes(value: any): any {
     try {
-      if(typeof value ==='string'){
+      if (typeof value === 'string') {
         let attributes = JSON.parse(value);
         let parsedAttributes: any = {};
         for (const [key, val] of Object.entries(attributes)) {
           if (key.includes('_')) {
             continue;
           }
-  
+
           parsedAttributes[key] =
             typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
         }
         return parsedAttributes;
-      }else if(typeof value !='string'){
+      } else if (typeof value != 'string') {
         let parsedAttributes: any = {};
         for (const [key, val] of Object.entries(value)) {
           if (key.includes('_')) {
             continue;
           }
-  
+
           parsedAttributes[key] =
             typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
         }
         return parsedAttributes;
       }
-     
     } catch (error) {
       return {};
     }
   }
 
-  
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);

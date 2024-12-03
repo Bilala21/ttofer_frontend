@@ -206,7 +206,7 @@
 
       <button (click)="toggleWishlist(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary text-dark-650">
-        <i class="{{product.user_wishlist[0]?.user_id === currentUserid ?'fas':'far'}} fa-heart fs-19"
+        <i class="{{product.user_wishlist?.[0]?.user_id === currentUserid ?'fas':'far'}} fa-heart fs-19"
           aria-hidden="true"></i>
         Add to watchlist
       </button>
