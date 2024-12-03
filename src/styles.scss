@@ -1193,6 +1193,7 @@ button[aria-label="Close"]:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+
 .py-15 {
   padding-top: 15px !important;
   padding-bottom: 15px !important;
@@ -1247,9 +1248,11 @@ button[aria-label="Close"]:focus {
       &:focus {
         outline: none;
       }
-      .p-icon-wrapper{
+
+      .p-icon-wrapper {
         color: #fff;
-        svg{
+
+        svg {
           width: 20px;
           height: 20px;
         }
@@ -1269,14 +1272,22 @@ button[aria-label="Close"]:focus {
   background: #ffae15;
 }
 
-.post-form-container textarea.form-control{
+.post-form-container textarea.form-control {
   height: auto !important;
 }
-.p-overlay.p-component,.p-dropdown-panel.p-component{
+
+.p-overlay.p-component,
+.p-dropdown-panel.p-component {
   padding-left: 0px !important;
 }
-.p-datepicker-calendar{
-  .p-highlight~ .p-hidden-accessible{
+
+.p-datepicker-calendar {
+  .p-highlight~.p-hidden-accessible {
     display: none;
   }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
 }

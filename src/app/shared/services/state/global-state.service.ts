@@ -12,49 +12,49 @@ interface AppState {
   featuredProducts: any[];
   isLoggedInd: boolean;
   wishListItems: number[];
-  currentUser: any
-  temp_token: any
-  isLoggedIn: boolean,
-  cartState: any[],
-  offerModal: string,
-  isFilterActive: boolean,
-  activeCategory: number,
-  currentUserId: null,
-  productId: null,
-  liveBids:null
+  currentUser: any;
+  temp_token: any;
+  isLoggedIn: boolean;
+  cartState: any[];
+  offerModal: string;
+  isFilterActive: boolean;
+  activeCategory: number;
+  currentUserId: null;
+  productId: null;
+  liveBids: null;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GlobalStateService {
   private initialState: AppState = {
-    tab: { index: 1, tabName: "selling" },
+    tab: { index: 1, tabName: 'selling' },
     users: [],
     categories: [],
     isLoggedInd: false,
     wishListItems: [],
     currentUser: {},
     subCategories: [],
-    filteredProducts:{},
-    prodTab: { key: "ProductType", value: "auction" },
-    temp_token: localStorage.getItem("tempToken"),
+    filteredProducts: {},
+    prodTab: { key: 'ProductType', value: 'auction' },
+    temp_token: localStorage.getItem('tempToken'),
     isLoggedIn: false,
     cartState: [],
-    offerModal: "",
+    offerModal: '',
     auctionProducts: [],
     featuredProducts: [],
     currentUserId: null,
     productId: null,
-   liveBids:null,
+    liveBids: null,
     isFilterActive: false,
-    activeCategory:0
+    activeCategory: 0,
   };
   public filterCriteria: any = {
-    location: []
-  }
+    location: [],
+  };
   public productlength: any;
-  public loading: any = true
+  public loading: any = true;
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
@@ -62,46 +62,20 @@ export class GlobalStateService {
   product = this.productSubject.asObservable();
 
   constructor() {
-    const currentUser = JSON.parse(localStorage.getItem("key") || 'null');
+    const currentUser = JSON.parse(localStorage.getItem('key') || 'null');
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, currentUser: currentUser });
   }
 
-  updateCart(data: any, isRemove = false) {
-    let updatedCartState;
+  updateCart(data: any) {
     const currentState = this.stateSubject.value;
-    if (Array.isArray(data)) {
-      updatedCartState = data
-    }
-    else {
-      const existingItem = currentState.cartState.find((item) => item.id === data.id);
-      // console.log(data, "cart state");
-      if (isRemove) {
-        updatedCartState = currentState.cartState.filter(item => item.id !== data.id);
-      }
-      else {
-
-        if (existingItem) {
-          updatedCartState = currentState.cartState.map((item) => {
-            if (item.id === data.id) {
-              return { ...item, quantity: data.quantity };
-            }
-            return item;
-          }).filter(item => item.quantity > 0);
-        }
-        else {
-          // const productInfo = { id: data.id, name: data.title, user_id: data.user_id, description: data.description, fix_price: data.fix_price, image: data.photo[0].src, quantity: 1 }
-          updatedCartState = [...currentState.cartState, data];
-        }
-
-      }
-    }
+    console.log(currentState);
     const newState: any = {
       ...currentState,
-      cartState: updatedCartState,
+      cartState: Array.isArray(data)
+        ? [...data]
+        : currentState.cartState.filter((item) => item.id !== data),
     };
-
-    localStorage.setItem("tempCartItem", JSON.stringify(updatedCartState))
     this.stateSubject.next(newState);
   }
   updateUserState(user: any) {
@@ -112,20 +86,24 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      isFilterActive: value
+      isFilterActive: value,
     };
     this.stateSubject.next(newState);
   }
 
-
-  setOfferModal(modal_type: string,currentUserId?:any,productId?:any,liveBids?:any) {
+  setOfferModal(
+    modal_type: string,
+    currentUserId?: any,
+    productId?: any,
+    liveBids?: any
+  ) {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
       offerModal: modal_type,
-      currentUserId:currentUserId,
-      productId:productId,
-      liveBids:liveBids
+      currentUserId: currentUserId,
+      productId: productId,
+      liveBids: liveBids,
     };
     this.stateSubject.next(newState);
   }
@@ -133,14 +111,14 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      tab: { index, tabName }
+      tab: { index, tabName },
     };
     this.stateSubject.next(newState);
   }
   updateProdTab(key: string, value: string) {
-    // 
+    //
     const newState = {
-      prodTab: { key, value }
+      prodTab: { key, value },
     };
     this.productSubject.next(newState);
   }
@@ -149,14 +127,14 @@ export class GlobalStateService {
     const currentWishList = currentState.wishListItems;
     let newWishList: number[];
     if (currentWishList.includes(id)) {
-      newWishList = currentWishList.filter(itemId => itemId !== id);
+      newWishList = currentWishList.filter((itemId) => itemId !== id);
     } else {
       newWishList = [...currentWishList, id];
     }
 
     const newState = {
       ...currentState,
-      wishListItems: newWishList
+      wishListItems: newWishList,
     };
     this.stateSubject.next(newState);
   }
@@ -165,7 +143,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      filteredProducts: data
+      filteredProducts: data,
     };
     this.stateSubject.next(newState);
   }
@@ -174,7 +152,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      featuredProducts: data
+      featuredProducts: data,
     };
     this.stateSubject.next(newState);
   }
@@ -182,7 +160,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      auctionProducts: data
+      auctionProducts: data,
     };
     this.stateSubject.next(newState);
   }
@@ -191,7 +169,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      categories: data
+      categories: data,
     };
     this.stateSubject.next(newState);
   }
@@ -199,7 +177,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      subCategories: data
+      subCategories: data,
     };
     this.stateSubject.next(newState);
   }
@@ -207,7 +185,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      temp_token: token
+      temp_token: token,
     };
     this.stateSubject.next(newState);
   }
@@ -215,7 +193,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState = {
       ...currentState,
-      isLoggedIn: token
+      isLoggedIn: token,
     };
     this.stateSubject.next(newState);
   }
@@ -238,6 +216,6 @@ export class GlobalStateService {
   setActiveCategory(categoryId: number): void {
     // this.activeCategory = categoryId; // Update the active category
     const currentState = this.stateSubject.value;
-    this.stateSubject.next({ ...currentState, activeCategory :categoryId});
+    this.stateSubject.next({ ...currentState, activeCategory: categoryId });
   }
 }

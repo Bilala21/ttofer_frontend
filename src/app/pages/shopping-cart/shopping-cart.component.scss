@@ -36,7 +36,6 @@
   }
 
 
-
   /* Mobile screens */
   @media (max-width: 767px) {
     .cart-item {
@@ -75,13 +74,13 @@
   background-color: #fafafa;
 
   button {
-    width: 100%;
-    padding: 8px;
-    border-radius: 30px;
-    font-size: 16px;
-    background-color: blue;
-    color: white;
-    border: none;
+    // width: 100%;
+    // padding: 8px;
+    // border-radius: 30px;
+    // font-size: 16px;
+    // background-color: blue;
+    // color: white;
+    // border: none;
   }
 }
 
@@ -93,6 +92,7 @@
   .request_combined {
     font-size: 11px;
   }
+
   .cart-summary {
     width: 100%;
   }
@@ -165,7 +165,8 @@
   min-width: auto;
   line-height: 10px;
 }
-.checkbox{
+
+.checkbox {
   width: 18px;
   height: 18px;
 }
@@ -173,4 +174,8 @@
 .start-spbtn {
   padding: 13px 80px;
   width: fit-content;
+}
+
+.focus-none:focus {
+  box-shadow: none !important;
 }

@@ -1,9 +1,16 @@
 <main class="mt-16">
   <section class="container-fluid pt-4">
+    @if (loading) {
+    <div>
+      <app-card-shimmer />
+    </div>
+    }
+    @else {
     <div *ngIf="!cartItems.length" class="my-5 pb-5">
       <h2 class="fs-24">Shopping Cart</h2>
       <p class="text-center fw-medium fs-20 mb-4 pt-5">You don't have any items in your cart. Let's get shopping!</p>
-      <a routerLink="/" class="fs-20 text-decoration-none bg-yellow-800 text-dark rounded-pill start-spbtn mx-auto d-block mb-5">
+      <a routerLink="/"
+        class="fs-20 text-decoration-none bg-yellow-800 text-dark rounded-pill start-spbtn mx-auto d-block mb-5">
         Start shopping
       </a>
     </div>
@@ -11,7 +18,7 @@
     <div *ngIf="cartItems.length">
       <h2 class="pb-3 fs-24">Shopping Cart</h2>
       <div class="d-flex align-items-center mb-4">
-        <input type="checkbox" [(ngModel)]="checkAll" (change)="toggleSelectAll()" />
+        <input type="checkbox" (change)="toggleSelectAll()" [checked]="isAllChecked" />
         <span class="ml-1 fs-14">Select All</span>
       </div>
 
@@ -22,12 +29,8 @@
             <div class="item-details w-100">
               <div class="item-header d-flex justify-content-between">
                 <div class="d-flex">
-                  <img
-                    *ngIf="item.product?.image_path?.src"
-                    [src]="item.product.image_path.src"
-                    alt="Product Image"
-                    class="seller-image"
-                  />
+                  <img *ngIf="item.product.photo.url" [src]="item.product.photo.url" alt="Product Image"
+                    class="seller-image" />
                   <div>
                     <span class="product-title d-block">{{ item.product.title }}</span>
                     <span class="text-yellow-800 d-block">★★★★★</span>
@@ -36,20 +39,24 @@
               </div>
 
               <div class="d-flex justify-content-between mt-3">
-                <input type="checkbox" [(ngModel)]="item.selected" />
+                <input type="checkbox" [checked]="item.selected" (change)="updateSelectAll(item);" />
                 <div>
                   <label for="" class="mr-1">Qty</label>
-                  <select [(ngModel)]="item.qty" (change)="calculateTotal()">
+                  <select [(ngModel)]="item.quantity" (change)="updateQuantity(item)"
+                    [ngClass]="item.selected?'':'disabled'">
                     <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
                   </select>
                 </div>
-                <span>{{ item.product.fix_price | currency: 'AED' }}</span>
+                <span>{{ item.product.fix_price | currency: 'AED ' }}</span>
               </div>
 
               <div class="text-right w-100">
-                <button (click)="buyNow(item)" class="btn" >Buy Now</button>
-                <button (click)="saveForLater(item)" class="btn">Save for Later</button>
-                <button (click)="removeItem(item)" class="btn">Remove</button>
+                <a [routerLink]="['/']" routerLinkActive="router-link-active " class="text-decoration-none text-dark">
+                  Buy Now
+                </a>
+                <button (click)="saveForLater(item)" class="btn focus-none">{{item?.is_saved ? 'Remove saved itme':
+                  'Save for Later'}}</button>
+                <button (click)="removeItem(item)" class="btn text-danger focus-none">Remove</button>
               </div>
             </div>
           </div>
@@ -62,13 +69,18 @@
             <span>AED {{ totalAmount }}</span>
           </div>
           <hr />
-          <div class="d-flex justify-content-between mb-3">
-            <span class="fs-20">Subtotal:</span>
-            <span class="fs-20">AED {{ totalAmount }}</span>
+          <div class="d-flex justify-content-between mb-3 fs-20 fw-semibold">
+            <span>Subtotal:</span>
+            <span>AED {{ totalAmount }}</span>
           </div>
-          <button mat-raised-button color="primary" (click)="goToCheckout()">Go to Checkout</button>
+          <a [routerLink]="['/checkout']" routerLinkActive="router-link-active">
+            <button class="btn-yellow w-100 btn-yellow btn rounded-pill py-10" [ngClass]="totalAmount?'':'disabled'">Go
+              to
+              Checkout</button>
+          </a>
         </div>
       </div>
     </div>
+    }
   </section>
 </main>
