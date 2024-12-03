@@ -133,6 +133,7 @@ export class ProductDetailComponent implements OnInit {
     this.loading = true;
     this.fetchData(this.productId);
     this.fetchSimilarProducts(this.productId)
+    this.productView()
   }
 
   productView() {

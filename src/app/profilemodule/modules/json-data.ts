@@ -54,7 +54,7 @@ export const attributes:any={
     },
     {
       "label": "Condition",
-      "type": "select",
+      "type":"select",
       "model": "condition",
       "options":[
           { "id": "new", "name": "New" },

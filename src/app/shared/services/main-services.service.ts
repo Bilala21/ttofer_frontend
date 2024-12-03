@@ -287,7 +287,13 @@ export class MainServicesService {
       })
       .pipe();
   }
-
+deleteProduct(product_id:any){
+  const productid={
+    product_id:product_id
+  }
+  return this.http
+  .post(`${Constants.baseApi}` + '/delete-product', productid)
+  .pipe();}
   getCategories(data: any = {}): Observable<any[]> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/categories', data);
   }

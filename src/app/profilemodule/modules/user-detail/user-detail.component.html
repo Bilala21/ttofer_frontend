@@ -8,12 +8,13 @@
             <input type="file" class="d-none" id="file">
         </div>
         <div class="pl-3">
-            <div class="fw-semibold pb-2">Numan Khan</div>
+            <div class="fw-semibold pb-2"> {{ currentUserProfile.name }}</div>
             <div class="fs-14 text-capitalize">
-                Joined: <span> Nov 22, 2024</span>
+                Joined: <span> {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') :
+                    'N/A' }}</span>
             </div>
             <div class="fs-14 text-capitalize">
-                Address: <span>N/A</span>
+                Address: <span> {{ currentUserProfile.location || "N/A" }}</span>
             </div>
         </div>
     </div>

@@ -1007,7 +1007,7 @@ export class ProfilePageComponent {
         field.model,
         this.fb.control('', Validators.required)
       );
-    });
+    }); 
     if (this.categoryFields[this.selectedCategorySlug]) {
       this.categoryFields[this.selectedCategorySlug].forEach((field: any) => {
         if (field.type === 'select' && field.options.length > 0) {

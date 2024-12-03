@@ -13,33 +13,50 @@
 
         <!-- listing -->
 
-        <div *ngIf="data?.data?.length && !loading">
-            <div class="card-container py-3" style="cursor: pointer;" tabindex="0" *ngFor="let post of data?.data">
+        <div *ngIf="data?.length && !loading">
+            <div class="card-container py-3" style="cursor: pointer;" tabindex="0" *ngFor="let post of this.data">
                 <div class="z-0 position-relative"
                     style="width: 115px; height: 115px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
                     <img alt="Item Image" loading="lazy" class="w-100 h-100" style="border-radius: 10px;"
-                        src="assets/images/default-img.jpg">
+                    src="{{
+                        post.photos && post.photos.length > 0
+                          ? post.photos[0].url
+                          : 'assets/images/default-img.jpg'
+                      }}">
                     <div
                         class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
-                        AED 4,000 </div>
+                        {{
+                            formatPrice(
+                            post?.auction_initial_price
+                            ? post?.auction_initial_price
+                            : post.fix_price
+                            )
+                            }} </div>
                 </div>
                 <div class="ml-3 flex-grow-1 custom-margin-left">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="card-title">{{post.title}}</span>
-                        <span class="view-count">0 Views</span>
+                        <span class="view-count">{{ post.views.total_views || 0 }} Views</span>
                     </div>
                     <div class="d-flex justify-content-start align-items-center">
                         <div class="avatars d-flex">
-                            <img src="/assets/images/profile-placeholder.png" alt="User 1">
-                            <img src="/assets/images/profile-placeholder.png" alt="User 2">
-                            <img src="/assets/images/profile-placeholder.png" alt="User 3">
-                            <img src="/assets/images/profile-placeholder.png" alt="User 4">
+                            <img *ngFor="let avatar of post.views.users" [src]="avatar?.user?.img ?avatar?.user?.img:'/assets/images/profile-placeholder.png'" [alt]="avatar.alt">
                         </div>
                     </div>
+                    
                     <div class="action-text">
                         Sell faster
                         <span>|</span>
                         <span class="mark-as-sold" style="cursor: pointer;">Mark as sold</span>
+                        <span>|</span>
+                        <a class="text-decoration-none text-dark fw-semibold ml-2" [routerLink]="['/profile//add-post']" [queryParams]="{ id: post.id }">
+                            <i class="bi bi-pencil-fill me-1"></i> Edit
+                        </a>
+                        <span>|</span>
+
+                        <button class="delete-icon btn border-0" (click)="openDialog(post.id)">
+                            <i class="bi bi-trash-fill me-1"></i> Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -49,7 +66,7 @@
         <div *ngIf="loading"><app-shimmer-design /></div>
         <!-- not found component -->
         <div class="mt-4">
-            <app-notfound [data]="notfoundData" *ngIf="!data?.data?.length && !loading" />
+            <app-notfound [data]="notfoundData" *ngIf="!data?.length && !loading" />
         </div>
     </div>
 </section>

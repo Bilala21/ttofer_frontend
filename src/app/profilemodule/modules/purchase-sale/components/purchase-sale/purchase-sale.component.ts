@@ -5,8 +5,12 @@ import { NotfoundComponent } from '../notfound/notfound.component';
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Extension } from '../../../../../helper/common/extension/extension';
+import { response } from 'express';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteProductDialogComponent } from '../delete-product-dialog/delete-product-dialog-component';
 
 @Component({
   selector: 'app-purchase-sale',
@@ -16,7 +20,7 @@ import { Extension } from '../../../../../helper/common/extension/extension';
     NotfoundComponent,
     NotfoundComponent,
     NgIf,
-    NgFor,
+    NgFor,RouterLink,
     ShimmerDesignComponent,
   ],
   templateUrl: './purchase-sale.component.html',
@@ -32,11 +36,11 @@ export class PurchaseSaleComponent implements OnInit {
   notfoundData = notFoundData['buying'];
   loading: boolean = false;
   userId;
-  constructor(
+  constructor(private toastr:ToastrService,
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
     private route: ActivatedRoute,
-    private extension: Extension
+    private extension: Extension,private dialog:MatDialog
   ) {
     this.userId = this.extension.getUserId();
   }
@@ -56,7 +60,8 @@ export class PurchaseSaleComponent implements OnInit {
     this.loading = true;
     this.mainServices.getSelling(tab, this.userId).subscribe({
       next: (res: any) => {
-        this.data = res.data;
+        debugger
+        this.data = res.data?.data;
         this.loading = false;
         console.log(res.data);
       },
@@ -82,5 +87,30 @@ export class PurchaseSaleComponent implements OnInit {
     } else {
       this.fecthData('buying');
     }
+  }
+deleteProduct(product_id:any){
+this.mainServices.deleteProduct(product_id).subscribe({
+  next:(response:any)=>{
+    if(response.status){
+      this.data = this.data.filter((item: any) => item.id !== product_id);
+      console.log(this.data)
+      this.toastr.success(response.message,'Success');
+    }
+  }
+})
+  }
+  openDialog(id:any): void {
+    const dialogRef = this.dialog.open(DeleteProductDialogComponent, {
+      height: '322px',
+      data: id,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result)
+       this.deleteProduct(result)
+       
+      }
+    });
   }
 }
