@@ -18,7 +18,7 @@
                 class="btn rounded-pill shadow bg-white p-2 wishlist rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
                 aria-label="Add to Wishlist">
                 <span class="pr-2">12</span>
-                <i class="{{product.user_wishlist[0]?.user_id === currentUserid ? 'fas': 'far'}} fa-heart fs-19"
+                <i class="{{product.user_wishlist?.[0]?.user_id === currentUserid ? 'fas': 'far'}} fa-heart fs-19"
                   aria-hidden="true"></i>
               </button>
             </div>
@@ -62,11 +62,10 @@
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
                         aria-hidden="true" class="fa-heart far fs-19"></i></button>
-                        <img src={{item?.photos[0]?.url}} alt="image"
-                      class="img-fluid h-100 rounded-2">
+                    <img src={{item?.photos?.[0]?.url}} alt="image" class="img-fluid h-100 rounded-2">
                   </div>
                   <a [routerLink]="['/product-detail', item?.id, item?.slug]" class="text-left text-dark-650">
-                   {{item?.description.slice(0,20)}}
+                    {{item?.description.slice(0,20)}}
                   </a>
                   <div class="text-gray-300">
                     New (Other)
@@ -78,7 +77,8 @@
           </div>
           <!-- endsimilar products -->
         </div>
-        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes" (handleWishlist)="toggleWishlist($event)" (handleAddToCart)="addToCart($event)" />
+        <app-right-side *ngIf="screenWidth > 768" [product]="product" [parsedAttributes]="parsedAttributes"
+          (handleWishlist)="toggleWishlist($event)" />
       </div>
 
       <!-- more detail about product -->

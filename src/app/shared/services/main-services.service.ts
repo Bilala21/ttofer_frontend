@@ -85,7 +85,9 @@ export class MainServicesService {
       .pipe();
   }
   getPlacedBids(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/get-product-bids', input).pipe();
+    return this.http
+      .post(`${Constants.baseApi}` + '/get-product-bids', input)
+      .pipe();
   }
   makeOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
@@ -261,13 +263,11 @@ export class MainServicesService {
 
   updateUserAccount(input: any): any {
     console.log({ input });
-    return this.http.post<any>(
-      `${Constants.baseApi}/profile/update`, 
-      input, 
-      { headers: this.getHeaders() }
-    );
+    return this.http.post<any>(`${Constants.baseApi}/profile/update`, input, {
+      headers: this.getHeaders(),
+    });
   }
-  
+
   forgetPasswordNumber(input: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/forgot-password-phone', input)
@@ -320,7 +320,10 @@ deleteProduct(product_id:any){
     );
   }
   getSimilarProduct(data: any = {}): Observable<any> {
-    return this.http.post<any[]>(`${Constants.baseApi}` + '/products/similar', data);
+    return this.http.post<any[]>(
+      `${Constants.baseApi}` + '/products/similar',
+      data
+    );
   }
   storeProductView(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/products/view', data);
@@ -333,6 +336,9 @@ deleteProduct(product_id:any){
   }
   removeCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
+  }
+  updateItemQty(data: any) {
+    return this.http.post(`${Constants.baseApi}` + '/cart/update', data);
   }
   otpVerify(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/otp-verify', data);
@@ -348,5 +354,8 @@ deleteProduct(product_id:any){
   // }
   getAttributes(): Observable<any> {
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
+  }
+  toggleSaveItem(data: any) {
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
   }
 }
