@@ -179,7 +179,7 @@
 
   <div class="fs-14 " *ngIf="product.product_type !=='auction'">
     <span class="fw-normal">Quantity</span>
-    <input type="number" value="1" class="mx-2 qty-input rounded-2 border-1 px-2"
+    <input type="number" value="1" min="1" max="5" class="mx-2 qty-input rounded-2 border-1 px-2"
       (change)="handleProductQty($event.target,product)" />
     <span class="text-slate-300 fw-normal">6 available</span>
     <span class="text-slate-300 ml-2 fw-normal">3 sold</span>

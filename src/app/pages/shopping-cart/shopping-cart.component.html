@@ -18,7 +18,7 @@
     <div *ngIf="cartItems.length">
       <h2 class="pb-3 fs-24">Shopping Cart</h2>
       <div class="d-flex align-items-center mb-4">
-        <input type="checkbox" (change)="toggleSelectAll()" [checked]="isAllChecked" />
+        <input type="checkbox" class="all-select" (change)="toggleSelectAll()" [checked]="isAllChecked" />
         <span class="ml-1 fs-14">Select All</span>
       </div>
 
@@ -27,13 +27,22 @@
         <div class="flex-grow-1 pr-md-3">
           <div *ngFor="let item of cartItems" class="cart-item mb-3">
             <div class="item-details w-100">
-              <div class="item-header d-flex justify-content-between">
+
+              <div class="d-flex item-header justify-content-start">
+                <img [src]="item.seller.url?item.seller.url:'assets/images/profile-icon.svg'" alt="seller image" class="seller-image {{item.seller.url?'':'border-1'}}" />
+                <div>
+                  <span class="product-title d-block">{{ item.seller.name }}</span>
+                  <span class="text-yellow-800 d-block">★★★★★</span>
+                </div>
+              </div>
+
+              <div class="item-header d-flex justify-content-between mt-4">
                 <div class="d-flex">
-                  <img *ngIf="item.product.photo.url" [src]="item.product.photo.url" alt="Product Image"
-                    class="seller-image" />
-                  <div>
-                    <span class="product-title d-block">{{ item.product.title }}</span>
-                    <span class="text-yellow-800 d-block">★★★★★</span>
+                  <div class="product-image">
+                    <img [src]="item.product.url" alt="seller image" class="max-h-100 max-w-100 rounded-0" />
+                  </div>
+                  <div class="ml-3">
+                    <span class="product-title d-block">{{ item.product.name }}</span>
                   </div>
                 </div>
               </div>
@@ -42,7 +51,7 @@
                 <input type="checkbox" [checked]="item.selected" (change)="updateSelectAll(item);" />
                 <div>
                   <label for="" class="mr-1">Qty</label>
-                  <select [(ngModel)]="item.quantity" (change)="updateQuantity(item)"
+                  <select [(ngModel)]="item.product.quantity" (change)="updateQuantity(item)"
                     [ngClass]="item.selected?'':'disabled'">
                     <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
                   </select>
@@ -73,7 +82,7 @@
             <span>Subtotal:</span>
             <span>AED {{ totalAmount }}</span>
           </div>
-          <a [routerLink]="['/checkout']" routerLinkActive="router-link-active"  [ngClass]="totalAmount?'':'disabled'">
+          <a [routerLink]="['/checkout']" routerLinkActive="router-link-active" [ngClass]="totalAmount?'':'disabled'">
             <button class="btn-yellow w-100 btn-yellow btn rounded-pill py-10">Go
               to
               Checkout</button>

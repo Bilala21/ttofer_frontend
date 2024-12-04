@@ -74,7 +74,7 @@ export class RightSideComponent {
       })
       .subscribe({
         next: (res: any) => {
-          this.toastr.warning(res.message, 'success');
+          this.toastr.success(res.message, 'success');
           const payload = {
             product: {
               fix_price: item.fix_price,
@@ -90,7 +90,9 @@ export class RightSideComponent {
           this.globalStateService.updateCart([payload]);
         },
         error: (err) => {
-          this.toastr.error(err.message, 'error');
+          if (err.error.code == 422) {
+            this.toastr.error('This product is already in your cart', 'error');
+          }
         },
       });
   }
@@ -150,4 +152,3 @@ export class RightSideComponent {
     });
   }
 }
-
