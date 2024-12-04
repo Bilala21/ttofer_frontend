@@ -27,7 +27,7 @@ declare var bootstrap: any;
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.scss',
   imports: [
-    NgFor,RouterLink,
+    NgFor,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -89,8 +89,10 @@ export class ChatBoxComponent {
     this.selectedTab = tab;
     if (this.selectedTab === 'buying') {
       this.selectedUserId = null;
+      
       this.chatBox = this.allChat?.buyer_chats;
       this.conversationBox = [];
+
       this.suggestions = this.buyerSuggestions;
     } else {
       this.selectedUserId = null;
@@ -219,15 +221,26 @@ export class ChatBoxComponent {
       this.selectedUser = this.userDetail;
     }
   }
-  getAllChatsOfUser = () => {
-    this.mainServices
-      .getAllChatsOfUser(this.currentUserid)
-      .subscribe((res: any) => {
-        // 
-        this.allChat = res.data;
-        this.selectTab(this.selectedTab);
-      });
+  getAllChatsOfUser = (conversation_id?: any) => {
+    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
+      this.allChat = res.data;
+      this.selectTab(this.selectedTab);
+      if (this.productDetail && this.userDetail) {
+        const matchedChat = this.allChat.buyer_chats.find(
+          (chat: any) => chat.conversation_id === conversation_id
+        );
+          if (matchedChat) {
+            this.productDetail=null
+            this.userDetail=null
+            sessionStorage.removeItem('productData');
+            sessionStorage.removeItem('userData');
+          this.getConversation(matchedChat);
+
+        } 
+      }
+    });
   };
+  
   getTimeDifference(updatedAt: string): string {
     const updatedAtDate = new Date(updatedAt);
     const currentTime = new Date();
@@ -260,7 +273,7 @@ export class ChatBoxComponent {
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;
-   
+
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
     this.userlocation = otherUser.location;
@@ -285,7 +298,7 @@ export class ChatBoxComponent {
         this.selectedUser=res
         this.productPrice = this.selectedConversation.data.conversation[0].product?.fix_price
         ?  this.selectedConversation.data.conversation[0].product?.fix_price
-        :  this.selectedConversation.data.conversation[0].auction_starting_price;
+        :  this.selectedConversation.data.conversation[0].auction_initial_price;
         this.markMessagesAsRead(data.conversation_id);
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
@@ -400,10 +413,14 @@ deleteMessage(message: any, index: number): void {
         }
         return response.json();
       })
-      .then((res) => {
+      .then((res:any) => {
         this.message = '';
         this.selectedImages = []; // Clear selected images after sending
         this.imagePreviews=[]
+        if(this.productDetail&&this.userDetail){
+          debugger
+          this.getAllChatsOfUser(res.data.Message[0].conversation_id)
+         }
         const newMessage = {
           ...res.data.Message[0],
           sender_image:
@@ -416,13 +433,16 @@ deleteMessage(message: any, index: number): void {
               : this.selectedConversation.data.Participant2.img,
           formattedTime: this.formatMessageTime(new Date().toISOString()),
         };
-  
+   
         this.conversationBox.push(newMessage);
         this.cd.detectChanges();
       })
       .catch((error) => {
+        this.selectedImages = []; // Clear selected images after sending
+        this.imagePreviews=[]
         console.error('There was a problem with the fetch operation:', error);
-      });
+      }
+    );
   }
   
   
@@ -454,13 +474,7 @@ deleteMessage(message: any, index: number): void {
   }
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
-  sendMessage(message: string): void {
-    if (message.trim() || this.selectedFile) {
-      console.log('Message:', message);
-      console.log('Selected File:', this.selectedFile);
-      this.clearMessage();
-    }
-  }
+
   clearMessage(): void {
     this.selectedFile = null;
     this.previewUrl = null;

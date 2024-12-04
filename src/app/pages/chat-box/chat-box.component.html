@@ -99,10 +99,10 @@
       </div>
       <div class="chat right-side flex-grow-1 {{isSmallScrenn?'':'xs-d-none'}}">
         <div class="tabs-container">
-          <div class="tab" [ngClass]="{ active: selectedTab === 'buying' }" (click)="selectTab('buying')">
+          <div class="tab" [ngClass]="selectedTab === 'buying'?'bg-yellow-800':'' " (click)="selectTab('buying')">
             Buying
           </div>
-          <div class="tab" [ngClass]="{ active: selectedTab === 'selling' }" (click)="selectTab('selling')">
+          <div class="tab" [ngClass]="selectedTab === 'selling'?'bg-yellow-800':'' " (click)="selectTab('selling')">
             Selling
           </div>
         </div>

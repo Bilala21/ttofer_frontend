@@ -336,8 +336,8 @@ deleteProduct(product_id:any){
   adToCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/add', data);
   }
-  getCartProducts() {
-    return this.http.get(`${Constants.baseApi}` + '/cart');
+  getCartProducts(id:number) {
+    return this.http.get(`${Constants.baseApi}` + '/cart/'+id);
   }
   removeCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
