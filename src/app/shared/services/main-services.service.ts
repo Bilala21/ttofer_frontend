@@ -97,17 +97,22 @@ export class MainServicesService {
   }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(
-      `${Constants.baseApi}` + `/user/${{ currentUserid }}/chats`
+      `${Constants.baseApi}` + `/user/${ currentUserid }/chats`
     );
   }
   getConversation(conversation_id: number) {
     return this.http
-      .get(`${Constants.baseApi}` + '/get/conversation/' + conversation_id)
+      .get(`${Constants.baseApi}` + '/conversation/' + conversation_id)
       .pipe();
   }
   deleteConversation(conversation_id: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/delete/conversation/' + conversation_id)
+      .get(`${Constants.baseApi}` + '/conversation/delete/' + conversation_id)
+      .pipe();
+  }
+  deleteMessage(message_id: any) {
+    return this.http
+      .get(`${Constants.baseApi}` + '/message/delete/' + message_id)
       .pipe();
   }
   sendMsg(input: any) {
@@ -118,7 +123,7 @@ export class MainServicesService {
   markMessagesAsRead(conversation_id: any) {
     return this.http
       .get(
-        `${Constants.baseApi}` + '/mark/conversation/read/' + conversation_id
+        `${Constants.baseApi}` + '/conversation/mark-as-read/' + conversation_id
       )
       .pipe();
   }
