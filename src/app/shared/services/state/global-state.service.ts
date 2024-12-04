@@ -77,7 +77,7 @@ export class GlobalStateService {
       ...currentState,
       cartState: Array.isArray(data)
         ? [...data]
-        : currentState.cartState.filter((item) => item.id !== data),
+        : currentState.cartState.filter((item) => item.product.id !== data),
     };
     this.stateSubject.next(newState);
   }

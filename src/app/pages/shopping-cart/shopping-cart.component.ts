@@ -33,11 +33,12 @@ export class ShoppingCartComponent {
   loading = true;
   userId;
   selectedItems: any = [];
+  isCartRoute: boolean = false;
 
   constructor(
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
-    private extension: Extension
+    private extension: Extension,
   ) {
     this.userId = extension.getUserId();
     this.loading = true;
@@ -53,7 +54,9 @@ export class ShoppingCartComponent {
 
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
-      return item.selected ? acc + item.product.fix_price * item.quantity : acc;
+      return item.selected
+        ? acc + item.product.fix_price * item.product.quantity
+        : acc;
     }, 0);
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
@@ -96,11 +99,11 @@ export class ShoppingCartComponent {
 
   removeItem(item: any): void {
     this.mainService
-      .removeCartItem({ product_id: item.product.id, user_id: this.userId })
+      .removeCartItem({ product_id: item.product.id, user_id:item.user.id })
       .subscribe({
         next: () => {
           this.totalLength = this.totalLength - 1;
-          this.globalStateService.updateCart(item.id);
+          this.globalStateService.updateCart(item.product.id);
           this.calculateTotal();
         },
         error: (err) => {
@@ -111,9 +114,7 @@ export class ShoppingCartComponent {
 
   toggleSelectAll(): void {
     this.isAllChecked = !this.isAllChecked;
-    console.log(this.isAllChecked, 'this.isAllChecked');
     this.cartItems.forEach((item) => {
-      console.log(item, 'items');
       item.selected = this.isAllChecked;
     });
     this.isAllChecked
@@ -138,15 +139,18 @@ export class ShoppingCartComponent {
     this.isAllChecked = allSelected;
   }
   updateQuantity(item: any) {
+
     this.mainService
       .updateItemQty({
-        product_id: item.product_id,
-        user_id: item.user_id,
-        quantity: Number(item.quantity),
+        product_id: item.product.id,
+        user_id: item.user.id,
+        quantity: Number(item.product.quantity),
       })
       .subscribe({
-        next: (res) => {
-          this.calculateTotal();
+        next: (res: any) => {
+          if (res.status) {
+            this.calculateTotal();
+          }
         },
         error: (err) => {},
       });

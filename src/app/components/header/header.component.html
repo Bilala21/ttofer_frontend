@@ -23,15 +23,6 @@
                                 (click)="navigateToSearch()">
                                 <!-- search-icon -->
                                 <i class="fas fa-search fs-20"></i>
-                                <!-- <svg (click)="navigateToSearch()" stroke="currentColor" class="fs-22"
-                                    fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path (click)="navigateToSearch()" fill="none" stroke-miterlimit="10" stroke-width="32"
-                                        d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
-                                    </path>
-                                    <path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"
-                                        d="M338.29 338.29 448 448"></path>
-                                </svg> -->
                             </button>
                             <ul *ngIf="searchTerm && !isSearched"
                                 class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
@@ -168,7 +159,7 @@
                             </svg>
                             <span class="badge" *ngIf="cartItems?.length">{{cartItems?.length }}</span>
                             <!-- Dropdown Cart Items -->
-                            <div class="cart-dropdown overflow-auto">
+                            <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
                                 <div *ngIf="cartItems?.length == 0" class="d-flex justify-content-center p-3">
                                     <span>No Cart Item</span>
                                 </div>
@@ -177,12 +168,12 @@
                                     <p>Items you've selected</p>
                                     <div class="main-cart-items">
                                         <div *ngFor="let item of (cartItems.slice(0,2))" class="cart-item">
-                                            <img [src]="item.product.photo.url" alt="{{ item.title }}" class="cart-item-image">
+                                            <img [src]="item.product.url" alt="{{ item.product.name }}" class="cart-item-image">
                                             <div class="cart-item-details">
-                                                <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
+                                                <p>{{ item.product.name?.slice(1,25) + '...' }}</p>
                                                 <div class="d-flex justify-content-between">
                                                     <span>{{ item.product.fix_price | currency:'AED':'symbol':'1.2-2' }}</span>
-                                                    <span>Qty {{item.quantity}}</span>
+                                                    <span>Qty {{item.product.quantity}}</span>
 
                                                 </div>
                                             </div>

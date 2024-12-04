@@ -1,11 +1,11 @@
 import { CommonModule, DOCUMENT, NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import {
-  Component,
-  OnInit,
-  HostListener,
-  Inject,
-} from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
@@ -60,7 +60,8 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss:any[] =[]
   private searchSubject: Subject<string> = new Subject<string>();
   suggestions: any = [];
-activeRoute: any;
+  activeRoute: any;
+  isHideCart: boolean = false;
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -69,6 +70,7 @@ activeRoute: any;
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
+    private activatedRoute: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document
   ) {
  this.sideBarItemss = sideBarItems
@@ -109,6 +111,14 @@ activeRoute: any;
         name: 'Mobile',
       },
     ];
+    this.router.events.subscribe(() => {
+      const privateRoute = ['/cart', '/checkout'];
+      if (!privateRoute.includes(this.router.url)) {
+        this.isHideCart = false;
+      } else {
+        this.isHideCart = true;
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -211,10 +221,9 @@ activeRoute: any;
       this.authService.triggerOpenModal();
       return;
     } else {
-      this.mainServicesService.getCartProducts().subscribe({
+      this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
-          console.log(value.data);
           this.cartItems = value.data;
         },
         error: (err) => {
@@ -238,21 +247,21 @@ activeRoute: any;
     }
   }
   getNotification() {
-    this.loading = true;
-    this.mainServicesService
-      .getNotification(this.currentUser?.id, 'all')
-      .subscribe((res: any) => {
-        this.notificationList = res.data;
-        this.notificationList = res.data.sort((a: any, b: any) => {
-          return (
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-          );
-        });
-        this.unReadNotification = this.notificationList.filter(
-          (item: any) => item.status == 'unread'
-        );
-        this.loading = false;
-      });
+    // this.loading = true;
+    // this.mainServicesService
+    //   .getNotification(this.currentUser?.id, 'all')
+    //   .subscribe((res: any) => {
+    //     this.notificationList = res.data;
+    //     this.notificationList = res.data.sort((a: any, b: any) => {
+    //       return (
+    //         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    //       );
+    //     });
+    //     this.unReadNotification = this.notificationList.filter(
+    //       (item: any) => item.status == 'unread'
+    //     );
+    //     this.loading = false;
+    //   });
   }
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
