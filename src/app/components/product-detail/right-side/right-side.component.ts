@@ -75,19 +75,14 @@ export class RightSideComponent {
       .subscribe({
         next: (res: any) => {
           this.toastr.success(res.message, 'success');
-          const payload = {
-            product: {
-              fix_price: item.fix_price,
-              photo: {
-                url: item.photos?.[0].url,
-              },
-              title: item.title,
+          this.mainServices.getCartProducts(this.currentUserid).subscribe({
+            next: (value: any) => {
+              this.globalStateService.updateCart(value.data);
             },
-            user_id: item.user_id,
-            product_id: item.id,
-            quantity: 1,
-          };
-          this.globalStateService.updateCart([payload]);
+            error: (err) => {
+              console.log(err);
+            },
+          });
         },
         error: (err) => {
           if (err.error.code == 422) {
