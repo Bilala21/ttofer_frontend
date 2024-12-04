@@ -87,6 +87,7 @@
           height: 15px;
         }
       }
+      
     }
 
     .message-input {
@@ -220,4 +221,95 @@
     display: none;
   }
   
+}
+.message-input {
+  position: relative;
+}
+
+.image-preview-container {
+  position: absolute;
+  bottom: 60px; /* Adjust based on input height */
+  left: 10px; /* Adjust to align with the paperclip icon */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 250px;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+.preview-content button {
+  height: fit-content;
+}
+
+.preview-tail {
+  position: absolute;
+  bottom: -10px; /* Place the tail under the container */
+  left: 20px; /* Adjust to point at the paperclip icon */
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  transform: rotate(45deg);
+  z-index: -1; /* Ensure it appears behind the container */
+}
+.image-preview-container {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.preview-content .main-preview {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.thumbnail-container {
+  display: flex;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.thumbnail-wrapper {
+  cursor: pointer;
+}
+
+.thumbnail-wrapper.selected img {
+  border: 2px solid #25d366;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+::ng-deep .chat-image {
+  max-width: 200px !important;
+  max-height: 200px !important;
+  border-radius: 10px !important;
+  margin-top: 5px !important;
+  display: block !important;
+}
+.image-message {
+  width: 480px;
+  height: 480px;
+  background-color: #25d366;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Aligns the image to the right for sent messages */
 }

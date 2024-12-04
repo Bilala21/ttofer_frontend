@@ -10,7 +10,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router, RouterLink } from '@angular/router';
 import {
   catchError,
   filter,
@@ -19,6 +19,7 @@ import {
   tap,
 } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Constants } from '../../../../public/constants/constants';
 declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
@@ -34,8 +35,12 @@ declare var bootstrap: any;
 })
 export class ChatBoxComponent {
   productImage: any;
+  imagePreviews: string[] = [];
+  selectedImageIndex: number = 0;
+  imagePreview: string | null = null;
   replierImage: any;
   senderImage: any;
+  selectedImages:any
   offerDetails: any;
   allChat: any;
   offerStatus: number | null = null;
@@ -47,12 +52,12 @@ export class ChatBoxComponent {
   meassages: any = { sender: [], reciever: [] };
   selectedConversation: any = [];
   conversationBox: any = [];
-  currentUserid: number = 0;
+  currentUserid: any;
   message: any;
-  productId: number = 0;
-  sellerId: number = 0;
-  buyerId: number = 0;
-  offerId: number = 0;
+  productId: any
+  sellerId: any ;
+  buyerId: any;
+  offerId: any;
   productDetail: any;
   searchQuery: string = '';
   productPrice: any;
@@ -63,6 +68,7 @@ export class ChatBoxComponent {
   isSmallScrenn: boolean = false
   screenWidth: number;
   constructor(
+
     private toastr: ToastrService,
     private mainServices: MainServicesService,
     private extension: Extension,
@@ -70,6 +76,7 @@ export class ChatBoxComponent {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {
+    debugger
     this.currentUserid = extension.getUserId();
     this.getAllChatsOfUser();
     this.screenWidth = window.innerWidth;
@@ -82,8 +89,10 @@ export class ChatBoxComponent {
     this.selectedTab = tab;
     if (this.selectedTab === 'buying') {
       this.selectedUserId = null;
+      
       this.chatBox = this.allChat?.buyer_chats;
       this.conversationBox = [];
+
       this.suggestions = this.buyerSuggestions;
     } else {
       this.selectedUserId = null;
@@ -196,12 +205,14 @@ export class ChatBoxComponent {
     const productData = sessionStorage.getItem('productData');
     const userData = sessionStorage.getItem('userData');
     if (productData && userData) {
+      debugger
       this.productDetail = JSON.parse(productData);
       this.productId = this.productDetail.id;
-      this.productImage = this.productDetail?.photo[0]?.src;
+      debugger
+      this.productImage = this.productDetail?.photos[0]?.url;
       this.productPrice = this.productDetail.fix_price
         ? this.productDetail.fix_price
-        : this.productDetail.auction_price;
+        : this.productDetail.auction_initial_price;
       this.userDetail = JSON.parse(userData);
       this.userImage = this.userDetail?.img;
       this.userName = this.userDetail?.name;
@@ -210,15 +221,26 @@ export class ChatBoxComponent {
       this.selectedUser = this.userDetail;
     }
   }
-  getAllChatsOfUser = () => {
-    this.mainServices
-      .getAllChatsOfUser(this.currentUserid)
-      .subscribe((res: any) => {
-        // 
-        this.allChat = res.data;
-        this.selectTab(this.selectedTab);
-      });
+  getAllChatsOfUser = (conversation_id?: any) => {
+    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
+      this.allChat = res.data;
+      this.selectTab(this.selectedTab);
+      if (this.productDetail && this.userDetail) {
+        const matchedChat = this.allChat.buyer_chats.find(
+          (chat: any) => chat.conversation_id === conversation_id
+        );
+          if (matchedChat) {
+            this.productDetail=null
+            this.userDetail=null
+            sessionStorage.removeItem('productData');
+            sessionStorage.removeItem('userData');
+          this.getConversation(matchedChat);
+
+        } 
+      }
+    });
   };
+  
   getTimeDifference(updatedAt: string): string {
     const updatedAtDate = new Date(updatedAt);
     const currentTime = new Date();
@@ -246,12 +268,12 @@ export class ChatBoxComponent {
     }
   }
   getConversation(data: any) {
+    debugger
+    console.log(this.selectedUser)
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
-    this.productImage = data.image_path.src;
-    this.productPrice = data.product?.fix_price
-      ? data.product.fix_price
-      : data.product?.auction_price;
+    this.productImage = data.image_path.url;
+
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
     this.userlocation = otherUser.location;
@@ -272,6 +294,11 @@ export class ChatBoxComponent {
       .getConversation(data.conversation_id)
       .subscribe((res: any) => {
         this.selectedConversation = res;
+        debugger
+        this.selectedUser=res
+        this.productPrice = this.selectedConversation.data.conversation[0].product?.fix_price
+        ?  this.selectedConversation.data.conversation[0].product?.fix_price
+        :  this.selectedConversation.data.conversation[0].auction_initial_price;
         this.markMessagesAsRead(data.conversation_id);
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
@@ -303,6 +330,32 @@ export class ChatBoxComponent {
         console.log(this.conversationBox);
       });
   }
+  activeOptionIndex: number | null = null;
+
+toggleOptions(index: any): void {
+  this.activeOptionIndex = this.activeOptionIndex === index ? null : index;
+}
+
+deleteMessage(message: any, index: number): void {
+  this.mainServices.deleteMessage(message.id).subscribe({
+    next: (response: any) => {
+      if (response.status) {
+        this.conversationBox.splice(index, 1); // Remove message from the list
+        this.activeOptionIndex = null;
+        this.toastr.success('Message deleted successfully.', 'Success');
+      }
+    },
+    error: (error: any) => {
+      // Handle HTTP errors (e.g., 403, 404, 500)
+        this.toastr.error(error.error.message, 'Error');
+        this.activeOptionIndex = null;
+
+      console.error('Error deleting message:', error);
+    }
+  });
+}
+
+
   markMessagesAsRead(conversationId: string) {
     this.mainServices.markMessagesAsRead(conversationId).subscribe({
       next: (response) => {
@@ -316,8 +369,9 @@ export class ChatBoxComponent {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
   sendMsg() {
-    let receiverId: string;
-    if (this.selectedConversation.data) {
+    let receiverId;
+  
+    if (this.selectedConversation?.data) {
       receiverId =
         this.currentUserid !== this.selectedConversation.data.Participant2.id
           ? this.selectedConversation.data.Participant2.id
@@ -325,31 +379,75 @@ export class ChatBoxComponent {
     } else {
       receiverId = this.selectedUser?.id;
     }
-    let input = {
-      sender_id: this.currentUserid,
-      buyer_id: this.buyerId,
-      seller_id: this.sellerId,
-      receiver_id: receiverId,
-      message: this.message,
-      product_id: this.productId,
-    };
-    this.mainServices.sendMsg(input).subscribe((res: any) => {
-      this.message = '';
-      const newMessage = {
-        ...res.data.Message[0],
-        sender_image:
-          this.currentUserid === this.selectedConversation.data.Participant1.id
-            ? this.selectedConversation.data.Participant1.img
-            : this.selectedConversation.data.Participant2.img,
-        receiver_image:
-          this.currentUserid !== this.selectedConversation.data.Participant1.id
-            ? this.selectedConversation.data.Participant1.img
-            : this.selectedConversation.data.Participant2.img,
-        formattedTime: this.formatMessageTime(new Date().toISOString()),
-      };
-      this.conversationBox.push(newMessage);
-      this.cd.detectChanges();
-    });
+  
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('sender_id', this.currentUserid);
+    formData.append('buyer_id', this.buyerId);
+    formData.append('seller_id', this.sellerId);
+    formData.append('receiver_id', receiverId);
+    if(this.message){
+      formData.append('message', this.message);
+
+    }
+    formData.append('product_id', this.productId);
+  
+    // Append images if any exist
+    if (this.selectedImages && this.selectedImages.length > 0) {
+      this.selectedImages.forEach((file:any, index:any) => {
+        formData.append(`images[${index}]`, file); // Adjust key based on backend requirement
+      });
+    }
+    const token = localStorage.getItem('authToken');
+    // API call using fetch
+    fetch(`${Constants.baseApi}/message/send`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((res:any) => {
+        this.message = '';
+        this.selectedImages = []; // Clear selected images after sending
+        this.imagePreviews=[]
+        if(this.productDetail&&this.userDetail){
+          debugger
+          this.getAllChatsOfUser(res.data.Message[0].conversation_id)
+         }
+        const newMessage = {
+          ...res.data.Message[0],
+          sender_image:
+            this.currentUserid === this.selectedConversation.data.Participant1.id
+              ? this.selectedConversation.data.Participant1.img
+              : this.selectedConversation.data.Participant2.img,
+          receiver_image:
+            this.currentUserid !== this.selectedConversation.data.Participant1.id
+              ? this.selectedConversation.data.Participant1.img
+              : this.selectedConversation.data.Participant2.img,
+          formattedTime: this.formatMessageTime(new Date().toISOString()),
+        };
+   
+        this.conversationBox.push(newMessage);
+        this.cd.detectChanges();
+      })
+      .catch((error) => {
+        this.selectedImages = []; // Clear selected images after sending
+        this.imagePreviews=[]
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    );
+  }
+  
+  
+  removeImage(): void {
+    this.imagePreview = null; // Clear the preview
   }
   acceptOffer() {
     let input = {
@@ -376,13 +474,7 @@ export class ChatBoxComponent {
   }
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
-  sendMessage(message: string): void {
-    if (message.trim() || this.selectedFile) {
-      console.log('Message:', message);
-      console.log('Selected File:', this.selectedFile);
-      this.clearMessage();
-    }
-  }
+
   clearMessage(): void {
     this.selectedFile = null;
     this.previewUrl = null;
@@ -390,22 +482,27 @@ export class ChatBoxComponent {
   isImageFile: boolean = false;
   filePreview: string | null = null;
   showPreviewModal: boolean = false;
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      this.isImageFile = this.isFileImage(file);
-      if (this.isImageFile) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.filePreview = e.target.result;
-          this.showPreviewModal = true;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        this.filePreview = null;
-        this.showPreviewModal = true;
-      }
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.selectedImages = Array.from(input.files); // Store selected files
+      this.imagePreviews = this.selectedImages.map((file:any) =>
+        URL.createObjectURL(file)
+      ); // Create image previews
+      this.selectedImageIndex = 0; // Default to the first image
+    }
+    
+  }
+  
+
+  setSelectedImage(index: number): void {
+    this.selectedImageIndex = index;
+  }
+
+  removeImages(index: number): void {
+    this.imagePreviews.splice(index, 1);
+    if (this.selectedImageIndex >= this.imagePreviews.length) {
+      this.selectedImageIndex = this.imagePreviews.length - 1;
     }
   }
   confirmSend(): void {
@@ -443,11 +540,15 @@ export class ChatBoxComponent {
           this.toastr.success('Chat deleted successfully', 'Success');
         }),
         catchError((error) => {
-          return of(null);
+          debugger
+          // Show the error message in the toastr
+          this.toastr.error(error.error.message ,'Error');
+          return of(null); // Return an observable to complete the stream
         })
       )
       .subscribe();
   }
+  
   handleSmScreen() {
     this.isSmallScrenn = !this.isSmallScrenn
   }
@@ -455,6 +556,10 @@ export class ChatBoxComponent {
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     if (this.screenWidth > 767) { } this.isSmallScrenn = false
+  }
+  @HostListener('document:click', ['$event'])
+  closeMenu(): void {
+    this.activeOptionIndex = null;
   }
 }
 

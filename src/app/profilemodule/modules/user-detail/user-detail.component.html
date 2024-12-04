@@ -7,14 +7,14 @@
             </label>
             <input type="file" class="d-none" id="file">
         </div>
-        <!-- d-flex flex-column flex-lg-row justify-content-center justify-content-lg-start -->
-        <div class="pl-lg-3">
-            <div class="fw-semibold text-center text-lg-left">{{profileData.name}}</div>
-            <div class="fs-14 text-capitalize text-center text-lg-left">
-                Joined: <span> Nov 22, 2024</span>
+        <div class="pl-3">
+            <div class="fw-semibold pb-2"> {{ currentUserProfile.name }}</div>
+            <div class="fs-14 text-capitalize">
+                Joined: <span> {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') :
+                    'N/A' }}</span>
             </div>
-            <div class="fs-14 text-capitalize text-center text-lg-left">
-                Address: <span>N/A</span>
+            <div class="fs-14 text-capitalize">
+                Address: <span> {{ currentUserProfile.location || "N/A" }}</span>
             </div>
         </div>
     </div>

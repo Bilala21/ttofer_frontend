@@ -2,12 +2,12 @@
   <mat-dialog-content>
     <h4 class="text-capitalize">{{dialogDataCopy.key}}</h4>
     <form>
-      <div class="form-group" *ngIf="dialogDataCopy.key === 'name'">
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'username'">
         <label>Your Name</label>
         <input 
           type="text" 
           class="form-control" 
-          [(ngModel)]="userInformation.name" 
+          [(ngModel)]="userInformation.username" 
           name="name" 
           placeholder="Your Name" 
           required 
@@ -38,7 +38,7 @@
       <div class="form-group" *ngIf="dialogDataCopy.key === 'password'">
         <label>Old Password</label>
         <input 
-          type="text" 
+          type="password" 
           class="form-control" 
           [(ngModel)]="userInformation.old_password" 
           name="password" 
@@ -47,7 +47,7 @@
         />
         <label class="pt-3">New Password</label>
         <input 
-          type="text" 
+          type="password" 
           class="form-control" 
           [(ngModel)]="userInformation.password" 
           name="password" 

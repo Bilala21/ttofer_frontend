@@ -1,13 +1,10 @@
 <form [formGroup]="addProductForm" class="post-form-container">
-
   <div class="row align-items-center justify-content-center margin-top-right-side-class">
     <i class="fas fa-plus-circle title-icon mr-2"></i>
-    <h3 class="right-side-top-title mt-1">Add Post</h3>
+    <h3 class="right-side-top-title mt-1">{{id?'Edit Product':'Add Product'}}</h3>
   </div>
   <hr />
-
   <div class="row r-gap-20">
-
     <div *ngIf="selectedFiles.length > 0" class="row mx-0 mb-2 r-gap-10 px-2 w-100">
       <div class="image-item col-md-2 px-1 position-relative" *ngFor="let file of selectedFiles; let i = index">
         <img [src]="file.src" alt="Selected Image" class="img-thumbnail h-100 w-100" loading="lazy" />
@@ -18,8 +15,6 @@
         </button>
       </div>
     </div>
-
-    <!-- add image -->
     <div class="col-12" style="cursor: pointer">
       <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image</label>
       <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()" loading="lazy" />
@@ -29,30 +24,20 @@
         {{ validationErrors["uploadImage"] }}
       </div>
     </div>
-
-    <!-- add video -->
     <div class="col-12">
       <label class="fs-20 fw-semibold">Add video</label>
-
-      <!-- Display the selected video if available -->
       <div *ngIf="selectedVideo" class="position-relative video-wrapper">
         <video controls [src]="selectedVideo.url" class="video-thumbnail w-100"></video>
-        <!-- Close button to remove the video -->
         <button class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeVideo()">
           &times;
         </button>
       </div>
-
       <div>
         <img src="assets/images/add-post-video.png" class="w-100" alt="Upload Video" (click)="videoInput.click()"
           loading="lazy" />
         <input #videoInput type="file" (change)="onVideoSelected($event)" accept="video/*" style="display: none" />
       </div>
     </div>
-    <!-- delete image -->
-
-    <!-- title -->
-
     <div class="col-md-6">
       <label>Title</label>
       <input type="text" class="form-control w-100 input-class-add-form" placeholder="Title" formControlName="title" />
@@ -61,10 +46,9 @@
         Title is required.
       </div>
     </div>
-
-    <div class="col-md-6">
+    <div class="col-6">
       <label>Category<span class="text-danger"></span></label>
-      <p-dropdown [options]="categories" optionLabel="name" optionValue="id" formControlName="category_id"
+      <p-dropdown [options]="categories" optionLabel="name" optionValue="id" formControlName="category_id" (onChange)="getSubcategories()"
         placeholder="Select a Category" class="form-control input-class-add-form"
         [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }">
       </p-dropdown>
@@ -72,8 +56,7 @@
         {{ validationErrors["selectedCategoryId"] }}
       </div>
     </div>
-
-    <div class="col-md-6">
+    <div class="col-6">
       <label class="subcategory-label">Subcategory</label>
       <p-dropdown [options]="subCategory" optionLabel="name" optionValue="id"
         [ngClass]="{ 'is-invalid': validationErrors['selectedSubCategoryId'] }" formControlName="sub_category_id"
@@ -83,23 +66,17 @@
         {{ validationErrors["selectedSubCategoryId"] }}
       </div>
     </div>
-
-    <ng-container formGroupName="attributes">
-      @for (field of categoryFields; track $index) {
-      <!-- Select Field -->
+    <ng-container formGroupName="attributes" *ngFor="let field of categoryFields">
       <div class="col-md-6" *ngIf="field.type === 'select'">
         <label>{{ field.label }}</label>
         <p-dropdown [options]="field.options" optionLabel="name" optionValue="id" [formControlName]="field.model"
           [style]="{ width: '100%' }" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }" placeholder="Select {{ field.label }}"></p-dropdown>
-        <!-- Error Message -->
         <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
           {{ field.label }} is required.
         </div>
       </div>
-
-      <!-- Input Field -->
       <div class="col-md-6" *ngIf="field.type === 'input'">
         <label class="d-block">{{ field.label }}</label>
         <input style="width: 100%;" pInputText type="text" class="attributes" [formControlName]="field.model"
@@ -110,7 +87,6 @@
           {{ field.label }} is required.
         </div>
       </div>
-      }
     </ng-container>
     @if (selectedCategorySlug != 'jobs') {
     <div class="col-12">
@@ -126,10 +102,7 @@
       </div>
     </div>
     }
-
     @if (productType!='featured') {
-    <!-- Starting Bid -->
-
     <div class="col-md-6 ">
       <label for="startingBid">Starting Bid</label>
       <p-inputNumber class="w-100" formControlName="auction_initial_price" inputId="startingBid" mode="currency"
@@ -140,7 +113,6 @@
         Starting Bid Price is required.
       </div>
     </div>
-    <!-- Lowest Price -->
     <div class="col-md-6">
       <label for="lowestPrice">Lowest Price</label>
       <p-inputNumber class="w-100" inputId="lowestPrice" mode="currency" currency="AED" locale="en-US"
@@ -151,7 +123,6 @@
         Lowest Price is required.
       </div>
     </div>
-
     <div class="col-md-6">
       <label for="startDate">Start Date </label>
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="startDate"
@@ -166,39 +137,26 @@
         Start date cannot be after the end date.
       </div>
     </div>
-    
-
-    <!-- End Date -->
     <div class="col-md-6">
       <label for="endDate">End Date </label>
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="endDate"
         formControlName="auction_ending_date"
        >
       </p-calendar>
-    
-      <!-- Display required error only when the field is touched and is required -->
-      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('required') &&
+          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('required') &&
                 (addProductForm.get('auction_ending_date')?.touched || addProductForm.get('auction_ending_date')?.dirty)"
         class="text-danger mt-1">
         End date is required.
       </div>
-    
-      <!-- Display noStartDate error only when the error is present -->
-      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('noStartDate')"
+          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('noStartDate')"
         class="text-danger mt-1">
         Please select the starting date first.
       </div>
-    
-      <!-- Display endDateBeforeStart error only when the error is present -->
-      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('endDateBeforeStart')"
+          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('endDateBeforeStart')"
         class="text-danger mt-1">
         Ending date cannot be before the starting date.
       </div>
     </div>
-    
-    
-
-    <!-- Starting Time -->
     <div class="col-md-6">
       <label for="startTime">Starting Time</label>
       <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a"  inputId="startTime"
@@ -215,8 +173,6 @@
         </ng-container>
       </div>
     </div>
-
-    <!-- Ending Time -->
     <div
       [ngClass]="addProductForm.get('product_type')?.value == 'auction' || addProductForm.get('product_type')?.value== 'other' ?'col-md-6' :'col-md-6'">
       <label for="endingTime">Ending Time</label>
@@ -247,7 +203,6 @@
       </div>
     </div>
     }
-
     <div class="col-md-6" *ngIf="productType == 'featured'">
       <label for="totalPrice">Total Price</label>
       <p-inputNumber class="w-100" inputId="totalPrice" mode="currency" currency="AED" locale="en-US"
@@ -257,37 +212,28 @@
         Price is required.
       </div>
     </div>
-
-
-    <!-- Description Field -->
     <div class="col-12">
       <label>Description</label>
       <textarea placeholder="Description" formControlName="description" class="form-control w-100" rows="6">
           </textarea>
-      <!-- Error Messages -->
       <div *ngIf="addProductForm.get('description')?.touched || addProductForm.get('description')?.dirty">
-        <!-- Required Error -->
         <div *ngIf="addProductForm.get('description')?.hasError('required')" class="text-danger mt-1">
           Description is required.
         </div>
-        <!-- MinLength Error -->
         <div *ngIf="addProductForm.get('description')?.hasError('minlength')" class="text-danger mt-1">
           Description must be at least 20 characters long.
         </div>
       </div>
     </div>
-
     <div class="col-12">
       <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
-
     <div class="col-12">
       <button class="btn btn-dark w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">
-        <span *ngIf="!isLoading">Post</span>
+        <span *ngIf="!isLoading">{{id?'Update':'Post'}}</span>
         <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
           aria-hidden="true"></span>
       </button>
     </div>
   </div>
-
 </form>
