@@ -14,6 +14,11 @@
   
     .offer-btn {
       border-color: #FFA700;
+      transition: all 1s;
+    }
+    .offer-btn:hover{
+      background-color: #FFA700;
+      color: white;
     }
   
     p,

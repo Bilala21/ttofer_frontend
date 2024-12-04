@@ -118,7 +118,6 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.similarProductsData = value.data;
-        console.log(this.similarProductsData, 'similar product');
         this.similarLoading = false;
       },
       error: (err) => {
