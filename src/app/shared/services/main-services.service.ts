@@ -93,7 +93,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
   }
   getOffer(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/get-offer', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/offers', input).pipe();
   }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(
@@ -112,7 +112,7 @@ export class MainServicesService {
   }
   deleteMessage(message_id: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/message/delete/' + message_id)
+      .delete(`${Constants.baseApi}` + '/message/delete/' + message_id)
       .pipe();
   }
   sendMsg(input: any) {

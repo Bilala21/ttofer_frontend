@@ -51,9 +51,15 @@
                       : item.receiver.name
                       }}
                     </h2>
-                    <span class="fs-12 text-slate-400">{{
-                      item.formattedTime
-                      }}</span>
+                    <span class="position-relative">
+                      <span class="fs-12 text-slate-400">{{ item.formattedTime }}</span>
+                      <span 
+                        *ngIf="item.unread_message_count > 0" 
+                        class="badge bg-danger text-white rounded-circle position-absolute"
+                        style="top: -10px; right: -10px; min-width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                        {{ item.unread_message_count }}
+                      </span>
+                    </span>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
                     <p class="m-0 fs-12 fw-normal text-slate-400">
@@ -152,166 +158,153 @@
               </div>
             </div>
           </div>
-          <div
-          *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
-          class="messages-side mt-5 pt-5 scrollable-messages"
-        >
-          <div *ngFor="let message of conversationBox ;let i = index  ">
-            <!-- Messages Sent by the Current User -->
-            <div *ngIf="currentUserid === message.sender_id" class="d-flex flex-column align-items-end mb-3">
-              <div class="d-flex align-items-center">
-                <!-- Message Content -->
-                <div [ngClass]="{
-                  'user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right': !message.file
-                }" style="display: flex">
-                  <ng-container *ngIf="message.message">
-                    {{ message.message }}
-                  </ng-container>
-                  <ng-container class="image-message" *ngIf="message.file">
-                    <img style="height: 200px; width: 200px;"
-                      [src]="message.file"
-                      alt="Sent Image"
-                      loading="lazy"
-                      class="chat-image"
-                    />
-                    
-                  </ng-container>
-                  <div class="d-flex align-items-center" style="margin: 9px 5px 0px 10px">
-                    <div class="text-secondary fs-12 me-2">
-                      {{ message.formattedTime }}
+          <div *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
+            class="messages-side mt-5 pt-5 scrollable-messages">
+            <div class="row" *ngif="offerStatus">
+              <div class="col-xl-6 mx-auto mt-5">
+                <div class="position-relative text-center p-3" style="background-color: #F3F4F5; border-radius: 15px;">
+                  <img class="position-absolute" style="top: -20%; left: 40%;" src="assets/images/offer-img.png" alt="">
+                  <h6 style="margin-top: 5vh;">Sent you a offer</h6>
+                  <h5 style="margin-top: 3vh; font-weight: bolder;">AED 500</h5>
+                  <div class="row mt-5">
+                    <div class="col-4">
+                      <button class="btn btn-dark w-100 sm-cat-text1" style="border-radius: 3vh; font-size: 1.5vh;"
+                        (click)="rejectOffer()">Reject
+                        Offer</button>
                     </div>
-                    <div>
-                      <i *ngIf="message.status === 'unread'" class="bi bi-check2-all text-secondary" style="font-size: 1.1rem"></i>
-                      <i *ngIf="message.status === 'read'" class="bi bi-check2-all" style="color: #53bdeb; font-size: 1.1rem"></i>
+                    <div class="col-4">
+                      <button class="btn btn-dark w-100 sm-cat-text1" style="border-radius: 3vh; font-size: 1.5vh;"
+                        (click)="acceptOffer()">Accept
+                        Offer</button>
                     </div>
-                  </div>
-                  <div class="ml-2 position-relative" (click)="$event.stopPropagation()">
-                    <i
-                      class="bi bi-three-dots-vertical "
-                      (click)="toggleOptions(i)"
-                      style="cursor: pointer; font-size: 1rem;"
-                    ></i>
-                    <!-- Dropdown Menu -->
-                    <div
-                      *ngIf="activeOptionIndex === i"
-                      class="options-dropdown bg-white border shadow-sm rounded p-2 position-absolute"
-                      style="top: 20px; right: 0; z-index: 100;"
-                    >
-                      <button class="btn btn-danger btn-sm" (click)="deleteMessage(message, i)">Delete</button>
-                    </div>
-                  </div>
-                </div>
-                <!-- Sender Profile Image -->
-                <img
-                  [src]="message.sender_image || '/assets/images/profile-icon.svg'"
-                  alt="User Image"
-                  loading="lazy"
-                  class="rounded-pill small-profile-image ml-2"
-                />
-              </div>
-            </div>
-        
-            <!-- Messages Sent by Other Users -->
-            <div *ngIf="currentUserid !== message.sender_id" class="d-flex flex-column align-items-start mb-3">
-              <div class="d-flex align-items-center">
-                <!-- Receiver Profile Image -->
-                <img
-                  [src]="message.sender_image || '/assets/images/profile-icon.svg'"
-                  alt="Receiver Image"
-                  loading="lazy"
-                  class="rounded-2 small-profile-image"
-                />
-                <!-- Message Content -->
-                <div  [ngClass]="{
-                  'user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right': !message.file
-                }" style="display: flex">
-                  <ng-container *ngIf="message.message">
-                    {{ message.message }}
-                  </ng-container>
-                  <ng-container class="image-message" *ngIf="message.file">
-                    <img style="height: 200px; width: 200px;"
-                      [src]="message.file"
-                      alt="Received Image"
-                      loading="lazy"
-                      class="chat-image"
-                    />
-                  </ng-container>
-                  <div class="d-flex align-items-center" style="margin: 9px 5px 0px 10px">
-                    <div class="text-secondary fs-12 me-2">
-                      {{ message.formattedTime }}
+                    <div class="col-4">
+                      <button class="btn btn-dark w-100 sm-cat-text1" (click)="openModal()"
+                        style="border-radius: 3vh; font-size: 1.5vh;">Counter Offer</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        
-          <div *ngIf="
+                <div *ngFor="let message of conversationBox ;let i = index  ">
+                  <!-- Messages Sent by the Current User -->
+                  <div *ngIf="currentUserid === message.sender_id" class="d-flex flex-column align-items-end mb-3">
+                    <div class="d-flex align-items-center">
+                      <!-- Message Content -->
+                      <div [ngClass]="{
+                  'user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right': !message.file
+                }" style="display: flex">
+                        <ng-container *ngIf="message.message">
+                          {{ message.message }}
+                        </ng-container>
+                        <ng-container class="image-message" *ngIf="message.file">
+                          <img style="height: 200px; width: 200px;" [src]="message.file" alt="Sent Image" loading="lazy"
+                            class="chat-image" />
+
+                        </ng-container>
+                        <div class="d-flex align-items-center" style="margin: 9px 5px 0px 10px">
+                          <div class="text-secondary fs-12 me-2">
+                            {{ message.formattedTime }}
+                          </div>
+                          <div>
+                            <i *ngIf="message.status === 'unread'" class="bi bi-check2-all text-secondary"
+                              style="font-size: 1.1rem"></i>
+                            <i *ngIf="message.status === 'read'" class="bi bi-check2-all"
+                              style="color: #53bdeb; font-size: 1.1rem"></i>
+                          </div>
+                        </div>
+                        <div class="ml-2 position-relative" (click)="$event.stopPropagation()">
+                          <i class="bi bi-three-dots-vertical " (click)="toggleOptions(i)"
+                            style="cursor: pointer; font-size: 1rem;"></i>
+                          <!-- Dropdown Menu -->
+                          <div *ngIf="activeOptionIndex === i"
+                            class="options-dropdown bg-white border shadow-sm rounded p-2 position-absolute"
+                            style="top: 20px; right: 0; z-index: 100;">
+                            <button class="btn btn-danger btn-sm" (click)="deleteMessage(message, i)">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Sender Profile Image -->
+                      <img [src]="message.sender_image || '/assets/images/profile-icon.svg'" alt="User Image"
+                        loading="lazy" class="rounded-pill small-profile-image ml-2" />
+                    </div>
+                  </div>
+
+                  <!-- Messages Sent by Other Users -->
+                  <div *ngIf="currentUserid !== message.sender_id" class="d-flex flex-column align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                      <!-- Receiver Profile Image -->
+                      <img [src]="message.sender_image || '/assets/images/profile-icon.svg'" alt="Receiver Image"
+                        loading="lazy" class="rounded-2 small-profile-image" />
+                      <!-- Message Content -->
+                      <div [ngClass]="{
+                  'user-msg-content ml-3 rounded-pill px-3 fs-14 py-2 bg-light-gray text-right': !message.file
+                }" style="display: flex">
+                        <ng-container *ngIf="message.message">
+                          {{ message.message }}
+                        </ng-container>
+                        <ng-container class="image-message" *ngIf="message.file">
+                          <img style="height: 200px; width: 200px;" [src]="message.file" alt="Received Image"
+                            loading="lazy" class="chat-image" />
+                        </ng-container>
+                        <div class="d-flex align-items-center" style="margin: 9px 5px 0px 10px">
+                          <div class="text-secondary fs-12 me-2">
+                            {{ message.formattedTime }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="
               (conversationBox && conversationBox.length > 0) || selectedUser
             " class="suggestions-box mx-auto text-center p-2 position-relative">
-            <div class="d-flex flex-wrap justify-content-center">
-              <span *ngFor="let suggestion of suggestions"
-                class="suggestion-item px-3 py-1 m-1 rounded bg-light-gray text-dark pointer"
-                (click)="selectSuggestion(suggestion)">
-                {{ suggestion }}
-              </span>
-            </div>
-          </div>
-          <div
-          *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
-          class="message-input d-flex align-items-center mt-5 mb-4 position-relative"
-        >
-          <!-- Arising Image Preview Container -->
-          <div *ngIf="imagePreviews.length > 0" class="image-preview-container position-absolute">
-            <div class="preview-tail"></div>
-        
-            <!-- Main Image -->
-            <div class="preview-content">
-              <img
-                [src]="imagePreviews[selectedImageIndex]"
-                alt="Selected Image"
-                class="img-thumbnail main-preview"
-              />
-            </div>
-        
-            <!-- Thumbnails -->
-            <div class="thumbnail-container mt-2 d-flex">
-              <div
-                *ngFor="let image of imagePreviews; let i = index"
-                class="thumbnail-wrapper me-2"
-                [class.selected]="i === selectedImageIndex"
-                (click)="setSelectedImage(i)"
-              >
-                <img [src]="image" alt="Thumbnail" class="img-thumbnail thumbnail" />
+                <div class="d-flex flex-wrap justify-content-center">
+                  <span *ngFor="let suggestion of suggestions"
+                    class="suggestion-item px-3 py-1 m-1 rounded bg-light-gray text-dark pointer"
+                    (click)="selectSuggestion(suggestion)">
+                    {{ suggestion }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
-        
-          <!-- File Attachment and Chat Input -->
-          <button class="btn bg-transparent" (click)="fileInput.click()">
-            <i class="fas fa-paperclip"></i>
-          </button>
-          <input
-            type="file"
-            #fileInput
-            accept="*"            (change)="onFilesSelected($event)"
-            multiple
-            style="display: none"
-          />
-          <div class="d-flex align-items-center flex-grow-1 position-relative">
-            <input
-              type="text"
-              placeholder="Type a message"
-              class="flex-grow-1 py-2 px-2 rounded-2"
-              [(ngModel)]="message"
-            />
-            <button *ngIf="message" type="button" (click)="sendMsg()" class="btn bg-transparent position-absolute">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-        </div>
-        
+              <div *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
+                class="message-input d-flex align-items-center mt-5 mb-4 position-relative">
+                <!-- Arising Image Preview Container -->
+                <div *ngIf="imagePreviews.length > 0" class="image-preview-container position-absolute">
+                  <div class="preview-tail"></div>
+
+                  <!-- Main Image -->
+                  <div class="preview-content">
+                    <img [src]="imagePreviews[selectedImageIndex]" alt="Selected Image"
+                      class="img-thumbnail main-preview" />
+                  </div>
+
+                  <!-- Thumbnails -->
+                  <div class="thumbnail-container mt-2 d-flex">
+                    <div *ngFor="let image of imagePreviews; let i = index" class="thumbnail-wrapper me-2"
+                      [class.selected]="i === selectedImageIndex" (click)="setSelectedImage(i)">
+                      <img [src]="image" alt="Thumbnail" class="img-thumbnail thumbnail" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- File Attachment and Chat Input -->
+                <button class="btn bg-transparent" (click)="fileInput.click()">
+                  <i class="fas fa-paperclip"></i>
+                </button>
+                <input type="file" #fileInput accept="*" (change)="onFilesSelected($event)" multiple
+                  style="display: none" />
+                <div class="d-flex align-items-center flex-grow-1 position-relative">
+                  <input type="text" placeholder="Type a message" class="flex-grow-1 py-2 px-2 rounded-2"
+                    [(ngModel)]="message" />
+                  <button *ngIf="message" type="button" (click)="sendMsg()"
+                    class="btn bg-transparent position-absolute">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+
 
 
         </ng-container>
