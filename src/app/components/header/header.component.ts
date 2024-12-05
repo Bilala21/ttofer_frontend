@@ -263,31 +263,23 @@ export class HeaderNavigationComponent implements OnInit {
   }
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
-      this.globalSearchService.setQueryValue(this.searchTerm.toLowerCase().trim());
+      this.globalSearchService.setFilterdProducts({ search: this.searchTerm });
+      // this.globalSearchService.setQueryValue(
+      //   this.searchTerm.toLowerCase().trim()
+      // );
     }
-    // if (!this.searched && this.searchTerm) {
-    //   const uri = this.router.url;
-    //   if (uri.lastIndexOf('-') < 0) {
-    //     this.router.navigate([
-    //       `category/featured/q-` + this.searchTerm.toLowerCase(),
-    //     ]);
-    //   }
-    //   if (uri.lastIndexOf('-') > 0) {
-    //     const base_uri = uri.slice(0, uri.lastIndexOf('/'));
-    //     if (base_uri === '/category') {
-    //       const url = uri.slice(uri.lastIndexOf('/'));
-    //       this.router.navigate([
-    //         base_uri + url + '/q-' + this.searchTerm.toLowerCase(),
-    //       ]);
-    //     } else {
-    //       this.router.navigate([
-    //         base_uri + '/q-' + this.searchTerm.toLowerCase(),
-    //       ]);
-    //     }
-    //   }
-    //   this.searched = true;
-    // }
   }
+
+  handleFilter(filter: any) {
+    localStorage.setItem('filters', JSON.stringify({}));
+    this.globalSearchService.setFilterdProducts({
+      ...filter,
+      first_call: true,
+    });
+  }
+
+  
+
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
@@ -323,6 +315,11 @@ export class HeaderNavigationComponent implements OnInit {
     if (this.currentUser?.id) {
       this.getNotification();
       this.getCartItems();
+    }
+    const value = JSON.parse(localStorage.getItem('filters') || '{}').search;
+    this.searchTerm = value ? value : '';
+    if (this.searchTerm) {
+      this.isSearched = true;
     }
   }
   getCityFromCoordinates(lat: number, lng: number): void {

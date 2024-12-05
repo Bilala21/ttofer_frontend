@@ -1,8 +1,9 @@
 <div *ngIf="categories.length">
     <h1 class="fs-24 fw-bold my-4 text-center pt-2">All Categories</h1>
     <div class="row overflow-auto category-list xs-flex-nowrap row-gap-20">
-        <a *ngFor="let category of categories;" [routerLink]="['/category',category.slug+ '-' +category.id ]"
-            [ngClass]="{'disabled-link white-space-nowrap': category.both}" class="w-xl-1 col-xl-1 col-md-2 xs-mw-20 mx-2">
+        <a *ngFor="let category of categories;"  (click)="handleFilter({'category_id':category.id,'slug':category.slug})" [routerLink]="['/category',category.slug+ '-' +category.id ]"
+            [ngClass]="{'disabled-link white-space-nowrap': category.both}"
+            class="w-xl-1 col-xl-1 col-md-2 xs-mw-20 mx-2">
             <img src={{category.ImgSrc}} alt={{category.name}} loading="lazy" class="rounded-pill img-fluid my-1 p-1">
             <span class="d-block text-center pt-2 fw-bold">{{category.name}}</span>
             <span *ngIf="category.both"

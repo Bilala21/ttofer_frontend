@@ -16,19 +16,21 @@
       </div> -->
       </div>
       <div class="d-block d-lg-flex pt-5">
-        <app-filters (handleFilterEvent)="fetchData($event)" [totalProducts]="data?.length" [categoryId]="this.id" />
+        <app-filters [totalProducts]="data?.length" [categoryId]="this.id" />
         <!-- PRODUCT SIDE -->
+        <p>{{this.activeTab}}</p>
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
           <div class="text-center buttons d-flex align-items-center justify-content-center xs-between">
-            @if (!['job','services','property-for-rent','animals'].includes(slugName)) {
-            <button type="button"
-              class="btn py-2 px-2 mr-1  {{activeTab=='auction' || activeTab=='hiring'?'text-white bg-dark':'border-1'}}"
-              (click)="handleTab(id==7?'hiring':'auction')"> {{id ==7?'Hiring':'Auction Products'}}</button>
+            @if (slugName) {
+            @for (tab of ProductTabs; track $index) {
+            <button type="button" class="btn py-2 px-2 mr-1  {{activeTab==tab?'text-white bg-dark':'border-1'}}"
+              (click)="handleTab(tab)">
+              {{tab}}
+            </button>
             }
-            <button type="button"
-              class="btn py-2 px-2 {{activeTab=='featured' || activeTab=='looking' || ['job','services','property-for-rent','animals'].includes(slugName)?'bg-dark text-white':'border-1'}}"
-              (click)="handleTab(id == 7?'looking':'featured')">{{id == 7?"Looking":'Feature Products'}}</button>
+            }
           </div>
+
           <div class="w-100 product-main">
             @if (loading) {
             @for (data of [1,2,3,4,5,6,7,8,];track $index) {
@@ -40,7 +42,7 @@
             <div class="no-data-container" *ngIf="!data.length && !loading">
               <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
             </div>
-            @if (data.length) {
+            @if (data?.length) {
             <div class="product-card" *ngFor="let post of data">
               <app-product-card [postData]="post" postDetialUrl="product-detail"
                 (handlesUserWishlist)="handlesUserWishlist($event)" />
