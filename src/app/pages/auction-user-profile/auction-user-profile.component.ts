@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     imports: [NgFor, NgIf, StarRatingComponent,RouterLink]
 })
 export class AuctionUserProfileComponent {
-    activeTab: string = 'products';
+    activeTab: any = 'products';
     loading = false;
     showOTPBox= false;
 
@@ -23,11 +23,7 @@ export class AuctionUserProfileComponent {
         this.activeTab = tab;
       }
     products: any [] =[
-        // {img:'assets/images/product1.svg', name:'Modern light clothes',detail:'Sold'},
-        // {img:'assets/images/product1.svg', name:'Modern light clothes',detail:'Sold'},
-        // {img:'assets/images/product1.svg', name:'Modern light clothes',detail:'Sold'},
-        // {img:'assets/images/product1.svg', name:'Modern light clothes',detail:'Sold'},
-        // {img:'assets/images/product1.svg', name:'Modern light clothes',detail:'Sold'},
+       
     ]
     showOtp(){
       this.showOTPBox = true
@@ -80,6 +76,7 @@ export class AuctionUserProfileComponent {
       // this.loading = true
 // 
       this.mainServices.getUserInfo(this.auctionUserId).subscribe((res:any) =>{
+        debugger
         this.auctionUserList = res.data
         this.reviewsUserList = res.data.products
         console.log('auction Produtc', this.auctionUserList);

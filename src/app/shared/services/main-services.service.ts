@@ -287,7 +287,7 @@ export class MainServicesService {
 
   deleteAccount(id: any) {
     return this.http
-      .get(`${Constants.baseApi}/account/deactivate/${id}`, {
+      .get(`${Constants.baseApi}/profile/deactivate`, {
         headers: this.getHeaders(), // Correctly pass the headers here
       })
       .pipe();

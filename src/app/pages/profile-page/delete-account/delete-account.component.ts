@@ -22,7 +22,7 @@ export class DeleteAccountPageComponent implements OnInit {
   onCaptchaChange(value: string): void {
     this.captchaInputValue = value;
     if (this.captchaInputValue === 'DELETE') {
-      this.isDeleteConfirmed = true;
+      this.isDeleteConfirmed = true;  
     }
     else {
       this.isDeleteConfirmed = false
@@ -32,7 +32,7 @@ export class DeleteAccountPageComponent implements OnInit {
   deleteAccount() {
     this.userService.deleteAccount(this.accountId).subscribe({
       next: (res: any) => {
-        if (res.success) {
+        if (res.status) {
           localStorage.getItem("authToken")
           localStorage.getItem("key")
           this.router.navigate(['/']);
@@ -40,7 +40,6 @@ export class DeleteAccountPageComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err);
         this.toastr.error('An error occurred while deleting the account', 'Error');
       },
     });
