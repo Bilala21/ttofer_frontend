@@ -20,6 +20,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
+import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
   selector: 'app-header-navigation',
@@ -68,6 +69,7 @@ export class HeaderNavigationComponent implements OnInit {
     private toastr: ToastrService,
     private service: SharedDataService,
     private activatedRoute: ActivatedRoute,
+    private globalSearchService: GlobalSearchService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
@@ -261,21 +263,30 @@ export class HeaderNavigationComponent implements OnInit {
   }
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
-      const uri = this.router.url;
-      if (uri.lastIndexOf('-') < 0) {
-        this.router.navigate(['category/featured'], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
-      if (uri.lastIndexOf('-') > 0) {
-        const base_uri =
-          uri.indexOf('?') < 0 ? uri : uri.slice(0, uri.lastIndexOf('?'));
-        this.router.navigate([base_uri], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
-      this.searched = true;
+      this.globalSearchService.setQueryValue(this.searchTerm.toLowerCase().trim());
     }
+    // if (!this.searched && this.searchTerm) {
+    //   const uri = this.router.url;
+    //   if (uri.lastIndexOf('-') < 0) {
+    //     this.router.navigate([
+    //       `category/featured/q-` + this.searchTerm.toLowerCase(),
+    //     ]);
+    //   }
+    //   if (uri.lastIndexOf('-') > 0) {
+    //     const base_uri = uri.slice(0, uri.lastIndexOf('/'));
+    //     if (base_uri === '/category') {
+    //       const url = uri.slice(uri.lastIndexOf('/'));
+    //       this.router.navigate([
+    //         base_uri + url + '/q-' + this.searchTerm.toLowerCase(),
+    //       ]);
+    //     } else {
+    //       this.router.navigate([
+    //         base_uri + '/q-' + this.searchTerm.toLowerCase(),
+    //       ]);
+    //     }
+    //   }
+    //   this.searched = true;
+    // }
   }
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));

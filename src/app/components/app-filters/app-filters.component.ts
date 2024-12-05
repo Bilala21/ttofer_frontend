@@ -84,6 +84,7 @@ export class AppFiltersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    alert()
     this.checkScreenSize();
     this.loading = true;
     this.route.paramMap.subscribe((params) => {
@@ -122,7 +123,7 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria = { ...localData };
     }
-    console.log(this.filterCriteria, 'this.filterCriteria');
+ 
     this.radiusValue = localData?.radius ? localData?.radius : 1;
     this.minValue = localData?.min_price ? localData?.min_price : 20;
     this.highValue = localData?.max_price ? localData?.max_price : 500;
