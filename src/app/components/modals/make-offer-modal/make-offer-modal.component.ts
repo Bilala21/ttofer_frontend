@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -7,11 +7,11 @@ import { CountdownTimerService } from '../../../shared/services/countdown-timer.
 import { Subscription } from 'rxjs';
 import { MainServicesService } from '../../../shared/services/main-services.service';
 import { Extension } from '../../../helper/common/extension/extension';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-make-offer-modal',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, NgIf],
+  imports: [RouterLink, ReactiveFormsModule, NgIf,NgFor],
   templateUrl: './make-offer-modal.component.html',
   styleUrls: ['./make-offer-modal.component.scss']
 })
@@ -25,10 +25,28 @@ export class MakeOfferModalComponent implements OnInit {
   bidForm: FormGroup;
   router = inject(Router);
   liveBids:any
+  highBid:any
+  bidPrice:any
+  liveBidsSubscription:any
+  liveAuction:any
+  highestBid:any
   @Input() product: any
-
+   forPercentageBid = [
+    {
+    id:1,
+    percentage:20
+   },
+   {
+    id:2,
+    percentage:40
+   },
+   {
+    id:3,
+    percentage:60
+   }
+  ]
   constructor(private extension:Extension,private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
-    private countdownTimerService: CountdownTimerService) {
+    private countdownTimerService: CountdownTimerService,private toastr: ToastrService,) {
       this.currentUserId=this.extension.getUserId()
     this.offerForm = this.fb.group({
       offer_price: [
@@ -50,9 +68,51 @@ export class MakeOfferModalComponent implements OnInit {
         ]
       ]
     });
+    this.bidForm = this.fb.group({
+      bid_price: [
+        '',
+        [
+            Validators.required,
+            this.bidCheckValidator.bind(this) // Custom validator
+          ],
+      ]
+    });
   }
+    // Custom validator to check bid price
+    bidCheckValidator(control: any) {
+      if (!control.value) return null; // No error if the field is empty
+      return control.value >= (this.calculatePercentageIncrease((this.highBid || this.product.auction_final_price),20))
+        ? null
+        : { 'bid-check': true };
+    }
+
+  getHighBid(ProductId:any){
+    this.mainServices.getHighBid({product_id:ProductId}).subscribe({
+      next:(res:any)=>{
+        this.globalStateService.setHighestBid(res.data.price)
+        console.log("res",res.data.price)
+        this.highestBid = this.globalStateService.hightBids$.subscribe(
+          (highestBid) => {
+            this.highBid = highestBid;
+          }
+        );
+      },
+      error:(err:any)=>{
+        this.toastr.error(
+          err.message,
+                'error'
+              );
+      }
+    })
+  }
+
+  calculatePercentageIncrease(baseValue:any, percentage:any) {
+      const data = baseValue + (baseValue * (percentage / 100));
+      return Math.trunc(data)
+  }
+
   ngOnInit(): void {
-   
+    this.getHighBid(this.product.id)
     if (this.product.product_type == 'auction') {
       this.startCountdowns()
     }
@@ -62,6 +122,7 @@ export class MakeOfferModalComponent implements OnInit {
       this.liveBids=state.liveBids
     })
   }
+
   handleFirstStep() {
     this.showConfirmModal = "";
   }
@@ -98,8 +159,14 @@ export class MakeOfferModalComponent implements OnInit {
     }
 
   }
-  finalStemSubmit() {
+
+  setBidPrice(price: number): void {
+    console.log("price",price)
+    if (this.bidForm && this.bidForm?.get('bid_price')) {
+      this.bidForm?.get('bid_price')?.setValue(price); 
+      }
   }
+
   placeBid() { 
     const input = {
       user_id: this.currentUserId,
@@ -109,38 +176,33 @@ export class MakeOfferModalComponent implements OnInit {
     try {
       this.mainServices.placeBid(input).subscribe({
         next: (res: any) => {
-          
-          // this.toastr.success(
-          //   `Bid Placed for AED ${input.price} successfully`,
-          //   'Success'
-          // );
+          this.toastr.success(
+            `Bid Placed for AED ${input.price} successfully`,
+            'Success'
+          );
           this.closeModal('close-modal')
-
-         
+          this.getBid()
+          this.getHighBid(this.product.id)
+          // this.getHighBid(this.product.id)
         },
         error: (err: any) => {
-          // const errorMessage =
-          //   err?.error?.message ||
-          //   'Failed to place bid. Please try again later.';
-          // this.toastr.error(errorMessage, 'Error');
+          this.closeModal('close-modal')
+          const errorMessage =
+            err?.errors?.message ||
+            'Failed to place bid. Please try again later.';
+          this.toastr.error(errorMessage, 'Error');
           // this.loading = false;
-          // console.error(err);
+          console.error("error1",err.errors.price);
         },
       });
     } catch (error) {
-      // this.toastr.error(
-      //   'An unexpected error occurred. Please try again later.',
-      //   'Error'
-      // );
-      // this.loading = false;
     }
   }
+
   startCountdowns() {
     
     const datePart = this.product.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
-    console.log(endingDateTime)
-
     const subscription = this.countdownTimerService
       .startCountdown(endingDateTime)
       .subscribe((remainingTime) => {
@@ -151,6 +213,13 @@ export class MakeOfferModalComponent implements OnInit {
     this.countdownSubscriptions.push(subscription);
   }
 
-
+  getBid() {
+    let input = {
+      product_id: this.product.id,
+    };
+    this.mainServices.getPlacedBids(input).subscribe((res: any) => {
+      this.globalStateService.setLiveBids(res.data)
+    });
+  }
  
 }

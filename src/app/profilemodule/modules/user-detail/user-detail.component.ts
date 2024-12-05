@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MainServicesService } from '../../../shared/services/main-services.service';
 
 @Component({
   selector: 'app-user-detail',

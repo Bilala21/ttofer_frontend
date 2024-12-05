@@ -12,7 +12,7 @@
       <div class="px-4 pt-3 text-center">
         <h4>make an offer</h4>
         <div class="py-3">
-          <p class="fw-normal">buy it Now price: AED 1235</p>
+          <p class="fw-normal">buy it Now price: AED {{highBid}}</p>
           <p class="text-gray-300">5 offers left</p>
         </div>
         <div>
@@ -51,7 +51,7 @@
     <!-- END STEP 1 MODAL -->
 
     <!-- STEP 2 MODAL -->
-    <form class="{{isFinalStep?'':'d-none'}}" [formGroup]="offerForm" (ngSubmit)="finalStemSubmit()">
+    <form class="{{isFinalStep?'':'d-none'}}" [formGroup]="offerForm">
       <div class="text-right">
         <button class="w-fit border-0 rounded-pill bg-gray-450 p-0 close-modal" data-dismiss="modal" aria-label="Close" (click)="closeModal($event)"><i
             class="fas fa-times fs-14 close-modal"></i>
@@ -100,15 +100,15 @@
       <div class="px-4 pt-3">
         <h4>Place your bid</h4>
         <div class="py-3">
-          <p class="fw-bold">AED 1235</p>
+          <p class="fw-bold">AED {{ product.auction_final_price}}</p>
           <p>{{liveBids}} bids <span class="fs-20">.</span> {{this.product.calculateRemaningTime}}</p>
         </div>
 
-        <div class="d-flex align-content-center mt-2">
-          <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer">AED 123</span>
-          <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-2">AED
-            123</span>
-          <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer">AED 123</span>
+        <div class="d-flex align-content-center mt-2" >
+          <span *ngFor="let data of forPercentageBid" class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-1" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),data.percentage))">AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),data.percentage)}}</span>
+          <!-- <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-2" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),40))">AED
+            {{calculatePercentageIncrease((highBid || product.auction_final_price ),40)}}</span>
+          <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),60))">AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),60)}}</span> -->
         </div>
 
         <div class="d-flex align-items-center mt-2">
@@ -121,11 +121,11 @@
           <label for="bid_price" class="fw-semibold w-100">Your max bid</label>
           <div class="d-flex align-items-center">
             <input type="text" placeholder="AED" class="fw-normal px-2 border py-2 rounded-2 bid-price flex-grow-1"
-              formControlName="bid_price" id="bid_price">
+              formControlName="bid_price" id="bid_price" onchange="">
             <button type="submit" class="btn-yellow rounded-pill border-0 py-2 text-white px-4 ml-3">Review
               bid</button>
           </div>
-          <p class="fs-12 fw-normal pt-1 mb-2">Enter AED18 or more</p>
+          <p class="fs-12 fw-normal pt-1 mb-2">Enter AED{{calculatePercentageIncrease((highBid || product.auction_final_price ),20)}} or more</p>
           <div
             *ngIf="bidForm.get('bid_price')?.invalid && (bidForm.get('bid_price')?.touched || bidForm.get('bid_price')?.dirty)"
             class="text-red-500 text-sm">
@@ -136,6 +136,10 @@
             <div class="text-danger fs-14"
               *ngIf="bidForm.get('bid_price')?.hasError('required') && bidForm.get('bid_price')?.touched">
               Your max bid is required.
+            </div>
+            <div class="text-danger fs-14"
+              *ngIf="bidForm.get('bid_price')?.hasError('bid-check') && bidForm.get('bid_price')?.touched">
+              Your current bid must be big from {{calculatePercentageIncrease((this.highBid || this.product.auction_final_price),20) }} or Equal.
             </div>
           </div>
 

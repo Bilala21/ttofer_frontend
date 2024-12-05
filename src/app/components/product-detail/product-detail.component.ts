@@ -128,7 +128,8 @@ export class ProductDetailComponent implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
     this.fetchData(this.productId);
-    this.fetchSimilarProducts(this.productId);
+    this.fetchSimilarProducts(this.productId)
+    this.productView()
     this.globalStateService.currentState.subscribe((state) => {
       console.log(this.productId);
       state.cartState.find((item) => {
@@ -195,7 +196,7 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    debugger
+    
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 

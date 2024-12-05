@@ -86,7 +86,7 @@ export class MainServicesService {
   }
   getPlacedBids(input: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/get-product-bids', input)
+      .post(`${Constants.baseApi}` + '/bids/product', input)
       .pipe();
   }
   makeOffer(input: any) {
@@ -208,7 +208,10 @@ export class MainServicesService {
       .pipe();
   }
   placeBid(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/place-bid', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/bids/place', input).pipe();
+  }
+  getHighBid(input: any) {
+    return this.http.post(`${Constants.baseApi}` + '/bids/highest', input).pipe();
   }
   getUserInfo(userId: any) {
     return this.http
@@ -360,7 +363,11 @@ deleteProduct(product_id:any){
   getAttributes(): Observable<any> {
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
   }
-  toggleSaveItem(data: any) {
-    return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
-  }
+  getProfileData(): Observable<any> {
+    return this.http.get<any>(`${Constants.baseApi}` + '/profile'); // Adjust path to your JSON or API endpoint
+ 
+}
+toggleSaveItem(data: any) {
+  return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
+}
 }

@@ -20,6 +20,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
+import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
 import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
@@ -57,8 +58,10 @@ export class HeaderNavigationComponent implements OnInit {
   activeCategory: any = 0;
   isSearched: boolean = false;
   searched: boolean = false;
+  sideBarItemss:any[] =[]
   private searchSubject: Subject<string> = new Subject<string>();
   suggestions: any = [];
+  activeRoute: any;
   isHideCart: boolean = false;
   constructor(
     private globalStateService: GlobalStateService,
@@ -72,6 +75,7 @@ export class HeaderNavigationComponent implements OnInit {
     private globalSearchService: GlobalSearchService,
     @Inject(DOCUMENT) private document: Document
   ) {
+ this.sideBarItemss = sideBarItems
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState;

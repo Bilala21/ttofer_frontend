@@ -30,7 +30,9 @@ export class RightSideComponent {
   maxPrice: number = 0;
   calculateRemaningTime!: string;
   productId: any = null;
-
+  liveBidsSubscription:any;
+  highBid:any;
+  highestBid:any;
   loading: boolean = false;
   currentUserid;
   @Output() handleWishlist = new EventEmitter<any>();
@@ -49,6 +51,12 @@ export class RightSideComponent {
 
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
+    this.highestBid= this.globalStateService.hightBids$.subscribe(
+      (highestBid) => {
+        this.highBid = highestBid; 
+        console.log("this is highBid",this.highBid);
+      }
+    );
     this.getBid();
   }
   toggleWishlist(item: any) {
@@ -103,7 +111,7 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    debugger
+    
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
@@ -123,27 +131,34 @@ export class RightSideComponent {
       modal_type,
       this.currentUserid,
       this.productId,
-      this.liveAuction.length
+      this.liveAuction.length,
     );
   }
+  // getHighBid(){
+  //   this.mainServices.getHighBid({product_id:this.productId}).subscribe({
+  //     next:(res:any)=>{
+  //     this.highBid= res.data.price
+  //     },
+  //     error:(err:any)=>{
+  //       this.toastr.error(
+  //         err.message,
+  //               'error'
+  //             );
+  //     }
+  //   })
+  // }
   getBid() {
     this.loading = true;
     let input = {
       product_id: this.productId,
     };
     this.mainServices.getPlacedBids(input).subscribe((res: any) => {
-      this.liveAuction = res.data;
-
-      res.data.forEach((item: any) => {
-        if (item.user && item.user.img && this.profileImg.length < 5) {
-          const imgObject = { img: item.user.img };
-          this.profileImg.push(imgObject);
+      this.globalStateService.setLiveBids(res.data)
+      this.liveBidsSubscription = this.globalStateService.liveBids$.subscribe(
+        (liveBids) => {
+          this.liveAuction = liveBids;  // Assign the array to liveAuction
         }
-      });
-      if (this.liveAuction && this.liveAuction.length > 0) {
-        const prices = this.liveAuction.map((item) => item.price);
-        this.maxPrice = Math.max(...prices);
-      }
+      );
       this.loading = false;
     });
   }
