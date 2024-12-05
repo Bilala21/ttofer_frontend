@@ -13,6 +13,7 @@ import { GlobalStateService } from '../../shared/services/state/global-state.ser
 import { TempFormComponent } from '../../components/temp-form/temp-form.component';
 import { NgIf } from '@angular/common';
 import { Extension } from '../../helper/common/extension/extension';
+import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
   selector: 'app-body',
@@ -43,7 +44,8 @@ export class BodyComponent implements OnDestroy {
     private cdr: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService,
     private globalStateService: GlobalStateService,
-    private extension: Extension
+    private extension: Extension,
+    private globalSearchService: GlobalSearchService
   ) {
     globalStateService.currentState.subscribe((state) => {
       this.tempToken =
@@ -58,7 +60,7 @@ export class BodyComponent implements OnDestroy {
       featureProduct: this.mainServices.getFeatureProduct(),
     }).subscribe({
       next: (response) => {
-        // 
+        //
         this.auctionPosts = response.auctionProduct.data.data;
         this.featuredPosts = response.featureProduct.data.data;
         this.startCountdowns();
@@ -128,5 +130,12 @@ export class BodyComponent implements OnDestroy {
         this.countdownSubscriptions.push(subscription);
       });
     }
+  }
+
+  // ['mobiles','electronics-appliance','property-for-sale','vehicles','bikes','furniture-home-decor','fashion-beauty','kids']
+
+  handleFilter(filter: any) {
+    localStorage.setItem('filters', JSON.stringify({}));
+    this.globalSearchService.setFilterdProducts(filter);
   }
 }

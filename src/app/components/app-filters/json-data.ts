@@ -31,7 +31,7 @@ export const filter_fields: any = {
     area_size: [1, 2, 3, 4, 5],
   },
 
-  'electronics-appliances': {
+  'electronics-appliance': {
     seller_types: ['Landlord', 'Agent'],
     conditions: ['Any', 'Refurbished', 'New', 'Used'],
   },

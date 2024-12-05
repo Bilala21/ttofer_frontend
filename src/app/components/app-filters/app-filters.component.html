@@ -228,7 +228,7 @@
                             @for (item of filter_fields.locations; track $index) {
                             <div class="d-flex align-items-center mb-3">
                                 <input type="checkbox" class="fs-20" name="location"
-                                    [checked]="filterCriteria?.location?.includes(item)?true:false"
+                                    [checked]="filterCriteria?.locations?.includes(item)?true:false"
                                     (change)="handleFilter({key:'location',value:item})">
                                 <span class="pl-1 fs-14">{{item}}</span>
                             </div>

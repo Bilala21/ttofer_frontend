@@ -13,5 +13,6 @@ export class SliderComponent implements OnInit {
   isLoading = false; 
  
   ngOnInit(): void {
+  
   }
 }

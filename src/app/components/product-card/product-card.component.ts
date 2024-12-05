@@ -136,7 +136,7 @@ export class ProductCardComponent {
         return parsedAttributes;
       }
     } catch (error) {
-      console.error('Error parsing attributes:', error);
+      console.error('Error parsing attributes 1234:', error);
       return []; 
     }
   }
