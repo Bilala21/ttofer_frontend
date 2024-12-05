@@ -111,7 +111,7 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    debugger
+    
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 

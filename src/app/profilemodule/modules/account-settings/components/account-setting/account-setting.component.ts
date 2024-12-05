@@ -84,7 +84,7 @@ export class AccountSettingComponent implements OnInit {
           // Handle cases with multiple fields or additional structure
           data = { ...result }; // Directly spread all key-value pairs
         }
-        debugger
+        
         console.log('User Data before update:', data); // Log the data
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {

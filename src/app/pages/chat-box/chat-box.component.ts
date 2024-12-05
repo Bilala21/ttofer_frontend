@@ -76,7 +76,7 @@ export class ChatBoxComponent {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {
-    debugger
+    
     this.currentUserid = extension.getUserId();
     this.getAllChatsOfUser();
     this.screenWidth = window.innerWidth;
@@ -205,10 +205,10 @@ export class ChatBoxComponent {
     const productData = sessionStorage.getItem('productData');
     const userData = sessionStorage.getItem('userData');
     if (productData && userData) {
-      debugger
+      
       this.productDetail = JSON.parse(productData);
       this.productId = this.productDetail.id;
-      debugger
+      
       this.productImage = this.productDetail?.photos[0]?.url;
       this.productPrice = this.productDetail.fix_price
         ? this.productDetail.fix_price
@@ -268,7 +268,7 @@ export class ChatBoxComponent {
     }
   }
   getConversation(data: any) {
-    debugger
+    
     console.log(this.selectedUser)
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
@@ -294,7 +294,7 @@ export class ChatBoxComponent {
       .getConversation(data.conversation_id)
       .subscribe((res: any) => {
         this.selectedConversation = res;
-        debugger
+        
         this.selectedUser=res
         this.productPrice = this.selectedConversation.data.conversation[0].product?.fix_price
         ?  this.selectedConversation.data.conversation[0].product?.fix_price
@@ -418,7 +418,7 @@ deleteMessage(message: any, index: number): void {
         this.selectedImages = []; // Clear selected images after sending
         this.imagePreviews=[]
         if(this.productDetail&&this.userDetail){
-          debugger
+          
           this.getAllChatsOfUser(res.data.Message[0].conversation_id)
          }
         const newMessage = {
@@ -540,7 +540,7 @@ deleteMessage(message: any, index: number): void {
           this.toastr.success('Chat deleted successfully', 'Success');
         }),
         catchError((error) => {
-          debugger
+          
           // Show the error message in the toastr
           this.toastr.error(error.error.message ,'Error');
           return of(null); // Return an observable to complete the stream

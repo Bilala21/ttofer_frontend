@@ -60,7 +60,7 @@ export class PurchaseSaleComponent implements OnInit {
     this.loading = true;
     this.mainServices.getSelling(tab, this.userId).subscribe({
       next: (res: any) => {
-        debugger
+        
         this.data = res.data?.data;
         this.loading = false;
         console.log(res.data);

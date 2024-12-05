@@ -115,12 +115,12 @@ this.route.queryParams.subscribe(params => {
   fetchData(productId: number) {
     this.mainServices.getProductById({ product_id: productId }).subscribe({
       next: (value) => {   
-        debugger     
+             
         this.editProductData = value.data;
         this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
        this.addProductForm.patchValue(this.editProductData)
        this.selectedCategorySlug=this.editProductData.category.slug
-       debugger
+       
        this.onProductTypeChange(this.editProductData.product_type)
        this.getSubcategories()
       },
@@ -178,7 +178,7 @@ this.route.queryParams.subscribe(params => {
     })
   }
   onCategoryChange(categoryId: number): void {
-    debugger
+    
     const selectedCategory = this.categories.find((cat:any) => cat.id == categoryId);
     this.selectedCategorySlug = selectedCategory?.slug || null;
     this.addProductForm.patchValue({
@@ -418,7 +418,7 @@ if(!this.editProduct){
           });
         }
       } else if (control?.value) {
-        debugger
+        
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
@@ -454,7 +454,7 @@ if(!this.editProduct){
     }
   }
   onProductTypeChange(selectedValue: string): void {
-    debugger
+    
     if (selectedValue == 'featured') {
       this.addProductForm.get('auction_initial_price')?.clearValidators();
       this.addProductForm.get('auction_initial_price')?.updateValueAndValidity();
