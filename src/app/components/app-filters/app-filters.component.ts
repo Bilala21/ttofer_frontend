@@ -89,31 +89,35 @@ export class AppFiltersComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     this.loading = true;
+  
+    // Subscribe to route param changes
     this.route.paramMap.subscribe((params) => {
       const slug: any = params.get('slug');
-      this.slugName = params.get('slug')?.slice(0, slug.lastIndexOf('-'));
-      if (slug.lastIndexOf('-') > 0) {
-        this.category_id = slug.slice(slug.lastIndexOf('-') + 1);
+      const newCategoryId = slug.slice(slug.lastIndexOf('-') + 1); // Extract category_id
+  
+      if (newCategoryId !== this.category_id) {
+        this.category_id = newCategoryId;
+        this.slugName = slug.slice(0, slug.lastIndexOf('-'));
         this.slug = slug.slice(0, slug.lastIndexOf('-') + 1).replace(/-/g, ' ');
+  
+        this.getAndSetLocalFilters(this.category_id);
+        this.fetchSubCategories(this.category_id); // Fetch subcategories only here
       }
-      this.getAndSetLocalFilters(this.category_id);
     });
-
+  
+    // Fetch categories
     this.mainServicesService.getCategories().subscribe({
       next: (res: any) => {
         this.categories = res.data;
         this.loading = false;
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
         this.loading = false;
       },
     });
-    if (this.category_id) {
-      this.fetchSubCategories(this.category_id);
-    }
+  
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    console.log(localFilters,'localFilters')
     if (!localFilters?.first_call) {
       this.handleFilter(localFilters);
     }
@@ -126,11 +130,11 @@ export class AppFiltersComponent implements OnInit {
         product_type: localData?.product_type,
         category_id: localData?.category_id,
       };
-      this.fetchSubCategories(id);
+      // this.fetchSubCategories(id);
     } else {
       this.filterCriteria = { ...localData };
     }
-
+debugger
     this.radiusValue = localData?.radius ? localData?.radius : 1;
     this.minValue = localData?.min_price ? localData?.min_price : 20;
     this.highValue = localData?.max_price ? localData?.max_price : 500;
@@ -140,8 +144,8 @@ export class AppFiltersComponent implements OnInit {
   }
 
   selectCategory(item: any) {
+    // Only navigate to trigger the route change
     this.router.navigate(['/category', item.slug + '-' + item.id]);
-    this.fetchSubCategories(item.id);
   }
 
   fetchSubCategories(id: number) {

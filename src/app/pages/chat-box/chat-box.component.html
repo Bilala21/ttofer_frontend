@@ -160,7 +160,7 @@
           </div>
           <div *ngIf="(conversationBox && conversationBox.length > 0) || selectedUser"
             class="messages-side mt-5 pt-5 scrollable-messages">
-            <div class="row" *ngif="offerStatus">
+            <div class="row" *ngIf="offerStatus">
               <div class="col-xl-6 mx-auto mt-5">
                 <div class="position-relative text-center p-3" style="background-color: #F3F4F5; border-radius: 15px;">
                   <img class="position-absolute" style="top: -20%; left: 40%;" src="assets/images/offer-img.png" alt="">

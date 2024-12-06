@@ -192,9 +192,9 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/wishlist/products', input)
       .pipe();
   }
-  markAsSold(productId: any) {
+  markAsSold(product: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/mark-product-sold/' + productId)
+      .post(`${Constants.baseApi}` + '/products/sold' , product)
       .pipe();
   }
   acceptOffer(input: any) {

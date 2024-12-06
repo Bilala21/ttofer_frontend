@@ -5,7 +5,7 @@ import { NotfoundComponent } from '../notfound/notfound.component';
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Extension } from '../../../../../helper/common/extension/extension';
 import { response } from 'express';
 import { ToastrService } from 'ngx-toastr';
@@ -40,7 +40,7 @@ export class PurchaseSaleComponent implements OnInit {
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
     private route: ActivatedRoute,
-    private extension: Extension,private dialog:MatDialog
+    private extension: Extension,private dialog:MatDialog,private router:Router
   ) {
     this.userId = this.extension.getUserId();
   }
@@ -87,6 +87,11 @@ export class PurchaseSaleComponent implements OnInit {
     } else {
       this.fecthData('buying');
     }
+  }
+  markAsSold(product: any) {
+    localStorage.setItem('soldItems', JSON.stringify(product));
+    debugger
+    this.router.navigate(['/markAsSold/', product.id]);
   }
 deleteProduct(product_id:any){
 this.mainServices.deleteProduct(product_id).subscribe({

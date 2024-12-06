@@ -47,7 +47,7 @@
                     <div class="action-text">
                         Sell faster
                         <span>|</span>
-                        <span class="mark-as-sold" style="cursor: pointer;">Mark as sold</span>
+                        <span class="mark-as-sold" style="cursor: pointer;" (click)="markAsSold(post)">Mark as sold</span>
                         <span>|</span>
                         <a class="text-decoration-none text-dark fw-semibold ml-2" [routerLink]="['/profile//add-post']" [queryParams]="{ id: post.id }">
                             <i class="bi bi-pencil-fill me-1"></i> Edit

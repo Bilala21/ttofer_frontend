@@ -70,6 +70,7 @@ export class CategoriesComponent {
 
     this.globalSearchService.currentState.subscribe((state) => {
       this.loading = state.loading;
+      debugger
       this.data = state.products?.data ? state.products?.data : [];
       console.log(state);
     });

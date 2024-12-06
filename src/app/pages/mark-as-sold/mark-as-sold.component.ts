@@ -15,7 +15,6 @@ import { Extension } from '../../helper/common/extension/extension';
   standalone: true,
   imports: [
     CommonModule,
-    FooterComponent,
     FormsModule,
     RouterModule,
     NgxDropzoneModule,
@@ -25,7 +24,8 @@ export class MarkAsSoldComponent implements OnInit {
   soldItems:any
   loading = false;
   sellingChat:any;
-  currentUserId:any
+  currentUserId:any;
+  buyer_id:any;
   adList=[{img:'assets/images/action_filled.png',message:'Someone from TTOffer?'},
     {img:'assets/images/action_filled.png',message:'Someone from Outside TTOffer?'},
     {img:'assets/images/action_filled.png',message:'Anthony'},
@@ -47,24 +47,25 @@ export class MarkAsSoldComponent implements OnInit {
     this.mainService
       .getAllChatsOfUser(this.currentUserId)
       .subscribe((res: any) => {
-        // 
         this.sellingChat = res.data.seller_chats;
-        this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id)
-        console.log(this.sellingChat)
-       ;
+        this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id);
       });
   };
-  onBuyerSelected(buyer: string) {
-    console.log('Selected buyer:', buyer);
-    // this.isBtnDisabled=false;
-    // Handle the buyer selection logic here
+  onBuyerSelected(buyer: any) {
+    this.isBtnDisabled=false;
+    debugger
+    this.buyer_id=buyer.buyer_id
   }
 
   onDoneClick() {
     // 
     let profileKey: any = localStorage.getItem('key'); 
     profileKey = JSON.parse(profileKey);
-      this.mainService.markAsSold(this.soldItems.id).subscribe({
+    const soldItem = {
+      product_id: this.soldItems.id,
+      buyer_id: this.buyer_id,
+    }
+      this.mainService.markAsSold(soldItem).subscribe({
       next: (response: any) => {
         const successMessage = response.message || 'Product is live now!';
         this.toastr.success(successMessage, 'Success');

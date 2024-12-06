@@ -415,10 +415,9 @@ deleteMessage(message: any, index: number): void {
       })
       .then((res:any) => {
         this.message = '';
-        this.selectedImages = []; // Clear selected images after sending
+        this.selectedImages = []; 
         this.imagePreviews=[]
-        if(this.productDetail&&this.userDetail){
-          
+        if(this.productDetail&&this.userDetail){        
           this.getAllChatsOfUser(res.data.Message[0].conversation_id)
          }
         const newMessage = {

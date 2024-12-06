@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -20,6 +20,8 @@ export class ProductCardComponent {
   @Input() postData: any = {}
   @Input({ required: true }) postDetialUrl: string = ""
   currentUserId: any = this.extension.getUserId();
+  parsedAttributes: any[] = [];
+
   @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
   getYear(date: string) {
     return new Date(date).getFullYear();
@@ -29,23 +31,6 @@ export class ProductCardComponent {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
 
   }
-
-  // wishlistWithProductType(productType: any, item: any) {
-  //   productType.map((prod: any) => {
-  //     if (item.id == prod.id) {
-  //       if (!item.user_wishlist) {
-  //         prod.user_wishlist = {
-  //           user_id: this.currentUserId,
-  //           product_id: item.id,
-  //         }
-  //       }
-  //       else {
-  //         prod.user_wishlist = null
-  //       }
-  //     }
-  //   })
-  // }
-
   toggleWishlist(item: any) {
   const data = this.extension.getUserId()
     if (!this.extension.getUserId()) {
@@ -71,14 +56,12 @@ export class ProductCardComponent {
       }
     });
   }
-
   getUserWishListItem(item: any) {
     if (item) {
       return item.user_id === this.currentUserId ? true : false
     }
     return false
   }
-  
   iconMapping:any = {
     brand: 'fa-tag', 
     condition: 'fa-cogs',   
@@ -149,13 +132,13 @@ export class ProductCardComponent {
       return false;
     }
   }
-  getParsedAttributes() {
-    debugger
-    if(this.postData.attributes){
-      const parsedAttributes = this.parseAttributes(this.postData.attributes);
-      return parsedAttributes.slice(0, 3); // Limit to first 3 attributes
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['postData'] && this.postData?.attributes) {
+      debugger
+      this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
     }
-    
   }
+
+
   }
 

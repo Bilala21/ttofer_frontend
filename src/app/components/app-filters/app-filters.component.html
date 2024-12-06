@@ -21,7 +21,7 @@
                     @for (item of categories; track $index) {
                     <div class="d-flex align-items-center mb-3">
                         <input type="radio" class="fs-20" name="category" [checked]="item?.id == category_id"
-                            (change)="selectCategory(item)">
+                            (change)="selectCategory(item);handleFilter({ key: 'category_id', value: item.id })">
                         <span class="pl-1 fs-14">{{ item?.name }}</span>
                     </div>
                     }
@@ -204,8 +204,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- LOCATIONS -->
                 <div class="border-b">
                     <button id="location" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                         type="button" data-toggle="collapse" data-target="#collapselocation" aria-expanded="false"
