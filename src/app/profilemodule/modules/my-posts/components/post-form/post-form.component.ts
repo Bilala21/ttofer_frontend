@@ -44,7 +44,7 @@ export class PostFormComponent {
   id:any
   editProductData:any
   @ViewChild('datePickerPromotion', { static: false }) datePickerPromotion!: ElementRef;
-  productType: any = 'auction'
+  productType: any = 'featured'
   constructor(
     private toastr: ToastrService,private route: ActivatedRoute,
     private fb: FormBuilder, private router: Router,
@@ -105,7 +105,7 @@ this.route.queryParams.subscribe(params => {
       const subCategory = this.subCategory.find((cat: any) => cat.id == subcategoryId);
       if (subCategory) {
         this.addProductForm.patchValue({
-          sub_category:  JSON.stringify(subCategory.name),
+          sub_category:subCategory.name,
         })
 
       }
@@ -119,6 +119,23 @@ this.route.queryParams.subscribe(params => {
         this.editProductData = value.data;
         this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
        this.addProductForm.patchValue(this.editProductData)
+       this.onCategoryChange(this.addProductForm.value.category_id)
+       this.addProductForm.patchValue({
+        attributes: this.editProductData.attributes,
+      });
+   const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
+      if (this.editProductData && this.editProductData.attributes) {
+        Object.keys(this.editProductData.attributes).forEach((key) => {
+          if (!attributesGroup.contains(key)) {
+            attributesGroup.addControl(
+              key,
+              this.fb.control(this.editProductData.attributes[key], Validators.required)
+            );
+          } else {
+            attributesGroup.get(key)?.setValue(this.editProductData.attributes[key]);
+          }
+        });
+      }
        this.selectedCategorySlug=this.editProductData.category.slug
        
        this.onProductTypeChange(this.editProductData.product_type)
@@ -164,13 +181,19 @@ this.route.queryParams.subscribe(params => {
     this.mainServices.getCategories().subscribe({
       next: (response: any) => {
         this.categories = response.data;
-        this.addProductForm.patchValue({
-          category_id: this.categories[0].id
-        })
+      
         if(this.editProduct){
          this.fetchData(this.id)
         }else if(!this.editProduct){
-          this.onCategoryChange(this.addProductForm.value.category_id) 
+          this.addProductForm.patchValue({
+            product_type: this.productType,
+            category_id: this.categories[0].id
+
+          })
+        
+          this.onProductTypeChange(this.addProductForm.value.product_type)
+
+          // this.onCategoryChange(this.addProductForm.value.category_id) 
           this.getSubcategories()
         }
        
@@ -182,8 +205,9 @@ this.route.queryParams.subscribe(params => {
     const selectedCategory = this.categories.find((cat:any) => cat.id == categoryId);
     this.selectedCategorySlug = selectedCategory?.slug || null;
     this.addProductForm.patchValue({
-      main_category: JSON.stringify(this.selectedCategorySlug),
+      main_category:this.selectedCategorySlug,
     })
+
   }
   handleLocationChange(location: {
     latitude: number;
@@ -201,7 +225,6 @@ this.route.queryParams.subscribe(params => {
             sub_category_id: this.subCategory[0].id
           })
           this.onCategoryChange(this.addProductForm.value.category_id)
-          this.addProductForm.setControl('attributes', this.fb.group({}));
           this.initializeForm();
         },
         (error) => { }
@@ -290,23 +313,39 @@ this.route.queryParams.subscribe(params => {
   removeVideo(): void {
     this.selectedVideo = null;
   }
-  initializeForm() { 
+  initializeForm() {
     if (!this.selectedCategorySlug) return;
+  debugger
     this.categoryFields = this.attributes[this.selectedCategorySlug];
     const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
+  
     this.categoryFields.forEach((field: any) => {
+      // Define defaultValue within this scope
+      let defaultValue = ''; 
+  
       if (!attributesGroup.contains(field.model)) {
-        let defaultValue = ''; // Default to empty string
-        if (field.type === 'select' && field.options && field.options.length > 0) {
-          defaultValue = field.options[0].id;
+        // Check if existing value exists
+        const existingValue = attributesGroup.get(field.model)?.value;
+        if (existingValue) {
+          defaultValue = existingValue; // Use existing value
+        } else if (field.type === 'select' && field.options && field.options.length > 0) {
+          defaultValue = field.options[0].id; // Use the first option as default
         }
+        
         attributesGroup.addControl(
           field.model,
           this.fb.control(defaultValue, Validators.required) // Add required validator
         );
+      } else {
+        // Update the control with the existing value to ensure it's valid
+        const control = attributesGroup.get(field.model);
+        if (control) {
+          control.setValue(control.value || defaultValue);
+        }
       }
     });
   }
+  
   addCompleteProduct(){
 if(!this.editProduct){
   this.addProduct()
@@ -388,6 +427,7 @@ if(!this.editProduct){
     // if(imagesControl.length === 0){
     //   this.validationErrors['uploadImage'] = 'Please add at least one image.';
     // }
+    debugger
     if (this.addProductForm.invalid) {
       this.addProductForm.markAllAsTouched();
       return;
@@ -440,7 +480,7 @@ if(!this.editProduct){
       const data = await response.json();
       if (response.ok) {
         this.isLoading=false
-        this.toastr.success('Product is live now!', 'Success');
+        this.toastr.success('Product Updated Successfully', 'Success');
         this.router.navigate(['']);
       } else {
         this.isLoading=false

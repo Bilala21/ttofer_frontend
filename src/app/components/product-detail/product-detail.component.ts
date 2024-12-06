@@ -37,24 +37,23 @@ import { FeedbackCardComponent } from '.././feedback-card/feedback-card.componen
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
-  inCart: boolean = false;
-  screenWidth: number;
-  screenHeight: number;
-  productId: any = null;
-  product: any = {};
-  attributes: any = {};
-  currentUser: any = {};
-  loading: boolean = false;
-  similarLoading: boolean = false;
-  similarProductsData: any = [];
-  currentUserid: any;
-  parsedAttributes: { [key: string]: string | number } = {};
-
-  isFullScreen = false;
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  zoom = 15; // Adjust zoom level to your preference
-  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  inCart: boolean=false;
+  screenWidth:number;
+  screenHeight:number;
+  productId:any = null;
+  product:any = {};
+  attributes:any = {};
+  currentUser:any = {};
+  loading:boolean = false;
+  similarLoading:boolean = false;
+  similarProductsData:any = [];
+  currentUserid:any;
+  parsedAttributes:{ [key: string]: string | number } = {};
+  isFullScreen=false;
+  center: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
+  zoom = 15; 
+  markerPosition: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
+  markerOptions: google.maps.MarkerOptions={ draggable: false };
   images: any = [];
   position: string = 'left';
   responsiveOptions = [
@@ -90,11 +89,10 @@ export class ProductDetailComponent implements OnInit {
   fetchData(productId: number) {
     this.mainServices.getProductById({ product_id: productId }).subscribe({
       next: (value) => {
-        // ;
+        debugger
         this.product = value.data;
         this.product.in_cart =this.inCart;
         this.attributes = value.data.attributes;
-        console.log(this.product)
         if (typeof this.attributes === 'string') {
           this.attributes = JSON.parse(value.data.attributes);
         }
@@ -121,12 +119,10 @@ export class ProductDetailComponent implements OnInit {
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
-        // ;
         this.similarProductsData = value.data;
         this.similarLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching product:', err);
         this.similarLoading = false;
       },
     });
@@ -152,7 +148,6 @@ export class ProductDetailComponent implements OnInit {
       product_id: this.productId,
       user_id: this.currentUserid,
     };
-    //
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {},
     });

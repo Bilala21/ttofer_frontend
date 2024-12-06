@@ -127,7 +127,7 @@ export const attributes:any={
       ]
     }
   ],
-  "electronics-appliances": [
+  "electronics-appliance": [
     {
       "label": "Brand",
       "type": "select",
@@ -576,8 +576,225 @@ export const attributes:any={
             { "id": "Shipping", "name": "Shipping" }
           ]
         }
-      ]
-    
-    
+      ],
+      "bikes":[
+        {
+          "label": "Model",
+          "type": "input",
+          "model": "model",
+          "placeholder": "Model"
+        },
+        {
+          "label": "Year",
+          "type": "input",
+          "model": "year",
+          "placeholder": "Year"
+        },
+        {
+          "label": "Condition",
+          "type": "select",
+          "model": "condition",
+          "options": [
+            { "id": "new", "name": "New" },
+            { "id": "use", "name": "Used" },
+            { "id": "Refurbished", "name": "Refurbished" },
+            { "id": "Other", "name": "Other" }
+        ]        },
+        {
+          "label": "Color",
+          "type": "select",
+          "model": "color",
+         "options": [
+              { "id": "White", "name": "White" },
+              { "id": "Black", "name": "Black" },
+              { "id": "Red", "name": "Red" },
+              { "id": "Blue", "name": "Blue" },
+              { "id": "Green", "name": "Green" },
+              { "id": "Yellow", "name": "Yellow" },
+              { "id": "Gray", "name": "Gray" },
+              { "id": "Silver", "name": "Silver" },
+              { "id": "Gold", "name": "Gold" },
+              { "id": "Orange", "name": "Orange" },
+              { "id": "Purple", "name": "Purple" },
+              { "id": "Pink", "name": "Pink" },
+              { "id": "Brown", "name": "Brown" },
+              { "id": "Maroon", "name": "Maroon" },
+              { "id": "Beige", "name": "Beige" },
+              { "id": "Turquoise", "name": "Turquoise" },
+              { "id": "Teal", "name": "Teal" },
+              { "id": "Navy", "name": "Navy" },
+              { "id": "Ivory", "name": "Ivory" },
+              { "id": "Magenta", "name": "Magenta" },
+              { "id": "Cyan", "name": "Cyan" },
+              { "id": "Lime", "name": "Lime" },
+              { "id": "Olive", "name": "Olive" },
+              { "id": "Peach", "name": "Peach" },
+              { "id": "Burgundy", "name": "Burgundy" },
+              { "id": "Charcoal", "name": "Charcoal" },
+              { "id": "Mint", "name": "Mint" },
+              { "id": "Lavender", "name": "Lavender" },
+              { "id": "Other", "name": "Other" }
+          ]
+        },
+        {
+          "label": "Delivery Type",
+          "type": "select",
+          "model": "Delivery",
+          "options": [
+            { "id": "Local Delivery", "name": "Local Delivery" },
+            { "id": "Pick Up", "name": "Pick up" },
+            { "id": "Shipping", "name": "Shipping" }
+          ]
+        }
+      ],
+      "jobs":[
+        {
+          "label": "Experience",
+          "type": "select",
+          "model": "experience",
+          "options": [
+            { "id": "Freshie", "name": "Freshie" },
+            { "id": "Intermediate", "name": "Intermediate" },
+            { "id": "Others", "name": "Others" }
+          ]
+        },
+        {
+          "label": "Education",
+          "type": "select",
+          "model": "education",
+          "options": [
+            { "id": "Intermediate", "name": "Intermediate" },
+            { "id": "High School", "name": "High School" },
+            { "id": "Bachelor's Degree", "name": "Bachelor's Degree" },
+            { "id": "Master's Degree", "name": "Master's Degree" },
+            { "id": "PhD", "name": "PhD" },
+            { "id": "Others", "name": "Others" }
+          ]
+        },
+        {
+          "label": "Salary From",
+          "type": "input",
+          "model": "Salary From",
+          "placeholder": "Salary From"
+        },
+        {
+          "label": "Salary To",
+          "type": "input",
+          "model": "Salary To",
+          "placeholder": "Salary To"
+        },
+        {
+          "label": "Salary Period",
+          "type": "select",
+          "model": "salaryPeriod",
+          "options": [
+            { "id": "Monthly", "name": "Monthly" },
+            { "id": "Daily", "name": "Daily" },
+            { "id": "Weekly", "name": "Weekly" },
+            { "id": "Others", "name": "Others" }
+          ]
+        },
+        {
+          "label": "Company Name",
+          "type": "input",
+          "model": "companyName",
+          "placeholder": "Company Name"
+        },
+        {
+          "label": "Position Type",
+          "type": "select",
+          "model": "positionType",
+          "options": [
+            { "id": "Full Time", "name": "Full Time" },
+            { "id": "Half Time", "name": "Half Time" },
+            { "id": "Others", "name": "Others" }
+          ]
+        },
+        {
+          "label": "Career Level",
+          "type": "select",
+          "model": "careerLevel",
+          "options": [
+            { "id": "Mid - Senior Level", "name": "Mid - Senior Level" },
+            { "id": "Full - Senior Level", "name": "Full - Senior Level" },
+            { "id": "Others", "name": "Others" }
+          ]
+        }
+      ],
+    "fashion-beauty": [
+      {
+        "label": 'Product Description',
+        "type": 'input',
+        "model": 'description',
+        "placeholder":'Product Description',
+      },
+      {
+        "label": 'Delivery Type',
+        "type": 'select',
+        "model": 'Delivery',
+        "options": [
+          { "id": 'Local Delivery', "name": 'Local Delivery' },
+          { "id": 'Pick Up', "name": 'Pick up' },
+          { "id": 'Shipping', "name": 'Shipping' },
+        ],
+      },
+    ],
+    "kids": [
+      {
+        "label": "Condition",
+        "type":"select",
+        "model": "condition",
+        "options":[
+            { "id": "new", "name": "New" },
+            { "id": "use", "name": "Used" },
+            { "id": "Open Box", "name": "Open Box" },
+            { "id": "Other", "name": "Other" }
+          ]
+          
+      },
+      {
+        "label": 'Delivery Type',
+        "type": 'select',
+        "model": 'Delivery',
+        "options": [
+          { "id": 'Local Delivery', "name": 'Local Delivery' },
+          { "id": 'Pick Up', "name": 'Pick up' },
+          { "id": 'Shipping', "name": 'Shipping' },
+        ],
+      },
+    ],
+      
+   "animals" : [
+      {
+        "label": "Age",
+        "type": "select",
+        "model": "age",
+        "options": [
+      { "id": "1 year", "name": "1 year" },
+      { "id": "2 year", "name": "2 year" },
+      { "id": "3 year", "name": "3 year" },
+      { "id": "4 year", "name": "4 year" },
+      { "id": "5 year", "name": "5 year" },
+      { "id": "Others", "name": "Others" }
+    ]
+      },
+      {
+        "label": "Breed",
+        "type": "input",
+        "model": "breed",
+        "placeholder": "Breed"
+      },
+      {
+        "label": "Delivery Type",
+        "type": "select",
+        "model": "Delivery",
+        "options": [
+          { "id": "Local Delivery", "name": "Local Delivery" },
+          { "id": "Pick Up", "name": "Pick up" },
+          { "id": "Shipping", "name": "Shipping" }
+        ]
+      }
+    ]
+  
 }
 

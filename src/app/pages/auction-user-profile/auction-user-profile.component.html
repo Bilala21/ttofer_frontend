@@ -5,7 +5,7 @@
     <div class="row mt-3">
         <div class="col-md-2 col-3 mx-auto text-center ">
             <!-- <img src="assets/images/profile-img1.png" class="w-100" alt=""> -->
-            <img *ngIf="auctionUserList?.img!=null" [src]="auctionUserList?.img" loading="lazy" style="height: 112px;
+            <img  [src]="auctionUserList?.img?auctionUserList.img:'/assets/images/profile-icon.svg'" loading="lazy" style="height: 112px;
             width: 112px !important;
             border-radius: 25px;
         " alt="">
@@ -72,7 +72,7 @@
                     <div *ngIf="activeTab === 'products'" class="active-line"></div>
                 </div>
                 <div class="col-md-3 col-6 cur-pointer" (click)="setActiveTab('reviews')" 
-                    [class.active-tab]="activeTab === 'reviews'" []>
+                    [class.active-tab]="activeTab === 'reviews'">
                     <h3 class="sm-cat-text4">Review</h3>
                     <div *ngIf="activeTab === 'reviews'" class="active-line"></div>
                 </div>
