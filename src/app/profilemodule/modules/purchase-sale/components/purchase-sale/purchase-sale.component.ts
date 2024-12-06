@@ -29,6 +29,7 @@ export class PurchaseSaleComponent implements OnInit {
   activeIndex: number = 1;
   notFoundData: any = {};
   data: any = [];
+  activeTab: string = 'buying';
   notfoundData = notFoundData['buying'];
   loading: boolean = false;
   userId;
@@ -44,6 +45,7 @@ export class PurchaseSaleComponent implements OnInit {
   getTab(tab: any) {
     this.activeIndex = tab.index;
     this.notfoundData = notFoundData[tab.value];
+    this.activeTab = tab.value;
     if (this.tabs.includes(tab.value)) {
       this.fecthData(tab.value);
     }

@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
@@ -13,15 +9,12 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { GlobalSearchService } from '../../shared/services/state/search-state.service';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppFiltersComponent,
     ProductCardComponent,
@@ -37,8 +30,7 @@ export class CategoriesComponent {
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
     private countdownTimerService: CountdownTimerService,
-    private cd: ChangeDetectorRef,
-    private globalSearchService: GlobalSearchService
+    private cd: ChangeDetectorRef
   ) {}
 
   promotionBanners: any = [];
@@ -55,36 +47,33 @@ export class CategoriesComponent {
   handleTab(tab: string) {
     localStorage.setItem('categoryTab', tab);
     this.activeTab = tab;
-    this.globalSearchService.setFilterdProducts({
-      product_type: tab,
-      category_id: this.id,
-    });
-    this.cd.markForCheck();
+    this.fecthcData({ });
   }
 
   ngOnInit(): void {
-    this.globalSearchService.currentState
-      .pipe(
-        distinctUntilChanged((prev, curr) => {
-          const areProductsEqual =
-            prev.products?.data?.length === curr.products?.data?.length;
-          const isLoadingEqual = prev.loading === curr.loading;
-          return areProductsEqual && isLoadingEqual;
-        })
-      )
-      .subscribe((state) => {
-        console.log(12)
-        this.loading = state.loading;
-        this.data = state.products?.data ? state.products?.data : [];
-        this.cd.markForCheck();
-      });
+    this.route.queryParamMap.subscribe((query) => {
+      if (query.get('search')) {
+        console.log(query.get('search'), 'search');
+        this.fecthcData({ search: query.get('search') });
+      }
+    });
 
     this.route.paramMap.subscribe((param) => {
+      console.log(param, location.search);
       const slug = param.get('slug');
       const index = Number(slug?.lastIndexOf('-'));
       this.slugName = slug?.slice(0, index);
       this.id = slug?.slice(index + 1);
       this.setActiveTabs(this.slugName);
+      const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+      if (location.search == '') {
+        if (Number(localFilters.category_id) == Number(this.id)) {
+          this.fecthcData({ category_id: this.id });
+        } else {
+          localStorage.setItem('filters', '{}');
+          this.fecthcData({ category_id: this.id });
+        }
+      }
     });
     this.getBanners();
   }
@@ -168,6 +157,37 @@ export class CategoriesComponent {
           : 'hiring';
       localStorage.setItem('categoryTab', 'hiring');
     }
+  }
+
+  fecthcData(filter: any) {
+    console.log(filter, 'bilal');
+    const product_type = localStorage.getItem('categoryTab');
+    const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+
+    const category_id = this.id ? this.id : localFilters.category_id;
+    localStorage.setItem(
+      'filters',
+      JSON.stringify({ ...localFilters, ...filter, product_type, category_id })
+    );
+
+    this.loading = true;
+    this.mainServices
+      .getFilteredProducts({
+        ...filter,
+        ...localFilters,
+        product_type,
+        category_id,
+        search: filter.search,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          this.data = res.data.data;
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   ngOnDestroy() {

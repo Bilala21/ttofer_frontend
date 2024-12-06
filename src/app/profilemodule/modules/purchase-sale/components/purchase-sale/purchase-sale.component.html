@@ -26,9 +26,9 @@
                 <div class="ml-3 flex-grow-1 custom-margin-left">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="card-title">{{post.title}}</span>
-                        <span class="view-count">0 Views</span>
+                        <span class="view-count" *ngIf="activeTab==='selling'">0 Views</span>
                     </div>
-                    <div class="d-flex justify-content-start align-items-center">
+                    <div class="d-flex justify-content-start align-items-center" *ngIf="activeTab==='selling'">
                         <div class="avatars d-flex">
                             <img src="/assets/images/profile-placeholder.png" alt="User 1">
                             <img src="/assets/images/profile-placeholder.png" alt="User 2">
@@ -36,7 +36,7 @@
                             <img src="/assets/images/profile-placeholder.png" alt="User 4">
                         </div>
                     </div>
-                    <div class="action-text">
+                    <div class="action-text" *ngIf="activeTab==='selling'">
                         Sell faster
                         <span>|</span>
                         <span class="mark-as-sold" style="cursor: pointer;">Mark as sold</span>

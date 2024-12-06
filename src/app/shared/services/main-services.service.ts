@@ -302,6 +302,7 @@ export class MainServicesService {
   }
 
   getFilteredProducts(data: any = {}): Observable<any[]> {
+    console.log(data,'data')
     return this.http.post<any[]>(
       `${Constants.baseApi}` + '/get-all-products',
       data

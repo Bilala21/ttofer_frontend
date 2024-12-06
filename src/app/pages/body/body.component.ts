@@ -136,6 +136,6 @@ export class BodyComponent implements OnDestroy {
 
   handleFilter(filter: any) {
     localStorage.setItem('filters', JSON.stringify({}));
-    this.globalSearchService.setFilterdProducts(filter);
+    // this.globalSearchService.setFilterdProducts(filter);
   }
 }
