@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { MainServicesService } from '../main-services.service';
 
 interface AppState {
   queryValue: string;
+  products: any;
+  loading: boolean;
 }
 
 @Injectable({
@@ -11,12 +14,14 @@ interface AppState {
 export class GlobalSearchService {
   private initialState: AppState = {
     queryValue: '',
+    products: {},
+    loading: true,
   };
 
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
 
-  constructor() {}
+  constructor(private mainServicesService: MainServicesService) {}
 
   setQueryValue(q: string) {
     localStorage.setItem('queryValue', q);
@@ -27,4 +32,65 @@ export class GlobalSearchService {
     };
     this.stateSubject.next(newState);
   }
+
+  setFilterdProducts(filter: any) {
+
+    const filters = {
+      ...JSON.parse(localStorage.getItem('filters') || '{}'),
+      ...filter,
+    };
+    const currentState = this.stateSubject.value;
+    this.stateSubject.next({
+      ...currentState,
+      loading: true,
+    });
+    const apiFilters = filters?.locations
+      ? { ...filters, locations: filters?.locations?.join(',') }
+      : filters;
+      
+    this.mainServicesService.getFilteredProducts(apiFilters).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          const newState = {
+            ...currentState,
+            products: res.data,
+            loading: false,
+          };
+          this.stateSubject.next(newState);
+        } else {
+          console.log('No data found in response');
+          const newState = {
+            ...currentState,
+            products: {},
+            loading: false,
+          };
+          this.stateSubject.next(newState);
+        }
+      },
+      error: (err) => {
+        const newState = {
+          ...currentState,
+          products: {},
+          loading: false,
+        };
+        console.log('Error fetching filtered products', err);
+        this.stateSubject.next(newState);
+      },
+    });
+    localStorage.setItem('filters', JSON.stringify(filters));
+    setTimeout(() => {
+      localStorage.setItem(
+        'filters',
+        JSON.stringify({ ...filters, first_call: false })
+      );
+    }, 1000);
+  }
 }
+
+// ['mobiles','electronics-appliance','property-for-sale','vehicles','bikes','furniture-home-decor','fashion-beauty','kids'].every((category)=>{
+//   //auction
+//   })
+
+//   ['animals','services','property-for-rent'] //featured
+
+//   ['jobs'] // hiring

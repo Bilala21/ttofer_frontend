@@ -15,6 +15,7 @@ import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter_fields } from './json-data';
+import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
   selector: 'app-filters',
@@ -46,6 +47,7 @@ export class AppFiltersComponent implements OnInit {
   filterCriteria: any = {
     location: [],
   };
+  locations: any = [];
 
   minValue: number = 5;
   highValue: number = 1000;
@@ -80,11 +82,11 @@ export class AppFiltersComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
-    public globalStateService: GlobalStateService
+    public globalStateService: GlobalStateService,
+    public globalSearchService: GlobalSearchService
   ) {}
 
   ngOnInit() {
-    alert()
     this.checkScreenSize();
     this.loading = true;
     this.route.paramMap.subscribe((params) => {
@@ -110,6 +112,11 @@ export class AppFiltersComponent implements OnInit {
     if (this.category_id) {
       this.fetchSubCategories(this.category_id);
     }
+    const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+    console.log(localFilters,'localFilters')
+    if (!localFilters?.first_call) {
+      this.handleFilter(localFilters);
+    }
   }
 
   getAndSetLocalFilters(id: number) {
@@ -123,7 +130,7 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria = { ...localData };
     }
- 
+
     this.radiusValue = localData?.radius ? localData?.radius : 1;
     this.minValue = localData?.min_price ? localData?.min_price : 20;
     this.highValue = localData?.max_price ? localData?.max_price : 500;
@@ -155,21 +162,20 @@ export class AppFiltersComponent implements OnInit {
 
   handleFilter(filter: any) {
     if (filter.key === 'location') {
-      this.filterCriteria = this.filterCriteria?.location
-        ? { ...this.filterCriteria }
-        : { ...this.filterCriteria, location: [] };
-
-      const index = this.filterCriteria.location.indexOf(filter.value);
-
-      if (index > -1) {
-        this.filterCriteria.location.splice(index, 1);
+      const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+      if (localFilters?.locations) {
+        this.locations.push(...localFilters?.locations, filter.value);
       } else {
-        this.filterCriteria.location.push(filter.value);
+        this.locations.push(filter.value);
       }
+      this.globalSearchService.setFilterdProducts({
+        locations: this.locations,
+      });
     } else {
-      this.filterCriteria[filter.key] = filter.value;
+      this.globalSearchService.setFilterdProducts({
+        [filter.key]: filter.value,
+      });
     }
-    this.handleFilterEvent.emit({ ...this.filterCriteria });
   }
 
   handleMinMaxPrice() {
