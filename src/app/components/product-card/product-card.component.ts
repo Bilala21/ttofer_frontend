@@ -111,7 +111,7 @@ export class ProductCardComponent {
   
   private parseAttributes(value: any): any {
     try {
-      debugger
+      
       let attributes = JSON.parse(value);
       if(typeof attributes === 'string'){
         const attributes2 = JSON.parse(attributes);
@@ -150,7 +150,7 @@ export class ProductCardComponent {
     }
   }
   getParsedAttributes() {
-    debugger
+    
     if(this.postData.attributes){
       const parsedAttributes = this.parseAttributes(this.postData.attributes);
       return parsedAttributes.slice(0, 3); // Limit to first 3 attributes

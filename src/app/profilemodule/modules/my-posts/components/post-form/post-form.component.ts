@@ -315,7 +315,7 @@ this.route.queryParams.subscribe(params => {
   }
   initializeForm() {
     if (!this.selectedCategorySlug) return;
-  debugger
+  
     this.categoryFields = this.attributes[this.selectedCategorySlug];
     const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
   
@@ -427,7 +427,7 @@ if(!this.editProduct){
     // if(imagesControl.length === 0){
     //   this.validationErrors['uploadImage'] = 'Please add at least one image.';
     // }
-    debugger
+    
     if (this.addProductForm.invalid) {
       this.addProductForm.markAllAsTouched();
       return;

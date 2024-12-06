@@ -89,7 +89,7 @@ export class ProductDetailComponent implements OnInit {
   fetchData(productId: number) {
     this.mainServices.getProductById({ product_id: productId }).subscribe({
       next: (value) => {
-        debugger
+        
         this.product = value.data;
         this.product.in_cart =this.inCart;
         this.attributes = value.data.attributes;

@@ -76,7 +76,7 @@ export class AuctionUserProfileComponent {
       // this.loading = true
 // 
       this.mainServices.getUserInfo(this.auctionUserId).subscribe((res:any) =>{
-        debugger
+        
         this.auctionUserList = res.data
         this.reviewsUserList = res.data.products
         console.log('auction Produtc', this.auctionUserList);
