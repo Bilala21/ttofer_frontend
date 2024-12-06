@@ -214,21 +214,21 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   getCartItems() {
-    if (!this.currentUserid) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
-        next: (value: any) => {
-          this.globalStateService.updateCart(value.data);
-          this.cartItems = value.data;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-    }
+    // if (!this.currentUserid) {
+    //   this.toastr.warning('Plz login first than try again !', 'Warning');
+    //   this.authService.triggerOpenModal();
+    //   return;
+    // } else {
+    //   this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
+    //     next: (value: any) => {
+    //       this.globalStateService.updateCart(value.data);
+    //       this.cartItems = value.data;
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //     },
+    //   });
+    // }
   }
   goOnNotification() {
     const storedData = localStorage.getItem('key');

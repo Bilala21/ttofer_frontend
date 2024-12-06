@@ -18,12 +18,11 @@
       <div class="d-block d-lg-flex pt-5">
         <app-filters [totalProducts]="data?.length" [categoryId]="this.id" />
         <!-- PRODUCT SIDE -->
-        <p>{{this.activeTab}}</p>
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
           <div class="text-center buttons d-flex align-items-center justify-content-center xs-between">
             @if (slugName) {
             @for (tab of ProductTabs; track $index) {
-            <button type="button" class="btn py-2 px-2 mr-1  {{activeTab==tab?'text-white bg-dark':'border-1'}}"
+            <button type="button" class="btn py-2 px-2 mr-1 text-capitalize  {{activeTab==tab?'text-white bg-dark':'border-1'}}"
               (click)="handleTab(tab)">
               {{tab}}
             </button>

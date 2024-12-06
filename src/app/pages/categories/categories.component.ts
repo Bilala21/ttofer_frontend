@@ -1,4 +1,8 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
@@ -10,12 +14,14 @@ import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from '../../shared/services/state/search-state.service';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppFiltersComponent,
     ProductCardComponent,
@@ -43,36 +49,44 @@ export class CategoriesComponent {
   countdownSubscriptions: Subscription[] = [];
   loading: boolean = false;
   slugName: any = '';
-  localFilters: any = {};
   ProductTabs: any = [];
+  allTabs: any = ['auction', 'featured', 'looking', 'hiring'];
 
   handleTab(tab: string) {
+    localStorage.setItem('categoryTab', tab);
     this.activeTab = tab;
     this.globalSearchService.setFilterdProducts({
       product_type: tab,
       category_id: this.id,
     });
+    this.cd.markForCheck();
   }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe((params) => {
-    //   const slug = params.get('slug');
-    //   const index = Number(slug?.lastIndexOf('-'));
-    //   this.id = slug?.slice(index + 1);
-    //   this.slugName = slug?.slice(0, index);
-    //   this.setActiveTabs(this.slugName)
-    // });
-    // this.localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    // this.activeTab = this.localFilters?.product_type;
-    // this.setActiveTabs(this.localFilters.slug);
-    // this.slugName = this.localFilters.slug;
-    this.getBanners();
+    this.globalSearchService.currentState
+      .pipe(
+        distinctUntilChanged((prev, curr) => {
+          const areProductsEqual =
+            prev.products?.data?.length === curr.products?.data?.length;
+          const isLoadingEqual = prev.loading === curr.loading;
+          return areProductsEqual && isLoadingEqual;
+        })
+      )
+      .subscribe((state) => {
+        console.log(12)
+        this.loading = state.loading;
+        this.data = state.products?.data ? state.products?.data : [];
+        this.cd.markForCheck();
+      });
 
-    this.globalSearchService.currentState.subscribe((state) => {
-      this.loading = state.loading;
-      this.data = state.products?.data ? state.products?.data : [];
-      console.log(state);
+    this.route.paramMap.subscribe((param) => {
+      const slug = param.get('slug');
+      const index = Number(slug?.lastIndexOf('-'));
+      this.slugName = slug?.slice(0, index);
+      this.id = slug?.slice(index + 1);
+      this.setActiveTabs(this.slugName);
     });
+    this.getBanners();
   }
 
   getBanners() {
@@ -115,6 +129,10 @@ export class CategoriesComponent {
   }
 
   setActiveTabs(slug: any) {
+    const selectedTab = localStorage.getItem('categoryTab');
+    const category_id = JSON.parse(
+      localStorage.getItem('filters') || '{}'
+    )?.category_id;
     if (
       [
         'mobiles',
@@ -128,14 +146,28 @@ export class CategoriesComponent {
       ].includes(slug)
     ) {
       this.ProductTabs = ['auction', 'featured'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'auction';
+      localStorage.setItem('categoryTab', 'auction');
     }
     if (['animals', 'services', 'property-for-rent'].includes(slug)) {
       this.ProductTabs = ['featured'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'featured';
+      localStorage.setItem('categoryTab', 'featured');
     }
     if (slug == 'jobs') {
       this.ProductTabs = ['hiring', 'looking'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'hiring';
+      localStorage.setItem('categoryTab', 'hiring');
     }
-    console.log(this.ProductTabs);
   }
 
   ngOnDestroy() {

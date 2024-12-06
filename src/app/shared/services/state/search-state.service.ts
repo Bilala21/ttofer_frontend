@@ -33,50 +33,133 @@ export class GlobalSearchService {
     this.stateSubject.next(newState);
   }
 
-  setFilterdProducts(filter: any) {
+  // setFilterdProducts(filter: any) {
 
+  //   const filters = {
+  //     ...JSON.parse(localStorage.getItem('filters') || '{}'),
+  //     ...filter,
+  //   };
+  //   const currentState = this.stateSubject.value;
+  //   this.stateSubject.next({
+  //     ...currentState,
+  //     loading: true,
+  //   });
+  //   const apiFilters = filters?.locations
+  //     ? { ...filters, locations: filters?.locations?.join(',') }
+  //     : filters;
+
+  //   this.mainServicesService.getFilteredProducts(apiFilters).subscribe({
+  //     next: (res: any) => {
+  //       if (res.status) {
+  //         const newState = {
+  //           ...currentState,
+  //           products: res.data,
+  //           loading: false,
+  //         };
+  //         this.stateSubject.next(newState);
+  //       } else {
+  //         console.log('No data found in response');
+  //         const newState = {
+  //           ...currentState,
+  //           products: {},
+  //           loading: false,
+  //         };
+  //         this.stateSubject.next(newState);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       const newState = {
+  //         ...currentState,
+  //         products: {},
+  //         loading: false,
+  //       };
+  //       console.log('Error fetching filtered products', err);
+  //       this.stateSubject.next(newState);
+  //     },
+  //   });
+  //   localStorage.setItem('filters', JSON.stringify(filters));
+  //   setTimeout(() => {
+  //     localStorage.setItem(
+  //       'filters',
+  //       JSON.stringify({ ...filters, first_call: false })
+  //     );
+  //   }, 1000);
+  // }
+
+  setFilterdProducts(filter: any) {
     const filters = {
       ...JSON.parse(localStorage.getItem('filters') || '{}'),
       ...filter,
     };
+
     const currentState = this.stateSubject.value;
-    this.stateSubject.next({
-      ...currentState,
-      loading: true,
-    });
+
+    if (currentState.loading !== true) {
+      this.stateSubject.next({
+        ...currentState,
+        loading: true,
+      });
+    }
+
     const apiFilters = filters?.locations
       ? { ...filters, locations: filters?.locations?.join(',') }
       : filters;
-      
-    this.mainServicesService.getFilteredProducts(apiFilters).subscribe({
-      next: (res: any) => {
-        if (res.status) {
-          const newState = {
-            ...currentState,
-            products: res.data,
-            loading: false,
-          };
-          this.stateSubject.next(newState);
-        } else {
-          console.log('No data found in response');
+
+    this.mainServicesService
+      .getFilteredProducts({
+        ...apiFilters,
+        product_type: filter.product_type
+          ? filter.product_type
+          : localStorage.getItem('categoryTab'),
+      })
+      .subscribe({
+        next: (res: any) => {
+          if (res.status) {
+            const newState = {
+              ...currentState,
+              products: res.data,
+              loading: false,
+            };
+            if (
+              JSON.stringify(newState.products) !==
+                JSON.stringify(currentState.products) ||
+              newState.loading !== currentState.loading
+            ) {
+              this.stateSubject.next(newState);
+            }
+          } else {
+            console.log('No data found in response');
+            const newState = {
+              ...currentState,
+              products: {},
+              loading: false,
+            };
+            if (
+              JSON.stringify(newState.products) !==
+                JSON.stringify(currentState.products) ||
+              newState.loading !== currentState.loading
+            ) {
+              this.stateSubject.next(newState);
+            }
+          }
+        },
+        error: (err) => {
           const newState = {
             ...currentState,
             products: {},
             loading: false,
           };
-          this.stateSubject.next(newState);
-        }
-      },
-      error: (err) => {
-        const newState = {
-          ...currentState,
-          products: {},
-          loading: false,
-        };
-        console.log('Error fetching filtered products', err);
-        this.stateSubject.next(newState);
-      },
-    });
+          console.log('Error fetching filtered products', err);
+          if (
+            JSON.stringify(newState.products) !==
+              JSON.stringify(currentState.products) ||
+            newState.loading !== currentState.loading
+          ) {
+            this.stateSubject.next(newState);
+          }
+        },
+      });
+
     localStorage.setItem('filters', JSON.stringify(filters));
     setTimeout(() => {
       localStorage.setItem(
@@ -86,11 +169,3 @@ export class GlobalSearchService {
     }, 1000);
   }
 }
-
-// ['mobiles','electronics-appliance','property-for-sale','vehicles','bikes','furniture-home-decor','fashion-beauty','kids'].every((category)=>{
-//   //auction
-//   })
-
-//   ['animals','services','property-for-rent'] //featured
-
-//   ['jobs'] // hiring
