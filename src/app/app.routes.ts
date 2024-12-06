@@ -7,6 +7,7 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { ChatBoxComponent } from './pages/chat-box/chat-box.component';
 import { WhoBoughtAdComponent } from './pages/who-bought-ad/who-bought-ad.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
+import { ReviewComponent } from './components/review/review.component';
 import { AuctionUserProfileComponent } from './pages/auction-user-profile/auction-user-profile.component';
 import { PrivacyPolicyComponent } from './pages/Privacy-Policy/Privacy-Policy.component';
 import { TermOfConditionComponent } from './pages/term-of-condition/term-of-condition.component';
@@ -88,10 +89,10 @@ export const routes: Routes = [
     path: 'product-buyer',
     component: ProductBuyerComponent,
   },
-  {
-    path: 'seller-review/:id',
-    component: SellerReveiwComponent,
-  },
+  // {
+  //   path: 'seller-review/:id',
+  //   component: SellerReveiwComponent,
+  // },
   {
     path: 'post-performance',
     component: PostPerformanceComponent,
@@ -100,10 +101,10 @@ export const routes: Routes = [
     path: 'whoBoughtAd/:id',
     component: WhoBoughtAdComponent,
   },
-  {
-    path: 'review/:id',
-    component: ReviewPageComponent,
-  },
+  // {
+  //   path: 'review/:id',
+  //   component: ReviewPageComponent,
+  // },
   
   {
     path: 'userProfile/:id',
@@ -132,6 +133,12 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: ShoppingCartComponent,
+  },
+  {
+    path: 'review/:id',
+    component: SellerReveiwComponent,
+    // component: ReviewPageComponent,
+    // component: ReviewComponent,
   },
   {
     path: 'checkout',

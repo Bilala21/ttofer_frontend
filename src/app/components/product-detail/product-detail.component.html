@@ -62,7 +62,7 @@
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"><i
                         aria-hidden="true" class="fa-heart far fs-19"></i></button>
-                    <img src={{item?.photos?.[0]?.url}} alt="image" class="img-fluid h-100 rounded-2">
+                    <img src={{item?.photo?.url}} alt="image" class="img-fluid h-100 rounded-2">
                   </div>
                   <a [routerLink]="['/product-detail', item?.id, item?.slug]" class="text-left text-dark-650">
                     {{item?.description.slice(0,20)}}
@@ -87,14 +87,12 @@
         <div class="order-lg-3 order-2">
           <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
             <h2 class="fw-semibold fs-24">Details</h2>
-            <div class="row">
-              <div class="col-md-6 mb-2" *ngFor="let item of parsedAttributes  | keyvalue ">
+              <div class="detail-width mb-2" *ngFor="let item of parsedAttributes  | keyvalue ">
                 <div class="d-flex justify-content-between align-items-center bg-gray-450 py-2 px-3 rounded">
                   <span class="text-uppercase fw-semibold">{{ item.key | titlecase }}</span>
                   <span>{{ item.value }}</span>
                 </div>
               </div>
-            </div>
           </div>
 
 
@@ -119,8 +117,12 @@
             </div>
           </div>
 
+         
+         
         </div>
       </section>
+      <hr>
+      <app-feedback-card></app-feedback-card>
       <app-make-offer-modal [product]="product" />
     </div>
   </div>

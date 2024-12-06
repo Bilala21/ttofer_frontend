@@ -16,6 +16,7 @@ import { MakeOfferModalComponent } from '../modals/make-offer-modal/make-offer-m
 import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { RightSideComponent } from './right-side/right-side.component';
+import { FeedbackCardComponent } from '.././feedback-card/feedback-card.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -30,6 +31,7 @@ import { RightSideComponent } from './right-side/right-side.component';
     MakeOfferModalComponent,
     NgIf,
     CardShimmerComponent,
+    FeedbackCardComponent,
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',

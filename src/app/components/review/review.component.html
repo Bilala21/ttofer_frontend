@@ -1,0 +1,46 @@
+<main class="mt-16">
+<div class="review-form">
+    <h1>Seller Review</h1>
+  
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+      <!-- Rating Field -->
+      <div class="form-group">
+        <label for="rating">Rating</label>
+        <div class="rating">
+          <span
+            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+            class="star"
+            [class.filled]="i < reviewForm.get('rating')?.value"
+            (click)="reviewForm.patchValue({ rating: i + 1 })">
+            ★
+          </span>
+        </div>
+        <div class="error" *ngIf="submitted && reviewForm.get('rating')?.invalid">
+          <small>Rating is required.</small>
+        </div>
+      </div>
+      <!-- Description Field -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Write your review here"
+          rows="4">
+        </textarea>
+        <div class="error" *ngIf="submitted && reviewForm.get('description')?.invalid">
+          <small *ngIf="reviewForm.get('description')?.errors?.['required']">
+            Description is required.
+          </small>
+          <small *ngIf="reviewForm.get('description')?.errors?.['minlength']">
+            Description must be at least 10 characters long.
+          </small>
+        </div>
+      </div> 
+      <!-- Submit Button -->
+       <div class="d-flex justify-content-end">
+           <button type="submit" class="bg-yellow-800 w-50">Submit Review</button>
+       </div>
+    </form>
+  </div>
+</main> 

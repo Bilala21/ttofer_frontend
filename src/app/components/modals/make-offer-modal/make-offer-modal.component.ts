@@ -87,23 +87,25 @@ export class MakeOfferModalComponent implements OnInit {
     }
 
   getHighBid(ProductId:any){
-    this.mainServices.getHighBid({product_id:ProductId}).subscribe({
-      next:(res:any)=>{
-        this.globalStateService.setHighestBid(res.data.price)
-        console.log("res",res.data.price)
-        this.highestBid = this.globalStateService.hightBids$.subscribe(
-          (highestBid) => {
-            this.highBid = highestBid;
-          }
-        );
-      },
-      error:(err:any)=>{
-        this.toastr.error(
-          err.message,
-                'error'
-              );
-      }
-    })
+if(this.product.product_type == 'auction'){
+  this.mainServices.getHighBid({product_id:ProductId}).subscribe({
+    next:(res:any)=>{
+      this.globalStateService.setHighestBid(res.data.price)
+      console.log("res",res.data.price)
+      this.highestBid = this.globalStateService.hightBids$.subscribe(
+        (highestBid) => {
+          this.highBid = highestBid;
+        }
+      );
+    },
+    error:(err:any)=>{
+      this.toastr.error(
+        err.message,
+              'error'
+            );
+    }
+  })
+}
   }
 
   calculatePercentageIncrease(baseValue:any, percentage:any) {
@@ -112,8 +114,8 @@ export class MakeOfferModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getHighBid(this.product.id)
     if (this.product.product_type == 'auction') {
+      this.getHighBid(this.product.id)
       this.startCountdowns()
     }
     this.globalStateService.currentState.subscribe((state:any) => {
