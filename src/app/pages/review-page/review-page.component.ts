@@ -35,7 +35,7 @@ ngOnInit():void{
   this.currentUserId = this.extension.getUserId();
     this.userId = this.route.snapshot.paramMap.get('id')!;
     this.getUserInfo()
-    // console.log(this.userId)
+    // //(this.userId)
 }
 getUserInfo(){
 

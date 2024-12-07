@@ -108,8 +108,8 @@ export class LoginModalComponent {
 
   onSubmit() {
     if (this.phone && this.password) {
-      console.log('Phone:', this.phone);
-      console.log('Password:', this.password);
+      //('Phone:', this.phone);
+      //('Password:', this.password);
     }
   }
    openLoginModal() {
@@ -181,7 +181,7 @@ export class LoginModalComponent {
         }
       );
     } else {
-      console.log('OTP is incomplete.');
+      //('OTP is incomplete.');
     }
   }
   isFormValidforgot(): boolean {
@@ -230,8 +230,8 @@ export class LoginModalComponent {
 
   signIn() {
     if (this.isFormValid()) {
-      console.log('Email:', this.email);
-      console.log('Password:', this.password);
+      //('Email:', this.email);
+      //('Password:', this.password);
     }
   }
 
@@ -291,7 +291,7 @@ export class LoginModalComponent {
             password: user.email
           }
           this.googleAccountRegister(input,user);
-          console.log('User signed in:', user);
+          //('User signed in:', user);
         }
       },
       error: (error:any) => {
@@ -521,7 +521,7 @@ export class LoginModalComponent {
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
       this.loading=false
       this.otpVerify = res.otp
-      console.log(this.otpVerify)
+      //(this.otpVerify)
       this.toastr.success(res.message, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
@@ -560,7 +560,7 @@ export class LoginModalComponent {
     this.mainServices.forgetPasswordNumber(input).subscribe((res:any) => {
       this.loading=false
       this.otpVerify = res.otp
-      console.log(this.otpVerify)
+      //(this.otpVerify)
       this.toastr.success(res.msg, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false

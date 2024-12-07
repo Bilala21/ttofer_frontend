@@ -161,7 +161,7 @@ export class SellingComponent {
   //       this.loading=false
   //     },
   //     error: (err) => {
-  //       console.log(err);
+  //       //(err);
   //       this.loading=false
   //     },
   //   });
@@ -215,12 +215,12 @@ export class SellingComponent {
       this.sellingList = this.sellingList?.filter((item:any) => {
         return item.id == this.sellingId;
       });
-      console.log(this.sellingList)
+      //(this.sellingList)
       this.loading = false
     })
   }
   markAsSold(prodictId:any){
-    console.log('sold out ', prodictId)
+    //('sold out ', prodictId)
     this.mainServices.markAsSold(prodictId).subscribe(res =>{
 
       res
@@ -232,7 +232,7 @@ export class SellingComponent {
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res:any) =>{
 
       this.message = res.data
-      console.log(this.message)
+      //(this.message)
       this.loading = false
     });
   }
@@ -244,7 +244,7 @@ export class SellingComponent {
 
       res
       this.whoBouthList = res
-      console.log('who bought',this.whoBouthList)
+      //('who bought',this.whoBouthList)
     })
   }
   editPost() {

@@ -35,7 +35,7 @@ export class ContactFormComponent {
     }
 
     // Handle form submission logic here
-    console.log('Form Submitted', this.contactForm.value);
+    //('Form Submitted', this.contactForm.value);
 
     // Reset the form after submission if desired
     this.contactForm.reset();

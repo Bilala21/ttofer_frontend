@@ -39,10 +39,10 @@
               <div class="item-header d-flex justify-content-between mt-4">
                 <div class="d-flex">
                   <div class="product-image">
-                    <img [src]="item.product.url" alt="seller image" class="max-h-100 max-w-100 rounded-0" />
+                    <img [src]="item.product.photo.url" alt="seller image" class="max-h-100 max-w-100 rounded-0" />
                   </div>
                   <div class="ml-3">
-                    <span class="product-title d-block">{{ item.product.name }}</span>
+                    <span class="product-title d-block">{{ item.product.title }}</span>
                   </div>
                 </div>
               </div>
@@ -63,7 +63,7 @@
                 <a [routerLink]="['/']" routerLinkActive="router-link-active " class="text-decoration-none text-dark">
                   Buy Now
                 </a>
-                <button (click)="saveForLater(item)" class="btn focus-none">{{item?.is_saved ? 'Remove saved itme':
+                <button (click)="saveForLater(item)" class="btn focus-none">{{item.product?.save_for_later ? 'Remove saved itme':
                   'Save for Later'}}</button>
                 <button (click)="removeItem(item)" class="btn text-danger focus-none">Remove</button>
               </div>

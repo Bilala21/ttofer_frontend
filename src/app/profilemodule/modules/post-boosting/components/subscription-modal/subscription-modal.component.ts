@@ -54,7 +54,7 @@ export class SubscriptionModalComponent {
     public dialogRef: MatDialogRef<SubscriptionModalComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(this.data);
+    //(this.data);
     this.subscription = this.subscriptionData[this.data.type];
   }
 
@@ -63,7 +63,7 @@ export class SubscriptionModalComponent {
   }
 
   saveChanges(): void {
-    console.log(this.data);
+    //(this.data);
     this.dialogRef.close(this.data);
   }
 }

@@ -74,7 +74,7 @@ export class MakeOfferModalComponent implements OnInit {
       }
 
       else {
-        console.log('Form is invalid');
+        //('Form is invalid');
       }
     }
     else {
@@ -84,7 +84,7 @@ export class MakeOfferModalComponent implements OnInit {
       }
 
       else {
-        console.log('Form is invalid');
+        //('Form is invalid');
       }
     }
   }
@@ -139,7 +139,7 @@ export class MakeOfferModalComponent implements OnInit {
     
     const datePart = this.product.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
-    console.log(endingDateTime)
+    //(endingDateTime)
 
     const subscription = this.countdownTimerService
       .startCountdown(endingDateTime)

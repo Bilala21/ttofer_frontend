@@ -12,7 +12,7 @@
       <div class="px-4 pt-3 text-center">
         <h4>make an offer</h4>
         <div class="py-3">
-          <p class="fw-normal">buy it Now price: AED 1235</p>
+          <p class="fw-normal">buy it Now price: AED {{product.auction_initial_price}}</p>
           <p class="text-gray-300">5 offers left</p>
         </div>
         <div>
@@ -100,7 +100,7 @@
       <div class="px-4 pt-3">
         <h4>Place your bid</h4>
         <div class="py-3">
-          <p class="fw-bold">AED 1235</p>
+          <p class="fw-bold">AED {{product.auction_initial_price}}</p>
           <p>{{liveBids}} bids <span class="fs-20">.</span> {{this.product.calculateRemaningTime}}</p>
         </div>
 

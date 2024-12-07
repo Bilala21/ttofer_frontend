@@ -14,7 +14,7 @@ export class UserStarRatingComponent implements OnInit {
 
   ngOnInit() {
     this.stars = Array(this.maxRating).fill(false);
-    console.log(this.allowRating);
+    //(this.allowRating);
   }
 
   rate(rating: number) {

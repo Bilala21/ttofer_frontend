@@ -13,6 +13,6 @@ export class CardComponent implements OnInit {
   @Input() imgClass: string = ""
 
   ngOnInit(): void {
-    console.log(this.data, "selling card");
+    //(this.data, "selling card");
   }
 }

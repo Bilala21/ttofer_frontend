@@ -40,7 +40,7 @@ export class DeleteAccountPageComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err);
+        //(err);
         this.toastr.error('An error occurred while deleting the account', 'Error');
       },
     });

@@ -172,7 +172,7 @@ this.onProductTypeChange(this.productType);
   }
   onDateSelect(event: any): void {
     // 
-    console.log('Selected range:', this.rangeDates);
+    //('Selected range:', this.rangeDates);
   }
   handleLocationChange(location: {
     latitude: number;

@@ -92,7 +92,7 @@ export class ProductDetailComponent implements OnInit {
         this.product = value.data;
         this.product.in_cart =this.inCart;
         this.attributes = value.data.attributes;
-        console.log(this.product)
+        //(this.product)
         if (typeof this.attributes === 'string') {
           this.attributes = JSON.parse(value.data.attributes);
         }
@@ -121,7 +121,7 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {
         // ;
         this.similarProductsData = value.data;
-        console.log(this.similarProductsData, 'similar product');
+        //(this.similarProductsData, 'similar product');
         this.similarLoading = false;
       },
       error: (err) => {
@@ -136,7 +136,7 @@ export class ProductDetailComponent implements OnInit {
     this.fetchData(this.productId);
     this.fetchSimilarProducts(this.productId);
     this.globalStateService.currentState.subscribe((state) => {
-      console.log(this.productId);
+      //(this.productId);
       state.cartState.find((item) => {
         if (Number(item.product.id) === Number(this.productId)) {
           this.inCart = true;

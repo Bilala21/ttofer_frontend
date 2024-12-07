@@ -149,6 +149,6 @@ export class ProductCardComponent implements OnInit {
     return parsedAttributes.slice(0, 3); // Limit to first 3 attributes
   }
   ngOnInit(): void {
-    // console.log(this.postData, 'attributes');
+    // //(this.postData, 'attributes');
   }
 }

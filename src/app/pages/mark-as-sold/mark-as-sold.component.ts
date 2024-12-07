@@ -50,12 +50,12 @@ export class MarkAsSoldComponent implements OnInit {
         // 
         this.sellingChat = res.data.seller_chats;
         this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id)
-        console.log(this.sellingChat)
+        //(this.sellingChat)
        ;
       });
   };
   onBuyerSelected(buyer: string) {
-    console.log('Selected buyer:', buyer);
+    //('Selected buyer:', buyer);
     // this.isBtnDisabled=false;
     // Handle the buyer selection logic here
   }

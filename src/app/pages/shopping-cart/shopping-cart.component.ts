@@ -7,6 +7,7 @@ import { GlobalStateService } from '../../shared/services/state/global-state.ser
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { Extension } from '../../helper/common/extension/extension';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -39,6 +40,7 @@ export class ShoppingCartComponent {
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
     private extension: Extension,
+    private toastr: ToastrService
   ) {
     this.userId = extension.getUserId();
     this.loading = true;
@@ -62,34 +64,33 @@ export class ShoppingCartComponent {
   }
 
   saveForLater(item: any): void {
-    this.cartItems.forEach((prod) => {
-      if (prod.id === item.id) {
-        if (!prod.is_saved) {
-          prod.is_saved = true;
-        } else {
-          prod.is_saved = false;
-        }
-      }
-    });
+    //(item);
+    // // save-for-later/toggle
+    // this.mainService.toggleSaveItem({product_id:item.id,user_id:})
+    // this.cartItems.forEach((prod) => {
+    //   if (prod.id === item.id) {
+    //     if (!prod.save_for_later) {
+    //       prod.save_for_later = true;
+    //     } else {
+    //       prod.save_for_later = false;
+    //     }
+    //   }
+    // });
 
     this.loading = false;
     this.mainService
       .toggleSaveItem({
-        product_id: item.id,
+        product_id: item.product.id,
         user_id: this.userId,
-        is_saved: true,
       })
       .subscribe({
         next: (res: any) => {
-          this.cartItems.forEach((prod) => {
-            if (prod.id === item.id) {
-              if (!prod.is_saved) {
-                prod.is_saved = true;
-              } else {
-                prod.is_saved = false;
-              }
-            }
-          });
+          //(res);
+          const found = this.cartItems.find(
+            (prod) => prod.product.id == item.product.id
+          );
+          found.product.save_for_later = !found.product.save_for_later;
+          this.toastr.success(res.message, 'Success');
         },
         error: (err) => {
           this.loading = false;
@@ -99,7 +100,7 @@ export class ShoppingCartComponent {
 
   removeItem(item: any): void {
     this.mainService
-      .removeCartItem({ product_id: item.product.id, user_id:item.user.id })
+      .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
       .subscribe({
         next: () => {
           this.totalLength = this.totalLength - 1;
@@ -139,7 +140,6 @@ export class ShoppingCartComponent {
     this.isAllChecked = allSelected;
   }
   updateQuantity(item: any) {
-
     this.mainService
       .updateItemQty({
         product_id: item.product.id,

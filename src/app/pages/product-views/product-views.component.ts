@@ -203,7 +203,7 @@ export class ProductViewsComponent {
     this.mainServices.getAllProducts(input).subscribe((res: any) => {
 
       this.categories = res.data
-      console.log('Categories', this.categories)
+      //('Categories', this.categories)
       if (this.categories.length > 0) {
         this.featuredProducts = []
         this.auctionProduct = []
@@ -396,13 +396,13 @@ constructor(
     else{
       this.getAllProducts()
     }
-    // console.log(this.productType)
+    // //(this.productType)
   }
   getFeatcherdProduct() {
     this.loading = true;
     this.mainService.getFeatureProduct().subscribe(res =>{
       this.featuredProducts = res.data
-      console.log(this.featuredProducts)
+      //(this.featuredProducts)
       this.loading = false;
     },
     (error:any) => {
@@ -435,7 +435,7 @@ constructor(
           remainingDays: remainingDays
         };
       });
-      console.log(this.auctionProduct)
+      //(this.auctionProduct)
       this.loading = false;
     })
   }

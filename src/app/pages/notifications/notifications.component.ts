@@ -46,7 +46,7 @@ export class NotificationsComponent implements OnInit {
         this.loading = false
       },
       error: (err) => {
-        console.log(err);
+        //(err);
         this.loading = false
       }
     })

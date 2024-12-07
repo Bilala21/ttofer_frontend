@@ -80,7 +80,7 @@ export class RightSideComponent {
               this.globalStateService.updateCart(value.data);
             },
             error: (err) => {
-              console.log(err);
+              //(err);
             },
           });
         },

@@ -99,7 +99,7 @@ export class GlobalSearchService {
   //             this.stateSubject.next(newState);
   //           }
   //         } else {
-  //           console.log('No data found in response');
+  //           //('No data found in response');
   //           const newState = {
   //             ...currentState,
   //             products: {},
@@ -120,7 +120,7 @@ export class GlobalSearchService {
   //           products: {},
   //           loading: false,
   //         };
-  //         console.log('Error fetching filtered products', err);
+  //         //('Error fetching filtered products', err);
   //         if (
   //           JSON.stringify(newState.products) !==
   //             JSON.stringify(currentState.products) ||

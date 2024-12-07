@@ -6,9 +6,9 @@
       <div class="row justify-content-between m-0">
         <!-- one -->
         <div class="col-xl-3 col-md-6 pl-0">
-          <a href="/">
+          <a routerLink="/" class="empty-search">
             <div class="footer-logo">
-              <img src="assets/images/LOGO.png" alt="footer-logo" loading="lazy" />
+              <img src="assets/images/logo.svg" alt="footer-logo empty-search" loading="lazy" />
             </div>
           </a>
           <div class="footer-points">
@@ -22,10 +22,10 @@
           <h5 class="footer-headings support-heading">Support</h5>
           <div class="footer-points margin-top-class">
             <p class="">
-              <a class="cur-pointer text-decoration-for-links" routerLink="contact-us">Contact us</a>
+              <a class="cur-pointer text-decoration-for-links empty-search" routerLink="contact-us">Contact us</a>
             </p>
             <p class="">
-              <a class="cur-pointer text-decoration-for-links" routerLink="/faq">FAQs</a>
+              <a class="cur-pointer text-decoration-for-links empty-search" routerLink="/faq">FAQs</a>
             </p>
           </div>
         </div>
@@ -35,11 +35,11 @@
           <h5 class="footer-headings">Quick Links</h5>
           <div class="footer-points margin-top-class">
             <p class="pointer ">
-              <a class="cur-pointer text-decoration-for-links" routerLink="/about-us">
+              <a class="cur-pointer text-decoration-for-links empty-search" routerLink="/about-us">
                 About us
               </a>
               </p>
-            <p class="cur-pointer text-decoration-for-links" (click)="addPost()">
+            <p class="cur-pointer text-decoration-for-links empty-search" (click)="addPost()">
                Post & Ad
             </p>
           </div>
@@ -68,12 +68,12 @@
           </div>
 
           <div class="footer-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-facebook-f"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-twitter"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-instagram"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-youtube"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-linkedin"></i></a>
+            <a routerLink="/"><i class="empty-search fab fa-whatsapp"></i></a>
           </div>
         </div>
       </div>
@@ -84,12 +84,12 @@
     <div class="container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-between py-2 fs-12">
       <p class="m-0 down-footer-text-first m-0 text-dark-400">
         © Copyright 2024
-        <a href="#" style="color: black !important; font-weight: bold">TT Offer</a>
+        <a routerLink="/" style="color: black !important; font-weight: bold" class="empty-search">TT Offer</a>
       </p>
       <p class="d-flex align-items-center m-0 text-dark-400">
-        <a class="text-dark-400" href="privacy-policy">Privacy Policy</a>
+        <a class="text-dark-400 empty-search" routerLink="/">Privacy Policy</a>
         <span class="px-3">|</span>
-        <a class="text-dark-400" href="term-of-condition">Terms & Conditions</a>
+        <a class="text-dark-400 empty-search" routerLink="/">Terms & Conditions</a>
       </p>
     </div>
   </div>

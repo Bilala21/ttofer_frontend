@@ -26,6 +26,10 @@ $tt-offer-theme: mat.define-theme((color: (theme-type: light,
   border: 2px solid black;
 }
 
+header a:hover{
+  text-decoration: none;
+}
+
 @media (width < 1030px) {
   .sm-xl-font {
     font-size: 1.5vh;

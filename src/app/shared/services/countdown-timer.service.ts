@@ -5,32 +5,32 @@ import { Observable, interval, map, takeWhile } from 'rxjs';
   providedIn: 'root',
 })
 export class CountdownTimerService {
-  constructor() {
-
-  }
+  constructor() {}
 
   startCountdown(endDateTime: string): Observable<string> {
-    const endDate = new Date(endDateTime).getTime(); // Convert endDateTime to milliseconds
-
+    const endDate = new Date(endDateTime).getTime();
     return interval(1000).pipe(
       map(() => {
         const now = Date.now();
         const timeDifference = endDate - now;
-
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
-          return 'Bid Expired'; // Return 'Bid Expired' when time is up
+          return 'Bid Expired';
         } else {
-          return this.formatTimeDifference(timeDifference); // Format remaining time
+          return this.formatTimeDifference(timeDifference);
         }
       }),
-      takeWhile((time) => time !== 'Bid Expired') // Stop the observable after expiration
+      takeWhile((time) => time !== 'Bid Expired')
     );
   }
 
   private formatTimeDifference(timeDifference: number): string {
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const hours = Math.floor(
+      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
     let formattedTime = '';
@@ -45,6 +45,6 @@ export class CountdownTimerService {
     }
     formattedTime += `${seconds}s`;
 
-    return formattedTime ;
+    return formattedTime;
   }
 }

@@ -46,7 +46,7 @@ export class NotificationsComponent {
         this.loading = false;
       },
       error: (err) => {
-        console.log(err);
+        //(err);
         this.data = [];
         this.loading = false;
       },

@@ -91,7 +91,7 @@ export class BodyComponent implements OnDestroy {
 
   handlesUserWishlist(item: any) {
     if (item.product_type !== 'auction') {
-      console.log(item, 'item');
+      //(item, 'item');
       this.mainServices.getFeatureProduct().subscribe({
         next: (res) => {
           this.featuredPosts = res.data.data;
@@ -113,14 +113,15 @@ export class BodyComponent implements OnDestroy {
   }
 
   startCountdowns() {
-    if (this.auctionPosts) {
+    if (this.auctionPosts.length) {
       this.auctionPosts.forEach((item: any) => {
         const datePart = item.auction_ending_date;
-
+        
         const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
         const subscription = this.countdownTimerService
           .startCountdown(endingDateTime)
           .subscribe((remainingTime) => {
+          console.log(remainingTime,'remainingTime')
             item.calculateRemainingTime = remainingTime
               ? remainingTime + ' remaining'
               : 'Bid Expired';

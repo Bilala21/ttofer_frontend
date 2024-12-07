@@ -54,7 +54,7 @@ export class PaymentComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      //(result);
     });
   }
 

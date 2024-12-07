@@ -47,19 +47,18 @@ export class CategoriesComponent {
   handleTab(tab: string) {
     localStorage.setItem('categoryTab', tab);
     this.activeTab = tab;
-    this.fecthcData({ });
+    this.fecthcData({});
   }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((query) => {
       if (query.get('search')) {
-        console.log(query.get('search'), 'search');
+        //(query.get('search'), 'search');
         this.fecthcData({ search: query.get('search') });
       }
     });
 
     this.route.paramMap.subscribe((param) => {
-      console.log(param, location.search);
       const slug = param.get('slug');
       const index = Number(slug?.lastIndexOf('-'));
       this.slugName = slug?.slice(0, index);
@@ -119,6 +118,7 @@ export class CategoriesComponent {
 
   setActiveTabs(slug: any) {
     const selectedTab = localStorage.getItem('categoryTab');
+    console.log(slug);
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
     )?.category_id;
@@ -134,33 +134,46 @@ export class CategoriesComponent {
         'kids',
       ].includes(slug)
     ) {
+      console.log('1');
       this.ProductTabs = ['auction', 'featured'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
           ? selectedTab
           : 'auction';
-      localStorage.setItem('categoryTab', 'auction');
+      localStorage.setItem(
+        'categoryTab',
+        selectedTab == 'featured' && category_id == this.id  ? selectedTab : 'auction'
+      );
     }
     if (['animals', 'services', 'property-for-rent'].includes(slug)) {
+      console.log('2');
       this.ProductTabs = ['featured'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
           ? selectedTab
           : 'featured';
-      localStorage.setItem('categoryTab', 'featured');
+      localStorage.setItem(
+        'categoryTab',
+        selectedTab == 'featured' ? selectedTab : 'featured'
+      );
     }
     if (slug == 'jobs') {
+      console.log('3');
       this.ProductTabs = ['hiring', 'looking'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
           ? selectedTab
           : 'hiring';
-      localStorage.setItem('categoryTab', 'hiring');
+      localStorage.setItem(
+        'categoryTab',
+        selectedTab == 'looking' ? selectedTab : 'hiring'
+      );
     }
   }
 
   fecthcData(filter: any) {
-    console.log(filter, 'bilal');
+    //(filter, 'bilal');
+    console.log(localStorage.getItem('categoryTab'));
     const product_type = localStorage.getItem('categoryTab');
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
 

@@ -17,8 +17,8 @@
               <button (click)="toggleWishlist(product)"
                 class="btn rounded-pill shadow bg-white p-2 wishlist rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
                 aria-label="Add to Wishlist">
-                <span class="pr-2">{{product.total_review}}</span>
-                <i class="{{product.user_wishlist?.[0]?.user_id === currentUserid ? 'fas': 'far'}} fa-heart fs-19"
+                <span class="pr-2">{{product.total_review}} {{currentUserid}}</span>
+                <i class="{{product.user_wishlist?.user_id === currentUserid ? 'fas': 'far'}} fa-heart fs-19"
                   aria-hidden="true"></i>
               </button>
             </div>

@@ -19,7 +19,7 @@
                     [ngClass]="category_id?'overflow-auto scrollable-content':''">
                     @for (item of categories; track $index) {
                     <div class="d-flex align-items-center mb-3">
-                        <input type="radio" class="fs-20" name="category" [checked]="item?.id == category_id"
+                        <input type="radio" class="fs-20 category-color empty-search" name="category" [checked]="item?.id == category_id"
                             (change)="selectCategory(item)">
                         <span class="pl-1 fs-14">{{ item?.name }}</span>
                     </div>

@@ -300,7 +300,7 @@ export class ChatBoxComponent {
         this.buyerId = this.conversationBox[0].buyer_id;
         this.offerStatus = this.conversationBox[0]?.offer?.status;
         this.offerId = this.conversationBox[0]?.offer_id;
-        console.log(this.conversationBox);
+        //(this.conversationBox);
       });
   }
   markMessagesAsRead(conversationId: string) {
@@ -360,7 +360,7 @@ export class ChatBoxComponent {
     };
     this.mainServices.acceptOffer(input).subscribe((res) => {
       res;
-      console.log(res);
+      //(res);
     });
   }
   rejectOffer() {
@@ -378,8 +378,8 @@ export class ChatBoxComponent {
   previewUrl: string | ArrayBuffer | null = null;
   sendMessage(message: string): void {
     if (message.trim() || this.selectedFile) {
-      console.log('Message:', message);
-      console.log('Selected File:', this.selectedFile);
+      //('Message:', message);
+      //('Selected File:', this.selectedFile);
       this.clearMessage();
     }
   }

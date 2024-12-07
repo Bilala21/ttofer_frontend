@@ -20,18 +20,18 @@ export class PostBoostingComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      //(result);
     });
   }
   openSubscriptionDialog(type: string): void {
-    console.log(type)
+    //(type)
     const dialogRef = this.dialog.open(SubscriptionModalComponent, {
       width: '470px',
       data: { type },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      //(result);
     });
   }
   handleNextStep() {

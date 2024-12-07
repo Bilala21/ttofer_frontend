@@ -214,21 +214,21 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   getCartItems() {
-    // if (!this.currentUserid) {
-    //   this.toastr.warning('Plz login first than try again !', 'Warning');
-    //   this.authService.triggerOpenModal();
-    //   return;
-    // } else {
-    //   this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
-    //     next: (value: any) => {
-    //       this.globalStateService.updateCart(value.data);
-    //       this.cartItems = value.data;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //     },
-    //   });
-    // }
+    if (!this.currentUserid) {
+      this.toastr.warning('Plz login first than try again !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    } else {
+      this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
+        next: (value: any) => {
+          this.globalStateService.updateCart(value.data);
+          this.cartItems = value.data;
+        },
+        error: (err) => {
+          //(err);
+        },
+      });
+    }
   }
   goOnNotification() {
     const storedData = localStorage.getItem('key');
@@ -237,36 +237,16 @@ export class HeaderNavigationComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     } else {
-      // localStorage.setItem('currentTab', 'notification');
-      // this.router.navigate(['/profilePage', `${this.currentUser.id}`]);
-      // // localStorage.setItem('currentTab', "notification");
-      // // this.router.navigate(['/notifications', `${this.currentUser.id}`])
       this.router.navigate(['/profile/notifications']);
     }
   }
-  getNotification() {
-    // this.loading = true;
-    // this.mainServicesService
-    //   .getNotification(this.currentUser?.id, 'all')
-    //   .subscribe((res: any) => {
-    //     this.notificationList = res.data;
-    //     this.notificationList = res.data.sort((a: any, b: any) => {
-    //       return (
-    //         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    //       );
-    //     });
-    //     this.unReadNotification = this.notificationList.filter(
-    //       (item: any) => item.status == 'unread'
-    //     );
-    //     this.loading = false;
-    //   });
-  }
+  getNotification() {}
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
       const path = location.pathname.toString().trim();
       const index = path.indexOf('?');
       const dash = path.indexOf('-');
-      console.log(index, dash, path);
+      //(index, dash, path);
       if (index) {
         const url = path.slice(0, index);
         this.router.navigate([url], {
@@ -298,22 +278,6 @@ export class HeaderNavigationComponent implements OnInit {
 
   handleFilter(filter: any) {
     localStorage.setItem('filters', JSON.stringify({}));
-    // this.globalSearchService.setFilterdProducts({
-    //   ...filter,
-    //   first_call: true,
-    // });
-    // this.mainServicesService
-    //   .getFilteredProducts({
-    //     ...filter,
-    //   })
-    //   .subscribe({
-    //     next: (res: any) => {
-    //       console.log(res);
-    //       this.globalSearchService.updateFilterProducts(res.data);
-    //       // this.globalSearchService.updateLoading(false);
-    //     },
-    //     error: () => {},
-    //   });
   }
 
   ngOnInit(): void {
@@ -343,7 +307,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
-        console.log(err);
+        //(err);
         this.loading = false;
       },
     });
@@ -425,6 +389,16 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   onBodyClick(event: any) {
+    //('test',event.target)
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.classList.contains('empty-search')
+    ) {
+      if (this.searchTerm) {
+        this.searchTerm = '';
+        this.isSearched = false;
+      }
+    }
     if (
       event.target instanceof HTMLElement &&
       !event.target.classList.contains('not-hide')

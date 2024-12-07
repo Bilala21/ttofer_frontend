@@ -262,7 +262,7 @@ export class MainServicesService {
   }
 
   updateUserAccount(input: any): any {
-    console.log({ input });
+    //({ input });
     return this.http.post<any>(`${Constants.baseApi}/profile/update`, input, {
       headers: this.getHeaders(),
     });
@@ -302,7 +302,7 @@ export class MainServicesService {
   }
 
   getFilteredProducts(data: any = {}): Observable<any[]> {
-    console.log(data,'data')
+    //(data, 'data');
     return this.http.post<any[]>(
       `${Constants.baseApi}` + '/get-all-products',
       data
@@ -326,8 +326,8 @@ export class MainServicesService {
   adToCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/add', data);
   }
-  getCartProducts(id:number) {
-    return this.http.get(`${Constants.baseApi}` + '/cart/'+id);
+  getCartProducts(id: number) {
+    return this.http.get(`${Constants.baseApi}` + '/cart/' + id);
   }
   removeCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
@@ -351,6 +351,9 @@ export class MainServicesService {
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
   }
   toggleSaveItem(data: any) {
-    return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
+    return this.http.post<any[]>(
+      `${Constants.baseApi}` + '/save-for-later/toggle',
+      data
+    );
   }
 }

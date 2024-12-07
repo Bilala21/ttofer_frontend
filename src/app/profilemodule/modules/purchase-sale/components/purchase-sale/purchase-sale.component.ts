@@ -60,7 +60,7 @@ export class PurchaseSaleComponent implements OnInit {
       next: (res: any) => {
         this.data = res.data;
         this.loading = false;
-        console.log(res.data);
+        //(res.data);
       },
       error: (err: any) => {
         this.loading = false;

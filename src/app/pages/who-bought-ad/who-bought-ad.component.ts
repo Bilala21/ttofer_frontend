@@ -52,14 +52,14 @@ export class WhoBoughtAdComponent {
 
         return item.id == this.sellingId;
     });
-      console.log(this.sellingList)
+      //(this.sellingList)
     })
   }
   getAllChatsOfUser = () => {
 
     this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res:any) =>{
       this.message = res.data
-      console.log(this.message)
+      //(this.message)
     });
   }
 
@@ -71,7 +71,7 @@ export class WhoBoughtAdComponent {
 
       res
       this.offers = res.user
-      console.log('who bought',this.offers)
+      //('who bought',this.offers)
     })
   }
 }

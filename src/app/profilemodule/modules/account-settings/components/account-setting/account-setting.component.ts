@@ -52,10 +52,10 @@ export class AccountSettingComponent implements OnInit {
           ...this.userSetting,
           [result.key]: result.value,
         };
-        console.log('User Data before update:', data); // Log the data
+        //('User Data before update:', data); // Log the data
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
-            console.log('User account updated successfully', response);
+            //('User account updated successfully', response);
           },
           (error: any) => {
             console.error('Error updating user account', error);
