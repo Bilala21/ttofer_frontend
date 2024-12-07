@@ -7,7 +7,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
 import { Extension } from '../../helper/common/extension/extension';
-
 @Component({
   selector: 'app-mark-as-sold',
   templateUrl: './mark-as-sold.component.html',
@@ -33,7 +32,6 @@ export class MarkAsSoldComponent implements OnInit {
   ];
   isBtnDisabled = true;
   constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService, private extension: Extension,) { }
-
   ngOnInit() {
     this.currentUserId = this.extension.getUserId();
 
@@ -78,10 +76,7 @@ export class MarkAsSoldComponent implements OnInit {
       }
     });
   }
-  
-  
-
   onSkipClick() {
-    // Logic for when 'Skip' is clicked
+   
   }
 }
