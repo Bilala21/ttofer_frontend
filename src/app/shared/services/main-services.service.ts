@@ -367,4 +367,8 @@ deleteProduct(product_id:any){
   toggleSaveItem(data: any) {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
   }
+
+  getSuggestions(q: string) {
+    return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
+  }
 }

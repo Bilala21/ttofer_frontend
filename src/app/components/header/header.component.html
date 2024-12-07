@@ -24,7 +24,7 @@
                                 <!-- search-icon -->
                                 <i class="fas fa-search fs-20 prevent"></i>
                             </button>
-                            <ul *ngIf="searchTerm && !isSearched"
+                            <ul *ngIf="searchTerm && !isSearched && suggestions.length"
                                 class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
                                 <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer not-hide"
                                     (click)="handleSuggestion(item)">
