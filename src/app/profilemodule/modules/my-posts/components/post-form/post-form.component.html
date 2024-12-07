@@ -7,10 +7,10 @@
   <div class="row r-gap-20">
     <div *ngIf="selectedFiles.length > 0" class="row mx-0 mb-2 r-gap-10 px-2 w-100">
       <div class="image-item col-md-2 px-1 position-relative" *ngFor="let file of selectedFiles; let i = index">
-        <img [src]="file.src" alt="Selected Image" class="img-thumbnail h-100 w-100" loading="lazy" />
+        <img [src]="file.url" alt="Selected Image" class="img-thumbnail h-100 w-100" loading="lazy" />
         <button type="button"
           class="border-0 delete-btn position-absolute rounded-pill bg-danger text-white fs-20 d-flex justify-content-center"
-          (click)="removeImage(i)">
+          (click)="removeImage(file,i)">
           &times;
         </button>
       </div>
@@ -48,8 +48,8 @@
     </div>
     <div class="col-6">
       <label>Category<span class="text-danger"></span></label>
-      <p-dropdown [options]="categories" optionLabel="name" optionValue="id" formControlName="category_id" (onChange)="getSubcategories()"
-        placeholder="Select a Category" class="form-control input-class-add-form"
+      <p-dropdown [options]="categories" optionLabel="name" optionValue="id" formControlName="category_id"
+        (onChange)="getSubcategories()" placeholder="Select a Category" class="form-control input-class-add-form"
         [ngClass]="{ 'is-invalid': validationErrors['selectedCategoryId'] }">
       </p-dropdown>
       <div *ngIf="validationErrors['selectedCategoryId']" class="text-danger mt-1">
@@ -128,7 +128,8 @@
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="startDate"
         formControlName="auction_starting_date">
       </p-calendar>
-      <div *ngIf="addProductForm.get('auction_starting_date')?.hasError('required') && addProductForm.get('auction_starting_date')?.touched"
+      <div
+        *ngIf="addProductForm.get('auction_starting_date')?.hasError('required') && addProductForm.get('auction_starting_date')?.touched"
         class="text-danger mt-1">
         Start date is required.
       </div>
@@ -140,31 +141,29 @@
     <div class="col-md-6">
       <label for="endDate">End Date </label>
       <p-calendar [readonlyInput]="true" [showIcon]="true" [minDate]="minDate" inputId="endDate"
-        formControlName="auction_ending_date"
-       >
+        formControlName="auction_ending_date">
       </p-calendar>
-          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('required') &&
+      <div
+        *ngIf="addProductForm.get('auction_ending_date')?.hasError('required') &&
                 (addProductForm.get('auction_ending_date')?.touched || addProductForm.get('auction_ending_date')?.dirty)"
         class="text-danger mt-1">
         End date is required.
       </div>
-          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('noStartDate')"
-        class="text-danger mt-1">
+      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('noStartDate')" class="text-danger mt-1">
         Please select the starting date first.
       </div>
-          <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('endDateBeforeStart')"
-        class="text-danger mt-1">
+      <div *ngIf="addProductForm.get('auction_ending_date')?.hasError('endDateBeforeStart')" class="text-danger mt-1">
         Ending date cannot be before the starting date.
       </div>
     </div>
     <div class="col-md-6">
       <label for="startTime">Starting Time</label>
-      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a"  inputId="startTime"
+      <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="startTime"
         formControlName="auction_starting_time" (onSelect)="onTimeChange('auction_starting_time', $event)">
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>
-</p-calendar>
+      </p-calendar>
       <div
         *ngIf="addProductForm.get('auction_starting_time')?.invalid && addProductForm.get('auction_starting_time')?.touched"
         class="text-danger mt-1">
@@ -226,7 +225,7 @@
       </div>
     </div>
     <div class="col-12">
-      <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
+      <app-current-location [location]="parentLocation" (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
     <div class="col-12">
       <button class="btn btn-dark w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">

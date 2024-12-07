@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 declare var google: any;
 
@@ -22,11 +22,30 @@ export class CurrentLocationComponent implements OnInit {
     longitude: number;
     location: string;
   }>();
-
+  @Input() location: { latitude: number; longitude: number; location: string } = { latitude: 0, longitude: 0, location: '' };
   ngOnInit(): void {
     this.getCurrentLocation();
   }
   constructor(private ngZone: NgZone) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['location'] && changes['location'].currentValue) {
+      
+      this.updateLocationFromInput();
+    }
+  }
+  updateLocationFromInput(): void {
+    if (this.location) {
+      debugger
+      this.center = { lat: this.location.latitude, lng: this.location.longitude };
+      this.markerPosition = this.center;
+      this.address = this.location.location;
+      this.zoom = 15;
+
+      if (this.map?.googleMap) {
+        this.map.googleMap.panTo(this.center);
+      }
+    }
+  }
 
   getCurrentLocation() {
     if (navigator.geolocation) {

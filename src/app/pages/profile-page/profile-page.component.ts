@@ -388,7 +388,6 @@ export class ProfilePageComponent {
     { id: 'Ford Escape', name: 'Ford Escape' },
     { id: 'Volkswagen Tiguan', name: 'Volkswagen Tiguan' },
     { id: 'BMW X5', name: 'BMW X5' },
-    { id: 'Audi Q5', name: 'Audi Q5' },
     { id: 'Kia Sportage', name: 'Kia Sportage' },
     { id: 'Honda CR-V', name: 'Honda CR-V' },
     { id: 'Hyundai Elantra', name: 'Hyundai Elantra' },

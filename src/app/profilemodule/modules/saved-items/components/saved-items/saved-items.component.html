@@ -6,8 +6,55 @@
         </h1>
     </div>
     <hr />
+    <div class="sidebar-content">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <div class="mt-3" *ngFor="let data of savedItems">
+              <a routerLink="/product-detail/{{ data.product.id }}/{{data.product.slug}}"
+                style="text-decoration: none; color: #1b2028">
+                <div class="row align-items-center">
+                  <div class="col-4 col-lg-2 p-0">
+                    <div style="
+                        width: 100px;
+                        height: 100px;
+                        object-fit: contain;
+                        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                      ">
+                      @if(data.user?.img){
+                      <img [src]="data?.user?.img" class="w-100 h-100" alt="" />
+                      }@else{
+                      <img src="assets/images/default-img.jpg" class="w-100 h-100" alt="Default Image"
+                        loading="lazy" />
+                      }
+                    </div>
+                  </div>
 
-    <div class="not-found text-center pt-5">
+                  <div class="col-8 col-lg-10">
+                    <div>
+                      <h5 class="sm-cat-text4">
+                        {{ data.product.title }}
+                      </h5>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-between">
+                      <span class="sm-cat-text3" style="max-width: 70%">{{
+                        data.product.location
+                        }}</span>
+                      <div>
+                        <span class="text-end sm-cat-text3" style="font-size: 10px">{{ data.created_at | date
+                          }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    <div *ngIf="savedItems?.length == 0" class="not-found text-center pt-5">
         <img src="/assets/images/No-data.png" alt="image" width="150">
         <div class="pt-5 fs-20 fw-semibold">You have no saved items at the moment.</div>
         <div class="pt-2">Download our app</div>

@@ -30,7 +30,7 @@ export class PostFormComponent {
   rangeDates = [new Date(), new Date()]; // Incorrect if both values are the same
   validationErrors: { [key: string]: string } = {};
   productImageFiles: File[] = [];
-  selectedFiles: Array<{ src: string }> = [];
+  selectedFiles: Array<{ url: string }> = [];
   selectedVideos: Array<{ url: string }> = [];
   selectedVideo: any | null = null
   addProductForm!: FormGroup
@@ -42,6 +42,7 @@ export class PostFormComponent {
   categoryFields: any = {};
   editProduct:any
   id:any
+  parentLocation:any
   editProductData:any
   @ViewChild('datePickerPromotion', { static: false }) datePickerPromotion!: ElementRef;
   productType: any = 'featured'
@@ -118,8 +119,13 @@ this.route.queryParams.subscribe(params => {
              
         this.editProductData = value.data;
         this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
-       this.addProductForm.patchValue(this.editProductData)
-       this.onCategoryChange(this.addProductForm.value.category_id)
+        this.addProductForm.patchValue(this.editProductData)
+        this.selectedFiles=this.editProductData.photos;
+        this.handleLocationChange({
+          latitude: this.editProductData.latitude,
+          longitude: this.editProductData.longitude,
+          location: this.editProductData.location
+        });        this.onCategoryChange(this.addProductForm.value.category_id)
        this.addProductForm.patchValue({
         attributes: this.editProductData.attributes,
       });
@@ -185,15 +191,14 @@ this.route.queryParams.subscribe(params => {
         if(this.editProduct){
          this.fetchData(this.id)
         }else if(!this.editProduct){
-          this.addProductForm.patchValue({
+          this.addProductForm.patchValue(
+          {
             product_type: this.productType,
             category_id: this.categories[0].id
-
-          })
-        
+          }
+        )       
           this.onProductTypeChange(this.addProductForm.value.product_type)
-
-          // this.onCategoryChange(this.addProductForm.value.category_id) 
+          this.onCategoryChange(this.addProductForm.value.category_id) 
           this.getSubcategories()
         }
        
@@ -207,13 +212,21 @@ this.route.queryParams.subscribe(params => {
     this.addProductForm.patchValue({
       main_category:this.selectedCategorySlug,
     })
+    if(!this.editProduct){
+     this.addProductForm.setControl('attributes', this.fb.group({}));
 
+    }
   }
   handleLocationChange(location: {
     latitude: number;
     longitude: number;
     location: string;
   }): void {
+    debugger
+    if(this.editProduct){
+      this.parentLocation = location;
+
+    }
     this.addProductForm.patchValue(location);
   }
   getSubcategories(): void {
@@ -262,7 +275,7 @@ this.route.queryParams.subscribe(params => {
               }, 2000);
             } else {
               imagesControl.push(this.fb.control(file));
-              this.selectedFiles.push({ src:reader.result as string });
+              this.selectedFiles.push({ url:reader.result as string });
             }
           };
         };
@@ -271,13 +284,36 @@ this.route.queryParams.subscribe(params => {
       }
     }
   } 
+  deleteProductImage(file: any) {
+    const input = {
+      id: file.id,
+      product_id: file.product_id,
+    };
+    this.mainServices.deleteProductImage(input).subscribe((res) => {
+      this.toastr.success('Product image deleted successfully', 'Success');
+      if (this.editProductData) {
+        const editProductDataStr = localStorage.getItem('editProduct');
+        if (editProductDataStr) {
+          const editProductData = JSON.parse(editProductDataStr);
+          editProductData.photo = editProductData.photo.filter(
+            (photo: any) => photo.id !== input.id
+          );
+          localStorage.setItem('editProduct', JSON.stringify(editProductData));
+          this.editProductData = editProductData; // Optional, if you want to keep it in sync
+        }
+      }
+    });
+  }
   deleteValidationError(errorKey: string) {
     if (this.validationErrors[errorKey]) {
       delete this.validationErrors[errorKey]; 
     }
   } 
-  removeImage(index: number) {
+  removeImage(file:any,index: number) {
     const imagesControl = this.addProductForm.get('image') as FormArray;
+    if(file.id){
+      this.deleteProductImage(file)
+    }
     imagesControl.removeAt(index);
     this.selectedFiles.splice(index, 1); 
     if (imagesControl.length === 0) {
