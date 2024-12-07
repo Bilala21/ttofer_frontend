@@ -42,6 +42,7 @@ export class PostFormComponent {
   categoryFields: any = {};
   editProduct:any
   id:any
+  parentLocation:any
   editProductData:any
   @ViewChild('datePickerPromotion', { static: false }) datePickerPromotion!: ElementRef;
   productType: any = 'featured'
@@ -119,8 +120,12 @@ this.route.queryParams.subscribe(params => {
         this.editProductData = value.data;
         this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
         this.addProductForm.patchValue(this.editProductData)
-        this.selectedFiles=this.editProductData.photos
-        this.onCategoryChange(this.addProductForm.value.category_id)
+        this.selectedFiles=this.editProductData.photos;
+        this.handleLocationChange({
+          latitude: this.editProductData.latitude,
+          longitude: this.editProductData.longitude,
+          location: this.editProductData.location
+        });        this.onCategoryChange(this.addProductForm.value.category_id)
        this.addProductForm.patchValue({
         attributes: this.editProductData.attributes,
       });
@@ -217,6 +222,11 @@ this.route.queryParams.subscribe(params => {
     longitude: number;
     location: string;
   }): void {
+    debugger
+    if(this.editProduct){
+      this.parentLocation = location;
+
+    }
     this.addProductForm.patchValue(location);
   }
   getSubcategories(): void {

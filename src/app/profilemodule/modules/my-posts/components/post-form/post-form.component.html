@@ -225,7 +225,7 @@
       </div>
     </div>
     <div class="col-12">
-      <app-current-location (locationChange)="handleLocationChange($event)"></app-current-location>
+      <app-current-location [location]="parentLocation" (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
     <div class="col-12">
       <button class="btn btn-dark w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">

@@ -36,9 +36,9 @@
                 <div class="ml-3 flex-grow-1 custom-margin-left">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="card-title">{{post.title}}</span>
-                        <span class="view-count">{{ post.views.total_views || 0 }} Views</span>
+                        <span class="view-count" *ngIf="activeTab==='selling'">0 Views</span>
                     </div>
-                    <div class="d-flex justify-content-start align-items-center">
+                    <div class="d-flex justify-content-start align-items-center" *ngIf="activeTab==='selling'">
                         <div class="avatars d-flex">
                             <img *ngFor="let avatar of post.views.users" [src]="avatar?.user?.img ?avatar?.user?.img:'/assets/images/profile-placeholder.png'" [alt]="avatar.alt">
                         </div>

@@ -116,11 +116,14 @@ export class AppFiltersComponent implements OnInit {
         this.loading = false;
       },
     });
-  
-    const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    if (!localFilters?.first_call) {
-      this.handleFilter(localFilters);
+    if (this.category_id) {
+      this.fetchSubCategories(this.category_id);
     }
+    // const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+    // console.log(localFilters,'localFilters')
+    // if (!localFilters?.first_call) {
+    //   this.handleFilter(localFilters);
+    // }
   }
 
   getAndSetLocalFilters(id: number) {
@@ -165,21 +168,17 @@ debugger
   }
 
   handleFilter(filter: any) {
+    const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
     if (filter.key === 'location') {
-      const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
       if (localFilters?.locations) {
         this.locations.push(...localFilters?.locations, filter.value);
       } else {
         this.locations.push(filter.value);
       }
-      this.globalSearchService.setFilterdProducts({
-        locations: this.locations,
-      });
-    } else {
-      this.globalSearchService.setFilterdProducts({
-        [filter.key]: filter.value,
-      });
     }
+    this.handleFilterEvent.emit({
+      [filter.key]: filter.value,
+    });
   }
 
   handleMinMaxPrice() {

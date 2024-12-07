@@ -218,21 +218,21 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   getCartItems() {
-    if (!this.currentUserid) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
-        next: (value: any) => {
-          this.globalStateService.updateCart(value.data);
-          this.cartItems = value.data;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-    }
+    // if (!this.currentUserid) {
+    //   this.toastr.warning('Plz login first than try again !', 'Warning');
+    //   this.authService.triggerOpenModal();
+    //   return;
+    // } else {
+    //   this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
+    //     next: (value: any) => {
+    //       this.globalStateService.updateCart(value.data);
+    //       this.cartItems = value.data;
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //     },
+    //   });
+    // }
   }
   goOnNotification() {
     const storedData = localStorage.getItem('key');
@@ -267,22 +267,58 @@ export class HeaderNavigationComponent implements OnInit {
   }
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
-      this.globalSearchService.setFilterdProducts({ search: this.searchTerm });
-      // this.globalSearchService.setQueryValue(
-      //   this.searchTerm.toLowerCase().trim()
-      // );
+      const path = location.pathname.toString().trim();
+      const index = path.indexOf('?');
+      const dash = path.indexOf('-');
+      console.log(index, dash, path);
+      if (index) {
+        const url = path.slice(0, index);
+        this.router.navigate([url], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+
+      if (path == '/') {
+        this.router.navigate(['/category/auction'], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+
+      if (index < 1 && dash < 1 && path !== '/') {
+        const url = path;
+        this.router.navigate([url], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+
+      if (dash && path !== '/') {
+        this.router.navigate([path], {
+          queryParams: { search: this.searchTerm.toLowerCase() },
+        });
+      }
+      localStorage.setItem('isSearch', this.searchTerm);
     }
   }
 
   handleFilter(filter: any) {
     localStorage.setItem('filters', JSON.stringify({}));
-    this.globalSearchService.setFilterdProducts({
-      ...filter,
-      first_call: true,
-    });
+    // this.globalSearchService.setFilterdProducts({
+    //   ...filter,
+    //   first_call: true,
+    // });
+    // this.mainServicesService
+    //   .getFilteredProducts({
+    //     ...filter,
+    //   })
+    //   .subscribe({
+    //     next: (res: any) => {
+    //       console.log(res);
+    //       this.globalSearchService.updateFilterProducts(res.data);
+    //       // this.globalSearchService.updateLoading(false);
+    //     },
+    //     error: () => {},
+    //   });
   }
-
-  
 
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));

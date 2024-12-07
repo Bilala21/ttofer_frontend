@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
@@ -13,12 +13,19 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
   imports: [NgIf, RouterLink, CommonModule],
   providers: [DecimalPipe],
   templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.scss'
+  styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent {
-  constructor(private authService: AuthService, private extension: Extension, private decimalPipe: DecimalPipe, private globalStateService: GlobalStateService, private mainServices: MainServicesService, private toastr: ToastrService) { }
-  @Input() postData: any = {}
-  @Input({ required: true }) postDetialUrl: string = ""
+export class ProductCardComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private extension: Extension,
+    private decimalPipe: DecimalPipe,
+    private globalStateService: GlobalStateService,
+    private mainServices: MainServicesService,
+    private toastr: ToastrService
+  ) {}
+  @Input() postData: any = {};
+  @Input({ required: true }) postDetialUrl: string = '';
   currentUserId: any = this.extension.getUserId();
   parsedAttributes: any[] = [];
 
@@ -29,10 +36,10 @@ export class ProductCardComponent {
 
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
-
   }
+
   toggleWishlist(item: any) {
-  const data = this.extension.getUserId()
+    const data = this.extension.getUserId();
     if (!this.extension.getUserId()) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
@@ -40,87 +47,94 @@ export class ProductCardComponent {
     }
     let input = {
       user_id: this.extension.getUserId(),
-      product_id: item.id
+      product_id: item.id,
     };
 
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
-          this.handlesUserWishlist.emit(item)
+          this.handlesUserWishlist.emit(item);
           this.toastr.success(res.message, 'Success');
         }
       },
       error: (err) => {
         const error = err.error.message;
         this.toastr.error(error, 'Error');
-      }
+      },
     });
   }
   getUserWishListItem(item: any) {
     if (item) {
-      return item.user_id === this.currentUserId ? true : false
+      return item.user_id === this.currentUserId ? true : false;
     }
-    return false
+    return false;
   }
-  iconMapping:any = {
-    brand: 'fa-tag', 
-    condition: 'fa-cogs',   
-    storage: 'fa-hdd',     
-    color: 'fa-paint-brush', 
-    mileage: 'fa-road',   
-    fuelType: 'fa-gas-pump', 
-    delivery: 'fa-truck',  
-    engineCapacity: 'fa-car', 
-    model: 'fa-cogs',      
-    year: 'fa-calendar',    
+
+  iconMapping: any = {
+    brand: 'fa-tag', // Icon for brand
+    condition: 'fa-cogs', // Icon for condition
+    storage: 'fa-hdd', // Icon for storage
+    color: 'fa-paint-brush', // Icon for color
+    mileage: 'fa-road', // Icon for mileage
+    fuelType: 'fa-gas-pump', // Icon for fuelType
+    delivery: 'fa-truck', // Icon for delivery
+    engineCapacity: 'fa-car', // Icon for engineCapacity
+    model: 'fa-cogs', // Icon for model
+    year: 'fa-calendar', // Icon for year
     bedrooms: 'fa-bed',
-    yearBuilt: 'fa-calendar-alt',    
-    area: 'fa-expand',      
-    bathRoom: 'fa-bath',   
-    completion: 'fa-check-circle', 
-    fearture: 'fa-star',     
-    furnisheable: 'fa-couch', 
-    make_and_model: 'fa-car', 
-    type: 'fa-tshirt',     
-    age: 'fa-child',        
-    breed: 'fa-paw',        
-    toy: 'fa-toy',          
-    positionType: 'fa-briefcase', 
-    companyName: 'fa-building', 
-    salary: 'fa-money-bill-wave', 
-    salaryPeriod: 'fa-calendar-alt', 
-    careerLevel: 'fa-level-up-alt', 
+    yearBuilt: 'fa-calendar-alt', // Icon for bedrooms
+    area: 'fa-expand', // Icon for area/size
+    bathRoom: 'fa-bath', // Icon for bathRoom
+    completion: 'fa-check-circle', // Icon for completion status
+    fearture: 'fa-star', // Icon for features
+    furnisheable: 'fa-couch', // Icon for furnished
+    make_and_model: 'fa-car', // Icon for make and model
+    type: 'fa-tshirt', // Icon for fashion type
+    age: 'fa-child', // Icon for age
+    breed: 'fa-paw', // Icon for breed
+    toy: 'fa-toy', // Icon for toy
+    positionType: 'fa-briefcase', // Icon for position type
+    companyName: 'fa-building', // Icon for company name
+    salary: 'fa-money-bill-wave', // Icon for salary
+    salaryPeriod: 'fa-calendar-alt', // Icon for salary period
+    careerLevel: 'fa-level-up-alt', // Icon for career level
   };
-  
+
   private parseAttributes(value: any): any {
     try {
       debugger
       let attributes = JSON.parse(value);
-      if(typeof attributes === 'string'){
+      if (typeof attributes === 'string') {
         const attributes2 = JSON.parse(attributes);
         let parsedAttributes: any = [];
         for (const [key, val] of Object.entries(attributes2)) {
           parsedAttributes.push({
             key,
-            value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
-            icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
+            value:
+              typeof val === 'string' && this.isJson(val)
+                ? JSON.parse(val)
+                : val,
+            icon: this.iconMapping[key] || 'fa-question-circle', // Default icon if no match
           });
         }
         return parsedAttributes;
-      }else if(typeof attributes != 'string'){
+      } else if (typeof attributes != 'string') {
         let parsedAttributes: any = [];
         for (const [key, val] of Object.entries(attributes)) {
           parsedAttributes.push({
             key,
-            value: typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val,
-            icon: this.iconMapping[key] || 'fa-question-circle' // Default icon if no match
+            value:
+              typeof val === 'string' && this.isJson(val)
+                ? JSON.parse(val)
+                : val,
+            icon: this.iconMapping[key] || 'fa-question-circle', // Default icon if no match
           });
         }
         return parsedAttributes;
       }
     } catch (error) {
       console.error('Error parsing attributes 1234:', error);
-      return []; 
+      return [];
     }
   }
 
@@ -138,7 +152,7 @@ export class ProductCardComponent {
       this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
     }
   }
-
-
+  ngOnInit(): void {
+    // console.log(this.postData, 'attributes');
   }
-
+}

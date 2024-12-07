@@ -9,7 +9,6 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
   selector: 'app-categories',
@@ -31,8 +30,7 @@ export class CategoriesComponent {
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
     private countdownTimerService: CountdownTimerService,
-    private cd: ChangeDetectorRef,
-    private globalSearchService: GlobalSearchService
+    private cd: ChangeDetectorRef
   ) {}
 
   promotionBanners: any = [];
@@ -43,37 +41,41 @@ export class CategoriesComponent {
   countdownSubscriptions: Subscription[] = [];
   loading: boolean = false;
   slugName: any = '';
-  localFilters: any = {};
   ProductTabs: any = [];
+  allTabs: any = ['auction', 'featured', 'looking', 'hiring'];
 
   handleTab(tab: string) {
+    localStorage.setItem('categoryTab', tab);
     this.activeTab = tab;
-    this.globalSearchService.setFilterdProducts({
-      product_type: tab,
-      category_id: this.id,
-    });
+    this.fecthcData({ });
   }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe((params) => {
-    //   const slug = params.get('slug');
-    //   const index = Number(slug?.lastIndexOf('-'));
-    //   this.id = slug?.slice(index + 1);
-    //   this.slugName = slug?.slice(0, index);
-    //   this.setActiveTabs(this.slugName)
-    // });
-    // this.localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    // this.activeTab = this.localFilters?.product_type;
-    // this.setActiveTabs(this.localFilters.slug);
-    // this.slugName = this.localFilters.slug;
-    this.getBanners();
-
-    this.globalSearchService.currentState.subscribe((state) => {
-      this.loading = state.loading;
-      debugger
-      this.data = state.products?.data ? state.products?.data : [];
-      console.log(state);
+    this.route.queryParamMap.subscribe((query) => {
+      if (query.get('search')) {
+        console.log(query.get('search'), 'search');
+        this.fecthcData({ search: query.get('search') });
+      }
     });
+
+    this.route.paramMap.subscribe((param) => {
+      console.log(param, location.search);
+      const slug = param.get('slug');
+      const index = Number(slug?.lastIndexOf('-'));
+      this.slugName = slug?.slice(0, index);
+      this.id = slug?.slice(index + 1);
+      this.setActiveTabs(this.slugName);
+      const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+      if (location.search == '') {
+        if (Number(localFilters.category_id) == Number(this.id)) {
+          this.fecthcData({ category_id: this.id });
+        } else {
+          localStorage.setItem('filters', '{}');
+          this.fecthcData({ category_id: this.id });
+        }
+      }
+    });
+    this.getBanners();
   }
 
   getBanners() {
@@ -116,6 +118,10 @@ export class CategoriesComponent {
   }
 
   setActiveTabs(slug: any) {
+    const selectedTab = localStorage.getItem('categoryTab');
+    const category_id = JSON.parse(
+      localStorage.getItem('filters') || '{}'
+    )?.category_id;
     if (
       [
         'mobiles',
@@ -129,14 +135,59 @@ export class CategoriesComponent {
       ].includes(slug)
     ) {
       this.ProductTabs = ['auction', 'featured'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'auction';
+      localStorage.setItem('categoryTab', 'auction');
     }
     if (['animals', 'services', 'property-for-rent'].includes(slug)) {
       this.ProductTabs = ['featured'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'featured';
+      localStorage.setItem('categoryTab', 'featured');
     }
     if (slug == 'jobs') {
       this.ProductTabs = ['hiring', 'looking'];
+      this.activeTab =
+        this.ProductTabs.includes(selectedTab) && category_id == this.id
+          ? selectedTab
+          : 'hiring';
+      localStorage.setItem('categoryTab', 'hiring');
     }
-    console.log(this.ProductTabs);
+  }
+
+  fecthcData(filter: any) {
+    console.log(filter, 'bilal');
+    const product_type = localStorage.getItem('categoryTab');
+    const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+
+    const category_id = this.id ? this.id : localFilters.category_id;
+    localStorage.setItem(
+      'filters',
+      JSON.stringify({ ...localFilters, ...filter, product_type, category_id })
+    );
+
+    this.loading = true;
+    this.mainServices
+      .getFilteredProducts({
+        ...filter,
+        ...localFilters,
+        product_type,
+        category_id,
+        search: filter.search,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          this.data = res.data.data;
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   ngOnDestroy() {
