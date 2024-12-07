@@ -222,7 +222,7 @@ this.route.queryParams.subscribe(params => {
     longitude: number;
     location: string;
   }): void {
-    debugger
+     
     if(this.editProduct){
       this.parentLocation = location;
 

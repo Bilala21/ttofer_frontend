@@ -51,7 +51,7 @@ export class MarkAsSoldComponent implements OnInit {
   };
   onBuyerSelected(buyer: any) {
     this.isBtnDisabled=false;
-    debugger
+     
     this.buyer_id=buyer.buyer_id
   }
 

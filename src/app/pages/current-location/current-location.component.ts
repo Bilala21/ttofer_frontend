@@ -35,7 +35,7 @@ export class CurrentLocationComponent implements OnInit {
   }
   updateLocationFromInput(): void {
     if (this.location) {
-      debugger
+       
       this.center = { lat: this.location.latitude, lng: this.location.longitude };
       this.markerPosition = this.center;
       this.address = this.location.location;

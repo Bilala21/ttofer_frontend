@@ -92,7 +92,7 @@ export class PurchaseSaleComponent implements OnInit {
   }
   markAsSold(product: any) {
     localStorage.setItem('soldItems', JSON.stringify(product));
-    debugger
+     
     this.router.navigate(['/markAsSold/', product.id]);
   }
 deleteProduct(product_id:any){

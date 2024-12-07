@@ -147,7 +147,7 @@ export class ProductCardComponent {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['postData'] && this.postData?.attributes) {
-      debugger
+       
       this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
     }
   }

@@ -391,6 +391,11 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
 
+  gotoCart(){
+    if(this.cartItems.length){
+      this.router.navigate(['/cart'])
+    }
+  }
   ngOnDestroy() {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
   }
