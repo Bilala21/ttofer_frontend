@@ -78,6 +78,7 @@ export class HeaderNavigationComponent implements OnInit {
  this.sideBarItemss = sideBarItems
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     globalStateService.currentState.subscribe((state) => {
+      this.currentUser = state.currentUser;
       this.cartItems = state.cartState;
     });
     this.currentUserid = extension.getUserId();

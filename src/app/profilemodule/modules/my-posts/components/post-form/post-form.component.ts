@@ -68,11 +68,11 @@ export class PostFormComponent {
       auction_starting_date: [''],
       auction_ending_date: [''],
       fix_price: [null],
-      product_type: ['', Validators.required],
+      product_type: ['',Validators.required],
       latitude: ['', Validators.required],
-      longitude: ['', Validators.required],
+      longitude: ['',Validators.required],
       location: ['', Validators.required],
-      main_category: ['', Validators.required],
+      main_category: ['',Validators.required],
       sub_category: ['', Validators.required],
       attributes: this.fb.group({}),
     });
@@ -120,6 +120,13 @@ this.route.queryParams.subscribe(params => {
         this.editProductData = value.data;
         this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
         this.addProductForm.patchValue(this.editProductData)
+        this.addProductForm.patchValue({
+          auction_starting_date: new Date(this.editProductData.auction_starting_date),
+  auction_starting_time: new Date(`1970-01-01T${this.editProductData.auction_starting_time}Z`),
+  auction_ending_date:new Date(this.editProductData.auction_ending_date),
+  auction_ending_time: new Date(`1970-01-01T${this.editProductData.auction_ending_time}Z`)
+        })
+
         this.selectedFiles=this.editProductData.photos;
         this.handleLocationChange({
           latitude: this.editProductData.latitude,
@@ -167,14 +174,14 @@ this.route.queryParams.subscribe(params => {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     return imagesControl.invalid && imagesControl.touched;
   } 
-  onTimeChange(fieldName: string, event: any) {   
-    const time = event && event instanceof Date ? this.formatTime(event) : null;
-    if (time) {
-      this.addProductForm.patchValue({
-        [fieldName]: time,
-      });
-    }
-}
+//   onTimeChange(fieldName: string, event: any) {   
+//     const time = event && event instanceof Date ? this.formatTime(event) : null;
+//     if (time) {
+//       this.addProductForm.patchValue({
+//         [fieldName]: time,
+//       });
+//     }
+// }
   formatTime(date: Date): string {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -427,6 +434,10 @@ if(!this.editProduct){
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
+        }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
+          debugger
+          const formattedtime = this.formatTime(control.value);
+          formData.append(key, formattedtime);
         } else {
           formData.append(key, control.value);
         }
@@ -498,7 +509,11 @@ if(!this.editProduct){
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
-        } else {
+        }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
+          debugger
+          const formattedtime = this.formatTime(control.value);
+          formData.append(key, formattedtime);
+        }  else {
           formData.append(key, control.value);
         }
       }
