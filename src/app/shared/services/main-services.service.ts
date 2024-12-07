@@ -97,7 +97,7 @@ export class MainServicesService {
   }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(
-      `${Constants.baseApi}` + `/user/${ currentUserid }/chats`
+      `${Constants.baseApi}` + `/user/${currentUserid}/chats`
     );
   }
   getConversation(conversation_id: number) {
@@ -194,7 +194,7 @@ export class MainServicesService {
   }
   markAsSold(product: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/products/sold' , product)
+      .post(`${Constants.baseApi}` + '/products/sold', product)
       .pipe();
   }
   acceptOffer(input: any) {
@@ -211,7 +211,9 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}` + '/bids/place', input).pipe();
   }
   getHighBid(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/bids/highest', input).pipe();
+    return this.http
+      .post(`${Constants.baseApi}` + '/bids/highest', input)
+      .pipe();
   }
   getUserInfo(userId: any) {
     return this.http
@@ -233,16 +235,10 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/upload-image', input)
       .pipe();
   }
-  // getNotification(userId: any) {
-  //   return this.http.get(`${Constants.baseApi}` + '/get/user/unread/notifications/' + userId).pipe();
-  // }
+
   getNotification(userId: any, type: any) {
     return this.http
-      .get(
-        `${Constants.baseApi}` +
-          '/get/user/all/notifications/' +
-          { userId, type }
-      )
+      .get(`${Constants.baseApi}/user/${userId}/notifications/?status=${type}`)
       .pipe();
   }
   customLink(input: any) {
@@ -271,9 +267,13 @@ export class MainServicesService {
 
   updateUserAccount(input: any): any {
     //({ input });
-    return this.http.post<any>(`${Constants.baseApi}/profile/update`, input, {
-      headers: this.getHeaders(),
-    });
+    return this.http.post<any>(`${Constants.baseApi}/profile/update`, input);
+  }
+  updateProfilePhoto(payload: any): any {
+    return this.http.post<any>(
+      `${Constants.baseApi}/update/profile/photo`,
+      payload
+    );
   }
 
   forgetPasswordNumber(input: any) {
@@ -295,13 +295,14 @@ export class MainServicesService {
       })
       .pipe();
   }
-deleteProduct(product_id:any){
-  const productid={
-    product_id:product_id
+  deleteProduct(product_id: any) {
+    const productid = {
+      product_id: product_id,
+    };
+    return this.http
+      .post(`${Constants.baseApi}` + '/delete-product', productid)
+      .pipe();
   }
-  return this.http
-  .post(`${Constants.baseApi}` + '/delete-product', productid)
-  .pipe();}
   getCategories(data: any = {}): Observable<any[]> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/categories', data);
   }
@@ -371,7 +372,10 @@ deleteProduct(product_id:any){
   getSuggestions(q: string) {
     return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
   }
-  getProfileData(){
+  getProfileData() {
     return this.http.get(`${Constants.baseApi}` + '/cart/');
+  }
+  getUserSavedItems() {
+    return this.http.get(`${Constants.baseApi}/save-for-later`);
   }
 }
