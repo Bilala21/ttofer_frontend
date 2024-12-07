@@ -20,8 +20,8 @@
                         object-fit: contain;
                         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
                       ">
-                      @if(data.user?.img){
-                      <img [src]="data?.user?.img" class="w-100 h-100" alt="" />
+                      @if(data?.product?.photo.url){
+                      <img [src]="data?.product?.photo.url" class="w-100 h-100" alt="" />
                       }@else{
                       <img src="assets/images/default-img.jpg" class="w-100 h-100" alt="Default Image"
                         loading="lazy" />
