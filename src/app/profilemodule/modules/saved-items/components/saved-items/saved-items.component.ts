@@ -7,30 +7,31 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-saved-items',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './saved-items.component.html',
-  styleUrl: './saved-items.component.scss'
+  styleUrl: './saved-items.component.scss',
 })
 export class SavedItemsComponent {
-  currentUserId:any;
-  savedItems:any
-  notificationList:any=[]
-  constructor(private extension:Extension,private mainServices:MainServicesService){
+  currentUserId: any;
+  savedItems: any;
+  notificationList: any = [];
+  constructor(
+    private extension: Extension,
+    private mainServices: MainServicesService
+  ) {
     this.currentUserId = this.extension.getUserId();
-  this.wishListProduct()
+    this.getUserSavedItems();
   }
-  wishListProduct() {
-    var input = {
-      user_id: this.currentUserId,
-    };
-    this.mainServices.wishListProduct(input).subscribe(
-      (res: any) => {
-        debugger
+  getUserSavedItems() {
+    this.mainServices.getUserSavedItems().subscribe({
+      next: (res: any) => {
         this.savedItems = res.data;
         this.savedItems.isAuction =
-        this.savedItems.fix_price == null ? true : false;
+          this.savedItems.fix_price == null ? true : false;
       },
-      (err: any) => {}
-    );
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

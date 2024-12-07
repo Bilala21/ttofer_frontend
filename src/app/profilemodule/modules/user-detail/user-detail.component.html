@@ -5,7 +5,7 @@
                 <img src="assets/images/profile-icon.svg" alt="profile image" class="img-fluid">
                 <i class="fas fa-camera profile-icon-camera position-absolute"></i>
             </label>
-            <input type="file" class="d-none" id="file">
+            <input type="file" class="d-none" id="file" (change)="onImageUpload($event)">
         </div>
         <div class="pl-3">
             <div class="fw-semibold pb-2"> {{ currentUserProfile.name }}</div>

@@ -7,23 +7,36 @@ import { MainServicesService } from '../../../shared/services/main-services.serv
   standalone: true,
   imports: [CommonModule],
   templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.scss'
+  styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent {
-  currentUserProfile:any;
-  imageUrl:any
-constructor(){
-this.getCurrentUser();
-}
-getCurrentUser() {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const jsonStringGetData = localStorage.getItem('key');
-    if (jsonStringGetData) {
-      this.currentUserProfile = JSON.parse(jsonStringGetData);
-      this.imageUrl = this.currentUserProfile.img;
-    } else {
-
+  currentUserProfile: any;
+  imageUrl: any;
+  constructor(private mainServicesService: MainServicesService) {
+    this.getCurrentUser();
+  }
+  getCurrentUser() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const jsonStringGetData = localStorage.getItem('key');
+      if (jsonStringGetData) {
+        this.currentUserProfile = JSON.parse(jsonStringGetData);
+        this.imageUrl = this.currentUserProfile.img;
+      } else {
+      }
     }
   }
-}
+  onImageUpload(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+      const image = event.target.files[0];
+
+      this.mainServicesService
+        .updateProfilePhoto({ id: this.currentUserProfile.id, image })
+        .subscribe({
+          next: (res: any) => {
+            console.log(res);
+          },
+          error: (err: any) => {},
+        });
+    }
+  }
 }
