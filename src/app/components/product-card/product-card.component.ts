@@ -15,7 +15,7 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
   constructor(
     private authService: AuthService,
     private extension: Extension,
@@ -68,40 +68,39 @@ export class ProductCardComponent implements OnInit {
     }
     return false;
   }
-  
-  iconMapping:any = {
-    brand: 'fa-tag', 
-    condition: 'fa-cogs',   
-    storage: 'fa-hdd',     
-    color: 'fa-paint-brush', 
-    mileage: 'fa-road',   
-    fuelType: 'fa-gas-pump', 
-    delivery: 'fa-truck',  
-    engineCapacity: 'fa-car', 
-    model: 'fa-cogs',      
-    year: 'fa-calendar',    
+
+  iconMapping: any = {
+    brand: 'fa-tag',
+    condition: 'fa-cogs',
+    storage: 'fa-hdd',
+    color: 'fa-paint-brush',
+    mileage: 'fa-road',
+    fuelType: 'fa-gas-pump',
+    delivery: 'fa-truck',
+    engineCapacity: 'fa-car',
+    model: 'fa-cogs',
+    year: 'fa-calendar',
     bedrooms: 'fa-bed',
-    yearBuilt: 'fa-calendar-alt',    
-    area: 'fa-expand',      
-    bathRoom: 'fa-bath',   
-    completion: 'fa-check-circle', 
-    fearture: 'fa-star',     
-    furnisheable: 'fa-couch', 
-    make_and_model: 'fa-car', 
-    type: 'fa-tshirt',     
-    age: 'fa-child',        
-    breed: 'fa-paw',        
-    toy: 'fa-toy',          
-    positionType: 'fa-briefcase', 
-    companyName: 'fa-building', 
-    salary: 'fa-money-bill-wave', 
-    salaryPeriod: 'fa-calendar-alt', 
-    careerLevel: 'fa-level-up-alt', 
+    yearBuilt: 'fa-calendar-alt',
+    area: 'fa-expand',
+    bathRoom: 'fa-bath',
+    completion: 'fa-check-circle',
+    fearture: 'fa-star',
+    furnisheable: 'fa-couch',
+    make_and_model: 'fa-car',
+    type: 'fa-tshirt',
+    age: 'fa-child',
+    breed: 'fa-paw',
+    toy: 'fa-toy',
+    positionType: 'fa-briefcase',
+    companyName: 'fa-building',
+    salary: 'fa-money-bill-wave',
+    salaryPeriod: 'fa-calendar-alt',
+    careerLevel: 'fa-level-up-alt',
   };
 
   private parseAttributes(value: any): any {
     try {
-      
       let attributes = JSON.parse(value);
       if (typeof attributes === 'string') {
         const attributes2 = JSON.parse(attributes);
@@ -146,12 +145,9 @@ export class ProductCardComponent implements OnInit {
     }
   }
   getParsedAttributes() {
-    
-    if(this.postData.attributes){
+    if (this.postData.attributes) {
       const parsedAttributes = this.parseAttributes(this.postData.attributes);
       return parsedAttributes.slice(0, 3); // Limit to first 3 attributes
     }
-    
-  }
   }
 }

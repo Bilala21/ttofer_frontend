@@ -365,9 +365,6 @@ deleteProduct(product_id:any){
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
   }
   toggleSaveItem(data: any) {
-    return this.http.post<any[]>(
-      `${Constants.baseApi}` + '/save-for-later/toggle',
-      data
-    );
+    return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
   }
 }
