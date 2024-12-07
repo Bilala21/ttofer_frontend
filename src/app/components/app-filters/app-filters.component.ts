@@ -127,6 +127,10 @@ export class AppFiltersComponent implements OnInit {
         category_id: localData?.category_id,
       };
       this.fetchSubCategories(id);
+      const form: any = document.getElementById('form');
+      if (form) {
+        form.reset();
+      }
     } else {
       this.filterCriteria = { ...localData };
     }
