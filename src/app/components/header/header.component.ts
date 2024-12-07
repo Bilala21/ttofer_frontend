@@ -79,36 +79,7 @@ export class HeaderNavigationComponent implements OnInit {
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
-    this.suggestions = [
-      {
-        id: 1,
-        name: 'Mobile',
-      },
-      {
-        id: 2,
-        name: 'Cars',
-      },
-      {
-        id: 3,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-      {
-        id: 4,
-        name: 'Mobile',
-      },
-    ];
+
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
       if (!privateRoute.includes(this.router.url)) {
@@ -364,6 +335,14 @@ export class HeaderNavigationComponent implements OnInit {
   searchMessages(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.isSearched = false;
+    this.mainServicesService.getSuggestions(searchTerm).subscribe({
+      next: (res:any) => {
+        this.suggestions=res.data
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   performSearch() {
@@ -389,7 +368,6 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   onBodyClick(event: any) {
-    //('test',event.target)
     if (
       event.target instanceof HTMLElement &&
       event.target.classList.contains('empty-search')

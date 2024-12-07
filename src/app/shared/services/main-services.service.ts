@@ -356,4 +356,8 @@ export class MainServicesService {
       data
     );
   }
+
+  getSuggestions(q: string) {
+    return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
+  }
 }
