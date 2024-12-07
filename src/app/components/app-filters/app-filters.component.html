@@ -1,300 +1,303 @@
-<aside *ngIf="categories.length" class="product-filter">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
-        <div>
+<form action="" id="form">
+    <aside *ngIf="categories.length" class="product-filter">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
             <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
-            <span class="cur-pointer ml-2" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter" matTooltip="Toggle Filter">
-                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path></svg>
-            </span>
         </div>
-    </div>
-    <div class="accordion" id="productFilter" [ngClass]="{ 'hideFilter': hideFilter }">
-        <!-- CATEGORIES -->
-        <div class="sub-categories border-1 rounded-2 px-3">
-            <button id="headingOne1" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold" type="button"
-                data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
-                Categories
-            </button>
-            <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne1">
-                <div class="card-body p-0 mt-2"
-                    [ngClass]="category_id?'overflow-auto scrollable-content':''">
-                    @for (item of categories; track $index) {
-                    <div class="d-flex align-items-center mb-3">
-                        <input type="radio" class="fs-20 category-color empty-search" name="category" [checked]="item?.id == category_id"
-                            (change)="selectCategory(item)">
-                        <span class="pl-1 fs-14">{{ item?.name }}</span>
-                    </div>
-                    }
-                </div>
-            </div>
+        <div class="fs-18 mb-2 d-flex justify-content-between">
+            <img src="/assets/images/filter-icon.svg" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter"
+                style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" />
         </div>
-        <!-- SUB CATEGORIES -->
-        <div *ngIf="subCategories.length || slug" class="mt-3">
+        <div class="accordion" id="productFilter" [ngClass]="{ 'hideFilter': hideFilter }">
+            <!-- CATEGORIES -->
             <div class="sub-categories border-1 rounded-2 px-3">
-                <button id="headingOne" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                    type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                    aria-controls="collapseOne">
-                    SubCategories
+                <button id="headingOne1" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                    type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    Categories
                 </button>
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
-                    <div class="card-body p-0 mt-2 overflow-auto scrollable-content">
-                        @for (item of subCategories; track $index) {
+                <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne1">
+                    <div class="card-body p-0 mt-2" [ngClass]="category_id?'overflow-auto scrollable-content':''">
+                        @for (item of categories; track $index) {
                         <div class="d-flex align-items-center mb-3">
-                            <input type="radio" class="fs-20" name="subcate"
-                                [checked]="+filterCriteria?.sub_category_id == +item.id"
-                                (change)="handleFilter({ key: 'sub_category_id', value: item.id })">
-                            <span class="pl-1 fs-14">{{ item.name }}</span>
+                            <input type="radio" class="fs-20 category-color empty-search" name="category"
+                                [checked]="item?.id == category_id" (change)="selectCategory(item)">
+                            <span class="pl-1 fs-14">{{ item?.name }}</span>
                         </div>
                         }
                     </div>
                 </div>
             </div>
-            <div class="border-1 rounded-2 px-3 mt-3">
-                <!-- SELLER TYPE -->
-                <div class="border-b">
-                    <button id="sellerType" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapseSellerType" aria-expanded="false"
-                        aria-controls="collapseSellerType">
-                        SELLER TYPE
+            <!-- SUB CATEGORIES -->
+            <div *ngIf="subCategories.length || slug" class="mt-3">
+                <div class="sub-categories border-1 rounded-2 px-3">
+                    <button id="headingOne" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                        type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        SubCategories
                     </button>
-                    <div id="collapseSellerType" class="collapse show" aria-labelledby="sellerType">
-                        <div class="card-body p-0 mt-2">
-                            @for (item of filter_fields[slugName]?.seller_types; track $index) {
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="radio" class="fs-20" name="seller_type"
-                                    [checked]="filterCriteria?.seller_id === item"
-                                    (change)="handleFilter({key:'seller_id',value:item})">
-                                <span class="pl-1 fs-14">{{item}}</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CONDITIONS -->
-                @if(!['services','jobs','animals'].includes(slugName)){
-                <div class="border-b">
-                    <button id="condition" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapsecondition" aria-expanded="false"
-                        aria-controls="collapsecondition">
-                        CONDITIONS
-                    </button>
-                    <div id="collapsecondition" class="collapse show" aria-labelledby="condition">
-                        <div class="card-body p-0 mt-2">
-                            @for (item of filter_fields[slugName]?.conditions; track $index) {
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="radio" class="fs-20" name="condition"
-                                    [checked]="filterCriteria?.condition === item"
-                                    (change)="handleFilter({key:'condition',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                }
-                <!-- BEDROOMS -->
-                @if (['property-for-sale','property-for-rent'].includes(slugName)) {
-
-                <div class="border-b">
-                    <button id="bedrooms" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapsebedrooms" aria-expanded="false"
-                        aria-controls="collapsebedrooms">
-                        bedroomsS
-                    </button>
-                    <div id="collapsebedrooms" class="collapse show" aria-labelledby="bedrooms">
-                        <div class="card-body p-0 mt-2">
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="number" class="fs-14 form-control" min="1" name="bedrooms"
-                                    placeholder="Enter how much berroms?" [(ngModel)]="bedrooms"
-                                    (focusout)="handleFilter({key:'bedrooms',value:bedrooms})">
-                            </div>
-                            @for (item of filter_fields[slugName]?.bedrooms; track $index) {
-                            <div class="d-fle align-items-center mb-3 d-none">
-                                <input type="radio" class="fs-20" min="1" name="bedrooms"
-                                    (focusout)="handleFilter({key:'bedrooms',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}} Bedrooms</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <!-- bathroomsS -->
-                <div class="border-b">
-                    <button id="bathrooms" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapsebathrooms" aria-expanded="false"
-                        aria-controls="collapsebathrooms">
-                        bathroomsS
-                    </button>
-                    <div id="collapsebathrooms" class="collapse show" aria-labelledby="bathrooms">
-                        <div class="card-body p-0 mt-2">
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="number" class="fs-14 form-control" name="bathrooms"
-                                    placeholder="Enter how much bathrooms?" [(ngModel)]="bathrooms"
-                                    (focusout)="handleFilter({key:'bathrooms',value:bathrooms})">
-                            </div>
-                            @for (item of filter_fields[slugName]?.bathrooms; track $index) {
-                            <div class="d-fle align-items-center mb-3 d-none">
-                                <input type="radio" class="fs-20" name="bathrooms"
-                                    (focusout)="handleFilter({key:'bathrooms',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}} Bathrooms</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <!-- Area size -->
-                <div class="border-b" *ngIf="slugName==='property-for-rent'">
-                    <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapserent_is_paid" aria-expanded="false"
-                        aria-controls="collapserent_is_paid">
-                        rent is paid
-                    </button>
-                    <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
-                        <div class="card-body p-0 mt-2">
-                            @for (item of filter_fields[slugName]?.rent_is_paid; track $index) {
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="radio" class="fs-20" name="rent_is_paid"
-                                    (change)="handleFilter({key:'rent_is_paid',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                }
-                <!-- typeofwork -->
-                <div class="border-b" *ngIf="slugName=='jobs'">
-                    <button id="typeofwork" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapsetypeofwork" aria-expanded="false"
-                        aria-controls="collapsetypeofwork">
-                        type of work
-                    </button>
-                    <div id="collapsetypeofwork" class="collapse show" aria-labelledby="typeofwork">
-                        <div class="card-body p-0 mt-2">
-                            @for (item of filter_fields[slugName]?.typeofwork; track $index) {
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="radio" class="fs-20" name="typeofwork"
-                                    (change)="handleFilter({key:'typeofwork',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <!-- DELIVERY -->
-                <div class="border-b"
-                    *ngIf="!['-property-for-sale','property-for-rent','jobs','services'].includes(slugName)">
-                    <button id="delivery" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapsedelivery" aria-expanded="false"
-                        aria-controls="collapsedelivery">
-                        Delivery Types
-                    </button>
-                    <div id="collapsedelivery" class="collapse show" aria-labelledby="delivery">
-                        <div class="card-body p-0 mt-2">
-                            @for (item of ["Local Delivery","Pick Up","Shipping"]; track $index) {
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="radio" class="fs-20" name="delivery"
-                                    [checked]="filterCriteria?.delivery === item"
-                                    (change)="handleFilter({key:'delivery',value:item})">
-                                <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LOCATIONS -->
-                <div class="border-b">
-                    <button id="location" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapselocation" aria-expanded="false"
-                        aria-controls="collapselocation">
-                        TOP LOCATION
-                    </button>
-                    <div id="collapselocation" class="collapse show" aria-labelledby="location">
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
                         <div class="card-body p-0 mt-2 overflow-auto scrollable-content">
-                            <div class="location-loader mx-auto" *ngIf="locationLoading"></div>
-                            <button type="button" class="btn text-primary fw-bold mb-3 cursor-pointer"
-                                (click)="handleLocation()" *ngIf="!location.sublocality && !locationLoading">
-                                Use current location
-                            </button>
-
-                            <div class="text-primary fw-bold mb-3" *ngIf="location.sublocality|| location.city">
-                                <span class="pr-1">{{location.sublocality}},</span>
-                                <span>{{location.city}}</span>
-                            </div>
-
-                            @for (item of filter_fields.locations; track $index) {
+                            @for (item of subCategories; track $index) {
                             <div class="d-flex align-items-center mb-3">
-                                <input type="checkbox" class="fs-20" name="location"
-                                    [checked]="filterCriteria?.locations?.includes(item)?true:false"
-                                    (change)="handleFilter({key:'location',value:item})">
-                                <span class="pl-1 fs-14">{{item}}</span>
+                                <input type="radio" class="fs-20" name="subcate"
+                                    [checked]="filterCriteria?.sub_category_id == +item.id"
+                                    (change)="handleFilter({ key: 'sub_category_id', value: item.id })">
+                                <span class="pl-1 fs-14">{{ item.name }}</span>
                             </div>
+
                             }
                         </div>
                     </div>
                 </div>
-
-                <!-- area size -->
-                <div class="border-b" *ngIf="['property-for-sale','property-for-rent'].includes(slugName)">
-                    <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapserent_is_paid" aria-expanded="false"
-                        aria-controls="collapserent_is_paid">
-                        area size <span class="pl-1 fs-14">{{areaSizeValue}}sqf</span>
-                    </button>
-                    <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
-                        <div class="card-body p-0 mt-2">
-                            <ngx-slider [(value)]="areaSizeValue" [options]="areaSizeOptions"
-                                (userChangeEnd)="handleFilter({key:'area', value: areaSizeValue})" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LOCATION RADIUS -->
-                <div class="border-b" *ngIf="!['jobs','services'].includes(slugName)">
-                    <button id="locationradius" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapselocationradius" aria-expanded="false"
-                        aria-controls="collapselocationradius">
-                        location RADIUS <span class="pl-1 fs-14">{{radiusValue}}KM</span>
-                    </button>
-                    <div id="collapselocationradius" class="collapse show" aria-labelledby="locationradius">
-                        <div class="card-body p-0 mt-2">
-                            <ngx-slider [(value)]="radiusValue" [options]="radiusOptions"
-                                (userChangeEnd)="handleFilter({key:'radius', value: radiusValue})" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PRICE -->
-
-                <div *ngIf="!['jobs','services'].includes(slugName)">
-                    <button id="price" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
-                        type="button" data-toggle="collapse" data-target="#collapseprice" aria-expanded="false"
-                        aria-controls="collapseprice">
-                        Price
-                    </button>
-                    <div id="collapseprice" class="collapse show" aria-labelledby="price">
-                        <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions"
-                            (userChangeEnd)="handleMinMaxPrice()" />
-
-                        <div class="d-flex align-items-center price-box mb-3 d-none">
-                            <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                <input type="text" placeholder="200" [(ngModel)]="minValue" min="1"
-                                    class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                    (focusout)="handleMinMaxPrice()">
-                                <span class="fs-12 text-dark-400">AED</span>
+                <div class="border-1 rounded-2 px-3 mt-3">
+                    <!-- SELLER TYPE -->
+                    <div class="border-b">
+                        <button id="sellerType" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapseSellerType" aria-expanded="false"
+                            aria-controls="collapseSellerType">
+                            SELLER TYPE
+                        </button>
+                        <div id="collapseSellerType" class="collapse show" aria-labelledby="sellerType">
+                            <div class="card-body p-0 mt-2">
+                                @for (item of filter_fields[slugName]?.seller_types; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="radio" class="fs-20" name="seller_type"
+                                        [checked]="filterCriteria?.seller_id === item"
+                                        (change)="handleFilter({key:'seller_id',value:item})">
+                                    <span class="pl-1 fs-14">{{item}}</span>
+                                </div>
+                                }
                             </div>
-                            <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                <input type="text" placeholder="300" [(ngModel)]="highValue" min="1"
-                                    class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                    (focusout)="handleMinMaxPrice()">
-                                <span class="fs-12 text-dark-400">AED</span>
+                        </div>
+                    </div>
+
+                    <!-- CONDITIONS -->
+                    @if(!['services','jobs','animals'].includes(slugName)){
+                    <div class="border-b">
+                        <button id="condition" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapsecondition" aria-expanded="false"
+                            aria-controls="collapsecondition">
+                            CONDITIONS
+                        </button>
+                        <div id="collapsecondition" class="collapse show" aria-labelledby="condition">
+                            <div class="card-body p-0 mt-2">
+                                @for (item of filter_fields[slugName]?.conditions; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="radio" class="fs-20" name="condition"
+                                        [checked]="filterCriteria?.condition === item"
+                                        (change)="handleFilter({key:'condition',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <!-- BEDROOMS -->
+                    @if (['property-for-sale','property-for-rent'].includes(slugName)) {
+
+                    <div class="border-b">
+                        <button id="bedrooms" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapsebedrooms" aria-expanded="false"
+                            aria-controls="collapsebedrooms">
+                            bedroomsS
+                        </button>
+                        <div id="collapsebedrooms" class="collapse show" aria-labelledby="bedrooms">
+                            <div class="card-body p-0 mt-2">
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="number" class="fs-14 form-control" min="1" name="bedrooms"
+                                        placeholder="Enter how much berroms?" [(ngModel)]="bedrooms"
+                                        (focusout)="handleFilter({key:'bedrooms',value:bedrooms})">
+                                </div>
+                                @for (item of filter_fields[slugName]?.bedrooms; track $index) {
+                                <div class="d-fle align-items-center mb-3 d-none">
+                                    <input type="radio" class="fs-20" min="1" name="bedrooms"
+                                        (focusout)="handleFilter({key:'bedrooms',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}} Bedrooms</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- bathroomsS -->
+                    <div class="border-b">
+                        <button id="bathrooms" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapsebathrooms" aria-expanded="false"
+                            aria-controls="collapsebathrooms">
+                            bathroomsS
+                        </button>
+                        <div id="collapsebathrooms" class="collapse show" aria-labelledby="bathrooms">
+                            <div class="card-body p-0 mt-2">
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="number" class="fs-14 form-control" name="bathrooms"
+                                        placeholder="Enter how much bathrooms?" [(ngModel)]="bathrooms"
+                                        (focusout)="handleFilter({key:'bathrooms',value:bathrooms})">
+                                </div>
+                                @for (item of filter_fields[slugName]?.bathrooms; track $index) {
+                                <div class="d-fle align-items-center mb-3 d-none">
+                                    <input type="radio" class="fs-20" name="bathrooms"
+                                        (focusout)="handleFilter({key:'bathrooms',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}} Bathrooms</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Area size -->
+                    <div class="border-b" *ngIf="slugName==='property-for-rent'">
+                        <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapserent_is_paid"
+                            aria-expanded="false" aria-controls="collapserent_is_paid">
+                            rent is paid
+                        </button>
+                        <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
+                            <div class="card-body p-0 mt-2">
+                                @for (item of filter_fields[slugName]?.rent_is_paid; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="radio" class="fs-20" name="rent_is_paid"
+                                        (change)="handleFilter({key:'rent_is_paid',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <!-- typeofwork -->
+                    <div class="border-b" *ngIf="slugName=='jobs'">
+                        <button id="typeofwork" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapsetypeofwork" aria-expanded="false"
+                            aria-controls="collapsetypeofwork">
+                            type of work
+                        </button>
+                        <div id="collapsetypeofwork" class="collapse show" aria-labelledby="typeofwork">
+                            <div class="card-body p-0 mt-2">
+                                @for (item of filter_fields[slugName]?.typeofwork; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="radio" class="fs-20" name="typeofwork"
+                                        (change)="handleFilter({key:'typeofwork',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DELIVERY -->
+                    <div class="border-b"
+                        *ngIf="!['-property-for-sale','property-for-rent','jobs','services'].includes(slugName)">
+                        <button id="delivery" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapsedelivery" aria-expanded="false"
+                            aria-controls="collapsedelivery">
+                            Delivery Types
+                        </button>
+                        <div id="collapsedelivery" class="collapse show" aria-labelledby="delivery">
+                            <div class="card-body p-0 mt-2">
+                                @for (item of ["Local Delivery","Pick Up","Shipping"]; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="radio" class="fs-20" name="delivery"
+                                        [checked]="filterCriteria?.delivery === item"
+                                        (change)="handleFilter({key:'delivery',value:item})">
+                                    <span class="pl-1 fs-14 text-capitalize">{{item}}</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LOCATIONS -->
+                    <div class="border-b">
+                        <button id="location" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapselocation" aria-expanded="false"
+                            aria-controls="collapselocation">
+                            TOP LOCATION
+                        </button>
+                        <div id="collapselocation" class="collapse show" aria-labelledby="location">
+                            <div class="card-body p-0 mt-2 overflow-auto scrollable-content">
+                                <div class="location-loader mx-auto" *ngIf="locationLoading"></div>
+                                <button type="button" class="btn text-primary fw-bold mb-3 cursor-pointer"
+                                    (click)="handleLocation()" *ngIf="!location.sublocality && !locationLoading">
+                                    Use current location
+                                </button>
+
+                                <div class="text-primary fw-bold mb-3" *ngIf="location.sublocality|| location.city">
+                                    <span class="pr-1">{{location.sublocality}},</span>
+                                    <span>{{location.city}}</span>
+                                </div>
+
+                                @for (item of filter_fields.locations; track $index) {
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="checkbox" class="fs-20" name="location"
+                                        [checked]="filterCriteria?.locations?.includes(item)?true:false"
+                                        (change)="handleFilter({key:'location',value:item})">
+                                    <span class="pl-1 fs-14">{{item}}</span>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- area size -->
+                    <div class="border-b" *ngIf="['property-for-sale','property-for-rent'].includes(slugName)">
+                        <button id="rent_is_paid" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapserent_is_paid"
+                            aria-expanded="false" aria-controls="collapserent_is_paid">
+                            area size <span class="pl-1 fs-14">{{areaSizeValue}}sqf</span>
+                        </button>
+                        <div id="collapserent_is_paid" class="collapse show" aria-labelledby="rent_is_paid">
+                            <div class="card-body p-0 mt-2">
+                                <ngx-slider [(value)]="areaSizeValue" [options]="areaSizeOptions"
+                                    (userChangeEnd)="handleFilter({key:'area', value: areaSizeValue})" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LOCATION RADIUS -->
+                    <div class="border-b" *ngIf="!['jobs','services'].includes(slugName)">
+                        <button id="locationradius"
+                            class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold" type="button"
+                            data-toggle="collapse" data-target="#collapselocationradius" aria-expanded="false"
+                            aria-controls="collapselocationradius">
+                            location RADIUS <span class="pl-1 fs-14">{{radiusValue}}KM</span>
+                        </button>
+                        <div id="collapselocationradius" class="collapse show" aria-labelledby="locationradius">
+                            <div class="card-body p-0 mt-2">
+                                <ngx-slider [(value)]="radiusValue" [options]="radiusOptions"
+                                    (userChangeEnd)="handleFilter({key:'radius', value: radiusValue})" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRICE -->
+
+                    <div *ngIf="!['jobs','services'].includes(slugName)">
+                        <button id="price" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
+                            type="button" data-toggle="collapse" data-target="#collapseprice" aria-expanded="false"
+                            aria-controls="collapseprice">
+                            Price
+                        </button>
+                        <div id="collapseprice" class="collapse show" aria-labelledby="price">
+                            <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions"
+                                (userChangeEnd)="handleMinMaxPrice()" />
+
+                            <div class="d-flex align-items-center price-box mb-3 d-none">
+                                <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
+                                    <input type="text" placeholder="200" [(ngModel)]="minValue" min="1"
+                                        class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
+                                        (focusout)="handleMinMaxPrice()">
+                                    <span class="fs-12 text-dark-400">AED</span>
+                                </div>
+                                <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
+                                    <input type="text" placeholder="300" [(ngModel)]="highValue" min="1"
+                                        class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
+                                        (focusout)="handleMinMaxPrice()">
+                                    <span class="fs-12 text-dark-400">AED</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</aside>
+    </aside>
+</form>
