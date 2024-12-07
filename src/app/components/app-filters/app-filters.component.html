@@ -41,11 +41,10 @@
                         @for (item of subCategories; track $index) {
                         <div class="d-flex align-items-center mb-3">
                             <input type="radio" class="fs-20" name="subcate"
-                                [checked]="filterCriteria?.sub_category_id == +item.id"
+                                [checked]="+filterCriteria?.sub_category_id == +item.id"
                                 (change)="handleFilter({ key: 'sub_category_id', value: item.id })">
                             <span class="pl-1 fs-14">{{ item.name }}</span>
                         </div>
-
                         }
                     </div>
                 </div>

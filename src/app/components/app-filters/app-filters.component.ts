@@ -105,7 +105,7 @@ export class AppFiltersComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        //(err);
+        console.log(err);
         this.loading = false;
       },
     });
@@ -113,7 +113,7 @@ export class AppFiltersComponent implements OnInit {
       this.fetchSubCategories(this.category_id);
     }
     // const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    // //(localFilters,'localFilters')
+    // console.log(localFilters,'localFilters')
     // if (!localFilters?.first_call) {
     //   this.handleFilter(localFilters);
     // }
@@ -154,7 +154,7 @@ export class AppFiltersComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          //(err);
+          console.log(err);
         },
       });
     }

@@ -371,4 +371,7 @@ deleteProduct(product_id:any){
   getSuggestions(q: string) {
     return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
   }
+  getProfileData(){
+    return this.http.get(`${Constants.baseApi}` + '/cart/');
+  }
 }
