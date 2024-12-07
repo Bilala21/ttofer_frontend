@@ -16,6 +16,7 @@ import { MakeOfferModalComponent } from '../modals/make-offer-modal/make-offer-m
 import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { RightSideComponent } from './right-side/right-side.component';
+import { FeedbackCardComponent } from '.././feedback-card/feedback-card.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -30,29 +31,29 @@ import { RightSideComponent } from './right-side/right-side.component';
     MakeOfferModalComponent,
     NgIf,
     CardShimmerComponent,
+    FeedbackCardComponent,
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
-  inCart: boolean = false;
-  screenWidth: number;
-  screenHeight: number;
-  productId: any = null;
-  product: any = {};
-  attributes: any = {};
-  currentUser: any = {};
-  loading: boolean = false;
-  similarLoading: boolean = false;
-  similarProductsData: any = [];
-  currentUserid: any;
-  parsedAttributes: { [key: string]: string | number } = {};
-
-  isFullScreen = false;
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  zoom = 15; // Adjust zoom level to your preference
-  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  inCart: boolean=false;
+  screenWidth:number;
+  screenHeight:number;
+  productId:any = null;
+  product:any = {};
+  attributes:any = {};
+  currentUser:any = {};
+  loading:boolean = false;
+  similarLoading:boolean = false;
+  similarProductsData:any = [];
+  currentUserid:any;
+  parsedAttributes:{ [key: string]: string | number } = {};
+  isFullScreen=false;
+  center: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
+  zoom = 15; 
+  markerPosition: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
+  markerOptions: google.maps.MarkerOptions={ draggable: false };
   images: any = [];
   position: string = 'left';
   responsiveOptions = [
@@ -88,11 +89,10 @@ export class ProductDetailComponent implements OnInit {
   fetchData(productId: number) {
     this.mainServices.getProductById({ product_id: productId }).subscribe({
       next: (value) => {
-        // ;
+        
         this.product = value.data;
         this.product.in_cart =this.inCart;
         this.attributes = value.data.attributes;
-        //(this.product)
         if (typeof this.attributes === 'string') {
           this.attributes = JSON.parse(value.data.attributes);
         }
@@ -119,13 +119,10 @@ export class ProductDetailComponent implements OnInit {
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
-        // ;
         this.similarProductsData = value.data;
-        //(this.similarProductsData, 'similar product');
         this.similarLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching product:', err);
         this.similarLoading = false;
       },
     });
@@ -134,7 +131,8 @@ export class ProductDetailComponent implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
     this.fetchData(this.productId);
-    this.fetchSimilarProducts(this.productId);
+    this.fetchSimilarProducts(this.productId)
+    this.productView()
     this.globalStateService.currentState.subscribe((state) => {
       //(this.productId);
       state.cartState.find((item) => {
@@ -150,7 +148,6 @@ export class ProductDetailComponent implements OnInit {
       product_id: this.productId,
       user_id: this.currentUserid,
     };
-    //
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {},
     });
@@ -202,7 +199,7 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    // Store the data in sessionStorage
+    
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 

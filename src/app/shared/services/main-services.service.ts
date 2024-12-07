@@ -86,28 +86,33 @@ export class MainServicesService {
   }
   getPlacedBids(input: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/get-product-bids', input)
+      .post(`${Constants.baseApi}` + '/bids/product', input)
       .pipe();
   }
   makeOffer(input: any) {
     return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
   }
   getOffer(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/get-offer', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/offers', input).pipe();
   }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(
-      `${Constants.baseApi}` + `/user/${{ currentUserid }}/chats`
+      `${Constants.baseApi}` + `/user/${ currentUserid }/chats`
     );
   }
   getConversation(conversation_id: number) {
     return this.http
-      .get(`${Constants.baseApi}` + '/get/conversation/' + conversation_id)
+      .get(`${Constants.baseApi}` + '/conversation/' + conversation_id)
       .pipe();
   }
   deleteConversation(conversation_id: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/delete/conversation/' + conversation_id)
+      .get(`${Constants.baseApi}` + '/conversation/delete/' + conversation_id)
+      .pipe();
+  }
+  deleteMessage(message_id: any) {
+    return this.http
+      .delete(`${Constants.baseApi}` + '/message/delete/' + message_id)
       .pipe();
   }
   sendMsg(input: any) {
@@ -118,7 +123,7 @@ export class MainServicesService {
   markMessagesAsRead(conversation_id: any) {
     return this.http
       .get(
-        `${Constants.baseApi}` + '/mark/conversation/read/' + conversation_id
+        `${Constants.baseApi}` + '/conversation/mark-as-read/' + conversation_id
       )
       .pipe();
   }
@@ -203,7 +208,10 @@ export class MainServicesService {
       .pipe();
   }
   placeBid(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/place-bid', input).pipe();
+    return this.http.post(`${Constants.baseApi}` + '/bids/place', input).pipe();
+  }
+  getHighBid(input: any) {
+    return this.http.post(`${Constants.baseApi}` + '/bids/highest', input).pipe();
   }
   getUserInfo(userId: any) {
     return this.http
@@ -282,12 +290,18 @@ export class MainServicesService {
 
   deleteAccount(id: any) {
     return this.http
-      .get(`${Constants.baseApi}/account/deactivate/${id}`, {
+      .get(`${Constants.baseApi}/profile/deactivate`, {
         headers: this.getHeaders(), // Correctly pass the headers here
       })
       .pipe();
   }
-
+deleteProduct(product_id:any){
+  const productid={
+    product_id:product_id
+  }
+  return this.http
+  .post(`${Constants.baseApi}` + '/delete-product', productid)
+  .pipe();}
   getCategories(data: any = {}): Observable<any[]> {
     return this.http.post<any[]>(`${Constants.baseApi}` + '/categories', data);
   }

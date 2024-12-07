@@ -9,18 +9,22 @@
         <div class="row align-items-center justify-content-between">
           <div class="col-md-5 mt-5 text-center">
             <h2>Rate Seller</h2>
-            <img
+            <div style="border-radius: 10px; height: 132px;border:1px solid red">
+              <img
               loading="lazy"
               [src]="user?.img"
               class="mt-5"
-              style="border-radius: 10px; height: 132px"
               alt=""
             />
+            </div>
+            
             <h4>{{ user?.name }}</h4>
             <span>{{ user?.location }}</span>
           </div>
           <div class="col-md-5">
-            <app-star-rating #starRating></app-star-rating>
+            <div class="d-flex justify-content-center">
+              <app-star-rating #starRating></app-star-rating>
+            </div>
             <textarea
               #review
               class="form-control mt-5"

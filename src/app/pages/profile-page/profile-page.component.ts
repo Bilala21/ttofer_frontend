@@ -895,8 +895,6 @@ export class ProfilePageComponent {
       },
     ],
   };
-
-  // selectedFile: File | null = null;
   selectedFile: any;
   loading = false;
   editProductData: any = null;
@@ -1007,7 +1005,7 @@ export class ProfilePageComponent {
         field.model,
         this.fb.control('', Validators.required)
       );
-    });
+    }); 
     if (this.categoryFields[this.selectedCategorySlug]) {
       this.categoryFields[this.selectedCategorySlug].forEach((field: any) => {
         if (field.type === 'select' && field.options.length > 0) {
@@ -1143,7 +1141,6 @@ export class ProfilePageComponent {
       this.selectedImageIndex = -1;
     }
   }
-
   deleteProductImage(file: any) {
     const input = {
       id: file.id,
@@ -1445,7 +1442,6 @@ export class ProfilePageComponent {
     localStorage.setItem('key', jsonString);
     this.getCurrentUser();
   }
-
   validateForm(): boolean {
     this.validationErrors = {};
     if (!this.title) {
@@ -1633,9 +1629,6 @@ export class ProfilePageComponent {
     );
     return subCategory ? subCategory.name : '';
   }
-
- 
-
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
   }
@@ -1964,8 +1957,6 @@ export class ProfilePageComponent {
   onLocationFound(location: string) {
     this.locationId = location;
   }
- 
-
   removeImage(index: number, event: Event): void {
     event.stopPropagation(); 
     // 
@@ -1978,7 +1969,6 @@ export class ProfilePageComponent {
     }
     
   }
-  
   ngOnDestroy() {
     if (this.isNavigatingAway) {
       localStorage.removeItem('editProduct');

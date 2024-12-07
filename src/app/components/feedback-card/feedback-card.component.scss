@@ -1,0 +1,17 @@
+.feedback-card {
+    max-width: 800px;
+    .profile-img {
+      background-color: #f3f4f6; // Light gray as placeholder background
+      display: block;
+    }
+    
+    .name,
+    .email,
+    .amount {
+      &:empty {
+        color: #9ca3af; // Placeholder text color
+        font-style: italic;
+      }
+    }
+  }
+  

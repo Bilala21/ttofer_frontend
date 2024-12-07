@@ -1,0 +1,35 @@
+<div class="feedback-card">
+    <p class="my-4 fs-20 fw-bold">Product Reviews</p>
+    <!-- feed-back -->
+    <div *ngFor="let feed of data; let i = index" >
+      <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex" >
+      <div class="flex-shrink-0">
+        <img class="profile-img" [src]="feed.img" [alt]="feed.name" />
+      </div>
+      <div class="details ml-2">
+        <p class="name m-0">{{ feed.name }}</p>
+        <div class="rating">
+          <!-- class="star"
+          [class.filled]="i < reviewForm.get('rating')?.value"
+          (click)="reviewForm.patchValue({ rating: i + 1 })" -->
+          <span
+            *ngFor="let star of createArray(feed.rating); let i = index"        
+            class="text-warning">
+            ★
+          </span>
+        </div>
+     
+      </div>
+      </div>
+
+      <div class="amount">
+        {{ feed.date }}
+      </div>
+    </div>
+    <p>
+      {{feed.para}}
+    </p>
+    <hr>
+    </div>
+</div>

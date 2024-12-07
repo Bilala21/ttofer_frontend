@@ -1,47 +1,74 @@
-<main>
-    <div class="container post-detail-container pb-5 buyer">
-        <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Modern light clothes'}"
-            imgClass="product-img">
-            <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer">
-                <span>$500</span>
-            </div>
-        </app-card>
-        <div class="d-flex justify-content-between">
-            <div class="pr-4 pt-2">
-                <h4 class="fs-32 fw-bold text-dark-800 mb-0 pt-2 pb-2">Rate Seller</h4>
-                <div class="seller-bio pt-5 mt-2">
-                    <img src="/assets/images/tempImage/img2.jpeg" alt="image" loading="lazy">
-                    <h4 class="fs-19 fw-normal mb-0 mt-4">Darlene Robertson</h4>
-                    <p class="fs-16 fw-normal text-center">Manchester, UK</p>
+<main class="mt-16">
+    <div class="container-fluid post-detail-container buyer">
+        <div class="d-flex flex-column flex-md-row justify-content-between">
+            
+            <div class="pr-md-4 pt-2">
+                <!-- rate-seller -->
+                <h4 class="fs-32 fw-bold text-dark-800 mb-0 pt-2 pb-2 text-center">Rate Seller</h4>
+                <div class="seller-bio mt-2 d-flex align-content-center justify-content-center">
+                    <!-- seller-image -->
+                    <div class="">
+                        <img src="/assets/images/tempImage/img2.jpeg" alt="image" loading="lazy" style="width: 200px;height:200px;border-radius: 50%;">
+                        <h4 class="fs-19 fw-normal mb-0 mt-1 text-center">Darlene Robertson</h4>
+                        <p class="fs-16 fw-normal text-center m-0 mt-1">Manchester, UK</p>
+                    </div>
                 </div>
             </div>
-            <div class="detail-right-side w-100">
-                <div class="d-flex align-items-center rate-stars justify-content-center">
-                    <ng-container *ngFor="let item of [1, 2, 3, 4, 5]; let i = index">
-                        <button *ngIf="i < 4; else unrated" class="btn p-0">
-                            <img src="/assets/images/icons/star-colored.png" alt="image" loading="lazy">
-                        </button>
-                        <ng-template #unrated>
-                            <button class="btn p-0">
-                                <img src="/assets/images/icons/star-fade.png" alt="image" loading="lazy">
-                            </button>
-                        </ng-template>
-                    </ng-container>
+
+            <div class="detail-right-side w-100  mt-auto">
+                <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                <!-- <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Modern light clothes'}"
+                    imgClass="product-img">
+                    <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer">
+                        <span>$500</span>
+                    </div>
+                </app-card> -->
+                <div class="d-flex align-items-center rate-stars justify-content-md-start justify-content-center">
+                    
+                    <!-- star-rating -->
+                    <div class="rating mt-1">
+                        <span
+                          *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                          class="star fs-24 cur-pointer"
+                          [class.filled]="i < reviewForm.get('rating')?.value"
+                          (click)="reviewForm.patchValue({ rating: i + 1 })">
+                          ★
+                        </span>
+                    </div>
                 </div>
-                <textarea class="w-100 border-0 p-3 mt-5 fs-14"
-                    placeholder="How was your experience about this seller?"></textarea>
-                <div class="fs-16 fw-normal d-flex align-items-center btns mt-5">
-                    <a routerLink="/post-performance/12"
-                        class="text-decoration-none text-center text-white bg-dark-450 rounded-pill px-3 py-2">
-                        Review Seller
-                    </a>
-                    <a routerLink="/post-performance/12"
-                        class="text-decoration-none text-center text-white bg-dark-450 rounded-pill px-3 py-2">
+                  <!-- description -->
+                <div class="form-group">
+                        <label for="description" class="fs-18 fw-medium">Description</label>
+                        <textarea
+                          class="w-100 p-1 rounded-2"
+                          id="description"
+                          formControlName="description"
+                          placeholder="Write your review here"
+                          rows="4">
+                        </textarea>
+                        <div class="error" *ngIf="submitted && reviewForm.get('description')?.invalid">
+                          <small *ngIf="reviewForm.get('description')?.errors?.['required']">
+                            Description is required.
+                          </small>
+                          <small *ngIf="reviewForm.get('description')?.errors?.['minlength']">
+                            Description must be at least 10 characters long.
+                          </small>
+                        </div>
+                </div> 
+                <!-- btns -->
+                <div class="fs-16 fw-normal d-flex align-items-center justify-content-end btns mt-2">
+                    <button
+                        type="submit"
+                        class="text-decoration-none btn text-center text-white rounded-pill px-3 py-2 bg-yellow-800 border-none">
+                       Submit Review
+                    </button>
+                    <span 
+                        class="text-decoration-none text-center text-white bg-yellow-800 rounded-pill px-3 py-2 ml-2">
                         Skip
-                    </a>
+                    </span>
                 </div>
+            </form>
             </div>
         </div>
     </div>
-    <hr>
 </main>
