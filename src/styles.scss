@@ -1295,3 +1295,16 @@ button[aria-label="Close"]:focus {
   pointer-events: none;
   opacity: 0.4;
 }
+.p-galleria-thumbnail-item{
+  flex: unset !important;
+}
+.p-galleria-content .p-galleria-thumbnail-items{
+  justify-content: center;
+}
+.p-overflow-hidden .p-galleria-thumbnail-item{
+  flex: unset !important;
+}
+.p-overflow-hidden .p-galleria-content .p-galleria-thumbnail-items{
+  justify-content: center;
+  column-gap: 20px !important;
+}

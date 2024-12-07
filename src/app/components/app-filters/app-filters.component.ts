@@ -141,7 +141,7 @@ export class AppFiltersComponent implements OnInit {
     } else {
       this.filterCriteria = { ...localData };
     }
-debugger
+ 
     this.radiusValue = localData?.radius ? localData?.radius : 1;
     this.minValue = localData?.min_price ? localData?.min_price : 20;
     this.highValue = localData?.max_price ? localData?.max_price : 500;

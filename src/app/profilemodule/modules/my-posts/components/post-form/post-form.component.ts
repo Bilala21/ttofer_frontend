@@ -229,7 +229,7 @@ this.route.queryParams.subscribe(params => {
     longitude: number;
     location: string;
   }): void {
-    debugger
+     
     if(this.editProduct){
       this.parentLocation = location;
 
@@ -435,7 +435,7 @@ if(!this.editProduct){
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
         }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
-          debugger
+          
           const formattedtime = this.formatTime(control.value);
           formData.append(key, formattedtime);
         } else {
@@ -510,7 +510,7 @@ if(!this.editProduct){
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
         }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
-          debugger
+          
           const formattedtime = this.formatTime(control.value);
           formData.append(key, formattedtime);
         }  else {
