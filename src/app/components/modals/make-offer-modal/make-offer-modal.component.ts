@@ -93,7 +93,7 @@ if(this.product.product_type == 'auction'){
   this.mainServices.getHighBid({product_id:ProductId}).subscribe({
     next:(res:any)=>{
       this.globalStateService.setHighestBid(res.data.price)
-      console.log("res",res.data.price)
+       //("res",res.data.price)
       this.highestBid = this.globalStateService.hightBids$.subscribe(
         (highestBid) => {
           this.highBid = highestBid;
@@ -167,7 +167,7 @@ if(this.product.product_type == 'auction'){
   }
 
   setBidPrice(price: number): void {
-    console.log("price",price)
+     //("price",price)
     if (this.bidForm && this.bidForm?.get('bid_price')) {
       this.bidForm?.get('bid_price')?.setValue(price); 
       }

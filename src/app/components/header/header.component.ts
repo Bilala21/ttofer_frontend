@@ -222,7 +222,6 @@ export class HeaderNavigationComponent implements OnInit {
       const path = location.pathname.toString().trim();
       const index = path.indexOf('?');
       const dash = path.indexOf('-');
-      //(index, dash, path);
       if (index) {
         const url = path.slice(0, index);
         this.router.navigate([url], {
@@ -231,7 +230,8 @@ export class HeaderNavigationComponent implements OnInit {
       }
 
       if (path == '/') {
-        this.router.navigate(['/category/auction'], {
+        // localStorage.setItem("categoryTab",'auction')
+        this.router.navigate(['/'], {
           queryParams: { search: this.searchTerm.toLowerCase() },
         });
       }
@@ -253,7 +253,7 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   handleFilter(filter: any) {
-    localStorage.setItem('filters', JSON.stringify({}));
+    // localStorage.setItem('filters', JSON.stringify({}));
   }
 
   ngOnInit(): void {
@@ -345,7 +345,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.suggestions=res.data
       },
       error: (err) => {
-        console.log(err);
+         //(err);
       },
     });
   }

@@ -44,11 +44,18 @@ export class MainServicesService {
   getBanners(): Observable<any> {
     return this.http.get(`${Constants.baseApi}/get-banners`);
   }
-  getFeatureProduct(): Observable<any> {
-    return this.http.post(`${Constants.baseApi}/featured-products`, null);
+  getFeatureProduct(query: any=""): Observable<any> {
+    return this.http.post(
+      `${Constants.baseApi}/featured-products`,
+      null
+    );
   }
-  getAuctionProduct(): Observable<any> {
-    return this.http.post(`${Constants.baseApi}/auction-products`, null);
+  getAuctionProduct(query: any=""): Observable<any> {
+    // ?search=${query}
+    return this.http.post(
+      `${Constants.baseApi}/auction-products`,
+      null
+    );
   }
   addWishList(payload: any) {
     return this.http
@@ -375,7 +382,10 @@ export class MainServicesService {
     return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
   }
   toggleSaveItem(data: any) {
-    return this.http.post<any[]>(`${Constants.baseApi}` + '/save-itme', data);
+    return this.http.post<any[]>(
+      `${Constants.baseApi}` + '/save-for-later/toggle',
+      data
+    );
   }
 
   getSuggestions(q: string) {

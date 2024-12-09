@@ -35,7 +35,7 @@ export class ReviewPageComponent {
 
     this.mainServices.getProfileData().subscribe({
       next: (res: any) => {
-        console.log('Profile data:', res.data);
+         //('Profile data:', res.data);
         this.user = res.data; // Assign user data if needed
       },
       error: (error: any) => {

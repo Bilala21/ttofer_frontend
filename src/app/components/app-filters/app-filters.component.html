@@ -4,9 +4,14 @@
             <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
             <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
         </div>
-        <div class="fs-18 mb-2 d-flex justify-content-between">
-            <img src="/assets/images/filter-icon.svg" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter"
-                style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" />
+        <div class="fs-18 mb-2 d-flex align-items-center" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter">
+            <!-- <img src="/assets/images/filter-icon.svg" 
+            style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" /> -->
+           <div class=" bg-dark text-white w-fit px-3 py-2 rounded">
+            <i class="fas fa-filter"></i>
+            <span class="text-uppercase fs-14 fw-semibold pl-2 ">filters</span>
+           </div>
+            <button *ngIf="!hideFilter" class="btn btn-yellow py-2 ml-2" (click)="applyFilters()">Apply filters</button>
         </div>
         <div class="accordion" id="productFilter" [ngClass]="{ 'hideFilter': hideFilter }">
             <!-- CATEGORIES -->
@@ -14,7 +19,7 @@
                 <button id="headingOne1" class="btn p-0 w-100 fs-14 py-2 text-uppercase text-left fw-semibold"
                     type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true"
                     aria-controls="collapseOne1">
-                    Categories
+                    Categories {{category_id}}
                 </button>
                 <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne1">
                     <div class="card-body p-0 mt-2" [ngClass]="category_id?'overflow-auto scrollable-content':''">
@@ -298,6 +303,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center my-5" *ngIf="!hideFilter">
+            <button class="btn btn-yellow" (click)="applyFilters()">Apply filters</button>
         </div>
     </aside>
 </form>

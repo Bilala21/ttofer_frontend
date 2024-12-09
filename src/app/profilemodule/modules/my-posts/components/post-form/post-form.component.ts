@@ -569,7 +569,7 @@ if(!this.editProduct){
         auction_starting_date: '', 
         auction_ending_date: '',   
       })
-      console.log(this.addProductForm.value)
+       //(this.addProductForm.value)
     }
     else if (selectedValue =='auction') {
       this.addProductForm.get('fix_price')?.clearValidators();

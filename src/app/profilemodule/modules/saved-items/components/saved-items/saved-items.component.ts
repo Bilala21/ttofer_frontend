@@ -30,7 +30,7 @@ export class SavedItemsComponent {
           this.savedItems.fix_price == null ? true : false;
       },
       error: (err) => {
-        console.log(err);
+         //(err);
       },
     });
   }

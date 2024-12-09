@@ -14,7 +14,7 @@
       </div>
       <!--BILAL PRODUCTS AREA -->
       <div class=" mt-3">
-        <app-post-categories (setHandleFilter)="handleFilter($event)" />
+        <app-post-categories />
       </div>
       <div class="pt-5">
         <div class="row pb-3 rounded-2 row-gap-20 xs-col-gap-2">
@@ -23,7 +23,7 @@
             <p class="fs-14 mb-0">Hurry up! The auction is ending soon</p>
           </div>
           <div class="w-100 text-right pr-3" *ngIf="auctionPosts.length">
-            <a (click)="handleFilter({'prodduct_tyoe':'auction'})" routerLink="/category/auction"
+            <a routerLink="/category/auction"
               class="fw-bold text-primary">
               View All
               <i class="fa fa-angle-right"></i>
@@ -59,7 +59,7 @@
           </div>
           <div class="w-100 text-right pr-3" *ngIf="featuredPosts.length">
 
-            <a (click)="handleFilter({'prodduct_tyoe':'featured'})" routerLink="/category/featured"
+            <a routerLink="/category/featured"
               class="fw-bold text-primary">
               View All
               <i class="fa fa-angle-right"></i>

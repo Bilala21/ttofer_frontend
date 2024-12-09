@@ -4,7 +4,7 @@ import { forkJoin, Subscription } from 'rxjs';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SliderComponent } from '../../components/slider/slider.component';
 import { PostCategoriesComponent } from '../../components/post-categories/post-categories.component';
 import { PromotionSliderComponent } from '../../components/promotion-slider/promotion-slider.component';
@@ -45,7 +45,8 @@ export class BodyComponent implements OnDestroy {
     private countdownTimerService: CountdownTimerService,
     private globalStateService: GlobalStateService,
     private extension: Extension,
-    private globalSearchService: GlobalSearchService
+    private globalSearchService: GlobalSearchService,
+    private router: ActivatedRoute
   ) {
     globalStateService.currentState.subscribe((state) => {
       this.tempToken =
@@ -55,9 +56,13 @@ export class BodyComponent implements OnDestroy {
     });
   }
   ngOnInit(): void {
+    let query: any = '';
+    this.router.queryParamMap.subscribe((q) => {
+      query = q.get('search');
+     //({ query });
     forkJoin({
-      auctionProduct: this.mainServices.getAuctionProduct(),
-      featureProduct: this.mainServices.getFeatureProduct(),
+      auctionProduct: this.mainServices.getAuctionProduct(query),
+      featureProduct: this.mainServices.getFeatureProduct(query),
     }).subscribe({
       next: (response) => {
         //
@@ -71,6 +76,7 @@ export class BodyComponent implements OnDestroy {
         this.loading = false;
       },
     });
+  });
     this.getBanners();
   }
 
@@ -116,12 +122,11 @@ export class BodyComponent implements OnDestroy {
     if (this.auctionPosts.length) {
       this.auctionPosts.forEach((item: any) => {
         const datePart = item.auction_ending_date;
-        
+
         const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
         const subscription = this.countdownTimerService
           .startCountdown(endingDateTime)
           .subscribe((remainingTime) => {
-          console.log(remainingTime,'remainingTime')
             item.calculateRemainingTime = remainingTime
               ? remainingTime + ' remaining'
               : 'Bid Expired';
@@ -136,7 +141,7 @@ export class BodyComponent implements OnDestroy {
   // ['mobiles','electronics-appliance','property-for-sale','vehicles','bikes','furniture-home-decor','fashion-beauty','kids']
 
   handleFilter(filter: any) {
-    localStorage.setItem('filters', JSON.stringify({}));
+    // localStorage.setItem('filters', JSON.stringify({}));
     // this.globalSearchService.setFilterdProducts(filter);
   }
 }

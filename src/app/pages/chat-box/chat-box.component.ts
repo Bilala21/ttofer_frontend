@@ -326,7 +326,7 @@ export class ChatBoxComponent {
         this.buyerId = this.conversationBox[0].buyer_id;
         this.offerStatus = this.conversationBox[0]?.offer?.status;
         this.offerId = this.conversationBox[0]?.offer_id;
-        console.log(this.conversationBox);
+         //(this.conversationBox);
       });
   }
   activeOptionIndex: number | null = null;
