@@ -710,6 +710,12 @@ button[aria-label="Close"]:focus {
 .product-filter {
   max-width: 300px;
   min-width: 300px;
+  padding-top: 0px !important;
+  display: flex;
+  flex-direction: column;
+  .ft-btn{
+    order: -1;
+  }
 }
 
 .row-gap {
