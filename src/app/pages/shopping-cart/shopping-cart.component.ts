@@ -26,7 +26,7 @@ export class ShoppingCartComponent {
   onCheckboxChange() {
     throw new Error('Method not implemented.');
   }
-  quantities:any= {};
+  quantities: any = {};
   cartItems: any[] = [];
   totalAmount: number = 0;
   totalLength: number = 0;
@@ -35,6 +35,7 @@ export class ShoppingCartComponent {
   userId;
   selectedItems: any = [];
   isCartRoute: boolean = false;
+  sellerRating: any = [];
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -166,11 +167,10 @@ export class ShoppingCartComponent {
         this.quantities[item.product.inventory.id] = Array.from({
           length: item.product.inventory.available_stock,
         });
+        this.sellerRating[item.seller.id] = Array.from({
+          length: item.seller.rating,
+        });
       });
     }, 2000);
   }
 }
-// qu={
-//   id:1,
-//   stock:[]
-// }
