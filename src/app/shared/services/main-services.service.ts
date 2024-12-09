@@ -280,7 +280,7 @@ export class MainServicesService {
   }
   updateProfilePhoto(payload: any): any {
     return this.http.post<any>(
-      `${Constants.baseApi}/update/profile/photo`,
+      `${Constants.baseApi}/profile/update-image`,
       payload
     );
   }

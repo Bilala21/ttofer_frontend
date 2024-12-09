@@ -32,3 +32,18 @@
 .btn:disabled {
     cursor: default; 
   }
+  .no-chat-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+  }
+
+  .no-chat-container h6 {
+    font-weight: bold;
+  }
+  .no-chat-container p {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  

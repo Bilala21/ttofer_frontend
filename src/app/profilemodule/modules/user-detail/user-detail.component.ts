@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MainServicesService } from '../../../shared/services/main-services.service';
+import { ToastrService } from 'ngx-toastr';
+import { SharedDataService } from '../../../shared/services/shared-data.service';
+import { Constants } from '../../../../../public/constants/constants';
 
 @Component({
   selector: 'app-user-detail',
@@ -12,7 +15,8 @@ import { MainServicesService } from '../../../shared/services/main-services.serv
 export class UserDetailComponent {
   currentUserProfile: any;
   imageUrl: any;
-  constructor(private mainServicesService: MainServicesService) {
+  constructor(private mainServicesService: MainServicesService,private toastr:ToastrService,    public service: SharedDataService
+  ) {
     this.getCurrentUser();
   }
   getCurrentUser() {
@@ -27,16 +31,50 @@ export class UserDetailComponent {
   }
   onImageUpload(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
-      const image = event.target.files[0];
+      const File = event.target.files[0];
+      this.updateProfile(File);
 
-      this.mainServicesService
-        .updateProfilePhoto({ id: this.currentUserProfile.id, image })
-        .subscribe({
-          next: (res: any) => {
-            console.log(res);
-          },
-          error: (err: any) => {},
+    }
+  }
+  updateProfile(file:any): void {
+    if (file) {
+      let formData = new FormData();
+      formData.append('user_id', this.currentUserProfile.id.toString());
+      formData.append('image', file);
+      let token = localStorage.getItem('authToken')
+      fetch(`${Constants.baseApi}/profile/update-image`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      })
+        .then((response: any) => {
+          return response.json();
+        })
+        .then((data) => {
+          if(data.status){
+            this.toastr.success(
+              data.message,
+              'Success'
+            );
+            this.imageUrl = data.data.img;
+            this.service.changeImageUrl(this.imageUrl);
+            this.UpdateLocalUserData(data.data);
+          }
+         
+        })
+        .catch((error) => {
+          this.toastr.error(
+            'Profile update failed. Please try again.',
+            'Error'
+          );
         });
     }
+  }
+  UpdateLocalUserData(data: any) {
+    const jsonString = JSON.stringify(data);
+    localStorage.setItem('key', jsonString);
+    this.getCurrentUser();
   }
 }
