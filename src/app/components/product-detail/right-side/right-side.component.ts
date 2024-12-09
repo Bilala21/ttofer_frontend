@@ -104,6 +104,12 @@ export class RightSideComponent {
     if (event.value <= product.inventory.available_stock) {
       this.selectedQty = event.value;
       this.product.inventory.available_stock - event.value;
+      event.classList.remove('disabled')
+    }
+    else{
+      event.classList.add('disabled')
+      event.value=product.inventory.available_stock
+      this.selectedQty=product.inventory.available_stock
     }
   }
 

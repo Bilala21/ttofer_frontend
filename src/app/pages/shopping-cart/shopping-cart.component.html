@@ -29,7 +29,8 @@
             <div class="item-details w-100">
 
               <div class="d-flex item-header justify-content-start">
-                <img [src]="item.seller.url?item.seller.url:'assets/images/profile-icon.svg'" alt="seller image" class="seller-image {{item.seller.url?'':'border-1'}}" />
+                <img [src]="item.seller.url?item.seller.url:'assets/images/profile-icon.svg'" alt="seller image"
+                  class="seller-image {{item.seller.url?'':'border-1'}}" />
                 <div>
                   <span class="product-title d-block">{{ item.seller.name }}</span>
                   <!-- <span class="text-yellow-800 d-block">★★★★★</span> -->
@@ -59,7 +60,8 @@
                   <label for="" class="mr-1">Qty</label>
                   <select [(ngModel)]="item.product.quantity" (change)="updateQuantity(item)"
                     [ngClass]="item.selected?'':'disabled'">
-                    <option *ngFor="let qty of quantities?.[item.product.id]; let i=index" [value]="i+1">{{ i+1 }}</option>
+                    <option *ngFor="let qty of quantities?.[item.product.id]; let i=index" [value]="i+1">{{ i+1 }}
+                    </option>
                   </select>
                   <span class="pl-1">{{quantities?.[item.product.id]?.length -item.product.quantity}} available</span>
                 </div>
@@ -70,7 +72,8 @@
                 <a [routerLink]="['/']" routerLinkActive="router-link-active " class="text-decoration-none text-dark">
                   Buy Now
                 </a>
-                <button (click)="saveForLater(item)" class="btn focus-none">{{item.product?.save_for_later ? 'Remove saved itme':
+                <button (click)="saveForLater(item)" class="btn focus-none">{{item.product?.save_for_later ? 'Remove
+                  saved itme':
                   'Save for Later'}}</button>
                 <button (click)="removeItem(item)" class="btn text-danger focus-none">Remove</button>
               </div>
