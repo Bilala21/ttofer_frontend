@@ -231,7 +231,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
 
       if (path == '/') {
-        this.router.navigate(['/category/auction'], {
+        this.router.navigate(['/'], {
           queryParams: { search: this.searchTerm.toLowerCase() },
         });
       }
