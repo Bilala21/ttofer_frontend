@@ -26,7 +26,7 @@ export class ShoppingCartComponent {
   onCheckboxChange() {
     throw new Error('Method not implemented.');
   }
-  quantities = Array.from({ length: 10 }, (_, i) => i + 1);
+  quantities:any= {};
   cartItems: any[] = [];
   totalAmount: number = 0;
   totalLength: number = 0;
@@ -155,11 +155,22 @@ export class ShoppingCartComponent {
         error: (err) => {},
       });
   }
+
   ngOnInit() {
     setTimeout(() => {
       if (Array.isArray(this.cartItems) && this.cartItems.length) {
         this.toggleSelectAll();
       }
+
+      this.cartItems.forEach((item) => {
+        this.quantities[item.product.inventory.id] = Array.from({
+          length: item.product.inventory.available_stock,
+        });
+      });
     }, 2000);
   }
 }
+// qu={
+//   id:1,
+//   stock:[]
+// }

@@ -30,11 +30,12 @@ export class RightSideComponent {
   maxPrice: number = 0;
   calculateRemaningTime!: string;
   productId: any = null;
-  liveBidsSubscription:any;
-  highBid:any;
-  highestBid:any;
+  liveBidsSubscription: any;
+  highBid: any;
+  highestBid: any;
   loading: boolean = false;
   currentUserid;
+  selectedQty = 1;
   @Output() handleWishlist = new EventEmitter<any>();
   @Output() handleAddToCart = new EventEmitter<any>();
   constructor(
@@ -51,10 +52,10 @@ export class RightSideComponent {
 
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
-    this.highestBid= this.globalStateService.hightBids$.subscribe(
+    this.highestBid = this.globalStateService.hightBids$.subscribe(
       (highestBid) => {
-        this.highBid = highestBid; 
-         //("this is highBid",this.highBid);
+        this.highBid = highestBid;
+        //("this is highBid",this.highBid);
       }
     );
     this.getBid();
@@ -78,7 +79,7 @@ export class RightSideComponent {
       .adToCartItem({
         product_id: item.id,
         user_id: this.currentUserid,
-        quantity: 1,
+        quantity: this.selectedQty ? this.selectedQty : 1,
       })
       .subscribe({
         next: (res: any) => {
@@ -101,7 +102,10 @@ export class RightSideComponent {
   }
 
   handleProductQty(event: any, product: any) {
-    this.globalStateService.updateCart({ ...product, quantity: event.value });
+    if (event.value <= product.inventory.available_stock) {
+      this.selectedQty = event.value;
+      this.product.inventory.available_stock - event.value;
+    }
   }
 
   contactSeller(product: any, user: any): void {
@@ -111,7 +115,7 @@ export class RightSideComponent {
       this.authService.triggerOpenModal();
       return;
     }
-    
+
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
@@ -131,7 +135,7 @@ export class RightSideComponent {
       modal_type,
       this.currentUserid,
       this.productId,
-      this.liveAuction.length,
+      this.liveAuction.length
     );
   }
   // getHighBid(){
@@ -153,10 +157,10 @@ export class RightSideComponent {
       product_id: this.productId,
     };
     this.mainServices.getPlacedBids(input).subscribe((res: any) => {
-      this.globalStateService.setLiveBids(res.data)
+      this.globalStateService.setLiveBids(res.data);
       this.liveBidsSubscription = this.globalStateService.liveBids$.subscribe(
         (liveBids) => {
-          this.liveAuction = liveBids;  // Assign the array to liveAuction
+          this.liveAuction = liveBids;
         }
       );
       this.loading = false;

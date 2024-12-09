@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
 interface AppState {
   tab: { index: number; tabName: string };
   prodTab: { key: string; value: string };
@@ -22,8 +22,8 @@ interface AppState {
   currentUserId: null;
   productId: null;
   liveBids: null;
-  getLiveBids:any[];
-  getHighestBids:any;
+  getLiveBids: any[];
+  getHighestBids: any;
 }
 
 @Injectable({
@@ -51,8 +51,8 @@ export class GlobalStateService {
     liveBids: null,
     isFilterActive: false,
     activeCategory: 0,
-    getLiveBids:[],
-    getHighestBids:0,
+    getLiveBids: [],
+    getHighestBids: 0,
   };
   public filterCriteria: any = {
     location: [],
@@ -75,9 +75,7 @@ export class GlobalStateService {
     const currentState = this.stateSubject.value;
     const newState: any = {
       ...currentState,
-      cartState: Array.isArray(data)
-        ? [...data]
-        : currentState.cartState.filter((item) => item.product.id !== data),
+      cartState: data,
     };
     this.stateSubject.next(newState);
   }
@@ -98,7 +96,7 @@ export class GlobalStateService {
     modal_type: string,
     currentUserId?: any,
     productId?: any,
-    liveBids?: any,
+    liveBids?: any
   ) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -226,13 +224,17 @@ export class GlobalStateService {
     this.stateSubject.next({ ...currentState, getLiveBids: liveBids });
   }
   get liveBids$() {
-    return this.stateSubject.asObservable().pipe(map((state: { getLiveBids: any; }) => state.getLiveBids));
+    return this.stateSubject
+      .asObservable()
+      .pipe(map((state: { getLiveBids: any }) => state.getLiveBids));
   }
   setHighestBid(highestBid: any): void {
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, getHighestBids: highestBid });
   }
   get hightBids$() {
-    return this.stateSubject.asObservable().pipe(map((state: { getHighestBids: any; }) => state.getHighestBids));
+    return this.stateSubject
+      .asObservable()
+      .pipe(map((state: { getHighestBids: any }) => state.getHighestBids));
   }
 }

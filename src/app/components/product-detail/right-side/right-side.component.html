@@ -188,10 +188,10 @@
 
   <div class="fs-14 " *ngIf="product.product_type !=='auction'">
     <span class="fw-normal">Quantity</span>
-    <input type="number" value="1" min="1" max="5" class="mx-2 qty-input rounded-2 border-1 px-2"
-      (change)="handleProductQty($event.target,product)" />
-    <span class="text-slate-300 fw-normal">6 available</span>
-    <span class="text-slate-300 ml-2 fw-normal">3 sold</span>
+    <input type="number" value="1" min="1" max={{product.inventory.available_stock}} class="mx-2 qty-input rounded-2 border-1 px-2"
+      (input)="handleProductQty($event.target,product)" />
+    <span class="text-slate-300 fw-normal">{{product.inventory.available_stock - selectedQty}} available</span>
+    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count}} sold</span>
   </div>
 
   <!-- make offer buttons common-->
@@ -223,7 +223,7 @@
       </button>
       <button (click)="toggleWishlist(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary text-dark-650">
-        <i class="{{product.user_wishlist?.user_id === currentUserid ?'fas':'far'}} fa-heart fs-19"
+        <i class="{{product.is_in_wishlist ?'fas':'far'}} fa-heart fs-19"
           aria-hidden="true"></i>
         Add to watchlist
       </button>

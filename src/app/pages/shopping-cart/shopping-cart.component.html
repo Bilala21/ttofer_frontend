@@ -53,8 +53,9 @@
                   <label for="" class="mr-1">Qty</label>
                   <select [(ngModel)]="item.product.quantity" (change)="updateQuantity(item)"
                     [ngClass]="item.selected?'':'disabled'">
-                    <option *ngFor="let qty of quantities" [value]="qty">{{ qty }}</option>
+                    <option *ngFor="let qty of quantities?.[item.product.id]; let i=index" [value]="i+1">{{ i+1 }}</option>
                   </select>
+                  <span class="pl-1">{{quantities?.[item.product.id]?.length -item.product.quantity}} available</span>
                 </div>
                 <span>{{ item.product.fix_price | currency: 'AED ' }}</span>
               </div>

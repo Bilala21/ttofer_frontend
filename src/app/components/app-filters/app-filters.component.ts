@@ -91,26 +91,37 @@ export class AppFiltersComponent implements OnInit {
     this.loading = true;
 
     // Subscribe to route param changes
+    let slug: any = '';
     this.route.paramMap.subscribe((params) => {
-      const slug: any = params.get('slug');
+      slug = params.get('slug');
       const newCategoryId =
         slug.lastIndexOf('-') > 0 && slug.slice(slug.lastIndexOf('-') + 1);
-      //(newCategoryId, 'newCategoryId');
-
       if (newCategoryId !== this.category_id) {
         this.category_id = newCategoryId;
         this.slugName = slug.slice(0, slug.lastIndexOf('-'));
-        this.slug = slug.slice(0, slug.lastIndexOf('-') + 1).replace(/-/g, ' ');
+        // this.slug = slug.slice(0, slug.lastIndexOf('-') + 1).replace(/-/g, ' ');
 
         this.getAndSetLocalFilters(newCategoryId);
         this.fetchSubCategories(newCategoryId);
+      }
+      if (this.categories) {
+        const found = this.categories.find(
+          (cate: any) => +cate.id === +this.category_id
+        );
+        this.slug = found?.name;
       }
     });
 
     // Fetch categories
     this.mainServicesService.getCategories().subscribe({
       next: (res: any) => {
+        console.log(res);
+        const formatedSlug = slug.slice(0, slug.lastIndexOf('-') - 1);
+        console.log(formatedSlug);
         this.categories = res.data;
+        this.slug = this.categories.find(
+          (cate: any) => (+cate.id === +this.category_id)
+        )?.name;
         this.loading = false;
       },
       error: (err) => {
@@ -166,12 +177,13 @@ export class AppFiltersComponent implements OnInit {
   handleFilter(filter: any) {
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
     if (filter.key === 'location') {
-      this.locations=localFilters.location?[...localFilters.location]:[]
-      const found=this.locations.find((loc:any)=> loc == filter.value)
-      if(found){
-        this.locations=this.locations.filter((loc: any) => loc !== filter.value)
-      }
-      else{
+      this.locations = localFilters.location ? [...localFilters.location] : [];
+      const found = this.locations.find((loc: any) => loc == filter.value);
+      if (found) {
+        this.locations = this.locations.filter(
+          (loc: any) => loc !== filter.value
+        );
+      } else {
         this.locations.push(filter.value);
       }
     }
