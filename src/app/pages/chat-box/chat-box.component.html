@@ -22,7 +22,7 @@
         <div class="border-b d-flex align-items-center justify-content-between px-2 py-3 mb-3">
           <div class="d-flex align-items-center message-count">
             <h2 class="fs-20 fw-semibold m-0 mr-2">Messages</h2>
-            <button (click)="handleSmScreen()">Text</button>
+            <button (click)="handleSmScreen()"></button>
           </div>
         </div>
         <div class="message-content pl-2 pr-1">
@@ -163,9 +163,9 @@
             <div class="row" *ngIf="offerStatus">
               <div class="col-xl-6 mx-auto mt-5">
                 <div class="position-relative text-center p-3" style="background-color: #F3F4F5; border-radius: 15px;">
-                  <img class="position-absolute" style="top: -20%; left: 40%;" src="assets/images/offer-img.png" alt="">
+                  <img class="position-absolute" style="top: -20%; left: 40%;" [src]="this.offerDetails.product.photo.url?this.offerDetails.product.photo.url:''" alt="">
                   <h6 style="margin-top: 5vh;">Sent you a offer</h6>
-                  <h5 style="margin-top: 3vh; font-weight: bolder;">AED 500</h5>
+                  <h5 style="margin-top: 3vh; font-weight: bolder;">AED {{this.offerDetails.offer_price}}</h5>
                   <div class="row mt-5">
                     <div class="col-4">
                       <button class="btn btn-dark w-100 sm-cat-text1" style="border-radius: 3vh; font-size: 1.5vh;"

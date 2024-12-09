@@ -159,7 +159,7 @@
     <div class="col-md-6">
       <label for="startTime">Starting Time</label>
       <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="startTime"
-        formControlName="auction_starting_time" (onSelect)="onTimeChange('auction_starting_time', $event)">
+        formControlName="auction_starting_time" >
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>
@@ -176,7 +176,7 @@
       [ngClass]="addProductForm.get('product_type')?.value == 'auction' || addProductForm.get('product_type')?.value== 'other' ?'col-md-6' :'col-md-6'">
       <label for="endingTime">Ending Time</label>
       <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="endingTime"
-        formControlName="auction_ending_time" (onSelect)="onTimeChange('auction_ending_time', $event)">
+        formControlName="auction_ending_time" >
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>

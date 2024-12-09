@@ -3,6 +3,7 @@ import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse,
+  HttpParams,
 } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, map } from 'rxjs';
@@ -27,16 +28,16 @@ export class MainServicesService {
     });
   }
 
-  getAuthByLogin(input: any): Observable<any> {
+  getAuthByLogin(payload: any): Observable<any> {
     return this.http
-      .post(`${Constants.baseApi}` + '/login-email', input)
+      .post(`${Constants.baseApi}` + '/login-email', payload)
       .pipe
       // catchError()
       ();
   }
-  getAuthByLoginNumber(input: any): Observable<any> {
+  getAuthByLoginNumber(payload: any): Observable<any> {
     return this.http
-      .post(`${Constants.baseApi}` + '/login-phone', input)
+      .post(`${Constants.baseApi}` + '/login-phone', payload)
       .pipe();
   }
 
@@ -56,51 +57,51 @@ export class MainServicesService {
       null
     );
   }
-  addWishList(input: any) {
+  addWishList(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/wishlist/toggle', input)
+      .post(`${Constants.baseApi}` + '/wishlist/toggle', payload)
       .pipe();
   }
-  removeWishList(input: any) {
+  removeWishList(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/remove-wishlist-products', input)
+      .post(`${Constants.baseApi}` + '/remove-wishlist-products', payload)
       .pipe();
   }
-  updateUserName(input: any) {
+  updateUserName(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/user/name', input)
+      .post(`${Constants.baseApi}` + '/update/user/name', payload)
       .pipe();
   }
-  updateNumber(input: any) {
+  updateNumber(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/phone/number', input)
+      .post(`${Constants.baseApi}` + '/update/phone/number', payload)
       .pipe();
   }
-  updateEmail(input: any) {
+  updateEmail(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/email', input)
+      .post(`${Constants.baseApi}` + '/update/email', payload)
       .pipe();
   }
-  updatePassword(input: any) {
+  updatePassword(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/password', input)
+      .post(`${Constants.baseApi}` + '/update/password', payload)
       .pipe();
   }
-  updateLocation(input: any) {
+  updateLocation(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/location', input)
+      .post(`${Constants.baseApi}` + '/update/location', payload)
       .pipe();
   }
-  getPlacedBids(input: any) {
+  getPlacedBids(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/bids/product', input)
+      .post(`${Constants.baseApi}` + '/bids/product', payload)
       .pipe();
   }
-  makeOffer(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/make-offer', input).pipe();
+  makeOffer(payload: any) {
+    return this.http.post(`${Constants.baseApi}` + '/make-offer', payload).pipe();
   }
-  getOffer(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/offers', input).pipe();
+  getOffer(payload: any) {
+    return this.http.get(`${Constants.baseApi}` + `/offers/${payload}`).pipe();
   }
   getAllChatsOfUser(currentUserid: number) {
     return this.http.get(
@@ -122,9 +123,9 @@ export class MainServicesService {
       .delete(`${Constants.baseApi}` + '/message/delete/' + message_id)
       .pipe();
   }
-  sendMsg(input: any) {
+  sendMsg(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/message/send', input)
+      .post(`${Constants.baseApi}` + '/message/send', payload)
       .pipe();
   }
   markMessagesAsRead(conversation_id: any) {
@@ -134,9 +135,9 @@ export class MainServicesService {
       )
       .pipe();
   }
-  addProductFirstStep(input: FormData): Observable<any> {
+  addProductFirstStep(payload: FormData): Observable<any> {
     return this.http
-      .post<any>(`${this.Url}` + '/add-product-first-step', input, {
+      .post<any>(`${this.Url}` + '/add-product-first-step', payload, {
         headers: this.getHeaders(),
         reportProgress: true,
         observe: 'events',
@@ -147,46 +148,46 @@ export class MainServicesService {
         })
       );
   }
-  addProductCompleteStep(input: any) {
-    return this.http.post(`${this.Url}` + '/products', input).pipe();
+  addProductCompleteStep(payload: any) {
+    return this.http.post(`${this.Url}` + '/products', payload).pipe();
   }
-  addProductSecondStep(input: any) {
+  addProductSecondStep(payload: any) {
     return this.http
-      .post(`${this.Url}` + '/add-product-second-step', input)
+      .post(`${this.Url}` + '/add-product-second-step', payload)
       .pipe();
   }
-  editProductSecondStep(input: any) {
+  editProductSecondStep(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/edit-product-second-step', input)
+      .post(`${Constants.baseApi}` + '/edit-product-second-step', payload)
       .pipe();
   }
-  addProductThirdStep(input: any) {
+  addProductThirdStep(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/add-product-third-step', input)
+      .post(`${Constants.baseApi}` + '/add-product-third-step', payload)
       .pipe();
   }
-  editProductThirdStep(input: any) {
+  editProductThirdStep(payload: any) {
     return this.http
-      .post(`${this.Url}` + '/edit-product-third-step', input)
+      .post(`${this.Url}` + '/edit-product-third-step', payload)
       .pipe();
   }
-  addProductLastStep(input: any) {
+  addProductLastStep(payload: any) {
     return this.http
-      .post(`${this.Url}` + '/add-product-last-step', input)
+      .post(`${this.Url}` + '/add-product-last-step', payload)
       .pipe();
   }
-  editProductLastStep(input: any) {
+  editProductLastStep(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/edit-product-last-step', input)
+      .post(`${Constants.baseApi}` + '/edit-product-last-step', payload)
       .pipe();
   }
-  updateUserImage(input: any) {
+  updateUserImage(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/update/user', input)
+      .post(`${Constants.baseApi}` + '/update/user', payload)
       .pipe();
   }
-  getSignUp(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/signup', input).pipe();
+  getSignUp(payload: any) {
+    return this.http.post(`${Constants.baseApi}` + '/signup', payload).pipe();
   }
   getSelling(url: string = '', user_id: number = 22) {
     return this.http
@@ -194,9 +195,9 @@ export class MainServicesService {
       .pipe();
   }
 
-  wishListProduct(input: any) {
+  wishListProduct(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/wishlist/products', input)
+      .post(`${Constants.baseApi}` + '/wishlist/products', payload)
       .pipe();
   }
   markAsSold(product: any) {
@@ -204,22 +205,25 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/products/sold', product)
       .pipe();
   }
-  acceptOffer(input: any) {
+  acceptOffer(offerId:any,payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/accept-offer', input)
+      .post(`${Constants.baseApi}` + `/offers/${offerId}/accept`, payload)
       .pipe();
   }
-  rejectOffer(input: any) {
+  rejectOffer(offerId:any,payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/reject-offer', input)
+      .post(`${Constants.baseApi}` + `/offers/${offerId}/reject`, payload)
       .pipe();
   }
-  placeBid(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/bids/place', input).pipe();
+  placeBid(payload: any) {
+    return this.http.post(`${Constants.baseApi}` + '/bids/place', payload).pipe();
   }
-  getHighBid(input: any) {
+  placeOffer(payload: any) {
+    return this.http.post(`${Constants.baseApi}` + '/offers', payload).pipe();
+  }
+  getHighBid(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/bids/highest', input)
+      .post(`${Constants.baseApi}` + '/bids/highest', payload)
       .pipe();
   }
   getUserInfo(userId: any) {
@@ -227,70 +231,75 @@ export class MainServicesService {
       .get(`${Constants.baseApi}` + '/user/info/' + userId)
       .pipe();
   }
-  getAllProducts(input: any) {
+  getAllProducts(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/get-all-products', input)
+      .post(`${Constants.baseApi}` + '/get-all-products', payload)
       .pipe();
   }
-  deleteProductImage(input: any) {
+  deleteProductImage(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/delete-image', input)
+      .post(`${Constants.baseApi}` + '/delete-image', payload)
       .pipe();
   }
-  udpateProductImage(input: any) {
+  udpateProductImage(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/upload-image', input)
-      .pipe();
-  }
-
-  getNotification(userId: any, type: any) {
-    return this.http
-      .get(`${Constants.baseApi}/user/${userId}/notifications/?status=${type}`)
-      .pipe();
-  }
-  customLink(input: any) {
-    return this.http
-      .post(`${Constants.baseApi}` + '/update/custom/link', input)
-      .pipe();
-  }
-  whoBought(input: any) {
-    return this.http.post(`${Constants.baseApi}` + '/who-bought', input).pipe();
-  }
-  reviewToSeller(input: any) {
-    return this.http
-      .post(`${Constants.baseApi}` + '/user-review', input)
-      .pipe();
-  }
-  reportUser(input: any) {
-    return this.http
-      .post(`${Constants.baseApi}` + '/report-a-user', input)
-      .pipe();
-  }
-  forgetPassword(input: any) {
-    return this.http
-      .post(`${Constants.baseApi}` + '/forgot-password', input)
+      .post(`${Constants.baseApi}` + '/upload-image', payload)
       .pipe();
   }
 
-  updateUserAccount(input: any): any {
-    //({ input });
-    return this.http.post<any>(`${Constants.baseApi}/profile/update`, input);
+  getNotification(userId: any, type?: string) {
+    let params = new HttpParams();
+    if (type) {
+      params = params.set('status', type);
+    }
+  
+    return this.http.get(`${Constants.baseApi}/user/${userId}/notifications`, { params }).pipe();
+  }
+  
+  
+  customLink(payload: any) {
+    return this.http
+      .post(`${Constants.baseApi}` + '/update/custom/link', payload)
+      .pipe();
+  }
+  whoBought(payload: any) {
+    return this.http.post(`${Constants.baseApi}` + '/who-bought', payload).pipe();
+  }
+  reviewToSeller(payload: any) {
+    return this.http
+      .post(`${Constants.baseApi}` + '/user-review', payload)
+      .pipe();
+  }
+  reportUser(payload: any) {
+    return this.http
+      .post(`${Constants.baseApi}` + '/report-a-user', payload)
+      .pipe();
+  }
+  forgetPassword(payload: any) {
+    return this.http
+      .post(`${Constants.baseApi}` + '/forgot-password', payload)
+      .pipe();
+  }
+
+  updateUserAccount(payload: any): any {
+    //({ payload });
+    return this.http.post<any>(`${Constants.baseApi}/profile/update`, payload);
   }
   updateProfilePhoto(payload: any): any {
     return this.http.post<any>(
-      `${Constants.baseApi}/update/profile/photo`,
+      `${Constants.baseApi}/profile/update-image`,
       payload
     );
   }
 
-  forgetPasswordNumber(input: any) {
+  forgetPasswordNumber(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/forgot-password-phone', input)
+      .post(`${Constants.baseApi}` + '/forgot-password-phone', payload)
       .pipe();
   }
-  loginWithPhone(input: any) {
+  loginWithPhone(payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/login-phone', input)
+      .post(`${Constants.baseApi}` + '/login-phone', payload)
       .pipe();
   }
   private geocodeUrl = 'https://maps.googles.com/maps//geocode/json';

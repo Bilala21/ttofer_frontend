@@ -25,10 +25,9 @@ export class MarkAsSoldComponent implements OnInit {
   sellingChat:any;
   currentUserId:any;
   buyer_id:any;
-  adList=[{img:'assets/images/action_filled.png',message:'Someone from TTOffer?'},
-    {img:'assets/images/action_filled.png',message:'Someone from Outside TTOffer?'},
-    {img:'assets/images/action_filled.png',message:'Anthony'},
-    {img:'assets/images/action_filled.png',message:'Mark'},
+  adList=[{img:'assets/images/action_filled.png',name:'Someone from TTOffer?',buyer_id:null},
+    {img:'assets/images/action_filled.png',name:'Someone from Outside TTOffer?',buyer_id:null},
+    
   ];
   isBtnDisabled = true;
   constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService, private extension: Extension,) { }
@@ -42,13 +41,27 @@ export class MarkAsSoldComponent implements OnInit {
     this.getAllChatsOfUser()
   }
   getAllChatsOfUser = () => {
-    this.mainService
-      .getAllChatsOfUser(this.currentUserId)
-      .subscribe((res: any) => {
-        this.sellingChat = res.data.seller_chats;
-        this.sellingChat=this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id);
-      });
+    this.mainService.getAllChatsOfUser(this.currentUserId).subscribe((res: any) => {
+      debugger;
+      this.sellingChat = res.data.seller_chats;
+  
+      // Filter sellingChat to include only chats with the current sold item
+      this.sellingChat = this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id);
+  
+      // Push objects from sellingChat into adList
+      this.sellingChat.forEach((chat: any) => {
+        const buyerName = chat.sender.id !== this.currentUserId ? chat.sender.name : chat.receiver.name;
+  
+        this.adList.push({
+          img: chat.user_image || 'assets/images/profile-icon.svg', // Default image if user_image is null/undefined
+          name: buyerName,
+          buyer_id:chat.buyer_id
+        });
+      }); 
+    });
   };
+
+  
   onBuyerSelected(buyer: any) {
     this.isBtnDisabled=false;
      

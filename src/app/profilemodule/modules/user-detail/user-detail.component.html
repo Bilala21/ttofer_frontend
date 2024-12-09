@@ -2,7 +2,8 @@
     <div class="d-flex flex-column flex-lg-row  align-items-center justify-content-center justify-content-lg-start">
         <div>
             <label for="file" class="rounded-pill position-relative">
-                <img src="assets/images/profile-icon.svg" alt="profile image" class="img-fluid">
+                <img [src]="this.imageUrl?this.imageUrl:'assets/images/profile-icon.svg'" alt="profile image" class="img-fluid" style="border: 0.5px solid gainsboro;
+                        border-radius: 50%;">
                 <i class="fas fa-camera profile-icon-camera position-absolute"></i>
             </label>
             <input type="file" class="d-none" id="file" (change)="onImageUpload($event)">

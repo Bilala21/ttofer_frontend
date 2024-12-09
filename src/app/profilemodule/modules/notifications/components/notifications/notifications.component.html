@@ -12,8 +12,8 @@
         <div class="pt-2 pb-4">
             <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
         </div>
-        <div class=" rounded mt-5" *ngIf="!loading">
-            <div *ngFor="let i of [1,2,3,4,5,]; let index"
+        <div class=" rounded mt-5" *ngIf="!loading && data.length>0">
+            <div *ngFor="let notification of data; let index"
                 class="notifications rounded d-flex border-b p-3 mb-4 cshadow {{index === 2?'unread':'bg-white'}}">
                 <div>
                     <img src="/assets/images/profile-icon.svg" alt="" class="rounded-pill border-1">
@@ -22,15 +22,14 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="user d-flex align-items-center">
                             <span class="rounded-pill bg-success bulit mr-1"></span>
-                            <h1 class="fs-20 m-0">Bilal <span *ngIf="index === 2" class="fs-14">({{index===
-                                    2?'Unread':''}})</span></h1>
+                            <h1 class="fs-20 m-0">Bilal <span  class="fs-14">({{notification.status}})</span></h1>
                         </div>
-                        <span class="time fw-bold">{{index ===2?'Latest':'2h ago'}}</span>
+                        <span class="time fw-bold">{{notification.formattedTime}}</span>
                     </div>
                     <div>
-                        <p class="message pt-2">{{description.slice(0,index !==
-                            currentIndex?character:description.length)}}
-                            <button *ngIf="description.length > 250"
+                        <p class="message pt-2">{{notification.text.slice(0,index !==
+                            currentIndex?character:notification.text.length)}}
+                            <button *ngIf="notification.text.length > 250"
                                 class="bg-transparent border-0 p-0 load-more-btn fw-semibold"
                                 (click)=" index==currentIndex?readLess():readMore(index)">
                                 {{index==currentIndex?'Read less...':"Read more..."}}
@@ -39,7 +38,7 @@
                     </div>
                     <div class="notification-type d-flex align-items-center justify-content-end">
                         <b class="mr-1 fs-16">Notification Type</b>
-                        <span class="fw-semibold fs-18">(Auction)</span>
+                        <span class="fw-semibold fs-18">({{notification.type}})</span>
                     </div>
                 </div>
             </div>
@@ -47,7 +46,7 @@
         <div *ngIf="loading">
             <app-card-shimmer *ngFor="let i of [1,2,3]" />
         </div>
-        <div>
+        <div *ngIf="!loading && data.length>0">
             <div class="text-center my-5">
                 <button class="btn load-more-btn fs-18 fw-semibold" (click)="loadMore()">Load more</button>
             </div>
@@ -55,7 +54,7 @@
     </div>
 
 
-    <div class="not-found text-center pt-5" *ngIf="!loading && data.length">
+    <div class="not-found text-center pt-5" *ngIf="!loading && data.length===0">
         <img src="/assets/images/No-data.png" alt="image" width="150">
         <div class="pt-5 fs-20 fw-semibold">You have no notifications at the moment.</div>
         <div class="pt-2">Download our app</div>

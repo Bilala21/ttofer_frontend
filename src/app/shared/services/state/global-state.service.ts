@@ -96,7 +96,9 @@ export class GlobalStateService {
     modal_type: string,
     currentUserId?: any,
     productId?: any,
-    liveBids?: any
+    liveBids?: any,
+    fix_price?:any,
+    seller_id?:any
   ) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -105,6 +107,8 @@ export class GlobalStateService {
       currentUserId: currentUserId,
       productId: productId,
       liveBids: liveBids,
+      fix_price:fix_price,
+      seller_id:seller_id
     };
     this.stateSubject.next(newState);
   }

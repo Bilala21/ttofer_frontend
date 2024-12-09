@@ -269,7 +269,7 @@ export class ChatBoxComponent {
   }
   getConversation(data: any) {
     
-     //(this.selectedUser)
+    console.log(data)
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;
@@ -279,11 +279,10 @@ export class ChatBoxComponent {
     this.userlocation = otherUser.location;
     this.userName = otherUser.name;
     if (data.offer_id) {
-      const input = {
-        id: data.offer_id,
-      };
-      this.mainServices.getOffer(input).subscribe({
+    
+      this.mainServices.getOffer(data.offer_id).subscribe({
         next: (result: any) => {
+          debugger
           this.offerDetails = result.data;
         },
       });
@@ -449,27 +448,27 @@ deleteMessage(message: any, index: number): void {
     this.imagePreview = null; // Clear the preview
   }
   acceptOffer() {
-    let input = {
-      product_id: this.productId,
-      seller_id: this.sellerId,
-      buyer_id: this.buyerId,
-      offer_id: this.offerId,
+    let payload = {
+      product_id: this.offerDetails.product.id,
+      seller_id: this.offerDetails.seller.id,
+      buyer_id: this.offerDetails.buyer.id,
     };
-    this.mainServices.acceptOffer(input).subscribe((res) => {
-      res;
-      //(res);
+    this.mainServices.acceptOffer(this.offerDetails.id,payload).subscribe((res:any) => {
+      if(res.status){
+        this.toastr.success(res.message,'Success')
+      }
     });
   }
   rejectOffer() {
-    let input = {
-      product_id: this.productId,
-      seller_id: this.sellerId,
-      buyer_id: this.buyerId,
-      offer_id: this.offerId,
+    let payload = {
+      product_id: this.offerDetails.product.id,
+      seller_id: this.offerDetails.seller.id,
+      buyer_id: this.offerDetails.buyer.id,
     };
-    this.mainServices.rejectOffer(input).subscribe((res) => {
-      res;
-    });
+    this.mainServices.rejectOffer(this.offerDetails.id,payload).subscribe((res:any) => {
+      if(res.status){
+        this.toastr.success(res.message,'Success')
+      }    });
   }
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;

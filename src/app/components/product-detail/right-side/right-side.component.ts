@@ -54,8 +54,7 @@ export class RightSideComponent {
     this.productId = this.route.snapshot.paramMap.get('id');
     this.highestBid = this.globalStateService.hightBids$.subscribe(
       (highestBid) => {
-        this.highBid = highestBid;
-        //("this is highBid",this.highBid);
+        this.highBid = highestBid; 
       }
     );
     this.getBid();
@@ -135,7 +134,9 @@ export class RightSideComponent {
       modal_type,
       this.currentUserid,
       this.productId,
-      this.liveAuction.length
+      this.liveAuction.length,
+      this.product.fix_price,
+      this.product.user.id
     );
   }
   // getHighBid(){

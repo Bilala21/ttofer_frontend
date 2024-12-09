@@ -27,6 +27,8 @@ export class MakeOfferModalComponent implements OnInit {
   liveBids:any
   highBid:any
   bidPrice:any
+  seller_id:any
+  productPrice:any
   liveBidsSubscription:any
   liveAuction:any
   highestBid:any
@@ -121,7 +123,9 @@ if(this.product.product_type == 'auction'){
     this.globalStateService.currentState.subscribe((state:any) => {
       
       this.showConfirmModal = state.offerModal;
-      this.liveBids=state.liveBids
+      this.liveBids=state.liveBids;
+      this.productPrice=state.fix_price;
+      this.seller_id=state.seller_id
     })
   }
 
@@ -200,7 +204,36 @@ if(this.product.product_type == 'auction'){
     } catch (error) {
     }
   }
-
+  placeOffer(){
+    const input = {
+      buyer_id: this.currentUserId,
+      product_id: this.product.id,
+      offer_price: this.offerForm.value.offer_price,
+      seller_id:this.seller_id
+    };
+    try {
+      debugger
+      this.mainServices.placeOffer(input).subscribe({
+        next: (res: any) => {
+          this.toastr.success(
+            res.message,
+            'Success'
+          );
+          this.closeModal('close-modal')
+                },
+        error: (err: any) => {
+          this.closeModal('close-modal')
+          const errorMessage =
+            err?.errors?.message ||
+            'Failed to place bid. Please try again later.';
+          this.toastr.error(errorMessage, 'Error');
+          // this.loading = false;
+          console.error("error1",err.errors.price);
+        },
+      });
+    } catch (error) {
+    }
+  }
   startCountdowns() {
     
     const datePart = this.product.auction_ending_date.split('T')[0];
