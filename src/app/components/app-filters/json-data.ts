@@ -59,7 +59,7 @@ export const filter_fields: any = {
     seller_types: ['Landlord', 'Agent'],
   },
   'furniture-home-decor': {
-    seller_types: ['Landlord', 'Agent'],
+    seller_types: ['Owner', 'Agent'],
     conditions: ['All', 'New', 'Used'],
   },
 

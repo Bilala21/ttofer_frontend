@@ -100,7 +100,7 @@ this.mainServices.deleteProduct(product_id).subscribe({
   next:(response:any)=>{
     if(response.status){
       this.data = this.data.filter((item: any) => item.id !== product_id);
-      console.log(this.data)
+       //(this.data)
       this.toastr.success(response.message,'Success');
     }
   }
@@ -114,7 +114,7 @@ this.mainServices.deleteProduct(product_id).subscribe({
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result)
+         //(result)
        this.deleteProduct(result)
        
       }

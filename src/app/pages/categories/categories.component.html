@@ -21,7 +21,7 @@
         <!-- PRODUCT SIDE -->
         <div class="flex-grow-1 pl-lg-4 xs-px-0">
           <div class="text-center buttons d-flex align-items-center justify-content-center xs-between">
-            @if (slugName) {
+            @if (ProductTabs.length) {
             @for (tab of ProductTabs.length?ProductTabs:['auction','featured']; track $index) {
             <button type="button"
               class="btn py-2 px-2 mr-1 text-capitalize  {{activeTab==tab?'text-white bg-dark':'border-1'}}"
@@ -51,7 +51,7 @@
             }
           </div>
 
-          <div class="text-center my-5" *ngIf="data?.length > 10">
+          <div class="text-center my-5" *ngIf="data?.length > 15">
             <button class="btn load-more-btn fs-18 fw-semibold" (click)="handleLoadMore(currentPage)">Load more</button>
           </div>
         </div>

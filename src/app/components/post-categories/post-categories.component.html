@@ -1,4 +1,4 @@
-<div *ngIf="categories.length">
+<div class="pt-5" *ngIf="categories.length">
     <h1 class="fs-24 fw-bold my-4 text-center pt-2">All Categories</h1>
     <div class="row overflow-auto category-list xs-flex-nowrap row-gap-20">
         <a *ngFor="let category of categories;"  (click)="handleFilter({'category_id':category.id,'slug':category.slug})" [routerLink]="['/category',category.slug+ '-' +category.id ]"

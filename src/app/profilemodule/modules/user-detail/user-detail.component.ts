@@ -33,7 +33,7 @@ export class UserDetailComponent {
         .updateProfilePhoto({ id: this.currentUserProfile.id, image })
         .subscribe({
           next: (res: any) => {
-            console.log(res);
+             //(res);
           },
           error: (err: any) => {},
         });

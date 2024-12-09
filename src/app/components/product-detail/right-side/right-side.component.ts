@@ -54,7 +54,7 @@ export class RightSideComponent {
     this.highestBid= this.globalStateService.hightBids$.subscribe(
       (highestBid) => {
         this.highBid = highestBid; 
-        console.log("this is highBid",this.highBid);
+         //("this is highBid",this.highBid);
       }
     );
     this.getBid();

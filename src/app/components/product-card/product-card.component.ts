@@ -152,6 +152,6 @@ export class ProductCardComponent {
     }
   }
   ngOnInit(): void {
-    // console.log(this.postData, 'attributes');
+    //  //(this.postData, 'attributes');
   }
 }

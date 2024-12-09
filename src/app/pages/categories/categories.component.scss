@@ -13,7 +13,7 @@ $breakpoint-tablet: 992px;
 $breakpoint-desktop: 1200px;
 
 // Mixin for card layout
-@mixin card-layout($flex-basis) {
+@mixin card-layout($flex-basis,$gap) {
   flex: 1 1 calc(#{$flex-basis} - #{$gap});
   max-width: calc(#{$flex-basis} - #{$gap});
 }
@@ -49,7 +49,7 @@ $breakpoint-desktop: 1200px;
 
   .product-card,
   .shimmer-card {
-    @include card-layout(calc(100% + 10px));
+    @include card-layout(calc(100% + 10px),7px);
   }
 }
 
@@ -58,7 +58,7 @@ $breakpoint-desktop: 1200px;
 
   .product-card,
   .shimmer-card {
-    @include card-layout(calc(50% + 15px));
+    @include card-layout(calc(50% + 15px),7px);
   }
 
   .product-main {
@@ -71,7 +71,7 @@ $breakpoint-desktop: 1200px;
 
   .product-card,
   .shimmer-card {
-    @include card-layout(33.333%);
+    @include card-layout(33.333%,7px);
   }
 
   .product-main {
@@ -82,7 +82,7 @@ $breakpoint-desktop: 1200px;
 
   .product-card,
   .shimmer-card {
-    @include card-layout(33.333%);
+    @include card-layout(33.333%,7px);
   }
 
   .product-main {

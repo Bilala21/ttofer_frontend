@@ -269,7 +269,7 @@ export class ChatBoxComponent {
   }
   getConversation(data: any) {
     
-    console.log(this.selectedUser)
+     //(this.selectedUser)
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;
@@ -327,7 +327,7 @@ export class ChatBoxComponent {
         this.buyerId = this.conversationBox[0].buyer_id;
         this.offerStatus = this.conversationBox[0]?.offer?.status;
         this.offerId = this.conversationBox[0]?.offer_id;
-        console.log(this.conversationBox);
+         //(this.conversationBox);
       });
   }
   activeOptionIndex: number | null = null;

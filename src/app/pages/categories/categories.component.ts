@@ -46,31 +46,55 @@ export class CategoriesComponent {
 
   handleTab(tab: string) {
     localStorage.setItem('categoryTab', tab);
+    const query = localStorage.getItem('isSearch') as string;
+    const selectedSlug = localStorage.getItem('selectedSlug');
     this.activeTab = tab;
-    this.fecthcData({});
+    this.setActiveTabs(selectedSlug);
+    this.fecthcData(query == null ? {} : { search: query });
   }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((query) => {
       if (query.get('search')) {
-        //(query.get('search'), 'search');
-        this.fecthcData({ search: query.get('search') });
+        const slugName = localStorage.getItem('categoryTab');
+        const tab = this.setActiveTabs(slugName);
+        this.fecthcData({ product_type: tab, search: query.get('search') });
       }
     });
 
     this.route.paramMap.subscribe((param) => {
-      const slug = param.get('slug');
-      const index = Number(slug?.lastIndexOf('-'));
-      this.slugName = slug?.slice(0, index);
-      this.id = slug?.slice(index + 1);
-      this.setActiveTabs(this.slugName);
-      const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
       if (location.search == '') {
-        if (Number(localFilters.category_id) == Number(this.id)) {
-          this.fecthcData({ category_id: this.id });
-        } else {
+        localStorage.removeItem('isSearch');
+        const slug: any = param.get('slug');
+        const index = Number(slug?.lastIndexOf('-'));
+        if (index < 0) {
+          localStorage.setItem('categoryTab', slug);
           localStorage.setItem('filters', '{}');
-          this.fecthcData({ category_id: this.id });
+          const tab = this.setActiveTabs(slug);
+          this.fecthcData({ product_type: tab });
+        }
+        const localData = JSON.parse(localStorage.getItem('filters') || '{}');
+        if (index > 1) {
+          this.id = slug?.slice(index + 1);
+          const localFilters = JSON.parse(
+            localStorage.getItem('filters') || '{}'
+          );
+          //(localData)
+          if (Number(localData.category_id) == Number(this.id)) {
+            //('id same')
+            const slugName = slug?.slice(0, index);
+            const tab = this.setActiveTabs(slugName);
+            this.fecthcData({ product_type: tab, category_id: this.id });
+          } else {
+            //('not same')
+            localStorage.setItem('filters', '{}');
+            const slugName = slug?.slice(0, index);
+            const tab = this.setActiveTabs(slugName);
+            this.fecthcData({
+              product_type: tab,
+              category_id: this.id,
+            });
+          }
         }
       }
     });
@@ -92,7 +116,11 @@ export class CategoriesComponent {
     });
   }
 
-  handleLoadMore(page: number) {}
+  handleLoadMore(page: number) {
+    const filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.fecthcData({ ...filters, page_number: page + 1 });
+    //(page);
+  }
 
   handlesUserWishlist(item: any) {}
 
@@ -117,8 +145,8 @@ export class CategoriesComponent {
   }
 
   setActiveTabs(slug: any) {
+    //(slug, 'tab selection');
     const selectedTab = localStorage.getItem('categoryTab');
-    console.log(slug);
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
     )?.category_id;
@@ -134,7 +162,6 @@ export class CategoriesComponent {
         'kids',
       ].includes(slug)
     ) {
-      console.log('1');
       this.ProductTabs = ['auction', 'featured'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
@@ -142,11 +169,13 @@ export class CategoriesComponent {
           : 'auction';
       localStorage.setItem(
         'categoryTab',
-        selectedTab == 'featured' && category_id == this.id  ? selectedTab : 'auction'
+        selectedTab == 'featured' && category_id == this.id
+          ? selectedTab
+          : 'auction'
       );
+      localStorage.setItem('selectedSlug', slug);
     }
     if (['animals', 'services', 'property-for-rent'].includes(slug)) {
-      console.log('2');
       this.ProductTabs = ['featured'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
@@ -156,9 +185,10 @@ export class CategoriesComponent {
         'categoryTab',
         selectedTab == 'featured' ? selectedTab : 'featured'
       );
+      localStorage.setItem('selectedSlug', slug);
     }
     if (slug == 'jobs') {
-      console.log('3');
+      //('3');
       this.ProductTabs = ['hiring', 'looking'];
       this.activeTab =
         this.ProductTabs.includes(selectedTab) && category_id == this.id
@@ -168,21 +198,37 @@ export class CategoriesComponent {
         'categoryTab',
         selectedTab == 'looking' ? selectedTab : 'hiring'
       );
+      localStorage.setItem('selectedSlug', slug);
     }
+    if (slug == 'auction') {
+      this.activeTab = 'auction';
+      this.ProductTabs = ['auction', 'featured'];
+    }
+    if (slug == 'featured') {
+      this.activeTab = 'featured';
+      this.ProductTabs = ['auction', 'featured'];
+    }
+
+    return this.activeTab;
   }
 
   fecthcData(filter: any) {
-    //(filter, 'bilal');
-    console.log(localStorage.getItem('categoryTab'));
-    const product_type = localStorage.getItem('categoryTab');
+    const product_type = filter.product_type
+      ? filter.product_type
+      : localStorage.getItem('categoryTab');
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
 
     const category_id = this.id ? this.id : localFilters.category_id;
     localStorage.setItem(
       'filters',
-      JSON.stringify({ ...localFilters, ...filter, product_type, category_id })
+      JSON.stringify({
+        ...localFilters,
+        ...filter,
+        product_type,
+        category_id,
+        page_number: filter.page,
+      })
     );
-
     this.loading = true;
     this.mainServices
       .getFilteredProducts({
@@ -208,6 +254,8 @@ export class CategoriesComponent {
     localStorage.removeItem('categoryTab');
     localStorage.removeItem('categoryId');
     localStorage.removeItem('filters');
+    localStorage.removeItem('selectedSlug');
+    localStorage.removeItem('isSearch');
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
