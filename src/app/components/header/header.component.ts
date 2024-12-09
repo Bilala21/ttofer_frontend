@@ -77,7 +77,7 @@ export class HeaderNavigationComponent implements OnInit {
   ) {
  this.sideBarItemss = sideBarItems
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
-    globalStateService.currentState.subscribe((state) => {
+    this.globalStateService.currentState.subscribe((state) => {
       this.currentUser = state.currentUser;
       this.cartItems = state.cartState;
     });
@@ -222,6 +222,7 @@ export class HeaderNavigationComponent implements OnInit {
       const path = location.pathname.toString().trim();
       const index = path.indexOf('?');
       const dash = path.indexOf('-');
+      //(index, dash, path);
       if (index) {
         const url = path.slice(0, index);
         this.router.navigate([url], {
@@ -230,8 +231,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
 
       if (path == '/') {
-        // localStorage.setItem("categoryTab",'auction')
-        this.router.navigate(['/'], {
+        this.router.navigate(['/category/auction'], {
           queryParams: { search: this.searchTerm.toLowerCase() },
         });
       }
@@ -253,7 +253,7 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   handleFilter(filter: any) {
-    // localStorage.setItem('filters', JSON.stringify({}));
+    localStorage.setItem('filters', JSON.stringify({}));
   }
 
   ngOnInit(): void {
@@ -269,6 +269,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
+    
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
       this.imgUrl = this.currentUser.img;
@@ -345,7 +346,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.suggestions=res.data
       },
       error: (err) => {
-         //(err);
+        console.log(err);
       },
     });
   }

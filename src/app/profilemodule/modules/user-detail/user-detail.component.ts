@@ -23,6 +23,7 @@ export class UserDetailComponent {
     if (typeof window !== 'undefined' && window.localStorage) {
       const jsonStringGetData = localStorage.getItem('key');
       if (jsonStringGetData) {
+        debugger
         this.currentUserProfile = JSON.parse(jsonStringGetData);
         this.imageUrl = this.currentUserProfile.img;
       } else {
@@ -53,14 +54,15 @@ export class UserDetailComponent {
           return response.json();
         })
         .then((data) => {
+          debugger
           if(data.status){
             this.toastr.success(
               data.message,
               'Success'
             );
-            this.imageUrl = data.data.img;
+            this.imageUrl = data.data.profile_link;
             this.service.changeImageUrl(this.imageUrl);
-            this.UpdateLocalUserData(data.data);
+            // this.UpdateLocalUserData(data.data);
           }
          
         })
