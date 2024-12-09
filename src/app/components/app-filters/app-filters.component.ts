@@ -95,7 +95,7 @@ export class AppFiltersComponent implements OnInit {
       const slug: any = params.get('slug');
       const newCategoryId =
         slug.lastIndexOf('-') > 0 && slug.slice(slug.lastIndexOf('-') + 1);
-       //(newCategoryId, 'newCategoryId');
+      //(newCategoryId, 'newCategoryId');
 
       if (newCategoryId !== this.category_id) {
         this.category_id = newCategoryId;
@@ -157,7 +157,7 @@ export class AppFiltersComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-           //(err);
+          //(err);
         },
       });
     }
@@ -166,14 +166,19 @@ export class AppFiltersComponent implements OnInit {
   handleFilter(filter: any) {
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
     if (filter.key === 'location') {
-      if (localFilters?.locations) {
-        this.locations.push(...localFilters?.locations, filter.value);
-      } else {
+      this.locations=localFilters.location?[...localFilters.location]:[]
+      const found=this.locations.find((loc:any)=> loc == filter.value)
+      if(found){
+        this.locations=this.locations.filter((loc: any) => loc !== filter.value)
+      }
+      else{
         this.locations.push(filter.value);
       }
     }
+    console.log(this.locations);
     this.handleFilterEvent.emit({
       [filter.key]: filter.value,
+      location: this.locations,
     });
   }
 
@@ -249,8 +254,8 @@ export class AppFiltersComponent implements OnInit {
   handleLocationDenied(): void {
     this.location = 'Belarus';
   }
-  applyFilters(){
-    this.hideFilter=false
+  applyFilters() {
+    this.hideFilter = false;
   }
 
   ngOnDestroy() {

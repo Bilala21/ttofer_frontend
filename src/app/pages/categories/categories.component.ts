@@ -222,6 +222,8 @@ export class CategoriesComponent {
       ? filter.product_type
       : localStorage.getItem('categoryTab');
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+    filter.search=localStorage.getItem('isSearch')
+
 
     const category_id = this.id ? this.id : localFilters.category_id;
     localStorage.setItem(
@@ -235,13 +237,17 @@ export class CategoriesComponent {
       })
     );
     this.loading = true;
+    const allFilters={
+      ...filter,
+      ...localFilters,
+    }
     this.mainServices
       .getFilteredProducts({
-        ...filter,
-        ...localFilters,
+...allFilters,
         product_type,
         category_id,
         search: filter.search,
+        location:filter.location?filter.location.join(','):allFilters.location?allFilters.location.join(','):""
       })
       .subscribe({
         next: (res: any) => {
