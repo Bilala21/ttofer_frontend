@@ -48,16 +48,19 @@ export class CategoriesComponent {
     localStorage.setItem('categoryTab', tab);
     const query = localStorage.getItem('isSearch') as string;
     const selectedSlug = localStorage.getItem('selectedSlug');
-    this.activeTab = tab;
-    this.setActiveTabs(selectedSlug);
+    this.activeTab = this.setActiveTabs(selectedSlug);
     this.fecthcData(query == null ? {} : { search: query });
   }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((query) => {
       if (query.get('search')) {
-        const slugName = localStorage.getItem('categoryTab');
-        const tab = this.setActiveTabs(slugName);
+        this.id = JSON.parse(
+          localStorage.getItem('filters') || '{}'
+        )?.category_id;
+        const slugName = localStorage.getItem('selectedSlug');
+        const tab = localStorage.getItem('categoryTab');
+        this.setActiveTabs(slugName);
         this.fecthcData({ product_type: tab, search: query.get('search') });
       }
     });
@@ -145,11 +148,12 @@ export class CategoriesComponent {
   }
 
   setActiveTabs(slug: any) {
-    //(slug, 'tab selection');
+    console.log(slug);
     const selectedTab = localStorage.getItem('categoryTab');
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
     )?.category_id;
+    console.log(category_id, this.id);
     if (
       [
         'mobiles',
@@ -164,7 +168,8 @@ export class CategoriesComponent {
     ) {
       this.ProductTabs = ['auction', 'featured'];
       this.activeTab =
-        this.ProductTabs.includes(selectedTab) && category_id == this.id
+        this.ProductTabs.includes(selectedTab) &&
+        Number(category_id) == Number(this.id)
           ? selectedTab
           : 'auction';
       localStorage.setItem(

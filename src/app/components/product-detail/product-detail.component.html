@@ -56,7 +56,7 @@
             <div class="row pt-4 sm-products">
 
               @for (item of similarProductsData; track $index) {
-              <div class="col-lg-4 col-6 xs-px-0 mb-2">
+              <div class="col-lg-4 col-6 xs-px-0 mb-2 ">
                 <div class="sim-box">
                   <div class="bg-gray-450 text-center rounded-2 position-relative mb-3">
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
@@ -85,9 +85,9 @@
       <section class="md-py-5" *ngIf="product.product_type !=='auction'">
         <!-- details -->
         <div class="order-lg-3 order-2">
-          <div class="border p-3 mb-2 w-100 mt-4 rounded product-detail-section">
-            <h2 class="fw-semibold fs-24">Details</h2>
-              <div class="detail-width mb-2" *ngFor="let item of parsedAttributes  | keyvalue ">
+          <div class="border py-3 mb-2 w-100 mt-4 rounded product-detail-section row mx-0">
+            <h2 class="fw-semibold fs-24 w-100 px-3">Details</h2>
+              <div class="detail-width mb-2 col-sm-6" *ngFor="let item of parsedAttributes  | keyvalue ">
                 <div class="d-flex justify-content-between align-items-center bg-gray-450 py-2 px-3 rounded">
                   <span class="text-uppercase fw-semibold">{{ item.key | titlecase }}</span>
                   <span>{{ item.value }}</span>

@@ -63,16 +63,24 @@
 .product-detail-section {
   .sim-box {
     height: 218px;
+    img {
+      max-height: 170px;
+    }
   }
-
   .colored-box-container {
     column-gap: 20px;
   }
 }
 
-.detail-width{
+.sim-box {
+  img {
+    max-height: 170px;
+  }
+}
+.detail-width {
   max-width: 700px;
 }
+
 .similar-product-container {
   .wishlist {
     height: 35px;
@@ -155,4 +163,3 @@
     padding-top: 0;
   }
 }
-
