@@ -58,3 +58,9 @@ button:focus {
         transform: rotate(1turn)
     }
 }
+
+@media (max-width : 768px){
+    .product-filter {
+        padding-top: 0px;
+    }
+}
