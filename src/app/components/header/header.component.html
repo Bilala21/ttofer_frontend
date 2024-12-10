@@ -14,7 +14,7 @@
                         </li>
                         <!-- search-bar-start -->
                         <li
-                            class="d-flex align-items-center flex-grow-1 search-bar position-relative{{showSearch?'show-search':''}}">
+                            class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
                             <!-- search-input -->
                             <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
                                 class="w-100 fs-18 border-1 not-hide" [value]="searchTerm" id="product_search">
