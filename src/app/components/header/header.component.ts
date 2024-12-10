@@ -1,7 +1,6 @@
 import { CommonModule, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import {
-  ActivatedRoute,
   Router,
   RouterLink,
   RouterModule,
@@ -21,7 +20,6 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
-import { GlobalSearchService } from '../../shared/services/state/search-state.service';
 
 @Component({
   selector: 'app-header-navigation',
@@ -47,7 +45,6 @@ export class HeaderNavigationComponent implements OnInit {
   showSearch: boolean = false;
   private imageUrlSubscription: Subscription | undefined;
   screenWidth: number;
-  screenHeight: number;
   imgUrl: string | null = null;
   cartItems: any = [];
   notificationList: any = [];
@@ -58,7 +55,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeCategory: any = 0;
   isSearched: boolean = false;
   searched: boolean = false;
-  sideBarItemss:any[] =[]
+  sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   suggestions: any = [];
   activeRoute: any;
@@ -71,11 +68,9 @@ export class HeaderNavigationComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
-    private activatedRoute: ActivatedRoute,
-    private globalSearchService: GlobalSearchService,
     @Inject(DOCUMENT) private document: Document
   ) {
- this.sideBarItemss = sideBarItems
+    this.sideBarItemss = sideBarItems;
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     this.globalStateService.currentState.subscribe((state) => {
       this.currentUser = state.currentUser;
@@ -83,8 +78,7 @@ export class HeaderNavigationComponent implements OnInit {
     });
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-
+  
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
       if (!privateRoute.includes(this.router.url)) {
@@ -95,100 +89,6 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.screenWidth = event.target.innerWidth;
-    this.screenHeight = event.target.innerHeight;
-    this.getScreenSize();
-  }
-
-  getScreenSize() {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-
-    if (this.screenWidth > 1024) {
-      this.categoryLimit = 12;
-    } else if (this.screenWidth <= 1024 && this.screenWidth > 768) {
-      this.categoryLimit = 6;
-    } else if (this.screenWidth <= 768) {
-      this.categoryLimit = 2;
-    }
-  }
-
-  showSearchBar() {
-    this.showSearch = !this.showSearch;
-  }
-
-  login() {
-    this.authService.triggerOpenModal();
-  }
-  logout() {
-    try {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('key');
-      this.authService.signOut();
-      this.loading = false;
-      this.currentUser = '';
-      this.notificationList = [];
-      this.unReadNotification = 0;
-      this.router.navigate(['']).then(() => {
-        this.toastr.success('Logged out successfully', 'Success');
-      });
-    } catch (error) {
-      this.toastr.error(
-        'An error occurred while logging out. Please try again.',
-        'Error'
-      );
-    } finally {
-    }
-  }
-
-  openChat() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      const userData = JSON.parse(storedData);
-      const userId = userData?.id;
-      if (userId) {
-        this.router.navigate([`/chatBox/${userId}`]);
-      }
-    }
-  }
-
-  savedItems() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      const userData = JSON.parse(storedData);
-      const userId = userData?.id;
-      if (userId) {
-        this.router.navigate([`/selling/${userId}`]);
-        localStorage.setItem('currentTab', 'savedItems');
-        this.router.navigate(['/profilePage', `${userId}`]);
-      }
-    }
-  }
-
-  openSelling() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      const userData = JSON.parse(storedData);
-      const userId = userData?.id;
-      if (userId) {
-        this.router.navigate([`/selling/${userId}`]);
-      }
-    }
-  }
   getCartItems() {
     if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -206,97 +106,13 @@ export class HeaderNavigationComponent implements OnInit {
       });
     }
   }
-  goOnNotification() {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
-      this.router.navigate(['/profile/notifications']);
-    }
-  }
-  getNotification() {}
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
-      const path = location.pathname.toString().trim();
-      const index = path.indexOf('?');
-      const dash = path.indexOf('-');
-      //(index, dash, path);
-      if (index) {
-        const url = path.slice(0, index);
-        this.router.navigate([url], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
-
-      if (path == '/') {
-        this.router.navigate(['/'], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
-
-      if (index < 1 && dash < 1 && path !== '/') {
-        const url = path;
-        this.router.navigate([url], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
-
-      if (dash && path !== '/') {
-        this.router.navigate([path], {
-          queryParams: { search: this.searchTerm.toLowerCase() },
-        });
-      }
+      this.router.navigate([], {
+        queryParams: { search: this.searchTerm },
+        queryParamsHandling: 'merge',
+      });
       localStorage.setItem('isSearch', this.searchTerm);
-    }
-  }
-
-  handleFilter(filter: any) {
-    localStorage.setItem('filters', JSON.stringify({}));
-  }
-
-  ngOnInit(): void {
-    document.body.addEventListener('click', this.onBodyClick.bind(this));
-    this.setupSearchSubscription();
-    if (JSON.parse(localStorage.getItem('categoryId') as string)) {
-      this.activeCategory = JSON.parse(
-        localStorage.getItem('categoryId') as string
-      );
-    }
-    this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
-      (url: string | null) => {
-        this.imgUrl = url;
-      }
-    );
-    
-    this.getCurrentCity();
-    if (this.currentUser && this.currentUser.img) {
-      this.imgUrl = this.currentUser.img;
-    }
-
-    this.loading = true;
-    this.getScreenSize();
-    this.mainServicesService.getCategories().subscribe({
-      next: (res: any) => {
-        this.categories = res.data;
-        this.loading = false;
-        this.globalStateService.setCategories(res.data);
-      },
-      error: (err) => {
-        //(err);
-        this.loading = false;
-      },
-    });
-
-    if (this.currentUser?.id) {
-      this.getNotification();
-      this.getCartItems();
-    }
-    const value = JSON.parse(localStorage.getItem('filters') || '{}').search;
-    this.searchTerm = value ? value : '';
-    if (this.searchTerm) {
-      this.isSearched = true;
     }
   }
   getCityFromCoordinates(lat: number, lng: number): void {
@@ -342,8 +158,8 @@ export class HeaderNavigationComponent implements OnInit {
     this.searchTerm = searchTerm;
     this.isSearched = false;
     this.mainServicesService.getSuggestions(searchTerm).subscribe({
-      next: (res:any) => {
-        this.suggestions=res.data
+      next: (res: any) => {
+        this.suggestions = res.data;
       },
       error: (err) => {
         console.log(err);
@@ -393,11 +209,96 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
 
-  gotoCart(){
-    if(this.cartItems.length){
-      this.router.navigate(['/cart'])
+  login() {
+    this.authService.triggerOpenModal();
+  }
+
+  logout() {
+    try {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('key');
+      this.authService.signOut();
+      this.loading = false;
+      this.currentUser = '';
+      this.notificationList = [];
+      this.unReadNotification = 0;
+      this.router.navigate(['']).then(() => {
+        this.toastr.success('Logged out successfully', 'Success');
+      });
+    } catch (error) {
+      this.toastr.error(
+        'An error occurred while logging out. Please try again.',
+        'Error'
+      );
+    } finally {
     }
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = event.target.innerWidth;
+    this.getScreenSize();
+  }
+
+  getScreenSize() {
+    this.screenWidth = window.innerWidth;
+
+    if (this.screenWidth > 1024) {
+      this.categoryLimit = 12;
+    } else if (this.screenWidth <= 1024 && this.screenWidth > 768) {
+      this.categoryLimit = 6;
+    } else if (this.screenWidth <= 768) {
+      this.categoryLimit = 2;
+    }
+  }
+
+  showSearchBar() {
+    this.showSearch = !this.showSearch;
+  }
+
+  ngOnInit(): void {
+    document.body.addEventListener('click', this.onBodyClick.bind(this));
+    this.setupSearchSubscription();
+    if (JSON.parse(localStorage.getItem('categoryId') as string)) {
+      this.activeCategory = JSON.parse(
+        localStorage.getItem('categoryId') as string
+      );
+    }
+    this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
+      (url: string | null) => {
+        this.imgUrl = url;
+      }
+    );
+
+    this.getCurrentCity();
+    if (this.currentUser && this.currentUser.img) {
+      this.imgUrl = this.currentUser.img;
+    }
+
+    this.loading = true;
+    this.getScreenSize();
+    this.mainServicesService.getCategories().subscribe({
+      next: (res: any) => {
+        this.categories = res.data;
+        this.loading = false;
+        this.globalStateService.setCategories(res.data);
+      },
+      error: (err) => {
+        //(err);
+        this.loading = false;
+      },
+    });
+
+    if (this.currentUser?.id) {
+      this.getCartItems();
+    }
+    const value = JSON.parse(localStorage.getItem('filters') || '{}').search;
+    this.searchTerm = value ? value : '';
+    if (this.searchTerm) {
+      this.isSearched = true;
+    }
+  }
+
   ngOnDestroy() {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
   }

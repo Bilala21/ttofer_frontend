@@ -1,6 +1,6 @@
 <main class="mt-16">
   <section class="container-fluid pt-4">
-    @if (loading) {
+    @if (loading && cartItems.length) {
     <div>
       <app-card-shimmer />
     </div>

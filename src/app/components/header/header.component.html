@@ -61,28 +61,34 @@
                         class="list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                         <!-- saveItem-start -->
                         <li class="" style="cursor: pointer;">
-                            <svg (click)="savedItems()" stroke="currentColor" class="fs-22" fill="currentColor"
-                                stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
-                                    d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
-                                </path>
-                            </svg>
+                            <a class="text-dark" [routerLink]="currentUserid ? ['/profile/saved-items'] : '#'"
+                                (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
+                                <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                                    viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
+                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
+                                    </path>
+                                </svg>
+                            </a>
                         </li>
                         <!-- chat-start -->
                         <li class="" style="cursor: pointer;">
-                            <svg (click)="openChat()" stroke="currentColor" class="fs-22" fill="currentColor"
-                                stroke-width="3" viewBox="0 0 256 256" height="1em" width="1em"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
-                                </path>
-                            </svg>
+                            <a class="text-dark" [routerLink]="currentUserid ? ['/'] : '#'"
+                                (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
+                                <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
+                                    viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
+                                    </path>
+                                </svg>
+                            </a>
+
                         </li>
                         <!-- notification-start -->
                         <li class="notification-container">
                             <!-- Cart Icon with Badge -->
-                            <a (click)="goOnNotification()" class="text-decoration-none position-relative">
+                            <a class="text-dark" [routerLink]="currentUserid ? ['/profile/notifications'] : '#'"
+                                (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
                                 <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -149,60 +155,55 @@
                         </li>
                         <!-- cart-start -->
                         <li class="cart-container position-relative">
-                            <a (click)="gotoCart()" [routerLink]="['/cart']" class="text-decoration-none text-dark empty-search">
-                            <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
-                                viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" >
-                                <path
-                                    d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z">
-                                </path>
-                                <circle cx="10.5" cy="19.5" r="1.5"></circle>
-                                <circle cx="17.5" cy="19.5" r="1.5"></circle>
-                            </svg>
-                            <span class="badge" *ngIf="cartItems?.length">{{cartItems?.length }}</span>
-                            <!-- Dropdown Cart Items -->
-                            <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
-                                <div *ngIf="cartItems?.length == 0" class="d-flex justify-content-center p-3">
-                                    <span>No Cart Item</span>
-                                </div>
-                                <div *ngIf="cartItems?.length > 0" class="p-3">
-                                    <h5>Shopping Cart</h5>
-                                    <p>Items you've selected</p>
-                                    <div class="main-cart-items">
-                                        <a [routerLink]="['/cart']" routerLinkActive="active text-decoration" class="mt-2">
-                                            <div *ngFor="let item of (cartItems.slice(0,2))" class="cart-item">
-                                                <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
-                                                    class="cart-item-image">
-                                                <div class="cart-item-details">
-                                                    <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
-                                                    <div class="d-flex justify-content-between">
-                                                        <span>{{ item.product.fix_price |
-                                                            currency:'AED':'symbol':'1.2-2' }}</span>
-                                                        <span>Qty {{item.product.quantity}}</span>
+                            <a class="text-decoration-none text-dark empty-search"
+                                [routerLink]="currentUserid ? ['/cart'] : '#'" (click)="!currentUserid ? login() : null"
+                                routerLinkActive="router-link-active">
+                                <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
+                                    viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z">
+                                    </path>
+                                    <circle cx="10.5" cy="19.5" r="1.5"></circle>
+                                    <circle cx="17.5" cy="19.5" r="1.5"></circle>
+                                </svg>
+                                <span class="badge" *ngIf="cartItems?.length">{{cartItems?.length }}</span>
+                                <!-- Dropdown Cart Items -->
+                                <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
+                                    <div *ngIf="cartItems?.length == 0" class="d-flex justify-content-center p-3">
+                                        <span>No Cart Item</span>
+                                    </div>
+                                    <div *ngIf="cartItems?.length > 0" class="p-3">
+                                        <h5>Shopping Cart</h5>
+                                        <p>Items you've selected</p>
+                                        <div class="main-cart-items">
+                                            <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
+                                                class="mt-2">
+                                                <div *ngFor="let item of (cartItems.slice(0,2))" class="cart-item">
+                                                    <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
+                                                        class="cart-item-image">
+                                                    <div class="cart-item-details">
+                                                        <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <span>{{ item.product.fix_price |
+                                                                currency:'AED':'symbol':'1.2-2' }}</span>
+                                                            <span>Qty {{item.product.quantity}}</span>
 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <span style="text-decoration: underline;">View cart</span> to see
-                                            all of your items
-                                        </a>
+                                                <span style="text-decoration: underline;">View cart</span> to see
+                                                all of your items
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- <div *ngIf="cartItems?.length > 0" class="d-flex justify-content-between p-3"
+                                    <!-- <div *ngIf="cartItems?.length > 0" class="d-flex justify-content-between p-3"
                                     style="bottom: gray;">
                                     <span>Subtotal</span>
                                     <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
                                 </div> -->
-                            </div>
-                        </a>
+                                </div>
+                            </a>
                         </li>
-
-                        <!-- cart-end xs-d-none -->
-                        <!-- <li class="">
-                        <a (click)="openSelling()"
-                            class="text-decoration-none  p-0 rounded-20 text-dark btn white-space-nowrap md-fs-12">
-                            Sell
-                        </a>
-                    </li> -->
                         <!-- login-start -->
                         @if (!currentUser?.id) {
                         <li class="">
@@ -242,9 +243,10 @@
                                     <div class="d-flex flex-column  menus">
                                         <a class="menu d-block rounded text-dark-400 px-2 py-2 text-decoration-none fs-18 mb-1"
                                             *ngFor="let menu of item.items" routerLink="{{menu.routerLink}}"
-                                            routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }"
+                                            routerLinkActive="bg-yellow-800 "
+                                            [routerLinkActiveOptions]="{ exact: true }"
                                             [ngStyle]="activeRoute && menu.id ==='purchasesSales' ? { 'background': '#ffae15' } : {}">
-                    
+
                                             <i [class]="menu.icon" class="fs-20 mr-2"></i>
                                             <span>{{ menu.label }}</span>
                                         </a>
@@ -271,8 +273,7 @@
         <div class="">
             @if(!loading){
             <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
-                <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2"
-                    (click)="handleFilter({'category_id':category.id,'slug':category.slug})">
+                <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
                     <a [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
                         [routerLinkActiveOptions]="{ exact: true }"
                         class="empty-search category-color text-decoration-none">
@@ -290,7 +291,6 @@
                         <div class="dropdown-menu white-space-nowrap pb-0 right-0 shadow-md rounded-0 empty-search"
                             aria-labelledby="moreCategoriesDropdown">
                             <a *ngFor="let category of categories.slice(categoryLimit)"
-                                (click)="handleFilter({'category_id':category.id,'slug':category.slug})"
                                 [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{ exact: true }"
                                 class="empty-search category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>

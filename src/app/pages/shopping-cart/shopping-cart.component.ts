@@ -47,7 +47,6 @@ export class ShoppingCartComponent {
   }
 
   calculateTotal(): void {
-    console.log('this.cartItems',this.cartItems)
     this.totalAmount = this.cartItems.reduce((acc, item) => {
       return item.selected
         ? acc + item.product.fix_price * item.product.quantity
@@ -79,11 +78,13 @@ export class ShoppingCartComponent {
     this.mainService
       .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
       .subscribe({
-        next: (res:any) => {
+        next: (res: any) => {
           this.totalLength = this.totalLength - 1;
-          this.cartItems=this.cartItems.filter((prod)=> prod.product.id !== item.product.id)
+          this.cartItems = this.cartItems.filter(
+            (prod) => prod.product.id !== item.product.id
+          );
           this.globalStateService.updateCart(this.cartItems);
-          this.toggleSelectAll()
+          this.toggleSelectAll();
           this.calculateTotal();
           this.toastr.success(res.message, 'Success');
         },
@@ -97,8 +98,14 @@ export class ShoppingCartComponent {
   toggleSelectAll(): void {
     this.isAllChecked = !this.isAllChecked;
     this.cartItems.forEach((item) => {
-      item.selected = this.isAllChecked;
+      item.selected = item.selected ? item.selected : this.isAllChecked;
+      if (item.selected) {
+        this.isAllChecked = true;
+      } else {
+        this.isAllChecked = false;
+      }
     });
+
     this.isAllChecked
       ? (this.totalLength = this.cartItems.length)
       : (this.totalLength = 0);
