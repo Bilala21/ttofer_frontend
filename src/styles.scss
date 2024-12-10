@@ -565,6 +565,23 @@ button[aria-label="Close"]:focus {
   .row {
     margin: 0;
   }
+  .body-banner-0 {
+    margin-top: 15px !important;
+  
+    img {
+      min-height: 100px;
+      max-height: 100px;
+      height: auto !important;
+    }
+  }
+  
+  .body-banner-1 {
+    margin-top: 15px !important;
+  
+    img {
+      height: auto !important;
+    }
+  }
 }
 
 .nowrap {
