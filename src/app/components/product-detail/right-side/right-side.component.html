@@ -199,7 +199,7 @@
     <div class="buttons ">
       <button *ngIf="product.product_type !=='auction'" (click)="buyProduct(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
-        <a routerLink="/" class="fs-18 fw-normal text-decoration-none text-dark-650">Buy It Now</a>
+        <a routerLink="/cart" class="fs-18 fw-normal text-decoration-none text-dark-650">Buy It Now</a>
       </button>
 
       @if (product.in_cart) {

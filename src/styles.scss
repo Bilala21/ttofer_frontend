@@ -976,7 +976,7 @@ button[aria-label="Close"]:focus {
       .p-galleria-item {
         padding-left: 30px;
         padding-right: 30px;
-        max-width: 80%;
+        // max-width: 80%;
         margin-left: auto;
         margin-right: auto;
       }
@@ -998,7 +998,7 @@ button[aria-label="Close"]:focus {
     }
 
     &:hover {
-      background: transparent;
+      // background: transparent;
     }
 
     &:focus {
@@ -1318,15 +1318,15 @@ button[aria-label="Close"]:focus {
   opacity: 0.4;
 }
 .p-galleria-thumbnail-item{
-  flex: unset !important;
+  // flex: unset !important;
 }
 .p-galleria-content .p-galleria-thumbnail-items{
   justify-content: center;
 }
 .p-overflow-hidden .p-galleria-thumbnail-item{
-  flex: unset !important;
+  // flex: unset !important;
 }
 .p-overflow-hidden .p-galleria-content .p-galleria-thumbnail-items{
   justify-content: center;
-  column-gap: 20px !important;
+  // column-gap: 20px !important;
 }

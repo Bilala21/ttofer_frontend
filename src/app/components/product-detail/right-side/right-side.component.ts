@@ -2,10 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../../shared/services/state/global-state.service';
@@ -64,8 +61,7 @@ export class RightSideComponent {
   }
 
   buyProduct(product: any) {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
+    if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
 
       this.authService.triggerOpenModal();
@@ -114,8 +110,7 @@ export class RightSideComponent {
   }
 
   contactSeller(product: any, user: any): void {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
+    if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
@@ -130,8 +125,7 @@ export class RightSideComponent {
   }
 
   showOfferModal(modal_type: string) {
-    const storedData = localStorage.getItem('key');
-    if (!storedData) {
+    if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;

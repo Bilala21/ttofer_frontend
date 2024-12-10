@@ -25,7 +25,7 @@ export const filter_fields: any = {
   'property-for-rent': {
     seller_types: ['Landlord', 'Agent'],
     conditions: ['All', 'Furnished', 'Unfurnished'],
-    rent_is_paid: ['Yearly', 'Monthly', 'Quarterly', 'Bi-Yearly'],
+    rent_is_paid: ['Yearly', 'Monthly', 'day'],
     bedrooms: [1, 2, 3, 4, 5, 6, 7, 8],
     bathrooms: [1, 2, 3, 4, 5],
     area_size: [1, 2, 3, 4, 5],

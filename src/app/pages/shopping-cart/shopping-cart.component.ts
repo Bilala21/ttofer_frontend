@@ -44,18 +44,10 @@ export class ShoppingCartComponent {
     private toastr: ToastrService
   ) {
     this.userId = extension.getUserId();
-    this.loading = true;
-    this.globalStateService.currentState.subscribe((state) => {
-      this.cartItems = state.cartState;
-      if (this.cartItems.length) {
-        setTimeout(() => {
-          this.loading = false;
-        }, 100);
-      }
-    });
   }
 
   calculateTotal(): void {
+    console.log('this.cartItems',this.cartItems)
     this.totalAmount = this.cartItems.reduce((acc, item) => {
       return item.selected
         ? acc + item.product.fix_price * item.product.quantity
@@ -65,20 +57,6 @@ export class ShoppingCartComponent {
   }
 
   saveForLater(item: any): void {
-    //(item);
-    // // save-for-later/toggle
-    // this.mainService.toggleSaveItem({product_id:item.id,user_id:})
-    // this.cartItems.forEach((prod) => {
-    //   if (prod.id === item.id) {
-    //     if (!prod.save_for_later) {
-    //       prod.save_for_later = true;
-    //     } else {
-    //       prod.save_for_later = false;
-    //     }
-    //   }
-    // });
-
-    this.loading = false;
     this.mainService
       .toggleSaveItem({
         product_id: item.product.id,
@@ -86,15 +64,13 @@ export class ShoppingCartComponent {
       })
       .subscribe({
         next: (res: any) => {
-          //(res);
-          const found = this.cartItems.find(
-            (prod) => prod.product.id == item.product.id
-          );
-          found.product.save_for_later = !found.product.save_for_later;
+          if (res.status) {
+            item.product.save_for_later = !item.product.save_for_later;
+          }
           this.toastr.success(res.message, 'Success');
         },
         error: (err) => {
-          this.loading = false;
+          this.toastr.success(err.message, 'Success');
         },
       });
   }
@@ -103,13 +79,17 @@ export class ShoppingCartComponent {
     this.mainService
       .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
       .subscribe({
-        next: () => {
+        next: (res:any) => {
           this.totalLength = this.totalLength - 1;
-          this.globalStateService.updateCart(item.product.id);
+          this.cartItems=this.cartItems.filter((prod)=> prod.product.id !== item.product.id)
+          this.globalStateService.updateCart(this.cartItems);
+          this.toggleSelectAll()
           this.calculateTotal();
+          this.toastr.success(res.message, 'Success');
         },
         error: (err) => {
           console.error('Error removing item:', err);
+          this.toastr.error(err.message, 'Error');
         },
       });
   }
@@ -140,6 +120,7 @@ export class ShoppingCartComponent {
     this.calculateTotal();
     this.isAllChecked = allSelected;
   }
+
   updateQuantity(item: any) {
     this.mainService
       .updateItemQty({
@@ -158,19 +139,24 @@ export class ShoppingCartComponent {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      if (Array.isArray(this.cartItems) && this.cartItems.length) {
-        this.toggleSelectAll();
-      }
+    this.loading = true;
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState;
+      if (this.cartItems.length) {
+        if (Array.isArray(this.cartItems) && this.cartItems.length) {
+          this.toggleSelectAll();
+        }
 
-      this.cartItems.forEach((item) => {
-        this.quantities[item.product.inventory.id] = Array.from({
-          length: item.product.inventory.available_stock,
+        this.cartItems.forEach((item) => {
+          this.quantities[item.product.inventory.id] = Array.from({
+            length: item.product.inventory.available_stock,
+          });
+          this.sellerRating[item.seller.id] = Array.from({
+            length: item.seller.rating,
+          });
         });
-        this.sellerRating[item.seller.id] = Array.from({
-          length: item.seller.rating,
-        });
-      });
-    }, 2000);
+        this.loading = false;
+      }
+    });
   }
 }
