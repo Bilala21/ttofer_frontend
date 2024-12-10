@@ -67,7 +67,7 @@ export class AppFiltersComponent implements OnInit {
   areaSizeValue: number = 100;
   areaSizeOptions: Options = {
     floor: 0,
-    ceil: 1000,
+    ceil: 20000,
     hideLimitLabels: true,
   };
 

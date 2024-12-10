@@ -39,6 +39,7 @@ export class ProductCardComponent {
   }
 
   toggleWishlist(item: any) {
+    console.log(item)
     const data = this.extension.getUserId();
     if (!this.extension.getUserId()) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -53,6 +54,7 @@ export class ProductCardComponent {
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
+          item.is_in_wishlist=!item.is_in_wishlist
           this.handlesUserWishlist.emit(item);
           this.toastr.success(res.message, 'Success');
         }
@@ -63,6 +65,21 @@ export class ProductCardComponent {
       },
     });
   }
+
+
+  // handlesUserWishlist(item: any) {
+  //   console.log(item)
+  //   if (item.product_type !== 'auction') {
+  //     const found= this.featuredPosts.find((cate:any)=> cate.id == item.id)
+  //     found.is_in_wishlist= !found.is_in_wishlist
+  //   } else {
+  //     const found= this.auctionPosts.find((cate:any)=> cate.id == item.id)
+  //     found.is_in_wishlist= !found.is_in_wishlist
+
+  //   }
+  // }
+
+
   getUserWishListItem(item: any) {
     if (item) {
       return item.user_id === this.currentUserId ? true : false;

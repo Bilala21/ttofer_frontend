@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   HostListener,
   OnInit,
@@ -37,23 +36,23 @@ import { FeedbackCardComponent } from '.././feedback-card/feedback-card.componen
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
-  inCart: boolean=false;
-  screenWidth:number;
-  screenHeight:number;
-  productId:any = null;
-  product:any = {};
-  attributes:any = {};
-  currentUser:any = {};
-  loading:boolean = false;
-  similarLoading:boolean = false;
-  similarProductsData:any = [];
-  currentUserid:any;
-  parsedAttributes:{ [key: string]: string | number } = {};
-  isFullScreen=false;
-  center: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
-  zoom = 15; 
-  markerPosition: google.maps.LatLngLiteral={ lat: 0, lng: 0 };
-  markerOptions: google.maps.MarkerOptions={ draggable: false };
+  inCart: boolean = false;
+  screenWidth: number;
+  screenHeight: number;
+  productId: any = null;
+  product: any = {};
+  attributes: any = {};
+  currentUser: any = {};
+  loading: boolean = false;
+  similarLoading: boolean = false;
+  similarProductsData: any = [];
+  currentUserid: any;
+  parsedAttributes: { [key: string]: string | number } = {};
+  isFullScreen = false;
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom = 15;
+  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
   images: any = [];
   position: string = 'left';
   responsiveOptions = [
@@ -72,7 +71,6 @@ export class ProductDetailComponent implements OnInit {
   ];
 
   constructor(
-    private cdRef: ChangeDetectorRef,
     private router: Router,
     private globalStateService: GlobalStateService,
     private toastr: ToastrService,
@@ -87,38 +85,40 @@ export class ProductDetailComponent implements OnInit {
   }
 
   fetchData(productId: number) {
-    this.mainServices.getProductById({ product_id: productId,user_id: this.currentUserid}).subscribe({
-      next: (value) => {
-        
-        this.product = value.data;
-        this.product.in_cart =this.inCart;
-        this.attributes = value.data.attributes;
-        if (typeof this.attributes === 'string') {
-          this.attributes = JSON.parse(value.data.attributes);
-        }
-        this.parsedAttributes = this.parseAttributes(this.attributes);
-        const lat = Number(this.product.latitude);
-        const lng = Number(this.product.longitude);
+    this.mainServices
+      .getProductById({ product_id: productId, user_id: this.currentUserid })
+      .subscribe({
+        next: (value) => {
+          this.product = value.data;
+          this.product.in_cart = this.inCart;
+          this.attributes = value.data.attributes;
+          if (typeof this.attributes === 'string') {
+            this.attributes = JSON.parse(value.data.attributes);
+          }
+          this.parsedAttributes = this.parseAttributes(this.attributes);
+          const lat = Number(this.product.latitude);
+          const lng = Number(this.product.longitude);
 
-        if (!isNaN(lat) && !isNaN(lng)) {
-          this.center = { lat, lng };
-          this.markerPosition = this.center;
-        } else {
-          console.error('Invalid latitude or longitude:', { lat, lng });
-        }
+          if (!isNaN(lat) && !isNaN(lng)) {
+            this.center = { lat, lng };
+            this.markerPosition = this.center;
+          } else {
+            console.error('Invalid latitude or longitude:', { lat, lng });
+          }
 
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error fetching product:', err);
-        this.loading = false;
-      },
-    });
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching product:', err);
+          this.loading = false;
+        },
+      });
   }
   // fetch-similar-product
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
+        console.log(value)
         this.similarProductsData = value.data;
         this.similarLoading = false;
       },
@@ -131,10 +131,9 @@ export class ProductDetailComponent implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     this.loading = true;
     this.fetchData(this.productId);
-    this.fetchSimilarProducts(this.productId)
-    this.productView()
+    this.fetchSimilarProducts(this.productId);
+    this.productView();
     this.globalStateService.currentState.subscribe((state) => {
-      //(this.productId);
       state.cartState.find((item) => {
         if (Number(item.product.id) === Number(this.productId)) {
           this.inCart = true;
@@ -167,8 +166,11 @@ export class ProductDetailComponent implements OnInit {
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
+          item.is_in_wishlist = !item.is_in_wishlist;
+          item.wishlist_count = item.is_in_wishlist
+            ? item.wishlist_count + 1
+            : item.wishlist_count - 1;
           this.toastr.success(res.message, 'Success');
-          this.fetchData(item.id);
         }
       },
       error: (err) => {
@@ -199,7 +201,7 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-    
+
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
