@@ -196,16 +196,12 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <!-- <div *ngIf="cartItems?.length > 0" class="d-flex justify-content-between p-3"
-                                    style="bottom: gray;">
-                                    <span>Subtotal</span>
-                                    <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
-                                </div> -->
+                                   
                                 </div>
                             </a>
                         </li>
                         <!-- login-start -->
-                        @if (!currentUser?.id) {
+                        @if (!token ) {
                         <li class="">
                             <a (click)="login()"
                                 class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -214,7 +210,7 @@
                         </li>
                         }
                         <!-- profile-start -->
-                        @if (currentUser) {
+                        @if (token) {
                         <li class="user-profile cursor-pointer position-relative">
                             <button
                                 class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
@@ -255,7 +251,8 @@
                                 </div>
                                 <span (click)="logout()"
                                     class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
-                                    <i class="fas fa-sign-out-alt fs-20 mr-2 text-center d-block mdc-layout-grid__cell--span-12-desktop empty-search"></i>
+                                    <i
+                                        class="fas fa-sign-out-alt fs-20 mr-2 text-center d-block mdc-layout-grid__cell--span-12-desktop empty-search"></i>
                                     <span class="empty-search fs-18">
                                         Logout
                                     </span>

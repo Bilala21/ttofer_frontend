@@ -36,7 +36,7 @@
                 <div class="ml-3 flex-grow-1 custom-margin-left">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="card-title">{{post.title}}</span>
-                        <span class="view-count" *ngIf="activeTab==='selling'">0 Views</span>
+                        <span class="view-count" *ngIf="activeTab==='selling'">{{post.views.total_views}} Views</span>
                     </div>
                     <div class="d-flex justify-content-start align-items-center" *ngIf="activeTab==='selling'">
                         <div class="avatars d-flex">

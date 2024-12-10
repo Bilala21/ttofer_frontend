@@ -37,7 +37,8 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderNavigationComponent implements OnInit {
-  currentUser: any = {};
+  token:any
+  currentUser: any ;
   loading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
@@ -70,25 +71,51 @@ export class HeaderNavigationComponent implements OnInit {
     private service: SharedDataService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.sideBarItemss = sideBarItems;
-    this.currentUser = JSON.parse(localStorage.getItem('key') as string);
-    this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
+    this.token = localStorage.getItem('authToken'); 
+    this.sideBarItemss = sideBarItems;  
+    this.globalStateService.currentState.pipe(
+      distinctUntilChanged((prev, curr) => 
+        prev.currentUser === curr.currentUser && prev.cartState === curr.cartState
+      ) 
+    ).subscribe((state) => {
+      if (this.currentUser !== state.currentUser) {
+        debugger
+        this.currentUser = state.currentUser;
+        this.token = state.authToken;
+        if (!this.currentUser) {
+          this.getProfile();
+        }
+      }
       this.cartItems = state.cartState;
     });
+  
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
   
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
-      if (!privateRoute.includes(this.router.url)) {
-        this.isHideCart = false;
-      } else {
-        this.isHideCart = true;
-      }
+      this.isHideCart = privateRoute.includes(this.router.url);
     });
   }
-
+  
+getProfile(): void {
+  const token = localStorage.getItem('authToken'); 
+    if (token || this.currentUser) {
+      this.mainServicesService.getProfileData().subscribe({
+        next: (res: any) => {
+          if (res.status) {
+            const currentUser = res.data;
+            debugger
+            this.imgUrl=currentUser.img
+            this.globalStateService.updateState({ currentUser });
+          }
+        },
+        error: (err: any) => {   
+        },
+      });
+    } 
+ }
+  
   getCartItems() {
     if (!this.currentUserid) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -215,24 +242,42 @@ export class HeaderNavigationComponent implements OnInit {
 
   logout() {
     try {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('key');
-      this.authService.signOut();
-      this.loading = false;
-      this.currentUser = '';
-      this.notificationList = [];
-      this.unReadNotification = 0;
-      this.router.navigate(['']).then(() => {
-        this.toastr.success('Logged out successfully', 'Success');
+      this.loading = true; // Start loading
+      this.authService.logOut().subscribe({
+        next: () => {
+          // Clear local storage and reset variables after successful API call
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('key');
+          this.authService.signOut();
+          this.currentUser = '';
+          this.token = '';
+          this.notificationList = [];
+          this.unReadNotification = 0;
+  
+          // Navigate to home and show success toast
+          this.router.navigate(['']).then(() => {
+            this.toastr.success('Logged out successfully', 'Success');
+          });
+        },
+        error: (error) => {
+          // Handle logout API errors
+          this.toastr.error(
+            'An error occurred while logging out. Please try again.',
+            'Error'
+          );
+        },
+        complete: () => {
+          this.loading = false; // Stop loading
+        },
       });
     } catch (error) {
       this.toastr.error(
-        'An error occurred while logging out. Please try again.',
+        'An unexpected error occurred while logging out. Please try again.',
         'Error'
       );
-    } finally {
     }
   }
+  
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -271,9 +316,7 @@ export class HeaderNavigationComponent implements OnInit {
     );
 
     this.getCurrentCity();
-    if (this.currentUser && this.currentUser.img) {
-      this.imgUrl = this.currentUser.img;
-    }
+    
 
     this.loading = true;
     this.getScreenSize();

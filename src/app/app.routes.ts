@@ -160,21 +160,14 @@ export const routes: Routes = [
     path: 'auth',
     component: AuthModalComponent,
   },
-  // {
-  //   path: 'post',
-  //   loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
-  // },
-  // {
-  //   path: 'profile',
-  //   loadChildren: () =>
-  //     import('./profile/profile.module').then((m) => m.ProfileModule),
-  // },
+  
   {
     path: 'profile',
     loadChildren: () =>
       import('./profilemodule/profilemodule.module').then(
         (m) => m.ProfilemoduleModule
       ),
+    canActivate: [AuthGuard], // Add the AuthGuard here
   },
   {
     path: '**',

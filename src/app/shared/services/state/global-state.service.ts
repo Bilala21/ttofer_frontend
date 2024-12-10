@@ -14,6 +14,7 @@ interface AppState {
   wishListItems: number[];
   currentUser: any;
   temp_token: any;
+  authToken: any | null; // Add authToken here
   isLoggedIn: boolean;
   cartState: any[];
   offerModal: string;
@@ -26,6 +27,7 @@ interface AppState {
   getHighestBids: any;
 }
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -36,7 +38,7 @@ export class GlobalStateService {
     categories: [],
     isLoggedInd: false,
     wishListItems: [],
-    currentUser: {},
+    currentUser: '',
     subCategories: [],
     filteredProducts: {},
     prodTab: { key: 'ProductType', value: 'auction' },
@@ -44,6 +46,7 @@ export class GlobalStateService {
     isLoggedIn: false,
     cartState: [],
     offerModal: '',
+    authToken: '',
     auctionProducts: [],
     featuredProducts: [],
     currentUserId: null,
@@ -66,10 +69,15 @@ export class GlobalStateService {
   product = this.productSubject.asObservable();
 
   constructor() {
-    const currentUser = JSON.parse(localStorage.getItem('key') || 'null');
-    const currentState = this.stateSubject.value;
-    this.stateSubject.next({ ...currentState, currentUser: currentUser });
+    const authToken =localStorage.getItem('authToken') || '';
+      const currentState = this.stateSubject.value;
+      const newState = {
+      ...currentState,
+      authToken: authToken || '', 
+    };
+      this.stateSubject.next(newState);
   }
+  
 
   updateCart(data: any) {
     const currentState = this.stateSubject.value;
@@ -214,7 +222,7 @@ export class GlobalStateService {
   }
 
   // Generic method to update state properties
-  private updateState(newState: Partial<AppState>) {
+   updateState(newState: Partial<AppState>) {
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, ...newState });
   }

@@ -37,25 +37,8 @@ export class TokenizedInterceptor implements HttpInterceptor {
       return next.handle(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
 
-          // if (error.status === 401) {
-          //   return from(this.handle401Error()).pipe(
-          //     switchMap(() => {
-          //       const newAuthToken = this.authService.getPortalAccessToken();
-          //       const newAuthReq = req.clone({
-          //         setHeaders: {
-          //           Authorization: `Bearer ${newAuthToken!.accessToken}`,
-          //           'Time-Zone-Offset': timeZoneOffset.toString(),
-          //         },
-          //       });
-          //       return next.handle(newAuthReq);
-          //     })
-          //   );
-          // }
-          // if ((error.status === 500 || error.status === 0) && !this.isErrorShown) {
             this.isErrorShown = true;
-            // this.router.navigate(['/',this.languageCountry,this.componentRoutes.ServerError]);
-            // this.router.navigate(['/']);
-          // }
+        
           return throwError(() => error);
         })
       );
@@ -64,9 +47,7 @@ export class TokenizedInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 
-  // private async handle401Error(): Promise<void> {
-  //   await this.authService.getClientAuthToken();
-  // }
+ 
 
   getOffsetInHours(): number {
     const timeZoneOffsetMinutes: number = new Date().getTimezoneOffset();
