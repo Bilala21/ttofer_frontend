@@ -137,6 +137,33 @@ export class ProductCardComponent {
     }
   }
 
+  addToCart(item: any) {
+    this.mainServices
+      .adToCartItem({
+        product_id: item.id,
+        user_id: this.currentUserId,
+        quantity:  1,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message, 'success');
+          this.mainServices.getCartProducts(this.currentUserId).subscribe({
+            next: (value: any) => {
+              this.globalStateService.updateCart(value.data);
+            },
+            error: (err) => {
+              //(err);
+            },
+          });
+        },
+        error: (err) => {
+          if (err.error.code == 422) {
+            this.toastr.error('This product is already in your cart', 'error');
+          }
+        },
+      });
+  }
+
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);

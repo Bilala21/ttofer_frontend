@@ -42,7 +42,7 @@ export class MarkAsSoldComponent implements OnInit {
   }
   getAllChatsOfUser = () => {
     this.mainService.getAllChatsOfUser(this.currentUserId).subscribe((res: any) => {
-      debugger;
+      ;
       this.sellingChat = res.data.seller_chats;
   
       // Filter sellingChat to include only chats with the current sold item

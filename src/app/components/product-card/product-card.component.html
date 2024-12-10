@@ -1,4 +1,4 @@
-<div class="product-card p-2 border-1 rounded-2 xs-mx-auto">
+<div class="product-card p-2 add-border rounded-2 xs-mx-auto">
 
   <article class="position-relative">
     <button (click)="toggleWishlist(postData)"
@@ -17,7 +17,7 @@
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
           <button *ngIf="postData.product_type =='auction'"
-            class="btn bg-yellow-700 py-1 fs-14 fw-normal text-dark specialOffer" aria-label="Special Offer">Special
+            class="btn bg-red-700 py-1 fs-14 fw-normal text-white specialOffer" aria-label="Special Offer">Special
             Offer</button>
         </figcaption>
         <div class="price-tag d-flex align-items-center justify-content-center">
@@ -29,7 +29,7 @@
 
       <section class="card-bottom pb-1 text-gray-400">
         <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction'">
-          <span class="bg-yellow-700 px-2 py-1 rounded fs-12 fw-normal text-dark" aria-live="polite">
+          <span class="bg-red-700 px-2 py-1 rounded fs-12 fw-normal text-white" aria-live="polite">
             {{postData.calculateRemainingTime || "Bid Expired" }}
           </span>
         </div>
@@ -61,6 +61,10 @@
   </article>
   <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}"
     *ngIf="postData.product_type == 'auction'"
-    class="mt-2 btn bg-dark-650 text-white py-2 pointer-cursor rounded-2 w-100 hover-able-btn" aria-label="Bid Now">Bid
+    class="mt-2 btn py-2 rounded-2 w-100 btn-yellow" aria-label="Bid Now">Bid
     Now</a>
+    <!--  -->
+    <button *ngIf="postData.product_type !=='auction'" 
+    (click)="addToCart(postData)"
+    class="mt-2 btn  py-2 rounded-2 w-100 btn-yellow" aria-label="Add to Cart">Add to Cart</button>
 </div>

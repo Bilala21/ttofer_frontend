@@ -9,12 +9,12 @@
             <input type="file" class="d-none" id="file" (change)="onImageUpload($event)">
         </div>
         <div class="pl-3">
-            <div class="fw-semibold pb-2"> {{ currentUserProfile.name }}</div>
-            <div class="fs-14 text-capitalize">
+            <div class="fw-semibold text-center text-md-left"> {{ currentUserProfile.name }}</div>
+            <div class="fs-14 text-capitalize text-center text-md-left">
                 Joined: <span> {{ currentUserProfile.created_at ? (currentUserProfile.created_at | date: 'MMM d, y') :
                     'N/A' }}</span>
             </div>
-            <div class="fs-14 text-capitalize">
+            <div class="fs-14 text-capitalize text-center text-md-left">
                 Address: <span> {{ currentUserProfile.location || "N/A" }}</span>
             </div>
         </div>
@@ -29,11 +29,11 @@
             <p>Sold</p>
         </a>
         <a class="text-center">
-            <p class="m-0">0</p>
+            <p class="m-0">{{currentUserProfile.followers_count}}</p>
             <p>Followers</p>
         </a>
         <a class="text-center">
-            <p class="m-0">0</p>
+            <p class="m-0">{{currentUserProfile.following_count}}</p>
             <p>Followings</p>
         </a>
     </div>

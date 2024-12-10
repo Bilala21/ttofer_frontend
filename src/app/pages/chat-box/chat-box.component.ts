@@ -282,7 +282,7 @@ export class ChatBoxComponent {
     
       this.mainServices.getOffer(data.offer_id).subscribe({
         next: (result: any) => {
-          debugger
+          
           this.offerDetails = result.data;
         },
       });

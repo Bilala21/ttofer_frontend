@@ -392,7 +392,7 @@ export class MainServicesService {
     return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
   }
   getProfileData() {
-    return this.http.get(`${Constants.baseApi}` + '/cart/');
+    return this.http.get(`${Constants.baseApi}` + '/profile');
   }
   getUserSavedItems() {
     return this.http.get(`${Constants.baseApi}/save-for-later`);

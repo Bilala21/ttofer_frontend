@@ -212,7 +212,7 @@ if(this.product.product_type == 'auction'){
       seller_id:this.seller_id
     };
     try {
-      debugger
+      
       this.mainServices.placeOffer(input).subscribe({
         next: (res: any) => {
           this.toastr.success(
