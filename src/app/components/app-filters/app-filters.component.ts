@@ -48,14 +48,16 @@ export class AppFiltersComponent implements OnInit {
     location: [],
   };
   locations: any = [];
+  minPrice: number = 0;
+  maxPrice: number = 0;
 
-  minValue: number = 5;
-  highValue: number = 1000;
-  priceOptions: Options = {
-    floor: 0,
-    ceil: 5000,
-    hideLimitLabels: true,
-  };
+  // minValue: number = 5;
+  // highValue: number = 1000;
+  // priceOptions: Options = {
+  //   floor: 0,
+  //   ceil: 5000,
+  //   hideLimitLabels: true,
+  // };
 
   radiusValue: number = 1;
   radiusOptions: Options = {
@@ -72,7 +74,7 @@ export class AppFiltersComponent implements OnInit {
   };
 
   bathrooms: number = 1;
-  bedrooms: number = 2;
+  bedrooms: number = 10000;
 
   isNavigatingAway: any = false;
   hideFilter: boolean = false;
@@ -120,7 +122,7 @@ export class AppFiltersComponent implements OnInit {
         console.log(formatedSlug);
         this.categories = res.data;
         this.slug = this.categories.find(
-          (cate: any) => (+cate.id === +this.category_id)
+          (cate: any) => +cate.id === +this.category_id
         )?.name;
         this.loading = false;
       },
@@ -147,8 +149,8 @@ export class AppFiltersComponent implements OnInit {
     }
 
     this.radiusValue = localData?.radius ? localData?.radius : 1;
-    this.minValue = localData?.min_price ? localData?.min_price : 20;
-    this.highValue = localData?.max_price ? localData?.max_price : 500;
+    this.minPrice = localData?.min_price ? localData?.min_price : 1;
+    this.maxPrice = localData?.max_price ? localData?.max_price : 10000;
     this.areaSizeValue = localData?.area ? localData?.area : 100;
     this.bedrooms = localData?.bedrooms ? localData?.bedrooms : 1;
     this.bathrooms = localData?.bathrooms ? localData?.bathrooms : 2;
@@ -194,11 +196,51 @@ export class AppFiltersComponent implements OnInit {
     });
   }
 
-  handleMinMaxPrice() {
-    this.filterCriteria['min_price'] = this.minValue;
-    this.filterCriteria['max_price'] = this.highValue;
-    this.handleFilterEvent.emit({ ...this.filterCriteria });
+  handleMinMaxPrice(event: any, isMin: boolean) {
+    console.log(event.target.value,this.minPrice)
+    const key = event.key;
+    const allowedKeys = [
+      'Backspace',
+      'Delete',
+      'ArrowLeft',
+      'ArrowRight',
+      'Tab',
+      'Enter',
+    ];
+
+    // Allow only certain keys
+    if (allowedKeys.includes(key)) return;
+    if (!/[0-9]/.test(key)) {
+      event.preventDefault();
+      return;
+    }
+
+    // Ensure minPrice is not greater than maxPrice
+    if (this.minPrice >= this.maxPrice && isMin) {
+      event.preventDefault();
+      return; // Prevent any further input if minPrice is greater than or equal to maxPrice
+    }
+
+    // Prevent entering values starting with 0
+    if (event.target.value === '0' && key !== 'Backspace') {
+      event.preventDefault();
+      return;
+    }
+    if (
+      event.target.value.startsWith('0') &&
+      key !== 'Backspace' &&
+      !/[0-9]/.test(key)
+    ) {
+      event.preventDefault();
+      return;
+    }
+
+    // Update filter criteria for valid inputs
+    this.filterCriteria['min_price'] = this.minPrice;
+    this.filterCriteria['max_price'] = this.maxPrice;
   }
+
+  // this.handleFilterEvent.emit({ ...this.filterCriteria });
 
   @HostListener('window:resize', [])
   onResize(): void {

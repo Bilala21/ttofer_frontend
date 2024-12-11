@@ -44,18 +44,16 @@ export class MainServicesService {
   getBanners(): Observable<any> {
     return this.http.get(`${Constants.baseApi}/get-banners`);
   }
-  getFeatureProduct(query: any=""): Observable<any> {
-    return this.http.post(
-      `${Constants.baseApi}/featured-products`,
-      null
-    );
+  getFeatureProduct(query: any = ''): Observable<any> {
+    return this.http.post(`${Constants.baseApi}/featured-products`, {
+      user_id: query.user_id,
+    });
   }
-  getAuctionProduct(query: any=""): Observable<any> {
+  getAuctionProduct(query: any = ''): Observable<any> {
     // ?search=${query}
-    return this.http.post(
-      `${Constants.baseApi}/auction-products`,
-      null
-    );
+    return this.http.post(`${Constants.baseApi}/auction-products`, {
+      user_id: query.user_id,
+    });
   }
   addWishList(payload: any) {
     return this.http
@@ -98,7 +96,9 @@ export class MainServicesService {
       .pipe();
   }
   makeOffer(payload: any) {
-    return this.http.post(`${Constants.baseApi}` + '/make-offer', payload).pipe();
+    return this.http
+      .post(`${Constants.baseApi}` + '/make-offer', payload)
+      .pipe();
   }
   getOffer(payload: any) {
     return this.http.get(`${Constants.baseApi}` + `/offers/${payload}`).pipe();
@@ -205,18 +205,20 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/products/sold', product)
       .pipe();
   }
-  acceptOffer(offerId:any,payload: any) {
+  acceptOffer(offerId: any, payload: any) {
     return this.http
       .post(`${Constants.baseApi}` + `/offers/${offerId}/accept`, payload)
       .pipe();
   }
-  rejectOffer(offerId:any,payload: any) {
+  rejectOffer(offerId: any, payload: any) {
     return this.http
       .post(`${Constants.baseApi}` + `/offers/${offerId}/reject`, payload)
       .pipe();
   }
   placeBid(payload: any) {
-    return this.http.post(`${Constants.baseApi}` + '/bids/place', payload).pipe();
+    return this.http
+      .post(`${Constants.baseApi}` + '/bids/place', payload)
+      .pipe();
   }
   placeOffer(payload: any) {
     return this.http.post(`${Constants.baseApi}` + '/offers', payload).pipe();
@@ -252,18 +254,21 @@ export class MainServicesService {
     if (type) {
       params = params.set('status', type);
     }
-  
-    return this.http.get(`${Constants.baseApi}/user/${userId}/notifications`, { params }).pipe();
+
+    return this.http
+      .get(`${Constants.baseApi}/user/${userId}/notifications`, { params })
+      .pipe();
   }
-  
-  
+
   customLink(payload: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/update/custom/link', payload)
       .pipe();
   }
   whoBought(payload: any) {
-    return this.http.post(`${Constants.baseApi}` + '/who-bought', payload).pipe();
+    return this.http
+      .post(`${Constants.baseApi}` + '/who-bought', payload)
+      .pipe();
   }
   reviewToSeller(payload: any) {
     return this.http

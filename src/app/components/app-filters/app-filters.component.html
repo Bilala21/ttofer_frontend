@@ -282,22 +282,43 @@
                             Price
                         </button>
                         <div id="collapseprice" class="collapse show" aria-labelledby="price">
-                            <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions"
-                                (userChangeEnd)="handleMinMaxPrice()" />
+                            <!-- <ngx-slider [(value)]="minValue" [(highValue)]="highValue" [options]="priceOptions"
+                                (userChangeEnd)="handleMinMaxPrice()" /> -->
 
                             <div class="d-flex align-items-center price-box mb-3 d-none">
                                 <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                    <input type="text" placeholder="200" [(ngModel)]="minValue" min="1"
-                                        class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                        (focusout)="handleMinMaxPrice()">
+                                    <input 
+                                    type="number" 
+                                    [(ngModel)]="minPrice" 
+                                    name="minPrice" 
+                                    placeholder="Min" 
+                                    min="1" 
+                                    class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
+                                    (focusout)="handleMinMaxPrice($event,true)"
+                                    (keydown)="handleMinMaxPrice($event,true)">
                                     <span class="fs-12 text-dark-400">AED</span>
                                 </div>
                                 <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                    <input type="text" placeholder="300" [(ngModel)]="highValue" min="1"
+                                    <input 
+                                        type="number" 
+                                        [(ngModel)]="maxPrice" 
+                                        name="maxPrice" 
+                                        placeholder="Max" 
+                                        min="1" 
                                         class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                        (focusout)="handleMinMaxPrice()">
+                                        (focusout)="handleMinMaxPrice($event,false)"
+                                        (keydown)="handleMinMaxPrice($event,false)">
                                     <span class="fs-12 text-dark-400">AED</span>
                                 </div>
+                                
+                                <!-- <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
+                                    <input type="number"  [(ngModel)]="maxPrice" name="maxPrice" type="text" placeholder="Max" min="1"
+                                        class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
+                                        (focusout)="handleMinMaxPrice()"
+                                        (input)="handleMinMaxPrice()"
+                                        >
+                                    <span class="fs-12 text-dark-400">AED</span>
+                                </div> -->
                             </div>
                         </div>
                     </div>
