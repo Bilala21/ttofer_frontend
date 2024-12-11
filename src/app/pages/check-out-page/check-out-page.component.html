@@ -18,7 +18,7 @@
               >
             </div>
             <div
-              *ngFor="let payment of paymentDeposit; trackBy: trackById"
+              *ngFor="let payment of paymentDeposit;trackBy: trackById"
               class="d-flex justify-content-between border-b p-4"
             >
               <div>
@@ -174,17 +174,18 @@
               <strong>TToffer</strong> <a href="#">Trems & conditions</a>
             </p>
           </div>
-
+          <!-- [disabled]="!paymentMethod" -->
           <button
             class="btn btn-yellow w-100 p-2 confrim-btn mt-2"
-            [disabled]="!paymentMethod"
+           
+            (click)="makePayment(itemTotal)"
           >
             Confirm and Pay
           </button>
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 </main>
 
 <div
