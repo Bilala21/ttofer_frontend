@@ -27,7 +27,6 @@ import { Extension } from '../../helper/common/extension/extension';
   ],
 })
 export class BodyComponent implements OnDestroy {
-  currentUserId: any = this.extension.getUserId();
   auctionPosts: any = [];
   featuredPosts: any = [];
   countdownSubscriptions: Subscription[] = [];
@@ -35,17 +34,20 @@ export class BodyComponent implements OnDestroy {
   tempToken: boolean = false;
   promotionBanners: any = [];
   footerBanners: any = [];
+  user_id;
   constructor(
     private mainServices: MainServicesService,
     private cdr: ChangeDetectorRef,
     private countdownTimerService: CountdownTimerService,
     private extension: Extension,
     private router: ActivatedRoute
-  ) {}
+  ) {
+    this.user_id = this.extension.getUserId();
+  }
   ngOnInit(): void {
     let query: any = '';
     this.router.queryParamMap.subscribe((q) => {
-      query = q.get('search');
+      query = { user_id: this.user_id, search: q.get('search') };
       forkJoin({
         auctionProduct: this.mainServices.getAuctionProduct(query),
         featureProduct: this.mainServices.getFeatureProduct(query),

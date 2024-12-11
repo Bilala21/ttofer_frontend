@@ -1,67 +1,50 @@
-   .product-card {
-       position: relative;
-       width: 100%;
-       padding-right: 5px;
-       padding-left: 5px;
-   }
+  .auction-section {
+      background: #FCEAD7;
+  }
+  .featured-section{
+    background: #ededed;
+  }
 
-   //    .shimmer-card {
-   //     position: relative;
-   //        width: 100%;
-   //        padding-right: 10px;
-   //        padding-left: 10px;
-   // }
+  .product-card {
+      position: relative;
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+  }
 
-   @media (min-width: 768px) {
-       .product-card {
-           -ms-flex: 0 0 50%;
-           flex: 0 0 50%;
-           max-width: 50%;
-       }
+  @media (min-width: 768px) {
+      .product-card {
+          -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+          max-width: 50%;
+      }
 
-       .shimmer-card {
-           -ms-flex: 0 0 50%;
-           flex: 0 0 50%;
-           max-width: 48%;
-       }
+      .shimmer-card {
+          -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+          max-width: 48%;
+      }
 
-   }
+  }
 
-   @media (min-width: 1100px) {
-       .product-card {
-           -ms-flex: 0 0 33.333333%;
-           flex: 0 0 33.333333%;
-           max-width: 33.333333%;
-       }
+  @media (min-width: 1100px) {
+      .product-card {
+          -ms-flex: 0 0 33.333333%;
+          flex: 0 0 33.333333%;
+          max-width: 33.333333%;
+      }
 
-       .shimmer-card {
-           -ms-flex: 0 0 33.333333%;
-           flex: 0 0 33.333333%;
-           max-width: 32.333333%;
-       }
-   }
+      .shimmer-card {
+          -ms-flex: 0 0 33.333333%;
+          flex: 0 0 33.333333%;
+          max-width: 32.333333%;
+      }
+  }
 
-   @media (min-width: 1300px) {
-       .product-card {
-           -ms-flex: 0 0 20%;
-           flex: 0 0 20%;
-           max-width: 20%;
-       }
-   }
-
-   @media(max-width:576px) {
-
-    //    .product-card {
-    //        // width: 100%;
-    //        flex: 0 0 48.5%;
-    //        max-width: 48.5%;
-    //        padding: 0;
-    //    }
-       
-   }
-
-   //    .col-12 {
-   //        -ms-flex: 0 0 100%;
-   //        flex: 0 0 100%;
-   //        max-width: 100%;
-   //    }
+  @media (min-width: 1300px) {
+      .product-card {
+          -ms-flex: 0 0 25%;
+          flex: 0 0 25%;
+          max-width: 25%;
+      }
+  }

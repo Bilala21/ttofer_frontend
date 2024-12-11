@@ -39,8 +39,6 @@ export class ProductCardComponent {
   }
 
   toggleWishlist(item: any) {
-    console.log(item)
-    const data = this.extension.getUserId();
     if (!this.extension.getUserId()) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
@@ -65,21 +63,6 @@ export class ProductCardComponent {
       },
     });
   }
-
-
-  // handlesUserWishlist(item: any) {
-  //   console.log(item)
-  //   if (item.product_type !== 'auction') {
-  //     const found= this.featuredPosts.find((cate:any)=> cate.id == item.id)
-  //     found.is_in_wishlist= !found.is_in_wishlist
-  //   } else {
-  //     const found= this.auctionPosts.find((cate:any)=> cate.id == item.id)
-  //     found.is_in_wishlist= !found.is_in_wishlist
-
-  //   }
-  // }
-
-
   getUserWishListItem(item: any) {
     if (item) {
       return item.user_id === this.currentUserId ? true : false;
@@ -163,13 +146,15 @@ export class ProductCardComponent {
       })
       .subscribe({
         next: (res: any) => {
+          console.log(res)
           this.toastr.success(res.message, 'success');
           this.mainServices.getCartProducts(this.currentUserId).subscribe({
             next: (value: any) => {
               this.globalStateService.updateCart(value.data);
             },
             error: (err) => {
-              //(err);
+              console.log(err)
+              this.toastr.error(err.message, 'error');
             },
           });
         },
