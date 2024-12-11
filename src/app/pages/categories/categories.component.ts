@@ -48,7 +48,7 @@ export class CategoriesComponent {
     localStorage.setItem('categoryTab', tab);
     const query = localStorage.getItem('isSearch') as string;
     const selectedSlug = localStorage.getItem('selectedSlug');
-    this.activeTab = this.setActiveTabs(selectedSlug);
+    this.activeTab = tab ? tab : this.setActiveTabs(selectedSlug);
     this.fecthcData(query == null ? {} : { search: query });
   }
 
@@ -71,25 +71,25 @@ export class CategoriesComponent {
         const slug: any = param.get('slug');
         const index = Number(slug?.lastIndexOf('-'));
         if (index < 0) {
-          localStorage.setItem('categoryTab', slug);
+          console.log('condition not pass')
+          const categoryTab = localStorage.getItem('categoryTab');
+          localStorage.setItem('categoryTab', categoryTab ? categoryTab : slug);
           localStorage.setItem('filters', '{}');
-          const tab = this.setActiveTabs(slug);
+          const tab = this.setActiveTabs(categoryTab?categoryTab:slug);
           this.fecthcData({ product_type: tab });
         }
         const localData = JSON.parse(localStorage.getItem('filters') || '{}');
         if (index > 1) {
+          console.log('condition pass')
           this.id = slug?.slice(index + 1);
           const localFilters = JSON.parse(
             localStorage.getItem('filters') || '{}'
           );
-          //(localData)
           if (Number(localData.category_id) == Number(this.id)) {
-            //('id same')
             const slugName = slug?.slice(0, index);
             const tab = this.setActiveTabs(slugName);
             this.fecthcData({ product_type: tab, category_id: this.id });
           } else {
-            //('not same')
             localStorage.setItem('filters', '{}');
             const slugName = slug?.slice(0, index);
             const tab = this.setActiveTabs(slugName);
@@ -122,7 +122,6 @@ export class CategoriesComponent {
   handleLoadMore(page: number) {
     const filters = JSON.parse(localStorage.getItem('filters') || '{}');
     this.fecthcData({ ...filters, page_number: page + 1 });
-    //(page);
   }
 
   handlesUserWishlist(item: any) {}
@@ -148,7 +147,7 @@ export class CategoriesComponent {
   }
 
   setActiveTabs(slug: any) {
-    console.log(slug);
+    console.log(slug,'testing');
     const selectedTab = localStorage.getItem('categoryTab');
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
@@ -222,8 +221,7 @@ export class CategoriesComponent {
       ? filter.product_type
       : localStorage.getItem('categoryTab');
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
-    filter.search=localStorage.getItem('isSearch')
-
+    filter.search = localStorage.getItem('isSearch');
 
     const category_id = this.id ? this.id : localFilters.category_id;
     localStorage.setItem(
@@ -237,17 +235,21 @@ export class CategoriesComponent {
       })
     );
     this.loading = true;
-    const allFilters={
+    const allFilters = {
       ...filter,
       ...localFilters,
-    }
+    };
     this.mainServices
       .getFilteredProducts({
-...allFilters,
+        ...allFilters,
         product_type,
         category_id,
         search: filter.search,
-        location:filter.location?filter.location.join(','):allFilters.location?allFilters.location.join(','):""
+        location: filter.location
+          ? filter.location.join(',')
+          : allFilters.location
+          ? allFilters.location.join(',')
+          : '',
       })
       .subscribe({
         next: (res: any) => {

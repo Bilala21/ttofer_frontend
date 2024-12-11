@@ -24,7 +24,7 @@
             @if (ProductTabs.length > 1) {
             @for (tab of ProductTabs.length?ProductTabs:['auction','featured']; track $index) {
             <button type="button"
-              class="btn py-2 px-2 mr-1 text-capitalize  {{activeTab==tab?'text-white bg-dark':'border-1'}}"
+              class="btn py-2 px-2 mr-1 text-capitalize  {{activeTab==tab?'btn-yellow':'border-1'}}"
               (click)="handleTab(tab)">
               {{tab}}
             </button>
