@@ -114,7 +114,7 @@ export class ProductDetailComponent implements OnInit {
         },
       });
   }
-  // fetch-similar-product
+
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {

@@ -66,10 +66,9 @@ export class MakeOfferModalComponent implements OnInit {
       ]
     });
   }
-    // Custom validator to check bid price
     bidCheckValidator(control: any) {
-      if (!control.value) return null; // No error if the field is empty
-      return control.value >= (this.calculatePercentageIncrease((this.highBid || this.product.auction_final_price),20))
+      if (!control.value) return null;
+      return control.value >= (this.calculatePercentageIncrease((this.highBid || this.product.auction_final_price),1))
         ? null
         : { 'bid-check': true };
     }
@@ -79,7 +78,6 @@ if(this.product.product_type == 'auction'){
   this.mainServices.getHighBid({product_id:ProductId}).subscribe({
     next:(res:any)=>{
       this.globalStateService.setHighestBid(res.data.price)
-       //("res",res.data.price)
       this.highestBid = this.globalStateService.hightBids$.subscribe(
         (highestBid) => {
           this.highBid = highestBid;
@@ -87,17 +85,14 @@ if(this.product.product_type == 'auction'){
       );
     },
     error:(err:any)=>{
-      this.toastr.error(
-        err.message,
-              'error'
-            );
+      console.log(err)
     }
   })
 }
   }
 
-  calculatePercentageIncrease(baseValue:any, percentage:any) {
-      const data = baseValue + (baseValue * (percentage / 100));
+  calculatePercentageIncrease(baseValue:any, percentage:number) {
+      const data = baseValue + percentage;
       return Math.trunc(data)
   }
 
@@ -154,7 +149,6 @@ if(this.product.product_type == 'auction'){
   }
 
   setBidPrice(price: number): void {
-     //("price",price)
     if (this.bidForm && this.bidForm?.get('bid_price')) {
       this.bidForm?.get('bid_price')?.setValue(price); 
       }
@@ -222,7 +216,6 @@ if(this.product.product_type == 'auction'){
     }
   }
   startCountdowns() {
-    
     const datePart = this.product.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
     const subscription = this.countdownTimerService
@@ -231,7 +224,6 @@ if(this.product.product_type == 'auction'){
         this.product.calculateRemaningTime = remainingTime;
         this.cdr.detectChanges();
       });
-
     this.countdownSubscriptions.push(subscription);
   }
 

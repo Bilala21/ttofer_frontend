@@ -1,11 +1,20 @@
 import { CommonModule, DecimalPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
 import { Extension } from '../../helper/common/extension/extension';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
+import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-card',
@@ -15,28 +24,23 @@ import { AuthService } from '../../shared/services/authentication/Auth.service';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
+  @Input({ required: true }) postDetialUrl: string = '';
+  currentUserId: any = this.extension.getUserId();
+  parsedAttributes: any[] = [];
+  @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
+  @Input() postData: any = {};
+  countdownSubscriptions: Subscription[] = [];
   constructor(
     private authService: AuthService,
     private extension: Extension,
     private decimalPipe: DecimalPipe,
     private globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private countdownTimerService: CountdownTimerService,
+    private cdr: ChangeDetectorRef
   ) {}
-  @Input() postData: any = {};
-  @Input({ required: true }) postDetialUrl: string = '';
-  currentUserId: any = this.extension.getUserId();
-  parsedAttributes: any[] = [];
-
-  @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
-  getYear(date: string) {
-    return new Date(date).getFullYear();
-  }
-
-  formatPrice(price: any) {
-    return this.decimalPipe.transform(price, '1.0-0') || '0';
-  }
 
   toggleWishlist(item: any) {
     if (!this.extension.getUserId()) {
@@ -52,7 +56,7 @@ export class ProductCardComponent {
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
-          item.is_in_wishlist=!item.is_in_wishlist
+          item.is_in_wishlist = !item.is_in_wishlist;
           this.handlesUserWishlist.emit(item);
           this.toastr.success(res.message, 'Success');
         }
@@ -62,12 +66,6 @@ export class ProductCardComponent {
         this.toastr.error(error, 'Error');
       },
     });
-  }
-  getUserWishListItem(item: any) {
-    if (item) {
-      return item.user_id === this.currentUserId ? true : false;
-    }
-    return false;
   }
 
   iconMapping: any = {
@@ -142,18 +140,18 @@ export class ProductCardComponent {
       .adToCartItem({
         product_id: item.id,
         user_id: this.currentUserId,
-        quantity:  1,
+        quantity: 1,
       })
       .subscribe({
         next: (res: any) => {
-          console.log(res)
+          console.log(res);
           this.toastr.success(res.message, 'success');
           this.mainServices.getCartProducts(this.currentUserId).subscribe({
             next: (value: any) => {
               this.globalStateService.updateCart(value.data);
             },
             error: (err) => {
-              console.log(err)
+              console.log(err);
               this.toastr.error(err.message, 'error');
             },
           });
@@ -174,13 +172,33 @@ export class ProductCardComponent {
       return false;
     }
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['postData'] && this.postData?.attributes) {
-       
-      this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
-    }
+
+  startCountdowns() {
+    const datePart = this.postData.auction_ending_date.split('T')[0];
+    const endingDateTime = `${datePart}T${this.postData.auction_ending_time}.000Z`;
+    const subscription = this.countdownTimerService
+      .startCountdown(endingDateTime)
+      .subscribe((remainingTime) => {
+        this.postData.calculateRemaningTime = remainingTime;
+        this.cdr.markForCheck();
+      });
+
+    this.countdownSubscriptions.push(subscription);
+  }
+
+  ngOnDestroy() {
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
   ngOnInit(): void {
-    //  //(this.postData, 'attributes');
+    if (this.postData && this.postData.product_type == 'auction') {
+      this.startCountdowns();
+      if (this.postData?.attributes) {
+        this.parsedAttributes = this.parseAttributes(
+          this.postData.attributes
+        ).slice(0, 3);
+      }
+      this.postData.price=this.decimalPipe.transform(this.postData?.auction_initial_price?this.postData?.auction_initial_price:this.postData.fix_price, '1.0-0') || '0'
+      this.postData.postedAt=12
+    }
   }
 }

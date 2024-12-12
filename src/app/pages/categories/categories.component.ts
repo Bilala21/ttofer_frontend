@@ -1,14 +1,12 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
-import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -29,8 +27,6 @@ export class CategoriesComponent {
     private route: ActivatedRoute,
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
-    private countdownTimerService: CountdownTimerService,
-    private cd: ChangeDetectorRef
   ) {}
 
   promotionBanners: any = [];
@@ -38,7 +34,6 @@ export class CategoriesComponent {
   data: any = {};
   id: any = null;
   currentPage: number = 1;
-  countdownSubscriptions: Subscription[] = [];
   loading: boolean = false;
   slugName: any = '';
   ProductTabs: any = [];
@@ -123,29 +118,6 @@ export class CategoriesComponent {
     const filters = JSON.parse(localStorage.getItem('filters') || '{}');
     this.fecthcData({ ...filters, page_number: page + 1 });
   }
-
-  handlesUserWishlist(item: any) {}
-
-  startCountdowns(data: []) {
-    if (data) {
-      data.forEach((item: any) => {
-        const datePart = item.auction_ending_date;
-
-        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
-        const subscription = this.countdownTimerService
-          .startCountdown(endingDateTime)
-          .subscribe((remainingTime) => {
-            item.calculateRemainingTime = remainingTime
-              ? remainingTime + ' remaining'
-              : 'Bid Expired';
-            this.cd.detectChanges();
-          });
-
-        this.countdownSubscriptions.push(subscription);
-      });
-    }
-  }
-
   setActiveTabs(slug: any) {
     console.log(slug,'testing');
     const selectedTab = localStorage.getItem('categoryTab');
@@ -269,6 +241,5 @@ export class CategoriesComponent {
     localStorage.removeItem('filters');
     localStorage.removeItem('selectedSlug');
     localStorage.removeItem('isSearch');
-    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
