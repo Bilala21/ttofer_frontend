@@ -1,10 +1,6 @@
 import { CommonModule, DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterModule,
-} from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
@@ -37,8 +33,10 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderNavigationComponent implements OnInit {
+  notification: any = null;
   currentUser: any = {};
   loading: boolean = false;
+  cartLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -57,6 +55,7 @@ export class HeaderNavigationComponent implements OnInit {
   searched: boolean = false;
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
+  private getCartSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
@@ -78,7 +77,7 @@ export class HeaderNavigationComponent implements OnInit {
     });
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
-  
+
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
       if (!privateRoute.includes(this.router.url)) {
@@ -87,25 +86,33 @@ export class HeaderNavigationComponent implements OnInit {
         this.isHideCart = true;
       }
     });
+
+    this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getCartItems();
+    });
   }
 
   getCartItems() {
-    if (!this.currentUserid) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    } else {
+    if (!this.cartItems.length) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
           this.cartItems = value.data;
+          this.cartLoading = false;
         },
         error: (err) => {
-          //(err);
+          this.cartLoading = false;
+          console.error('Error fetching cart products', err);
         },
       });
     }
   }
+
+  getCartItemsOnMouseOver() {
+    this.cartLoading = true;
+    this.getCartSubject.next();
+  }
+
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
       this.router.navigate([], {
@@ -115,6 +122,7 @@ export class HeaderNavigationComponent implements OnInit {
       localStorage.setItem('isSearch', this.searchTerm);
     }
   }
+
   getCityFromCoordinates(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
@@ -130,6 +138,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
     });
   }
+
   getCurrentCity(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -256,6 +265,20 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
+  getHeaderNotifications() {
+    this.mainServicesService
+      .getHeaderNotifications(this.currentUserid)
+      .subscribe({
+        next: (res: any) => {
+          this.notification = res;
+          console.log(res);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
@@ -269,6 +292,8 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
+
+    this.getHeaderNotifications();
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
@@ -288,10 +313,6 @@ export class HeaderNavigationComponent implements OnInit {
         this.loading = false;
       },
     });
-
-    if (this.currentUser?.id) {
-      this.getCartItems();
-    }
     const value = JSON.parse(localStorage.getItem('filters') || '{}').search;
     this.searchTerm = value ? value : '';
     if (this.searchTerm) {

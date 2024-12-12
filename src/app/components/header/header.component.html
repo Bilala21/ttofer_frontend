@@ -57,9 +57,9 @@
                 </ul>
                 <!-- right-list-start -->
                 <ul
-                    class="list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
+                    class="count-badge list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                     <!-- saveItem-start -->
-                    <li class="" style="cursor: pointer;">
+                    <li class="position-relative ">
                         <a class="text-dark" [routerLink]="currentUserid ? ['/profile/saved-items'] : '#'"
                             (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
@@ -68,11 +68,14 @@
                                     d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
                                 </path>
                             </svg>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.saved_for_later_count && currentUserid">{{notification.saved_for_later_count}}</span>
                         </a>
                     </li>
                     <!-- chat-start -->
                     <li class="" style="cursor: pointer;">
-                        <a class="text-dark" [routerLink]="currentUserid ? ['/'] : '#'"
+                        <a class="text-dark position-relative" [routerLink]="currentUserid ? ['/'] : '#'"
                             (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
                                 viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -80,13 +83,17 @@
                                     d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
                                 </path>
                             </svg>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.chat_count && currentUserid">{{notification.chat_count }}</span>
                         </a>
 
                     </li>
                     <!-- notification-start -->
                     <li class="notification-container">
                         <!-- Cart Icon with Badge -->
-                        <a class="text-dark" [routerLink]="currentUserid ? ['/profile/notifications'] : '#'"
+                        <a class="text-dark position-relative"
+                            [routerLink]="currentUserid ? ['/profile/notifications'] : '#'"
                             (click)="!currentUserid ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -94,8 +101,10 @@
                                     d="M257 120.471c7.083 0 23.911 4.479 23.911 4.479 45.589 10.447 77.678 52.439 77.678 99.85V352.412l9.321 9.364 7.788 7.823H136.302l7.788-7.823 9.321-9.364V224.8c0-47.41 32.089-89.403 77.678-99.85 0 0 18.043-4.479 23.911-4.479M256 48c-17.602 0-31.059 13.518-31.059 31.2v14.559c-59.015 13.523-103.53 67.601-103.53 131.041v114.4L80 380.8v20.8h352v-20.8l-41.411-41.6V224.8c0-63.44-44.516-117.518-103.53-131.041V79.2c0-17.682-13.457-31.2-31.059-31.2zm41.411 374.4h-82.823c0 22.881 18.633 41.6 41.412 41.6s41.411-18.719 41.411-41.6z">
                                 </path>
                             </svg>
-                            <span class="badge"
-                                *ngIf="unReadNotification.length > 0">{{unReadNotification.length}}</span>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.unread_notifications && currentUserid">{{notification.unread_notifications
+                                }}</span>
                         </a>
 
 
@@ -153,10 +162,8 @@
                         </div>
                     </li>
                     <!-- cart-start -->
-                    <li class="cart-container position-relative">
-                        <a class="text-decoration-none text-dark empty-search"
-                            [routerLink]="currentUserid ? ['/cart'] : '#'" (click)="!currentUserid ? login() : null"
-                            routerLinkActive="router-link-active">
+                    <li class="cart-container position-relative"
+                        (mouseover)="!this.cartItems.length? getCartItemsOnMouseOver():null">
                             <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -165,43 +172,52 @@
                                 <circle cx="10.5" cy="19.5" r="1.5"></circle>
                                 <circle cx="17.5" cy="19.5" r="1.5"></circle>
                             </svg>
-                            <span class="badge" *ngIf="cartItems?.length">{{cartItems?.length }}</span>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.cart_item_count && currentUserid">{{cartItems?.length?cartItems?.length:notification.cart_item_count
+                                }}</span>
                             <!-- Dropdown Cart Items -->
-                            <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
-                                <div *ngIf="cartItems?.length == 0" class="d-flex justify-content-center p-3">
-                                    <span>No Cart Item</span>
+                            <div class="cart-dropdown d-block overflow-auto" *ngIf="!isHideCart">
+                                <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
+                                    <p>Please log in to view your cart items. You can log in or create an account to
+                                        continue.</p>
+                                    <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
+                                        (click)="login()">Login</button>
                                 </div>
-                                <div *ngIf="cartItems?.length > 0" class="p-3">
+
+                                <div *ngIf="!cartItems?.length && currentUserid"
+                                    class="d-flex justify-content-center p-3">
+                                    <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
+                                </div>
+                                <div *ngIf="cartItems?.length" class="p-3">
                                     <h5>Shopping Cart</h5>
                                     <p>Items you've selected</p>
                                     <div class="main-cart-items">
-                                        <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
-                                            class="mt-2">
-                                            <div *ngFor="let item of (cartItems.slice(0,2))" class="cart-item">
-                                                <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
-                                                    class="cart-item-image">
-                                                <div class="cart-item-details">
-                                                    <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
-                                                    <div class="d-flex justify-content-between">
-                                                        <span>{{ item.product.fix_price |
-                                                            currency:'AED':'symbol':'1.2-2' }}</span>
-                                                        <span>Qty {{item.product.quantity}}</span>
+                                        <a  *ngFor="let item of (cartItems.slice(0,2))" class="cart-item" [routerLink]="['/product-detail/',item.product.id,'/bilal']">
+                                            <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
+                                                class="cart-item-image">
+                                            <div class="cart-item-details">
+                                                <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>{{ item.product.fix_price |
+                                                        currency:'AED':'symbol':'1.2-2' }}</span>
+                                                    <span>Qty {{item.product.quantity}}</span>
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                            <span style="text-decoration: underline;">View cart</span> to see
-                                            all of your items
+                                            <!-- 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug" -->
                                         </a>
+                                        <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
+                                            class="py-3 d-block">
+                                            <span class="fs-16 text-decoration-underline">View cart</span> to see all of your items
+                                        </a>
+                                        <div>
+                                            <a routerLink="/checkout" class="btn btn-yellow d-block mb-2">Checkout</a>
+                                            <a routerLink="/cart" class="btn d-block border-1 border-yellow">Veiw cart</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- <div *ngIf="cartItems?.length > 0" class="d-flex justify-content-between p-3"
-                                    style="bottom: gray;">
-                                    <span>Subtotal</span>
-                                    <span>{{subTotal() | currency:'AED ':'symbol':'1.2-2' }}</span>
-                                </div> -->
                             </div>
-                        </a>
                     </li>
                     <!-- login-start -->
                     @if (!currentUser?.id) {

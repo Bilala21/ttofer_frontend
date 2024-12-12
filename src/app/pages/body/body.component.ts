@@ -1,7 +1,6 @@
-import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { forkJoin, Subscription } from 'rxjs';
-import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
+import { forkJoin } from 'rxjs';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SliderComponent } from '../../components/slider/slider.component';
@@ -26,10 +25,9 @@ import { Extension } from '../../helper/common/extension/extension';
     CardShimmerComponent,
   ],
 })
-export class BodyComponent implements OnDestroy {
+export class BodyComponent {
   auctionPosts: any = [];
   featuredPosts: any = [];
-  countdownSubscriptions: Subscription[] = [];
   loading = true;
   tempToken: boolean = false;
   promotionBanners: any = [];
@@ -37,8 +35,6 @@ export class BodyComponent implements OnDestroy {
   user_id;
   constructor(
     private mainServices: MainServicesService,
-    private cdr: ChangeDetectorRef,
-    private countdownTimerService: CountdownTimerService,
     private extension: Extension,
     private router: ActivatedRoute
   ) {
@@ -53,10 +49,8 @@ export class BodyComponent implements OnDestroy {
         featureProduct: this.mainServices.getFeatureProduct(query),
       }).subscribe({
         next: (response) => {
-          //
           this.auctionPosts = response.auctionProduct.data.data;
           this.featuredPosts = response.featureProduct.data.data;
-          this.startCountdowns();
           this.loading = false;
         },
         error: (err) => {
@@ -81,29 +75,5 @@ export class BodyComponent implements OnDestroy {
         console.error('Error occurred while fetching data', error);
       },
     });
-  }
-
-  ngOnDestroy() {
-    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
-  }
-
-  startCountdowns() {
-    if (this.auctionPosts.length) {
-      this.auctionPosts.forEach((item: any) => {
-        const datePart = item.auction_ending_date;
-
-        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
-        const subscription = this.countdownTimerService
-          .startCountdown(endingDateTime)
-          .subscribe((remainingTime) => {
-            item.calculateRemainingTime = remainingTime
-              ? remainingTime + ' remaining'
-              : 'Bid Expired';
-            this.cdr.detectChanges();
-          });
-
-        this.countdownSubscriptions.push(subscription);
-      });
-    }
   }
 }

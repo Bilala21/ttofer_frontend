@@ -196,8 +196,7 @@ export class AppFiltersComponent implements OnInit {
     });
   }
 
-  handleMinMaxPrice(event: any, isMin: boolean) {
-    console.log(event.target.value,this.minPrice)
+  checkPriceConditions(event: any, isMin: boolean) {
     const key = event.key;
     const allowedKeys = [
       'Backspace',
@@ -208,20 +207,18 @@ export class AppFiltersComponent implements OnInit {
       'Enter',
     ];
 
-    // Allow only certain keys
     if (allowedKeys.includes(key)) return;
     if (!/[0-9]/.test(key)) {
       event.preventDefault();
       return;
     }
 
-    // Ensure minPrice is not greater than maxPrice
     if (this.minPrice >= this.maxPrice && isMin) {
+      console.log(this.minPrice);
       event.preventDefault();
-      return; // Prevent any further input if minPrice is greater than or equal to maxPrice
+      return;
     }
 
-    // Prevent entering values starting with 0
     if (event.target.value === '0' && key !== 'Backspace') {
       event.preventDefault();
       return;
@@ -234,13 +231,15 @@ export class AppFiltersComponent implements OnInit {
       event.preventDefault();
       return;
     }
-
-    // Update filter criteria for valid inputs
-    this.filterCriteria['min_price'] = this.minPrice;
-    this.filterCriteria['max_price'] = this.maxPrice;
   }
-
-  // this.handleFilterEvent.emit({ ...this.filterCriteria });
+  handleMinMaxPrice(event: any, isMin: boolean) {
+    console.log(this.minPrice,this.maxPrice)
+    // this.filterCriteria['min_price'] = this.minPrice;
+    // this.filterCriteria['max_price'] = this.maxPrice;
+    if (this.maxPrice >= this.minPrice) {
+      this.handleFilterEvent.emit({ ...this.filterCriteria,min_price:this.minPrice,max_price:this.maxPrice });
+    }
+  }
 
   @HostListener('window:resize', [])
   onResize(): void {
