@@ -9,6 +9,7 @@ import { SharedDataService } from '../../shared/services/shared-data.service';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   Subject,
   Subscription,
 } from 'rxjs';
@@ -60,6 +61,7 @@ export class HeaderNavigationComponent implements OnInit {
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
+  private logoutSubscription!: Subscription;
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -78,7 +80,7 @@ export class HeaderNavigationComponent implements OnInit {
       ) 
     ).subscribe((state) => {
       if (this.currentUser !== state.currentUser) {
-        debugger
+        
         this.currentUser = state.currentUser;
         this.token = state.authToken;
         if (!this.currentUser) {
@@ -95,6 +97,7 @@ export class HeaderNavigationComponent implements OnInit {
       const privateRoute = ['/cart', '/checkout'];
       this.isHideCart = privateRoute.includes(this.router.url);
     });
+   
   }
   
 getProfile(): void {
@@ -104,7 +107,7 @@ getProfile(): void {
         next: (res: any) => {
           if (res.status) {
             const currentUser = res.data;
-            debugger
+            
             this.imgUrl=currentUser.img
             this.globalStateService.updateState({ currentUser });
           }
@@ -325,6 +328,19 @@ getProfile(): void {
   }
 
   ngOnInit(): void {
+    this.logoutSubscription = this.globalStateService.logoutEvent$
+    .pipe(
+      filter((value) => value !== null), // Ignore the initial value
+      distinctUntilChanged() // Ensure the value has changed
+    )
+    .subscribe(() => {
+      console.log('Logout event triggered'); // Debug log
+      this.logout();
+      this.globalStateService.resetLogoutEvent();
+      this.login()
+    });
+  
+
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
@@ -364,6 +380,9 @@ getProfile(): void {
   }
 
   ngOnDestroy() {
+    if (this.logoutSubscription) {
+      this.logoutSubscription.unsubscribe();
+    }
     document.body.addEventListener('click', this.onBodyClick.bind(this));
   }
 }

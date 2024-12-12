@@ -197,6 +197,7 @@ export class ProductCardComponent implements OnInit {
           this.postData.attributes
         ).slice(0, 3);
       }
+      
       this.postData.price=this.decimalPipe.transform(this.postData?.auction_initial_price?this.postData?.auction_initial_price:this.postData.fix_price, '1.0-0') || '0'
       this.postData.postedAt=12
     }

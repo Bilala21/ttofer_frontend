@@ -67,7 +67,11 @@ export class GlobalStateService {
   currentState = this.stateSubject.asObservable();
   public productSubject = new BehaviorSubject<any>([]);
   product = this.productSubject.asObservable();
+  private logoutEvent = new BehaviorSubject<void | null>(null);
+  logoutEvent$ = this.logoutEvent.asObservable();
+  
 
+ 
   constructor() {
     const authToken =localStorage.getItem('authToken') || '';
       const currentState = this.stateSubject.value;
@@ -86,6 +90,13 @@ export class GlobalStateService {
       cartState: data,
     };
     this.stateSubject.next(newState);
+  }
+   // Trigger logout
+   triggerLogout(): void {
+    this.logoutEvent.next();
+  }
+  resetLogoutEvent(): void {
+    this.logoutEvent.next(null); // Reset to initial value
   }
   updateUserState(user: any) {
     const currentState = this.stateSubject.value;

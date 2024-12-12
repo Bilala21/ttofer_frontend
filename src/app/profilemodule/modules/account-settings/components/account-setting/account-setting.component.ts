@@ -40,14 +40,14 @@ export class AccountSettingComponent implements OnInit {
   }
   ngOnInit(){
     this.globalStateService.currentState.subscribe((state) => {
-      debugger
+      
       this.currentUserProfile = state.currentUser;
       this.userSettings()
     });
   }
 
   userSettings() {
-    debugger
+    
     this.userSetting = 
       {
         username: this.currentUserProfile.username,
@@ -67,28 +67,43 @@ export class AccountSettingComponent implements OnInit {
       height: '322px',
       data: { placeholder, key, currentUserProfile: this.userSetting },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const data = {
-          [result.key]: result.value,
-        };
+        // Prepare the data object dynamically
+        const data: any = {};
+  
+        // Check if result has multiple keys
+        if (result.key === 'password' && result.old_password) {
+          data['old_password'] = result.old_password;
+          data['password'] = result.password;
+          data['password_confirmation'] = result.password;
+        } else {
+          data[result.key] = result.value;
+        }
+  
+        // Pass the data to the API
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
-            if(response.status){
-              const currentUser = response.data;
-              this.globalStateService.updateState({ currentUser });
-              this.toastr.success(response.message, 'Success');
-
+            if (response.status) {
+              if (result.key === 'password' && result.old_password) {
+                this.globalStateService.triggerLogout();
+                this.toastr.success('Password changed successfully. Please log in again.', 'Success');
+              }else{
+                const currentUser = response.data;
+                this.globalStateService.updateState({ currentUser });
+                this.toastr.success(response.message, 'Success');
+              }
+              
             }
           },
           (error: any) => {
-            this.toastr.success(error.error.message, 'Success');
-
+            this.toastr.error(error.error.message, 'Error');
           }
         );
       }
     });
   }
+  
 
 }

@@ -2,6 +2,7 @@
     max-width: 300px;
     .menu:hover{
      color: #333;
-     background: #ffae15;
+     background:#ffd814;
+     cursor: pointer;
     }
 }
