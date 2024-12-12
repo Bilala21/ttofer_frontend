@@ -402,4 +402,7 @@ export class MainServicesService {
   getUserSavedItems() {
     return this.http.get(`${Constants.baseApi}/save-for-later`);
   }
+  getHeaderNotifications(userId:number) {
+    return this.http.get(`${Constants.baseApi}/user/overview/${userId}`);
+  }
 }
