@@ -105,10 +105,7 @@
         </div>
 
         <div class="d-flex align-content-center mt-2" >
-          <span *ngFor="let data of forPercentageBid" class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-1" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),data.percentage))">AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),data.percentage)}}</span>
-          <!-- <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-2" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),40))">AED
-            {{calculatePercentageIncrease((highBid || product.auction_final_price ),40)}}</span>
-          <span class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),60))">AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),60)}}</span> -->
+          <span *ngFor="let data of [1,2,3]" class="border-1 text-center rounded-pill px-2 py-2 offer-btn flex-grow-1 cursor-pointer mx-1" (click)="setBidPrice(calculatePercentageIncrease((highBid || product.auction_final_price ),(data * 20)))">AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),(data * 20))}}</span>
         </div>
 
         <div class="d-flex align-items-center mt-2">
@@ -125,7 +122,7 @@
             <button type="submit" class="btn-yellow rounded-pill border-0 py-2 text-white px-4 ml-3">Review
               bid</button>
           </div>
-          <p class="fs-12 fw-normal pt-1 mb-2">Enter AED{{calculatePercentageIncrease((highBid || product.auction_final_price ),20)}} or more</p>
+          <p class="fs-12 fw-normal pt-1 mb-2">Enter AED {{calculatePercentageIncrease((highBid || product.auction_final_price ),20)}} or more</p>
           <div
             *ngIf="bidForm.get('bid_price')?.invalid && (bidForm.get('bid_price')?.touched || bidForm.get('bid_price')?.dirty)"
             class="text-red-500 text-sm">
@@ -168,7 +165,7 @@
           </div>
           <div class="d-flex align-items-center">
             <span class="w-130 fw-semibold">Time left</span>
-            <span class="fw-normal">{{product.calculateRemaningTime?product.calculateRemaningTime:''}}</span>
+            <span class="fw-normal">{{product.calculateRemaningTime || '' }}</span>
           </div>
           <div class="d-flex align-items-center mt-2">
             <span class="w-130 fw-semibold">Shipping</span>
