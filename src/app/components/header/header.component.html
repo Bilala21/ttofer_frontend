@@ -177,7 +177,7 @@
                                 *ngIf="notification?.cart_item_count && currentUserid">{{cartItems?.length?cartItems?.length:notification.cart_item_count
                                 }}</span>
                             <!-- Dropdown Cart Items -->
-                            <div class="cart-dropdown d-block overflow-auto" *ngIf="!isHideCart">
+                            <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
                                 <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
                                     <p>Please log in to view your cart items. You can log in or create an account to
                                         continue.</p>
