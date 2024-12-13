@@ -3,7 +3,6 @@
     <div class="loader"></div>
   </div>
   <div class="container-fluid">
-    <!-- <app-header></app-header> -->
     <div class="row justify-content-center">
       <div class="col-lg-3 col-md-6 col-sm-12 col-12">
         <div class="d-flex align-items-center mb-4">
@@ -11,7 +10,7 @@
             style="width: 70px; height: 70px;border: 1px solid grey;" />
           <div class="ml-3">
             <h5 class="mb-0">{{ soldItems.title }}</h5>
-           AED <small>{{ soldItems.fix_price ? soldItems.fix_price : soldItems.auction_initial_price }}</small>
+            AED <small>{{ soldItems.fix_price ? soldItems.fix_price : soldItems.auction_initial_price }}</small>
           </div>
         </div>
         <h6 class="mb-3"><b>Who Bought your ad?</b></h6>
@@ -22,19 +21,6 @@
               {{ item.name }}
             </button>
           </div>
-          <!-- <button class="list-group-item list-group-item-action"
-          (click)="onBuyerSelected('Someone from Outside TTOffer?')">
-          <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
-            style="width: 30px; height: 30px;">
-          Someone from Outside TTOffer?</button>
-        <button class="list-group-item list-group-item-action" (click)="onBuyerSelected('Anthony')">
-          <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
-            style="width: 30px; height: 30px;">
-          Anthony</button>
-        <button class="list-group-item list-group-item-action" (click)="onBuyerSelected('Mark')">
-          <img src="assets/images/action_filled.png" alt="Product Image" class="rounded-circle"
-            style="width: 30px; height: 30px;">
-          Mark</button> -->
         </div>
         <div class="d-flex justify-content-end">
           <button (click)="onDoneClick()" class="btn btn-secondary rounded-pill mr-4 btnWidth">
@@ -45,10 +31,10 @@
       </div>
       <ng-container>
         <div class="col-lg-4 col-md-6 col-sm-12 col-12" style="margin-top: 60px">
-          <h6 class="mb-3"><b>Messages</b></h6> 
+          <h6 class="mb-3"><b>Messages</b></h6>
           <div *ngIf="!sellingChat || sellingChat.length === 0" class="no-chat-container text-center p-4">
             <i class="bi bi-chat-dots mb-3" style="font-size: 3rem; color: #ffdd54;"></i>
-                        <h6 class="text-muted">No Messages Yet on this product</h6>
+            <h6 class="text-muted">No Messages Yet on this product</h6>
             <p class="text-muted">Start a conversation to see messages here.</p>
           </div>
           <ul *ngIf="sellingChat && sellingChat.length > 0" class="list-group">
@@ -72,32 +58,9 @@
                 <p class="mb-0 text-muted">{{ item.message }}</p>
               </div>
             </li>
-            <!-- <li class="list-group-item d-flex align-items-start">
-          <img src="assets/images/action_filled.png" alt="Mark" class="rounded-circle mr-3"
-            style="width: 40px; height: 40px;">
-          <div class="d-flex flex-column w-100">
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-0">Mark (Web3.io)</h6>
-              <small class="text-muted">9:54 AM</small>
-            </div>
-            <p class="mb-0 text-muted">How are you today?</p>
-          </div>
-        </li>
-        <li class="list-group-item d-flex align-items-start" style="border-bottom: 0;">
-          <img src="assets/images/action_filled.png" alt="Anthony" class="rounded-circle mr-3"
-            style="width: 40px; height: 40px;">
-          <div class="d-flex flex-column w-100">
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-0">Anthony (Web3.io)</h6>
-              <small class="text-muted">9:54 AM</small>
-            </div>
-            <p class="mb-0 text-muted">How are you today?</p>
-          </div>
-        </li> -->
           </ul>
         </div>
       </ng-container>
     </div>
-    <!-- <app-footer></app-footer> -->
   </div>
 </main>

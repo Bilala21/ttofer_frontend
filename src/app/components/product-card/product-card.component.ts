@@ -43,9 +43,7 @@ export class ProductCardComponent implements OnInit {
     private cdr: ChangeDetectorRef,private token:JwtDecoderService
   ) {
     this.currentUserId= this.token.decodedToken;
-
   }
-
   toggleWishlist(item: any) {
     if (!this.currentUserId) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -56,7 +54,6 @@ export class ProductCardComponent implements OnInit {
       user_id: this.extension.getUserId(),
       product_id: item.id,
     };
-
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
@@ -71,37 +68,35 @@ export class ProductCardComponent implements OnInit {
       },
     });
   }
-
   iconMapping: any = {
-    brand: 'fa-tag', // Icon for brand
-    condition: 'fa-cogs', // Icon for condition
-    storage: 'fa-hdd', // Icon for storage
-    color: 'fa-paint-brush', // Icon for color
-    mileage: 'fa-road', // Icon for mileage
-    fuelType: 'fa-gas-pump', // Icon for fuelType
-    delivery: 'fa-truck', // Icon for delivery
-    engineCapacity: 'fa-car', // Icon for engineCapacity
-    model: 'fa-cogs', // Icon for model
-    year: 'fa-calendar', // Icon for year
+    brand: 'fa-tag', 
+    condition: 'fa-cogs', 
+    storage: 'fa-hdd',
+    color: 'fa-paint-brush', 
+    mileage: 'fa-road', 
+    fuelType: 'fa-gas-pump', 
+    delivery: 'fa-truck', 
+    engineCapacity: 'fa-car', 
+    model: 'fa-cogs', 
+    year: 'fa-calendar', 
     bedrooms: 'fa-bed',
-    yearBuilt: 'fa-calendar-alt', // Icon for bedrooms
-    area: 'fa-expand', // Icon for area/size
-    bathRoom: 'fa-bath', // Icon for bathRoom
-    completion: 'fa-check-circle', // Icon for completion status
-    fearture: 'fa-star', // Icon for features
-    furnisheable: 'fa-couch', // Icon for furnished
-    make_and_model: 'fa-car', // Icon for make and model
-    type: 'fa-tshirt', // Icon for fashion type
-    age: 'fa-child', // Icon for age
-    breed: 'fa-paw', // Icon for breed
-    toy: 'fa-toy', // Icon for toy
-    positionType: 'fa-briefcase', // Icon for position type
-    companyName: 'fa-building', // Icon for company name
-    salary: 'fa-money-bill-wave', // Icon for salary
-    salaryPeriod: 'fa-calendar-alt', // Icon for salary period
-    careerLevel: 'fa-level-up-alt', // Icon for career level
+    yearBuilt: 'fa-calendar-alt', 
+    area: 'fa-expand', 
+    bathRoom: 'fa-bath', 
+    completion: 'fa-check-circle', 
+    fearture: 'fa-star', 
+    furnisheable: 'fa-couch', 
+    make_and_model: 'fa-car', 
+    type: 'fa-tshirt', 
+    age: 'fa-child', 
+    breed: 'fa-paw', 
+    toy: 'fa-toy', 
+    positionType: 'fa-briefcase', 
+    companyName: 'fa-building', 
+    salary: 'fa-money-bill-wave', 
+    salaryPeriod: 'fa-calendar-alt', 
+    careerLevel: 'fa-level-up-alt', 
   };
-
   private parseAttributes(value: any): any {
     try {
       let attributes = JSON.parse(value);
@@ -137,7 +132,6 @@ export class ProductCardComponent implements OnInit {
       return [];
     }
   }
-
   addToCart(item: any) {
     this.mainServices
       .adToCartItem({
@@ -147,7 +141,6 @@ export class ProductCardComponent implements OnInit {
       })
       .subscribe({
         next: (res: any) => {
-          console.log(res);
           this.toastr.success(res.message, 'success');
           this.mainServices.getCartProducts(this.currentUserId).subscribe({
             next: (value: any) => {
@@ -165,7 +158,6 @@ export class ProductCardComponent implements OnInit {
         },
       });
   }
-
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);
@@ -174,7 +166,6 @@ export class ProductCardComponent implements OnInit {
       return false;
     }
   }
-
   startCountdowns() {
     const datePart = this.postData.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.postData.auction_ending_time}.000Z`;
@@ -184,24 +175,24 @@ export class ProductCardComponent implements OnInit {
         this.postData.calculateRemaningTime = remainingTime;
         this.cdr.markForCheck();
       });
-
     this.countdownSubscriptions.push(subscription);
   }
-
   ngOnDestroy() {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
   ngOnInit(): void {
-    if (this.postData && this.postData.product_type == 'auction') {
+    if (this.postData && this.postData.product_type === 'auction') {
       this.startCountdowns();
+    
       if (this.postData?.attributes) {
-        this.parsedAttributes = this.parseAttributes(
-          this.postData.attributes
-        ).slice(0, 3);
+        this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
       }
-      
-      this.postData.price=this.decimalPipe.transform(this.postData?.auction_initial_price?this.postData?.auction_initial_price:this.postData.fix_price, '1.0-0') || '0'
-      this.postData.postedAt=12
+          const price = this.postData?.auction_initial_price ?? this.postData?.fix_price ?? 0;
+      this.postData.price = this.decimalPipe.transform(price, '1.0-0') || '0';
+    
+      // Set the postedAt value
+      this.postData.postedAt = 12;
     }
+    
   }
 }

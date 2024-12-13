@@ -27,7 +27,6 @@ export class NotificationsComponent {
   ) {
     this.userId = token.decodedToken
   }
-
   fecthData(userId: number, type?: string) {
     this.loading = true;
     this.mainService.getNotification(userId, type).subscribe({
