@@ -21,7 +21,6 @@ export class ProfileSidebarComponent implements OnInit {
   constructor(private route: ActivatedRoute) {
     this.sidebarItems = sideBarItems;
   }
-
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
       if (params.query) {

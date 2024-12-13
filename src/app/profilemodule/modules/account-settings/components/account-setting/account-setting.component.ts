@@ -70,19 +70,14 @@ export class AccountSettingComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Prepare the data object dynamically
         const data: any = {};
-  
-        // Check if result has multiple keys
-        if (result.key === 'password' && result.old_password) {
+          if (result.key === 'password' && result.old_password) {
           data['old_password'] = result.old_password;
           data['password'] = result.password;
           data['password_confirmation'] = result.password;
         } else {
           data[result.key] = result.value;
         }
-  
-        // Pass the data to the API
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
             if (response.status) {
@@ -104,6 +99,4 @@ export class AccountSettingComponent implements OnInit {
       }
     });
   }
-  
-
 }

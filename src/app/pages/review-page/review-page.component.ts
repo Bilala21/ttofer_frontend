@@ -29,48 +29,38 @@ export class ReviewPageComponent {
   ) {}
 
   ngOnInit(): void {
-    // Assume userId and currentUserId are initialized correctly
-    this.userId = this.route.snapshot.params['id']; // Adjust based on your routing
-    this.currentUserId = 1; // Replace with actual logic to fetch current user ID
+    this.userId = this.route.snapshot.params['id']; 
+    this.currentUserId = 1; 
 
     this.mainServices.getProfileData().subscribe({
       next: (res: any) => {
-         //('Profile data:', res.data);
-        this.user = res.data; // Assign user data if needed
+        this.user = res.data; 
       },
       error: (error: any) => {
-        console.error('Error fetching profile data:', error);
       }
     });
   }
 
   submitReview(starRating: any): void {
     if (this.isSubmitting) return;
-
     const rating = starRating.rating;
     const reviewElement = this.reviewText?.nativeElement;
-
     if (!reviewElement) {
       this.toastr.error('Review input is not available.', 'Error');
       return;
     }
-
     const review = reviewElement.value;
-
     if (!review.trim()) {
       this.toastr.warning('Please write a review before submitting.', 'Warning');
       return;
     }
-
     this.isSubmitting = true;
-
     const reviewData = {
       to_user: this.userId,
       comment: review,
       rating: rating,
       from_user: this.currentUserId
     };
-
     this.mainServices.reviewToSeller(reviewData).subscribe(
       (res: any) => {
         this.toastr.success(res.message, 'Success');
@@ -78,7 +68,6 @@ export class ReviewPageComponent {
         reviewElement.value = ''; // Clear input after successful submission
       },
       (error: any) => {
-        console.error('Error submitting review:', error);
         this.toastr.error('Failed to submit review.', 'Error');
         this.isSubmitting = false;
       }

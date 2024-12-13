@@ -12,6 +12,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { Extension } from '../../../../../helper/common/extension/extension';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from '../../../../../../../public/constants/constants';
+import { JwtDecoderService } from '../../../../../shared/services/authentication/jwt-decoder.service';
 @Component({
   selector: 'app-post-form',
   standalone: true,
@@ -21,9 +22,9 @@ import { Constants } from '../../../../../../../public/constants/constants';
 })
 export class PostFormComponent {
   pricingCategories: any = [
-    { id:'featured', name: 'Fixed Price' },
-    { id:'auction', name: 'Auction' },
-    { id:'other', name: 'Sell To TTOffer' },
+    { id: 'featured', name: 'Fixed Price' },
+    { id: 'auction', name: 'Auction' },
+    { id: 'other', name: 'Sell To TTOffer' },
   ];
   currentDate: Date = new Date();
   minDate: Date = new Date();
@@ -40,22 +41,22 @@ export class PostFormComponent {
   selectedCategorySlug: any
   attributes: any = attributes
   categoryFields: any = {};
-  editProduct:any
-  id:any
-  parentLocation:any
-  editProductData:any
+  editProduct: any
+  id: any
+  parentLocation: any
+  editProductData: any
   @ViewChild('datePickerPromotion', { static: false }) datePickerPromotion!: ElementRef;
   productType: any = 'featured'
   constructor(
-    private toastr: ToastrService,private route: ActivatedRoute,
-    private fb: FormBuilder, private router: Router,
+    private toastr: ToastrService, private route: ActivatedRoute,
+    private fb: FormBuilder, private router: Router, private token: JwtDecoderService,
     private mainServices: MainServicesService, private extension: Extension
   ) {
     this.minDate = new Date();
     this.minDate.setSeconds(0, 0);
     this.addProductForm = this.fb.group({
       user_id: ['', Validators.required],
-      product_id:[''],
+      product_id: [''],
       title: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(20)]],
       category_id: ['', Validators.required],
@@ -68,33 +69,32 @@ export class PostFormComponent {
       auction_starting_date: [''],
       auction_ending_date: [''],
       fix_price: [null],
-      product_type: ['',Validators.required],
+      product_type: ['', Validators.required],
       latitude: ['', Validators.required],
-      longitude: ['',Validators.required],
+      longitude: ['', Validators.required],
       location: ['', Validators.required],
-      main_category: ['',Validators.required],
+      main_category: ['', Validators.required],
       sub_category: ['', Validators.required],
       attributes: this.fb.group({}),
     });
-this.loadCategories();
-this.route.queryParams.subscribe(params => {
-  this.id= params['id'];
-  if (this.id) {
+    this.loadCategories();
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+      if (this.id) {
+        this.addProductForm.patchValue({
+          product_id: this.id,
+        })
+        this.editProduct = true;
+      }
+    });
     this.addProductForm.patchValue({
-      product_id: this.id,
+      user_id: token.decodedToken
     })
-    this.editProduct=true;
-  }
-});
-   this.addProductForm.patchValue({
-      user_id: this.extension.getUserId()
-    })
-    
     this.addProductForm.get('auction_starting_date')?.valueChanges.subscribe(startDate => {
       const endDateControl = this.addProductForm.get('auction_ending_date');
-            if (startDate) {
+      if (startDate) {
         if (endDateControl?.hasError('noStartDate')) {
-          endDateControl.updateValueAndValidity(); 
+          endDateControl.updateValueAndValidity();
         }
         endDateControl?.updateValueAndValidity();
       }
@@ -106,56 +106,52 @@ this.route.queryParams.subscribe(params => {
       const subCategory = this.subCategory.find((cat: any) => cat.id == subcategoryId);
       if (subCategory) {
         this.addProductForm.patchValue({
-          sub_category:subCategory.name,
+          sub_category: subCategory.name,
         })
 
       }
-   });    
+    });
   }
- 
   fetchData(productId: number) {
     this.mainServices.getProductById({ product_id: productId }).subscribe({
-      next: (value) => {   
-             
+      next: (value) => {
         this.editProductData = value.data;
-        this.editProductData.attributes =JSON.parse(this.editProductData.attributes);
+        this.editProductData.attributes = JSON.parse(this.editProductData.attributes);
         this.addProductForm.patchValue(this.editProductData)
         this.addProductForm.patchValue({
           auction_starting_date: new Date(this.editProductData.auction_starting_date),
-  auction_starting_time: new Date(`1970-01-01T${this.editProductData.auction_starting_time}Z`),
-  auction_ending_date:new Date(this.editProductData.auction_ending_date),
-  auction_ending_time: new Date(`1970-01-01T${this.editProductData.auction_ending_time}Z`)
+          auction_starting_time: new Date(`1970-01-01T${this.editProductData.auction_starting_time}Z`),
+          auction_ending_date: new Date(this.editProductData.auction_ending_date),
+          auction_ending_time: new Date(`1970-01-01T${this.editProductData.auction_ending_time}Z`)
         })
-
-        this.selectedFiles=this.editProductData.photos;
+        this.selectedFiles = this.editProductData.photos;
         this.handleLocationChange({
           latitude: this.editProductData.latitude,
           longitude: this.editProductData.longitude,
           location: this.editProductData.location
-        });        this.onCategoryChange(this.addProductForm.value.category_id)
-       this.addProductForm.patchValue({
-        attributes: this.editProductData.attributes,
-      });
-   const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
-      if (this.editProductData && this.editProductData.attributes) {
-        Object.keys(this.editProductData.attributes).forEach((key) => {
-          if (!attributesGroup.contains(key)) {
-            attributesGroup.addControl(
-              key,
-              this.fb.control(this.editProductData.attributes[key], Validators.required)
-            );
-          } else {
-            attributesGroup.get(key)?.setValue(this.editProductData.attributes[key]);
-          }
+        }); this.onCategoryChange(this.addProductForm.value.category_id)
+        this.addProductForm.patchValue({
+          attributes: this.editProductData.attributes,
         });
-      }
-       this.selectedCategorySlug=this.editProductData.category.slug
-       
-       this.onProductTypeChange(this.editProductData.product_type)
-       this.getSubcategories()
+        const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
+        if (this.editProductData && this.editProductData.attributes) {
+          Object.keys(this.editProductData.attributes).forEach((key) => {
+            if (!attributesGroup.contains(key)) {
+              attributesGroup.addControl(
+                key,
+                this.fb.control(this.editProductData.attributes[key], Validators.required)
+              );
+            } else {
+              attributesGroup.get(key)?.setValue(this.editProductData.attributes[key]);
+            }
+          });
+        }
+        this.selectedCategorySlug = this.editProductData.category.slug
+
+        this.onProductTypeChange(this.editProductData.product_type)
+        this.getSubcategories()
       },
       error: (err) => {
-        console.error('Error fetching product:', err);
       },
     });
   }
@@ -173,54 +169,45 @@ this.route.queryParams.subscribe(params => {
   isImageFieldInvalid(): boolean {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     return imagesControl.invalid && imagesControl.touched;
-  } 
-//   onTimeChange(fieldName: string, event: any) {   
-//     const time = event && event instanceof Date ? this.formatTime(event) : null;
-//     if (time) {
-//       this.addProductForm.patchValue({
-//         [fieldName]: time,
-//       });
-//     }
-// }
+  }
   formatTime(date: Date): string {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   }
   formatDate(date: Date): string {
-    return date.toISOString().split('T')[0]; 
+    return date.toISOString().split('T')[0];
   }
   loadCategories(): void {
     this.mainServices.getCategories().subscribe({
       next: (response: any) => {
         this.categories = response.data;
-      
-        if(this.editProduct){
-         this.fetchData(this.id)
-        }else if(!this.editProduct){
+
+        if (this.editProduct) {
+          this.fetchData(this.id)
+        } else if (!this.editProduct) {
           this.addProductForm.patchValue(
-          {
-            product_type: this.productType,
-            category_id: this.categories[0].id
-          }
-        )       
+            {
+              product_type: this.productType,
+              category_id: this.categories[0].id
+            }
+          )
           this.onProductTypeChange(this.addProductForm.value.product_type)
-          this.onCategoryChange(this.addProductForm.value.category_id) 
+          this.onCategoryChange(this.addProductForm.value.category_id)
           this.getSubcategories()
         }
-       
+
       }
     })
   }
   onCategoryChange(categoryId: number): void {
-    
-    const selectedCategory = this.categories.find((cat:any) => cat.id == categoryId);
+    const selectedCategory = this.categories.find((cat: any) => cat.id == categoryId);
     this.selectedCategorySlug = selectedCategory?.slug || null;
     this.addProductForm.patchValue({
-      main_category:this.selectedCategorySlug,
+      main_category: this.selectedCategorySlug,
     })
-    if(!this.editProduct){
-     this.addProductForm.setControl('attributes', this.fb.group({}));
+    if (!this.editProduct) {
+      this.addProductForm.setControl('attributes', this.fb.group({}));
 
     }
   }
@@ -229,10 +216,8 @@ this.route.queryParams.subscribe(params => {
     longitude: number;
     location: string;
   }): void {
-     
-    if(this.editProduct){
+    if (this.editProduct) {
       this.parentLocation = location;
-
     }
     this.addProductForm.patchValue(location);
   }
@@ -262,16 +247,16 @@ this.route.queryParams.subscribe(params => {
     if (event.target.files && event.target.files.length > 0) {
       for (let i = 0; i < event.target.files.length; i++) {
         const file = event.target.files[i];
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();  
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
         if (!allowedExtensions.includes(fileExtension || '')) {
           this.validationErrors['uploadImage'] = 'Only .png, .jpg, and .jpeg files are allowed.';
-            setTimeout(() => {
+          setTimeout(() => {
             this.deleteValidationError('uploadImage');
-          }, 2000);  
+          }, 2000);
           return;
         }
         const img = new Image();
-        const reader = new FileReader(); 
+        const reader = new FileReader();
         reader.onload = (e: any) => {
           img.src = e.target.result;
           img.onload = () => {
@@ -282,15 +267,14 @@ this.route.queryParams.subscribe(params => {
               }, 2000);
             } else {
               imagesControl.push(this.fb.control(file));
-              this.selectedFiles.push({ url:reader.result as string });
+              this.selectedFiles.push({ url: reader.result as string });
             }
           };
         };
-  
-        reader.readAsDataURL(file); 
+        reader.readAsDataURL(file);
       }
     }
-  } 
+  }
   deleteProductImage(file: any) {
     const input = {
       id: file.id,
@@ -311,18 +295,18 @@ this.route.queryParams.subscribe(params => {
       }
     });
   }
-  deleteValidationError(errorKey: string) {
+deleteValidationError(errorKey: string) {
     if (this.validationErrors[errorKey]) {
-      delete this.validationErrors[errorKey]; 
+      delete this.validationErrors[errorKey];
     }
-  } 
-  removeImage(file:any,index: number) {
+}
+  removeImage(file: any, index: number) {
     const imagesControl = this.addProductForm.get('image') as FormArray;
-    if(file.id){
+    if (file.id) {
       this.deleteProductImage(file)
     }
     imagesControl.removeAt(index);
-    this.selectedFiles.splice(index, 1); 
+    this.selectedFiles.splice(index, 1);
     if (imagesControl.length === 0) {
       this.validationErrors['uploadImage'] = 'At least one image is required.';
     } else {
@@ -358,29 +342,22 @@ this.route.queryParams.subscribe(params => {
   }
   initializeForm() {
     if (!this.selectedCategorySlug) return;
-  
     this.categoryFields = this.attributes[this.selectedCategorySlug];
     const attributesGroup = this.addProductForm.get('attributes') as FormGroup;
-  
     this.categoryFields.forEach((field: any) => {
-      // Define defaultValue within this scope
-      let defaultValue = ''; 
-  
+      let defaultValue = '';
       if (!attributesGroup.contains(field.model)) {
-        // Check if existing value exists
         const existingValue = attributesGroup.get(field.model)?.value;
         if (existingValue) {
-          defaultValue = existingValue; // Use existing value
+          defaultValue = existingValue;
         } else if (field.type === 'select' && field.options && field.options.length > 0) {
-          defaultValue = field.options[0].id; // Use the first option as default
+          defaultValue = field.options[0].id;
         }
-        
         attributesGroup.addControl(
           field.model,
-          this.fb.control(defaultValue, Validators.required) // Add required validator
+          this.fb.control(defaultValue, Validators.required)
         );
       } else {
-        // Update the control with the existing value to ensure it's valid
         const control = attributesGroup.get(field.model);
         if (control) {
           control.setValue(control.value || defaultValue);
@@ -388,17 +365,17 @@ this.route.queryParams.subscribe(params => {
       }
     });
   }
-  
-  addCompleteProduct(){
-if(!this.editProduct){
-  this.addProduct()
-}else if(this.editProduct){
-  this.updateProduct()
-}
+  addCompleteProduct() {
+    if (!this.editProduct) {
+      this.addProduct()
+    } else if (this.editProduct) {
+      this.updateProduct()
+    }
+
   }
-  async addProduct() { 
+  async addProduct() {
     const imagesControl = this.addProductForm.get('image') as FormArray;
-    if(imagesControl.length === 0){
+    if (imagesControl.length === 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
     }
     if (this.addProductForm.invalid) {
@@ -424,7 +401,7 @@ if(!this.editProduct){
         if (Object.keys(control.value).length > 0) {
           formData.append(key, JSON.stringify(control.value));
         }
-      } else if (control?.value instanceof Array) {     
+      } else if (control?.value instanceof Array) {
         if (control.value.length > 0) {
           control.value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, item);
@@ -434,47 +411,42 @@ if(!this.editProduct){
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
-        }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
-          
+        } else if (key === 'auction_starting_time' || key === 'auction_ending_time') {
           const formattedtime = this.formatTime(control.value);
           formData.append(key, formattedtime);
         } else {
           formData.append(key, control.value);
         }
       }
-    }); 
+    });
     try {
       const token = localStorage.getItem('authToken');
-      this.isLoading=true;
+      this.isLoading = true;
       const response = await fetch(`${Constants.baseApi}/products`, {
         method: 'POST',
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });  
+      });
       const data = await response.json();
       if (response.ok) {
-        this.isLoading=false
+        this.isLoading = false
         this.toastr.success('Product is live now!', 'Success');
         this.router.navigate(['']);
       } else {
-        this.isLoading=false
+        this.isLoading = false
         this.toastr.error(data.message || 'Product creation failed', 'Error');
       }
     } catch (error) {
-      this.isLoading=false
+      this.isLoading = false
       this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
       this.isLoading = false;
     }
   }
-  async updateProduct() {   
+  async updateProduct() {
     const imagesControl = this.addProductForm.get('image') as FormArray;
-    // if(imagesControl.length === 0){
-    //   this.validationErrors['uploadImage'] = 'Please add at least one image.';
-    // }
-    
     if (this.addProductForm.invalid) {
       this.addProductForm.markAllAsTouched();
       return;
@@ -498,80 +470,76 @@ if(!this.editProduct){
         if (Object.keys(control.value).length > 0) {
           formData.append(key, JSON.stringify(control.value));
         }
-      } else if (control?.value instanceof Array) {       
+      } else if (control?.value instanceof Array) {
         if (control.value.length > 0) {
           control.value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, item);
           });
         }
       } else if (control?.value) {
-        
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
           const formattedDate = this.formatDate(new Date(control.value));
           formData.append(key, formattedDate);
-        }else if(key === 'auction_starting_time' || key === 'auction_ending_time'){
-          
+        } else if (key === 'auction_starting_time' || key === 'auction_ending_time') {
           const formattedtime = this.formatTime(control.value);
           formData.append(key, formattedtime);
-        }  else {
+        } else {
           formData.append(key, control.value);
         }
       }
-    }); 
+    });
     try {
       const token = localStorage.getItem('authToken');
-      this.isLoading=true;
+      this.isLoading = true;
       const response = await fetch(`${Constants.baseApi}/products/update`, {
         method: 'POST',
         body: formData,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });  
+      });
       const data = await response.json();
       if (response.ok) {
-        this.isLoading=false
+        this.isLoading = false
         this.toastr.success('Product Updated Successfully', 'Success');
         this.router.navigate(['']);
       } else {
-        this.isLoading=false
+        this.isLoading = false
         this.toastr.error(data.message || 'Product creation failed', 'Error');
       }
     } catch (error) {
-      this.isLoading=false
+      this.isLoading = false
       this.toastr.error('An error occurred while adding the product', 'Error');
     } finally {
       this.isLoading = false;
     }
   }
   onProductTypeChange(selectedValue: string): void {
-    
     if (selectedValue == 'featured') {
       this.addProductForm.get('auction_initial_price')?.clearValidators();
       this.addProductForm.get('auction_initial_price')?.updateValueAndValidity();
       this.addProductForm.get('auction_final_price')?.clearValidators();
-      this.addProductForm.get('auction_final_price')?.updateValueAndValidity();      
+      this.addProductForm.get('auction_final_price')?.updateValueAndValidity();
       this.addProductForm.get('auction_starting_time')?.clearValidators();
-      this.addProductForm.get('auction_starting_time')?.updateValueAndValidity();      
+      this.addProductForm.get('auction_starting_time')?.updateValueAndValidity();
       this.addProductForm.get('auction_ending_time')?.clearValidators();
-      this.addProductForm.get('auction_ending_time')?.updateValueAndValidity();      
+      this.addProductForm.get('auction_ending_time')?.updateValueAndValidity();
       this.addProductForm.get('auction_starting_date')?.clearValidators();
-      this.addProductForm.get('auction_starting_date')?.updateValueAndValidity();      
+      this.addProductForm.get('auction_starting_date')?.updateValueAndValidity();
       this.addProductForm.get('auction_ending_date')?.clearValidators();
-      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity();      
+      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity();
       this.addProductForm.get('fix_price')?.setValidators(Validators.required);
-      this.addProductForm.get('fix_price')?.updateValueAndValidity();      
+      this.addProductForm.get('fix_price')?.updateValueAndValidity();
       this.addProductForm.patchValue({
         auction_initial_price: '',
         auction_final_price: '',
         auction_starting_time: '',
         auction_ending_time: '',
-        auction_starting_date: '', 
-        auction_ending_date: '',   
+        auction_starting_date: '',
+        auction_ending_date: '',
       })
-       //(this.addProductForm.value)
     }
-    else if (selectedValue =='auction') {
+    else if (selectedValue == 'auction') {
       this.addProductForm.get('fix_price')?.clearValidators();
       this.addProductForm.patchValue({
         fix_price: null
@@ -586,18 +554,17 @@ if(!this.editProduct){
       this.addProductForm.get('auction_starting_date')?.setValidators([
         Validators.required,
         startDateBeforeEndDateValidator('auction_ending_date')
-      ]);      this.addProductForm.get('auction_ending_date')?.setValidators([
+      ]); this.addProductForm.get('auction_ending_date')?.setValidators([
         Validators.required,
         endDateValidator('auction_starting_date'),
-      ]);  
+      ]);
       this.addProductForm.updateValueAndValidity();
-      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity(); 
-     }
-     
+      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity();
+    }
     this.productType = selectedValue;
     this.addProductForm.patchValue({
       product_type: this.productType // Set the default value you want
-    });  
+    });
     this.addProductForm.updateValueAndValidity();
   }
 }
@@ -615,10 +582,10 @@ export function timeDifferenceValidator(startField: string): (control: AbstractC
     const start = new Date(`1970-01-01T${startTime}`);
     const end = new Date(`1970-01-01T${endTime}`);
     if (end.getTime() < start.getTime()) {
-      return { timeOrderError: true }; 
+      return { timeOrderError: true };
     }
     if (end.getTime() - start.getTime() < 30 * 60 * 1000) {
-      return { timeDifferenceError: true }; 
+      return { timeDifferenceError: true };
     }
     return null; // No error
   };
@@ -639,7 +606,7 @@ export function endDateValidator(startField: string): ValidatorFn {
       const start = new Date(startDate);
       const end = new Date(endDate);
       if (end < start) {
-        return { endDateBeforeStart: true }; 
+        return { endDateBeforeStart: true };
       }
     }
     return null; // No error

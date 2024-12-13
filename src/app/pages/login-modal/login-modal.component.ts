@@ -58,7 +58,6 @@ export class LoginModalComponent {
   phoneNumber:any
   private intervalId: any;
   loading = false;
-  currentUserId:string="";
   errorMessage!:string;
   emailForForgotPassword:any
   resetPassword!:FormGroup;
@@ -78,7 +77,6 @@ export class LoginModalComponent {
     //   }
     // });
     // 
-    this.currentUserId = extention.getUserId();
     // 
    this.authService.openModal$.subscribe((result:any) => {
       this.openLoginModal();

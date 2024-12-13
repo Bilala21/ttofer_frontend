@@ -13,19 +13,11 @@ import { Router } from '@angular/router';
 export class TokenizedInterceptor implements HttpInterceptor {
   private isErrorShown = false;
   languageCountry:string='';
-
   constructor(
     private router: Router,
-  ) {
-    // this.languageCountry = this.secureStorageService.languageCountry ;
-  }
-
+  ) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // const authToken = this.authService.getPortalAccessToken();
     const token = localStorage.getItem('authToken');
-
-    const timeZoneOffset = this.getOffsetInHours();
-
     if (token) {
       const authReq = req.clone({
         setHeaders: {
@@ -33,12 +25,9 @@ export class TokenizedInterceptor implements HttpInterceptor {
           'Content-Type': 'application/json'
         },
       });
-
       return next.handle(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
-
             this.isErrorShown = true;
-        
           return throwError(() => error);
         })
       );
@@ -46,13 +35,4 @@ export class TokenizedInterceptor implements HttpInterceptor {
 
     return next.handle(req);
   }
-
- 
-
-  getOffsetInHours(): number {
-    const timeZoneOffsetMinutes: number = new Date().getTimezoneOffset();
-    const timeZoneOffsetHours: number = timeZoneOffsetMinutes / 60;
-    return -1 * timeZoneOffsetHours;
-  }
-
 }

@@ -7,6 +7,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
 import { Extension } from '../../helper/common/extension/extension';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 @Component({
   selector: 'app-mark-as-sold',
   templateUrl: './mark-as-sold.component.html',
@@ -30,9 +31,10 @@ export class MarkAsSoldComponent implements OnInit {
     
   ];
   isBtnDisabled = true;
-  constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService, private extension: Extension,) { }
+  constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService,private token:JwtDecoderService ) {
+    this.currentUserId = token.decodedToken;
+   }
   ngOnInit() {
-    this.currentUserId = this.extension.getUserId();
 
     const storedItems = localStorage.getItem('soldItems');
     if (storedItems) {
@@ -42,34 +44,24 @@ export class MarkAsSoldComponent implements OnInit {
   }
   getAllChatsOfUser = () => {
     this.mainService.getAllChatsOfUser(this.currentUserId).subscribe((res: any) => {
-      ;
+      
       this.sellingChat = res.data.seller_chats;
-  
-      // Filter sellingChat to include only chats with the current sold item
       this.sellingChat = this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id);
-  
-      // Push objects from sellingChat into adList
       this.sellingChat.forEach((chat: any) => {
-        const buyerName = chat.sender.id !== this.currentUserId ? chat.sender.name : chat.receiver.name;
-  
-        this.adList.push({
-          img: chat.user_image || 'assets/images/profile-icon.svg', // Default image if user_image is null/undefined
+      const buyerName = chat.sender.id !== this.currentUserId ? chat.sender.name : chat.receiver.name;
+      this.adList.push({
+          img: chat.user_image || 'assets/images/profile-icon.svg', 
           name: buyerName,
           buyer_id:chat.buyer_id
         });
       }); 
     });
-  };
-
-  
+  }; 
   onBuyerSelected(buyer: any) {
-    this.isBtnDisabled=false;
-     
+    this.isBtnDisabled=false;    
     this.buyer_id=buyer.buyer_id
   }
-
   onDoneClick() {
-    // 
     let profileKey: any = localStorage.getItem('key'); 
     profileKey = JSON.parse(profileKey);
     const soldItem = {

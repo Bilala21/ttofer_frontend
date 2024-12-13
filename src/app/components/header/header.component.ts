@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-header-navigation',
@@ -69,45 +70,26 @@ export class HeaderNavigationComponent implements OnInit {
     private extension: Extension,
     private router: Router,
     private toastr: ToastrService,
-    private service: SharedDataService,
+    private service: SharedDataService,private jwtToken:JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.token = localStorage.getItem('authToken'); 
     this.sideBarItemss = sideBarItems;  
-    this.globalStateService.currentState.pipe(
-      distinctUntilChanged((prev, curr) => 
-        prev.currentUser === curr.currentUser && prev.cartState === curr.cartState
-      ) 
-    ).subscribe((state) => {
-      if (this.currentUser !== state.currentUser) {
-        
-        this.currentUser = state.currentUser;
-        this.token = state.authToken;
-        if (!this.currentUser) {
-          this.getProfile();
-        }
-      }
-      this.cartItems = state.cartState;
-    });
-  
-    this.currentUserid = extension.getUserId();
+    this.currentUserid = jwtToken.decodedToken;
     this.screenWidth = window.innerWidth;
-
     this.router.events.subscribe(() => {
-      const privateRoute = ['/cart', '/checkout'];
-      this.isHideCart = privateRoute.includes(this.router.url);
+    const privateRoute = ['/cart', '/checkout'];
+    this.isHideCart = privateRoute.includes(this.router.url);
     });
    
-  }
-  
+  }  
 getProfile(): void {
   const token = localStorage.getItem('authToken'); 
     if (token || this.currentUser) {
       this.mainServicesService.getProfileData().subscribe({
         next: (res: any) => {
           if (res.status) {
-            const currentUser = res.data;
-            
+            const currentUser = res.data;         
             this.imgUrl=currentUser.img
             this.globalStateService.updateState({ currentUser });
           }
@@ -116,12 +98,10 @@ getProfile(): void {
         },
       });
     } 
-
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
- }
-  
+ } 
   getCartItems() {
     if (!this.cartItems.length) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
@@ -137,12 +117,10 @@ getProfile(): void {
       });
     }
   }
-
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
   }
-
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
       this.router.navigate([], {
@@ -152,7 +130,6 @@ getProfile(): void {
       localStorage.setItem('isSearch', this.searchTerm);
     }
   }
-
   getCityFromCoordinates(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
@@ -168,7 +145,6 @@ getProfile(): void {
       }
     });
   }
-
   getCurrentCity(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -192,7 +168,6 @@ getProfile(): void {
     const searchTerm = event.target.value;
     this.searchSubject.next(searchTerm);
   }
-
   searchMessages(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.isSearched = false;
@@ -205,7 +180,6 @@ getProfile(): void {
       },
     });
   }
-
   performSearch() {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -257,18 +231,23 @@ getProfile(): void {
       this.loading = true; // Start loading
       this.authService.logOut().subscribe({
         next: () => {
-          // Clear local storage and reset variables after successful API call
+          // Clear local storage
           localStorage.removeItem('authToken');
           localStorage.removeItem('key');
+  
+          // Clear global state
+          this.globalStateService.updateState({
+            currentUser: '', 
+            authToken: '', 
+            cartState: [], 
+          });
           this.authService.signOut();
           this.currentUser = '';
           this.token = '';
           this.notificationList = [];
           this.unReadNotification = 0;
-  
-          // Navigate to home and show success toast
           this.router.navigate(['']).then(() => {
-            this.toastr.success('Logged out successfully', 'Success');
+          this.toastr.success('Logged out successfully', 'Success');
           });
         },
         error: (error) => {
@@ -283,20 +262,18 @@ getProfile(): void {
         },
       });
     } catch (error) {
+      // Handle unexpected errors
       this.toastr.error(
         'An unexpected error occurred while logging out. Please try again.',
         'Error'
       );
     }
   }
-  
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     this.getScreenSize();
   }
-
   getScreenSize() {
     this.screenWidth = window.innerWidth;
 
@@ -308,11 +285,9 @@ getProfile(): void {
       this.categoryLimit = 2;
     }
   }
-
   showSearchBar() {
     this.showSearch = !this.showSearch;
   }
-
   getHeaderNotifications() {
     this.mainServicesService
       .getHeaderNotifications(this.currentUserid)
@@ -326,7 +301,6 @@ getProfile(): void {
         },
       });
   }
-
   ngOnInit(): void {
     this.logoutSubscription = this.globalStateService.logoutEvent$
     .pipe(
@@ -339,7 +313,21 @@ getProfile(): void {
       this.globalStateService.resetLogoutEvent();
       this.login()
     });
-  
+    this.globalStateService.currentState.pipe(
+      distinctUntilChanged((prev, curr) => 
+        prev.currentUser === curr.currentUser
+      ) 
+    ).subscribe((state) => {
+      if (this.currentUser !== state.currentUser) {
+        
+        this.currentUser = state.currentUser;
+        this.token = state.authToken;
+        if (!this.currentUser) {
+          this.getProfile();
+        }
+      }
+      this.cartItems = state.cartState;
+    });
 
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
@@ -368,7 +356,6 @@ getProfile(): void {
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
-        //(err);
         this.loading = false;
       },
     });
@@ -378,7 +365,6 @@ getProfile(): void {
       this.isSearched = true;
     }
   }
-
   ngOnDestroy() {
     if (this.logoutSubscription) {
       this.logoutSubscription.unsubscribe();

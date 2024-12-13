@@ -12,14 +12,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './saved-items.component.scss',
 })
 export class SavedItemsComponent {
-  currentUserId: any;
   savedItems: any;
   notificationList: any = [];
   constructor(
     private extension: Extension,
     private mainServices: MainServicesService
   ) {
-    this.currentUserId = this.extension.getUserId();
     this.getUserSavedItems();
   }
   getUserSavedItems() {
