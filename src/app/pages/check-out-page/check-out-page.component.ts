@@ -15,9 +15,6 @@ export class CheckOutPageComponent implements OnInit {
   card: any;
   paymentHandler: any = null;
   stripeAPIKey: string = 'pk_test_51O7mVXJayAXqf3Vq8gnj64IGw9woyYdaSUTgkdh07uYy22MN6qg8VEMzJZvhdV4HnANed3rqsN4crMBBy6CkH8eo00u6HHRwj0'
-  // // 
-  
-  // 'pk_test_51KYostE8QrqFGDryFAGuteKleAUUz2lVDCM7RWCuSPPMj4A82H1fpaYoS3Za6yE12RHpPtXqtE9FWWBN0kmGB7bk00Gu3R9WRh';
 
   paymentMethod: string = '';
   orderTotal: number = 3681.24;
