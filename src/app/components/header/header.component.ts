@@ -38,6 +38,7 @@ export class HeaderNavigationComponent implements OnInit {
   loading: boolean = false;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
+  notificationLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -94,6 +95,9 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
+    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
+    });
   }
 
   calculateTotal(data: any): void {
@@ -119,6 +123,36 @@ export class HeaderNavigationComponent implements OnInit {
           console.error('Error fetching cart products', err);
         },
       });
+    }
+  }
+  getHeaderNotifications() {
+    if (!this.notificationList.length) {
+      this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
+        next: (value: any) => {
+          this.notificationList = value.data;
+          this.notificationLoading = false;
+        },
+        error: (err) => {
+          this.cartLoading = false;
+          console.error('Error fetching notifications', err);
+        },
+      });
+    }
+  }
+
+  getHeaderState() {
+    if (this.currentUserid) {
+      this.mainServicesService
+        .getHeaderNotifications(this.currentUserid)
+        .subscribe({
+          next: (res: any) => {
+            this.notification = res;
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
     }
   }
 
@@ -283,22 +317,6 @@ export class HeaderNavigationComponent implements OnInit {
 
   showSearchBar() {
     this.showSearch = !this.showSearch;
-  }
-
-  getHeaderNotifications() {
-    if (this.currentUserid) {
-      this.mainServicesService
-        .getHeaderNotifications(this.currentUserid)
-        .subscribe({
-          next: (res: any) => {
-            this.notification = res;
-            console.log(res);
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
   }
 
   ngOnInit(): void {
