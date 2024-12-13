@@ -49,7 +49,6 @@ export class NotificationsComponent implements OnInit {
       }
     })
   }
-
   handleTab(tab: string) {
     this.activeTab = tab
     this.getUserNotifications(this.userId)
