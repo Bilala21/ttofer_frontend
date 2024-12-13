@@ -37,6 +37,7 @@ export class HeaderNavigationComponent implements OnInit {
   currentUser: any = {};
   loading: boolean = false;
   cartLoading: boolean = false;
+  notificationLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -56,6 +57,7 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   private getCartSubject: Subject<void> = new Subject<void>();
+  private getNotificationsSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
@@ -92,6 +94,9 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
+    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
+    });
   }
 
   calculateTotal(data: any): void {
@@ -119,10 +124,45 @@ export class HeaderNavigationComponent implements OnInit {
       });
     }
   }
+  getHeaderNotifications() {
+    if (!this.notificationList.length) {
+      this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
+        next: (value: any) => {
+          this.notificationList = value.data;
+          this.notificationLoading = false;
+        },
+        error: (err) => {
+          this.cartLoading = false;
+          console.error('Error fetching notifications', err);
+        },
+      });
+    }
+  }
+
+  getHeaderState() {
+    if (this.currentUserid) {
+      this.mainServicesService
+        .getHeaderNotifications(this.currentUserid)
+        .subscribe({
+          next: (res: any) => {
+            this.notification = res;
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
+  }
 
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
+  }
+
+  getNotificationsOnMouseOver() {
+    this.notificationLoading = true;
+    this.getNotificationsSubject.next();
   }
 
   navigateToSearch(): void {
@@ -277,22 +317,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  getHeaderNotifications() {
-    if (this.currentUserid) {
-      this.mainServicesService
-        .getHeaderNotifications(this.currentUserid)
-        .subscribe({
-          next: (res: any) => {
-            this.notification = res;
-            console.log(res);
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
-  }
-
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
@@ -307,7 +331,7 @@ export class HeaderNavigationComponent implements OnInit {
       }
     );
 
-    this.getHeaderNotifications();
+    this.getHeaderState();
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
