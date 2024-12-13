@@ -45,7 +45,6 @@ export class AuctionUserProfileComponent {
     ]
 
     isDropdownOpen = false;
-    currentUserid:number = 0;
     auctionUserList:any={}
     reviewsUserList:any;
     auctionUserId:any;
@@ -56,7 +55,6 @@ export class AuctionUserProfileComponent {
       private extension: Extension,
       private snackBar: MatSnackBar,
     ){
-      this.currentUserid = extension.getUserId()
     }
     ngOnInit():void{
       this.auctionUserId = this.route.snapshot.paramMap.get('id')!;

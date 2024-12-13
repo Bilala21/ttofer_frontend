@@ -5,7 +5,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'app-star-rating',
   standalone: true,
   imports: [
-    NgIf,
     CommonModule
   ],
   templateUrl: './star-rating.component.html',

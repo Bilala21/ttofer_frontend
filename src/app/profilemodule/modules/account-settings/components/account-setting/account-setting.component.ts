@@ -6,6 +6,7 @@ import { NgClass, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '../../../../../shared/services/state/global-state.service';
 
 @Component({
   selector: 'app-account-setting',
@@ -30,28 +31,23 @@ export class AccountSettingComponent implements OnInit {
     password: 'fa-lock',
     location: 'fa-map-marker-alt',
   };
-  currentUserId;
   constructor(
-    private extension: Extension,
+    private globalStateService:GlobalStateService,
     public dialog: MatDialog,private toastr:ToastrService,
     private mainServices: MainServicesService
   ) {
-    this.currentUserId = extension.getUserId();
-    this.getCurrentUser()
+   
   }
-  getCurrentUser() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const jsonStringGetData = localStorage.getItem('key');
-      if (jsonStringGetData) {
-        this.currentUserProfile = JSON.parse(jsonStringGetData);
-        this.userSettings();
-       
-      } else {
+  ngOnInit(){
+    this.globalStateService.currentState.subscribe((state) => {
+      
+      this.currentUserProfile = state.currentUser;
+      this.userSettings()
+    });
+  }
 
-      }
-    }
-  }
   userSettings() {
+    
     this.userSetting = 
       {
         username: this.currentUserProfile.username,
@@ -71,26 +67,36 @@ export class AccountSettingComponent implements OnInit {
       height: '322px',
       data: { placeholder, key, currentUserProfile: this.userSetting },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const data = {
-          ...this.userSetting,
-          [result.key]: result.value,
-        };
-        //('User Data before update:', data); // Log the data
+        const data: any = {};
+          if (result.key === 'password' && result.old_password) {
+          data['old_password'] = result.old_password;
+          data['password'] = result.password;
+          data['password_confirmation'] = result.password;
+        } else {
+          data[result.key] = result.value;
+        }
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
-            //('User account updated successfully', response);
+            if (response.status) {
+              if (result.key === 'password' && result.old_password) {
+                this.globalStateService.triggerLogout();
+                this.toastr.success('Password changed successfully. Please log in again.', 'Success');
+              }else{
+                const currentUser = response.data;
+                this.globalStateService.updateState({ currentUser });
+                this.toastr.success(response.message, 'Success');
+              }
+              
+            }
           },
           (error: any) => {
-            this.toastr.success(error.error.message, 'Success');
-
+            this.toastr.error(error.error.message, 'Error');
           }
         );
       }
     });
   }
-
-  ngOnInit(): void {}
 }

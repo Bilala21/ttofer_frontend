@@ -17,15 +17,12 @@ export class DeleteProductDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DeleteProductDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public id: any,
-  ) {
-    
+  ) { 
     this.productId=id
   }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
-
   ConfirmChanges(): void { 
     this.dialogRef.close(this.productId);
   }

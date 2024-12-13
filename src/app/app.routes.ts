@@ -6,8 +6,6 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ChatBoxComponent } from './pages/chat-box/chat-box.component';
 import { WhoBoughtAdComponent } from './pages/who-bought-ad/who-bought-ad.component';
-import { ReviewPageComponent } from './pages/review-page/review-page.component';
-import { ReviewComponent } from './components/review/review.component';
 import { AuctionUserProfileComponent } from './pages/auction-user-profile/auction-user-profile.component';
 import { PrivacyPolicyComponent } from './pages/Privacy-Policy/Privacy-Policy.component';
 import { TermOfConditionComponent } from './pages/term-of-condition/term-of-condition.component';
@@ -160,21 +158,14 @@ export const routes: Routes = [
     path: 'auth',
     component: AuthModalComponent,
   },
-  // {
-  //   path: 'post',
-  //   loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
-  // },
-  // {
-  //   path: 'profile',
-  //   loadChildren: () =>
-  //     import('./profile/profile.module').then((m) => m.ProfileModule),
-  // },
+  
   {
     path: 'profile',
     loadChildren: () =>
       import('./profilemodule/profilemodule.module').then(
         (m) => m.ProfilemoduleModule
       ),
+    canActivate: [AuthGuard], // Add the AuthGuard here
   },
   {
     path: '**',

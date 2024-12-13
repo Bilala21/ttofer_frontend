@@ -16,6 +16,7 @@ import { CardShimmerComponent } from '../card-shimmer/card-shimmer.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { RightSideComponent } from './right-side/right-side.component';
 import { FeedbackCardComponent } from '.././feedback-card/feedback-card.component';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -77,9 +78,9 @@ export class ProductDetailComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     public extension: Extension,
-    private mainServices: MainServicesService
+    private mainServices: MainServicesService,private token:JwtDecoderService
   ) {
-    this.currentUserid = extension.getUserId();
+    this.currentUserid = token.decodedToken.sub;
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
   }
@@ -109,7 +110,6 @@ export class ProductDetailComponent implements OnInit {
           this.loading = false;
         },
         error: (err) => {
-          console.error('Error fetching product:', err);
           this.loading = false;
         },
       });

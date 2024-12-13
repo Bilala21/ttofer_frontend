@@ -13,7 +13,6 @@ export class TabComponent {
   @Input() tabs: string[] = [];
   @Input() activeTab: number = 1;
   constructor() {}
-
   setActiveTab(value: string, index: number): void {
     const tab = { index: index, value: value };
     this.getTab.emit(tab);

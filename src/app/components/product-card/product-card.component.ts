@@ -15,6 +15,7 @@ import { Extension } from '../../helper/common/extension/extension';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 import { Subscription } from 'rxjs';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-product-card',
@@ -26,7 +27,7 @@ import { Subscription } from 'rxjs';
 })
 export class ProductCardComponent implements OnInit {
   @Input({ required: true }) postDetialUrl: string = '';
-  currentUserId: any = this.extension.getUserId();
+  currentUserId: any;
   parsedAttributes: any[] = [];
   @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
   @Input() postData: any = {};
@@ -39,11 +40,14 @@ export class ProductCardComponent implements OnInit {
     private mainServices: MainServicesService,
     private toastr: ToastrService,
     private countdownTimerService: CountdownTimerService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,private token:JwtDecoderService
+  ) {
+    this.currentUserId= this.token.decodedToken;
+
+  }
 
   toggleWishlist(item: any) {
-    if (!this.extension.getUserId()) {
+    if (!this.currentUserId) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
@@ -111,7 +115,7 @@ export class ProductCardComponent implements OnInit {
               typeof val === 'string' && this.isJson(val)
                 ? JSON.parse(val)
                 : val,
-            icon: this.iconMapping[key] || 'fa-question-circle', // Default icon if no match
+            icon: this.iconMapping[key] || 'fa-question-circle', 
           });
         }
         return parsedAttributes;
@@ -124,13 +128,12 @@ export class ProductCardComponent implements OnInit {
               typeof val === 'string' && this.isJson(val)
                 ? JSON.parse(val)
                 : val,
-            icon: this.iconMapping[key] || 'fa-question-circle', // Default icon if no match
+            icon: this.iconMapping[key] || 'fa-question-circle', 
           });
         }
         return parsedAttributes;
       }
     } catch (error) {
-      console.error('Error parsing attributes 1234:', error);
       return [];
     }
   }
@@ -151,7 +154,6 @@ export class ProductCardComponent implements OnInit {
               this.globalStateService.updateCart(value.data);
             },
             error: (err) => {
-              console.log(err);
               this.toastr.error(err.message, 'error');
             },
           });
@@ -197,6 +199,7 @@ export class ProductCardComponent implements OnInit {
           this.postData.attributes
         ).slice(0, 3);
       }
+      
       this.postData.price=this.decimalPipe.transform(this.postData?.auction_initial_price?this.postData?.auction_initial_price:this.postData.fix_price, '1.0-0') || '0'
       this.postData.postedAt=12
     }

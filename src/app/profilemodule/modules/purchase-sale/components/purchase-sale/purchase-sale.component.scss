@@ -1,8 +1,3 @@
-section {
-    // max-width: 600px;
-    // margin-left: auto;
-}
-
 .card-container {
     display: flex;
     align-items: center;
@@ -10,7 +5,6 @@ section {
     padding-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
 }
-
 .price-tag {
     background: #65c774;
     min-width: 70px;
@@ -21,33 +15,28 @@ section {
     clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
     padding: 8px;
 }
-
 .card-title {
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 5px;
     color: #1b2028;
 }
-
 .view-count {
     color: gray;
 }
-
 .avatars img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: -10px;
-    border: 2px solid #fff;
+    border: 2px solid #d1b4b4;
 }
-
 .action-text {
     margin-top: 5px;
     font-weight: 400;
     font-size: 12px;
     color: #414141;
 }
-
 .action-text span {
     margin-left: 10px;
     color: black;

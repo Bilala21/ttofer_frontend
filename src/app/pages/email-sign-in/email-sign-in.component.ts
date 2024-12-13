@@ -46,17 +46,19 @@ export class EmailSignInComponent {
   getAuth() {
     this.loading = true;
     const input = this.emailForm.value;
-  
     this.mainServices.getAuthByLogin(input).subscribe({
       next: (res) => {
         this.loading = false;
-        localStorage.setItem('authToken', res.data.token);
-        const jsonString = JSON.stringify(res.data.user);
-        localStorage.setItem("key", jsonString);
-        this.globalStateService.updateUserState(res.data.user);
-        this.toaster.success('You are logged in successfully', 'Success');
+          const token = res.data.token;
+        const user = res.data.user;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('key', JSON.stringify(user));
+          this.globalStateService.updateState({
+          currentUser: user,
+          authToken: token, // Include token in state update
+        });
+          this.toaster.success('You are logged in successfully', 'Success');
         this.closeModalEvent.emit();
-        // window.location.reload();
       },
       error: (err) => {
         this.loading = false;
@@ -64,8 +66,9 @@ export class EmailSignInComponent {
         this.toaster.error(errorMessage, 'Error');
       },
       complete: () => {
-        this.loading=false;
+        this.loading = false;
       }
     });
   }
+  
 }
