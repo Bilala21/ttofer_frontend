@@ -38,7 +38,6 @@ export class HeaderNavigationComponent implements OnInit {
   loading: boolean = false;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
-  notificationLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -58,7 +57,7 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   private getCartSubject: Subject<void> = new Subject<void>();
-  private getNotificationSubject: Subject<void> = new Subject<void>();
+  private getNotificationsSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
@@ -161,11 +160,10 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.next();
   }
 
-  getNotificationOnMouseOver() {
+  getNotificationsOnMouseOver() {
     this.notificationLoading = true;
-    this.getNotificationSubject.next();
+    this.getNotificationsSubject.next();
   }
-  
 
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
@@ -332,6 +330,8 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
+
+    this.getHeaderState();
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
