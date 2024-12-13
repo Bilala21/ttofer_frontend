@@ -164,6 +164,7 @@
                     <!-- cart-start -->
                     <li class="cart-container position-relative"
                         (mouseover)="!this.cartItems.length? getCartItemsOnMouseOver():null">
+                        <a routerLink="/cart">
                             <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -172,52 +173,60 @@
                                 <circle cx="10.5" cy="19.5" r="1.5"></circle>
                                 <circle cx="17.5" cy="19.5" r="1.5"></circle>
                             </svg>
-                            <span
-                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                                *ngIf="notification?.cart_item_count && currentUserid">{{cartItems?.length?cartItems?.length:notification.cart_item_count
-                                }}</span>
-                            <!-- Dropdown Cart Items -->
-                            <div class="cart-dropdown d-block overflow-auto" *ngIf="!isHideCart">
-                                <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
-                                    <p>Please log in to view your cart items. You can log in or create an account to
-                                        continue.</p>
-                                    <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
-                                        (click)="login()">Login</button>
-                                </div>
+                        </a>
+                        <span
+                            class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                            *ngIf="notification?.cart_item_count && currentUserid">{{cartItems?.length?cartItems?.length:notification.cart_item_count
+                            }}</span>
+                        <!-- Dropdown Cart Items -->
+                        <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
+                            <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
+                                <p>Please log in to view your cart items. You can log in or create an account to
+                                    continue.</p>
+                                <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
+                                    (click)="login()">Login</button>
+                            </div>
 
-                                <div *ngIf="!cartItems?.length && currentUserid"
-                                    class="d-flex justify-content-center p-3">
-                                    <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
-                                </div>
-                                <div *ngIf="cartItems?.length" class="p-3">
+                            <div *ngIf="!cartItems?.length && currentUserid" class="d-flex justify-content-center p-3">
+                                <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
+                            </div>
+                            <div *ngIf="cartItems?.length" class="py-3">
+                                <div class="px-3">
                                     <h5>Shopping Cart</h5>
                                     <p>Items you've selected</p>
-                                    <div class="main-cart-items">
-                                        <a  *ngFor="let item of (cartItems.slice(0,2))" class="cart-item" [routerLink]="['/product-detail/',item.product.id,'/bilal']">
-                                            <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
-                                                class="cart-item-image">
-                                            <div class="cart-item-details">
-                                                <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
-                                                <div class="d-flex justify-content-between">
-                                                    <span>{{ item.product.fix_price |
-                                                        currency:'AED':'symbol':'1.2-2' }}</span>
-                                                    <span>Qty {{item.product.quantity}}</span>
+                                </div>
+                                <div class="main-cart-items">
+                                    <a *ngFor="let item of (cartItems.slice(0,2))" class="cart-item px-3"
+                                        [routerLink]="['/product-detail/',item.product.id,'/bilal']">
+                                        <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
+                                            class="cart-item-image">
+                                        <div class="cart-item-details">
+                                            <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{ item.product.fix_price |
+                                                    currency:'AED':'symbol':'1.2-2' }}</span>
+                                                <span>Qty {{item.product.quantity}}</span>
 
-                                                </div>
                                             </div>
-                                            <!-- 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug" -->
-                                        </a>
-                                        <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
-                                            class="py-3 d-block">
-                                            <span class="fs-16 text-decoration-underline">View cart</span> to see all of your items
-                                        </a>
-                                        <div>
-                                            <a routerLink="/checkout" class="btn btn-yellow d-block mb-2">Checkout</a>
-                                            <a routerLink="/cart" class="btn d-block border-1 border-yellow">Veiw cart</a>
                                         </div>
+                                    </a>
+                                    <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
+                                        class="p-3 d-block">
+                                        <span class="fs-16 text-decoration-underline">View cart</span> to see all of
+                                        your items
+                                    </a>
+                                    <div
+                                        class="d-flex px-3 align-items-center justify-content-between py-3 bg-gray-450 border-b border-t">
+                                        <span class="fs-16">Total</span>
+                                        <span class="fw-semibold">ADE {{totalAmount}}</span>
+                                    </div>
+                                    <div class="px-3 mt-3">
+                                        <a routerLink="/checkout" class="btn btn-yellow d-block mb-2">Checkout</a>
+                                        <a routerLink="/cart" class="btn d-block border-1 border-yellow">Veiw cart</a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </li>
                     <!-- login-start -->
                     @if (!currentUser?.id) {

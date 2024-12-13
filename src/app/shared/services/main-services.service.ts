@@ -368,6 +368,12 @@ export class MainServicesService {
   removeCartItem(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/remove', data);
   }
+  buyProduct(payload: any) {
+    return this.http.post(
+      `${Constants.baseApi}/cart/should-buy/toggle`,
+      payload
+    );
+  }
   updateItemQty(data: any) {
     return this.http.post(`${Constants.baseApi}` + '/cart/update', data);
   }
@@ -392,6 +398,12 @@ export class MainServicesService {
       data
     );
   }
+  createPaymentIntent(payload: any) {
+    return this.http.post<any[]>(
+      `${Constants.baseApi}/create-payment-intent`,
+      payload
+    );
+  }
 
   getSuggestions(q: string) {
     return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
@@ -402,7 +414,7 @@ export class MainServicesService {
   getUserSavedItems() {
     return this.http.get(`${Constants.baseApi}/save-for-later`);
   }
-  getHeaderNotifications(userId:number) {
+  getHeaderNotifications(userId: number) {
     return this.http.get(`${Constants.baseApi}/user/overview/${userId}`);
   }
 }

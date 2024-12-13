@@ -59,6 +59,8 @@ export class HeaderNavigationComponent implements OnInit {
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
+  totalAmount: number = 0;
+
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -92,6 +94,15 @@ export class HeaderNavigationComponent implements OnInit {
     });
   }
 
+  calculateTotal(data: any): void {
+    this.totalAmount = data.reduce(
+      (acc: any, item: any) =>
+        acc + item.product.fix_price * item.product.quantity,
+      0
+    );
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+  }
+
   getCartItems() {
     if (!this.cartItems.length) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
@@ -99,6 +110,7 @@ export class HeaderNavigationComponent implements OnInit {
           this.globalStateService.updateCart(value.data);
           this.cartItems = value.data;
           this.cartLoading = false;
+          this.calculateTotal(this.cartItems);
         },
         error: (err) => {
           this.cartLoading = false;
@@ -266,17 +278,19 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notification = res;
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    if (this.currentUserid) {
+      this.mainServicesService
+        .getHeaderNotifications(this.currentUserid)
+        .subscribe({
+          next: (res: any) => {
+            this.notification = res;
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
   }
 
   ngOnInit(): void {
