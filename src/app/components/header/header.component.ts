@@ -127,21 +127,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.next();
   }
 
-  getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notificationLoading = false;
-          this.notification = res;
-        },
-        error: (err) => {
-          this.notificationLoading = false;
-          console.log(err);
-        },
-      });
-  }
-
   getNotificationOnMouseOver() {
     this.notificationLoading = true;
     this.getNotificationSubject.next();
