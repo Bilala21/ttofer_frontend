@@ -94,7 +94,7 @@ export class HeaderNavigationComponent implements OnInit {
     });
     // notification-subject
     this.getNotificationSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.getHeaderNotifications();
+      this.fetchNotification(20,'unread');
     });
   }
 
@@ -117,21 +117,6 @@ export class HeaderNavigationComponent implements OnInit {
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
-  }
-
-  getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notificationLoading = false;
-          this.notification = res;
-        },
-        error: (err) => {
-          this.notificationLoading = false;
-          console.log(err);
-        },
-      });
   }
 
   getNotificationOnMouseOver() {
@@ -292,6 +277,36 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
+  getHeaderNotifications() {
+    this.mainServicesService
+      .getHeaderNotifications(this.currentUserid)
+      .subscribe({
+        next: (res: any) => {
+          this.notificationLoading = false;
+          this.notification = res;
+          console.log(res);
+        },
+        error: (err) => {
+          this.notificationLoading = false;
+          console.log(err);
+        },
+      });
+  }
+
+  fetchNotification(userId: number, type?: string) {
+    this.loading = true;
+    this.mainServicesService.getNotification(userId, type).subscribe({
+      next: (res: any) => {
+        this.notificationList = res.data;
+        this.loading = false;
+      },
+      error: (err:any) => {
+        this.notificationList = [];
+        this.loading = false;
+      },
+    });
+  }
+  
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
