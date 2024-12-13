@@ -35,7 +35,7 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
 export class HeaderNavigationComponent implements OnInit {
   notification: any = null;
   currentUser: any = {};
-  loading: boolean = false;
+  loading: boolean = true;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
   apiData: any = [];
@@ -94,7 +94,7 @@ export class HeaderNavigationComponent implements OnInit {
     });
     // notification-subject
     this.getNotificationSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.fetchNotification(20,'unread');
+      this.fetchNotification(this.currentUserid,'unread');
     });
   }
 
@@ -282,27 +282,24 @@ export class HeaderNavigationComponent implements OnInit {
       .getHeaderNotifications(this.currentUserid)
       .subscribe({
         next: (res: any) => {
-          this.notificationLoading = false;
           this.notification = res;
           console.log(res);
         },
         error: (err) => {
-          this.notificationLoading = false;
           console.log(err);
         },
       });
   }
 
   fetchNotification(userId: number, type?: string) {
-    this.loading = true;
     this.mainServicesService.getNotification(userId, type).subscribe({
       next: (res: any) => {
         this.notificationList = res.data;
-        this.loading = false;
+        this.notificationLoading = false;
       },
       error: (err:any) => {
         this.notificationList = [];
-        this.loading = false;
+        this.notificationLoading = false;
       },
     });
   }

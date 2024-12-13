@@ -118,9 +118,9 @@
                             <!-- <div *ngIf="notificationList.length == 0" class="d-flex justify-content-center">
                                 <span>No Notification</span>
                             </div> -->
-                            <div *ngIf="!notificationList?.length && currentUserid"
+                            <div *ngIf="!notificationList.length && currentUserid"
                                     class="d-flex justify-content-center">
-                                    <span> {{!notificationList?.length && !notificationLoading?"No Notification":"Loading..."}}</span>
+                                    <span> {{notificationLoading?"Loading...":"No Notification"}}</span>
                             </div>
                             <div *ngIf="notificationList.length > 0">
                                 <h4>Notification</h4>
