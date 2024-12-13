@@ -54,27 +54,12 @@ export class CheckOutPageComponent {
     country: '',
   };
 
+
   paymentDeposit: any[] = [
-    {
-      img: 'assets/images/Applelogo.svg',
-      detail1: 'Apple Pay',
-      id: 'paymentApplePay',
-    },
-    {
-      img: 'assets/images/visalogo.svg',
-      detail1: 'Visa',
-      id: 'paymentVisa',
-    },
-    {
-      img: 'assets/images/StripLogo.svg',
-      detail1: 'Mastercard',
-      id: 'paymentMastercard',
-    },
-    {
-      img: 'assets/images/GPay.svg',
-      detail1: 'Google Pay',
-      id: 'paymentGooglePay',
-    },
+    { img: 'assets/images/Applelogo.svg', detail1: 'Apple Pay', id: 'paymentApplePay' },
+    { img: 'assets/images/visalogo.svg', detail1: 'Visa', id: 'paymentVisa' },
+    { img: 'assets/images/StripLogo.svg', detail1: 'Mastercard', id: 'paymentMastercard' },
+    { img: 'assets/images/GPay.svg', detail1: 'Google Pay', id: 'paymentGooglePay' }
   ];
 
   trackById(index: number, item: any): number {

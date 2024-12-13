@@ -110,6 +110,7 @@ export class GlobalStateService {
       fix_price:fix_price,
       seller_id:seller_id
     };
+      document.body.style.overflow = 'hidden'; // Disable scrolling
     this.stateSubject.next(newState);
   }
   updateTab(index: number, tabName: string) {

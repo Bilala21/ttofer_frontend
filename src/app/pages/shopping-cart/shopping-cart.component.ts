@@ -206,13 +206,27 @@ export class ShoppingCartComponent {
         }
 
         this.cartItems.forEach((item) => {
-          this.quantities[item.product.inventory.id] = Array.from({
-            length: item.product.inventory.available_stock,
-          });
-          this.sellerRating[item.seller.id] = Array.from({
-            length: item.seller.rating,
-          });
+          try {
+             
+            // Safely populate the quantities object
+            if (item.product?.inventory?.id && item.product.inventory.available_stock) {
+              this.quantities[item.product.inventory.id] = Array.from({
+                length: item.product.inventory.available_stock,
+              });
+            }
+        
+            // Safely populate the sellerRating object
+            if (item.seller?.id && item.seller.rating) {
+              this.sellerRating[item.seller.id] = Array.from({
+                length: item.seller.rating,
+              });
+            }
+          } catch (error) {
+            console.error("Error processing item:", item, error);
+            // Handle specific error logic here if needed
+          }
         });
+        
         this.loading = false;
       }
     });

@@ -33,20 +33,6 @@ export class MakeOfferModalComponent implements OnInit {
   liveAuction:any
   highestBid:any
   @Input() product: any
-   forPercentageBid = [
-    {
-    id:1,
-    percentage:20
-   },
-   {
-    id:2,
-    percentage:40
-   },
-   {
-    id:3,
-    percentage:60
-   }
-  ]
   constructor(private extension:Extension,private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
     private countdownTimerService: CountdownTimerService,private toastr: ToastrService,) {
       this.currentUserId=this.extension.getUserId()
@@ -157,6 +143,7 @@ if(this.product.product_type == 'auction'){
       this.globalStateService.setOfferModal("")
       this.offerForm.reset()
       this.bidForm.reset()
+      document.body.style.overflow = 'auto';
     }
 
   }

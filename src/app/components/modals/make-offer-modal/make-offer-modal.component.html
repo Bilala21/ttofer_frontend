@@ -122,12 +122,14 @@
           <label for="bid_price" class="fw-semibold w-100">Your max bid</label>
           <div class="d-flex align-items-center">
             <input type="number" placeholder="AED" class="fw-normal px-2 border py-2 rounded-2 bid-price flex-grow-1"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+            oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
               formControlName="bid_price" id="bid_price">
             <button type="submit" class="btn-yellow rounded-pill border-0 py-2 px-4 ml-3">Review
               bid</button>
           </div>
           <p class="fs-12 fw-normal pt-1 mb-2">Enter AED {{calculatePercentageIncrease((highBid ||
-            product.auction_final_price ),1)}} or more</p>
+            product.auction_final_price ),20)}} or more</p>
           <div
             *ngIf="bidForm.get('bid_price')?.invalid && (bidForm.get('bid_price')?.touched || bidForm.get('bid_price')?.dirty)"
             class="text-red-500 text-sm">
@@ -141,7 +143,7 @@
             </div>
             <div class="text-danger fs-14"
               *ngIf="bidForm.get('bid_price')?.hasError('bid-check') && bidForm.get('bid_price')?.touched">
-              Your current bid price must be at least {{product.auction_final_price}}.
+              Your current bid price must be above it {{product.auction_final_price}}.
             </div>
           </div>
 
