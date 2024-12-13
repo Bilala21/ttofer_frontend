@@ -27,15 +27,13 @@ export class MarkAsSoldComponent implements OnInit {
   currentUserId:any;
   buyer_id:any;
   adList=[{img:'assets/images/action_filled.png',name:'Someone from TTOffer?',buyer_id:null},
-    {img:'assets/images/action_filled.png',name:'Someone from Outside TTOffer?',buyer_id:null},
-    
+    {img:'assets/images/action_filled.png',name:'Someone from Outside TTOffer?',buyer_id:null}, 
   ];
   isBtnDisabled = true;
   constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService,private token:JwtDecoderService ) {
-    this.currentUserId = token.decodedToken;
+  this.currentUserId = token.decodedToken;
    }
   ngOnInit() {
-
     const storedItems = localStorage.getItem('soldItems');
     if (storedItems) {
       this.soldItems = JSON.parse(storedItems);
@@ -43,8 +41,7 @@ export class MarkAsSoldComponent implements OnInit {
     this.getAllChatsOfUser()
   }
   getAllChatsOfUser = () => {
-    this.mainService.getAllChatsOfUser(this.currentUserId).subscribe((res: any) => {
-      
+    this.mainService.getAllChatsOfUser(this.currentUserId).subscribe((res: any) => {      
       this.sellingChat = res.data.seller_chats;
       this.sellingChat = this.sellingChat.filter((chat: any) => chat.product_id === this.soldItems.id);
       this.sellingChat.forEach((chat: any) => {
@@ -56,7 +53,7 @@ export class MarkAsSoldComponent implements OnInit {
         });
       }); 
     });
-  }; 
+  }
   onBuyerSelected(buyer: any) {
     this.isBtnDisabled=false;    
     this.buyer_id=buyer.buyer_id

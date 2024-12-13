@@ -147,7 +147,6 @@ export class PostFormComponent {
           });
         }
         this.selectedCategorySlug = this.editProductData.category.slug
-
         this.onProductTypeChange(this.editProductData.product_type)
         this.getSubcategories()
       },
@@ -182,7 +181,6 @@ export class PostFormComponent {
     this.mainServices.getCategories().subscribe({
       next: (response: any) => {
         this.categories = response.data;
-
         if (this.editProduct) {
           this.fetchData(this.id)
         } else if (!this.editProduct) {
@@ -196,7 +194,6 @@ export class PostFormComponent {
           this.onCategoryChange(this.addProductForm.value.category_id)
           this.getSubcategories()
         }
-
       }
     })
   }
@@ -208,7 +205,6 @@ export class PostFormComponent {
     })
     if (!this.editProduct) {
       this.addProductForm.setControl('attributes', this.fb.group({}));
-
     }
   }
   handleLocationChange(location: {
@@ -290,7 +286,7 @@ export class PostFormComponent {
             (photo: any) => photo.id !== input.id
           );
           localStorage.setItem('editProduct', JSON.stringify(editProductData));
-          this.editProductData = editProductData; // Optional, if you want to keep it in sync
+          this.editProductData = editProductData; 
         }
       }
     });
@@ -300,7 +296,7 @@ deleteValidationError(errorKey: string) {
       delete this.validationErrors[errorKey];
     }
 }
-  removeImage(file: any, index: number) {
+removeImage(file: any, index: number) {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     if (file.id) {
       this.deleteProductImage(file)
@@ -365,15 +361,14 @@ deleteValidationError(errorKey: string) {
       }
     });
   }
-  addCompleteProduct() {
+addCompleteProduct() {
     if (!this.editProduct) {
       this.addProduct()
     } else if (this.editProduct) {
       this.updateProduct()
     }
-
   }
-  async addProduct() {
+async addProduct() {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     if (imagesControl.length === 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
@@ -563,7 +558,7 @@ deleteValidationError(errorKey: string) {
     }
     this.productType = selectedValue;
     this.addProductForm.patchValue({
-      product_type: this.productType // Set the default value you want
+      product_type: this.productType 
     });
     this.addProductForm.updateValueAndValidity();
   }
@@ -577,7 +572,7 @@ export function timeDifferenceValidator(startField: string): (control: AbstractC
     const startTime = formGroup.get(startField)?.value;
     const endTime = control.value;
     if (!startTime || !endTime) {
-      return null; // Only validate when both times are present
+      return null; 
     }
     const start = new Date(`1970-01-01T${startTime}`);
     const end = new Date(`1970-01-01T${endTime}`);
@@ -587,7 +582,7 @@ export function timeDifferenceValidator(startField: string): (control: AbstractC
     if (end.getTime() - start.getTime() < 30 * 60 * 1000) {
       return { timeDifferenceError: true };
     }
-    return null; // No error
+    return null; 
   };
 }
 export function endDateValidator(startField: string): ValidatorFn {
@@ -600,7 +595,7 @@ export function endDateValidator(startField: string): ValidatorFn {
     const endDate = control.value;
     if (!startDate && endDate) {
       formGroup.get('auction_ending_date')?.setValue(null);
-      return { noStartDate: true }; // Error: Ending date exists without starting date
+      return { noStartDate: true }; 
     }
     if (startDate && endDate) {
       const start = new Date(startDate);
@@ -609,7 +604,7 @@ export function endDateValidator(startField: string): ValidatorFn {
         return { endDateBeforeStart: true };
       }
     }
-    return null; // No error
+    return null; 
   };
 }
 export function startDateBeforeEndDateValidator(endDateField: string): ValidatorFn {
@@ -623,6 +618,6 @@ export function startDateBeforeEndDateValidator(endDateField: string): Validator
     if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
       return { startDateAfterEndDate: true };
     }
-    return null; // No error if startDate is not after endDate
+    return null; 
   };
 }

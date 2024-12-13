@@ -4,6 +4,7 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../../../shared/services/main-services.service';
 import { Extension } from '../../../../../helper/common/extension/extension';
 import { TabComponent } from '../../../purchase-sale/components/tab/tab.component';
+import { JwtDecoderService } from '../../../../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-notifications',
@@ -22,9 +23,9 @@ export class NotificationsComponent {
   currentIndex: any = null;
   constructor(
     private mainService: MainServicesService,
-    private extension: Extension
+    private token:JwtDecoderService
   ) {
-    this.userId = extension.getUserId();
+    this.userId = token.decodedToken
   }
 
   fecthData(userId: number, type?: string) {
@@ -44,11 +45,10 @@ export class NotificationsComponent {
               formattedTime: this.timeAgo(chat.created_at),
             };
           });
-        }
-       
+        }     
         this.loading = false;
       },
-      error: (err) => {
+      error: (err:any) => {
         this.data = [];
         this.loading = false;
       },
@@ -82,15 +82,12 @@ export class NotificationsComponent {
   loadMore() {
     this.fecthData(this.userId, this.tabs[this.activeIndex - 1]);
   }
-
   readMore(index: number) {
     this.currentIndex = index;
   }
-
   readLess() {
     this.currentIndex = null;
   }
-
   getTab(tab: any) {
     this.activeIndex = tab.index;
     if (this.tabs.includes(tab.value)) {
@@ -98,11 +95,9 @@ export class NotificationsComponent {
         this.fecthData(this.userId);
       }else{
         this.fecthData(this.userId, tab.value);
-
       }
     }
   }
-
   ngOnInit(): void {
     this.fecthData(this.userId,);
   }

@@ -15,16 +15,12 @@ signInWithGoogle(): Observable<UserCredential> {
 signOut() {
   return from(this.auth.signOut());
 }
-
 logOut(): Observable<any> {
   return this.http.post(`${Constants.baseApi}` + '/logout', {});
 }
-
 private openModalSource = new Subject<void>();
 openModal$ = this.openModalSource.asObservable();
-
 triggerOpenModal() {
-  // 
   this.openModalSource.next();
 }
 }

@@ -63,28 +63,18 @@ export class LoginModalComponent {
   resetPassword!:FormGroup;
   resending:boolean=false
   private modalSubscription!: Subscription;
-  // categories! : category []
   @ViewChild('loginModal') loginModal!: ElementRef;
   @ViewChildren('otpField') otpFields!: QueryList<ElementRef>;
   constructor(
     private router: Router, private mainServices: MainServicesService, private extention: Extension,private toastr:ToastrService,
     private snackBar: MatSnackBar,
     private authService: AuthService) {
-    // this.inputFields = new Array(6);
-    // this.router.events.subscribe(event => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.checkRoute(event.url);
-    //   }
-    // });
-    // 
-    // 
    this.authService.openModal$.subscribe((result:any) => {
       this.openLoginModal();
     });
   }
 
   updateOnlineCount() {
-    // this.onlineCount = Math.floor(Math.random() * 100);
     const min = 700;
   const max = 13000;
   this.onlineCount = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -97,21 +87,14 @@ export class LoginModalComponent {
       email: new FormControl({ value: '', disabled: true }),
       password: new FormControl('', [Validators.required]),
       password_confirmation: new FormControl('', [Validators.required])
-    });
-    
-    // Set the email value explicitly
-    
-    
+    }); 
   }
 
   onSubmit() {
-    if (this.phone && this.password) {
-      //('Phone:', this.phone);
-      //('Password:', this.password);
+    if (this.phone && this.password) {     
     }
   }
    openLoginModal() {
-    // 
     const modal = this.loginModal.nativeElement;
     
     if (modal) {

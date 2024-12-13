@@ -31,16 +31,14 @@ export class UserDetailComponent {
 
     }
   }
-  isLoading = false; // Add this flag to track the loading state
-
+  isLoading = false; 
   updateProfile(file: any): void {
       if (file) {
-          this.isLoading = true; // Set loading to true when the API call starts
+          this.isLoading = true; 
           let formData = new FormData();
           formData.append('user_id', this.currentUser.id.toString());
           formData.append('image', file);
-          let token = localStorage.getItem('authToken');
-  
+          let token = localStorage.getItem('authToken'); 
           fetch(`${Constants.baseApi}/profile/update-image`, {
               method: 'POST',
               headers: {
@@ -51,15 +49,14 @@ export class UserDetailComponent {
           .then((response: any) => response.json())
           .then((data) => {
               if (data.status) {
-                this.isLoading = false; // Set loading to false on error
-
+                this.isLoading = false; 
                   this.toastr.success(data.message, 'Success');
                   this.imageUrl = data.data.profile_link;
                   this.service.changeImageUrl(this.imageUrl);
               }
           })
           .catch((error) => {
-              this.isLoading = false; // Set loading to false on error
+              this.isLoading = false;
               this.toastr.error('Profile update failed. Please try again.', 'Error');
           });
       }

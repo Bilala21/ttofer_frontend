@@ -8,6 +8,7 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { Extension } from '../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -36,16 +37,13 @@ export class ShoppingCartComponent {
   selectedItems: any = [];
   isCartRoute: boolean = false;
   sellerRating: any = [];
-
   constructor(
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
-    private extension: Extension,
-    private toastr: ToastrService
+    private toastr: ToastrService,private token:JwtDecoderService
   ) {
-    this.userId = extension.getUserId();
+    this.userId =token.decodedToken;
   }
-
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
       return item.selected
@@ -54,7 +52,6 @@ export class ShoppingCartComponent {
     }, 0);
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
-
   saveForLater(item: any): void {
     this.mainService
       .toggleSaveItem({
@@ -73,7 +70,6 @@ export class ShoppingCartComponent {
         },
       });
   }
-
   removeItem(item: any): void {
     this.mainService
       .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
@@ -94,7 +90,6 @@ export class ShoppingCartComponent {
         },
       });
   }
-
   toggleSelectAll(): void {
     this.isAllChecked = !this.isAllChecked;
     this.cartItems.forEach((item) => {
@@ -105,20 +100,17 @@ export class ShoppingCartComponent {
         this.isAllChecked = false;
       }
     });
-
     this.isAllChecked
       ? (this.totalLength = this.cartItems.length)
       : (this.totalLength = 0);
     this.calculateTotal();
   }
-
   updateSelectAll(prod: any): void {
     prod.selected = !prod.selected;
     let allSelected = true;
     prod.selected
       ? (this.totalLength = this.totalLength + 1)
-      : (this.totalLength = this.totalLength - 1);
-
+      : (this.totalLength = this.totalLength - 1)
     this.cartItems.forEach((item) => {
       if (!item.selected) {
         allSelected = false;
@@ -127,7 +119,6 @@ export class ShoppingCartComponent {
     this.calculateTotal();
     this.isAllChecked = allSelected;
   }
-
   updateQuantity(item: any) {
     this.mainService
       .updateItemQty({
@@ -144,7 +135,6 @@ export class ShoppingCartComponent {
         error: (err) => {},
       });
   }
-
   ngOnInit() {
     this.loading = true;
     this.globalStateService.currentState.subscribe((state) => {
@@ -153,7 +143,6 @@ export class ShoppingCartComponent {
         if (Array.isArray(this.cartItems) && this.cartItems.length) {
           this.toggleSelectAll();
         }
-
         this.cartItems.forEach((item) => {
           this.quantities[item.product.inventory.id] = Array.from({
             length: item.product.inventory.available_stock,

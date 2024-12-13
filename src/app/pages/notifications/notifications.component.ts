@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-notifications',
@@ -33,11 +34,9 @@ export class NotificationsComponent implements OnInit {
                         vero
                         error modi ab eum in placeat quas consequatur recusandae
   `
-
-  constructor(private mainService: MainServicesService, private extension: Extension) {
-    this.userId = extension.getUserId()
+  constructor(private mainService: MainServicesService, private token:JwtDecoderService) {
+    this.userId = token.decodedToken
   }
-
   getUserNotifications(userId: number) {
     this.loading = true
     this.mainService.getNotification(userId,'all').subscribe({
@@ -46,7 +45,6 @@ export class NotificationsComponent implements OnInit {
         this.loading = false
       },
       error: (err) => {
-        //(err);
         this.loading = false
       }
     })
