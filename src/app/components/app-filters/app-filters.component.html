@@ -4,12 +4,10 @@
             <h2 class="fs-20 text-capitalize m-0">{{slug}}</h2>
             <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
         </div>
-        <div class="fs-18 mb-2 d-flex align-items-center ft-btn mb-5 mt-3 mt-md-0" *ngIf="!isLgScreen" (click)="hideFilter=!hideFilter">
-            <!-- <img src="/assets/images/filter-icon.svg" 
-            style="width: 30px; height: 30px;" class="cur-pointer" alt="filter-image" title="Filter Options" /> -->
+        <div class="fs-18 mb-2 d-flex align-items-center ft-btn mb-5 mt-3 mt-md-0" *ngIf="!isLgScreen" > 
            <div class=" bg-dark text-white w-fit px-3 py-2 rounded cur-pointer">
             <i class="fas fa-filter fs-12"></i>
-            <span class="text-uppercase fs-12 fw-semibold pl-2 ">filters</span>
+            <span class="text-uppercase fs-12 fw-semibold pl-2 " (click)="hideFilter=!hideFilter">filters</span>
            </div>
             <button *ngIf="!hideFilter" class="btn btn-yellow py-2 ml-2" (click)="applyFilters()">Apply filters</button>
         </div>

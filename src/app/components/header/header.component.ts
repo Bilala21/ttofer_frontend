@@ -37,6 +37,7 @@ export class HeaderNavigationComponent implements OnInit {
   currentUser: any = {};
   loading: boolean = false;
   cartLoading: boolean = false;
+  notificationLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -56,6 +57,7 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   private getCartSubject: Subject<void> = new Subject<void>();
+  private getNotificationSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
@@ -90,6 +92,10 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
+    // notification-subject
+    this.getNotificationSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
+    });
   }
 
   getCartItems() {
@@ -112,6 +118,27 @@ export class HeaderNavigationComponent implements OnInit {
     this.cartLoading = true;
     this.getCartSubject.next();
   }
+
+  getHeaderNotifications() {
+    this.mainServicesService
+      .getHeaderNotifications(this.currentUserid)
+      .subscribe({
+        next: (res: any) => {
+          this.notificationLoading = false;
+          this.notification = res;
+        },
+        error: (err) => {
+          this.notificationLoading = false;
+          console.log(err);
+        },
+      });
+  }
+
+  getNotificationOnMouseOver() {
+    this.notificationLoading = true;
+    this.getNotificationSubject.next();
+  }
+  
 
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
@@ -265,20 +292,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notification = res;
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
-
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
@@ -292,8 +305,6 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
-
-    this.getHeaderNotifications();
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
