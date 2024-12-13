@@ -308,7 +308,7 @@ export class AppFiltersComponent implements OnInit {
     this.location = 'Belarus';
   }
   applyFilters() {
-    this.hideFilter = false;
+    this.hideFilter = true;
   }
 
   ngOnDestroy() {

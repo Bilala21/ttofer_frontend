@@ -34,8 +34,6 @@ export class ShoppingCartComponent {
   isAllChecked: boolean = false;
   loading = true;
   userId;
-  selectedItems: any = [];
-  isCartRoute: boolean = false;
   sellerRating: any = [];
   constructor(
     private globalStateService: GlobalStateService,
@@ -46,7 +44,7 @@ export class ShoppingCartComponent {
   }
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
-      return item.selected
+      return item.product.is_should_buy
         ? acc + item.product.fix_price * item.product.quantity
         : acc;
     }, 0);
@@ -80,7 +78,6 @@ export class ShoppingCartComponent {
             (prod) => prod.product.id !== item.product.id
           );
           this.globalStateService.updateCart(this.cartItems);
-          this.toggleSelectAll();
           this.calculateTotal();
           this.toastr.success(res.message, 'Success');
         },
@@ -90,19 +87,15 @@ export class ShoppingCartComponent {
         },
       });
   }
-  toggleSelectAll(): void {
-    this.isAllChecked = !this.isAllChecked;
-    this.cartItems.forEach((item) => {
-      item.selected = item.selected ? item.selected : this.isAllChecked;
-      if (item.selected) {
-        this.isAllChecked = true;
-      } else {
-        this.isAllChecked = false;
-      }
-    });
-    this.isAllChecked
-      ? (this.totalLength = this.cartItems.length)
-      : (this.totalLength = 0);
+
+  SelectAll(): void {
+    this.updateTotalLenght();
+    const found = this.cartItems.find((prod) => !prod.product.is_should_buy);
+    if (!found) {
+      this.isAllChecked = true;
+    } else {
+      this.isAllChecked = false;
+    }
     this.calculateTotal();
   }
   updateSelectAll(prod: any): void {
@@ -120,6 +113,7 @@ export class ShoppingCartComponent {
     this.isAllChecked = allSelected;
   }
   updateQuantity(item: any) {
+    this.updateTotalLenght()
     this.mainService
       .updateItemQty({
         product_id: item.product.id,
@@ -130,29 +124,104 @@ export class ShoppingCartComponent {
         next: (res: any) => {
           if (res.status) {
             this.calculateTotal();
+            this.toastr.success(
+              'Items quantity updated successfully',
+              'Success'
+            );
           }
         },
-        error: (err) => {},
+        error: (err) => {
+          console.log(err);
+        },
       });
   }
+
+  getCartItems() {
+    if (!this.cartItems.length) {
+      this.loading = true;
+      this.mainService.getCartProducts(this.userId).subscribe({
+        next: (value: any) => {
+          this.globalStateService.updateCart(value.data);
+          this.cartItems = value.data;
+          this.loading = false;
+          this.calculateTotal();
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error('Error fetching cart products', err);
+        },
+      });
+    }
+  }
+
+  buyProduct(item: any) {
+    this.mainService
+      .buyProduct({ user_id: this.userId, product_id: item.product.id })
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message, 'Success');
+          item.product.is_should_buy = !item.product.is_should_buy;
+          this.SelectAll();
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error(err.message, 'Error');
+        },
+      });
+  }
+
+  toggleSelect() {
+    this.isAllChecked = !this.isAllChecked;
+    if (!this.isAllChecked) {
+      this.cartItems.map((prod) => (prod.product.is_should_buy = 0));
+      this.totalLength = 0;
+      this.calculateTotal();
+    } else {
+      this.cartItems.map((prod) => (prod.product.is_should_buy = true));
+      this.totalLength = this.cartItems.length;
+      this.calculateTotal();
+    }
+  }
+
+  updateTotalLenght() {
+    this.totalLength = this.cartItems.filter(
+      (item) => item.product.is_should_buy
+    ).length;
+  }
+
   ngOnInit() {
     this.loading = true;
     this.globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState;
       if (this.cartItems.length) {
         if (Array.isArray(this.cartItems) && this.cartItems.length) {
-          this.toggleSelectAll();
+          this.SelectAll();
         }
         this.cartItems.forEach((item) => {
-          this.quantities[item.product.inventory.id] = Array.from({
-            length: item.product.inventory.available_stock,
-          });
-          this.sellerRating[item.seller.id] = Array.from({
-            length: item.seller.rating,
-          });
+          try {
+             
+            // Safely populate the quantities object
+            if (item.product?.inventory?.id && item.product.inventory.available_stock) {
+              this.quantities[item.product.inventory.id] = Array.from({
+                length: item.product.inventory.available_stock,
+              });
+            }
+        
+            // Safely populate the sellerRating object
+            if (item.seller?.id && item.seller.rating) {
+              this.sellerRating[item.seller.id] = Array.from({
+                length: item.seller.rating,
+              });
+            }
+          } catch (error) {
+            console.error("Error processing item:", item, error);
+            // Handle specific error logic here if needed
+          }
         });
+        
         this.loading = false;
       }
     });
+    this.getCartItems();
   }
 }

@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,13 +6,13 @@ import { Component, Input } from '@angular/core';
   templateUrl: './feedback-card.component.html',
   styleUrls: ['./feedback-card.component.scss'],
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor,CommonModule],
 })
 export class FeedbackCardComponent {
   // @Input() name: string = 'Default Name';
   // @Input() email: string = 'default@example.com';
   // @Input() imageSrc: string = '/assets/images/default-profile.jpg';
-  // @Input() amount: string = '$0';
+  @Input() product:any;
 
   data = [
     {

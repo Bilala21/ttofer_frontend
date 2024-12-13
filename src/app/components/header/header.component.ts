@@ -9,7 +9,6 @@ import { SharedDataService } from '../../shared/services/shared-data.service';
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
   Subject,
   Subscription,
 } from 'rxjs';
@@ -17,7 +16,6 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
-import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-header-navigation',
@@ -35,11 +33,11 @@ import { JwtDecoderService } from '../../shared/services/authentication/jwt-deco
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderNavigationComponent implements OnInit {
-  token:any
   notification: any = null;
-  currentUser: any ;
+  currentUser: any = {};
   loading: boolean = false;
   cartLoading: boolean = false;
+  notificationLoading: boolean = false;
   apiData: any = [];
   categoryLimit: number = 12;
   categories: any = [];
@@ -59,10 +57,12 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   private getCartSubject: Subject<void> = new Subject<void>();
+  private getNotificationsSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
-  private logoutSubscription!: Subscription;
+  totalAmount: number = 0;
+  token:any
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -70,38 +70,45 @@ export class HeaderNavigationComponent implements OnInit {
     private extension: Extension,
     private router: Router,
     private toastr: ToastrService,
-    private service: SharedDataService,private jwtToken:JwtDecoderService,
+    private service: SharedDataService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.token = localStorage.getItem('authToken'); 
-    this.sideBarItemss = sideBarItems;  
-    this.currentUserid = jwtToken.decodedToken;
-    this.screenWidth = window.innerWidth;
-    this.router.events.subscribe(() => {
-    const privateRoute = ['/cart', '/checkout'];
-    this.isHideCart = privateRoute.includes(this.router.url);
+    this.token=localStorage.getItem('authToken')
+    this.sideBarItemss = sideBarItems;
+    this.currentUser = JSON.parse(localStorage.getItem('key') as string);
+    this.globalStateService.currentState.subscribe((state) => {
+      this.currentUser = state.currentUser;
+      this.cartItems = state.cartState;
     });
-   
-  }  
-getProfile(): void {
-  const token = localStorage.getItem('authToken'); 
-    if (token || this.currentUser) {
-      this.mainServicesService.getProfileData().subscribe({
-        next: (res: any) => {
-          if (res.status) {
-            const currentUser = res.data;         
-            this.imgUrl=currentUser.img
-            this.globalStateService.updateState({ currentUser });
-          }
-        },
-        error: (err: any) => {   
-        },
-      });
-    } 
+    this.currentUserid = extension.getUserId();
+    this.screenWidth = window.innerWidth;
+
+    this.router.events.subscribe(() => {
+      const privateRoute = ['/cart', '/checkout'];
+      if (!privateRoute.includes(this.router.url)) {
+        this.isHideCart = false;
+      } else {
+        this.isHideCart = true;
+      }
+    });
+
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
- } 
+    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
+    });
+  }
+
+  calculateTotal(data: any): void {
+    this.totalAmount = data.reduce(
+      (acc: any, item: any) =>
+        acc + item.product.fix_price * item.product.quantity,
+      0
+    );
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+  }
+
   getCartItems() {
     if (!this.cartItems.length) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
@@ -109,6 +116,7 @@ getProfile(): void {
           this.globalStateService.updateCart(value.data);
           this.cartItems = value.data;
           this.cartLoading = false;
+          this.calculateTotal(this.cartItems);
         },
         error: (err) => {
           this.cartLoading = false;
@@ -117,10 +125,47 @@ getProfile(): void {
       });
     }
   }
+  getHeaderNotifications() {
+    if (!this.notificationList.length) {
+      this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
+        next: (value: any) => {
+          this.notificationList = value.data;
+          this.notificationLoading = false;
+        },
+        error: (err) => {
+          this.cartLoading = false;
+          console.error('Error fetching notifications', err);
+        },
+      });
+    }
+  }
+
+  getHeaderState() {
+    if (this.currentUserid) {
+      this.mainServicesService
+        .getHeaderNotifications(this.currentUserid)
+        .subscribe({
+          next: (res: any) => {
+            this.notification = res;
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
+  }
+
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
   }
+
+  getNotificationsOnMouseOver() {
+    this.notificationLoading = true;
+    this.getNotificationsSubject.next();
+  }
+
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
       this.router.navigate([], {
@@ -130,6 +175,7 @@ getProfile(): void {
       localStorage.setItem('isSearch', this.searchTerm);
     }
   }
+
   getCityFromCoordinates(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
@@ -145,6 +191,7 @@ getProfile(): void {
       }
     });
   }
+
   getCurrentCity(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -168,6 +215,7 @@ getProfile(): void {
     const searchTerm = event.target.value;
     this.searchSubject.next(searchTerm);
   }
+
   searchMessages(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.isSearched = false;
@@ -180,6 +228,7 @@ getProfile(): void {
       },
     });
   }
+
   performSearch() {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -228,52 +277,31 @@ getProfile(): void {
 
   logout() {
     try {
-      this.loading = true; // Start loading
-      this.authService.logOut().subscribe({
-        next: () => {
-          // Clear local storage
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('key');
-  
-          // Clear global state
-          this.globalStateService.updateState({
-            currentUser: '', 
-            authToken: '', 
-            cartState: [], 
-          });
-          this.authService.signOut();
-          this.currentUser = '';
-          this.token = '';
-          this.notificationList = [];
-          this.unReadNotification = 0;
-          this.router.navigate(['']).then(() => {
-          this.toastr.success('Logged out successfully', 'Success');
-          });
-        },
-        error: (error) => {
-          // Handle logout API errors
-          this.toastr.error(
-            'An error occurred while logging out. Please try again.',
-            'Error'
-          );
-        },
-        complete: () => {
-          this.loading = false; // Stop loading
-        },
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('key');
+      this.authService.signOut();
+      this.loading = false;
+      this.currentUser = '';
+      this.notificationList = [];
+      this.unReadNotification = 0;
+      this.router.navigate(['']).then(() => {
+        this.toastr.success('Logged out successfully', 'Success');
       });
     } catch (error) {
-      // Handle unexpected errors
       this.toastr.error(
-        'An unexpected error occurred while logging out. Please try again.',
+        'An error occurred while logging out. Please try again.',
         'Error'
       );
+    } finally {
     }
   }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     this.getScreenSize();
   }
+
   getScreenSize() {
     this.screenWidth = window.innerWidth;
 
@@ -285,50 +313,12 @@ getProfile(): void {
       this.categoryLimit = 2;
     }
   }
+
   showSearchBar() {
     this.showSearch = !this.showSearch;
   }
-  getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notification = res;
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
-  ngOnInit(): void {
-    this.logoutSubscription = this.globalStateService.logoutEvent$
-    .pipe(
-      filter((value) => value !== null), // Ignore the initial value
-      distinctUntilChanged() // Ensure the value has changed
-    )
-    .subscribe(() => {
-      console.log('Logout event triggered'); // Debug log
-      this.logout();
-      this.globalStateService.resetLogoutEvent();
-      this.login()
-    });
-    this.globalStateService.currentState.pipe(
-      distinctUntilChanged((prev, curr) => 
-        prev.currentUser === curr.currentUser
-      ) 
-    ).subscribe((state) => {
-      if (this.currentUser !== state.currentUser) {
-        
-        this.currentUser = state.currentUser;
-        this.token = state.authToken;
-        if (!this.currentUser) {
-          this.getProfile();
-        }
-      }
-      this.cartItems = state.cartState;
-    });
 
+  ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
@@ -342,10 +332,12 @@ getProfile(): void {
       }
     );
 
-    this.getHeaderNotifications();
+    this.getHeaderState();
 
     this.getCurrentCity();
-    
+    if (this.currentUser && this.currentUser.img) {
+      this.imgUrl = this.currentUser.img;
+    }
 
     this.loading = true;
     this.getScreenSize();
@@ -356,6 +348,7 @@ getProfile(): void {
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
+        //(err);
         this.loading = false;
       },
     });
@@ -365,10 +358,8 @@ getProfile(): void {
       this.isSearched = true;
     }
   }
+
   ngOnDestroy() {
-    if (this.logoutSubscription) {
-      this.logoutSubscription.unsubscribe();
-    }
     document.body.addEventListener('click', this.onBodyClick.bind(this));
   }
 }

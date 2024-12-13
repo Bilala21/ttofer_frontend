@@ -127,7 +127,6 @@ header {
             display: none;
             position: absolute;
             top: 100%;
-            /* Position dropdown below the icon */
             right: 0;
             background-color: white;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -170,7 +169,7 @@ header {
     }
 
     .cart-dropdown {
-        max-height: 400px;
+        max-height: 500px;
     }
 
 

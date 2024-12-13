@@ -1,14 +1,15 @@
 <div class="feedback-card">
     <p class="my-4 fs-20 fw-bold">Product Reviews</p>
-    <!-- feed-back -->
-    <div *ngFor="let feed of data; let i = index" >
+      <u *ngIf="product.reviews.length==0" class="d-flex fw-light fs-12"><i>Still no reviews. Your feedback could help others make a decision!</i></u>
+    <!-- feed-back-reviews -->
+    <div *ngFor="let feed of product.reviews; let i = index" >
       <div class="d-flex justify-content-between mb-3">
       <div class="d-flex" >
       <div class="flex-shrink-0">
-        <img class="profile-img" [src]="feed.img" [alt]="feed.name" />
+        <img class="profile-img" [src]="feed?.reviewer.img" [alt]="feed?.reviewer.name" />
       </div>
       <div class="details ml-2">
-        <p class="name m-0">{{ feed.name }}</p>
+        <p class="name m-0">{{ feed?.reviewer.name }}</p>
         <div class="rating">
           <!-- class="star"
           [class.filled]="i < reviewForm.get('rating')?.value"
@@ -24,11 +25,11 @@
       </div>
 
       <div class="amount">
-        {{ feed.date }}
+        <p>{{ feed.created_at | date:'medium' }}</p>
       </div>
     </div>
     <p>
-      {{feed.para}}
+      {{feed.comment}}
     </p>
     <hr>
     </div>

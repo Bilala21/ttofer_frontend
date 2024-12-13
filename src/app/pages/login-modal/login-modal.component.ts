@@ -102,6 +102,7 @@ export class LoginModalComponent {
       const backdrop = document.createElement('div');
       backdrop.className = '';
       document.body.appendChild(backdrop);
+      document.body.style.overflow = 'hidden';
     }
   }
   openMobileMenu() {
