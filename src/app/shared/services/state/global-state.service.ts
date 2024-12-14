@@ -91,12 +91,11 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-   // Trigger logout
    triggerLogout(): void {
     this.logoutEvent.next();
   }
   resetLogoutEvent(): void {
-    this.logoutEvent.next(null); // Reset to initial value
+    this.logoutEvent.next(null);
   }
   updateUserState(user: any) {
     const currentState = this.stateSubject.value;
@@ -110,7 +109,6 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-
   setOfferModal(
     modal_type: string,
     currentUserId?: any,

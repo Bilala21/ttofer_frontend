@@ -40,4 +40,7 @@ export class ProfileSidebarComponent implements OnInit {
   selectTab(tab: string) {
     this.selectedTab = tab;
   }
+  get(){
+  
+  }
 }

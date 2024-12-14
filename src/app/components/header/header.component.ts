@@ -74,6 +74,7 @@ export class HeaderNavigationComponent implements OnInit {
     private service: SharedDataService,
     @Inject(DOCUMENT) private document: Document
   ) {
+    this.token=localStorage.getItem('authToken')
     this.sideBarItemss = sideBarItems;
     this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     this.globalStateService.currentState.subscribe((state) => {
