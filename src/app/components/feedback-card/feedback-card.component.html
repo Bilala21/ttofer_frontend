@@ -4,7 +4,7 @@
     <!-- feed-back-reviews -->
     <div *ngFor="let feed of product.reviews; let i = index" >
       <div class="d-flex justify-content-between mb-3">
-      <div class="d-flex" >
+      <div class="d-flex flex-column flex-sm-row" >
       <div class="flex-shrink-0">
         <img class="profile-img" [src]="feed?.reviewer.img" [alt]="feed?.reviewer.name" />
       </div>
