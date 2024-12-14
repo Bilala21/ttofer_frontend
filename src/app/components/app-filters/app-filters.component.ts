@@ -249,11 +249,6 @@ export class AppFiltersComponent implements OnInit {
   private checkScreenSize(): void {
     const lgBreakpoint = 992;
     this.isLgScreen = window.innerWidth >= lgBreakpoint;
-    if (this.isLgScreen) {
-      this.hideFilter = false;
-    } else {
-      this.hideFilter = true;
-    }
   }
 
   getCityFromCoordinates(lat: number, lng: number): void {
@@ -308,7 +303,7 @@ export class AppFiltersComponent implements OnInit {
     this.location = 'Belarus';
   }
   applyFilters() {
-    this.hideFilter = true;
+    this.hideFilter = !this.hideFilter;
   }
 
   ngOnDestroy() {

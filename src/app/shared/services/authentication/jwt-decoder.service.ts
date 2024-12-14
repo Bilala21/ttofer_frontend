@@ -10,7 +10,7 @@ this.decodedToken = this.decodeTokenManually(token);
 }
 decodeTokenManually(token: string): any {
     try {
-      debugger
+      // debugger
       const payload = token.split('.')[1]; 
       const decodedPayload = atob(payload);
       return JSON.parse(decodedPayload);

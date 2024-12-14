@@ -32,9 +32,6 @@ button:focus {
     max-height: 200px;
 }
 
-.hideFilter {
-    display: none !important;
-}
 
 
 .location-loader {
@@ -62,5 +59,11 @@ button:focus {
 @media (max-width : 768px){
     .product-filter {
         padding-top: 0px;
+    }
+}
+
+@media (max-width : 992px){
+    .hideFilter {
+        display: none !important;
     }
 }
