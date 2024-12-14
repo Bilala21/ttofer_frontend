@@ -40,7 +40,7 @@ export class ShoppingCartComponent {
     private mainService: MainServicesService,
     private toastr: ToastrService,private token:JwtDecoderService
   ) {
-    this.userId =token.decodedToken;
+    this.userId =token.decodedToken?.id;
   }
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
