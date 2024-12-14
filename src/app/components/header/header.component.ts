@@ -62,7 +62,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
-  currentUser:any={}
+  protected currentUser:any={}
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -76,7 +76,6 @@ export class HeaderNavigationComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.currentUser=this.jwtDecoderService.decodedToken
-    console.log(this.currentUser)
     this.sideBarItemss = sideBarItems;
     this.globalStateService.currentState.subscribe((state) => {
       this.currentUser = this.currentUser?this.currentUser: state.currentUser;
@@ -113,7 +112,7 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   getCartItems() {
-    if (!this.cartItems.length) {
+    if (!this.cartItems.length && this.currentUser.id) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
@@ -129,7 +128,7 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   getHeaderNotifications() {
-    if (!this.notificationList.length) {
+    if (!this.notificationList.length && this.currentUser.id) {
       this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
         next: (value: any) => {
           this.notificationList = value.data;
@@ -150,10 +149,10 @@ export class HeaderNavigationComponent implements OnInit {
         .subscribe({
           next: (res: any) => {
             this.notification = res;
-            console.log(res);
+            //(res);
           },
           error: (err) => {
-            console.log(err);
+            //(err);
           },
         });
     }
@@ -227,7 +226,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.suggestions = res.data;
       },
       error: (err) => {
-        console.log(err);
+        //(err);
       },
     });
   }

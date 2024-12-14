@@ -117,9 +117,9 @@ export class AppFiltersComponent implements OnInit {
     // Fetch categories
     this.mainServicesService.getCategories().subscribe({
       next: (res: any) => {
-        console.log(res);
+        //(res);
         const formatedSlug = slug.slice(0, slug.lastIndexOf('-') - 1);
-        console.log(formatedSlug);
+        //(formatedSlug);
         this.categories = res.data;
         this.slug = this.categories.find(
           (cate: any) => +cate.id === +this.category_id
@@ -189,7 +189,7 @@ export class AppFiltersComponent implements OnInit {
         this.locations.push(filter.value);
       }
     }
-    console.log(this.locations);
+    //(this.locations);
     this.handleFilterEvent.emit({
       [filter.key]: filter.value,
       location: this.locations,
@@ -214,7 +214,7 @@ export class AppFiltersComponent implements OnInit {
     }
 
     if (this.minPrice >= this.maxPrice && isMin) {
-      console.log(this.minPrice);
+      //(this.minPrice);
       event.preventDefault();
       return;
     }
@@ -233,7 +233,7 @@ export class AppFiltersComponent implements OnInit {
     }
   }
   handleMinMaxPrice(event: any, isMin: boolean) {
-    console.log(this.minPrice,this.maxPrice)
+    //(this.minPrice,this.maxPrice)
     // this.filterCriteria['min_price'] = this.minPrice;
     // this.filterCriteria['max_price'] = this.maxPrice;
     if (this.maxPrice >= this.minPrice) {

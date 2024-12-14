@@ -66,7 +66,7 @@ export class CategoriesComponent {
         const slug: any = param.get('slug');
         const index = Number(slug?.lastIndexOf('-'));
         if (index < 0) {
-          console.log('condition not pass')
+          //('condition not pass')
           const categoryTab = localStorage.getItem('categoryTab');
           localStorage.setItem('categoryTab', categoryTab ? categoryTab : slug);
           localStorage.setItem('filters', '{}');
@@ -75,7 +75,7 @@ export class CategoriesComponent {
         }
         const localData = JSON.parse(localStorage.getItem('filters') || '{}');
         if (index > 1) {
-          console.log('condition pass')
+          //('condition pass')
           this.id = slug?.slice(index + 1);
           const localFilters = JSON.parse(
             localStorage.getItem('filters') || '{}'
@@ -119,12 +119,12 @@ export class CategoriesComponent {
     this.fecthcData({ ...filters, page_number: page + 1 });
   }
   setActiveTabs(slug: any) {
-    console.log(slug,'testing');
+    //(slug,'testing');
     const selectedTab = localStorage.getItem('categoryTab');
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
     )?.category_id;
-    console.log(category_id, this.id);
+    //(category_id, this.id);
     if (
       [
         'mobiles',

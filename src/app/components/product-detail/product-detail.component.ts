@@ -1,8 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
@@ -37,17 +33,16 @@ import { JwtDecoderService } from '../../shared/services/authentication/jwt-deco
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
+  protected currentUser: any = {};
   inCart: boolean = false;
   screenWidth: number;
   screenHeight: number;
   productId: any = null;
   product: any = {};
   attributes: any = {};
-  currentUser: any = {};
   loading: boolean = false;
   similarLoading: boolean = false;
   similarProductsData: any = [];
-  currentUserid: any;
   parsedAttributes: { [key: string]: string | number } = {};
   isFullScreen = false;
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
@@ -78,16 +73,22 @@ export class ProductDetailComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     public extension: Extension,
-    private mainServices: MainServicesService,private token:JwtDecoderService
+    private mainServices: MainServicesService,
+    private jwtDecoderService: JwtDecoderService
   ) {
-    this.currentUserid = token.decodedToken.sub;
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+    this.currentUser = this.jwtDecoderService.decodedToken;
+    this.globalStateService.currentState.subscribe((state) => {
+      this.currentUser = this.currentUser
+        ? this.currentUser
+        : state.currentUser;
+    });
   }
 
   fetchData(productId: number) {
     this.mainServices
-      .getProductById({ product_id: productId, user_id: this.currentUserid })
+      .getProductById({ product_id: productId, user_id: this.currentUser.id })
       .subscribe({
         next: (value) => {
           this.product = value.data;
@@ -118,7 +119,7 @@ export class ProductDetailComponent implements OnInit {
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
-        console.log(value)
+        //(value)
         this.similarProductsData = value.data;
         this.similarLoading = false;
       },
@@ -145,7 +146,7 @@ export class ProductDetailComponent implements OnInit {
   productView() {
     const productViewDetail = {
       product_id: this.productId,
-      user_id: this.currentUserid,
+      user_id: this.currentUser.id,
     };
     this.mainServices.storeProductView(productViewDetail).subscribe({
       next: (value) => {},
@@ -153,13 +154,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   toggleWishlist(item: any) {
-    if (!this.currentUserid) {
+    if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     }
     let input = {
-      user_id: this.currentUserid,
+      user_id: this.currentUser.id,
       product_id: item.id,
     };
 
@@ -206,7 +207,7 @@ export class ProductDetailComponent implements OnInit {
     sessionStorage.setItem('userData', JSON.stringify(user));
 
     // Navigate to the chat route with userId as a parameter
-    this.router.navigate([`/chatBox/${this.currentUserid}`], {
+    this.router.navigate([`/chatBox/${this.currentUser.id}`], {
       state: { product, user },
     });
   }

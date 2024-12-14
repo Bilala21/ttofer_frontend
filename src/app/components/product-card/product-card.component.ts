@@ -183,7 +183,7 @@ export class ProductCardComponent implements OnInit {
   }
   ngOnInit(): void {
     if (this.postData && this.postData.product_type === 'auction') {
-      // this.startCountdowns();
+      this.startCountdowns();
     
       if (this.postData?.attributes) {
         this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
