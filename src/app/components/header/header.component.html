@@ -60,8 +60,8 @@
                     class="count-badge list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                     <!-- saveItem-start -->
                     <li class="position-relative ">
-                        <a class="text-dark" [routerLink]="currentUser.id ? ['/profile/saved-items'] : '#'"
-                            (click)="!currentUser.id ? login() : null" routerLinkActive="router-link-active">
+                        <a class="text-dark" [routerLink]="currentUser?.id ? ['/profile/saved-items'] : '#'"
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
@@ -70,12 +70,13 @@
                             </svg>
                             <span
                                 class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                                *ngIf="notification?.saved_for_later_count && currentUser.id">{{notification.saved_for_later_count}}</span>
+                                *ngIf="notification?.saved_for_later_count && currentUser?.id">{{notification.saved_for_later_count}}</span>
                         </a>
                     </li>
+                    <!-- chat-start -->
                     <li class="" style="cursor: pointer;">
-                        <a class="text-dark position-relative"  [routerLink]="currentUser.id ? ['/chatBox', currentUser.id] : '#'" 
-                            (click)="!currentUser.id ? login() : null" routerLinkActive="router-link-active">
+                        <a class="text-dark position-relative" [routerLink]="currentUser?.id ? ['/'] : '#'"
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
                                 viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -84,7 +85,7 @@
                             </svg>
                             <span
                                 class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                                *ngIf="notification?.chat_count && currentUser.id">{{notification.chat_count }}</span>
+                                *ngIf="notification?.chat_count && currentUser?.id">{{notification.chat_count }}</span>
                         </a>
 
                     </li>
@@ -93,8 +94,8 @@
                         (mouseover)="!this.notificationList.length? getNotificationsOnMouseOver():null">
                         <!-- Cart Icon with Badge -->
                         <a class="text-dark position-relative"
-                            [routerLink]="currentUser.id ? ['/profile/notifications'] : '#'"
-                            (click)="!currentUser.id ? login() : null" routerLinkActive="router-link-active">
+                            [routerLink]="currentUser?.id ? ['/profile/notifications'] : '#'"
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -103,21 +104,21 @@
                             </svg>
                             <span
                                 class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                                *ngIf="notification?.unread_notifications && currentUser.id">{{notification.unread_notifications
+                                *ngIf="notification?.unread_notifications && currentUser?.id">{{notification.unread_notifications
                                 }}</span>
                         </a>
 
 
                         <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
                         <div class="notification-dropdown">
-                            <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
+                            <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
                                 <p>Please log in to view your notifications. You can log in or create an account to
                                     continue.</p>
                                 <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
                                     (click)="login()">Login</button>
                             </div>
 
-                            <div *ngIf="!notificationList?.length && currentUserid" class="d-flex justify-content-center p-3">
+                            <div *ngIf="!notificationList?.length && currentUser?.id" class="d-flex justify-content-center p-3">
                                 <span> {{!notificationList?.length && !notificationLoading?"No notification":"Loading..."}}</span>
                             </div>
                             <div *ngIf="notificationList.length > 0">
@@ -176,18 +177,18 @@
                         </a>
                         <span
                             class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                            *ngIf="notification?.cart_item_count && currentUserid">{{cartItems?.length?cartItems?.length:notification.cart_item_count
+                            *ngIf="notification?.cart_item_count && currentUser?.id">{{cartItems?.length?cartItems?.length:notification.cart_item_count
                             }}</span>
                         <!-- Dropdown Cart Items -->
                         <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
-                            <div *ngIf="!currentUserid" class="px-3 py-3 text-center fs-16">
+                            <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
                                 <p>Please log in to view your cart items. You can log in or create an account to
                                     continue.</p>
                                 <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
                                     (click)="login()">Login</button>
                             </div>
 
-                            <div *ngIf="!cartItems?.length && currentUserid" class="d-flex justify-content-center p-3">
+                            <div *ngIf="!cartItems?.length && currentUser?.id" class="d-flex justify-content-center p-3">
                                 <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
                             </div>
                             <div *ngIf="cartItems?.length" class="py-3">
@@ -229,7 +230,7 @@
                         </div>
                     </li>
                     <!-- login-start -->
-                    @if (!token) {
+                    @if (!currentUser?.id) {
                     <li class="">
                         <a (click)="login()"
                             class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -238,15 +239,12 @@
                     </li>
                     }
                     <!-- profile-start -->
-                    @if (token) {
+                    @if (currentUser?.id) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <img class="user-Profile" [src]="
-                              imgUrl
-                                ? imgUrl
-                                : '/assets/images/profile-icon.svg'
+                            <img class="user-Profile" [src]="currentUser?.img?currentUser?.img:'/assets/images/profile-icon.svg'
                             " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
                             <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1" loading="lazy">
                         </button>
@@ -268,29 +266,30 @@
                                         routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }"
                                         [ngStyle]="activeRoute && menu.id ==='purchasesSales' ? { 'background': '#ffae15' } : {}">
 
-                                            <i [class]="menu.icon" class="fs-20 mr-2"></i>
-                                            <span>{{ menu.label }}</span>
-                                        </a>
-                                    </div>
-                                    <!-- end menu items -->
+                                        <i [class]="menu.icon" class="fs-20 mr-2"></i>
+                                        <span>{{ menu.label }}</span>
+                                    </a>
                                 </div>
-                                <span (click)="logout()"
-                                    class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
-                                    <i
-                                        class="fas fa-sign-out-alt fs-20 mr-2 text-center d-block mdc-layout-grid__cell--span-12-desktop empty-search"></i>
-                                    <span class="empty-search fs-18">
-                                        Logout
-                                    </span>
-                                </span>
+                                <!-- end menu items -->
                             </div>
-                        </li>
-                        }
-                    </ul>
-                </div>
+                            <span (click)="logout()"
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
+                                <i
+                                    class="fas fa-sign-out-alt fs-20 mr-2 text-center d-block mdc-layout-grid__cell--span-12-desktop empty-search"></i>
+                                <span class="empty-search fs-18">
+                                    Logout
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    }
+                </ul>
             </div>
+        </div>
     </nav>
     <!-- category-start -->
     <nav class="container-fluid px-2">
+        
         @if(!loading){
         <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
             <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">

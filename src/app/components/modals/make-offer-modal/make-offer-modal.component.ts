@@ -220,7 +220,7 @@ if(this.product.product_type == 'auction'){
     const datePart = this.product.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.product.auction_ending_time}.000Z`;
     const subscription = this.countdownTimerService
-      .startCountdown(endingDateTime)
+      .startCountdown(endingDateTime,this.product)
       .subscribe((remainingTime) => {
         this.product.calculateRemaningTime = remainingTime;
         this.cdr.detectChanges();

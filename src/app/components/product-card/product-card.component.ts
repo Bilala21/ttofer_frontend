@@ -170,19 +170,20 @@ export class ProductCardComponent implements OnInit {
     const datePart = this.postData.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.postData.auction_ending_time}.000Z`;
     const subscription = this.countdownTimerService
-      .startCountdown(endingDateTime)
+      .startCountdown(endingDateTime,this.postData)
       .subscribe((remainingTime) => {
         this.postData.calculateRemaningTime = remainingTime;
         this.cdr.markForCheck();
       });
     this.countdownSubscriptions.push(subscription);
   }
+
   ngOnDestroy() {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
   ngOnInit(): void {
     if (this.postData && this.postData.product_type === 'auction') {
-      this.startCountdowns();
+      // this.startCountdowns();
     
       if (this.postData?.attributes) {
         this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);

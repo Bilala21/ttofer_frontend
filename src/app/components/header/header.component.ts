@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-header-navigation',
@@ -34,7 +35,6 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
 })
 export class HeaderNavigationComponent implements OnInit {
   notification: any = null;
-  currentUser: any = {};
   loading: boolean = false;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
@@ -62,7 +62,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
-  token:any
+  currentUser:any={}
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -72,13 +72,14 @@ export class HeaderNavigationComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
+    private jwtDecoderService:JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.token=localStorage.getItem('authToken')
+    this.currentUser=this.jwtDecoderService.decodedToken
+    console.log(this.currentUser)
     this.sideBarItemss = sideBarItems;
-    this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
+      this.currentUser = this.currentUser?this.currentUser: state.currentUser;
       this.cartItems = state.cartState;
     });
     this.currentUserid = extension.getUserId();
@@ -99,6 +100,7 @@ export class HeaderNavigationComponent implements OnInit {
     this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getHeaderNotifications();
     });
+
   }
 
   calculateTotal(data: any): void {
@@ -282,7 +284,7 @@ export class HeaderNavigationComponent implements OnInit {
       localStorage.removeItem('key');
       this.authService.signOut();
       this.loading = false;
-      this.currentUser = '';
+      this.currentUser = {};
       this.notificationList = [];
       this.unReadNotification = 0;
       this.router.navigate(['']).then(() => {
@@ -337,7 +339,7 @@ export class HeaderNavigationComponent implements OnInit {
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
-      this.imgUrl = this.currentUser.img;
+      // this.imgUrl = this.currentUser.img;
     }
 
     this.loading = true;
