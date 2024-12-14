@@ -88,7 +88,7 @@ export class PostFormComponent {
       }
     });
     this.addProductForm.patchValue({
-      user_id: token.decodedToken
+      user_id: token.decodedToken?.id
     })
     this.addProductForm.get('auction_starting_date')?.valueChanges.subscribe(startDate => {
       const endDateControl = this.addProductForm.get('auction_ending_date');

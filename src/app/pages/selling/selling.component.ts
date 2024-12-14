@@ -197,7 +197,7 @@ export class SellingComponent {
     private mainServices: MainServicesService,
   public router:Router,private token:JwtDecoderService
   ){
-    this.currentUserid=token.decodedToken
+    this.currentUserid=token.decodedToken?.id
   }
   ngOnInit():void{
     this.sellingId = this.route.snapshot.paramMap.get('id')!;

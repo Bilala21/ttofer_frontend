@@ -40,9 +40,10 @@ export class ProductCardComponent implements OnInit {
     private mainServices: MainServicesService,
     private toastr: ToastrService,
     private countdownTimerService: CountdownTimerService,
-    private cdr: ChangeDetectorRef,private token:JwtDecoderService
+    private cdr: ChangeDetectorRef,
+    private token:JwtDecoderService
   ) {
-    this.currentUserId= this.token.decodedToken;
+    this.currentUserId= this.token.decodedToken?.id;
   }
   toggleWishlist(item: any) {
     if (!this.currentUserId) {
