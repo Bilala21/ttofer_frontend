@@ -25,8 +25,6 @@ export class PhoneSignInComponent {
 
   constructor(
     private mainServices: MainServicesService,
-    private snackBar: MatSnackBar,private toastr:ToastrService,
-    private location: Location,
     private fb: FormBuilder, // Inject FormBuilder
     private toaster: ToastrService,
     private globalStateService:GlobalStateService

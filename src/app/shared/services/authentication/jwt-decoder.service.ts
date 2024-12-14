@@ -1,23 +1,20 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JwtDecoderService {
-public decodedToken:any
-constructor() { 
-const token :any = localStorage.getItem('authToken');
-this.decodedToken = this.decodeTokenManually(token);
-}
-decodeTokenManually(token: string): any {
+  public decodedToken: any;
+  constructor() {
+    const token: any = localStorage.getItem('authToken');
+    this.decodedToken = this.decodeTokenManually(token)?.user;
+  }
+
+  decodeTokenManually(token: string): any {
     try {
-      // debugger
-      const payload = token.split('.')[1]; 
-      const decodedPayload = atob(payload);
-      return JSON.parse(decodedPayload);
+      return token ? jwtDecode(token) : null;
     } catch (error) {
       return null;
     }
+  }
 }
-  
-}
-

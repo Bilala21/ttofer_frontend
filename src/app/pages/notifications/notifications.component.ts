@@ -37,6 +37,9 @@ export class NotificationsComponent implements OnInit {
   constructor(private mainService: MainServicesService, private token:JwtDecoderService) {
     this.userId = token.decodedToken
   }
+    ngOnInit(): void {
+    this.getUserNotifications(this.userId)
+  }
   getUserNotifications(userId: number) {
     this.loading = true
     this.mainService.getNotification(userId,'all').subscribe({
@@ -63,7 +66,4 @@ export class NotificationsComponent implements OnInit {
     this.currentIndex = null
   }
 
-  ngOnInit(): void {
-    this.getUserNotifications(this.userId)
-  }
 }

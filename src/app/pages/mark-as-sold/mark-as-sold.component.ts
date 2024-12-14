@@ -73,8 +73,7 @@ export class MarkAsSoldComponent implements OnInit {
          this.router.navigate([`/profilePage/${profileKey}`], { queryParams: { button: 3 } });
       },
       error: (error) => {
-        this.toastr.error('Failed to mark product as sold. Please try again.', 'Error');
-        
+        this.toastr.error('Failed to mark product as sold. Please try again.', 'Error');  
       }
     });
   }

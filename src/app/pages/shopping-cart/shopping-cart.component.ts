@@ -113,7 +113,7 @@ export class ShoppingCartComponent {
     this.isAllChecked = allSelected;
   }
   updateQuantity(item: any) {
-    this.updateTotalLenght()
+    this.updateTotalLenght();
     this.mainService
       .updateItemQty({
         product_id: item.product.id,
@@ -155,19 +155,26 @@ export class ShoppingCartComponent {
   }
 
   buyProduct(item: any) {
-    this.mainService
-      .buyProduct({ user_id: this.userId, product_id: item.product.id })
-      .subscribe({
-        next: (res: any) => {
-          this.toastr.success(res.message, 'Success');
-          item.product.is_should_buy = !item.product.is_should_buy;
-          this.SelectAll();
-        },
-        error: (err) => {
-          console.log(err);
-          this.toastr.error(err.message, 'Error');
-        },
-      });
+    const payload = item?.all
+      ? item
+      : {
+          user_id: this.userId,
+          product_id: item.product.id,
+          all: 0,
+        };
+    this.mainService.buyProduct(payload).subscribe({
+      next: (res: any) => {
+        this.toastr.success(res.message, 'Success');
+        item.product.is_should_buy = item?.all
+          ? true
+          : !item.product.is_should_buy;
+        this.SelectAll();
+      },
+      error: (err) => {
+        console.log(err);
+        this.toastr.error(err.message, 'Error');
+      },
+    });
   }
 
   toggleSelect() {
@@ -179,6 +186,7 @@ export class ShoppingCartComponent {
     } else {
       this.cartItems.map((prod) => (prod.product.is_should_buy = true));
       this.totalLength = this.cartItems.length;
+      this.buyProduct({ user_id: this.userId, all: 1 });
       this.calculateTotal();
     }
   }
@@ -199,14 +207,16 @@ export class ShoppingCartComponent {
         }
         this.cartItems.forEach((item) => {
           try {
-             
             // Safely populate the quantities object
-            if (item.product?.inventory?.id && item.product.inventory.available_stock) {
+            if (
+              item.product?.inventory?.id &&
+              item.product.inventory.available_stock
+            ) {
               this.quantities[item.product.inventory.id] = Array.from({
                 length: item.product.inventory.available_stock,
               });
             }
-        
+
             // Safely populate the sellerRating object
             if (item.seller?.id && item.seller.rating) {
               this.sellerRating[item.seller.id] = Array.from({
@@ -214,11 +224,11 @@ export class ShoppingCartComponent {
               });
             }
           } catch (error) {
-            console.error("Error processing item:", item, error);
+            console.error('Error processing item:', item, error);
             // Handle specific error logic here if needed
           }
         });
-        
+
         this.loading = false;
       }
     });

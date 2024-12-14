@@ -71,32 +71,45 @@ export class AccountSettingComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const data: any = {};
-          if (result.key === 'password' && result.old_password) {
+        if (result.key === 'password' && result.old_password) {
           data['old_password'] = result.old_password;
           data['password'] = result.password;
           data['password_confirmation'] = result.password;
         } else {
           data[result.key] = result.value;
         }
+  
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
             if (response.status) {
               if (result.key === 'password' && result.old_password) {
                 this.globalStateService.triggerLogout();
                 this.toastr.success('Password changed successfully. Please log in again.', 'Success');
-              }else{
+              } else {
                 const currentUser = response.data;
                 this.globalStateService.updateState({ currentUser });
                 this.toastr.success(response.message, 'Success');
               }
-              
             }
           },
           (error: any) => {
-            this.toastr.error(error.error.message, 'Error');
+            if (error.error && error.error.errors) {
+              const validationErrors = error.error.errors;
+              for (const field in validationErrors) {
+                if (validationErrors.hasOwnProperty(field)) {
+                  const messages = validationErrors[field];
+                  messages.forEach((message: string) => {
+                    this.toastr.error(` ${message}`, 'Validation Error');
+                  });
+                }
+              }
+            } else {
+              this.toastr.error(error.error.message || 'An error occurred.', 'Error');
+            }
           }
         );
       }
     });
   }
+  
 }
