@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
+
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
@@ -33,7 +35,6 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
 })
 export class HeaderNavigationComponent implements OnInit {
   notification: any = null;
-  currentUser: any = {};
   loading: boolean = false;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
@@ -61,7 +62,8 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
-  token:any
+  protected currentUser:any={}
+
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -70,13 +72,13 @@ export class HeaderNavigationComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
+    private jwtDecoderService:JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.token=localStorage.getItem('authToken')
+    this.currentUser=this.jwtDecoderService.decodedToken
     this.sideBarItemss = sideBarItems;
-    this.currentUser = JSON.parse(localStorage.getItem('key') as string);
     this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
+      this.currentUser = this.currentUser?this.currentUser: state.currentUser;
       this.cartItems = state.cartState;
     });
     this.currentUserid = extension.getUserId();
@@ -95,6 +97,7 @@ export class HeaderNavigationComponent implements OnInit {
     this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getHeaderNotifications();
     });
+
   }
   calculateTotal(data: any): void {
     this.totalAmount = data.reduce(
@@ -105,7 +108,7 @@ export class HeaderNavigationComponent implements OnInit {
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
   getCartItems() {
-    if (!this.cartItems.length) {
+    if (!this.cartItems.length && this.currentUser.id) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
@@ -121,7 +124,7 @@ export class HeaderNavigationComponent implements OnInit {
     }
   }
   getHeaderNotifications() {
-    if (!this.notificationList.length) {
+    if (!this.notificationList.length && this.currentUser.id) {
       this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
         next: (value: any) => {
           this.notificationList = value.data;
@@ -141,8 +144,10 @@ export class HeaderNavigationComponent implements OnInit {
         .subscribe({
           next: (res: any) => {
             this.notification = res;
+            //(res);
           },
           error: (err) => {
+            //(err);
           },
         });
     }
@@ -207,6 +212,7 @@ export class HeaderNavigationComponent implements OnInit {
         this.suggestions = res.data;
       },
       error: (err) => {
+        //(err);
       },
     });
   }
@@ -256,7 +262,7 @@ export class HeaderNavigationComponent implements OnInit {
       localStorage.removeItem('key');
       this.authService.signOut();
       this.loading = false;
-      this.currentUser = '';
+      this.currentUser = {};
       this.notificationList = [];
       this.unReadNotification = 0;
       this.router.navigate(['']).then(() => {
@@ -305,7 +311,7 @@ ngOnInit(): void {
     this.getHeaderState();
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
-      this.imgUrl = this.currentUser.img;
+      // this.imgUrl = this.currentUser.img;
     }
     this.loading = true;
     this.getScreenSize();

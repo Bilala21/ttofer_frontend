@@ -31,7 +31,7 @@ export class MarkAsSoldComponent implements OnInit {
   ];
   isBtnDisabled = true;
   constructor(private mainService:MainServicesService,private router:Router, private toastr:ToastrService,private token:JwtDecoderService ) {
-  this.currentUserId = token.decodedToken;
+  this.currentUserId = token.decodedToken?.id;
    }
   ngOnInit() {
     const storedItems = localStorage.getItem('soldItems');

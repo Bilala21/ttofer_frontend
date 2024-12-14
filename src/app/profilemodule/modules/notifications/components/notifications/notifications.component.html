@@ -46,7 +46,7 @@
         <div *ngIf="loading">
             <app-card-shimmer *ngFor="let i of [1,2,3]" />
         </div>
-        <div *ngIf="!loading && data.length>0">
+        <div *ngIf="!loading && data.length>15">
             <div class="text-center my-5">
                 <button class="btn load-more-btn fs-18 fw-semibold" (click)="loadMore()">Load more</button>
             </div>

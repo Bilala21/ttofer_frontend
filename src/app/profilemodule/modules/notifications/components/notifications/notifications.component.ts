@@ -25,7 +25,7 @@ export class NotificationsComponent {
     private mainService: MainServicesService,
     private token:JwtDecoderService
   ) {
-    this.userId = token.decodedToken
+    this.userId = token.decodedToken?.id
   }
   fecthData(userId: number, type?: string) {
     this.loading = true;

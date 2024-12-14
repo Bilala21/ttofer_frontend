@@ -129,7 +129,7 @@
               bid</button>
           </div>
           <p class="fs-12 fw-normal pt-1 mb-2">Enter AED {{calculatePercentageIncrease((highBid ||
-            product.auction_final_price ),20)}} or more</p>
+            product.auction_final_price ),1)}} or more</p>
           <div
             *ngIf="bidForm.get('bid_price')?.invalid && (bidForm.get('bid_price')?.touched || bidForm.get('bid_price')?.dirty)"
             class="text-red-500 text-sm">

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SliderComponent } from '../../components/slider/slider.component';
@@ -9,6 +9,7 @@ import { PromotionSliderComponent } from '../../components/promotion-slider/prom
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { NgIf } from '@angular/common';
 import { Extension } from '../../helper/common/extension/extension';
+import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 
 @Component({
   selector: 'app-body',
@@ -33,10 +34,13 @@ export class BodyComponent {
   promotionBanners: any = [];
   footerBanners: any = [];
   user_id;
+  countdownSubscriptions: Subscription[] = [];
   constructor(
     private mainServices: MainServicesService,
     private extension: Extension,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private countdownTimerService: CountdownTimerService
   ) {
     this.user_id = this.extension.getUserId();
   }
@@ -52,6 +56,7 @@ export class BodyComponent {
           this.auctionPosts = response.auctionProduct.data.data;
           this.featuredPosts = response.featureProduct.data.data;
           this.loading = false;
+          // this.startCountdowns();
         },
         error: (err) => {
           console.error('Error occurred while fetching data', err);
@@ -60,6 +65,26 @@ export class BodyComponent {
       });
     });
     this.getBanners();
+  }
+
+  startCountdowns() {
+    if (this.auctionPosts.length) {
+      this.auctionPosts.forEach((item: any) => {
+        const datePart = item.auction_ending_date;
+
+        const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
+        const subscription = this.countdownTimerService
+          .startCountdown(endingDateTime, item)
+          .subscribe((remainingTime) => {
+            item.calculateRemainingTime = remainingTime
+              ? remainingTime + ' remaining'
+              : 'Bid Expired';
+            this.cdr.detectChanges();
+          });
+
+        this.countdownSubscriptions.push(subscription);
+      });
+    }
   }
 
   getBanners() {
@@ -75,5 +100,9 @@ export class BodyComponent {
         console.error('Error occurred while fetching data', error);
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

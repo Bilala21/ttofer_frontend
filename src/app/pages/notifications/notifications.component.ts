@@ -35,7 +35,7 @@ export class NotificationsComponent implements OnInit {
                         error modi ab eum in placeat quas consequatur recusandae
   `
   constructor(private mainService: MainServicesService, private token:JwtDecoderService) {
-    this.userId = token.decodedToken
+    this.userId = token.decodedToken?.id
   }
     ngOnInit(): void {
     this.getUserNotifications(this.userId)

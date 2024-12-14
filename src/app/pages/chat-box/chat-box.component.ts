@@ -268,6 +268,8 @@ export class ChatBoxComponent {
     }
   }
   getConversation(data: any) {
+    
+    //(data)
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;

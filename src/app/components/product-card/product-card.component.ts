@@ -40,9 +40,10 @@ export class ProductCardComponent implements OnInit {
     private mainServices: MainServicesService,
     private toastr: ToastrService,
     private countdownTimerService: CountdownTimerService,
-    private cdr: ChangeDetectorRef,private token:JwtDecoderService
+    private cdr: ChangeDetectorRef,
+    private token:JwtDecoderService
   ) {
-    this.currentUserId= this.token.decodedToken;
+    this.currentUserId= this.token.decodedToken?.id;
   }
   toggleWishlist(item: any) {
     if (!this.currentUserId) {
@@ -170,13 +171,14 @@ export class ProductCardComponent implements OnInit {
     const datePart = this.postData.auction_ending_date.split('T')[0];
     const endingDateTime = `${datePart}T${this.postData.auction_ending_time}.000Z`;
     const subscription = this.countdownTimerService
-      .startCountdown(endingDateTime)
+      .startCountdown(endingDateTime,this.postData)
       .subscribe((remainingTime) => {
         this.postData.calculateRemaningTime = remainingTime;
         this.cdr.markForCheck();
       });
     this.countdownSubscriptions.push(subscription);
   }
+
   ngOnDestroy() {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
