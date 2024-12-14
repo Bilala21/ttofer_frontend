@@ -62,6 +62,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
+  token:any
 
   constructor(
     private globalStateService: GlobalStateService,
