@@ -45,7 +45,6 @@ export class PurchaseSaleComponent implements OnInit {
   ) {
     this.userId = this.extension.getUserId();
   }
-
   getTab(tab: any) {
     this.activeIndex = tab.index;
     this.notfoundData = notFoundData[tab.value];
@@ -54,25 +53,21 @@ export class PurchaseSaleComponent implements OnInit {
       this.fecthData(tab.value);
     }
   }
-
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
   }
   fecthData(tab: string) {
     this.loading = true;
     this.mainServices.getSelling(tab, this.userId).subscribe({
-      next: (res: any) => {
-        
+      next: (res: any) => {       
         this.data = res.data?.data;
         this.loading = false;
-        //(res.data);
       },
       error: (err: any) => {
         this.loading = false;
       },
     });
   }
-
   ngOnInit(): void {
     let isSelling = false;
     this.route.queryParams.subscribe((params: any) => {
@@ -91,8 +86,7 @@ export class PurchaseSaleComponent implements OnInit {
     }
   }
   markAsSold(product: any) {
-    localStorage.setItem('soldItems', JSON.stringify(product));
-     
+    localStorage.setItem('soldItems', JSON.stringify(product));   
     this.router.navigate(['/markAsSold/', product.id]);
   }
 deleteProduct(product_id:any){
@@ -100,12 +94,11 @@ this.mainServices.deleteProduct(product_id).subscribe({
   next:(response:any)=>{
     if(response.status){
       this.data = this.data.filter((item: any) => item.id !== product_id);
-       //(this.data)
       this.toastr.success(response.message,'Success');
     }
   }
 })
-  }
+}
   openDialog(id:any): void {
     const dialogRef = this.dialog.open(DeleteProductDialogComponent, {
       height: '322px',
@@ -114,7 +107,6 @@ this.mainServices.deleteProduct(product_id).subscribe({
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-         //(result)
        this.deleteProduct(result)
        
       }

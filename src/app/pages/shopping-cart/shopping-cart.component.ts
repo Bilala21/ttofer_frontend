@@ -8,6 +8,7 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
 import { Extension } from '../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -33,28 +34,22 @@ export class ShoppingCartComponent {
   isAllChecked: boolean = false;
   loading = true;
   userId;
-  selectedItems: any = [];
-  isCartRoute: boolean = false;
   sellerRating: any = [];
-
   constructor(
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
-    private extension: Extension,
-    private toastr: ToastrService
+    private toastr: ToastrService,private token:JwtDecoderService
   ) {
-    this.userId = extension.getUserId();
+    this.userId =token.decodedToken;
   }
-
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
-      return item.selected
+      return item.product.is_should_buy
         ? acc + item.product.fix_price * item.product.quantity
         : acc;
     }, 0);
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
-
   saveForLater(item: any): void {
     this.mainService
       .toggleSaveItem({
@@ -73,7 +68,6 @@ export class ShoppingCartComponent {
         },
       });
   }
-
   removeItem(item: any): void {
     this.mainService
       .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
@@ -84,7 +78,6 @@ export class ShoppingCartComponent {
             (prod) => prod.product.id !== item.product.id
           );
           this.globalStateService.updateCart(this.cartItems);
-          this.toggleSelectAll();
           this.calculateTotal();
           this.toastr.success(res.message, 'Success');
         },
@@ -95,30 +88,22 @@ export class ShoppingCartComponent {
       });
   }
 
-  toggleSelectAll(): void {
-    this.isAllChecked = !this.isAllChecked;
-    this.cartItems.forEach((item) => {
-      item.selected = item.selected ? item.selected : this.isAllChecked;
-      if (item.selected) {
-        this.isAllChecked = true;
-      } else {
-        this.isAllChecked = false;
-      }
-    });
-
-    this.isAllChecked
-      ? (this.totalLength = this.cartItems.length)
-      : (this.totalLength = 0);
+  SelectAll(): void {
+    this.updateTotalLenght();
+    const found = this.cartItems.find((prod) => !prod.product.is_should_buy);
+    if (!found) {
+      this.isAllChecked = true;
+    } else {
+      this.isAllChecked = false;
+    }
     this.calculateTotal();
   }
-
   updateSelectAll(prod: any): void {
     prod.selected = !prod.selected;
     let allSelected = true;
     prod.selected
       ? (this.totalLength = this.totalLength + 1)
-      : (this.totalLength = this.totalLength - 1);
-
+      : (this.totalLength = this.totalLength - 1)
     this.cartItems.forEach((item) => {
       if (!item.selected) {
         allSelected = false;
@@ -127,8 +112,8 @@ export class ShoppingCartComponent {
     this.calculateTotal();
     this.isAllChecked = allSelected;
   }
-
   updateQuantity(item: any) {
+    this.updateTotalLenght()
     this.mainService
       .updateItemQty({
         product_id: item.product.id,
@@ -139,10 +124,69 @@ export class ShoppingCartComponent {
         next: (res: any) => {
           if (res.status) {
             this.calculateTotal();
+            this.toastr.success(
+              'Items quantity updated successfully',
+              'Success'
+            );
           }
         },
-        error: (err) => {},
+        error: (err) => {
+          console.log(err);
+        },
       });
+  }
+
+  getCartItems() {
+    if (!this.cartItems.length) {
+      this.loading = true;
+      this.mainService.getCartProducts(this.userId).subscribe({
+        next: (value: any) => {
+          this.globalStateService.updateCart(value.data);
+          this.cartItems = value.data;
+          this.loading = false;
+          this.calculateTotal();
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error('Error fetching cart products', err);
+        },
+      });
+    }
+  }
+
+  buyProduct(item: any) {
+    this.mainService
+      .buyProduct({ user_id: this.userId, product_id: item.product.id })
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message, 'Success');
+          item.product.is_should_buy = !item.product.is_should_buy;
+          this.SelectAll();
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error(err.message, 'Error');
+        },
+      });
+  }
+
+  toggleSelect() {
+    this.isAllChecked = !this.isAllChecked;
+    if (!this.isAllChecked) {
+      this.cartItems.map((prod) => (prod.product.is_should_buy = 0));
+      this.totalLength = 0;
+      this.calculateTotal();
+    } else {
+      this.cartItems.map((prod) => (prod.product.is_should_buy = true));
+      this.totalLength = this.cartItems.length;
+      this.calculateTotal();
+    }
+  }
+
+  updateTotalLenght() {
+    this.totalLength = this.cartItems.filter(
+      (item) => item.product.is_should_buy
+    ).length;
   }
 
   ngOnInit() {
@@ -151,9 +195,8 @@ export class ShoppingCartComponent {
       this.cartItems = state.cartState;
       if (this.cartItems.length) {
         if (Array.isArray(this.cartItems) && this.cartItems.length) {
-          this.toggleSelectAll();
+          this.SelectAll();
         }
-
         this.cartItems.forEach((item) => {
           try {
              
@@ -179,5 +222,6 @@ export class ShoppingCartComponent {
         this.loading = false;
       }
     });
+    this.getCartItems();
   }
 }

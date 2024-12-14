@@ -7,7 +7,7 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
   standalone: true,
   templateUrl: './term-of-condition.component.html',
   styleUrls: ['./term-of-condition.component.css'],
-  imports: [FooterComponent, NgFor,  NgIf, CommonModule]
+  imports: [CommonModule]
 })
 export class TermOfConditionComponent implements OnInit {
   supportEmail!:string;

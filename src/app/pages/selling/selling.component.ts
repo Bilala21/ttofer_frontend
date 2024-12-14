@@ -9,6 +9,7 @@ import { GlobalStateService } from '../../shared/services/state/global-state.ser
 import { CardComponent } from '../../components/selling/card/card.component';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { Extension } from '../../helper/common/extension/extension';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-selling',
@@ -194,9 +195,9 @@ export class SellingComponent {
   constructor(
     private route: ActivatedRoute,
     private mainServices: MainServicesService,
-    private extension: Extension,public router:Router
+  public router:Router,private token:JwtDecoderService
   ){
-    this.currentUserid = extension.getUserId()
+    this.currentUserid=token.decodedToken
   }
   ngOnInit():void{
     this.sellingId = this.route.snapshot.paramMap.get('id')!;
@@ -209,21 +210,17 @@ export class SellingComponent {
   }
   getSelling() {
     this.loading = true
-    this.mainServices.getSelling().subscribe((res:any) => {
-      
+    this.mainServices.getSelling().subscribe((res:any) => {   
       this.sellingList = res.data.selling.data
       this.sellingList = this.sellingList?.filter((item:any) => {
         return item.id == this.sellingId;
       });
-      //(this.sellingList)
       this.loading = false
     })
   }
   markAsSold(prodictId:any){
-    //('sold out ', prodictId)
     this.mainServices.markAsSold(prodictId).subscribe(res =>{
 
-      res
     })
   }
   getAllChatsOfUser = () => {

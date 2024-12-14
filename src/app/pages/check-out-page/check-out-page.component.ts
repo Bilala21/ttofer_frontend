@@ -1,33 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainServicesService } from '../../shared/services/main-services.service';
+import { Extension } from '../../helper/common/extension/extension';
+import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '../../shared/services/state/global-state.service';
+import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CheckoutModalComponent } from './checkout-modal/checkout-modal.component';
 
 @Component({
   selector: 'app-check-out-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    CardShimmerComponent,
+    NgFor,
+  ],
   templateUrl: './check-out-page.component.html',
-  styleUrls: ['./check-out-page.component.scss']
+  styleUrl: './check-out-page.component.scss',
 })
-export class CheckOutPageComponent implements OnInit {
-  stripe: any;
-  elements: any;
-  card: any;
-  paymentHandler: any = null;
-  stripeAPIKey: string = 'pk_test_51O7mVXJayAXqf3Vq8gnj64IGw9woyYdaSUTgkdh07uYy22MN6qg8VEMzJZvhdV4HnANed3rqsN4crMBBy6CkH8eo00u6HHRwj0'
-
+export class CheckOutPageComponent {
+  cartItems: any[] = [];
+  totalAmount: number = 0;
+  totalLength: number = 0;
+  isAllChecked: boolean = false;
+  loading = true;
+  userId;
   paymentMethod: string = '';
-  orderTotal: number = 3681.24;
-  itemTotal: number = 3186.00;
-  itemDescription: string = '2.07 CT H VS2 Round Cut Lab Created Diamond Halo Engagement Ring 14K White Gold';
+  itemDescription: string =
+    '2.07 CT H VS2 Round Cut Lab Created Diamond Halo Engagement Ring 14K White Gold';
   quantity: number = 1;
+
+  constructor(
+    private mainService: MainServicesService,
+    private extension: Extension,
+    private toastr: ToastrService,
+    private globalStateService: GlobalStateService,
+    public dialog: MatDialog,
+    private mainServices: MainServicesService
+  ) {
+    this.userId = extension.getUserId();
+  }
+
   shippingAddress = {
     name: '',
     address: '',
     city: '',
     zip: '',
-    country: ''
+    country: '',
   };
+
 
   paymentDeposit: any[] = [
     { img: 'assets/images/Applelogo.svg', detail1: 'Apple Pay', id: 'paymentApplePay' },
@@ -36,55 +62,8 @@ export class CheckOutPageComponent implements OnInit {
     { img: 'assets/images/GPay.svg', detail1: 'Google Pay', id: 'paymentGooglePay' }
   ];
 
-  cartItems: any[] = [
-    { title: 'Diamond of Expo', description: '2.07 CTW Round Cut Lab Created Diamond', price: 1385.00, imageUrl: '/assets/images/silder-1.jpg', seller: 'Diamond Expo', rating: 4.5 },
-    { title: 'Sage Designs L.A.', description: 'Lab Grown Oval Diamond Engagement Ring', price: 1799.00, imageUrl: '/assets/images/silder-2.jpg', seller: 'Sage Designs L.A.', rating: 4.8 }
-  ];
-
-  quantities = Array.from({ length: 10 }, (_, i) => i + 1);
-
-  ngOnInit() {
-    this.invokeStripe();
-  }
-
-  makePayment(amount: any) {
-    const paymentHandler = (<any>window).StripeCheckout.configure({
-      key: this.stripeAPIKey,
-      locale: 'auto',
-      token: function (stripeToken: any) {
-        console.log(stripeToken);
-        alert('Stripe token generated!');
-      }
-    });
-
-    paymentHandler.open({
-      name: 'ttoffer.com',
-      description: 'This is for Testing',
-      amount: amount * 100
-    });
-  }
-  trackById(index: number, item: any): any {
-    return item.id; // Use item.id if your items have a unique id property
-  }
-
-  invokeStripe() {
-    if (!window.document.getElementById('stripe-script')) {
-      const script = window.document.createElement('script');
-      script.id = 'stripe-script';
-      script.type = 'text/javascript';
-      script.src = 'https://checkout.stripe.com/checkout.js';
-      script.onload = () => {
-        this.paymentHandler = (<any>window).StripeCheckout.configure({
-          key: this.stripeAPIKey,
-          locale: 'auto',
-          token: function (stripeToken: any) {
-            console.log(stripeToken);
-            alert('Payment has been successful!');
-          }
-        });
-      };
-      window.document.body.appendChild(script);
-    }
+  trackById(index: number, item: any): number {
+    return item.id;
   }
 
   openNewCardModal() {
@@ -101,6 +80,18 @@ export class CheckOutPageComponent implements OnInit {
     }
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CheckoutModalComponent, {
+      width: '500px',
+      data: { amount: this.totalAmount },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+      }
+    });
+  }
+
   closeNewCardModal() {
     const modal = document.getElementById('newCardModal');
     if (modal) {
@@ -115,5 +106,48 @@ export class CheckOutPageComponent implements OnInit {
       }
     }
   }
-}
 
+  calculateTotal(): void {
+    this.totalAmount = this.cartItems.reduce((acc, item) => {
+      return item.product.is_should_buy
+        ? acc + item.product.fix_price * item.product.quantity
+        : acc;
+    }, 0);
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+  }
+
+  getCartItems() {
+    if (!this.cartItems.length) {
+      this.loading = true;
+      this.mainService.getCartProducts(this.userId).subscribe({
+        next: (value: any) => {
+          this.cartItems = value.data.filter(
+            (item: any) => item.product.is_should_buy
+          );
+          this.loading = false;
+          this.totalLength = this.cartItems.length;
+          this.calculateTotal();
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error('Error fetching cart products', err);
+        },
+      });
+    }
+  }
+
+  ngOnInit() {
+    this.loading = true;
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState.filter(
+        (item: any) => item.product.is_should_buy
+      );
+      if (this.cartItems.length) {
+        this.loading = false;
+        this.totalLength = this.cartItems.length;
+        this.calculateTotal();
+      }
+    });
+    this.getCartItems();
+  }
+}

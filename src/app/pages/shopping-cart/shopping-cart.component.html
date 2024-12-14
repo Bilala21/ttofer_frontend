@@ -1,6 +1,6 @@
 <main class="mt-16">
   <section class="container-fluid pt-4">
-    @if (loading && cartItems.length) {
+    @if (loading) {
     <div>
       <app-card-shimmer />
     </div>
@@ -18,7 +18,7 @@
     <div *ngIf="cartItems.length">
       <h2 class="pb-3 fs-24">Shopping Cart</h2>
       <div class="d-flex align-items-center mb-4">
-        <input type="checkbox" class="all-select" (change)="toggleSelectAll()" [checked]="isAllChecked" />
+        <input type="checkbox" class="all-select" (change)="toggleSelect()" [checked]="isAllChecked" />
         <span class="ml-1 fs-14">Select All</span>
       </div>
 
@@ -33,7 +33,6 @@
                   class="seller-image {{item.seller.url?'':'border-1'}}" />
                 <div>
                   <span class="product-title d-block">{{ item.seller.name }}</span>
-                  <!-- <span class="text-yellow-800 d-block">★★★★★</span> -->
                   <div class="d-flex align-items-center">
                     <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" class="pl-1">
                       <span *ngIf="i < 2" class="text-yellow-800 d-block">★</span>
@@ -55,11 +54,12 @@
               </div>
 
               <div class="d-flex justify-content-between mt-3">
-                <input type="checkbox" [checked]="item.selected" (change)="updateSelectAll(item);" />
+                <input type="checkbox" [checked]="item.product.is_should_buy"
+                  (change)="updateSelectAll(item);buyProduct(item)" />
                 <div>
                   <label for="" class="mr-1">Qty</label>
                   <select [(ngModel)]="item.product.quantity" (change)="updateQuantity(item)"
-                    [ngClass]="item.selected?'':'disabled'">
+                    [ngClass]="item.product.is_should_buy?'':'disabled'">
                     <option *ngFor="let qty of quantities?.[item.product.id]; let i=index" [value]="i+1">{{ i+1 }}
                     </option>
                   </select>

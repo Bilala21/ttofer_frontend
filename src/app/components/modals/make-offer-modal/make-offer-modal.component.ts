@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { MainServicesService } from '../../../shared/services/main-services.service';
 import { Extension } from '../../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
+import { JwtDecoderService } from '../../../shared/services/authentication/jwt-decoder.service';
 @Component({
   selector: 'app-make-offer-modal',
   standalone: true,
@@ -34,8 +35,8 @@ export class MakeOfferModalComponent implements OnInit {
   highestBid:any
   @Input() product: any
   constructor(private extension:Extension,private fb: FormBuilder, private globalStateService: GlobalStateService, private cdr: ChangeDetectorRef,private mainServices:MainServicesService,
-    private countdownTimerService: CountdownTimerService,private toastr: ToastrService,) {
-      this.currentUserId=this.extension.getUserId()
+    private countdownTimerService: CountdownTimerService,private toastr: ToastrService,private token:JwtDecoderService) {
+      this.currentUserId=token.decodedToken
     this.offerForm = this.fb.group({
       offer_price: [
         '',
@@ -226,7 +227,6 @@ if(this.product.product_type == 'auction'){
       });
     this.countdownSubscriptions.push(subscription);
   }
-
   getBid() {
     let input = {
       product_id: this.product.id,
@@ -235,5 +235,4 @@ if(this.product.product_type == 'auction'){
       this.globalStateService.setLiveBids(res.data)
     });
   }
- 
 }

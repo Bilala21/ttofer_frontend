@@ -1,7 +1,7 @@
 export const notFoundData: any = {
   buying: {
     image: '/assets/sellling/selling-notfoun1.png',
-    heading: 'Begin Buying Items! 1234',
+    heading: 'Begin Buying Items!',
     text: 'Make local buying and selling easy and straightforward!',
     tabName: 'buying',
   },

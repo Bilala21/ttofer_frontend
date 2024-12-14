@@ -57,10 +57,12 @@ export class HeaderNavigationComponent implements OnInit {
   sideBarItemss: any[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
   private getCartSubject: Subject<void> = new Subject<void>();
-  private getNotificationSubject: Subject<void> = new Subject<void>();
+  private getNotificationsSubject: Subject<void> = new Subject<void>();
   suggestions: any = [];
   activeRoute: any;
   isHideCart: boolean = false;
+  totalAmount: number = 0;
+
   constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
@@ -92,10 +94,18 @@ export class HeaderNavigationComponent implements OnInit {
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
-    // notification-subject
-    this.getNotificationSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.fetchNotification(this.currentUserid,'unread');
+    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
     });
+  }
+
+  calculateTotal(data: any): void {
+    this.totalAmount = data.reduce(
+      (acc: any, item: any) =>
+        acc + item.product.fix_price * item.product.quantity,
+      0
+    );
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
 
   getCartItems() {
@@ -105,6 +115,7 @@ export class HeaderNavigationComponent implements OnInit {
           this.globalStateService.updateCart(value.data);
           this.cartItems = value.data;
           this.cartLoading = false;
+          this.calculateTotal(this.cartItems);
         },
         error: (err) => {
           this.cartLoading = false;
@@ -113,17 +124,46 @@ export class HeaderNavigationComponent implements OnInit {
       });
     }
   }
+  getHeaderNotifications() {
+    if (!this.notificationList.length) {
+      this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
+        next: (value: any) => {
+          this.notificationList = value.data;
+          this.notificationLoading = false;
+        },
+        error: (err) => {
+          this.cartLoading = false;
+          console.error('Error fetching notifications', err);
+        },
+      });
+    }
+  }
+
+  getHeaderState() {
+    if (this.currentUserid) {
+      this.mainServicesService
+        .getHeaderNotifications(this.currentUserid)
+        .subscribe({
+          next: (res: any) => {
+            this.notification = res;
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
+  }
 
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
   }
 
-  getNotificationOnMouseOver() {
+  getNotificationsOnMouseOver() {
     this.notificationLoading = true;
-    this.getNotificationSubject.next();
+    this.getNotificationsSubject.next();
   }
-  
 
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
@@ -317,6 +357,8 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
+
+    this.getHeaderState();
 
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {

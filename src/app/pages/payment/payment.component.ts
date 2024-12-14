@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 import { StripeServiceService } from '../../shared/services/stripe-service.service';
-
 @Component({
   selector: 'app-payment',
   standalone:true,
@@ -16,45 +15,37 @@ export class PaymentComponent implements OnInit, AfterViewInit {
   loading = false;
   errorMessage: any | null = null;
   successMessage: string | null = null;
-
   constructor(private stripeService: StripeServiceService) {}
-
-  async ngOnInit(): Promise<void> {
-    
+  async ngOnInit(): Promise<void> {   
     this.stripe = this.stripeService.getStripe();
     if (this.stripe) {
       this.elements = this.stripe.elements();
     }
   }
-
   ngAfterViewInit(): void {
     this.mountCardElement();
   }
-
   private mountCardElement(): void {
     if (this.elements) {
       this.card = this.elements.create('card');
       this.card.mount('#card-element');
     }
   }
-
   async handleForm(event: Event): Promise<void> {
     event.preventDefault();
     this.loading = true;
     this.errorMessage = null;
     this.successMessage = null;
-
     if (this.stripe && this.card) {
       const { token, error } = await this.stripe.createToken(this.card);
       if (error) {
         this.errorMessage = error.message;
       } else if (token) {
-        this.processPayment(token, 10); // Default amount as an example
+        this.processPayment(token, 10); 
       }
     }
     this.loading = false;
   }
-
   async processPayment(token: any, amount: number): Promise<void> {
     try {
       const response = await this.stripeService.processPayment(token, amount).toPromise();
@@ -65,9 +56,7 @@ export class PaymentComponent implements OnInit, AfterViewInit {
       this.errorMessage = 'Payment failed. Please try again.';
     }
   }
-
-  pay(amount: number): void {
-    
+  pay(amount: number): void {   
     if (this.stripe && this.card) {
       this.loading = true;
       this.stripe.createToken(this.card).then(({ token, error }) => {

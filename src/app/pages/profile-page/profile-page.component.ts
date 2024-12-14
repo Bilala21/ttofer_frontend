@@ -1907,7 +1907,6 @@ export class ProfilePageComponent {
     const utcMinutes = String(now.getUTCMinutes()).padStart(2, '0');
     return `${utcHours}:${utcMinutes}`;
   }
-
   getMinTime(type: 'start' | 'end'): string {
     const todayDate = this.getTodayDate();
     if (type === 'start') {

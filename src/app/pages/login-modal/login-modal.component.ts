@@ -12,7 +12,6 @@ import { EmailSignInComponent } from "../email-sign-in/email-sign-in.component";
 import { PhoneSignInComponent } from "../phone-sign-in/phone-sign-in.component";
 import { RegisterComponent } from "../register/register.component";
 import { ToastrService } from "ngx-toastr";
-
 @Component({
   selector: 'app-login-modal',
   standalone: true,
@@ -58,35 +57,22 @@ export class LoginModalComponent {
   phoneNumber:any
   private intervalId: any;
   loading = false;
-  currentUserId:string="";
   errorMessage!:string;
   emailForForgotPassword:any
   resetPassword!:FormGroup;
   resending:boolean=false
   private modalSubscription!: Subscription;
-  // categories! : category []
   @ViewChild('loginModal') loginModal!: ElementRef;
   @ViewChildren('otpField') otpFields!: QueryList<ElementRef>;
   constructor(
     private router: Router, private mainServices: MainServicesService, private extention: Extension,private toastr:ToastrService,
     private snackBar: MatSnackBar,
     private authService: AuthService) {
-    // this.inputFields = new Array(6);
-    // this.router.events.subscribe(event => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.checkRoute(event.url);
-    //   }
-    // });
-    // 
-    this.currentUserId = extention.getUserId();
-    // 
    this.authService.openModal$.subscribe((result:any) => {
       this.openLoginModal();
     });
   }
-
   updateOnlineCount() {
-    // this.onlineCount = Math.floor(Math.random() * 100);
     const min = 700;
   const max = 13000;
   this.onlineCount = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -99,23 +85,14 @@ export class LoginModalComponent {
       email: new FormControl({ value: '', disabled: true }),
       password: new FormControl('', [Validators.required]),
       password_confirmation: new FormControl('', [Validators.required])
-    });
-    
-    // Set the email value explicitly
-    
-    
+    }); 
   }
-
   onSubmit() {
-    if (this.phone && this.password) {
-      //('Phone:', this.phone);
-      //('Password:', this.password);
+    if (this.phone && this.password) {     
     }
   }
    openLoginModal() {
-    // 
-    const modal = this.loginModal.nativeElement;
-    
+    const modal = this.loginModal.nativeElement; 
     if (modal) {
       modal.classList.add('show');
       modal.style.display = 'block';
@@ -131,7 +108,6 @@ export class LoginModalComponent {
   openMobileMenu() {
     this.openMenu = !this.openMenu
   }
-
   resetForm() {
     this.email = '';
     this.phone = '';
@@ -141,32 +117,20 @@ export class LoginModalComponent {
     this.username = '';
     this.emailOrPhone = '';
     this.confirmPassword = '';
-
   }
-
   verifyOTP() {
-    // 
-    // Combine the OTP inputs into a single string
     const otp = this.getOtpValue();
-
-    // Make sure the OTP is complete
     if (otp.length === this.otpInputs.length) {
-      // API endpoint
-
-      // Prepare the payload with OTP and email
       const payload = {
         otp:otp,
         email: this.emailForForgotPassword,
       };
    this.loading=true
-      // Send POST request to the API
       this.mainServices.otpVerify(payload).subscribe(
         (response:any) => {
           this.toastr.success(response.msg, 'Success');
           this.loading=false
           this.resetPassword.get('email')?.setValue(this.emailForForgotPassword);
-
-          // Show the reset password section
           this.showResetpassword = true;
           this.showOTPBox = false;
           this.showForgotPhoneBox = false;
@@ -178,33 +142,22 @@ export class LoginModalComponent {
         (error) => {
           this.loading=false
           this.toastr.error(error.error.msg, 'Error');
-          // Handle error if needed
         }
       );
     } else {
-      //('OTP is incomplete.');
     }
   }
   isFormValidforgot(): boolean {
     return this.resetPassword.valid;
   }
   forgotPasswordChange() {
-    // 
-    // Combine the OTP inputs into a single string
-
-    // Make sure the OTP is complete
- 
     this.loading = true;
     this.resetPassword.get('email')?.enable();
-
     const formData = this.resetPassword.value;
-      // Send POST request to the API
       this.mainServices.newPassword(formData).subscribe(
         (response:any) => {
           this.toastr.success(response.msg, 'Success');
           this.loading = false;
-
-          // Show the reset password section
           this.showResetpassword = false;
           this.showOTPBox = false;
           this.showForgotPhoneBox = false;
@@ -216,8 +169,6 @@ export class LoginModalComponent {
         (error) => {
           this.toastr.error(error.error.msg, 'Error');
           this.loading = false;
-
-          // Handle error if needed
         }
       );
   }
@@ -226,16 +177,11 @@ export class LoginModalComponent {
       this.inputFields[index + 1].nativeElement.focus();
     }
   }
-
-
-
   signIn() {
     if (this.isFormValid()) {
-      //('Email:', this.email);
-      //('Password:', this.password);
+     
     }
   }
-
   ValidFor(): boolean {
     return (
       this.firstName.trim() !== '' &&
@@ -247,14 +193,11 @@ export class LoginModalComponent {
       this.confirmPassword == this.password
     )
   }
-
   isFormValid(): boolean {
     return (
       this.email.trim() !== '' && this.password.trim() !== ''
-
     );
   }
-
   confirmRegistration() {
     let input = {
       name: this.firstName + this.lastName,
@@ -264,17 +207,13 @@ export class LoginModalComponent {
     }
     this.mainServices.getSignUp(input).pipe(
       catchError((error) => {
-
-
         this.errorMessage = error.error.message.username!=undefined ?error.error.message.username[0]:error.error.message.password!=undefined?error.error.message.password[0]:error.error.message ;
         return '';
       })
     ).subscribe((res: any) => {
-
       if (res != null) {
           this.showRegisterBox = false;
           this.showSuccessMessage("Account Registered Successfully");
-
       }
     });
   }
@@ -284,7 +223,6 @@ export class LoginModalComponent {
         // 
         const user = result.user;
         if (user) {
-
           let input = {
             name: user.displayName,
             username: user.email?.split('.com')[0],
@@ -292,11 +230,9 @@ export class LoginModalComponent {
             password: user.email
           }
           this.googleAccountRegister(input,user);
-          //('User signed in:', user);
         }
       },
       error: (error:any) => {
-
         console.error('Error signing in:', error);
       }
     });
@@ -304,20 +240,17 @@ export class LoginModalComponent {
   googleAccountRegister(input: any,user:any) {
     this.mainServices.getSignUp(input).pipe(
       catchError((error: any) => {
-
         if (error.error.message === "Email address already taken.") {
           let loginInput = {
             email: user.email,
             password: user.email
           }
-
           this.Login(loginInput);
         }
         else{
           this.showSuccessMessage(error.error.error)
           this.loading=false;
         }
-
         return of(null);
       })
     ).subscribe((res:any) => {
@@ -339,35 +272,28 @@ export class LoginModalComponent {
       })
     ).subscribe((res:any) => {
       if (res) {
-        // Proceed with login processing if response is not null
         localStorage.setItem('authToken', res.data.token);
         const jsonString = JSON.stringify(res.data.user);
         localStorage.setItem("key", jsonString);
         const jsonStringGetData = localStorage.getItem('key');
         this.currentUser = jsonStringGetData ? JSON.parse(jsonStringGetData) : [];
         this.loading = false;
-        // this.location.go(this.location.path());
         window.location.reload();
         this.closeModal();
       }
     });
   }
- 
-
   isDropdownOpen = false;
-
   toggleDropdown(event: MouseEvent) {
     this.isDropdownOpen = !this.isDropdownOpen;
     event.stopPropagation();
   }
   toggleDropdown1(event: MouseEvent) {
-
     this.dropdownVisible = !this.dropdownVisible;
     event.stopPropagation();
   }
   @HostListener('document:click', ['$event'])
   closeDropdownOnOutsideClick(event: MouseEvent): void {
-    // Check if the click is outside the dropdown
     if (this.isDropdownOpen && !this.isClickInsideDropdown(event)) {
       this.isDropdownOpen = false;
     }
@@ -375,7 +301,6 @@ export class LoginModalComponent {
       this.dropdownVisible=false;
     }
   }
-
   backButton(){
     this.showRegisterBox=false;
     this.showPhoneBox=false;
@@ -404,7 +329,6 @@ export class LoginModalComponent {
     this.showResetpassword=false;
   }
   private isClickInsideDropdown(event: MouseEvent): boolean {
-    // Check if the click target is the dropdown or a child of it
     const dropdownElement = document.querySelector('.dropdown-menu');
     return dropdownElement?.contains(event.target as Node) || false;
   }
@@ -458,8 +382,6 @@ export class LoginModalComponent {
       panelClass: ['success-snackbar']
     });
   }
-
-
   getAuth() {
     this.loading = true
     let input = {
@@ -475,7 +397,6 @@ export class LoginModalComponent {
       const jsonStringGetData = localStorage.getItem('key');
       this.currentUser = jsonStringGetData ? JSON.parse(jsonStringGetData) : [];
       this.loading = false;
-      // this.location.go  (this.location.path());
       window.location.reload();
       this.closeModal()
     },
@@ -522,7 +443,6 @@ export class LoginModalComponent {
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
       this.loading=false
       this.otpVerify = res.otp
-      //(this.otpVerify)
       this.toastr.success(res.message, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
@@ -543,8 +463,7 @@ export class LoginModalComponent {
     this.mainServices.forgetPassword(input).subscribe((res:any) => {
       this.resending=false
       this.otpVerify = res.otp
-      this.toastr.success(res.message, 'Success');
-      
+      this.toastr.success(res.message, 'Success'); 
     },
     (err:any)=>{
       // 
@@ -561,7 +480,6 @@ export class LoginModalComponent {
     this.mainServices.forgetPasswordNumber(input).subscribe((res:any) => {
       this.loading=false
       this.otpVerify = res.otp
-      //(this.otpVerify)
       this.toastr.success(res.msg, 'Success');
       this.showOTPBox = true
       this.showForgotPhoneBox = false
@@ -617,12 +535,10 @@ export class LoginModalComponent {
       this.showForgotBox = false;
       this.showOTPBox = false;
       this.showForgotPhoneBox=false;
-      document.body.style.overflow = 'auto';
       if (backdrop) {
         document.body.removeChild(backdrop);
       }
       this.resetForm();
-
     }
   }
   userInfo() {
@@ -649,50 +565,26 @@ export class LoginModalComponent {
   navigateToProfilePage(userId: string) {
     this.router.navigate([`/profilePageBy/${userId}/addPost`]);
   }
-  // logout(){
-  //   this.router.navigate(['/body']);
-  //   this.loading = true
-  //   localStorage.clear();
-  //    this.location.go  (this.location.path());
-  //   this.authService.signOut();
-  //   window.location.reload();
-  //   this.loading = false
-
-  // }
   logout() {
     this.loading = true;
-
-
     localStorage.clear();
     this.authService.signOut();
-
-
     this.router.navigate(['/body']).then(() => {
-
-        // this.location.go(this.location.path());
-
-
         window.location.reload();
     });
-
-
     this.loading = false;
 }
-otpInputs: any[] = new Array(6).fill(''); // Adjust for the number of OTP inputs
-
+otpInputs: any[] = new Array(6).fill('');
 onInputChange(event: any, index: number) {
   const input = event.target;
   if (input.value.length === 1) {
-    // Move to the next input if it exists
     const nextInput = this.otpFields.toArray()[index + 1];
     nextInput?.nativeElement.focus();
   }
 }
-
 onBackspace(event: any, index: number) {
   const input = event.target;
   if (input.value.length === 0 && index > 0) {
-    // Move to the previous input if it exists
     const previousInput = this.otpFields.toArray()[index - 1];
     previousInput?.nativeElement.focus();
   }
@@ -700,21 +592,15 @@ onBackspace(event: any, index: number) {
 onPaste(event: ClipboardEvent) {
   event.preventDefault();
   const pastedData = event.clipboardData?.getData('text') || '';
-
-  // Populate each OTP input field with the corresponding character from pasted data
   this.otpFields.forEach((field, index) => {
-    field.nativeElement.value = pastedData[index] || ''; // Populate only if there's data
+    field.nativeElement.value = pastedData[index] || '';
   });
-
-  // Focus on the last filled input field
   const lastFilledField = this.otpFields.toArray()[
     Math.min(pastedData.length, this.otpInputs.length) - 1
   ];
   lastFilledField?.nativeElement.focus();
 }
 getOtpValue(): string {
-// 
-  // Map over otpFields to gather values, then join them into a single string
   return this.otpFields.toArray().map(field => field.nativeElement.value).join('');
 }
 

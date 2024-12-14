@@ -4,9 +4,9 @@ import { productCondition } from '../../Models/Product/productCondition';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { category } from '../../Models/Product/category';
-import { subCategory } from '../../Models/Product/SubCategory';
 import { Bid } from '../../Models/Product/Bid';
 import { Constants } from '../../../../../public/constants/constants';
+import { subCategory } from '../../Models/Product/subCategory';
 
 @Injectable({
   providedIn: 'root'
