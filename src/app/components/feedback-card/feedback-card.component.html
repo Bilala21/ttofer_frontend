@@ -11,9 +11,6 @@
       <div class="details ml-2">
         <p class="name m-0">{{ feed?.reviewer.name }}</p>
         <div class="rating">
-          <!-- class="star"
-          [class.filled]="i < reviewForm.get('rating')?.value"
-          (click)="reviewForm.patchValue({ rating: i + 1 })" -->
           <span
             *ngFor="let star of createArray(feed.rating); let i = index"        
             class="text-warning">

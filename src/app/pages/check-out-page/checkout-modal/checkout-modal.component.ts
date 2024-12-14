@@ -63,7 +63,7 @@ export class CheckoutModalComponent implements AfterViewInit {
         this.elements = stripe.elements();
       }
     });
-    console.log(this.data);
+    //(this.data);
     this.amount = this.data.amount;
     this.userId = this.extension.getUserId();
   }
@@ -101,14 +101,14 @@ export class CheckoutModalComponent implements AfterViewInit {
 
   async handlePayment() {
     const cardNumber = this.elements.getElement('cardNumber');
-    console.log(cardNumber, 'cardNumber');
+    //(cardNumber, 'cardNumber');
 
     if (!cardNumber) {
       console.error('Card element not found');
       return;
     }
     const paymentMethod = await this.createPaymentMethod(cardNumber);
-    console.log(paymentMethod, 'paymentMethod');
+    //(paymentMethod, 'paymentMethod');
     const payload = {
       user_id: this.userId,
       paymentMethod_id: paymentMethod.id,
@@ -130,7 +130,7 @@ export class CheckoutModalComponent implements AfterViewInit {
           });
       },
       error: (err) => {
-        console.log(err);
+        //(err);
       },
     });
   }

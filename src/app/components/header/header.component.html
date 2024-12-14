@@ -60,7 +60,7 @@
                     class="count-badge list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                     <!-- saveItem-start -->
                     <li class="position-relative ">
-                        <a class="text-dark" [routerLink]="currentUser?.id ? ['/profile/saved-items'] : '#'"
+                        <a class="text-dark" [routerLink]="currentUser.id ? ['/profile/saved-items'] : '#'"
                             (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -230,7 +230,7 @@
                         </div>
                     </li>
                     <!-- login-start -->
-                    @if (!currentUser?.id) {
+                    @if (!currentUser.id) {
                     <li class="">
                         <a (click)="login()"
                             class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -239,7 +239,7 @@
                     </li>
                     }
                     <!-- profile-start -->
-                    @if (currentUser?.id) {
+                    @if (currentUser.id) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"

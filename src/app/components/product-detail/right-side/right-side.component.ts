@@ -139,19 +139,6 @@ export class RightSideComponent {
       this.product.user.id
     );
   }
-  // getHighBid(){
-  //   this.mainServices.getHighBid({product_id:this.productId}).subscribe({
-  //     next:(res:any)=>{
-  //     this.highBid= res.data.price
-  //     },
-  //     error:(err:any)=>{
-  //       this.toastr.error(
-  //         err.message,
-  //               'error'
-  //             );
-  //     }
-  //   })
-  // }
   getBid() {
     this.loading = true;
     let input = {
