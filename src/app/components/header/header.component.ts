@@ -35,7 +35,7 @@ import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-d
 export class HeaderNavigationComponent implements OnInit {
   notification: any = null;
   currentUser: any = {};
-  loading: boolean = true;
+  loading: boolean = false;
   cartLoading: boolean = false;
   notificationLoading: boolean = false;
   apiData: any = [];
@@ -317,33 +317,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  getHeaderNotifications() {
-    this.mainServicesService
-      .getHeaderNotifications(this.currentUserid)
-      .subscribe({
-        next: (res: any) => {
-          this.notification = res;
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
-
-  fetchNotification(userId: number, type?: string) {
-    this.mainServicesService.getNotification(userId, type).subscribe({
-      next: (res: any) => {
-        this.notificationList = res.data;
-        this.notificationLoading = false;
-      },
-      error: (err:any) => {
-        this.notificationList = [];
-        this.notificationLoading = false;
-      },
-    });
-  }
-  
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
