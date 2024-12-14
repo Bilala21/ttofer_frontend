@@ -23,31 +23,33 @@ export class NotificationsComponent {
   currentIndex: any = null;
   constructor(
     private mainService: MainServicesService,
-    private token:JwtDecoderService
+    private token: JwtDecoderService
   ) {
-    this.userId = token.decodedToken
+    this.userId = token.decodedToken.id;
   }
+
   fecthData(userId: number, type?: string) {
     this.loading = true;
     this.mainService.getNotification(userId, type).subscribe({
       next: (res: any) => {
         this.data = res.data;
-        if(this.data?.length > 0){
+        if (this.data?.length > 0) {
           this.data = this.data.sort((a: any, b: any) => {
             return (
-              new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime()
             );
           });
-          this.data = this.data.map((chat:any) => {
+          this.data = this.data.map((chat: any) => {
             return {
               ...chat,
               formattedTime: this.timeAgo(chat.created_at),
             };
           });
-        }     
+        }
         this.loading = false;
       },
-      error: (err:any) => {
+      error: (err: any) => {
         this.data = [];
         this.loading = false;
       },
@@ -88,16 +90,18 @@ export class NotificationsComponent {
     this.currentIndex = null;
   }
   getTab(tab: any) {
-    this.activeIndex = tab.index;
-    if (this.tabs.includes(tab.value)) {
-      if(tab.value=='all'){
-        this.fecthData(this.userId);
-      }else{
-        this.fecthData(this.userId, tab.value);
+    if (this.activeIndex !== tab.index) {
+      this.activeIndex = tab.index;
+      if (this.tabs.includes(tab.value)) {
+        if (tab.value == 'all') {
+          this.fecthData(this.userId);
+        } else {
+          this.fecthData(this.userId, tab.value);
+        }
       }
     }
   }
   ngOnInit(): void {
-    this.fecthData(this.userId,);
+    this.fecthData(this.userId);
   }
 }

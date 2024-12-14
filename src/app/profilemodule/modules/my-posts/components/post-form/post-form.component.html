@@ -89,7 +89,7 @@
       </div>
     </ng-container>
     @if (selectedCategorySlug != 'jobs') {
-    <div class="col-12">
+    <div class="{{productType =='featured'?'col-6':'col-12'}}">
       <label>Pricing Categories</label>
       <p-dropdown [options]="pricingCategories" formControlName="product_type" optionLabel="name" optionValue="id"
         (onChange)="onProductTypeChange($event.value)" placeholder="Select a Pricing Category"
@@ -159,7 +159,7 @@
     <div class="col-md-6">
       <label for="startTime">Starting Time</label>
       <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="startTime"
-        formControlName="auction_starting_time" >
+        formControlName="auction_starting_time">
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>
@@ -176,7 +176,7 @@
       [ngClass]="addProductForm.get('product_type')?.value == 'auction' || addProductForm.get('product_type')?.value== 'other' ?'col-md-6' :'col-md-6'">
       <label for="endingTime">Ending Time</label>
       <p-calendar [showIcon]="true" [timeOnly]="true" dateFormat="hh:mm a" inputId="endingTime"
-        formControlName="auction_ending_time" >
+        formControlName="auction_ending_time">
         <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
           <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
         </ng-template>
@@ -211,6 +211,7 @@
         Price is required.
       </div>
     </div>
+
     <div class="col-12">
       <label>Description</label>
       <textarea placeholder="Description" formControlName="description" class="form-control w-100" rows="6">
@@ -225,7 +226,8 @@
       </div>
     </div>
     <div class="col-12">
-      <app-current-location [location]="parentLocation" (locationChange)="handleLocationChange($event)"></app-current-location>
+      <app-current-location [location]="parentLocation"
+        (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
     <div class="col-12">
       <button class="btn btn-dark w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">

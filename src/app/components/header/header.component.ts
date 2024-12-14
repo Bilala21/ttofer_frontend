@@ -62,7 +62,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
-  protected currentUser:any={}
+  protected currentUser: any = {};
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -72,13 +72,16 @@ export class HeaderNavigationComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private service: SharedDataService,
-    private jwtDecoderService:JwtDecoderService,
+    private jwtDecoderService: JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.currentUser=this.jwtDecoderService.decodedToken
+    this.currentUser = this.jwtDecoderService.decodedToken;
     this.sideBarItemss = sideBarItems;
     this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = this.currentUser?this.currentUser: state.currentUser;
+      console.log(state, 'user');
+      this.currentUser = state.currentUser
+        ? state.currentUser
+        : this.currentUser;
       this.cartItems = state.cartState;
     });
     this.currentUserid = extension.getUserId();
@@ -99,7 +102,6 @@ export class HeaderNavigationComponent implements OnInit {
     this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getHeaderNotifications();
     });
-
   }
 
   calculateTotal(data: any): void {
@@ -129,16 +131,18 @@ export class HeaderNavigationComponent implements OnInit {
   }
   getHeaderNotifications() {
     if (!this.notificationList.length && this.currentUser.id) {
-      this.mainServicesService.getNotification(this.currentUserid,'unread').subscribe({
-        next: (value: any) => {
-          this.notificationList = value.data;
-          this.notificationLoading = false;
-        },
-        error: (err) => {
-          this.cartLoading = false;
-          console.error('Error fetching notifications', err);
-        },
-      });
+      this.mainServicesService
+        .getNotification(this.currentUserid, 'unread')
+        .subscribe({
+          next: (value: any) => {
+            this.notificationList = value.data;
+            this.notificationLoading = false;
+          },
+          error: (err) => {
+            this.cartLoading = false;
+            console.error('Error fetching notifications', err);
+          },
+        });
     }
   }
 
