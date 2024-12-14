@@ -116,7 +116,7 @@ export class CheckoutModalComponent implements AfterViewInit {
     };
     this.mainService.createPaymentIntent(payload).subscribe({
       next: (res: any) => {
-        const clientSecret = res.clientSecret;
+        const clientSecret = res.client_secret;
         this.stripe
           .confirmCardPayment(clientSecret, {
             payment_method: paymentMethod.id,

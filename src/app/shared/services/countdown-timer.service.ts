@@ -8,7 +8,7 @@ export class CountdownTimerService {
   constructor() {}
 
   startCountdown(endDateTime: string, product: any): Observable<string> {
-    const dateTimeStr = `${product?.utc_data_time.utc_date} ${product?.utc_data_time.utc_time}`;
+    const dateTimeStr = `${product.utc_data_time.utc_date} ${product.utc_data_time.utc_time}`;
 
     const date = new Date(dateTimeStr + ' UTC');
     date.setUTCDate(date.getUTCDate() + 7);
@@ -18,9 +18,8 @@ export class CountdownTimerService {
    let count=0
     return interval(1000).pipe(
       map(() => {
-
+        console.log(count+=1 * 1000)
         const timeDifference = endDate - serverDateTime;
-        //(timeDifference)
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
           return 'Bid Expired';
         } else {
