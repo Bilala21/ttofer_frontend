@@ -48,3 +48,10 @@
           max-width: 25%;
       }
   }
+
+  @media (max-width : 575px){
+    .product-card {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+  }

@@ -540,6 +540,7 @@ export class LoginModalComponent {
       }
       this.resetForm();
     }
+    document.body.style.overflow = 'auto'
   }
   userInfo() {
     if (typeof window !== 'undefined' && window.localStorage) {
