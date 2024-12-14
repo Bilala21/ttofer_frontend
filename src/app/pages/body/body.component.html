@@ -29,8 +29,8 @@
         @if(loading){
         @for(data of [1,2,3,4,5];track $index){
         <div class="product-card">
-          <div class="p-2 border-1 rounded-2 xs-mx-auto">
-            <app-card-shimmer />
+          <div class="p-2 shimmer-border rounded-2 xs-mx-auto">
+            <app-card-shimmer shimmerClass="shimmer-body" />
           </div>
         </div>
         }
@@ -64,8 +64,8 @@
         </div>
         @if(loading){ @for(data of [1,2,3,4,5];track $index){
         <div class="product-card">
-          <div class="p-2 border-1 rounded-2">
-            <app-card-shimmer />
+          <div class="p-2 shimmer-border rounded-2 ">
+            <app-card-shimmer shimmerClass="shimmer-body" />
           </div>
         </div>
         } }@else if(featuredPosts.length == 0){
