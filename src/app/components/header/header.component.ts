@@ -16,7 +16,6 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Extension } from '../../helper/common/extension/extension';
 import { sideBarItems } from '../../profilemodule/modules/profile-sidebar/json-data';
-
 @Component({
   selector: 'app-header-navigation',
   standalone: true,
@@ -82,7 +81,6 @@ export class HeaderNavigationComponent implements OnInit {
     });
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
-
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
       if (!privateRoute.includes(this.router.url)) {
@@ -91,7 +89,6 @@ export class HeaderNavigationComponent implements OnInit {
         this.isHideCart = true;
       }
     });
-
     this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
       this.getCartItems();
     });
@@ -99,7 +96,6 @@ export class HeaderNavigationComponent implements OnInit {
       this.getHeaderNotifications();
     });
   }
-
   calculateTotal(data: any): void {
     this.totalAmount = data.reduce(
       (acc: any, item: any) =>
@@ -108,7 +104,6 @@ export class HeaderNavigationComponent implements OnInit {
     );
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
-
   getCartItems() {
     if (!this.cartItems.length) {
       this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
@@ -139,7 +134,6 @@ export class HeaderNavigationComponent implements OnInit {
       });
     }
   }
-
   getHeaderState() {
     if (this.currentUserid) {
       this.mainServicesService
@@ -147,25 +141,20 @@ export class HeaderNavigationComponent implements OnInit {
         .subscribe({
           next: (res: any) => {
             this.notification = res;
-            console.log(res);
           },
           error: (err) => {
-            console.log(err);
           },
         });
     }
   }
-
   getCartItemsOnMouseOver() {
     this.cartLoading = true;
     this.getCartSubject.next();
   }
-
   getNotificationsOnMouseOver() {
     this.notificationLoading = true;
     this.getNotificationsSubject.next();
   }
-
   navigateToSearch(): void {
     if (!this.searched && this.searchTerm) {
       this.router.navigate([], {
@@ -175,7 +164,6 @@ export class HeaderNavigationComponent implements OnInit {
       localStorage.setItem('isSearch', this.searchTerm);
     }
   }
-
   getCityFromCoordinates(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
@@ -191,7 +179,6 @@ export class HeaderNavigationComponent implements OnInit {
       }
     });
   }
-
   getCurrentCity(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -201,21 +188,17 @@ export class HeaderNavigationComponent implements OnInit {
           this.getCityFromCoordinates(lat, lng);
         },
         (error) => {
-          console.warn('Geolocation permission denied or error:', error);
           this.handleLocationDenied();
         }
       );
     } else {
-      console.error('Geolocation not supported by the browser.');
       this.city = 'Geolocation not supported';
     }
   }
-
   handleSearch(event: any) {
     const searchTerm = event.target.value;
     this.searchSubject.next(searchTerm);
   }
-
   searchMessages(searchTerm: string) {
     this.searchTerm = searchTerm;
     this.isSearched = false;
@@ -224,11 +207,9 @@ export class HeaderNavigationComponent implements OnInit {
         this.suggestions = res.data;
       },
       error: (err) => {
-        console.log(err);
       },
     });
   }
-
   performSearch() {
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
@@ -236,21 +217,17 @@ export class HeaderNavigationComponent implements OnInit {
         this.searchMessages(searchTerm);
       });
   }
-
   setupSearchSubscription() {
     this.performSearch();
   }
-
   handleLocationDenied(): void {
     this.city = 'Belarus';
   }
-
   handleSuggestion(data: any) {
     this.searchTerm = data.name;
     this.isSearched = true;
     this.searched = false;
   }
-
   onBodyClick(event: any) {
     if (
       event.target instanceof HTMLElement &&
@@ -270,11 +247,9 @@ export class HeaderNavigationComponent implements OnInit {
       this.isSearched = false;
     }
   }
-
   login() {
     this.authService.triggerOpenModal();
   }
-
   logout() {
     try {
       localStorage.removeItem('authToken');
@@ -295,13 +270,11 @@ export class HeaderNavigationComponent implements OnInit {
     } finally {
     }
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
     this.getScreenSize();
   }
-
   getScreenSize() {
     this.screenWidth = window.innerWidth;
 
@@ -313,12 +286,10 @@ export class HeaderNavigationComponent implements OnInit {
       this.categoryLimit = 2;
     }
   }
-
   showSearchBar() {
     this.showSearch = !this.showSearch;
   }
-
-  ngOnInit(): void {
+ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
@@ -331,14 +302,11 @@ export class HeaderNavigationComponent implements OnInit {
         this.imgUrl = url;
       }
     );
-
     this.getHeaderState();
-
     this.getCurrentCity();
     if (this.currentUser && this.currentUser.img) {
       this.imgUrl = this.currentUser.img;
     }
-
     this.loading = true;
     this.getScreenSize();
     this.mainServicesService.getCategories().subscribe({
@@ -348,7 +316,6 @@ export class HeaderNavigationComponent implements OnInit {
         this.globalStateService.setCategories(res.data);
       },
       error: (err) => {
-        //(err);
         this.loading = false;
       },
     });
@@ -358,7 +325,6 @@ export class HeaderNavigationComponent implements OnInit {
       this.isSearched = true;
     }
   }
-
   ngOnDestroy() {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
   }

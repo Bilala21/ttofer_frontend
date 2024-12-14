@@ -86,7 +86,6 @@ if(this.product.product_type == 'auction'){
       );
     },
     error:(err:any)=>{
-      console.log(err)
     }
   })
 }

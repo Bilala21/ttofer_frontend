@@ -118,7 +118,6 @@ export class ProductDetailComponent implements OnInit {
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
-        console.log(value)
         this.similarProductsData = value.data;
         this.similarLoading = false;
       },

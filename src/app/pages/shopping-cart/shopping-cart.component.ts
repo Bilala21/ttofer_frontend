@@ -131,7 +131,6 @@ export class ShoppingCartComponent {
           }
         },
         error: (err) => {
-          console.log(err);
         },
       });
   }
@@ -164,7 +163,6 @@ export class ShoppingCartComponent {
           this.SelectAll();
         },
         error: (err) => {
-          console.log(err);
           this.toastr.error(err.message, 'Error');
         },
       });

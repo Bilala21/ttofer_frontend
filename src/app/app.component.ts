@@ -4,6 +4,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { HeaderNavigationComponent } from './components/header/header.component';
 import { SupportModalComponent } from "./components/modals/support-modal/support-modal.component";
+import { AuthService } from './shared/services/authentication/Auth.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ import { SupportModalComponent } from "./components/modals/support-modal/support
 ],
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authservice:AuthService) {}
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
