@@ -60,7 +60,7 @@
                     class="count-badge list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
                     <!-- saveItem-start -->
                     <li class="position-relative ">
-                        <a class="text-dark" [routerLink]="currentUser.id ? ['/profile/saved-items'] : '#'"
+                        <a class="text-dark" [routerLink]="currentUser?.id ? ['/profile/saved-items'] : '#'"
                             (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +162,6 @@
                             </div>
                         </div>
                     </li>
-                    <!-- cart-start -->
                     <li class="cart-container position-relative"
                         (mouseover)="!this.cartItems.length? getCartItemsOnMouseOver():null">
                         <a routerLink="/cart">
@@ -179,7 +178,6 @@
                             class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
                             *ngIf="notification?.cart_item_count && currentUser?.id">{{cartItems?.length?cartItems?.length:notification.cart_item_count
                             }}</span>
-                        <!-- Dropdown Cart Items -->
                         <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
                             <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
                                 <p>Please log in to view your cart items. You can log in or create an account to
@@ -187,7 +185,6 @@
                                 <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
                                     (click)="login()">Login</button>
                             </div>
-
                             <div *ngIf="!cartItems?.length && currentUser?.id" class="d-flex justify-content-center p-3">
                                 <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
                             </div>
@@ -207,7 +204,6 @@
                                                 <span>{{ item.product.fix_price |
                                                     currency:'AED':'symbol':'1.2-2' }}</span>
                                                 <span>Qty {{item.product.quantity}}</span>
-
                                             </div>
                                         </div>
                                     </a>
@@ -229,8 +225,7 @@
                             </div>
                         </div>
                     </li>
-                    <!-- login-start -->
-                    @if (!currentUser.id) {
+                    @if (!this.token) {
                     <li class="">
                         <a (click)="login()"
                             class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -238,8 +233,7 @@
                         </a>
                     </li>
                     }
-                    <!-- profile-start -->
-                    @if (currentUser.id) {
+                    @if (token) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
@@ -259,7 +253,6 @@
                             </a>
                             <div *ngFor="let item of sideBarItemss" class="mt-0 d-lg-none d-block">
                                 <h4 class="fs-19 text-dark-800 fw-bold my-2 pl-1">{{ item.title }}</h4>
-                                <!-- start menu items -->
                                 <div class="d-flex flex-column  menus">
                                     <a class="menu d-block rounded text-dark-400 px-2 py-2 text-decoration-none fs-18 mb-1"
                                         *ngFor="let menu of item.items" routerLink="{{menu.routerLink}}"
@@ -270,7 +263,6 @@
                                         <span>{{ menu.label }}</span>
                                     </a>
                                 </div>
-                                <!-- end menu items -->
                             </div>
                             <span (click)="logout()"
                                 class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
@@ -287,9 +279,7 @@
             </div>
         </div>
     </nav>
-    <!-- category-start -->
-    <nav class="container-fluid px-2">
-        
+         <nav class="container-fluid px-2">
         @if(!loading){
         <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
             <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
@@ -298,7 +288,6 @@
                     class="empty-search category-color text-decoration-none">
                     {{category.name}}
                 </a>
-
             </li>
             <li class="position-relative catagory-parent cate" *ngIf="categories.slice(categoryLimit).length">
                 <div class="dropdown pb-0 cate">

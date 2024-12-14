@@ -62,7 +62,8 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
-  protected currentUser:any={}
+  protected currentUser: any ;
+  token:any
 
   constructor(
     private globalStateService: GlobalStateService,
@@ -75,11 +76,22 @@ export class HeaderNavigationComponent implements OnInit {
     private jwtDecoderService:JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.currentUser=this.jwtDecoderService.decodedToken
+    this.token=localStorage.getItem('authToken')
+    // const currentUser=this.jwtDecoderService.decodedToken
+    if(this.token){
+      this.getProfile();
+    }
     this.sideBarItemss = sideBarItems;
     this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = this.currentUser?this.currentUser: state.currentUser;
+      // this.currentUser = this.currentUser?this.currentUser: state.currentUser;
+      this.token=state.authToken
       this.cartItems = state.cartState;
+    });
+    this.globalStateService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+    });
+    this.globalStateService.logoutEvent$.subscribe((response) => {
+      this.logout()
     });
     this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
@@ -98,6 +110,14 @@ export class HeaderNavigationComponent implements OnInit {
       this.getHeaderNotifications();
     });
 
+  }
+  getProfile(){
+    this.mainServicesService.getProfileData().subscribe({
+      next: (response:any) => {
+       this.currentUser=response.data
+       this.globalStateService.updateCurrentUser(this.currentUser);
+      }
+    })
   }
   calculateTotal(data: any): void {
     this.totalAmount = data.reduce(
@@ -144,10 +164,8 @@ export class HeaderNavigationComponent implements OnInit {
         .subscribe({
           next: (res: any) => {
             this.notification = res;
-            //(res);
           },
           error: (err) => {
-            //(err);
           },
         });
     }
@@ -258,24 +276,51 @@ export class HeaderNavigationComponent implements OnInit {
   }
   logout() {
     try {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('key');
-      this.authService.signOut();
-      this.loading = false;
-      this.currentUser = {};
-      this.notificationList = [];
-      this.unReadNotification = 0;
-      this.router.navigate(['']).then(() => {
-        this.toastr.success('Logged out successfully', 'Success');
+      this.loading = true; // Start loading
+      this.authService.logOut().subscribe({
+        next: () => {
+          // Clear local storage
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('key');
+           this.globalStateService.clearCurrentUser()
+          // Clear global state
+          this.globalStateService.updateState({
+            authToken: '', // Clear token if managed globally
+            cartState: [], // Clear any related cart data
+          });
+  
+          // Reset component variables
+          this.authService.signOut();
+          this.currentUser = '';
+          this.token = '';
+          this.notificationList = [];
+          this.unReadNotification = 0;
+  
+          // Navigate to home and show success toast
+          this.router.navigate(['']).then(() => {
+            this.toastr.success('Logged out successfully', 'Success');
+          });
+        },
+        error: (error) => {
+          // Handle logout API errors
+          this.toastr.error(
+            'An error occurred while logging out. Please try again.',
+            'Error'
+          );
+        },
+        complete: () => {
+          this.loading = false; // Stop loading
+        },
       });
     } catch (error) {
+      // Handle unexpected errors
       this.toastr.error(
-        'An error occurred while logging out. Please try again.',
+        'An unexpected error occurred while logging out. Please try again.',
         'Error'
       );
-    } finally {
     }
   }
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
@@ -305,14 +350,13 @@ ngOnInit(): void {
     }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
-        this.imgUrl = url;
+        debugger
+        this.currentUser.img = url;
       }
     );
     this.getHeaderState();
     this.getCurrentCity();
-    if (this.currentUser && this.currentUser.img) {
-      // this.imgUrl = this.currentUser.img;
-    }
+    
     this.loading = true;
     this.getScreenSize();
     this.mainServicesService.getCategories().subscribe({

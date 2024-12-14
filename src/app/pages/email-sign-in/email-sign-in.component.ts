@@ -53,9 +53,10 @@ export class EmailSignInComponent {
         const user = res.data.user;
         localStorage.setItem('authToken', token);
         localStorage.setItem('key', JSON.stringify(user));
+        this.globalStateService.updateCurrentUser(user);
+
           this.globalStateService.updateState({
-          currentUser: user,
-          authToken: token, // Include token in state update
+          authToken: token, 
         });
           this.toaster.success('You are logged in successfully', 'Success');
         this.closeModalEvent.emit();
