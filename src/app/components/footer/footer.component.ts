@@ -18,7 +18,7 @@ export class FooterComponent {
   currentUserId: string = ""
   tempToken: boolean = false
   constructor(private token:JwtDecoderService, private globalStateService: GlobalStateService,private router: Router, private authService: AuthService, private extension: Extension,private toastr: ToastrService, ) {
-    this.currentUserId = token.decodedToken;
+    this.currentUserId = token.decodedToken?.id;
     globalStateService.currentState.subscribe((state) => {
       this.tempToken = state.temp_token == "32423423dfsfsdfd$#$@$#@%$#@&^%$#wergddf!#@$%" ? true : false
     })
