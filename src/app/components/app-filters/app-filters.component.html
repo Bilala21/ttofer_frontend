@@ -5,9 +5,9 @@
             <span class="bg-yellow-800 px-2 ml-2 rounded">{{totalProducts}}{{totalProducts > 10000?'+':''}} ads</span>
         </div>
         <div class="fs-18 mb-2 d-flex align-items-center ft-btn mb-5 mt-3 mt-md-0" *ngIf="!isLgScreen" > 
-           <div class=" bg-dark text-white w-fit px-3 py-2 rounded cur-pointer">
+           <div class=" bg-dark text-white w-fit px-3 py-2 rounded cur-pointer" (click)="applyFilters()">
             <i class="fas fa-filter fs-12"></i>
-            <span class="text-uppercase fs-12 fw-semibold pl-2 " (click)="hideFilter=!hideFilter">filters</span>
+            <span class="text-uppercase fs-12 fw-semibold pl-2 " >filters</span>
            </div>
             <button *ngIf="!hideFilter" class="btn btn-yellow py-2 ml-2" (click)="applyFilters()">Apply filters</button>
         </div>
@@ -324,7 +324,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center my-5 d-none" *ngIf="!hideFilter && !isLgScreen">
+        <div class="text-center my-5" *ngIf="!hideFilter && !isLgScreen">
             <button class="btn btn-yellow" (click)="applyFilters()">Apply filters</button>
         </div>
     </aside>

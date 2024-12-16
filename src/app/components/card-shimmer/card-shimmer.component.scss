@@ -17,7 +17,17 @@
     background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
     background-size: 1000px 104px;
     position: relative;
-    
+  }
+  .shimmer-body {
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: white;
+    background: linear-gradient(to right, white 8%, white 18%, white 33%);
+    background-size: 1000px 104px;
+    position: relative;
   }
   
   .shimmer-img {

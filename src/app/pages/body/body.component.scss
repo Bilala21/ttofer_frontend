@@ -11,7 +11,14 @@
       padding-right: 15px;
       padding-left: 15px;
   }
-
+  .shimmer-border{
+    border:1px solid white;
+  }
+  .shimmer-card {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 48%;
+}
   @media (min-width: 768px) {
       .product-card {
           -ms-flex: 0 0 50%;
@@ -47,4 +54,11 @@
           flex: 0 0 25%;
           max-width: 25%;
       }
+  }
+
+  @media (max-width : 575px){
+    .product-card {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
   }

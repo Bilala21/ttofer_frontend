@@ -29,22 +29,22 @@
         </div>
         </div>
     
-    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2">
-        <a class="text-center">
-            <p class="m-0">4</p>
-            <p>Bought</p>
+    <div class="d-flex align-items-end justify-content-center justify-content-lg-start pt-2">
+        <a class="text-center mx-2">
+            <p class="m-0">0</p>
+            <p class="m-0">Bought</p>
         </a>
-        <a class="text-center">
-            <p class="m-0">4</p>
-            <p>Sold</p>
+        <a class="text-center mx-2">
+            <p class="m-0">0</p>
+            <p class="m-0">Sold</p>
         </a>
-        <a class="text-center">
-            <p class="m-0">{{currentUser.followers_count}}</p>
-            <p>Followers</p>
+        <a class="text-center mx-2">
+            <p class="m-0">{{currentUser.followers_count || 0}}</p>
+            <p class="m-0">Followers</p>
         </a>
-        <a class="text-center">
-            <p class="m-0">{{currentUser.following_count}}</p>
-            <p>Followings</p>
+        <a class="text-center mx-2">
+            <p class="m-0">{{currentUser.following_count || 0}}</p>
+            <p class="m-0">Followings</p>
         </a>
     </div>
 </div>

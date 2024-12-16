@@ -20,7 +20,7 @@
           <h2 class="m-0 fs-28 fw-bold">Auction Products</h2>
           <p class="fs-14 mb-0 pt-2">Hurry up! The auction is ending soon</p>
         </div>
-        <div class="w-100 text-right pr-3" *ngIf="auctionPosts.length">
+        <div class="w-100 text-right pr-sm-3" *ngIf="auctionPosts.length">
           <a routerLink="/category/auction" class="fw-bold text-primary">
             View All
             <i class="fa fa-angle-right"></i>
@@ -29,8 +29,8 @@
         @if(loading){
         @for(data of [1,2,3,4,5];track $index){
         <div class="product-card">
-          <div class="p-2 border-1 rounded-2 xs-mx-auto">
-            <app-card-shimmer />
+          <div class="p-2 shimmer-border rounded-2 xs-mx-auto">
+            <app-card-shimmer shimmerClass="shimmer-body" />
           </div>
         </div>
         }
@@ -55,7 +55,7 @@
             Act fast! These featured products won't last long
           </p>
         </div>
-        <div class="w-100 text-right pr-3" *ngIf="featuredPosts.length">
+        <div class="w-100 text-right pr-sm-3" *ngIf="featuredPosts.length">
 
           <a routerLink="/category/featured" class="fw-bold text-primary">
             View All
@@ -64,8 +64,8 @@
         </div>
         @if(loading){ @for(data of [1,2,3,4,5];track $index){
         <div class="product-card">
-          <div class="p-2 border-1 rounded-2">
-            <app-card-shimmer />
+          <div class="p-2 shimmer-border rounded-2 ">
+            <app-card-shimmer shimmerClass="shimmer-body" />
           </div>
         </div>
         } }@else if(featuredPosts.length == 0){
