@@ -133,6 +133,10 @@ export class ProductCardComponent implements OnInit {
       return [];
     }
   }
+  login() {
+    this.toastr.warning('Plz login first than try again !', 'Warning');
+    this.authService.triggerOpenModal();
+  }
   addToCart(item: any) {
     this.mainServices
       .adToCartItem({

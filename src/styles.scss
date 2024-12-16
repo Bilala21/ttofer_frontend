@@ -1043,6 +1043,9 @@ button[aria-label="Close"]:focus {
     }
   }
 }
+.p-galleria-thumbnail-prev-icon {
+  transform: rotate(180deg);
+}
 
 @media (max-width:768px) {
   .p-galleria-content .p-galleria-thumbnail-items-container .p-galleria-thumbnail-item .p-galleria-thumbnail-item-content {
@@ -1084,13 +1087,14 @@ button[aria-label="Close"]:focus {
 
   .p-element.p-galleria-thumbnail-prev::before,
   .p-element.p-galleria-thumbnail-next::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-image: url('/assets/images/icons/angleDown.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
+    // content: '';
+    // display: block;
+    // width: 20px;
+    // height: 20px;
+    // background-image: url('/assets/images/icons/angleDown.svg');
+    // background-size: contain;
+    // background-repeat: no-repeat;
+
   }
 }
 

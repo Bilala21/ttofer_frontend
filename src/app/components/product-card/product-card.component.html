@@ -56,6 +56,6 @@
     class="mt-2 btn py-2 rounded-2 w-100 btn-yellow" aria-label="Bid Now">Bid
     Now</a>
     <button *ngIf="postData.product_type !=='auction'" 
-    (click)="addToCart(postData)"
+    (click)="!currentUserId ? login() : addToCart(postData)"
     class="mt-2 btn  py-2 rounded-2 w-100 btn-yellow" aria-label="Add to Cart">Add to Cart</button>
 </div>
