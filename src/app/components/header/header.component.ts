@@ -143,7 +143,7 @@ export class HeaderNavigationComponent implements OnInit {
             this.notificationLoading = false;
           },
           error: (err) => {
-            this.cartLoading = false;
+            this.notificationLoading = false;
             console.error('Error fetching notifications', err);
           },
         });
