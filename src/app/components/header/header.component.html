@@ -225,7 +225,7 @@
                             </div>
                         </div>
                     </li>
-                    @if (!this.token) {
+                    @if (!currentUser) {
                     <li class="">
                         <a (click)="login()"
                             class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -233,7 +233,7 @@
                         </a>
                     </li>
                     }
-                    @if (token) {
+                    @if (currentUser) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
