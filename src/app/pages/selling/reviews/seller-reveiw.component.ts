@@ -27,8 +27,8 @@ export class SellerReveiwComponent {
     this.submitted = true;
 
     if (this.reviewForm.valid) {
-       //('Review Submitted:', this.reviewForm.value);
-      // Perform further actions (e.g., API call)
+      //  console.log('Review Submitted:', this.reviewForm.value);
+      // Perform further actions (e.g., API call);
       this.reviewForm.reset();
       this.submitted = false;
     }
