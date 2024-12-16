@@ -62,6 +62,7 @@ export class HeaderNavigationComponent implements OnInit {
   activeRoute: any;
   isHideCart: boolean = false;
   totalAmount: number = 0;
+  token: any = '';
   protected currentUser: any = {};
 
   constructor(
@@ -341,7 +342,6 @@ ngOnInit(): void {
     }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
-        debugger
         this.currentUser.img = url;
       }
     );
