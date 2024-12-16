@@ -1268,7 +1268,7 @@ export class ProfilePageComponent {
   removeVideo(): void {
     this.selectedVideo = null; 
   }
-  selectVideo(index: number): void {
+  selectVideo(index: any): void {
     this.selectedVideoIndex = index;
   }
   deleteSelectedVideo(): void {

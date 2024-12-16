@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { elementAt, map } from 'rxjs/operators';
 interface AppState {
   tab: { index: number; tabName: string };
   prodTab: { key: string; value: string };
@@ -14,7 +14,7 @@ interface AppState {
   wishListItems: number[];
   currentUser: any;
   temp_token: any;
-  authToken: any | null; // Add authToken here
+  authToken: any | null;
   isLoggedIn: boolean;
   cartState: any[];
   offerModal: string;
@@ -26,8 +26,6 @@ interface AppState {
   getLiveBids: any[];
   getHighestBids: any;
 }
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -62,16 +60,14 @@ export class GlobalStateService {
   };
   public productlength: any;
   public loading: any = true;
-
   private stateSubject = new BehaviorSubject<AppState>(this.initialState);
   currentState = this.stateSubject.asObservable();
   public productSubject = new BehaviorSubject<any>([]);
   product = this.productSubject.asObservable();
   private logoutEvent = new BehaviorSubject<void | null>(null);
   logoutEvent$ = this.logoutEvent.asObservable();
-  
-
- 
+  public currentUserSubject = new BehaviorSubject<any | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
   constructor() {
     const authToken =localStorage.getItem('authToken') || '';
       const currentState = this.stateSubject.value;
@@ -81,8 +77,12 @@ export class GlobalStateService {
     };
       this.stateSubject.next(newState);
   }
-  
-
+  updateCurrentUser(user: any): void {
+    this.currentUserSubject.next(user);
+  }
+  clearCurrentUser(): void {
+    this.currentUserSubject.next(null);
+  }
   updateCart(data: any) {
     const currentState = this.stateSubject.value;
     const newState: any = {
@@ -127,7 +127,7 @@ export class GlobalStateService {
       fix_price:fix_price,
       seller_id:seller_id
     };
-      document.body.style.overflow = 'hidden'; // Disable scrolling
+      document.body.style.overflow = 'hidden';
     this.stateSubject.next(newState);
   }
   updateTab(index: number, tabName: string) {
@@ -139,7 +139,6 @@ export class GlobalStateService {
     this.stateSubject.next(newState);
   }
   updateProdTab(key: string, value: string) {
-    //
     const newState = {
       prodTab: { key, value },
     };
@@ -154,14 +153,12 @@ export class GlobalStateService {
     } else {
       newWishList = [...currentWishList, id];
     }
-
     const newState = {
       ...currentState,
       wishListItems: newWishList,
     };
     this.stateSubject.next(newState);
   }
-
   setFilteredProducts(data: any) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -170,7 +167,6 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-
   setFeaturedProducts(data: any) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -187,7 +183,6 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-
   setCategories(data: any) {
     const currentState = this.stateSubject.value;
     const newState = {
@@ -220,24 +215,17 @@ export class GlobalStateService {
     };
     this.stateSubject.next(newState);
   }
-
-  // Method to show the auth modal
   showAuthModal(isAuthenticated: boolean) {
     this.updateState({ isLoggedInd: isAuthenticated });
   }
-
-  // Method to hide the auth modal
   hideAuthModal() {
     this.updateState({ isLoggedInd: false });
   }
-
-  // Generic method to update state properties
    updateState(newState: Partial<AppState>) {
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, ...newState });
   }
   setActiveCategory(categoryId: number): void {
-    // this.activeCategory = categoryId; // Update the active category
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, activeCategory: categoryId });
   }

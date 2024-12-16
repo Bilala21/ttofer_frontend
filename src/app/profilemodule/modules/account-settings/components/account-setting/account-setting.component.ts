@@ -39,11 +39,12 @@ export class AccountSettingComponent implements OnInit {
    
   }
   ngOnInit(){
-    this.globalStateService.currentState.subscribe((state) => {
-      
-      this.currentUserProfile = state.currentUser;
-      this.userSettings()
-    });
+  
+      this.globalStateService.currentUser$.subscribe((user) => {
+        this.currentUserProfile = user;
+        this.userSettings()
+
+      });
   }
 
   userSettings() {
@@ -87,7 +88,7 @@ export class AccountSettingComponent implements OnInit {
                 this.toastr.success('Password changed successfully. Please log in again.', 'Success');
               } else {
                 const currentUser = response.data;
-                this.globalStateService.updateState({ currentUser });
+                this.globalStateService.updateCurrentUser(currentUser);
                 this.toastr.success(response.message, 'Success');
               }
             }

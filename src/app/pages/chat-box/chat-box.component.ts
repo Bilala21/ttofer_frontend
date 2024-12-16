@@ -273,7 +273,6 @@ export class ChatBoxComponent {
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;
-
     const currentUserIsSender = data.receiver.id === this.currentUserid;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
     this.userlocation = otherUser.location;

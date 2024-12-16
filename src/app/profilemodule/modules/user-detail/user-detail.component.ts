@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { Constants } from '../../../../../public/constants/constants';
 import { GlobalStateService } from '../../../shared/services/state/global-state.service';
+import { JwtDecoderService } from '../../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -16,12 +17,11 @@ import { GlobalStateService } from '../../../shared/services/state/global-state.
 export class UserDetailComponent {
   currentUser: any={}
   imageUrl: any;
-  constructor(private globalStateService:GlobalStateService,private toastr:ToastrService,    public service: SharedDataService
+  constructor(private toastr:ToastrService,public service: SharedDataService,private globalStateService:GlobalStateService
   ){}
   ngOnInit(){
-    this.globalStateService.currentState.subscribe((state) => {
-      this.currentUser = state.currentUser;
-      this.imageUrl=this.currentUser.img
+    this.globalStateService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
     });
   }
   onImageUpload(event: any): void {
@@ -51,8 +51,8 @@ export class UserDetailComponent {
               if (data.status) {
                 this.isLoading = false; 
                   this.toastr.success(data.message, 'Success');
-                  this.imageUrl = data.data.profile_link;
-                  this.service.changeImageUrl(this.imageUrl);
+                  this.currentUser.img = data.data.profile_link;
+                  this.service.changeImageUrl(this.currentUser.img);
               }
           })
           .catch((error) => {
@@ -61,7 +61,4 @@ export class UserDetailComponent {
           });
       }
   }
-  
-
-  
 }

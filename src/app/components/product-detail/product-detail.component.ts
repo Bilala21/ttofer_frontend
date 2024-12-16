@@ -65,7 +65,6 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 4,
     },
   ];
-
   constructor(
     private router: Router,
     private globalStateService: GlobalStateService,
@@ -85,7 +84,6 @@ export class ProductDetailComponent implements OnInit {
         : state.currentUser;
     });
   }
-
   fetchData(productId: number) {
     this.mainServices
       .getProductById({ product_id: productId, user_id: this.currentUser.id })
@@ -115,7 +113,6 @@ export class ProductDetailComponent implements OnInit {
         },
       });
   }
-
   fetchSimilarProducts(productId: number) {
     this.mainServices.getSimilarProduct({ product_id: productId }).subscribe({
       next: (value) => {
@@ -142,7 +139,6 @@ export class ProductDetailComponent implements OnInit {
       });
     });
   }
-
   productView() {
     const productViewDetail = {
       product_id: this.productId,
@@ -152,7 +148,6 @@ export class ProductDetailComponent implements OnInit {
       next: (value) => {},
     });
   }
-
   toggleWishlist(item: any) {
     if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -163,7 +158,6 @@ export class ProductDetailComponent implements OnInit {
       user_id: this.currentUser.id,
       product_id: item.id,
     };
-
     this.mainServices.addWishList(input).subscribe({
       next: (res: any) => {
         if (res.status) {
@@ -180,7 +174,6 @@ export class ProductDetailComponent implements OnInit {
       },
     });
   }
-
   buyProduct(product: any) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -190,11 +183,9 @@ export class ProductDetailComponent implements OnInit {
       return;
     }
   }
-
   handleProductQty(event: any, product: any) {
     this.globalStateService.updateCart({ ...product, quantity: event.value });
   }
-
   contactSeller(product: any, user: any): void {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -202,7 +193,6 @@ export class ProductDetailComponent implements OnInit {
       this.authService.triggerOpenModal();
       return;
     }
-
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
@@ -211,7 +201,6 @@ export class ProductDetailComponent implements OnInit {
       state: { product, user },
     });
   }
-
   showOfferModal(modal_type: string) {
     const storedData = localStorage.getItem('key');
     if (!storedData) {
@@ -235,7 +224,6 @@ export class ProductDetailComponent implements OnInit {
           if (key.includes('_')) {
             continue;
           }
-
           parsedAttributes[key] =
             typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
         }
@@ -246,7 +234,6 @@ export class ProductDetailComponent implements OnInit {
           if (key.includes('_')) {
             continue;
           }
-
           parsedAttributes[key] =
             typeof val === 'string' && this.isJson(val) ? JSON.parse(val) : val;
         }
@@ -256,7 +243,6 @@ export class ProductDetailComponent implements OnInit {
       return {};
     }
   }
-
   private isJson(str: string): boolean {
     try {
       JSON.parse(str);
