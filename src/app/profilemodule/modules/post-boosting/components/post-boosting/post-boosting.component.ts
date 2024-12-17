@@ -1,19 +1,33 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { BoostingModalComponent } from '../boosting-modal/boosting-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { SubscriptionModalComponent } from '../subscription-modal/subscription-modal.component';
-
+import { MainServicesService } from '../../../../../shared/services/main-services.service';
 @Component({
   selector: 'app-post-boosting',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf,NgFor],
   templateUrl: './post-boosting.component.html',
   styleUrl: './post-boosting.component.scss',
 })
-export class PostBoostingComponent {
+export class PostBoostingComponent implements OnInit {
   showNextStep: boolean = false;
-  constructor(public dialog: MatDialog) {}
+  data: any = [];
+  constructor(public dialog: MatDialog,private mainServices: MainServicesService,) {
+   
+  }
+  getPackages(){
+    this.mainServices.getSubscriptionsPlan().subscribe({
+      next:(res:any)=>{
+        this.data = res.data
+        console.log('hello',res.data)
+      }
+    })
+  }
+  ngOnInit(){
+    this.getPackages()
+  }
   openDialog(): void {
     const dialogRef = this.dialog.open(BoostingModalComponent, {
       width: '470px',
@@ -23,16 +37,15 @@ export class PostBoostingComponent {
       //(result);
     });
   }
-  openSubscriptionDialog(type: string): void {
-    //(type)
+  openSubscriptionDialog(item: string): void {
     const dialogRef = this.dialog.open(SubscriptionModalComponent, {
       width: '470px',
-      data: { type },
+      data: item ,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      //(result);
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+      // console.log("result",result)
+    // });
   }
   handleNextStep() {
     this.showNextStep = !this.showNextStep;

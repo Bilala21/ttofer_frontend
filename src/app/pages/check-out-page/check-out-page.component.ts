@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CheckoutModalComponent } from './checkout-modal/checkout-modal.component';
 import { StripeService } from '../../shared/services/stripe-service.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-check-out-page',
@@ -43,7 +44,8 @@ export class CheckOutPageComponent {
     private globalStateService: GlobalStateService,
     public dialog: MatDialog,
     private stripeService: StripeService,
-    private mainService: MainServicesService
+    private mainService: MainServicesService,
+     private route: ActivatedRoute,
   ) {
     this.userId = extension.getUserId();
   }
@@ -185,6 +187,12 @@ export class CheckOutPageComponent {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params: any) => {  
+      // this.query = params['query'];
+      // this.packageId = +params['subscription_id'];
+      console.log("params",params)
+
+    });
     this.loading = true;
     this.globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState.filter(

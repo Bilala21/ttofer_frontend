@@ -37,6 +37,18 @@ export class PurchaseSaleComponent implements OnInit {
   notfoundData = notFoundData['buying'];
   loading: boolean = false;
   userId;
+  query!: string;
+  packageId!: number;
+  products:any=[
+    {
+    id:'1',
+    photos:[
+      {
+      url:'image',
+    },
+  ],
+  }
+]
   constructor(private toastr:ToastrService,
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
@@ -52,6 +64,15 @@ export class PurchaseSaleComponent implements OnInit {
     if (this.tabs.includes(tab.value)) {
       this.fecthData(tab.value);
     }
+  }
+  navigateToCheckout() {
+    // this.router.navigate(['checkout']);
+    this.router.navigate(['/checkout'], { 
+      queryParams: { 
+        subscription_id: this.packageId,
+        product_id:[1,2,3,4,5]
+      } 
+    });
   }
   formatPrice(price: any) {
     return this.decimalPipe.transform(price, '1.0-0') || '0';
@@ -70,7 +91,10 @@ export class PurchaseSaleComponent implements OnInit {
   }
   ngOnInit(): void {
     let isSelling = false;
-    this.route.queryParams.subscribe((params: any) => {
+    this.route.queryParams.subscribe((params: any) => {  
+      this.query = params['query'];
+      this.packageId = +params['subscription_id'];
+      console.log("params",params)
       if (params.query) {
         this.activeIndex = 2;
         isSelling = true;

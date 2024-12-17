@@ -10,7 +10,11 @@
         <div class="pt-2 pb-4">
             <app-tab [tabs]="tabs" (getTab)="getTab($event)" [activeTab]="activeIndex" />
         </div>
-        <div *ngIf="data?.length && !loading">
+        <div class="d-flex justify-content-end">
+            <Button (click)="navigateToCheckout()" class="btn bg-yellow-700 p-2">Checkout</Button>
+        </div>
+        <div *ngIf="data?.length && !loading" class="border">
+            
             <div class="card-container py-3" style="cursor: pointer;" tabindex="0" *ngFor="let post of this.data">
                 <div class="z-0 position-relative"
                     style="width: 115px; height: 115px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 2px;">
@@ -52,6 +56,10 @@
                         <button class="delete-icon btn border-0" (click)="openDialog(post.id)">
                             <i class="bi bi-trash-fill me-1"></i> Delete
                         </button>
+                        <div>
+                            <label for="payment">Select for Boost</label>
+                            <input type="radio" class="w-20" name="payment"/>
+                        </div>
                     </div>
                 </div>
             </div>

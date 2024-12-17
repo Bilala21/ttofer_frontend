@@ -2,7 +2,7 @@
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-start" [class.blur-background]="isLoading">
         <div>
             <label for="file" class="rounded-pill position-relative">
-                <img [src]="this.currentUser.img ? this.currentUser.img : 'assets/images/profile-icon.svg'" 
+                <img [src]="currentUser?.img ? currentUser?.img : 'assets/images/profile-icon.svg'" 
                      alt="profile image" 
                      class="img-fluid" 
                      style="border: 0.5px solid gainsboro;
@@ -21,7 +21,7 @@
         <div class="pl-3">
             <div class="fw-semibold text-center text-md-left"> {{ currentUser?.username }}</div>
             <div class="fs-14 text-capitalize text-center text-md-left">
-                Joined: <span> {{ currentUser.created_at ? (currentUser?.created_at | date: 'MMM d, y') : 'N/A' }}</span>
+                Joined: <span> {{ currentUser?.created_at ? (currentUser?.created_at | date: 'MMM d, y') : 'N/A' }}</span>
             </div>
             <div class="fs-14 text-capitalize text-center text-md-left">
                 Address: <span> {{ currentUser?.location || "N/A" }}</span>
@@ -39,11 +39,11 @@
             <p class="m-0">Sold</p>
         </a>
         <a class="text-center mx-2">
-            <p class="m-0">{{currentUser.followers_count || 0}}</p>
+            <p class="m-0">{{currentUser?.followers_count || 0}}</p>
             <p class="m-0">Followers</p>
         </a>
         <a class="text-center mx-2">
-            <p class="m-0">{{currentUser.following_count || 0}}</p>
+            <p class="m-0">{{currentUser?.following_count || 0}}</p>
             <p class="m-0">Followings</p>
         </a>
     </div>
