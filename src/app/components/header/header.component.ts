@@ -77,21 +77,24 @@ export class HeaderNavigationComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.currentUser = this.jwtDecoderService.decodedToken;
+    console.log(this.currentUser)
+
     this.sideBarItemss = sideBarItems;
-    this.globalStateService.currentState.subscribe((state) => {
-      console.log(state, 'user');
-      this.currentUser = state.currentUser
-        ? state.currentUser
-        : this.currentUser;
-      this.cartItems = state.cartState;
-    });
-    this.globalStateService.currentUser$.subscribe((user) => {
-      this.currentUser = user;
-    });
-    this.globalStateService.logoutEvent$.subscribe((response) => {
-      this.logout()
-    });
-    this.currentUserid = extension.getUserId();
+    if (!this.currentUser?.id) {
+      this.globalStateService.currentState.subscribe((state) => {
+        this.currentUser = this.currentUser
+          ? this.currentUser
+          : state.currentUser;
+        this.cartItems = state.cartState;
+      });
+      // this.globalStateService.currentUser$.subscribe((user) => {
+      //   this.currentUser = user;
+      // });
+    }
+    // this.globalStateService.logoutEvent$.subscribe((response) => {
+    //   this.logout()
+    // });
+    // this.currentUserid = extension.getUserId();
     this.screenWidth = window.innerWidth;
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
@@ -119,7 +122,7 @@ export class HeaderNavigationComponent implements OnInit {
   }
   getCartItems() {
     if (!this.cartItems.length && this.currentUser.id) {
-      this.mainServicesService.getCartProducts(this.currentUserid).subscribe({
+      this.mainServicesService.getCartProducts(this.currentUser.id).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
           this.cartItems = value.data;
@@ -157,8 +160,7 @@ export class HeaderNavigationComponent implements OnInit {
           next: (res: any) => {
             this.notification = res;
           },
-          error: (err) => {
-          },
+          error: (err) => {},
         });
     }
   }
@@ -274,20 +276,19 @@ export class HeaderNavigationComponent implements OnInit {
           // Clear local storage
           localStorage.removeItem('authToken');
           localStorage.removeItem('key');
-           this.globalStateService.clearCurrentUser()
+          this.globalStateService.clearCurrentUser();
           // Clear global state
           this.globalStateService.updateState({
             authToken: '', // Clear token if managed globally
             cartState: [], // Clear any related cart data
           });
-  
+
           // Reset component variables
           this.authService.signOut();
           this.currentUser = '';
-          this.token = '';
           this.notificationList = [];
           this.unReadNotification = 0;
-  
+
           // Navigate to home and show success toast
           this.router.navigate(['']).then(() => {
             this.toastr.success('Logged out successfully', 'Success');
@@ -312,7 +313,7 @@ export class HeaderNavigationComponent implements OnInit {
       );
     }
   }
-  
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = event.target.innerWidth;
@@ -332,7 +333,7 @@ export class HeaderNavigationComponent implements OnInit {
   showSearchBar() {
     this.showSearch = !this.showSearch;
   }
-ngOnInit(): void {
+  ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
@@ -342,12 +343,13 @@ ngOnInit(): void {
     }
     this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
       (url: string | null) => {
-        this.currentUser.img = url;
+        //
+        // this.currentUser.img = url;
       }
     );
     this.getHeaderState();
     this.getCurrentCity();
-    
+
     this.loading = true;
     this.getScreenSize();
     this.mainServicesService.getCategories().subscribe({
