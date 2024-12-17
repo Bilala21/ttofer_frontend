@@ -225,7 +225,7 @@
                             </div>
                         </div>
                     </li>
-                    @if (!currentUser) {
+                    @if (!isLogin) {
                     <li class="">
                         <a (click)="login()"
                             class="d-flex align-items-center justify-content-center white-space-nowrap  link">
@@ -233,12 +233,12 @@
                         </a>
                     </li>
                     }
-                    @if (currentUser) {
+                    @if (isLogin) {
                     <li class="user-profile cursor-pointer position-relative">
                         <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
                             type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <img class="user-Profile" [src]="currentUser?.img?currentUser?.img:'/assets/images/profile-icon.svg'
+                            <img class="user-Profile" [src]="currentUser?.img
                             " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
                             <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1" loading="lazy">
                         </button>

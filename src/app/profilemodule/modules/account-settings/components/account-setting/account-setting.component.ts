@@ -36,17 +36,14 @@ export class AccountSettingComponent implements OnInit {
     public dialog: MatDialog,private toastr:ToastrService,
     private mainServices: MainServicesService
   ) {
-   
   }
   ngOnInit(){
-  
       this.globalStateService.currentUser$.subscribe((user) => {
         this.currentUserProfile = user;
         this.userSettings()
 
       });
   }
-
   userSettings() {
     
     this.userSetting = 
@@ -56,8 +53,7 @@ export class AccountSettingComponent implements OnInit {
         email: this.currentUserProfile.email,
         location: this.currentUserProfile.location?this.currentUserProfile.location:'Location',
         password:'********'
-      }
-    
+      } 
   }
   formatUserData() {
     return Object.keys(this.userSetting);
@@ -68,7 +64,6 @@ export class AccountSettingComponent implements OnInit {
       height: '322px',
       data: { placeholder, key, currentUserProfile: this.userSetting },
     });
-  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const data: any = {};
@@ -79,7 +74,6 @@ export class AccountSettingComponent implements OnInit {
         } else {
           data[result.key] = result.value;
         }
-  
         this.mainServices.updateUserAccount(data).subscribe(
           (response: any) => {
             if (response.status) {
@@ -112,5 +106,5 @@ export class AccountSettingComponent implements OnInit {
       }
     });
   }
-  
+
 }

@@ -53,6 +53,7 @@ export class EmailSignInComponent {
         const user = res.data.user;
         localStorage.setItem('authToken', token);
         localStorage.setItem('key', JSON.stringify(user));
+        debugger
         this.globalStateService.updateCurrentUser(user);
 
           this.globalStateService.updateState({

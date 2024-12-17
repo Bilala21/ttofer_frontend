@@ -28,7 +28,6 @@ export class UserDetailComponent {
     if (event.target.files && event.target.files.length > 0) {
       const File = event.target.files[0];
       this.updateProfile(File);
-
     }
   }
   isLoading = false; 
@@ -50,8 +49,11 @@ export class UserDetailComponent {
           .then((data) => {
               if (data.status) {
                 this.isLoading = false; 
+                debugger  
                   this.toastr.success(data.message, 'Success');
                   this.currentUser.img = data.data.profile_link;
+                  this.globalStateService.updateCurrentUser(this.currentUser);
+
                   this.service.changeImageUrl(this.currentUser.img);
               }
           })

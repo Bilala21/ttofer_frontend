@@ -32,7 +32,6 @@ export class MainServicesService {
     return this.http
       .post(`${Constants.baseApi}` + '/login-email', payload)
       .pipe
-      // catchError()
       ();
   }
   getAuthByLoginNumber(payload: any): Observable<any> {
@@ -49,7 +48,6 @@ export class MainServicesService {
   }
   getAuctionProduct(query: any = ''): Observable<any> {
     console.log(query)
-    // ?search=${query}
     return this.http.post(`${Constants.baseApi}/auction-products`, query);
   }
   addWishList(payload: any) {
@@ -284,7 +282,6 @@ export class MainServicesService {
   }
 
   updateUserAccount(payload: any): any {
-    //({ payload });
     return this.http.post<any>(`${Constants.baseApi}/profile/update`, payload);
   }
   updateProfilePhoto(payload: any): any {
@@ -309,7 +306,7 @@ export class MainServicesService {
   deleteAccount(id: any) {
     return this.http
       .get(`${Constants.baseApi}/profile/deactivate`, {
-        headers: this.getHeaders(), // Correctly pass the headers here
+        headers: this.getHeaders(),
       })
       .pipe();
   }
@@ -335,7 +332,6 @@ export class MainServicesService {
   }
 
   getFilteredProducts(data: any = {}): Observable<any[]> {
-    //(data, 'data');
     return this.http.post<any[]>(
       `${Constants.baseApi}` + '/get-all-products',
       data
@@ -383,11 +379,8 @@ export class MainServicesService {
       data
     );
   }
-  // getProductById(url: string): Observable<any> {
-  //   return this.http.get<any>(`${Constants.baseApi}/${url}`);
-  // }
   getAttributes(): Observable<any> {
-    return this.http.get<any>('assets/data.json'); // Adjust path to your JSON or API endpoint
+    return this.http.get<any>('assets/data.json');
   }
   toggleSaveItem(data: any) {
     return this.http.post<any[]>(

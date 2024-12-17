@@ -64,8 +64,8 @@ export class HeaderNavigationComponent implements OnInit {
   totalAmount: number = 0;
   token: any = '';
   protected currentUser: any = {};
-
-  constructor(
+  isLogin:boolean=false
+    constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
     private authService: AuthService,
@@ -76,21 +76,31 @@ export class HeaderNavigationComponent implements OnInit {
     private jwtDecoderService: JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
+debugger
     this.currentUser = this.jwtDecoderService.decodedToken;
+    if(this.currentUser){
+      this.isLogin=true
+      this.getProfile()
+
+    }
+    
     console.log(this.currentUser)
 
     this.sideBarItemss = sideBarItems;
-    if (!this.currentUser?.id) {
       this.globalStateService.currentState.subscribe((state) => {
-        this.currentUser = this.currentUser
-          ? this.currentUser
-          : state.currentUser;
+        // this.currentUser = this.currentUser
+        //   ? this.currentUser
+        //   : state.currentUser;
         this.cartItems = state.cartState;
       });
-      // this.globalStateService.currentUser$.subscribe((user) => {
-      //   this.currentUser = user;
-      // });
-    }
+      this.globalStateService.currentUser$.subscribe((user) => {
+        debugger
+        this.currentUser = user;
+        if(this.currentUser){
+          this.isLogin=true
+        }
+      });
+    
     // this.globalStateService.logoutEvent$.subscribe((response) => {
     //   this.logout()
     // });
@@ -111,7 +121,17 @@ export class HeaderNavigationComponent implements OnInit {
       this.getHeaderNotifications();
     });
   }
+getProfile(){
+  debugger
+  this.mainServicesService.getProfileData().subscribe({
+    next:(response:any)=>{
+      debugger
+      this.currentUser=response.data;
+      this.globalStateService.updateCurrentUser(this.currentUser);
 
+    }
+  })
+}
   calculateTotal(data: any): void {
     this.totalAmount = data.reduce(
       (acc: any, item: any) =>
@@ -286,6 +306,7 @@ export class HeaderNavigationComponent implements OnInit {
           // Reset component variables
           this.authService.signOut();
           this.currentUser = '';
+          this.isLogin=false
           this.notificationList = [];
           this.unReadNotification = 0;
 
