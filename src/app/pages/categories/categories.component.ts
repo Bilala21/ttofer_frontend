@@ -7,6 +7,7 @@ import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer
 import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-categories',
@@ -23,11 +24,7 @@ import { NgFor, NgIf } from '@angular/common';
   ],
 })
 export class CategoriesComponent {
-  constructor(
-    private route: ActivatedRoute,
-    public globalStateService: GlobalStateService,
-    private mainServices: MainServicesService,
-  ) {}
+
 
   promotionBanners: any = [];
   activeTab: any = 'auction';
@@ -37,7 +34,19 @@ export class CategoriesComponent {
   loading: boolean = false;
   slugName: any = '';
   ProductTabs: any = [];
+  currentUser:any=null
   allTabs: any = ['auction', 'featured', 'looking', 'hiring'];
+
+  constructor(
+    private route: ActivatedRoute,
+    public globalStateService: GlobalStateService,
+    private mainServices: MainServicesService,
+    private jwtDecoderService:JwtDecoderService
+  ) {
+    this.currentUser=this.jwtDecoderService.decodedToken
+    console.log(this.currentUser)
+  }
+  
 
   handleTab(tab: string) {
     localStorage.setItem('categoryTab', tab);
@@ -216,6 +225,7 @@ export class CategoriesComponent {
         ...allFilters,
         product_type,
         category_id,
+        user_id:this.currentUser?.id,
         search: filter.search,
         location: filter.location
           ? filter.location.join(',')

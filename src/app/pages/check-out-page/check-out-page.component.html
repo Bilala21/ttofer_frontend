@@ -34,7 +34,7 @@
                 }}</label>
             </div>
             <!-- form-check-input -->
-            <input type="radio" class="w-20" [(ngModel)]="paymentMethod" [value]="payment.detail1" [id]="payment.id" />
+            <input type="radio" class="w-20" name="payment" [value]="payment.id" [id]="payment.id" (click)="getCardInfo(payment.id)"/>
           </div>
         </div>
         <!-- ttoffer-gift -->
@@ -71,8 +71,8 @@
             </p>
           </div>
 
-          <button class="btn btn-yellow w-100 p-2 confrim-btn mt-2" [disabled]="!paymentMethod">
-            Confirm and Pay
+          <button class="btn btn-yellow w-100 p-2 confrim-btn mt-2" [disabled]="!paymentMethod" (click)="chargeCustomerWithSavedCard()">
+            {{paymentLoading?'Processing...':'Confirm and Pay'}}
           </button>
         </div>
       </div>

@@ -45,15 +45,12 @@ export class MainServicesService {
     return this.http.get(`${Constants.baseApi}/get-banners`);
   }
   getFeatureProduct(query: any = ''): Observable<any> {
-    return this.http.post(`${Constants.baseApi}/featured-products`, {
-      user_id: query.user_id,
-    });
+    return this.http.post(`${Constants.baseApi}/featured-products`, query);
   }
   getAuctionProduct(query: any = ''): Observable<any> {
+    console.log(query)
     // ?search=${query}
-    return this.http.post(`${Constants.baseApi}/auction-products`, {
-      user_id: query.user_id,
-    });
+    return this.http.post(`${Constants.baseApi}/auction-products`, query);
   }
   addWishList(payload: any) {
     return this.http
@@ -398,13 +395,30 @@ export class MainServicesService {
       data
     );
   }
-  createPaymentIntent(payload: any) {
-    return this.http.post<any[]>(
-      `${Constants.baseApi}/create-payment-intent`,
-      payload
-    );
+
+  createSetupIntent() {
+    return this.http.post<any>(`${Constants.baseApi}/stripe/setup-intent`, {});
   }
 
+  savePaymentMethod(paymentMethodId: string) {
+    return this.http.post(`${Constants.baseApi}/stripe/save-payment-method`, {
+      paymentMethodId,
+    });
+  }
+
+  chargeCustomer(payload: any) {
+    return this.http.post(`${Constants.baseApi}/stripe/charge`, payload);
+  }
+
+  getCardInfo(id: number) {
+    return this.http.get(` http://127.0.0.1:8000/card/detail/${id}`);
+  }
+ 
+  createPaymentIntent(id: string) {
+    return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {
+      payment_method_id: id,
+    });
+  }
   getSuggestions(q: string) {
     return this.http.get(`${Constants.baseApi}/search/suggestions?query=${q}`);
   }

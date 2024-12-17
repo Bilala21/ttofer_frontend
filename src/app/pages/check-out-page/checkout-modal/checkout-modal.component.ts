@@ -6,17 +6,19 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
 import {
-  loadStripe,
   Stripe,
   StripeElements,
   StripeCardCvcElement,
@@ -24,19 +26,20 @@ import {
   StripeCardExpiryElement,
   StripeCardNumberElementOptions,
 } from '@stripe/stripe-js';
-import { HttpClient } from '@angular/common/http';
-import { MainServicesService } from '../../../shared/services/main-services.service';
 import { Extension } from '../../../helper/common/extension/extension';
+import { StripeService } from '../../../shared/services/stripe-service.service';
 
 @Component({
   selector: 'app-account-setting-dialoge',
   standalone: true,
   schemas: [NO_ERRORS_SCHEMA],
-  imports: [CommonModule, MatDialogModule, FormsModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, FormsModule, MatButtonModule, NgIf],
   templateUrl: './checkout-modal.component.html',
   styleUrls: ['./checkout-modal.component.scss'],
 })
-export class CheckoutModalComponent implements AfterViewInit {
+export class CheckoutModalComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   @ViewChild('cardNumberElement') cardNumberElementRef!: ElementRef;
   @ViewChild('cardExpiryElement') cardExpiryElementRef!: ElementRef;
   @ViewChild('cardCvcElement') cardCvcElementRef!: ElementRef;
@@ -46,27 +49,27 @@ export class CheckoutModalComponent implements AfterViewInit {
   cardExpiryElement!: StripeCardExpiryElement;
   cardCvcElement!: StripeCardCvcElement;
   private amount!: number;
-  private userId!: number;
+  protected cardBrand: string = '';
+
+  brands: any = {
+    visa: 'assets/images/visalogo.svg',
+    mastercard: 'assets/images/StripLogo.svg',
+  };
 
   constructor(
-    private mainService: MainServicesService,
-    public dialogRef: MatDialogRef<CheckoutModalComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
-    private http: HttpClient,
-    private extension: Extension
+    public dialogRef: MatDialogRef<CheckoutModalComponent>,
+    private toastr: ToastrService,
+    private extension: Extension,
+    private stripeService: StripeService
   ) {
-    loadStripe(
-      'pk_test_51KYostE8QrqFGDryFAGuteKleAUUz2lVDCM7RWCuSPPMj4A82H1fpaYoS3Za6yE12RHpPtXqtE9FWWBN0kmGB7bk00Gu3R9WRh'
-    ).then((stripe) => {
-      if (stripe) {
-        this.stripe = stripe;
-        this.elements = stripe.elements();
-      }
-    });
-    //(this.data);
+    const { stripe, elements } = this.stripeService.getStripeInstance();
+    this.stripe = stripe;
+    this.elements = elements;
     this.amount = this.data.amount;
-    this.userId = this.extension.getUserId();
   }
+
+  ngOnInit(): void {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -77,7 +80,7 @@ export class CheckoutModalComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.cardNumberElementRef.nativeElement) {
+    if (this.cardNumberElementRef.nativeElement && this.stripe) {
       this.initializeStripe();
     } else {
       console.error('cardNumberElementRef is not available');
@@ -97,40 +100,28 @@ export class CheckoutModalComponent implements AfterViewInit {
     this.cardNumberElement.mount(this.cardNumberElementRef.nativeElement);
     this.cardExpiryElement.mount(this.cardExpiryElementRef.nativeElement);
     this.cardCvcElement.mount(this.cardCvcElementRef.nativeElement);
+    this.cardNumberElement.on('change', (event) => {
+      this.cardBrand = this.brands[event.brand];
+    });
   }
 
-  async handlePayment() {
+  async handleAddCard() {
     const cardNumber = this.elements.getElement('cardNumber');
-    //(cardNumber, 'cardNumber');
-
     if (!cardNumber) {
       console.error('Card element not found');
       return;
     }
+
     const paymentMethod = await this.createPaymentMethod(cardNumber);
-    //(paymentMethod, 'paymentMethod');
-    const payload = {
-      user_id: this.userId,
-      paymentMethod_id: paymentMethod.id,
-      amount: this.amount,
-    };
-    this.mainService.createPaymentIntent(payload).subscribe({
+    this.stripeService.savePaymentMethod(paymentMethod.id).subscribe({
       next: (res: any) => {
-        const clientSecret = res.client_secret;
-        this.stripe
-          .confirmCardPayment(clientSecret, {
-            payment_method: paymentMethod.id,
-          })
-          .then((result) => {
-            if (result.error) {
-              alert('Payment failed: ' + result.error.message);
-            } else {
-              alert('Payment successful!');
-            }
-          });
+        if (paymentMethod.id) {
+          this.toastr.success('Card save successfully');
+        }
       },
       error: (err) => {
-        //(err);
+        console.log(err);
+        this.toastr.error('Card not successfully saved');
       },
     });
   }
@@ -146,5 +137,14 @@ export class CheckoutModalComponent implements AfterViewInit {
       throw new Error(error.message);
     }
     return paymentMethod;
+  }
+  ngOnDestroy(): void {
+    ['cardNumber', 'cardExpiry', 'cardCvc'].forEach((type) => {
+      const element = this.elements?.getElement(type as any);
+      if (element) {
+        element.unmount();
+        element.destroy();
+      }
+    });
   }
 }
