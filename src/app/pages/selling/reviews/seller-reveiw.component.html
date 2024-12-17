@@ -1,29 +1,23 @@
 <main class="mt-16">
     <div class="container-fluid post-detail-container buyer">
-        <div class="d-flex flex-column flex-md-row justify-content-between">
+        <div class="">
             
-            <div class="pr-md-4 pt-2">
+            <div class="pt-2">
                 <!-- rate-seller -->
                 <h4 class="fs-32 fw-bold text-dark-800 mb-0 pt-2 pb-2 text-center">Rate Seller</h4>
                 <div class="seller-bio mt-2 d-flex align-content-center justify-content-center">
                     <!-- seller-image -->
                     <div class="">
-                        <img src="/assets/images/tempImage/img2.jpeg" alt="image" loading="lazy" style="width: 200px;height:200px;border-radius: 50%;">
-                        <h4 class="fs-19 fw-normal mb-0 mt-1 text-center">Darlene Robertson</h4>
-                        <p class="fs-16 fw-normal text-center m-0 mt-1">Manchester, UK</p>
+                        <img src="/assets/images/tempImage/img2.jpeg" alt="image" loading="lazy" class="image-seller-user">
+                        <h4 class="fs-19 fw-normal m-0 mt-3 text-center">Darlene Robertson</h4>
+                        <h5 class="fs-16 fw-normal text-center m-0 mt-2">Manchester, UK</h5>
                     </div>
                 </div>
             </div>
 
-            <div class="detail-right-side w-100  mt-auto">
+            <div class="detail-right-side w-100  mt-2">
                 <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
-                <!-- <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Modern light clothes'}"
-                    imgClass="product-img">
-                    <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer">
-                        <span>$500</span>
-                    </div>
-                </app-card> -->
-                <div class="d-flex align-items-center rate-stars justify-content-md-start justify-content-center">
+                <div class="d-flex align-items-center rate-stars justify-content-center">
                     
                     <!-- star-rating -->
                     <div class="rating mt-1">
@@ -37,14 +31,15 @@
                     </div>
                 </div>
                   <!-- description -->
-                <div class="form-group">
-                        <label for="description" class="fs-18 fw-medium">Description</label>
+                <div class="">
+                        <label for="description" class="fs-18 fw-semibold form-label">Description</label>
                         <textarea
-                          class="w-100 p-1 rounded-2"
+                          class="w-100 p-2 rounded-custom"
                           id="description"
                           formControlName="description"
                           placeholder="Write your review here"
-                          rows="4">
+                          rows="5"
+                          >
                         </textarea>
                         <div class="error" *ngIf="submitted && reviewForm.get('description')?.invalid">
                           <small *ngIf="reviewForm.get('description')?.errors?.['required']">
@@ -62,13 +57,14 @@
                         class="text-decoration-none btn text-center text-white rounded-pill px-3 py-2 bg-yellow-800 border-none">
                        Submit Review
                     </button>
-                    <span 
+                    <!-- <span 
                         class="text-decoration-none text-center text-white bg-yellow-800 rounded-pill px-3 py-2 ml-2">
                         Skip
-                    </span>
+                    </span> -->
                 </div>
             </form>
             </div>
+
         </div>
     </div>
 </main>

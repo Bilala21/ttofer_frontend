@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit,AfterViewInit } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
@@ -32,7 +32,7 @@ import { JwtDecoderService } from '../../shared/services/authentication/jwt-deco
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit,AfterViewInit {
   protected currentUser: any = {};
   inCart: boolean = false;
   screenWidth: number;
@@ -139,6 +139,24 @@ export class ProductDetailComponent implements OnInit {
       });
     });
   }
+  ngAfterViewInit(): void {
+    // Use a timeout to delay the operation (if needed)
+    setTimeout(() => {
+      // Select the button element by its class name
+      const button = document.querySelector('.p-galleria-thumbnail-next') as HTMLButtonElement;
+      const buttonPrev = document.querySelector('.p-galleria-thumbnail-prev') as HTMLButtonElement;
+  
+      // Log the button for debugging
+      console.log("Changes in many files...", button);
+  
+      // Check if the button exists and remove the 'disabled' attribute
+      if (button) {
+        button.removeAttribute('disabled');
+        buttonPrev.removeAttribute('disabled');
+      }
+    }, 3000);
+  }
+  
   productView() {
     const productViewDetail = {
       product_id: this.productId,

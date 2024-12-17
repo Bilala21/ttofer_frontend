@@ -22,7 +22,7 @@
         <div class="price-tag d-flex align-items-center justify-content-center">
           <img src="/assets/images/icons/green-tag.svg" alt="" class="max-h-100 max-w-100 w-100">
           <span class="d-block position-absolute text-white fw-normal pl-2 fs-14">AED
-            {{postData.fix_price}}</span>
+            {{postData.fix_price || postData.auction_initial_price}}</span>
         </div>
       </figure>
       <section class="card-bottom pb-1 text-gray-400">
@@ -56,6 +56,6 @@
     class="mt-2 btn py-2 rounded-2 w-100 btn-yellow" aria-label="Bid Now">Bid
     Now</a>
     <button *ngIf="postData.product_type !=='auction'" 
-    (click)="addToCart(postData)"
+    (click)="!currentUserId ? login() : addToCart(postData)"
     class="mt-2 btn  py-2 rounded-2 w-100 btn-yellow" aria-label="Add to Cart">Add to Cart</button>
 </div>
