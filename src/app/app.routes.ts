@@ -33,11 +33,9 @@ export const routes: Routes = [
     component: BodyComponent,
     pathMatch: 'full',
   },
-
   {
     path: 'product-detail/:id/:slug',
     component: ProductDetailComponent,
-    // component: ProductDetailsComponent
   },
   {
     path: 'notifications',
@@ -54,7 +52,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '', // Default child route (if any)
+        redirectTo: '',
         pathMatch: 'full',
       },
     ],
@@ -87,10 +85,6 @@ export const routes: Routes = [
     path: 'product-buyer',
     component: ProductBuyerComponent,
   },
-  // {
-  //   path: 'seller-review/:id',
-  //   component: SellerReveiwComponent,
-  // },
   {
     path: 'post-performance',
     component: PostPerformanceComponent,
@@ -99,11 +93,6 @@ export const routes: Routes = [
     path: 'whoBoughtAd/:id',
     component: WhoBoughtAdComponent,
   },
-  // {
-  //   path: 'review/:id',
-  //   component: ReviewPageComponent,
-  // },
-  
   {
     path: 'userProfile/:id',
     component: AuctionUserProfileComponent,
@@ -120,10 +109,6 @@ export const routes: Routes = [
     path: 'term-of-condition',
     component: TermOfConditionComponent,
   },
-  // {
-  //     path: 'contact-us',
-  //     component: ContactUsComponent
-  // },
   {
     path: 'markAsSold/:id',
     component: MarkAsSoldComponent,
@@ -135,8 +120,6 @@ export const routes: Routes = [
   {
     path: 'review/:id',
     component: SellerReveiwComponent,
-    // component: ReviewPageComponent,
-    // component: ReviewComponent,
   },
   {
     path: 'checkout',
@@ -165,7 +148,7 @@ export const routes: Routes = [
       import('./profilemodule/profilemodule.module').then(
         (m) => m.ProfilemoduleModule
       ),
-    canActivate: [AuthGuard], // Add the AuthGuard here
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

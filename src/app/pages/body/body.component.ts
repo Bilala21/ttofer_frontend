@@ -7,9 +7,11 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { PostCategoriesComponent } from '../../components/post-categories/post-categories.component';
 import { PromotionSliderComponent } from '../../components/promotion-slider/promotion-slider.component';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
-import { NgIf } from '@angular/common';
+import { NgIf, NgSwitchDefault } from '@angular/common';
 import { Extension } from '../../helper/common/extension/extension';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
+import { error } from 'console';
+import { NG_VALIDATORS } from '@angular/forms';
 
 @Component({
   selector: 'app-body',
@@ -56,7 +58,6 @@ export class BodyComponent {
           this.auctionPosts = response.auctionProduct.data.data;
           this.featuredPosts = response.featureProduct.data.data;
           this.loading = false;
-          // this.startCountdowns();
         },
         error: (err) => {
           console.error('Error occurred while fetching data', err);
@@ -86,7 +87,6 @@ export class BodyComponent {
       });
     }
   }
-
   getBanners() {
     this.mainServices.getBanners().subscribe({
       next: (res) => {
@@ -101,7 +101,6 @@ export class BodyComponent {
       },
     });
   }
-
   ngOnDestroy() {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
