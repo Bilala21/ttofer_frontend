@@ -38,22 +38,19 @@ export class PurchaseSaleComponent implements OnInit {
   loading: boolean = false;
   userId;
   query!: string;
-  packageId!: number;
-  products:any=[
-    {
-    id:'1',
-    photos:[
-      {
-      url:'image',
-    },
-  ],
-  }
-]
-  constructor(private toastr:ToastrService,
+  subscriptionId!: number;
+  products: any = [];
+  isAllChecked: boolean = false;
+  selectedIds: number[] = []; // Array to store selected IDs
+
+  constructor(
+    private toastr: ToastrService,
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
     private route: ActivatedRoute,
-    private extension: Extension,private dialog:MatDialog,private router:Router
+    private extension: Extension,
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.userId = this.extension.getUserId();
   }
@@ -65,36 +62,12 @@ export class PurchaseSaleComponent implements OnInit {
       this.fecthData(tab.value);
     }
   }
-  navigateToCheckout() {
-    // this.router.navigate(['checkout']);
-    this.router.navigate(['/checkout'], { 
-      queryParams: { 
-        subscription_id: this.packageId,
-        product_id:[1,2,3,4,5]
-      } 
-    });
-  }
-  formatPrice(price: any) {
-    return this.decimalPipe.transform(price, '1.0-0') || '0';
-  }
-  fecthData(tab: string) {
-    this.loading = true;
-    this.mainServices.getSelling(tab, this.userId).subscribe({
-      next: (res: any) => {       
-        this.data = res.data?.data;
-        this.loading = false;
-      },
-      error: (err: any) => {
-        this.loading = false;
-      },
-    });
-  }
   ngOnInit(): void {
     let isSelling = false;
     this.route.queryParams.subscribe((params: any) => {  
       this.query = params['query'];
-      this.packageId = +params['subscription_id'];
-      console.log("params",params)
+      this.subscriptionId = 2
+      // +params['subscription_id'];
       if (params.query) {
         this.activeIndex = 2;
         isSelling = true;
@@ -109,21 +82,77 @@ export class PurchaseSaleComponent implements OnInit {
       this.fecthData('buying');
     }
   }
+
+  toggleSelect(): void {
+    this.isAllChecked = !this.isAllChecked;
+    if (this.isAllChecked) {
+      this.selectedIds = this.data.map((item: any) => item.id); // Select all IDs
+      console.log("this is for all ids",this.selectedIds)
+    } else {
+      this.selectedIds = []; // Clear all selected IDs
+    }
+  }
+
+  updateSelectAll(post: any): void {
+    post.selected = !post.selected;
+    console.log("post.selected",post.selected)
+    if (post.selected) {
+
+      if (!this.selectedIds.includes(post.id)) {
+        this.selectedIds.push(post.id); // Add the ID if not already selected
+        console.log("when id not selected",this.selectedIds)
+      }
+    } else {
+      this.selectedIds = [...this.selectedIds].filter((id) => id !== post.id); // Remove the ID
+      console.log("this.isAllChecked",this.isAllChecked,this.selectedIds)
+    }
+    this.isAllChecked = this.selectedIds.length === this.data.length; // Update Select All state
+  }
+
+  navigateToCheckout() {
+    this.router.navigate(['/checkout'], { 
+      queryParams: { 
+        subscription_id: this.subscriptionId,
+        product_id: this.selectedIds // Pass selected IDs as query params
+      } 
+    });
+  }
+
+  formatPrice(price: any) {
+    return this.decimalPipe.transform(price, '1.0-0') || '0';
+  }
+
+  fecthData(tab: string) {
+    this.loading = true;
+    this.mainServices.getSelling(tab, this.userId).subscribe({
+      next: (res: any) => {       
+        this.data = res.data?.data.map((item: any) => ({ ...item, selected: false })); // Add 'selected' property to data
+        this.loading = false;
+      },
+      error: (err: any) => {
+        this.loading = false;
+      },
+    });
+  }
+
   markAsSold(product: any) {
     localStorage.setItem('soldItems', JSON.stringify(product));   
     this.router.navigate(['/markAsSold/', product.id]);
   }
-deleteProduct(product_id:any){
-this.mainServices.deleteProduct(product_id).subscribe({
-  next:(response:any)=>{
-    if(response.status){
-      this.data = this.data.filter((item: any) => item.id !== product_id);
-      this.toastr.success(response.message,'Success');
-    }
+
+  deleteProduct(product_id: any) {
+    this.mainServices.deleteProduct(product_id).subscribe({
+      next: (response: any) => {
+        if (response.status) {
+          this.data = this.data.filter((item: any) => item.id !== product_id);
+          this.toastr.success(response.message, 'Success');
+          this.selectedIds = this.selectedIds.filter((id) => id !== product_id); // Remove from selected IDs
+        }
+      }
+    });
   }
-})
-}
-  openDialog(id:any): void {
+
+  openDialog(id: any): void {
     const dialogRef = this.dialog.open(DeleteProductDialogComponent, {
       height: '322px',
       data: id,
@@ -131,9 +160,9 @@ this.mainServices.deleteProduct(product_id).subscribe({
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-       this.deleteProduct(result)
-       
+        this.deleteProduct(result);
       }
     });
   }
 }
+

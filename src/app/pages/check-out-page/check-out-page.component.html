@@ -104,11 +104,11 @@
             </div>
             <div class="review-product" class="d-flex mt-3 position-relative">
               <div class="position-relative review-product-img">
-                <img [src]="item.product.photo.url" alt="image" loading="lazy" class="w-100 h-100 object-fit-contain" />
+                <img [src]="item?.product?.photo?.url" alt="image" loading="lazy" class="w-100 h-100 object-fit-contain" />
               </div>
               <div class="ml-4 d-flex justify-content-between w-100 align-items-start">
                 <div>
-                  <button class="is-last-item" *ngIf="item.product.inventory.available_stock===1">
+                  <button class="is-last-item" *ngIf="item?.product?.inventory?.available_stock===1">
                     {{item.product.inventory.available_stock === 1?"Last One":""}}
                   </button>
                   <p class="m-0 p-0 fs-16">{{item.product.title}}</p>

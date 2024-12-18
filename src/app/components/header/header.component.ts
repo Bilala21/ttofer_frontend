@@ -76,7 +76,7 @@ export class HeaderNavigationComponent implements OnInit {
     private jwtDecoderService: JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-debugger
+
     this.currentUser = this.jwtDecoderService.decodedToken;
     if(this.currentUser){
       this.isLogin=true
@@ -94,7 +94,7 @@ debugger
         this.cartItems = state.cartState;
       });
       this.globalStateService.currentUser$.subscribe((user) => {
-        debugger
+        
         this.currentUser = user;
         if(this.currentUser){
           this.isLogin=true
@@ -122,10 +122,10 @@ debugger
     });
   }
 getProfile(){
-  debugger
+  
   this.mainServicesService.getProfileData().subscribe({
     next:(response:any)=>{
-      debugger
+      
       this.currentUser=response.data;
       this.globalStateService.updateCurrentUser(this.currentUser);
 

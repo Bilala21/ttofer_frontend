@@ -78,7 +78,7 @@ export class GlobalStateService {
       this.stateSubject.next(newState);
   } 
   updateCurrentUser(user: any): void {
-    debugger  
+      
     this.currentUserSubject.next(user);
   }
   clearCurrentUser(): void {

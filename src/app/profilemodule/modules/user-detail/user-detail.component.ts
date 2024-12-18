@@ -49,7 +49,7 @@ export class UserDetailComponent {
           .then((data) => {
               if (data.status) {
                 this.isLoading = false; 
-                debugger  
+                  
                   this.toastr.success(data.message, 'Success');
                   this.currentUser.img = data.data.profile_link;
                   this.globalStateService.updateCurrentUser(this.currentUser);
