@@ -41,6 +41,9 @@ export class MainServicesService {
   getBanners(): Observable<any> {
     return this.http.get(`${Constants.baseApi}/get-banners`);
   }
+  getAdsBanners(): Observable<any> {
+    return this.http.get(`${Constants.baseApi}/advertizement-banner`);
+  }
   getFeatureProduct(query: any = ''): Observable<any> {
     return this.http.post(`${Constants.baseApi}/featured-products`, query);
   }

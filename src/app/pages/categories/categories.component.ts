@@ -1,4 +1,4 @@
-import {Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { AppFiltersComponent } from '../../components/app-filters/app-filters.component';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
@@ -8,6 +8,8 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
+import { Subscription } from 'rxjs';
+import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
 
 @Component({
   selector: 'app-categories',
@@ -24,8 +26,7 @@ import { JwtDecoderService } from '../../shared/services/authentication/jwt-deco
   ],
 })
 export class CategoriesComponent {
-
-
+  countdownSubscriptions: Subscription[] = [];
   promotionBanners: any = [];
   activeTab: any = 'auction';
   data: any = {};
@@ -34,19 +35,20 @@ export class CategoriesComponent {
   loading: boolean = false;
   slugName: any = '';
   ProductTabs: any = [];
-  currentUser:any=null
+  currentUser: any = null;
   allTabs: any = ['auction', 'featured', 'looking', 'hiring'];
 
   constructor(
     private route: ActivatedRoute,
     public globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
-    private jwtDecoderService:JwtDecoderService
+    private jwtDecoderService: JwtDecoderService,
+    private countdownTimerService: CountdownTimerService,
+    private cdr: ChangeDetectorRef
   ) {
-    this.currentUser=this.jwtDecoderService.decodedToken
-    console.log(this.currentUser)
+    this.currentUser = this.jwtDecoderService.decodedToken;
+    console.log(this.currentUser);
   }
-  
 
   handleTab(tab: string) {
     localStorage.setItem('categoryTab', tab);
@@ -79,7 +81,7 @@ export class CategoriesComponent {
           const categoryTab = localStorage.getItem('categoryTab');
           localStorage.setItem('categoryTab', categoryTab ? categoryTab : slug);
           localStorage.setItem('filters', '{}');
-          const tab = this.setActiveTabs(categoryTab?categoryTab:slug);
+          const tab = this.setActiveTabs(categoryTab ? categoryTab : slug);
           this.fecthcData({ product_type: tab });
         }
         const localData = JSON.parse(localStorage.getItem('filters') || '{}');
@@ -225,7 +227,7 @@ export class CategoriesComponent {
         ...allFilters,
         product_type,
         category_id,
-        user_id:this.currentUser?.id,
+        user_id: this.currentUser?.id,
         search: filter.search,
         location: filter.location
           ? filter.location.join(',')
@@ -237,6 +239,7 @@ export class CategoriesComponent {
         next: (res: any) => {
           this.loading = false;
           this.data = res.data.data;
+          this.startCountdowns()
         },
         error: () => {
           this.loading = false;
@@ -244,7 +247,30 @@ export class CategoriesComponent {
       });
   }
 
+  startCountdowns() {
+    if (this.data.length) {
+      this.data.forEach((item: any) => {
+        if (item.product_type === 'auction') {
+          const datePart = item.auction_ending_date;
+
+          const endingDateTime = `${datePart}T${item.auction_ending_time}.000Z`;
+          const subscription = this.countdownTimerService
+            .startCountdown(endingDateTime, item)
+            .subscribe((remainingTime) => {
+              item.calculateRemainingTime = remainingTime
+                ? remainingTime + ' remaining'
+                : 'Bid Expired';
+              this.cdr.detectChanges();
+            });
+
+          this.countdownSubscriptions.push(subscription);
+        }
+      });
+    }
+  }
+
   ngOnDestroy() {
+    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
     this.globalStateService.setActiveCategory(0);
     localStorage.removeItem('categoryTab');
     localStorage.removeItem('categoryId');

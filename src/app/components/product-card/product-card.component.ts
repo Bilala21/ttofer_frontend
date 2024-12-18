@@ -13,8 +13,6 @@ import { MainServicesService } from '../../shared/services/main-services.service
 import { ToastrService } from 'ngx-toastr';
 import { Extension } from '../../helper/common/extension/extension';
 import { AuthService } from '../../shared/services/authentication/Auth.service';
-import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { Subscription } from 'rxjs';
 import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
@@ -31,7 +29,6 @@ export class ProductCardComponent implements OnInit {
   parsedAttributes: any[] = [];
   @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
   @Input() postData: any = {};
-  countdownSubscriptions: Subscription[] = [];
   constructor(
     private authService: AuthService,
     private extension: Extension,
@@ -39,8 +36,6 @@ export class ProductCardComponent implements OnInit {
     private globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
     private toastr: ToastrService,
-    private countdownTimerService: CountdownTimerService,
-    private cdr: ChangeDetectorRef,
     private token:JwtDecoderService
   ) {
     this.currentUserId= this.token.decodedToken?.id;
@@ -171,32 +166,13 @@ export class ProductCardComponent implements OnInit {
       return false;
     }
   }
-  startCountdowns() {
-    const datePart = this.postData.auction_ending_date.split('T')[0];
-    const endingDateTime = `${datePart}T${this.postData.auction_ending_time}.000Z`;
-    const subscription = this.countdownTimerService
-      .startCountdown(endingDateTime,this.postData)
-      .subscribe((remainingTime) => {
-        this.postData.calculateRemaningTime = remainingTime;
-        this.cdr.markForCheck();
-      });
-    this.countdownSubscriptions.push(subscription);
-  }
-
-  ngOnDestroy() {
-    this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
-  }
   ngOnInit(): void {
-    if (this.postData && this.postData.product_type === 'auction') {
-      this.startCountdowns();
-    
+    if (this.postData && this.postData.product_type === 'auction') {    
       if (this.postData?.attributes) {
         this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
       }
           const price = this.postData?.auction_initial_price ?? this.postData?.fix_price ?? 0;
       this.postData.price = this.decimalPipe.transform(price, '1.0-0') || '0';
-    
-      // Set the postedAt value
       this.postData.postedAt = 12;
     }
     

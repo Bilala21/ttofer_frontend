@@ -57,6 +57,15 @@
                     <span>{{item.short_description}}</span>
                 </div>
             </div>
+            <div class="d-flex justify-content-center w-100" *ngIf="data.length == 0">
+                <span class="fs-18 fw-bold">
+                    <u>
+                    <i>
+                     No Boost Package Available...!
+                    </i>
+                   </u>
+                </span> 
+            </div>
         </div>
     </div>
 </section>

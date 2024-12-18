@@ -32,12 +32,17 @@
                 <img [src]="item.seller.url?item.seller.url:'assets/images/profile-icon.svg'" alt="seller image"
                   class="seller-image {{item.seller.url?'':'border-1'}}" />
                 <div>
-                  <span class="product-title d-block">{{ item.seller.name }}</span>
+                  <span class="product-title d-block">{{ item.seller.name }} {{item.sellerRating?.length}}</span>
                   <div class="d-flex align-items-center">
-                    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" class="pl-1">
-                      <span *ngIf="i < 2" class="text-yellow-800 d-block">★</span>
-                      <span *ngIf="i <= 5 && i> 1" class="text-gray-400 d-block">★</span>
+                    <span *ngFor="let star of [1,2,3,4,5]; let i = index" class="pl-1">
+                      <ng-container *ngIf="i < item.sellerRating?.length else grayStar">
+                        <span class="text-yellow-800 d-block ">★</span>
+                      </ng-container>
+                      <ng-template #grayStar>
+                        <span *ngIf="i >=item.sellerRating?.length" class="text-gray-400 d-block">★</span>
+                      </ng-template>
                     </span>
+
                   </div>
                 </div>
               </div>
