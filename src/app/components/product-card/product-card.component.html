@@ -12,7 +12,7 @@
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
       [ngClass]="{'disabled-link': postData.product_type == 'auction'}">
       <figure class="card-top position-relative {{!postData?.photo?.url ? 'falback-css rounded-2':''}}">
-        <img loading="lazy" [src]="postData.photo.url || './assets/images/default-img.jpg'" 
+        <img loading="eager" [src]="postData.photo.url || './assets/images/default-img.jpg'" 
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
           <button *ngIf="postData.product_type =='auction'"
@@ -20,7 +20,7 @@
             Offer</button>
         </figcaption>
         <div class="price-tag d-flex align-items-center justify-content-center">
-          <img src="/assets/images/icons/green-tag.svg" alt="" class="max-h-100 max-w-100 w-100">
+          <img src="/assets/images/icons/green-tag.svg" alt="Image" class="max-h-100 max-w-100 w-100">
           <span class="d-block position-absolute text-white fw-normal pl-2 fs-14">AED
             {{postData.fix_price || postData.auction_initial_price}}</span>
         </div>

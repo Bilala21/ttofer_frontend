@@ -18,7 +18,6 @@ export class CountdownTimerService {
    let count=0
     return interval(1000).pipe(
       map(() => {
-        console.log(count+=1 * 1000)
         const timeDifference = endDate - serverDateTime;
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
           return 'Bid Expired';
