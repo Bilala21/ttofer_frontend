@@ -175,9 +175,11 @@
                             </svg>
                         </a>
                         <span
-                            class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
-                            *ngIf="notification?.cart_item_count && currentUser?.id">{{cartItems?.length?cartItems?.length:notification.cart_item_count
-                            }}</span>
+                        class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                        *ngIf="(notification?.cart_item_count || cartItems?.length) && currentUser?.id">
+                        {{ cartItems?.length || notification?.cart_item_count }}
+                      </span>
+                      
                         <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
                             <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
                                 <p>Please log in to view your cart items. You can log in or create an account to

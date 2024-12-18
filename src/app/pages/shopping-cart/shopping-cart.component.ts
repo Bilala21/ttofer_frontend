@@ -34,14 +34,18 @@ export class ShoppingCartComponent {
   isAllChecked: boolean = false;
   loading = true;
   userId;
-  sellerRating: any = [];
+  sellerRating: any = {};
+  array_polyfil: any;
   constructor(
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
-    private toastr: ToastrService,private token:JwtDecoderService
+    private toastr: ToastrService,
+    private token: JwtDecoderService
   ) {
-    this.userId =token.decodedToken?.id;
+    this.userId = token.decodedToken?.id;
+
   }
+
   calculateTotal(): void {
     this.totalAmount = this.cartItems.reduce((acc, item) => {
       return item.product.is_should_buy
@@ -50,6 +54,7 @@ export class ShoppingCartComponent {
     }, 0);
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
+
   saveForLater(item: any): void {
     this.mainService
       .toggleSaveItem({
@@ -68,6 +73,7 @@ export class ShoppingCartComponent {
         },
       });
   }
+
   removeItem(item: any): void {
     this.mainService
       .removeCartItem({ product_id: item.product.id, user_id: item.user.id })
@@ -98,12 +104,13 @@ export class ShoppingCartComponent {
     }
     this.calculateTotal();
   }
+
   updateSelectAll(prod: any): void {
     prod.selected = !prod.selected;
     let allSelected = true;
     prod.selected
       ? (this.totalLength = this.totalLength + 1)
-      : (this.totalLength = this.totalLength - 1)
+      : (this.totalLength = this.totalLength - 1);
     this.cartItems.forEach((item) => {
       if (!item.selected) {
         allSelected = false;
@@ -112,6 +119,7 @@ export class ShoppingCartComponent {
     this.calculateTotal();
     this.isAllChecked = allSelected;
   }
+
   updateQuantity(item: any) {
     this.updateTotalLenght();
     this.mainService
@@ -159,8 +167,8 @@ export class ShoppingCartComponent {
       ? item
       : {
           user_id: this.userId,
-          product_id: item.product.id,
-          all: 0,
+          product_id: item == null ? null : item.product.id,
+          all: item == null ? 1 : 0,
         };
     this.mainService.buyProduct(payload).subscribe({
       next: (res: any) => {
@@ -171,7 +179,6 @@ export class ShoppingCartComponent {
         this.SelectAll();
       },
       error: (err) => {
-        //(err);
         this.toastr.error(err.message, 'Error');
       },
     });
@@ -182,6 +189,7 @@ export class ShoppingCartComponent {
     if (!this.isAllChecked) {
       this.cartItems.map((prod) => (prod.product.is_should_buy = 0));
       this.totalLength = 0;
+      this.buyProduct(null);
       this.calculateTotal();
     } else {
       this.cartItems.map((prod) => (prod.product.is_should_buy = true));
@@ -199,6 +207,9 @@ export class ShoppingCartComponent {
 
   ngOnInit() {
     this.loading = true;
+
+    this.array_polyfil = Array;
+    console.log(this.array_polyfil.from({length:5}).forEach((_:any,index:any)=> console.log(index)))
     this.globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState;
       if (this.cartItems.length) {
@@ -206,8 +217,8 @@ export class ShoppingCartComponent {
           this.SelectAll();
         }
         this.cartItems.forEach((item) => {
+          console.log(item.seller.rating)
           try {
-            // Safely populate the quantities object
             if (
               item.product?.inventory?.id &&
               item.product.inventory.available_stock
@@ -216,17 +227,13 @@ export class ShoppingCartComponent {
                 length: item.product.inventory.available_stock,
               });
             }
-
-            // Safely populate the sellerRating object
-            if (item.seller?.id && item.seller.rating) {
-              this.sellerRating[item.seller.id] = Array.from({
-                length: item.seller.rating,
-              });
+            if (item?.seller.rating) {
+              item.sellerRating=Array.from({length:Math.round(item?.seller.rating)}).fill(1)
             }
           } catch (error) {
             console.error('Error processing item:', item, error);
-            // Handle specific error logic here if needed
           }
+          console.log('this.sellerRating',item)
         });
 
         this.loading = false;

@@ -191,7 +191,7 @@
     <input type="number" value="1" min="1" max={{product.inventory.available_stock}} class="mx-2 qty-input rounded-2 border-1 px-2"
       (input)="handleProductQty($event.target,product)" />
     <span class="text-slate-300 fw-normal">{{product.inventory.available_stock - selectedQty}} available</span>
-    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count}} sold</span>
+    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count?product.inventory.sales_count:0}} sold</span>
   </div>
 
   <!-- make offer buttons common-->
@@ -240,7 +240,7 @@
       </div>
       <div>
         <strong>People are checking this out.</strong>
-        <span class="pl-1">5 have added this to their wishlist</span>
+        <span class="pl-1">{{product?.wishlist_count}} have added this to their wishlist</span>
       </div>
     </div>
     <div class="mt-4">

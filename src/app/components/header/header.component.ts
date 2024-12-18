@@ -50,7 +50,6 @@ export class HeaderNavigationComponent implements OnInit {
   unReadNotification: any = 0;
   city: any;
   searchTerm: any = '';
-  currentUserid: any = null;
   activeCategory: any = 0;
   isSearched: boolean = false;
   searched: boolean = false;
@@ -64,8 +63,8 @@ export class HeaderNavigationComponent implements OnInit {
   totalAmount: number = 0;
   token: any = '';
   protected currentUser: any = {};
-  isLogin:boolean=false
-    constructor(
+  isLogin: boolean = false;
+  constructor(
     private globalStateService: GlobalStateService,
     private mainServicesService: MainServicesService,
     private authService: AuthService,
@@ -76,35 +75,26 @@ export class HeaderNavigationComponent implements OnInit {
     private jwtDecoderService: JwtDecoderService,
     @Inject(DOCUMENT) private document: Document
   ) {
-debugger
-    this.currentUser = this.jwtDecoderService.decodedToken;
-    if(this.currentUser){
-      this.isLogin=true
-      this.getProfile()
-
-    }
-    
-    console.log(this.currentUser)
-
     this.sideBarItemss = sideBarItems;
-      this.globalStateService.currentState.subscribe((state) => {
-        // this.currentUser = this.currentUser
-        //   ? this.currentUser
-        //   : state.currentUser;
-        this.cartItems = state.cartState;
-      });
-      this.globalStateService.currentUser$.subscribe((user) => {
-        debugger
-        this.currentUser = user;
-        if(this.currentUser){
-          this.isLogin=true
-        }
-      });
-    
-    // this.globalStateService.logoutEvent$.subscribe((response) => {
-    //   this.logout()
-    // });
-    // this.currentUserid = extension.getUserId();
+    this.globalStateService.currentState.subscribe((state) => {
+      this.cartItems = state.cartState;
+    });
+
+    this.globalStateService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+      if (this.currentUser?.id) {
+        this.isLogin = true;
+      }
+    });
+
+    this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getCartItems();
+    });
+
+    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.getHeaderNotifications();
+    });
+
     this.screenWidth = window.innerWidth;
     this.router.events.subscribe(() => {
       const privateRoute = ['/cart', '/checkout'];
@@ -114,24 +104,15 @@ debugger
         this.isHideCart = true;
       }
     });
-    this.getCartSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.getCartItems();
-    });
-    this.getNotificationsSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.getHeaderNotifications();
+  }
+  getProfile() {
+    this.mainServicesService.getProfileData().subscribe({
+      next: (response: any) => {
+        this.currentUser = response.data;
+        this.globalStateService.updateCurrentUser(this.currentUser);
+      },
     });
   }
-getProfile(){
-  debugger
-  this.mainServicesService.getProfileData().subscribe({
-    next:(response:any)=>{
-      debugger
-      this.currentUser=response.data;
-      this.globalStateService.updateCurrentUser(this.currentUser);
-
-    }
-  })
-}
   calculateTotal(data: any): void {
     this.totalAmount = data.reduce(
       (acc: any, item: any) =>
@@ -141,7 +122,7 @@ getProfile(){
     this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
   }
   getCartItems() {
-    if (!this.cartItems.length && this.currentUser.id) {
+    if (!this.cartItems.length && this.currentUser?.id) {
       this.mainServicesService.getCartProducts(this.currentUser.id).subscribe({
         next: (value: any) => {
           this.globalStateService.updateCart(value.data);
@@ -157,9 +138,9 @@ getProfile(){
     }
   }
   getHeaderNotifications() {
-    if (!this.notificationList.length && this.currentUser.id) {
+    if (!this.notificationList.length && this.currentUser?.id) {
       this.mainServicesService
-        .getNotification(this.currentUserid, 'unread')
+        .getNotification(this.currentUser?.id, 'unread')
         .subscribe({
           next: (value: any) => {
             this.notificationList = value.data;
@@ -173,9 +154,9 @@ getProfile(){
     }
   }
   getHeaderState() {
-    if (this.currentUserid) {
+    if (this.currentUser?.id) {
       this.mainServicesService
-        .getHeaderNotifications(this.currentUserid)
+        .getHeaderNotifications(this.currentUser?.id)
         .subscribe({
           next: (res: any) => {
             this.notification = res;
@@ -290,44 +271,36 @@ getProfile(){
   }
   logout() {
     try {
-      this.loading = true; // Start loading
+      this.loading = true;
       this.authService.logOut().subscribe({
         next: () => {
-          // Clear local storage
           localStorage.removeItem('authToken');
           localStorage.removeItem('key');
           this.globalStateService.clearCurrentUser();
-          // Clear global state
           this.globalStateService.updateState({
-            authToken: '', // Clear token if managed globally
-            cartState: [], // Clear any related cart data
+            authToken: '',
+            cartState: [],
           });
-
-          // Reset component variables
           this.authService.signOut();
           this.currentUser = '';
-          this.isLogin=false
+          this.isLogin = false;
           this.notificationList = [];
           this.unReadNotification = 0;
-
-          // Navigate to home and show success toast
           this.router.navigate(['']).then(() => {
             this.toastr.success('Logged out successfully', 'Success');
           });
         },
         error: (error) => {
-          // Handle logout API errors
           this.toastr.error(
             'An error occurred while logging out. Please try again.',
             'Error'
           );
         },
         complete: () => {
-          this.loading = false; // Stop loading
+          this.loading = false;
         },
       });
     } catch (error) {
-      // Handle unexpected errors
       this.toastr.error(
         'An unexpected error occurred while logging out. Please try again.',
         'Error'
@@ -356,18 +329,20 @@ getProfile(){
   }
   ngOnInit(): void {
     document.body.addEventListener('click', this.onBodyClick.bind(this));
+
+    this.currentUser = this.jwtDecoderService.decodedToken;
+
+    if (this.currentUser?.id) {
+      this.isLogin = true;
+      this.getProfile();
+    }
+
     this.setupSearchSubscription();
     if (JSON.parse(localStorage.getItem('categoryId') as string)) {
       this.activeCategory = JSON.parse(
         localStorage.getItem('categoryId') as string
       );
     }
-    this.imageUrlSubscription = this.service.currentImageUrl.subscribe(
-      (url: string | null) => {
-        //
-        // this.currentUser.img = url;
-      }
-    );
     this.getHeaderState();
     this.getCurrentCity();
 

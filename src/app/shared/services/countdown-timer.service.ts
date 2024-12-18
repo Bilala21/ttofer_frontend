@@ -6,23 +6,25 @@ import { Observable, interval, map, takeWhile } from 'rxjs';
 })
 export class CountdownTimerService {
   constructor() {}
-
   startCountdown(endDateTime: string, product: any): Observable<string> {
-    const dateTimeStr = `${product.utc_data_time.utc_date} ${product.utc_data_time.utc_time}`;
+ 
+    const dateTimeStr = `${product?.utc_data_time?.utc_date} ${product?.utc_data_time?.utc_time}`;
 
     const date = new Date(dateTimeStr + ' UTC');
     date.setUTCDate(date.getUTCDate() + 7);
     date.setUTCHours(20, 15, 0, 0);
     const endDate = new Date(endDateTime).getTime();
     const serverDateTime = new Date(date.toISOString()).getTime();
-   let count=0
+    let count = 0;
     return interval(1000).pipe(
       map(() => {
         const timeDifference = endDate - serverDateTime;
         if (timeDifference <= 0 || Number.isNaN(timeDifference)) {
           return 'Bid Expired';
         } else {
-          return this.formatTimeDifference(timeDifference - (count+=1 * 1000));
+          return this.formatTimeDifference(
+            timeDifference - (count += 1 * 1000)
+          );
         }
       }),
       takeWhile((time) => time !== 'Bid Expired')
