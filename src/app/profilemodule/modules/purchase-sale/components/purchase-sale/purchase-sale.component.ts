@@ -7,7 +7,6 @@ import { MainServicesService } from '../../../../../shared/services/main-service
 import { ShimmerDesignComponent } from '../shimmer-design/shimmer-design.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Extension } from '../../../../../helper/common/extension/extension';
-import { response } from 'express';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteProductDialogComponent } from '../delete-product-dialog/delete-product-dialog-component';
@@ -66,8 +65,7 @@ export class PurchaseSaleComponent implements OnInit {
     let isSelling = false;
     this.route.queryParams.subscribe((params: any) => {  
       this.query = params['query'];
-      this.subscriptionId = 2
-      // +params['subscription_id'];
+      this.subscriptionId = +params['subscription_id'];
       if (params.query) {
         this.activeIndex = 2;
         isSelling = true;
