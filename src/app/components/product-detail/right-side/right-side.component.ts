@@ -11,6 +11,7 @@ import { Extension } from '../../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { MainServicesService } from '../../../shared/services/main-services.service';
+import { JwtDecoderService } from '../../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-right-side',
@@ -31,20 +32,21 @@ export class RightSideComponent {
   highBid: any;
   highestBid: any;
   loading: boolean = false;
-  currentUserid;
+  
+  currentUser:any
   selectedQty = 1;
   @Output() handleWishlist = new EventEmitter<any>();
   @Output() handleAddToCart = new EventEmitter<any>();
   constructor(
     private mainServices: MainServicesService,
-    private router: Router,
+    private router: Router,private token:JwtDecoderService,
     private globalStateService: GlobalStateService,
     private toastr: ToastrService,
     private authService: AuthService,
     private route: ActivatedRoute,
     public extension: Extension
   ) {
-    this.currentUserid = extension.getUserId();
+    this.currentUser = token.decodedToken;
   }
 
   ngOnInit() {
@@ -61,7 +63,7 @@ export class RightSideComponent {
   }
 
   buyProduct(product: any) {
-    if (!this.currentUserid) {
+    if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
 
       this.authService.triggerOpenModal();
@@ -73,13 +75,13 @@ export class RightSideComponent {
     this.mainServices
       .adToCartItem({
         product_id: item.id,
-        user_id: this.currentUserid,
+        user_id: this.currentUser.id,
         quantity: this.selectedQty ? this.selectedQty : 1,
       })
       .subscribe({
         next: (res: any) => {
           this.toastr.success(res.message, 'success');
-          this.mainServices.getCartProducts(this.currentUserid).subscribe({
+          this.mainServices.getCartProducts(this.currentUser.id).subscribe({
             next: (value: any) => {
               this.globalStateService.updateCart(value.data);
             },
@@ -110,7 +112,7 @@ export class RightSideComponent {
   }
 
   contactSeller(product: any, user: any): void {
-    if (!this.currentUserid) {
+    if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
@@ -119,20 +121,20 @@ export class RightSideComponent {
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
-    this.router.navigate([`/chatBox/${this.currentUserid}`], {
+    this.router.navigate([`/chatBox/${this.currentUser.id}`], {
       state: { product, user },
     });
   }
 
   showOfferModal(modal_type: string) {
-    if (!this.currentUserid) {
+    if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
       this.authService.triggerOpenModal();
       return;
     }
     this.globalStateService.setOfferModal(
       modal_type,
-      this.currentUserid,
+      this.currentUser.id,
       this.productId,
       this.liveAuction.length,
       this.product.fix_price,

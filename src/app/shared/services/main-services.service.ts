@@ -27,7 +27,6 @@ export class MainServicesService {
       Authorization: `Bearer ${token}`,
     });
   }
-
   getAuthByLogin(payload: any): Observable<any> {
     return this.http
       .post(`${Constants.baseApi}` + '/login-email', payload)
@@ -39,7 +38,6 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/login-phone', payload)
       .pipe();
   }
-
   getBanners(): Observable<any> {
     return this.http.get(`${Constants.baseApi}/get-banners`);
   }
@@ -290,7 +288,6 @@ export class MainServicesService {
       payload
     );
   }
-
   forgetPasswordNumber(payload: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/forgot-password-phone', payload)
@@ -392,21 +389,17 @@ export class MainServicesService {
   createSetupIntent() {
     return this.http.post<any>(`${Constants.baseApi}/stripe/setup-intent`, {});
   }
-
   savePaymentMethod(paymentMethodId: string) {
     return this.http.post(`${Constants.baseApi}/stripe/save-payment-method`, {
       paymentMethodId,
     });
   }
-
   chargeCustomer(payload: any) {
     return this.http.post(`${Constants.baseApi}/stripe/charge`, payload);
   }
-
   getCardInfo(id: number) {
     return this.http.get(` http://127.0.0.1:8000/card/detail/${id}`);
   }
- 
   createPaymentIntent(id: string) {
     return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {
       payment_method_id: id,

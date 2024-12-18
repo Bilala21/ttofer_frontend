@@ -17,7 +17,7 @@
     </div>
     <div class="col-12" style="cursor: pointer">
       <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image</label>
-      <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()" loading="lazy" />
+      <img src="assets/images/add-post-img.png" class="w-100"  alt="" (click)="fileInput.click()" loading="lazy" />
       <input #fileInput type="file" (change)="onFileChange($event)
             " accept="image/png,image/jpg,image/jpeg" style="display: none" multiple />
       <div *ngIf="validationErrors['uploadImage']" class="text-danger mt-1">
@@ -211,16 +211,22 @@
         Price is required.
       </div>
     </div>
-    <div class="col-12">
-      <label for="totalPrice">Porduct quantity</label>
-      <p-inputNumber class="w-100" inputId="totalPrice" mode="currency" currency="AED" locale="en-US"
-        formControlName="fix_price" placeholder="Enter quantity"></p-inputNumber>
-      <div *ngIf="addProductForm.get('fix_price')?.invalid && addProductForm.get('fix_price')?.touched"
+    <div class="col-md-6">
+      <label for="totalStock">Product Quantity</label>
+      <p-inputNumber class="w-100" inputId="totalStock" 
+        formControlName="total_stock" placeholder="Enter quantity"></p-inputNumber>
+      <div *ngIf="addProductForm.get('total_stock')?.invalid && addProductForm.get('total_stock')?.touched"
         class="text-danger">
-        Price is required.
+        Total Stock is required.
       </div>
     </div>
-
+    
+    <div class="col-md-6">
+      <label for="thresholdLowStock">Threshold Low Stock</label>
+      <p-inputNumber class="w-100" inputId="thresholdLowStock" 
+        formControlName="threshold_low_stock" placeholder="Enter threshold low stock"></p-inputNumber>
+    </div>
+    
     <div class="col-12">
       <label>Description</label>
       <textarea placeholder="Description" formControlName="description" class="form-control w-100" rows="6">

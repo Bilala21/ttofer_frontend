@@ -70,7 +70,7 @@ export class MarkAsSoldComponent implements OnInit {
         const successMessage = response.message || 'Product is live now!';
         this.toastr.success(successMessage, 'Success');
         localStorage.removeItem('soldItems')
-         this.router.navigate([`/profilePage/${profileKey}`], { queryParams: { button: 3 } });
+        this.router.navigate([`/profile/sale-purchase`], { queryParams: { button: 3 } });
       },
       error: (error) => {
         this.toastr.error('Failed to mark product as sold. Please try again.', 'Error');  

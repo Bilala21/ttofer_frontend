@@ -26,7 +26,7 @@
                       }}">
                     <div
                         class="text-white pl-1 pr-1 price-tag py-1 rounded d-flex align-items-center justify-content-center z-1">
-                        {{
+                      AED {{
                             formatPrice(
                             post?.auction_initial_price
                             ? post?.auction_initial_price
@@ -41,9 +41,13 @@
                     </div>
                     <div class="d-flex justify-content-start align-items-center" *ngIf="activeTab==='selling'">
                         <div class="avatars d-flex">
-                            <img *ngFor="let avatar of post.views.users" [src]="avatar?.user?.img ?avatar?.user?.img:'/assets/images/profile-placeholder.png'" [alt]="avatar.alt">
+                          <img 
+                            *ngFor="let avatar of post.views.users.slice(-4)" 
+                            [src]="avatar?.user?.img ? avatar?.user?.img : '/assets/images/profile-placeholder.png'" 
+                            [alt]="avatar.alt">
                         </div>
-                    </div>                    
+                      </div>
+                                      
                     <div class="action-text" *ngIf="activeTab==='selling'" >
                        <span (click)="markAsSold(post)">Sell faster</span> 
                         <span>|</span>

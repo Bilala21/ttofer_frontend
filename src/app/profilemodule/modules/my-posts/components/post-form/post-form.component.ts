@@ -68,6 +68,7 @@ export class PostFormComponent {
       auction_ending_time: [''],
       auction_starting_date: [''],
       auction_ending_date: [''],
+      auction_end_date_time: [''],
       fix_price: [null],
       product_type: ['', Validators.required],
       latitude: ['', Validators.required],
@@ -75,6 +76,8 @@ export class PostFormComponent {
       location: ['', Validators.required],
       main_category: ['', Validators.required],
       sub_category: ['', Validators.required],
+      total_stock: [1, [Validators.required, Validators.min(1)]],
+      threshold_low_stock: [1],
       attributes: this.fb.group({}),
     });
     this.loadCategories();
@@ -271,6 +274,25 @@ export class PostFormComponent {
       }
     }
   }
+  onVideoSelected(event: any): void {
+    const file = event.target.files[0];
+    if (this.selectedVideo) {
+      this.toastr.error('You cannot upload more than one video.', 'Error');
+      return;
+    }
+    if (file) {
+      const maxFileSize = 20 * 1024 * 1024; // 20 MB in bytes
+      if (file.size > maxFileSize) {
+        this.toastr.error(
+          'Video size exceeds the maximum limit of 20 MB.',
+          'Error'
+        );
+        return;
+      }
+      const videoURL = URL.createObjectURL(file);
+      this.selectedVideo = { url: videoURL, file: file };
+    }
+  }
   deleteProductImage(file: any) {
     const input = {
       id: file.id,
@@ -286,17 +308,17 @@ export class PostFormComponent {
             (photo: any) => photo.id !== input.id
           );
           localStorage.setItem('editProduct', JSON.stringify(editProductData));
-          this.editProductData = editProductData; 
+          this.editProductData = editProductData;
         }
       }
     });
   }
-deleteValidationError(errorKey: string) {
+  deleteValidationError(errorKey: string) {
     if (this.validationErrors[errorKey]) {
       delete this.validationErrors[errorKey];
     }
-}
-removeImage(file: any, index: number) {
+  }
+  removeImage(file: any, index: number) {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     if (file.id) {
       this.deleteProductImage(file)
@@ -314,25 +336,7 @@ removeImage(file: any, index: number) {
       delete this.validationErrors[fieldModel];
     }
   }
-  onVideoSelected(event: any): void {
-    const file = event.target.files[0];
-    if (this.selectedVideo) {
-      this.toastr.error('You cannot upload more than one video.', 'Error');
-      return;
-    }
-    if (file) {
-      const maxFileSize = 20 * 1024 * 1024;
-      if (file.size > maxFileSize) {
-        this.toastr.error(
-          'Video size exceeds the maximum limit of 20 MB.',
-          'Error'
-        );
-        return;
-      }
-      const videoURL = URL.createObjectURL(file);
-      this.selectedVideo = { url: videoURL, file: file };
-    }
-  }
+
   removeVideo(): void {
     this.selectedVideo = null;
   }
@@ -361,14 +365,14 @@ removeImage(file: any, index: number) {
       }
     });
   }
-addCompleteProduct() {
+  addCompleteProduct() {
     if (!this.editProduct) {
       this.addProduct()
     } else if (this.editProduct) {
       this.updateProduct()
     }
   }
-async addProduct() {
+  async addProduct() {
     const imagesControl = this.addProductForm.get('image') as FormArray;
     if (imagesControl.length === 0) {
       this.validationErrors['uploadImage'] = 'Please add at least one image.';
@@ -387,32 +391,53 @@ async addProduct() {
       if (attributes['brand']) formData.append('brand', attributes['brand']);
       if (attributes['model']) formData.append('model', attributes['model']);
       if (attributes['Delivery']) formData.append('delivery_type', attributes['Delivery']);
+      if (this.selectedVideo?.file) {
+        formData.append(
+          'video',
+          this.selectedVideo.file,
+          this.selectedVideo.file.name
+        );
+      }
       formData.append('edition', attributes['edition']);
       formData.append('authenticity', attributes['authenticity']);
     }
-    Object.keys(this.addProductForm.controls).forEach((key) => {
+    Object.keys(this.addProductForm.controls).forEach((key:any) => {
       const control = this.addProductForm.get(key);
       if (key === 'attributes' && control instanceof FormGroup) {
         if (Object.keys(control.value).length > 0) {
           formData.append(key, JSON.stringify(control.value));
         }
-      } else if (control?.value instanceof Array) {
+      }else if (control?.value instanceof Array) {
         if (control.value.length > 0) {
           control.value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, item);
           });
         }
-      } else if (control?.value) {
+      } else if (control?.value || key === 'auction_end_date_time') {
         if (key === 'auction_starting_date' || key === 'auction_ending_date') {
-          const formattedDate = this.formatDate(new Date(control.value));
+          const formattedDate = this.formatDate(new Date(control?.value));
           formData.append(key, formattedDate);
         } else if (key === 'auction_starting_time' || key === 'auction_ending_time') {
-          const formattedtime = this.formatTime(control.value);
-          formData.append(key, formattedtime);
+          const formattedTime = this.formatTime(control?.value);
+          formData.append(key, formattedTime);
+        } else if (key === 'auction_end_date_time') {
+          const productType=this.addProductForm.get('product_type')?.value;
+          if(productType=='auction'){
+            const endingDate =this.formatDate(new Date(this.addProductForm.get('auction_ending_date')?.value));
+            const endingTime=this.formatTime(this.addProductForm.get('auction_ending_time')?.value)
+            if (endingDate && endingTime) {
+              const localDateTime = new Date(`${endingDate}T${endingTime}`);
+              const utcDateTime = localDateTime.toISOString();
+              formData.append(key, utcDateTime);
+            }         
+            }
+          
+          
         } else {
-          formData.append(key, control.value);
+          formData.append(key, control?.value);
         }
       }
+      
     });
     try {
       const token = localStorage.getItem('authToken');
@@ -478,6 +503,14 @@ async addProduct() {
         } else if (key === 'auction_starting_time' || key === 'auction_ending_time') {
           const formattedtime = this.formatTime(control.value);
           formData.append(key, formattedtime);
+        } else if (key === 'auction_end_date_time' ) {
+          const endingDate = this.addProductForm.get('auction_ending_date')?.value;
+          const endingTime = this.addProductForm.get('auction_ending_time')?.value;
+          if (endingDate && endingTime) {
+            const localDateTime = new Date(`${endingDate}T${endingTime}`);
+            const utcDateTime = localDateTime.toISOString();
+            formData.append(key, utcDateTime);
+          }
         } else {
           formData.append(key, control.value);
         }
@@ -558,7 +591,7 @@ async addProduct() {
     }
     this.productType = selectedValue;
     this.addProductForm.patchValue({
-      product_type: this.productType 
+      product_type: this.productType
     });
     this.addProductForm.updateValueAndValidity();
   }
@@ -572,7 +605,7 @@ export function timeDifferenceValidator(startField: string): (control: AbstractC
     const startTime = formGroup.get(startField)?.value;
     const endTime = control.value;
     if (!startTime || !endTime) {
-      return null; 
+      return null;
     }
     const start = new Date(`1970-01-01T${startTime}`);
     const end = new Date(`1970-01-01T${endTime}`);
@@ -582,7 +615,7 @@ export function timeDifferenceValidator(startField: string): (control: AbstractC
     if (end.getTime() - start.getTime() < 30 * 60 * 1000) {
       return { timeDifferenceError: true };
     }
-    return null; 
+    return null;
   };
 }
 export function endDateValidator(startField: string): ValidatorFn {
@@ -595,7 +628,7 @@ export function endDateValidator(startField: string): ValidatorFn {
     const endDate = control.value;
     if (!startDate && endDate) {
       formGroup.get('auction_ending_date')?.setValue(null);
-      return { noStartDate: true }; 
+      return { noStartDate: true };
     }
     if (startDate && endDate) {
       const start = new Date(startDate);
@@ -604,7 +637,7 @@ export function endDateValidator(startField: string): ValidatorFn {
         return { endDateBeforeStart: true };
       }
     }
-    return null; 
+    return null;
   };
 }
 export function startDateBeforeEndDateValidator(endDateField: string): ValidatorFn {
@@ -618,6 +651,6 @@ export function startDateBeforeEndDateValidator(endDateField: string): Validator
     if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
       return { startDateAfterEndDate: true };
     }
-    return null; 
+    return null;
   };
 }

@@ -11,6 +11,7 @@ import { response } from 'express';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteProductDialogComponent } from '../delete-product-dialog/delete-product-dialog-component';
+import { JwtDecoderService } from '../../../../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-purchase-sale',
@@ -36,7 +37,7 @@ export class PurchaseSaleComponent implements OnInit {
   activeTab: string = 'buying';
   notfoundData = notFoundData['buying'];
   loading: boolean = false;
-  userId;
+  user:any;
   query!: string;
   packageId!: number;
   products:any=[
@@ -52,10 +53,11 @@ export class PurchaseSaleComponent implements OnInit {
   constructor(private toastr:ToastrService,
     private decimalPipe: DecimalPipe,
     private mainServices: MainServicesService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute,private token:JwtDecoderService,
     private extension: Extension,private dialog:MatDialog,private router:Router
   ) {
-    this.userId = this.extension.getUserId();
+    debugger
+    this.user =token.decodedToken;
   }
   getTab(tab: any) {
     this.activeIndex = tab.index;
@@ -79,7 +81,7 @@ export class PurchaseSaleComponent implements OnInit {
   }
   fecthData(tab: string) {
     this.loading = true;
-    this.mainServices.getSelling(tab, this.userId).subscribe({
+    this.mainServices.getSelling(tab, this.user.id).subscribe({
       next: (res: any) => {       
         this.data = res.data?.data;
         this.loading = false;

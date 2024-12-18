@@ -23,7 +23,7 @@
         <a [routerLink]="['/userProfile', product.user.id]"
           class="text-dark text-decoration-underline mr-2">Seller's
           other itmes</a>
-        <a *ngIf="product.user.id !== currentUserid" class="text-dark text-decoration-underline"
+        <a *ngIf="product.user.id !== currentUser.id" class="text-dark text-decoration-underline"
           (click)="contactSeller(product, product.user)">Contact seller</a>
       </div>
     </div>
@@ -181,7 +181,7 @@
 
 
 
-  <div class="mb-3 mt-2" *ngIf="product.product_type !=='auction'">
+  <div class="mb-3 mt-2" *ngIf="product.product_type=='auction'">
     <span class="fw-normal">Sale ends in:</span>
     <span class="fw-semibold ml-2">6d 15h</span>
   </div>
