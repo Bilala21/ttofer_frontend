@@ -766,6 +766,7 @@ button[aria-label="Close"]:focus {
 .form-control {
   border-radius: 5px !important;
   height: calc(1.5em + .75rem + 8px) !important;
+
 }
 
 .register-img {
@@ -1336,4 +1337,20 @@ button[aria-label="Close"]:focus {
 .p-overflow-hidden .p-galleria-content .p-galleria-thumbnail-items{
   justify-content: center;
   // column-gap: 20px !important;
+}
+// input:-webkit-autofill {
+//   background-color: transparent !important;
+//   color: inherit !important;
+//   transition: background-color 5000s ease-in-out 0s;
+// }
+input,
+textarea,
+select {
+  &:focus:-webkit-autofill,
+  &:-webkit-autofill,
+  &:autofill {
+    background-color: transparent !important;
+    color: inherit !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }

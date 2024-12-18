@@ -34,6 +34,7 @@ export class BodyComponent {
   loading = true;
   tempToken: boolean = false;
   promotionBanners: any = [];
+  adsBanners: any = [];
   footerBanners: any = [];
   user_id;
   countdownSubscriptions: Subscription[] = [];
@@ -66,6 +67,7 @@ export class BodyComponent {
       });
     });
     this.getBanners();
+    this.getAdvertisement();
   }
 
   startCountdowns() {
@@ -101,6 +103,22 @@ export class BodyComponent {
       },
     });
   }
+  // getAdvertisement
+  getAdvertisement() {
+    this.mainServices.getAdsBanners().subscribe({
+      next: (res) => {
+        this.adsBanners = res.data.map((item: any) => {
+          return {
+            banner: item?.mobile_path,
+          };
+        });
+      },
+      error: (error) => {
+        console.error('Error occurred while fetching data', error);
+      },
+    });
+  }
+  
   ngOnDestroy() {
     this.countdownSubscriptions.forEach((sub) => sub.unsubscribe());
   }
