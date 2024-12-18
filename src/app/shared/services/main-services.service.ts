@@ -190,9 +190,9 @@ export class MainServicesService {
       .pipe();
   }
 
-  wishListProduct(payload: any) {
+  wishListProduct(id: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/wishlist/products', payload)
+      .get(`${Constants.baseApi}` + '/wishlist/'+ id)
       .pipe();
   }
   markAsSold(product: any) {
@@ -423,5 +423,8 @@ export class MainServicesService {
   }
   getHeaderNotifications(userId: number) {
     return this.http.get(`${Constants.baseApi}/user/overview/${userId}`);
+  }
+  getSubscriptionsPlan() {
+    return this.http.get(`${Constants.baseApi}/subscriptions-plan`);
   }
 }

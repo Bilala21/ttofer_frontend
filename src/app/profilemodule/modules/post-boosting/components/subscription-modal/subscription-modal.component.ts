@@ -13,7 +13,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive,Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-setting-dialoge',
@@ -25,40 +25,53 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     FormsModule,
     MatButtonModule,
     RouterLink,
-    RouterLinkActive,
+    RouterLinkActive,   
   ],
   templateUrl: './subscription-modal.component.html',
   styleUrls: ['./subscription-modal.component.scss'],
 })
 export class SubscriptionModalComponent {
+  // {
+  //   basic: {
+  //     id:1,
+  //     heading: 'Basic',
+  //     time: 'Boost 1 days',
+  //     price: '2.99',
+  //   },
+  //   standard: {
+  //     id:2,
+  //     heading: 'Standard',
+  //     time: 'Boost 3 Days',
+  //     price: '4.99',
+  //   },
+  //   bestvalue: {
+  //     id:3,
+  //     heading: 'Best value',
+  //     time: 'Boost Plus',
+  //     price: '16.99',
+  //   },
+  // };
   subscription: any = {};
-  subscriptionData: any = {
-    basic: {
-      heading: 'Basic',
-      time: 'Boost 1 days',
-      price: 'AED 2.99',
-    },
-    standard: {
-      heading: 'Standard',
-      time: 'Boost 3 Days',
-      price: 'AED 4.99',
-    },
-    bestvalue: {
-      heading: 'Best value',
-      time: 'Boost Plus',
-      price: 'AED 16.99',
-    },
-  };
+  subscriptionData: any = {}
 
   constructor(
     public dialogRef: MatDialogRef<SubscriptionModalComponent>,
+    public router : Router,
+    
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    //(this.data);
-    this.subscription = this.subscriptionData[this.data.type];
+    console.log("modal",this.data);
+    this.subscription = data
+    
   }
-
+ 
   onNoClick(): void {
+    this.router.navigate(['/profile/sale-purchase'], { 
+      queryParams: { 
+        query: 'selling', 
+        subscription_id: this.subscription.id
+       } 
+    });
     this.dialogRef.close();
   }
 

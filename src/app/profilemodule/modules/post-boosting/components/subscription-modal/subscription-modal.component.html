@@ -1,17 +1,19 @@
 <div class="container add-new-card px-4 pt-4 pb-2 text-dark text-center">
     <mat-dialog-content class="p-0">
-        <h4 class="text-capitalize text-center fs-28 fw-bold">{{subscription.heading}}</h4>
-        <div class="ext-capitalize text-center fw-semibold fs-18">{{subscription.time}}</div>
-        <div class="ext-capitalize text-center fw-semibold fs-28 pt-3">{{subscription.price}}</div>
+        <h4 class="text-capitalize text-center fs-28 fw-bold">{{subscription.name}}</h4>
+        <div class="ext-capitalize text-center fw-semibold fs-18"></div>
+        <div class="ext-capitalize text-center fw-semibold fs-28 pt-3">AED  {{subscription.price}}</div>
 
         <div class="pt-4 text-center">
             <img src="/assets/images/boost-plan.svg" alt="">
         </div>
         <p class="pt-3">Get an average of 20x more views each day</p>
         <p class="fw-semibold">No obligation, cancel anytimeLearn more</p>
-        <a (click)="onNoClick()" [routerLink]="['/profile/sale-purchase']"
-            [queryParams]="{ query: 'selling', packageId: 1 }" routerLinkActive="router-link-active"
-            class="d-block text-dark-400 text-decoration-none bg-yellow-800 w-100 mb-4 py-2 fs-18 mt-4">Pay now</a>
+            <a  (click)="onNoClick()" 
+                routerLinkActive="router-link-active"
+                class="d-block cur-pointer text-dark-400 text-decoration-none bg-yellow-800 w-100 mb-4 py-2 fs-18 mt-4">
+                Pay now
+            </a>
         <p class="text-dark pb-3">
             Your iTunes account will be charged !19.99 per month for the Boost Plus Subscription at the end of your
             3-day free trail unless you cancel the subscription at least 24 hours before the end of the trial

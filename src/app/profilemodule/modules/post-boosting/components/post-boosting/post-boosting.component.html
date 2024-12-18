@@ -42,57 +42,21 @@
 
         <!-- cards -->
         <div class="row" *ngIf="showNextStep">
-            <div class="col-md-4">
+            <div class="col-md-4" *ngFor="let item of data">
                 <div class="card rounded-2 p-3 text-center">
-                    <div>Basic</div>
-                    <div class="py-2 fw-semibold">Boost 1 days</div>
-                    <div class="fs-18 fw-bold">AED 2.99</div>
-                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('basic')">
+                    <div>{{item.name}}</div>
+                    <div class="py-2 fw-semibold">{{item.title}}</div>
+                    <div class="fs-18 fw-bold">AED {{item.price}}</div>
+                    <div class="fs-18 fw-bold">Product Limit {{item.product_limit}}</div>
+                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog(item)">
                         Subscribe
                     </div>
                 </div>
                 <div class="d-flex mt-3">
                     <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
-                    <span>Get an average of 20x more views each day</span>
+                    <span>{{item.short_description}}</span>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card rounded-2 p-3 text-center">
-                    <div>Standard</div>
-                    <div class="py-2 fw-semibold">Boost 3 Days</div>
-                    <div class="fs-18 fw-bold">AED 4.99</div>
-                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('standard')">
-                        Subscribe
-                    </div>
-                </div>
-                <div class="d-flex mt-3 ">
-                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
-                    <span>Switch promotion to any item.</span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card rounded-2 p-3 text-center">
-                    <div>Best Value</div>
-                    <div class="py-2 fw-semibold">Boost Plus</div>
-                    <div class="fs-18 fw-bold">AED 16.99</div>
-                    <div class="btn btn-dark mt-3" (click)="openSubscriptionDialog('bestvalue')">
-                        Subscribe
-                    </div>
-                </div>
-                <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
-                    <span>Get an average of 20x more viewseach day</span>
-                </div>
-                <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
-                    <span>Promote for multiple days</span>
-                </div>
-                <div class="d-flex mt-3">
-                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
-                    <span>Switch promotion to any item.</span>
-                </div>
-            </div>
-
         </div>
     </div>
 </section>
