@@ -2,12 +2,12 @@
   <mat-dialog-content>
     <h4 class="text-capitalize">{{dialogDataCopy.key}}</h4>
     <form>
-      <div class="form-group" *ngIf="dialogDataCopy.key === 'username'">
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'name'">
         <label>Your Name</label>
         <input 
           type="text" 
           class="form-control" 
-          [(ngModel)]="userInformation.username" 
+          [(ngModel)]="userInformation.name" 
           name="name" 
           placeholder="Your Name" 
           required 

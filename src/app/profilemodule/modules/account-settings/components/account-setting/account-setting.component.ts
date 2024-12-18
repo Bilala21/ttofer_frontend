@@ -18,14 +18,14 @@ import { GlobalStateService } from '../../../../../shared/services/state/global-
 export class AccountSettingComponent implements OnInit {
   currentUserProfile:any
   userSetting: any = {
-    name: 'Bilal',
+    name: 'Bilal', 
     phone: '1234567',
     email: 'Bilal',
     password: 'Bilal',
     location: 'Bilal',
   };
   icons: any = {
-    username: 'fa-user',
+    name: 'fa-user',
     phone: 'fa-phone',
     email: 'fa-envelope',
     password: 'fa-lock',
@@ -48,7 +48,7 @@ export class AccountSettingComponent implements OnInit {
     
     this.userSetting = 
       {
-        username: this.currentUserProfile.username,
+        name: this.currentUserProfile.name,
         phone: this.currentUserProfile.phone,
         email: this.currentUserProfile.email,
         location: this.currentUserProfile.location?this.currentUserProfile.location:'Location',

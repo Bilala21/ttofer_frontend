@@ -124,8 +124,11 @@ export class RightSideComponent {
     this.router.navigate([`/chatBox/${this.currentUser.id}`], {
       state: { product, user },
     });
+  } 
+  giveReviewToUser(user:any){
+sessionStorage.setItem('user_data',JSON.stringify(user))
+this.router.navigate([`/review`])
   }
-
   showOfferModal(modal_type: string) {
     if (!this.currentUser.id) {
       this.toastr.warning('Plz login first than try again !', 'Warning');

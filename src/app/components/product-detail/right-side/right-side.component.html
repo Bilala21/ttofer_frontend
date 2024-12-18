@@ -16,7 +16,7 @@
                 " alt="{{ product?.user?.name }}" loading="lazy" class="img-fluid max-h-100 rounded-pill" />
     </a>
     <div class="pl-2">
-      <div>{{ product.user?.name }} <span>(4567)</span> <span class="mx-2"><a routerLink="/review/21" class="text-decoration-underline" >Review</a></span></div>
+      <div>{{ product.user?.name }} <span>(4567)</span> <span class="mx-2"><a class="text-decoration-underline" (click)="giveReviewToUser(product.user)" >Review</a></span></div>
 
       <div class="fw-normal">
         <span class="text-yellow-800 d-block">★★★★★</span>

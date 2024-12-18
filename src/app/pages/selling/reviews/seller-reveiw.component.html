@@ -8,8 +8,8 @@
                 <div class="seller-bio mt-2 d-flex align-content-center justify-content-center">
                     <!-- seller-image -->
                     <div class="">
-                        <img src="/assets/images/tempImage/img2.jpeg" alt="image" loading="lazy" class="image-seller-user">
-                        <h4 class="fs-19 fw-normal m-0 mt-3 text-center">Darlene Robertson</h4>
+                        <img [src]="seller.img" alt="image" loading="lazy" class="image-seller-user">
+                        <h4 class="fs-19 fw-normal m-0 mt-3 text-center">{{seller.name}}</h4>
                         <h5 class="fs-16 fw-normal text-center m-0 mt-2">Manchester, UK</h5>
                     </div>
                 </div>
@@ -32,22 +32,22 @@
                 </div>
                   <!-- description -->
                 <div class="">
-                        <label for="description" class="fs-18 fw-semibold form-label">Description</label>
+                        <label for="comment" class="fs-18 fw-semibold form-label">Comment</label>
                         <textarea
                           class="w-100 p-2 rounded-custom"
                           id="description"
-                          formControlName="description"
+                          formControlName="comment"
                           placeholder="Write your review here"
                           rows="5"
                           >
                         </textarea>
-                        <div class="error" *ngIf="submitted && reviewForm.get('description')?.invalid">
-                          <small *ngIf="reviewForm.get('description')?.errors?.['required']">
-                            Description is required.
-                          </small>
-                          <small *ngIf="reviewForm.get('description')?.errors?.['minlength']">
-                            Description must be at least 10 characters long.
-                          </small>
+                        <div class="error" *ngIf="reviewForm.get('comment')?.touched || reviewForm.get('comment')?.dirty">
+                          <div *ngIf="reviewForm.get('comment')?.hasError('required')" >
+                            Comment is required.
+                          </div>
+                          <div *ngIf="reviewForm.get('comment')?.hasError('minlength')">
+                            Comment must be at least 10 characters long.
+                          </div>
                         </div>
                 </div> 
                 <!-- btns -->

@@ -266,11 +266,12 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/who-bought', payload)
       .pipe();
   }
-  reviewToSeller(payload: any) {
+  reviewToSeller(sellerId: number, payload: any) {
     return this.http
-      .post(`${Constants.baseApi}` + '/user-review', payload)
+      .post(`${Constants.baseApi}/seller/${sellerId}/reviews`, payload)
       .pipe();
   }
+  
   reportUser(payload: any) {
     return this.http
       .post(`${Constants.baseApi}` + '/report-a-user', payload)

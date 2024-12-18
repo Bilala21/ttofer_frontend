@@ -35,8 +35,8 @@ export class AccountSettingDialogeComponent {
 
     // Check which key is active and populate updatedData accordingly
     switch (this.dialogDataCopy.key) {
-      case 'username':
-        updatedData['value'] = this.userInformation.username;
+      case 'name':
+        updatedData['value'] = this.userInformation.name;
         break;
       case 'phone':
         updatedData['value'] = this.userInformation.phone;

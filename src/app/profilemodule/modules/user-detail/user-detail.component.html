@@ -19,7 +19,7 @@
             <input type="file" class="d-none" id="file" (change)="onImageUpload($event)">
         </div>
         <div class="pl-3">
-            <div class="fw-semibold text-center text-md-left"> {{ currentUser?.username }}</div>
+            <div class="fw-semibold text-center text-md-left"> {{ currentUser?.name }}</div>
             <div class="fs-14 text-capitalize text-center text-md-left">
                 Joined: <span> {{ currentUser?.created_at ? (currentUser?.created_at | date: 'MMM d, y') : 'N/A' }}</span>
             </div>

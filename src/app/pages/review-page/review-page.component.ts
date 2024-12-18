@@ -42,36 +42,36 @@ export class ReviewPageComponent {
   }
 
   submitReview(starRating: any): void {
-    if (this.isSubmitting) return;
-    const rating = starRating.rating;
-    const reviewElement = this.reviewText?.nativeElement;
-    if (!reviewElement) {
-      this.toastr.error('Review input is not available.', 'Error');
-      return;
-    }
-    const review = reviewElement.value;
-    if (!review.trim()) {
-      this.toastr.warning('Please write a review before submitting.', 'Warning');
-      return;
-    }
-    this.isSubmitting = true;
-    const reviewData = {
-      to_user: this.userId,
-      comment: review,
-      rating: rating,
-      from_user: this.currentUserId
-    };
-    this.mainServices.reviewToSeller(reviewData).subscribe(
-      (res: any) => {
-        this.toastr.success(res.message, 'Success');
-        this.isSubmitting = false;
-        reviewElement.value = ''; // Clear input after successful submission
-      },
-      (error: any) => {
-        this.toastr.error('Failed to submit review.', 'Error');
-        this.isSubmitting = false;
-      }
-    );
+    // if (this.isSubmitting) return;
+    // const rating = starRating.rating;
+    // const reviewElement = this.reviewText?.nativeElement;
+    // if (!reviewElement) {
+    //   this.toastr.error('Review input is not available.', 'Error');
+    //   return;
+    // }
+    // const review = reviewElement.value;
+    // if (!review.trim()) {
+    //   this.toastr.warning('Please write a review before submitting.', 'Warning');
+    //   return;
+    // }
+    // this.isSubmitting = true;
+    // const reviewData = {
+    //   to_user: this.userId,
+    //   comment: review,
+    //   rating: rating,
+    //   from_user: this.currentUserId
+    // };
+    // this.mainServices.reviewToSeller(reviewData).subscribe(
+    //   (res: any) => {
+    //     this.toastr.success(res.message, 'Success');
+    //     this.isSubmitting = false;
+    //     reviewElement.value = ''; // Clear input after successful submission
+    //   },
+    //   (error: any) => {
+    //     this.toastr.error('Failed to submit review.', 'Error');
+    //     this.isSubmitting = false;
+    //   }
+    // );
   }
 
   skipReview(): void {

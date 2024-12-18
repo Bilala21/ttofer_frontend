@@ -118,7 +118,7 @@ export const routes: Routes = [
     component: ShoppingCartComponent,
   },
   {
-    path: 'review/:id',
+    path: 'review',
     component: SellerReveiwComponent,
   },
   {
