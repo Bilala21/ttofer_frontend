@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
     if (token) {
       return true;
     } else {
-      // Redirect to home and show modal
       this.router.navigate(['/']).then(() => {
         this.authState.showAuthModal(true);
       });

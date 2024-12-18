@@ -78,6 +78,7 @@ export class HeaderNavigationComponent implements OnInit {
   ) {
 debugger
     this.currentUser = this.jwtDecoderService.decodedToken;
+    console.log('userToken',this.currentUser)
     if(this.currentUser){
       this.isLogin=true
       this.getProfile()
@@ -159,7 +160,7 @@ getProfile(){
   getHeaderNotifications() {
     if (!this.notificationList.length && this.currentUser.id) {
       this.mainServicesService
-        .getNotification(this.currentUserid, 'unread')
+        .getNotification(this.currentUser.id, 'unread')
         .subscribe({
           next: (value: any) => {
             this.notificationList = value.data;
