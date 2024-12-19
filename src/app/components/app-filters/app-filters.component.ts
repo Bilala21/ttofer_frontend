@@ -9,18 +9,37 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter_fields } from './json-data';
 import { GlobalSearchService } from '../../shared/services/state/search-state.service';
+import * as numberToWords from 'number-to-words';
+import { PriceFormatPipe } from '../../helper/price-format.pipe';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [FormsModule, NgxSliderModule, NgIf, CommonModule, MatTooltipModule],
+  imports: [
+    FormsModule,
+    NgxSliderModule,
+    NgIf,
+    CommonModule,
+    MatTooltipModule,
+    PriceFormatPipe,
+    ReactiveFormsModule,
+    InputNumberModule,
+  ],
   templateUrl: './app-filters.component.html',
   styleUrls: ['./app-filters.component.scss'],
 })
@@ -79,14 +98,22 @@ export class AppFiltersComponent implements OnInit {
   isNavigatingAway: any = false;
   hideFilter: boolean = false;
   isLgScreen: boolean = false;
+  priceForm!: FormGroup;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private mainServicesService: MainServicesService,
     public globalStateService: GlobalStateService,
-    public globalSearchService: GlobalSearchService
-  ) {}
+    public globalSearchService: GlobalSearchService,
+    private fb: FormBuilder
+  ) {
+
+    this.priceForm = this.fb.group({
+      minPrice: [1],
+      maxPrice: [10000],
+    });
+  }
 
   ngOnInit() {
     this.checkScreenSize();
@@ -196,48 +223,51 @@ export class AppFiltersComponent implements OnInit {
     });
   }
 
-  checkPriceConditions(event: any, isMin: boolean) {
-    const key = event.key;
-    const allowedKeys = [
-      'Backspace',
-      'Delete',
-      'ArrowLeft',
-      'ArrowRight',
-      'Tab',
-      'Enter',
-    ];
+  // checkPriceConditions(event: any, isMin: boolean) {
+  //   const key = event.key;
+  //   const allowedKeys = [
+  //     'Backspace',
+  //     'Delete',
+  //     'ArrowLeft',
+  //     'ArrowRight',
+  //     'Tab',
+  //     'Enter',
+  //   ];
 
-    if (allowedKeys.includes(key)) return;
-    if (!/[0-9]/.test(key)) {
-      event.preventDefault();
-      return;
-    }
+  //   if (allowedKeys.includes(key)) return;
+  //   if (!/[0-9]/.test(key)) {
+  //     event.preventDefault();
+  //     return;
+  //   }
 
-    if (this.minPrice >= this.maxPrice && isMin) {
-      //(this.minPrice);
-      event.preventDefault();
-      return;
-    }
+  //   if (this.minPrice >= this.maxPrice && isMin) {
+  //     //(this.minPrice);
+  //     event.preventDefault();
+  //     return;
+  //   }
 
-    if (event.target.value === '0' && key !== 'Backspace') {
-      event.preventDefault();
-      return;
-    }
-    if (
-      event.target.value.startsWith('0') &&
-      key !== 'Backspace' &&
-      !/[0-9]/.test(key)
-    ) {
-      event.preventDefault();
-      return;
-    }
-  }
+  //   if (event.target.value === '0' && key !== 'Backspace') {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  //   if (
+  //     event.target.value.startsWith('0') &&
+  //     key !== 'Backspace' &&
+  //     !/[0-9]/.test(key)
+  //   ) {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  // }
   handleMinMaxPrice(event: any, isMin: boolean) {
-    //(this.minPrice,this.maxPrice)
-    // this.filterCriteria['min_price'] = this.minPrice;
-    // this.filterCriteria['max_price'] = this.maxPrice;
+    const word = numberToWords.toWords(this.minPrice);
+    console.log(word);
     if (this.maxPrice >= this.minPrice) {
-      this.handleFilterEvent.emit({ ...this.filterCriteria,min_price:this.minPrice,max_price:this.maxPrice });
+      this.handleFilterEvent.emit({
+        ...this.filterCriteria,
+        min_price: this.minPrice,
+        max_price: this.maxPrice,
+      });
     }
   }
 
