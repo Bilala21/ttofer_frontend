@@ -402,7 +402,7 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}/stripe/charge`, payload);
   }
   getCustomerCards(id: number) {
-    return this.http.get(`${Constants.baseApi}/users/${id}/cards`);
+    return this.http.get(`${Constants.baseApi}/payment-cards/user/${id}`);
   }
   createPaymentIntent(id: string) {
     return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {
