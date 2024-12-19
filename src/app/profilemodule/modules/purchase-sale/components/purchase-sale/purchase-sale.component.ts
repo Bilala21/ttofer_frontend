@@ -66,7 +66,9 @@ export class PurchaseSaleComponent implements OnInit {
     this.route.queryParams.subscribe((params: any) => {  
       this.query = params['query'];
       this.subscriptionId = +params['subscription_id'];
+      console.log("subscription",this.subscriptionId)
       if (params.query) {
+        this.activeTab ='selling'
         this.activeIndex = 2;
         isSelling = true;
       } else {
