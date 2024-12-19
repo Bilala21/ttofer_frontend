@@ -36,7 +36,7 @@ export class SellerReveiwComponent {
     if (this.reviewForm.valid) {
       const payLoad = {
         reviewer_id: this.reviewerId,
-        // comment: this.reviewForm.value.comment,
+        comment: this.reviewForm.value.comment,
         rating: this.reviewForm.value.rating,
       };
 
@@ -46,7 +46,7 @@ export class SellerReveiwComponent {
           this.reviewForm.reset();
           this.submitted = false;
         },
-        error: (err) => {
+        error: (err:any) => {
          this.submitted = false;
         },
         complete: () => {
@@ -54,7 +54,5 @@ export class SellerReveiwComponent {
       });
     } 
   }
-  
-
-  
+    
 }
