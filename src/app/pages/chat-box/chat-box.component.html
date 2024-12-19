@@ -129,7 +129,7 @@
               <div class="ml-3 flex-grow-1">
                 <div class="d-flex justify-content-between align-items-baseline">
                   <h2 class="fs-20 fw-semibold m-0">{{ userName }}</h2>
-                  <div class="ml-4 d-flex align-items-baseline">
+                  <div class="ml-4 d-flex align-items-center">
                     <img [src]="  
                         productImage
                           ? productImage
@@ -260,7 +260,7 @@
             " class="suggestions-box mx-auto text-center p-2 position-relative">
                 <div class="d-flex flex-wrap justify-content-center">
                   <span *ngFor="let suggestion of suggestions"
-                    class="suggestion-item px-3 py-1 m-1 rounded bg-light-gray text-dark pointer"
+                    class="px-3 py-1 m-1 rounded btn-yellow pointer"
                     (click)="selectSuggestion(suggestion)">
                     {{ suggestion }}
                   </span>

@@ -35,7 +35,6 @@ export class ShoppingCartComponent {
   loading = true;
   userId;
   sellerRating: any = {};
-  array_polyfil: any;
   constructor(
     private globalStateService: GlobalStateService,
     private mainService: MainServicesService,
@@ -43,7 +42,6 @@ export class ShoppingCartComponent {
     private token: JwtDecoderService
   ) {
     this.userId = token.decodedToken?.id;
-
   }
 
   calculateTotal(): void {
@@ -56,6 +54,9 @@ export class ShoppingCartComponent {
   }
 
   saveForLater(item: any): void {
+    let saved_for_later_count: any = document.getElementById(
+      'saved_for_later_count'
+    );
     this.mainService
       .toggleSaveItem({
         product_id: item.product.id,
@@ -67,11 +68,21 @@ export class ShoppingCartComponent {
             item.product.save_for_later = !item.product.save_for_later;
           }
           this.toastr.success(res.message, 'Success');
+          if (item.product.save_for_later) {
+            saved_for_later_count.innerHTML =
+              +saved_for_later_count.innerHTML + 1;
+          }
+          else {
+            saved_for_later_count.innerHTML =
+              +saved_for_later_count.innerHTML - 1;
+          }
         },
         error: (err) => {
           this.toastr.success(err.message, 'Success');
         },
       });
+
+    console.log(saved_for_later_count?.innerHTML);
   }
 
   removeItem(item: any): void {
@@ -208,8 +219,6 @@ export class ShoppingCartComponent {
   ngOnInit() {
     this.loading = true;
 
-    this.array_polyfil = Array;
-    console.log(this.array_polyfil.from({length:5}).forEach((_:any,index:any)=> console.log(index)))
     this.globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState;
       if (this.cartItems.length) {
@@ -217,7 +226,6 @@ export class ShoppingCartComponent {
           this.SelectAll();
         }
         this.cartItems.forEach((item) => {
-          console.log(item.seller.rating)
           try {
             if (
               item.product?.inventory?.id &&
@@ -228,12 +236,13 @@ export class ShoppingCartComponent {
               });
             }
             if (item?.seller.rating) {
-              item.sellerRating=Array.from({length:Math.round(item?.seller.rating)}).fill(1)
+              item.sellerRating = Array.from({
+                length: Math.round(item?.seller.rating),
+              }).fill(1);
             }
           } catch (error) {
             console.error('Error processing item:', item, error);
           }
-          console.log('this.sellerRating',item)
         });
 
         this.loading = false;
