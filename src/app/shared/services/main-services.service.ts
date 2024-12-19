@@ -401,8 +401,8 @@ export class MainServicesService {
   chargeCustomer(payload: any) {
     return this.http.post(`${Constants.baseApi}/stripe/charge`, payload);
   }
-  getCardInfo(id: number) {
-    return this.http.get(` http://127.0.0.1:8000/card/detail/${id}`);
+  getCustomerCards(id: number) {
+    return this.http.get(`${Constants.baseApi}/payment-cards/user/${id}`);
   }
   createPaymentIntent(id: string) {
     return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {

@@ -10,6 +10,7 @@ import { CheckoutModalComponent } from './checkout-modal/checkout-modal.componen
 import { StripeService } from '../../shared/services/stripe-service.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
 import { ActivatedRoute } from '@angular/router';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-check-out-page',
@@ -32,7 +33,7 @@ export class CheckOutPageComponent {
   totalLength: number = 0;
   isAllChecked: boolean = false;
   loading = true;
-  userId;
+  userId: number = 0;
   protected paymentMethod: string = '';
   itemDescription: string =
     '2.07 CT H VS2 Round Cut Lab Created Diamond Halo Engagement Ring 14K White Gold';
@@ -45,10 +46,9 @@ export class CheckOutPageComponent {
     public dialog: MatDialog,
     private stripeService: StripeService,
     private mainService: MainServicesService,
-     private route: ActivatedRoute,
-  ) {
-    this.userId = extension.getUserId();
-  }
+    private route: ActivatedRoute,
+    private jwtDecoderService: JwtDecoderService
+  ) {}
 
   shippingAddress = {
     name: '',
@@ -151,11 +151,26 @@ export class CheckOutPageComponent {
     }
   }
 
+  getCustomerCards() {
+    if (this.userId) {
+      this.stripeService.getCustomerCards(this.userId).subscribe({
+        next: (res: any) => {
+          if (res.status) {
+            console.log(res);
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
+  }
   getCardInfo(id: number) {
     this.paymentMethod = 'sfdfsd';
-    this.stripeService.getCardInfo(id).subscribe({
+    this.stripeService.getCustomerCards(id).subscribe({
       next: (res: any) => {
         if (res.status) {
+          console.log(res);
           this.paymentMethod = 'sfdfsd';
         }
       },
@@ -169,7 +184,7 @@ export class CheckOutPageComponent {
     this.paymentLoading = true;
     const payload = {
       payment_method_id: this.paymentMethod,
-      amount:this.totalAmount,
+      amount: this.totalAmount,
     };
     this.stripeService.chargeCustomer(payload).subscribe({
       next: (res: any) => {
@@ -187,12 +202,7 @@ export class CheckOutPageComponent {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: any) => {  
-      // this.query = params['query'];
-      // this.packageId = +params['subscription_id'];
-      console.log("params",params)
-
-    });
+    this.userId = this.jwtDecoderService.decodedToken.id;
     this.loading = true;
     this.globalStateService.currentState.subscribe((state) => {
       this.cartItems = state.cartState.filter(
@@ -204,6 +214,7 @@ export class CheckOutPageComponent {
         this.calculateTotal();
       }
     });
+    this.getCustomerCards();
     this.getCartItems();
   }
 }

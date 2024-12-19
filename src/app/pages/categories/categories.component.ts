@@ -277,5 +277,6 @@ export class CategoriesComponent {
     localStorage.removeItem('filters');
     localStorage.removeItem('selectedSlug');
     localStorage.removeItem('isSearch');
+    localStorage.removeItem('currentTab');
   }
 }

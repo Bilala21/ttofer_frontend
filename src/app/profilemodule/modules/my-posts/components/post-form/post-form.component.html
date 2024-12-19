@@ -245,7 +245,7 @@
         (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
     <div class="col-12">
-      <button class="btn btn-dark w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">
+      <button class="btn btn-yellow fs-18 fw-semibold w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">
         <span *ngIf="!isLoading">{{id?'Update':'Post'}}</span>
         <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
           aria-hidden="true"></span>
