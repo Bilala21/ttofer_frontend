@@ -698,7 +698,12 @@ button[aria-label="Close"]:focus {
   }
 
 }
-
+.btn-outline-yellow{
+  border: 1px solid #ffd814;
+  &:hover{
+    background-color:#ffd814
+  }
+}
 .rounded-2 {
   border-radius: 10px !important;
 }
@@ -1272,10 +1277,10 @@ button[aria-label="Close"]:focus {
     border: none !important;
 
     .p-datepicker-trigger.p-button-icon-only {
-      background: rgb(0, 47, 52);
+      background: #ffd814;
       padding-left: 20px !important;
       padding-right: 20px;
-      border-color: rgb(0, 47, 52) !important;
+      border-color: #ffd814 !important;
       border-top-left-radius: 0px !important;
       border-bottom-left-radius: 0px !important;
 
@@ -1284,8 +1289,6 @@ button[aria-label="Close"]:focus {
       }
 
       .p-icon-wrapper {
-        color: #fff;
-
         svg {
           width: 20px;
           height: 20px;
@@ -1358,4 +1361,7 @@ select {
   padding:7px 5px;
   border-radius: 5px;
   border:1px solid #d8dfe0;
+  &::placeholder{
+    font-size: 14px;
+  }
 }

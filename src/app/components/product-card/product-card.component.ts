@@ -36,10 +36,8 @@ export class ProductCardComponent implements OnInit {
     private globalStateService: GlobalStateService,
     private mainServices: MainServicesService,
     private toastr: ToastrService,
-    private token:JwtDecoderService
-  ) {
-    this.currentUserId= this.token.decodedToken?.id;
-  }
+    private token: JwtDecoderService
+  ) {}
   toggleWishlist(item: any) {
     if (!this.currentUserId) {
       this.toastr.warning('Plz login first than try again !', 'Warning');
@@ -47,7 +45,7 @@ export class ProductCardComponent implements OnInit {
       return;
     }
     let input = {
-      user_id: this.extension.getUserId(),
+      user_id: this.currentUserId,
       product_id: item.id,
     };
     this.mainServices.addWishList(input).subscribe({
@@ -65,33 +63,33 @@ export class ProductCardComponent implements OnInit {
     });
   }
   iconMapping: any = {
-    brand: 'fa-tag', 
-    condition: 'fa-cogs', 
+    brand: 'fa-tag',
+    condition: 'fa-cogs',
     storage: 'fa-hdd',
-    color: 'fa-paint-brush', 
-    mileage: 'fa-road', 
-    fuelType: 'fa-gas-pump', 
-    delivery: 'fa-truck', 
-    engineCapacity: 'fa-car', 
-    model: 'fa-cogs', 
-    year: 'fa-calendar', 
+    color: 'fa-paint-brush',
+    mileage: 'fa-road',
+    fuelType: 'fa-gas-pump',
+    delivery: 'fa-truck',
+    engineCapacity: 'fa-car',
+    model: 'fa-cogs',
+    year: 'fa-calendar',
     bedrooms: 'fa-bed',
-    yearBuilt: 'fa-calendar-alt', 
-    area: 'fa-expand', 
-    bathRoom: 'fa-bath', 
-    completion: 'fa-check-circle', 
-    fearture: 'fa-star', 
-    furnisheable: 'fa-couch', 
-    make_and_model: 'fa-car', 
-    type: 'fa-tshirt', 
-    age: 'fa-child', 
-    breed: 'fa-paw', 
-    toy: 'fa-toy', 
-    positionType: 'fa-briefcase', 
-    companyName: 'fa-building', 
-    salary: 'fa-money-bill-wave', 
-    salaryPeriod: 'fa-calendar-alt', 
-    careerLevel: 'fa-level-up-alt', 
+    yearBuilt: 'fa-calendar-alt',
+    area: 'fa-expand',
+    bathRoom: 'fa-bath',
+    completion: 'fa-check-circle',
+    fearture: 'fa-star',
+    furnisheable: 'fa-couch',
+    make_and_model: 'fa-car',
+    type: 'fa-tshirt',
+    age: 'fa-child',
+    breed: 'fa-paw',
+    toy: 'fa-toy',
+    positionType: 'fa-briefcase',
+    companyName: 'fa-building',
+    salary: 'fa-money-bill-wave',
+    salaryPeriod: 'fa-calendar-alt',
+    careerLevel: 'fa-level-up-alt',
   };
   private parseAttributes(value: any): any {
     try {
@@ -106,7 +104,7 @@ export class ProductCardComponent implements OnInit {
               typeof val === 'string' && this.isJson(val)
                 ? JSON.parse(val)
                 : val,
-            icon: this.iconMapping[key] || 'fa-question-circle', 
+            icon: this.iconMapping[key] || 'fa-question-circle',
           });
         }
         return parsedAttributes;
@@ -119,7 +117,7 @@ export class ProductCardComponent implements OnInit {
               typeof val === 'string' && this.isJson(val)
                 ? JSON.parse(val)
                 : val,
-            icon: this.iconMapping[key] || 'fa-question-circle', 
+            icon: this.iconMapping[key] || 'fa-question-circle',
           });
         }
         return parsedAttributes;
@@ -167,14 +165,17 @@ export class ProductCardComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    if (this.postData && this.postData.product_type === 'auction') {    
+    this.currentUserId = this.token.decodedToken?.id;
+    if (this.postData && this.postData.product_type === 'auction') {
       if (this.postData?.attributes) {
-        this.parsedAttributes = this.parseAttributes(this.postData.attributes).slice(0, 3);
+        this.parsedAttributes = this.parseAttributes(
+          this.postData.attributes
+        ).slice(0, 3);
       }
-          const price = this.postData?.auction_initial_price ?? this.postData?.fix_price ?? 0;
+      const price =
+        this.postData?.auction_initial_price ?? this.postData?.fix_price ?? 0;
       this.postData.price = this.decimalPipe.transform(price, '1.0-0') || '0';
       this.postData.postedAt = 12;
     }
-    
   }
 }

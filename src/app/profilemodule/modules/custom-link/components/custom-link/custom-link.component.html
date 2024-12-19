@@ -13,7 +13,7 @@
             </h5>
             <input [disabled]="true" type="text" placeholder="ttoffer.com/profile/your profile name"
                 [(ngModel)]="customLink" class="form-control input-class-add-form mt-3" />
-            <button class="btn bg-dark-650 w-100 text-white mt-4 py-3" (click)="copyCustomLink()">
+            <button class="btn btn-yellow w-100 mt-4 py-10" (click)="copyCustomLink()">
                 {{isCopied?'Copied':'Copy Profile Link'}}
             </button>
         </div>

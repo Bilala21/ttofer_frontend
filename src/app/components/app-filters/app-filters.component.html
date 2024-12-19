@@ -284,48 +284,23 @@
                                 (userChangeEnd)="handleMinMaxPrice()" /> -->
 
                             <form [formGroup]="priceForm"
-                                class="d-flex justify-content-between align-items-center filter-price-form">
+                                class="d-flex justify-content-between align-items-center filter-price-form pb-3">
                                 <div class="pr-2">
                                     <p-inputNumber styleClass="border-0" inputId="integeronly" inputId="stacked"
-                                        formControlName="minPrice" placeholder="Min price" [min]="0">
+                                        formControlName="minPrice" placeholder="0" [min]="0"
+                                        (focusout)="handleMinMaxPrice($event,false)">
                                     </p-inputNumber>
                                     <div class="fs-12 w-100 mt-1">{{ priceForm.get('minPrice')?.value | numberFormat }}
                                     </div>
                                 </div>
                                 <div>
                                     <p-inputNumber inputId="integeronly" inputId="stacked" formControlName="maxPrice"
-                                        placeholder="Max price" [min]="0">
+                                        placeholder="0" [min]="0" (focusout)="handleMinMaxPrice($event,false)">
                                     </p-inputNumber>
                                     <div class="fs-12 w-100 mt-1">{{ priceForm.get('maxPrice')?.value| numberFormat }}
                                     </div>
                                 </div>
                             </form>
-
-                            <div class="d-flex align-items-center price-box mb-3 d-none">
-                                <!-- <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                    <input type="number" [(ngModel)]="minPrice" name="minPrice" placeholder="Min"
-                                        min="1" class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                        (focusout)="handleMinMaxPrice($event,true)"
-                                        (keydown)="checkPriceConditions($event,true)">
-                                    <span class="fs-12 text-dark-400">AED</span>
-                                </div> -->
-                                <!-- <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                    <input type="number" [(ngModel)]="maxPrice" name="maxPrice" placeholder="Max"
-                                        min="1" class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                        (focusout)="handleMinMaxPrice($event,false)"
-                                        (keydown)="checkPriceConditions($event,false)">
-                                    <span class="fs-12 text-dark-400">AED</span>
-                                </div> -->
-
-                                <!-- <div class="d-flex align-items-center flex-grow-1 border-1 rounded pr-2">
-                                    <input type="number"  [(ngModel)]="maxPrice" name="maxPrice" type="text" placeholder="Max" min="1"
-                                        class="w-100 border-0 py-2 px-2 fs-14 bg-transparent"
-                                        (focusout)="handleMinMaxPrice()"
-                                        (input)="handleMinMaxPrice()"
-                                        >
-                                    <span class="fs-12 text-dark-400">AED</span>
-                                </div> -->
-                            </div>
                         </div>
                         <p *ngIf="priceForm.get('minPrice')?.value > priceForm.get('maxPrice')?.value"
                             class="text-danger fs-14">Max price must be greater than min

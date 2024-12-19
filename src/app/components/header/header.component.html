@@ -18,10 +18,10 @@
                         <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
                             class="w-100 fs-18 border-1 not-hide" [value]="searchTerm" id="product_search">
                         <!-- search-btn -->
-                        <button class="search-btn position-relative border-0 bg-dark-850 text-white prevent"
+                        <button class="search-btn position-relative border-0 btn-yellow text-white prevent"
                             (click)="navigateToSearch()">
                             <!-- search-icon -->
-                            <i class="fas fa-search fs-20 prevent"></i>
+                            <i class="fas fa-search fs-20 prevent text-dark"></i>
                         </button>
                         <ul *ngIf="searchTerm && !isSearched && suggestions.length"
                             class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
@@ -68,7 +68,7 @@
                                     d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
                                 </path>
                             </svg>
-                            <span
+                            <span id="saved_for_later_count"
                                 class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
                                 *ngIf="notification?.saved_for_later_count && currentUser?.id">{{notification.saved_for_later_count}}</span>
                         </a>
@@ -91,7 +91,7 @@
                     </li>
                     <!-- notification-start -->
                     <li class="notification-container"
-                        (mouseover)="!this.notificationList.length? getNotificationsOnMouseOver():null">
+                        (mouseover)="notification?.unread_notifications? getNotificationsOnMouseOver():null">
                         <!-- Cart Icon with Badge -->
                         <a class="text-dark position-relative"
                             [routerLink]="currentUser?.id ? ['/profile/notifications'] : '#'"
@@ -163,7 +163,7 @@
                         </div>
                     </li>
                     <li class="cart-container position-relative"
-                        (mouseover)="!this.cartItems.length? getCartItemsOnMouseOver():null">
+                        (mouseover)="notification?.cart_item_count? getCartItemsOnMouseOver():null">
                         <a (click)="!currentUser?.id ? login() : null" [routerLink]="currentUser?.id ? ['/cart'] : '#'">
                             <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
