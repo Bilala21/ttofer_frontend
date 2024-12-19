@@ -194,7 +194,208 @@ export class AuctionUserProfileComponent {
         offer: [],
         auction: []
       },
-    ]
+    ];
+
+    dataAuction = [
+        {
+            id: 21,
+            user_id: 4,
+            title: "et",
+            slug: "voluptatem-dolores-occaecati-et-reiciendis-ea-ullam-maiores",
+            description: "Dicta unde necessitatibus qui sed dolores quisquam quas. Consectetur vel aliquam et deserunt nam velit aut reprehenderit. Porro ut aut cupiditate laboriosam. Sed voluptas occaecati reiciendis autem quis praesentium libero. Totam aut voluptatibus quod corporis.",
+            attributes: "{\"brand\":\"Samsung\",\"condition\":\"use\",\"storage\":\"32GB\",\"color\":\"White\"}",
+            category_id: 1,
+            sub_category_id: 75,
+            condition: "new",
+            is_urgent: 0,
+            is_sold: 0,
+            is_expired: 0,
+            total_review: 215,
+            review_percentage: 3.4,
+            product_type: "auction",
+            auction_initial_price: 902.24,
+            auction_final_price: 254.82,
+            auction_starting_date: "2024-12-08",
+            auction_starting_time: "03:16:00",
+            auction_ending_date: "2024-12-18",
+            auction_ending_time: "03:16:00",
+            location: "7533 Nicolas Squares\nSouth Raina, LA 89108",
+            longitude: null,
+            latitude: null,
+            delivery_type: null,
+            status: 1,
+            created_at: "2024-12-19T06:18:05.000000Z",
+            updated_at: "2024-12-19T06:18:05.000000Z",
+            is_in_wishlist: false,
+            utc_data_time: {
+                utc_date: "2024-12-19",
+                utc_time: "10:30:28 AM"
+            },
+            user: {
+                id: 4,
+                name: "Mr Test 4",
+                img: "https://xsgames.co/randomusers/assets/avatars/male/43.jpg"
+            },
+            category: {
+                id: 1,
+                name: "Mobiles",
+                slug: "mobiles"
+            },
+            sub_category: {
+                id: 75,
+                category_id: 8,
+                name: "Cleaning Services"
+            },
+            photo: {
+                id: 89,
+                product_id: 21,
+                url: "https://picsum.photos/900/400?random=13"
+            },
+            video: [],
+            wishlist: {
+                id: 21,
+                user_id: 20,
+                product_id: 21,
+                created_at: "2024-12-19T07:22:57.000000Z",
+                updated_at: "2024-12-19T07:22:57.000000Z"
+            },
+            offer: [],
+            auction: []
+        },
+        {
+            id: 28,
+            user_id: 18,
+            title: "ex",
+            slug: "mollitia-et-et-minus-eum-itaque-rerum-repellendus",
+            description: "Consequatur excepturi ipsa non odio. Soluta consequatur est pariatur ut placeat voluptatum et. Deleniti dolores velit magni unde veritatis. Unde doloremque dolor quia velit saepe.",
+            attributes: "{\"brand\":\"Samsung\",\"condition\":\"use\",\"storage\":\"32GB\",\"color\":\"White\"}",
+            category_id: 3,
+            sub_category_id: 62,
+            condition: "new",
+            is_urgent: 0,
+            is_sold: 0,
+            is_expired: 0,
+            total_review: 48,
+            review_percentage: 3.8,
+            product_type: "auction",
+            auction_initial_price: 591.8,
+            auction_final_price: 706.65,
+            auction_starting_date: "2024-12-17",
+            auction_starting_time: "11:10:00",
+            auction_ending_date: "2024-12-27",
+            auction_ending_time: "11:10:00",
+            location: "425 Laury Ports\nStammmouth, MA 40135-6362",
+            longitude: null,
+            latitude: null,
+            delivery_type: null,
+            status: 1,
+            created_at: "2024-12-19T06:18:05.000000Z",
+            updated_at: "2024-12-19T06:18:05.000000Z",
+            is_in_wishlist: false,
+            utc_data_time: {
+                utc_date: "2024-12-19",
+                utc_time: "10:30:28 AM"
+            },
+            user: {
+                id: 18,
+                name: "Mr Test 18",
+                img: "https://xsgames.co/randomusers/assets/avatars/male/41.jpg"
+            },
+            category: {
+                id: 3,
+                name: "Property for Sale",
+                slug: "property-for-sale"
+            },
+            sub_category: {
+                id: 62,
+                category_id: 7,
+                name: "Part time on-site"
+            },
+            photo: {
+                id: 124,
+                product_id: 28,
+                url: "https://picsum.photos/900/400?random=7"
+            },
+            video: [],
+            wishlist: {
+                id: 2,
+                user_id: 20,
+                product_id: 28,
+                created_at: "2024-12-19T07:19:56.000000Z",
+                updated_at: "2024-12-19T07:19:56.000000Z"
+            },
+            offer: [],
+            auction: []
+        },
+        {
+            id: 30,
+            user_id: 1,
+            title: "libero",
+            slug: "harum-fuga-est-et-provident",
+            description: "Libero natus minus ut et sit esse. Ex aliquam tempora asperiores. Voluptate quia quod eum aut tenetur. Eos est velit praesentium dignissimos aut voluptates. Blanditiis repellendus rerum est et facilis non.",
+            attributes: "{\"brand\":\"Samsung\",\"condition\":\"use\",\"storage\":\"32GB\",\"color\":\"White\"}",
+            category_id: 2,
+            sub_category_id: 105,
+            condition: "used",
+            is_urgent: 0,
+            is_sold: 0,
+            is_expired: 0,
+            total_review: 391,
+            review_percentage: 4.4,
+            product_type: "auction",
+            auction_initial_price: 406.9,
+            auction_final_price: 546.58,
+            auction_starting_date: "2024-12-17",
+            auction_starting_time: "20:37:00",
+            auction_ending_date: "2024-12-27",
+            auction_ending_time: "20:37:00",
+            location: "28724 Harris Flats Suite 667\nSouth Gay, NE 32326",
+            longitude: null,
+            latitude: null,
+            delivery_type: null,
+            status: 1,
+            created_at: "2024-12-19T06:18:05.000000Z",
+            updated_at: "2024-12-19T06:18:05.000000Z",
+            is_in_wishlist: false,
+            utc_data_time: {
+                utc_date: "2024-12-19",
+                utc_time: "10:30:28 AM"
+            },
+            user: {
+                id: 1,
+                name: "Mr Test 1",
+                img: "https://xsgames.co/randomusers/assets/avatars/male/49.jpg"
+            },
+            category: {
+                id: 2,
+                name: "Electronics & Appliances",
+                slug: "electronics-appliance"
+            },
+            sub_category: {
+                id: 105,
+                category_id: 11,
+                name: "Electronic"
+            },
+            photo: {
+                id: 133,
+                product_id: 30,
+                url: "https://picsum.photos/900/400?random=15"
+            },
+            video: [],
+            wishlist: {
+                id: 3,
+                user_id: 20,
+                product_id: 30,
+                created_at: "2024-12-19T07:19:59.000000Z",
+                updated_at: "2024-12-19T07:19:59.000000Z"
+            },
+            offer: [],
+            auction: []
+        },
+   
+    ];
+
+
     product={
        reviews: [
       {
@@ -216,7 +417,7 @@ export class AuctionUserProfileComponent {
         rating: 3,
       },
     ]
-  }
+  };
     handleTab(tab: string) {
       this.activeTab = tab
       // localStorage.setItem('categoryTab', tab);

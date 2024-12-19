@@ -50,7 +50,7 @@ export class PurchaseSaleComponent implements OnInit {
     private route: ActivatedRoute,private token:JwtDecoderService,
     private extension: Extension,private dialog:MatDialog,private router:Router
   ) {
-    debugger
+    
     this.user =token.decodedToken;
   }
   getTab(tab: any) {
