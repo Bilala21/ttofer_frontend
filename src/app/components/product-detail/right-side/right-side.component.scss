@@ -137,6 +137,7 @@
   }
   
   .attributes-container {
+    margin: 4% 0% 4% 0%;
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Two columns */
     gap: 1rem; /* Adjust spacing between items */
