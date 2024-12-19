@@ -1396,7 +1396,6 @@ export class ProfilePageComponent {
       }
     }
   }
-  
   onImageUpload(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
