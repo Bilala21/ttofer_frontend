@@ -20,6 +20,7 @@ import {
 } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Constants } from '../../../../public/constants/constants';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 declare var bootstrap: any;
 @Component({
   selector: 'app-chat-box',
@@ -52,7 +53,7 @@ export class ChatBoxComponent {
   meassages: any = { sender: [], reciever: [] };
   selectedConversation: any = [];
   conversationBox: any = [];
-  currentUserid: any;
+  currentUser: any;
   message: any;
   productId: any
   sellerId: any ;
@@ -74,10 +75,10 @@ export class ChatBoxComponent {
     private extension: Extension,
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private token:JwtDecoderService
   ) {
     
-    this.currentUserid = extension.getUserId();
     this.getAllChatsOfUser();
     this.screenWidth = window.innerWidth;
   }
@@ -202,10 +203,10 @@ export class ChatBoxComponent {
       .subscribe((event: any) => {
         this.isNavigatingAway = true;
       });
+    this.currentUser = this.token.decodedToken;
     const productData = sessionStorage.getItem('productData');
     const userData = sessionStorage.getItem('userData');
-    if (productData && userData) {
-      
+    if (productData && userData) {    
       this.productDetail = JSON.parse(productData);
       this.productId = this.productDetail.id;
       
@@ -217,12 +218,12 @@ export class ChatBoxComponent {
       this.userImage = this.userDetail?.img;
       this.userName = this.userDetail?.name;
       this.sellerId = this.userDetail?.id;
-      this.buyerId = this.currentUserid;
+      this.buyerId = this.currentUser.id;
       this.selectedUser = this.userDetail;
     }
   }
   getAllChatsOfUser = (conversation_id?: any) => {
-    this.mainServices.getAllChatsOfUser(this.currentUserid).subscribe((res: any) => {
+    this.mainServices.getAllChatsOfUser(this.currentUser.id).subscribe((res: any) => {
       this.allChat = res.data;
       this.selectTab(this.selectedTab);
       if (this.productDetail && this.userDetail) {
@@ -273,7 +274,7 @@ export class ChatBoxComponent {
     this.selectedUserId = data?.id;
     this.userImage = data?.user_image;
     this.productImage = data.image_path.url;
-    const currentUserIsSender = data.receiver.id === this.currentUserid;
+    const currentUserIsSender = data.receiver.id === this.currentUser.id;
     const otherUser = currentUserIsSender ? data.sender : data.receiver;
     this.userlocation = otherUser.location;
     this.userName = otherUser.name;
@@ -301,7 +302,7 @@ export class ChatBoxComponent {
         const participant1 = res.data.Participant1;
         const participant2 = res.data.Participant2;
         const isCurrentUserParticipant1 =
-          this.currentUserid === participant1.id;
+          this.currentUser.id === participant1.id;
         const currentParticipant = isCurrentUserParticipant1
           ? participant1
           : participant2;
@@ -312,11 +313,11 @@ export class ChatBoxComponent {
           ...msg,
           formattedTime: this.formatMessageTime(msg.created_at),
           sender_image:
-            msg.sender_id === this.currentUserid
+            msg.sender_id === this.currentUser.id
               ? currentParticipant.img
               : otherParticipant.img,
           receiver_image:
-            msg.sender_id === this.currentUserid
+            msg.sender_id === this.currentUser.id
               ? otherParticipant.img
               : currentParticipant.img,
         }));
@@ -371,7 +372,7 @@ deleteMessage(message: any, index: number): void {
   
     if (this.selectedConversation?.data) {
       receiverId =
-        this.currentUserid !== this.selectedConversation.data.Participant2.id
+        this.currentUser.id !== this.selectedConversation.data.Participant2.id
           ? this.selectedConversation.data.Participant2.id
           : this.selectedConversation.data.Participant1.id;
     } else {
@@ -380,7 +381,7 @@ deleteMessage(message: any, index: number): void {
   
     // Prepare form data
     const formData = new FormData();
-    formData.append('sender_id', this.currentUserid);
+    formData.append('sender_id', this.currentUser.id);
     formData.append('buyer_id', this.buyerId);
     formData.append('seller_id', this.sellerId);
     formData.append('receiver_id', receiverId);
@@ -421,11 +422,11 @@ deleteMessage(message: any, index: number): void {
         const newMessage = {
           ...res.data.Message[0],
           sender_image:
-            this.currentUserid === this.selectedConversation.data.Participant1.id
+            this.currentUser.id === this.selectedConversation.data.Participant1.id
               ? this.selectedConversation.data.Participant1.img
               : this.selectedConversation.data.Participant2.img,
           receiver_image:
-            this.currentUserid !== this.selectedConversation.data.Participant1.id
+            this.currentUser.id !== this.selectedConversation.data.Participant1.id
               ? this.selectedConversation.data.Participant1.img
               : this.selectedConversation.data.Participant2.img,
           formattedTime: this.formatMessageTime(new Date().toISOString()),

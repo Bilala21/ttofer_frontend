@@ -46,7 +46,7 @@
                   <div class="d-flex align-items-center justify-content-between">
                     <h2 class="fs-14 fw-semibold m-0">
                       {{
-                      item.sender.id !== currentUserid
+                      item.sender.id !== currentUser.id
                       ? item.sender.name
                       : item.receiver.name
                       }}
@@ -187,7 +187,7 @@
             </div>
                 <div *ngFor="let message of conversationBox ;let i = index  ">
                   <!-- Messages Sent by the Current User -->
-                  <div *ngIf="currentUserid === message.sender_id" class="d-flex flex-column align-items-end mb-3">
+                  <div *ngIf="currentUser.id === message.sender_id" class="d-flex flex-column align-items-end mb-3">
                     <div class="d-flex align-items-center">
                       <!-- Message Content -->
                       <div [ngClass]="{
@@ -199,7 +199,6 @@
                         <ng-container class="image-message" *ngIf="message.file">
                           <img style="height: 200px; width: 200px;" [src]="message.file" alt="Sent Image" loading="lazy"
                             class="chat-image" />
-
                         </ng-container>
                         <div class="d-flex align-items-center" style="margin: 9px 5px 0px 10px">
                           <div class="text-secondary fs-12 me-2">
@@ -228,9 +227,8 @@
                         loading="lazy" class="rounded-pill small-profile-image ml-2" />
                     </div>
                   </div>
-
                   <!-- Messages Sent by Other Users -->
-                  <div *ngIf="currentUserid !== message.sender_id" class="d-flex flex-column align-items-start mb-3">
+                  <div *ngIf="currentUser.id !== message.sender_id" class="d-flex flex-column align-items-start mb-3">
                     <div class="d-flex align-items-center">
                       <!-- Receiver Profile Image -->
                       <img [src]="message.sender_image || '/assets/images/profile-icon.svg'" alt="Receiver Image"
