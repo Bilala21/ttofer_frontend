@@ -226,7 +226,7 @@ export class MainServicesService {
   }
   getUserInfo(userId: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/user/info/' + userId)
+      .get(`${Constants.baseApi}` + '/profile/' + userId)
       .pipe();
   }
   getAllProducts(payload: any) {

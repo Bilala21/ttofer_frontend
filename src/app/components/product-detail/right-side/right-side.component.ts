@@ -63,15 +63,20 @@ export class RightSideComponent {
   }
 
   buyProduct(product: any) {
-    if (!this.currentUser.id) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-
-      this.authService.triggerOpenModal();
-      return;
-    }
+   if(!this.currentUser){
+    this.toastr.warning('Plz login first to buy this product !','Warning');
+    this.authService.triggerOpenModal();
+    return;
+   }
   }
 
   addToCart(item: any) {
+    if(!this.currentUser){
+      this.toastr.warning('Plz login first to add this product to your cart!','Warning');
+      this.authService.triggerOpenModal();
+      return;
+      
+    }
     this.mainServices
       .adToCartItem({
         product_id: item.id,
@@ -111,13 +116,12 @@ export class RightSideComponent {
     }
   }
 
-  contactSeller(product: any, user: any): void {
-    if (!this.currentUser.id) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
-      this.authService.triggerOpenModal();
-      return;
-    }
-
+  contactSeller(product: any, user: any): any {
+if(!this.currentUser){
+  this.toastr.warning('plz login first to contact the seller !','Warning');
+  this.authService.triggerOpenModal();
+  return;
+}
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
@@ -126,12 +130,17 @@ export class RightSideComponent {
     });
   } 
   giveReviewToUser(user:any){
-sessionStorage.setItem('user_data',JSON.stringify(user))
-this.router.navigate([`/review`])
+    if (!this.currentUser) {
+      this.toastr.warning('Plz login first to give review to the seller !', 'Warning');
+      this.authService.triggerOpenModal();
+      return;
+    }
+    sessionStorage.setItem('user_data',JSON.stringify(user))
+    this.router.navigate([`/review`])
   }
   showOfferModal(modal_type: string) {
-    if (!this.currentUser.id) {
-      this.toastr.warning('Plz login first than try again !', 'Warning');
+    if(!this.currentUser){
+      this.toastr.warning(`plz login first to place ${modal_type} to this product !`,'Warning');
       this.authService.triggerOpenModal();
       return;
     }

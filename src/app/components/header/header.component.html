@@ -75,7 +75,8 @@
                     </li>
                     <!-- chat-start -->
                     <li class="" style="cursor: pointer;">
-                        <a class="text-dark position-relative" [routerLink]="currentUser?.id ? ['/'] : '#'"
+                        <a class="text-dark position-relative" [routerLink]="currentUser?.id ? ['/chatBox', currentUser.id] : null"
+
                             (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
                             <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
                                 viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

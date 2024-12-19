@@ -20,10 +20,10 @@
 
       <div class="fw-normal">
         <span class="text-yellow-800 d-block">★★★★★</span>
-        <a [routerLink]="['/userProfile', product.user.id]"
+        <a [routerLink]="['/seller/profile', product.user.id]"
           class="text-dark text-decoration-underline mr-2">Seller's
           other itmes</a>
-        <a *ngIf="product.user.id !== currentUser.id" class="text-dark text-decoration-underline"
+        <a *ngIf="product.user.id !== currentUser?.id" class="text-dark text-decoration-underline"
           (click)="contactSeller(product, product.user)">Contact seller</a>
       </div>
     </div>
@@ -243,11 +243,11 @@
         <span class="pl-1">{{product?.wishlist_count}} have added this to their wishlist</span>
       </div>
     </div>
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <span class="fw-normal">Shipping:</span>
       <span class="px-3 fw-semibold">Local delivery</span>
       <span class="fw-semibold">Pick up</span>
-    </div>
+    </div> -->
   </div>
 
 </div>
