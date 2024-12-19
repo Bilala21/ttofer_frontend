@@ -64,10 +64,11 @@ export class PhoneSignInComponent {
       next: (res) => {
         this.loading = false;
         localStorage.setItem('authToken', res.data.token);
-        const jsonString = JSON.stringify(res.data.user);
-        localStorage.setItem("key", jsonString);
-        this.globalStateService.updateUserState(res.data.user);
-        this.toaster.success('You are logged in successfully', 'Success');
+        this.globalStateService.updateCurrentUser(res.data.user)
+        this.globalStateService.updateState({
+          authToken: res.data.token, 
+        });
+        this.toaster.success(res.message, 'Success');
         this.closeModalEvent.emit();
         // window.location.reload();
       },

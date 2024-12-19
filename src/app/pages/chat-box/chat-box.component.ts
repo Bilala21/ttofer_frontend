@@ -78,7 +78,8 @@ export class ChatBoxComponent {
     private cd: ChangeDetectorRef,
     private token:JwtDecoderService
   ) {
-    
+    this.currentUser = token.decodedToken;
+
     this.getAllChatsOfUser();
     this.screenWidth = window.innerWidth;
   }
@@ -203,7 +204,6 @@ export class ChatBoxComponent {
       .subscribe((event: any) => {
         this.isNavigatingAway = true;
       });
-    this.currentUser = this.token.decodedToken;
     const productData = sessionStorage.getItem('productData');
     const userData = sessionStorage.getItem('userData');
     if (productData && userData) {    
