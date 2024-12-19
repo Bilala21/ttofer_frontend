@@ -13,7 +13,7 @@ export class FeedbackCardComponent {
   // @Input() email: string = 'default@example.com';
   // @Input() imageSrc: string = '/assets/images/default-profile.jpg';
   @Input() product:any;
-
+  @Input() heading:any='Product'
   data = [
     {
       name: 'Jane Doe',
