@@ -76,7 +76,6 @@ export class CategoriesComponent {
         const slug: any = param.get('slug');
         const index = Number(slug?.lastIndexOf('-'));
         if (index < 0) {
-          //('condition not pass')
           const categoryTab = localStorage.getItem('categoryTab');
           localStorage.setItem('categoryTab', categoryTab ? categoryTab : slug);
           localStorage.setItem('filters', '{}');
@@ -85,11 +84,7 @@ export class CategoriesComponent {
         }
         const localData = JSON.parse(localStorage.getItem('filters') || '{}');
         if (index > 1) {
-          //('condition pass')
           this.id = slug?.slice(index + 1);
-          const localFilters = JSON.parse(
-            localStorage.getItem('filters') || '{}'
-          );
           if (Number(localData.category_id) == Number(this.id)) {
             const slugName = slug?.slice(0, index);
             const tab = this.setActiveTabs(slugName);
@@ -129,7 +124,6 @@ export class CategoriesComponent {
     this.fecthcData({ ...filters, page_number: page + 1 });
   }
   setActiveTabs(slug: any) {
-    //(slug,'testing');
     const selectedTab = localStorage.getItem('categoryTab');
     const category_id = JSON.parse(
       localStorage.getItem('filters') || '{}'
@@ -222,6 +216,8 @@ export class CategoriesComponent {
       ...localFilters,
       ...filter,
     };
+
+    console.log(allFilters,filter)
     this.mainServices
       .getFilteredProducts({
         ...allFilters,
@@ -246,6 +242,8 @@ export class CategoriesComponent {
         },
       });
   }
+
+  getSelectedLocation(){}
 
   startCountdowns() {
     if (this.data.length) {

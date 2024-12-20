@@ -199,8 +199,10 @@ export class AppFiltersComponent implements OnInit {
 
   handleFilter(filter: any) {
     const localFilters = JSON.parse(localStorage.getItem('filters') || '{}');
+    console.log(localFilters.location,'localFilters')
+
     if (filter.key === 'location') {
-      this.locations = localFilters.location ? [...localFilters.location] : [];
+      this.locations = localFilters?.location?.length ? [...localFilters.location] : [];
       const found = this.locations.find((loc: any) => loc == filter.value);
       if (found) {
         this.locations = this.locations.filter(
@@ -210,10 +212,14 @@ export class AppFiltersComponent implements OnInit {
         this.locations.push(filter.value);
       }
     }
-    //(this.locations);
+
+    console.log(
+      filter.value,
+      this.locations,
+    )
     this.handleFilterEvent.emit({
       [filter.key]: filter.value,
-      location: this.locations,
+      location: this.locations.length?this.locations:localFilters.location,
     });
   }
 
