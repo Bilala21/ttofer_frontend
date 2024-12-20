@@ -6,7 +6,7 @@
   </h1>
 
   <p class="d-none">Factory New, Fedex 2Day, 30 Day Return - MobileWorldNY</p>
-<!-- <div class="d-flex justify-content-between"> -->
+  <!-- <div class="d-flex justify-content-between"> -->
   <div class="d-flex align-items-center border-b border-t py-2">
     <a routerLink="/" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
       <img [src]="
@@ -16,20 +16,22 @@
                 " alt="{{ product?.user?.name }}" loading="lazy" class="img-fluid max-h-100 rounded-pill" />
     </a>
     <div class="pl-2">
-      <div>{{ product.user?.name }} <span>(4567)</span> <span class="mx-2"><a class="text-decoration-underline" (click)="giveReviewToUser(product.user)" >Review</a></span></div>
+      <div *ngIf="product.user.id !== currentUser.id">{{ product.user?.name }} <span>(4567)</span> <span class="mx-2"><a class="text-decoration-underline"
+            (click)="giveReviewToUser(product.user)">Review</a></span></div>
 
       <div class="fw-normal">
         <span class="text-yellow-800 d-block">★★★★★</span>
         <a [routerLink]="['/seller-profile/', product.user.username]"
-          class="text-dark text-decoration-underline mr-2">Seller's
+          class="text-dark text-decoration-underline mr-2" *ngIf="product.user.id !== currentUser.id">
+          Seller's
           other itmes</a>
         <a *ngIf="product.user.id !== currentUser?.id" class="text-dark text-decoration-underline"
           (click)="contactSeller(product, product.user)">Contact seller</a>
       </div>
     </div>
   </div>
-  
-<!-- </div> -->
+
+  <!-- </div> -->
 
   <div class="fw-bold fs-22 pt-3">AED {{product.product_type !=='auction'? product.fix_price:
     product.auction_initial_price}}
@@ -123,18 +125,13 @@
     </div>
     <div class="biders d-none">
       <div *ngIf="liveAuction.length > 0">
-        <div 
-          class="mt-2 d-flex align-items-center justify-content-between mx-0 border-b" 
+        <div class="mt-2 d-flex align-items-center justify-content-between mx-0 border-b"
           *ngFor="let data of liveAuction">
-          
+
           <div class="align-items-center d-flex">
             <div class="user-img rounded-pill d-flex align-items-center justify-content-center">
-              <img 
-                [src]="data?.user?.img ? data.user.img : '/assets/images/profile-placeholder.png'" 
-                class="img-fluid max-h-100 rounded-pill" 
-                loading="lazy" 
-                alt="User Image"
-              />
+              <img [src]="data?.user?.img ? data.user.img : '/assets/images/profile-placeholder.png'"
+                class="img-fluid max-h-100 rounded-pill" loading="lazy" alt="User Image" />
             </div>
             <div class="col-9 mt-2">
               <h6 class="m-0 p-0 bider-user">
@@ -149,28 +146,7 @@
         </div>
       </div>
     </div>
-    
-    <!-- allowedToBid && IsBit -->
-    <!-- <div *ngIf="allowedToBid && IsBit" class="row mt-3 justify-content-between">
-    <div *ngFor="let price of priceOptions" class="col-1 sm-p-0">
-      <span
-        class="btn btn-outline-dark custom-price"
-        (click)="placeBid(price)"
-      >
-        {{ price}}
-      </span>
-    </div>
-    <div class="col-5">
-      <button
-        id="placeBid"
-        name="placeBid"
-        class="btn btn-dark w-100 custom-bid sm-p-2"
-        (click)="showInput()"
-      >
-        use custom bid
-      </button>
-    </div>
-  </div> -->
+
   </div>
   <div class="attributes-container">
     <div class="attribute-item" *ngFor="let item of parsedAttributes  | keyvalue">
@@ -188,15 +164,16 @@
 
   <div class="fs-14 " *ngIf="product.product_type !=='auction'">
     <span class="fw-normal">Quantity</span>
-    <input type="number" value="1" min="1" max={{product.inventory.available_stock}} class="mx-2 qty-input rounded-2 border-1 px-2"
-      (input)="handleProductQty($event.target,product)" />
+    <input type="number" value="1" min="1" max={{product.inventory.available_stock}}
+      class="mx-2 qty-input rounded-2 border-1 px-2" (input)="handleProductQty($event.target,product)" />
     <span class="text-slate-300 fw-normal">{{product.inventory.available_stock - selectedQty}} available</span>
-    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count?product.inventory.sales_count:0}} sold</span>
+    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count?product.inventory.sales_count:0}}
+      sold</span>
   </div>
 
   <!-- make offer buttons common-->
   <div class="pt-4">
-    <div class="buttons ">
+    <div class="buttons " *ngIf="product.user.id !== currentUser.id">
       <button *ngIf="product.product_type !=='auction'" (click)="buyProduct(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
         <a routerLink="/cart" class="fs-18 fw-normal text-decoration-none text-dark-650">Buy It Now</a>
@@ -223,8 +200,7 @@
       </button>
       <button (click)="toggleWishlist(product)" type="button"
         class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary text-dark-650">
-        <i class="{{product.is_in_wishlist ?'fas':'far'}} fa-heart fs-19"
-          aria-hidden="true"></i>
+        <i class="{{product.is_in_wishlist ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
         Add to watchlist
       </button>
     </div>
@@ -243,11 +219,5 @@
         <span class="pl-1">{{product?.wishlist_count}} have added this to their wishlist</span>
       </div>
     </div>
-    <!-- <div class="mt-4">
-      <span class="fw-normal">Shipping:</span>
-      <span class="px-3 fw-semibold">Local delivery</span>
-      <span class="fw-semibold">Pick up</span>
-    </div> -->
   </div>
-
 </div>
