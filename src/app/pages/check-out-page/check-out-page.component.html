@@ -34,7 +34,7 @@
           <div *ngFor="let card of customerCards; trackBy: trackById; let i=index"
             class="d-flex justify-content-between {{customerCards.length == i+1?'px-4 pt-4 pb-2':'border-b p-4'}}">
             <div>
-              <img [src]="brands[card.brand.toLowerCase().replace(' ','')]" alt="" loading="lazy" width="38" />
+              <img [src]="brands[card.brand?.toLowerCase().replace(' ','')]" alt="" loading="lazy" width="38" />
               <i class="fa fa-credit-card" aria-hidden="true" *ngIf="!card.brand"></i>
               <label class="ml-3 mb-0" [for]="card.brand">{{ card.brand }}</label>
             </div>
