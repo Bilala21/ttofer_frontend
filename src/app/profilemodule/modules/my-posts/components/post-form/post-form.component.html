@@ -102,7 +102,7 @@
       </div>
       <div class="col-md-6" *ngIf="field.type === 'input-number'">
         <label class="d-block">{{ field.label }}</label>
-        <p-inputNumber mode="currency" currency="AED" locale="en-US" class="w-100 attributes"
+        <p-inputNumber  prefix="AED" locale="en-US" class="w-100 attributes"
           [formControlName]="field.model" [placeholder]="field.placeholder" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }"></p-inputNumber>
@@ -128,8 +128,8 @@
     @if (productType =='auction') {
     <div class="col-md-6 ">
       <label for="startingBid">Starting Bid</label>
-      <p-inputNumber class="w-100" formControlName="auction_initial_price" inputId="startingBid" mode="currency"
-        currency="AED" locale="en-US" placeholder="Starting Price"></p-inputNumber>
+      <p-inputNumber class="w-100"  inputId="startingBid" prefix="AED" locale="en-US" placeholder="Starting Price" formControlName="auction_initial_price" 
+           ></p-inputNumber>
       <div
         *ngIf="addProductForm.get('auction_initial_price')?.invalid && addProductForm.get('auction_initial_price')?.touched"
         class="text-danger">
@@ -138,7 +138,7 @@
     </div>
     <div class="col-md-6">
       <label for="lowestPrice">Lowest Price</label>
-      <p-inputNumber class="w-100" inputId="lowestPrice" mode="currency" currency="AED" locale="en-US"
+      <p-inputNumber class="w-100" inputId="lowestPrice" prefix="AED " locale="en-US"
         placeholder="Lowest Price" formControlName="auction_final_price"></p-inputNumber>
       <div
         *ngIf="addProductForm.get('auction_final_price')?.invalid && addProductForm.get('auction_final_price')?.touched"
@@ -227,7 +227,7 @@
     }
     <div class="col-md-6" *ngIf="productType == 'featured'">
       <label for="totalPrice">Total Price</label>
-      <p-inputNumber class="w-100" inputId="totalPrice" mode="currency" currency="AED" locale="en-US"
+      <p-inputNumber class="w-100" inputId="totalPrice" prefix="AED " locale="en-US"
         formControlName="fix_price" placeholder="Total Price"></p-inputNumber>
       <div *ngIf="addProductForm.get('fix_price')?.invalid && addProductForm.get('fix_price')?.touched"
         class="text-danger">
@@ -235,7 +235,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <label for="totalStock">Product Quantity</label>
+      <label for="totalStock">{{productType=='hiring'?'Hiring Quantity':'Product Quantity'}}</label>
       <p-inputNumber class="w-100" inputId="totalStock" formControlName="total_stock"
         placeholder="Enter quantity"></p-inputNumber>
       <div *ngIf="addProductForm.get('total_stock')?.invalid && addProductForm.get('total_stock')?.touched"

@@ -58,14 +58,14 @@ export class PostFormComponent {
       category_id: ['', Validators.required],
       sub_category_id: ['', Validators.required],
       image: this.fb.array([]),
-      auction_initial_price: [null],
-      auction_final_price: [null],
+      auction_initial_price: [''],
+      auction_final_price: [''],
       auction_starting_time: [''],
       auction_ending_time: [''],
       auction_starting_date: [''],
       auction_ending_date: [''],
       auction_end_date_time: [''],
-      fix_price: [null],
+      fix_price: [''],
       product_type: ['', Validators.required],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
@@ -553,10 +553,16 @@ export class PostFormComponent {
   }
   onProductTypeChange(selectedValue: string): void {
     debugger
-    if (this.productType === 'looking') {
+    if (selectedValue === 'looking') {
       this.categoryFields = this.categoryFields.map((field:any) => 
         field.model === 'companyName' 
           ? { label: 'LinkedIn Profile', type: 'input', model: 'linkedinProfile', placeholder: 'LinkedIn Profile' } 
+          : field
+      );
+    }else if (selectedValue === 'hiring') {
+      this.categoryFields = this.categoryFields.map((field:any) => 
+        field.model === 'linkedinProfile' 
+          ? { label: 'Company Name', type: 'input', model: 'companyName', placeholder: 'Company Name' } 
           : field
       );
     } 
