@@ -1,23 +1,32 @@
 <main class="mt-16">
 
-<div class="container-fluid post-detail-container">
-    <div class="row mt-3">
-      <div class="col-10 mx-auto text-center">
+<div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-10 mx-auto text-center pt-3">
         <img
           [src]="
-            auctionUserList?.img
-              ? auctionUserList.img
+            data?.img
+              ? data.img
               : '/assets/images/profile-icon.svg'
           "
           loading="lazy"
           class="seller-image"
           alt=""
         />
-        <h6 class="mt-2">{{ auctionUserList?.name || "Haroon Irshad" }}</h6>
-        
-            <app-star-rating
-            [rating]="auctionUserList?.review_percentage"
-          ></app-star-rating>
+        <h6 class="mt-2">{{ data?.name || "" }}</h6>
+        <div class="d-flex justify-content-center">
+          <span
+            *ngFor="let star of starsArray"
+            [ngClass]="{
+              'text-yellow-800': star === 'full',
+              'text-yellow-400': star === 'half',
+              'text-gray-star': star === 'empty'
+            }"
+            class="d-block mx-1 fs-18"
+          >
+            ★
+          </span>
+        </div>
       </div>
     </div>
 
@@ -31,13 +40,13 @@
       <div
         class="mx-2 d-flex flex-column justify-content-center align-content-center"
       >
-        <p class="text-center m-0 fs-16">0</p>
+        <p class="text-center m-0 fs-16">{{data.following_count || 0 }}</p>
         <h6 class="m-0 p-0 fs-16">Following</h6>
       </div>
       <div
         class="mx-2 d-flex flex-column justify-content-center align-content-center"
       >
-        <p class="text-center m-0 fs-16">0</p>
+        <p class="text-center m-0 fs-16">{{data.followers_count || 0 }}</p>
         <h6 class="m-0 p-0 fs-16">Follower</h6>
       </div>
       <div
@@ -53,23 +62,12 @@
     </div>
 
     <!-- PRODUCT SIDE -->
-    <div class="flex-grow-1 xs-px-0">
-      <div
-        class="text-center mt-4 buttons d-flex align-items-center justify-content-center xs-between"
-      >
-        @if (ProductTabs.length > 1) { @for (tab of ProductTabs; track $index) {
-        <button
-          type="button"
-          class="btn py-2 px-2 mr-1 text-capitalize  {{
-            activeTab == tab ? 'btn-yellow' : 'border-1'
-          }}"
-          (click)="handleTab(tab)"
-        >
-          {{ tab }}
-        </button>
-        } }
+    <div class="w-100 xs-px-0">
+      <div class="d-flex justify-content-center">
+        <div class="pt-2 pb-4  mt-4 tabs-width-seller">
+          <app-tab [tabs]="ProductTabs" (getTab)="handleTab($event)" [activeTab]="activeIndex" />
+        </div>
       </div>
-
       <div
         class="w-100 product-main"
         [style]="ProductTabs.length > 1 ? '' : 'padding-top:85px'"
@@ -79,26 +77,37 @@
           <app-card-shimmer />
         </div>
         } }
-
-        <div class="no-data-container mt-5" *ngIf="!data.length && !loading"> 
-        <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
-        </div>
-
-        @if (data.length && activeTab == 'featured') {
-          <div class="product-card" *ngFor="let post of  data">
-            <app-product-card [postData]="post" postDetialUrl="product-detail"/>
-          </div>
-          }
-          <!-- <div *ngIf="activeTab !== 'auction'"> -->
-            @if (dataAuction.length && activeTab == 'auction') {
-            <div  class="product-card" *ngFor="let post of  dataAuction">
-              <app-product-card [postData]="post" postDetialUrl="product-detail"/>
+        <!-- <div *ngIf="activeTab !== 'auction'"> -->
+          @if (data.auction_products.length && activeIndex ==  1) {
+            <div  class="product-card" *ngFor="let post of  data.auction_products">
+              <app-product-card [postData]="post" postDetialUrl="product-detail" [auction]="true" />
             </div>
           }
-          <!-- </div> -->
-          <div *ngIf="activeTab == 'review'" class="w-100 d-flex justify-content-center">
-            <app-feedback-card [product]="product" heading="Seller" />
+          @if (data.auction_products.length == 0 && activeIndex == 1) {
+            <div class="no-data-container mt-5"> 
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+          }   
+        @if (data.featured_products.length && activeIndex == 2) {
+          <div class="product-card" *ngFor="let post of data.featured_products">
+            <app-product-card [postData]="post" postDetialUrl="product-detail"  />
           </div>
+          }
+          @if (data.featured_products.length == 0 && activeIndex == 2) {
+            <div class="no-data-container mt-5"> 
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+          }
+
+          <div *ngIf="data.seller_reviews.length > 0 && activeIndex == 3 " class="w-100 d-flex justify-content-center">
+            <app-feedback-card [reviews]="data.seller_reviews" heading="Seller" />
+          </div>
+
+          @if (data.seller_reviews.length == 0 && activeIndex == 3) {
+            <div class="no-data-container mt-5"> 
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+          }
       </div>
 
       <!-- <div class="text-center my-5" *ngIf="data?.length > 15">
@@ -133,7 +142,7 @@
                     class="form-control w-100 mt-3">Comment</textarea>
                 <div class="row mt-3 justify-content-end">
                     <div class="col-2" style="cursor: pointer;">
-                        <span>Cancel</span>
+                        <span (click)="closeModal()">Cancel</span>
                     </div>
                     <div class="col-2" style="cursor: pointer;">
                         <span (click)="reportAuctionUser()">Send</span>
