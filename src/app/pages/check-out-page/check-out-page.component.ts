@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Extension } from '../../helper/common/extension/extension';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalStateService } from '../../shared/services/state/global-state.service';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
@@ -9,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CheckoutModalComponent } from './checkout-modal/checkout-modal.component';
 import { StripeService } from '../../shared/services/stripe-service.service';
 import { MainServicesService } from '../../shared/services/main-services.service';
-import { ActivatedRoute } from '@angular/router';
 import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
@@ -34,48 +32,30 @@ export class CheckOutPageComponent {
   isAllChecked: boolean = false;
   loading = true;
   userId: number = 0;
+  couponCode:any=""
   protected paymentMethod: string = '';
   itemDescription: string =
     '2.07 CT H VS2 Round Cut Lab Created Diamond Halo Engagement Ring 14K White Gold';
   quantity: number = 1;
+  protected customerCards: any = [];
 
   constructor(
-    private extension: Extension,
     private toastr: ToastrService,
     private globalStateService: GlobalStateService,
     public dialog: MatDialog,
     private stripeService: StripeService,
     private mainService: MainServicesService,
-    private route: ActivatedRoute,
     private jwtDecoderService: JwtDecoderService
   ) {}
 
-  shippingAddress = {
-    name: '',
-    address: '',
-    city: '',
-    zip: '',
-    country: '',
+  brands: any = {
+    apple: 'assets/images/Applelogo.svg',
+    visa: 'assets/images/visalogo.svg',
+    mastercard: 'assets/images/StripLogo.svg',
+    americanexpress: 'assets/images/american-express.png',
+    discover: 'assets/images/discover.png',
+    googlepay: 'assets/images/GPay.svg',
   };
-
-  paymentDeposit: any[] = [
-    {
-      Visa: 'assets/images/Applelogo.svg',
-      detail1: 'Apple Pay',
-      id: '1',
-    },
-    { Visa: 'assets/images/visalogo.svg', detail1: 'Visa', id: '5' },
-    {
-      img: 'assets/images/StripLogo.svg',
-      detail1: 'Mastercard',
-      id: '2',
-    },
-    {
-      img: 'assets/images/GPay.svg',
-      detail1: 'Google Pay',
-      id: '3',
-    },
-  ];
 
   trackById(index: number, item: any): number {
     return item.id;
@@ -152,32 +132,44 @@ export class CheckOutPageComponent {
   }
 
   getCustomerCards() {
+    this.loading = true;
     if (this.userId) {
       this.stripeService.getCustomerCards(this.userId).subscribe({
         next: (res: any) => {
           if (res.status) {
+            this.customerCards = res.data;
+            console.log( this.customerCards,'customerCards' )
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+        },
+      });
+    }
+  }
+
+  getCardDetail(card: any) {
+    console.log(card)
+    this.paymentMethod = 'sfdfsd';
+    this.stripeService
+      .getCardDetail({ user_id: card.user_id, id: card.id })
+      .subscribe({
+        next: (res: any) => {
+          if (res.status) {
             console.log(res);
+            this.paymentMethod = 'sfdfsd';
           }
         },
         error: (err) => {
           console.log(err);
         },
       });
-    }
   }
-  getCardInfo(id: number) {
-    this.paymentMethod = 'sfdfsd';
-    this.stripeService.getCustomerCards(id).subscribe({
-      next: (res: any) => {
-        if (res.status) {
-          console.log(res);
-          this.paymentMethod = 'sfdfsd';
-        }
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+
+  handleCoupon(e:any){
+    this.couponCode=e.value
   }
 
   async chargeCustomerWithSavedCard() {

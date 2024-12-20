@@ -21,7 +21,6 @@ import { CommonModule, NgIf } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter_fields } from './json-data';
 import { GlobalSearchService } from '../../shared/services/state/search-state.service';
-import * as numberToWords from 'number-to-words';
 import { PriceFormatPipe } from '../../helper/price-format.pipe';
 import { InputNumberModule } from 'primeng/inputnumber';
 

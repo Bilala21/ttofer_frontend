@@ -43,6 +43,9 @@ header a:hover{
 .w-fit {
   width: fit-content;
 }
+.h-fit {
+  height: fit-content;
+}
 
 .card {
   border: 1.5px solid #A2A2A2;
@@ -322,6 +325,9 @@ button[aria-label="Close"]:focus {
 .fs-8 {
   font-size: 8px;
 }
+.text-red{
+  color: #f04326;
+}
 .bg-main-red{
   background: #f04326;
 }
@@ -360,9 +366,6 @@ button[aria-label="Close"]:focus {
 
 .bg-yellow-700 {
   background: #ffd814;
-}
-.bg-red-700 {
-  background: #f04326;
 }
 
 .bg-dark-850 {

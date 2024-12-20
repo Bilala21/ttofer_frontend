@@ -15,26 +15,32 @@
     </div>
 
     <div class="d-flex flex-column flex-md-row justify-content-between">
-      <div class="flex-grow-1 mr-md-3">
+      <div class="d-flex justify-content-between flex-column w-50 h-fit pr-3" *ngIf="!customerCards.length">
+        <p>You don’t have any saved cards. Adding a card makes your checkout process faster and more convenient. Please
+          add a card now to continue with your payment</p>
+        <button class="btn btn-yellow py-10 mt-4" (click)="openDialog()">
+          Add Card
+        </button>
+      </div>
+      <div class="flex-grow-1 mr-md-3" *ngIf="customerCards.length">
         <!-- Payment Section -->
-        <div class="payment-section border p-3 mb-3">
+        <div class="payment-section border p-3 pb-0 mb-3">
           <div class="d-flex justify-content-between">
             <strong>Pay with</strong>
             <button class="bg-transparent border-0 add-card" (click)="openDialog()">
               Add Card
             </button>
           </div>
-          <div *ngFor="let payment of paymentDeposit; trackBy: trackById"
-            class="d-flex justify-content-between border-b p-4">
+          <div *ngFor="let card of customerCards; trackBy: trackById; let i=index"
+            class="d-flex justify-content-between {{customerCards.length == i+1?'px-4 pt-4 pb-2':'border-b p-4'}}">
             <div>
-              <img [src]="payment.img" alt="" loading="lazy" />
-              <!-- form-check-label -->
-              <label class="ml-3" [for]="payment.value">{{
-                payment.detail1
-                }}</label>
+              <img [src]="brands[card.brand.toLowerCase().replace(' ','')]" alt="" loading="lazy" width="38" />
+              <i class="fa fa-credit-card" aria-hidden="true" *ngIf="!card.brand"></i>
+              <label class="ml-3 mb-0" [for]="card.brand">{{ card.brand }}</label>
             </div>
             <!-- form-check-input -->
-            <input type="radio" class="w-20" name="payment" [value]="payment.id" [id]="payment.id" (click)="getCardInfo(payment.id)"/>
+            <input type="radio" class="w-20" name="payment" [value]="card.id" [id]="card.brand"
+              (click)="getCardDetail(card)" />
           </div>
         </div>
         <!-- ttoffer-gift -->
@@ -44,8 +50,9 @@
               TToffer Gift Cards and coupons
             </h5>
             <div class="d-flex mt-4">
-              <input type="text" placeholder="Enter Code:" class="p-2 input-coupons text-gray-300" />
-              <button class="btn btn-yellow py-2 px-4 rounded" [disabled]="!paymentMethod">
+              <input type="text" placeholder="Enter code" class="rounded p-2 text-gray-300 border-1"
+                [disabled]="!paymentMethod" (input)="handleCoupon($event.target)" />
+              <button class="btn btn-yellow py-2 px-4 rounded ml-2 {{couponCode.length > 4?'':'disabled'}}">
                 Apply
               </button>
             </div>
@@ -71,7 +78,8 @@
             </p>
           </div>
 
-          <button class="btn btn-yellow w-100 p-2 confrim-btn mt-2" [disabled]="!paymentMethod" (click)="chargeCustomerWithSavedCard()">
+          <button class="btn btn-yellow w-100 py-10 mt-2 {{!paymentMethod && !customerCards.length?'':'disabled'}}"
+            (click)="!customerCards.length? openDialog(): chargeCustomerWithSavedCard()">
             {{paymentLoading?'Processing...':'Confirm and Pay'}}
           </button>
         </div>
@@ -104,7 +112,8 @@
             </div>
             <div class="review-product" class="d-flex mt-3 position-relative">
               <div class="position-relative review-product-img">
-                <img [src]="item?.product?.photo?.url" alt="image" loading="lazy" class="w-100 h-100 object-fit-contain" />
+                <img [src]="item?.product?.photo?.url" alt="image" loading="lazy"
+                  class="w-100 h-100 object-fit-contain" />
               </div>
               <div class="ml-4 d-flex justify-content-between w-100 align-items-start">
                 <div>

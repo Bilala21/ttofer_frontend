@@ -50,7 +50,7 @@ export class PurchaseSaleComponent implements OnInit {
     private route: ActivatedRoute,private token:JwtDecoderService,
     private extension: Extension,private dialog:MatDialog,private router:Router
   ) {
-    debugger
+    
     this.user =token.decodedToken;
   }
   getTab(tab: any) {
@@ -66,7 +66,9 @@ export class PurchaseSaleComponent implements OnInit {
     this.route.queryParams.subscribe((params: any) => {  
       this.query = params['query'];
       this.subscriptionId = +params['subscription_id'];
+      console.log("subscription",this.subscriptionId)
       if (params.query) {
+        this.activeTab ='selling'
         this.activeIndex = 2;
         isSelling = true;
       } else {
