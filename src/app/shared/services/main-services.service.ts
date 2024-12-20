@@ -383,6 +383,7 @@ export class MainServicesService {
   getAttributes(): Observable<any> {
     return this.http.get<any>('assets/data.json');
   }
+  
   toggleSaveItem(data: any) {
     return this.http.post<any[]>(
       `${Constants.baseApi}` + '/save-for-later/toggle',
@@ -402,10 +403,11 @@ export class MainServicesService {
     return this.http.post(`${Constants.baseApi}/stripe/charge`, payload);
   }
   getCustomerCards(id: number) {
-    return this.http.get(`${Constants.baseApi}/payment-cards/user/${id}`);
+    return this.http.post(`${Constants.baseApi}/users/payment-cards`,{user_id:id});
   }
   getCardDetail(payload:any) {
-    return this.http.get(`${Constants.baseApi}/payment-cards`,payload);
+    console.log(payload)
+    return this.http.get(`${Constants.baseApi}/payment-card/${payload}`);
   }
   createPaymentIntent(id: string) {
     return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {

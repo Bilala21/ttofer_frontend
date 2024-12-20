@@ -50,6 +50,14 @@ export class CheckoutModalComponent
   cardCvcElement!: StripeCardCvcElement;
   private amount!: number;
   protected cardBrand: string = '';
+  protected invalidCardInfo: boolean = false;
+  cardHolderName: string = '';
+  isFormValid = false;
+  protected cardMeta = {
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false,
+  };
 
   brands: any = {
     visa: 'assets/images/visalogo.svg',
@@ -102,25 +110,35 @@ export class CheckoutModalComponent
     this.cardCvcElement.mount(this.cardCvcElementRef.nativeElement);
     this.cardNumberElement.on('change', (event) => {
       this.cardBrand = this.brands[event.brand];
+      this.cardMeta[event.elementType] = event.complete;
+      this.isFormValid = !Object.values(this.cardMeta).includes(false);
+    });
+    this.cardExpiryElement.on('change', (event) => {
+      this.cardMeta[event.elementType] = event.complete;
+      this.isFormValid = !Object.values(this.cardMeta).includes(false);
+    });
+    this.cardCvcElement.on('change', (event) => {
+      this.cardMeta[event.elementType] = event.complete;
+      this.isFormValid = !Object.values(this.cardMeta).includes(false);
     });
   }
 
   async handleAddCard() {
-    this.stripeService.createSetupIntent().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
-    // const cardNumber = this.elements.getElement('cardNumber');
-    // if (!cardNumber) {
-    //   console.error('Card element not found');
-    //   return;
-    // }
-
+    if (this.cardHolderName) {
+      this.stripeService.createSetupIntent().subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res.status) {
+            this.saveCard(res.client_secret);
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else {
+      this.invalidCardInfo = true;
+    }
     // const paymentMethod = await this.createPaymentMethod(cardNumber);
     // console.log(paymentMethod);
     // this.stripeService.savePaymentMethod(paymentMethod.id).subscribe({
@@ -136,18 +154,43 @@ export class CheckoutModalComponent
     // });
   }
 
-  async createPaymentMethod(cardElement: any) {
-    const stripe = await this.stripe;
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
+  async saveCard(clientSecret: string) {
+    const cardNumber = this.elements.getElement('cardNumber');
+    if (!cardNumber) {
+      console.error('Card element not found');
+      return;
+    }
+    const result = await this.stripe.confirmCardSetup(clientSecret, {
+      payment_method: {
+        card: this.elements.create('card'),
+        billing_details: {
+          name: this.cardHolderName,
+        },
+      },
     });
 
-    if (error) {
-      throw new Error(error.message);
+    if (result.error) {
+      console.error('Error saving card:', result.error.message);
+    } else {
+      console.log(
+        'Card saved successfully:',
+        result.setupIntent.payment_method
+      );
     }
-    return paymentMethod;
   }
+
+  // async createPaymentMethod(cardElement: any) {
+  //   const stripe = await this.stripe;
+  //   const { paymentMethod, error } = await stripe.createPaymentMethod({
+  //     type: 'card',
+  //     card: cardElement,
+  //   });
+
+  //   if (error) {
+  //     throw new Error(error.message);
+  //   }
+  //   return paymentMethod;
+  // }
   ngOnDestroy(): void {
     ['cardNumber', 'cardExpiry', 'cardCvc'].forEach((type) => {
       const element = this.elements?.getElement(type as any);

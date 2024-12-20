@@ -47,7 +47,6 @@ export class CategoriesComponent {
     private cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.jwtDecoderService.decodedToken;
-    console.log(this.currentUser);
   }
 
   handleTab(tab: string) {
@@ -200,6 +199,7 @@ export class CategoriesComponent {
   }
 
   fecthcData(filter: any) {
+
     const product_type = filter.product_type
       ? filter.product_type
       : localStorage.getItem('categoryTab');
@@ -219,8 +219,8 @@ export class CategoriesComponent {
     );
     this.loading = true;
     const allFilters = {
-      ...filter,
       ...localFilters,
+      ...filter,
     };
     this.mainServices
       .getFilteredProducts({
