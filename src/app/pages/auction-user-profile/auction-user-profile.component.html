@@ -13,7 +13,7 @@
           class="seller-image"
           alt=""
         />
-        <h6>{{ auctionUserList?.name || "Haroon Irshad" }}</h6>
+        <h6 class="mt-2">{{ auctionUserList?.name || "Haroon Irshad" }}</h6>
         
             <app-star-rating
             [rating]="auctionUserList?.review_percentage"
@@ -53,7 +53,7 @@
     </div>
 
     <!-- PRODUCT SIDE -->
-    <div class="flex-grow-1 pl-lg-4 xs-px-0">
+    <div class="flex-grow-1 xs-px-0">
       <div
         class="text-center mt-4 buttons d-flex align-items-center justify-content-center xs-between"
       >
@@ -84,11 +84,18 @@
         <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
         </div>
 
-        @if (data.length && activeTab !== 'review') {
-          <div class="product-card" *ngFor="let post of data">
+        @if (data.length && activeTab == 'featured') {
+          <div class="product-card" *ngFor="let post of  data">
             <app-product-card [postData]="post" postDetialUrl="product-detail"/>
           </div>
           }
+          <!-- <div *ngIf="activeTab !== 'auction'"> -->
+            @if (dataAuction.length && activeTab == 'auction') {
+            <div  class="product-card" *ngFor="let post of  dataAuction">
+              <app-product-card [postData]="post" postDetialUrl="product-detail"/>
+            </div>
+          }
+          <!-- </div> -->
           <div *ngIf="activeTab == 'review'" class="w-100 d-flex justify-content-center">
             <app-feedback-card [product]="product" heading="Seller" />
           </div>
