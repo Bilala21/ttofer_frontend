@@ -224,9 +224,9 @@ export class MainServicesService {
       .post(`${Constants.baseApi}` + '/bids/highest', payload)
       .pipe();
   }
-  getUserInfo(userId: any) {
+  getSellerInfo(userName: any) {
     return this.http
-      .get(`${Constants.baseApi}` + '/profile/' + userId)
+      .get(`${Constants.baseApi}` + '/profile/' + userName)
       .pipe();
   }
   getAllProducts(payload: any) {

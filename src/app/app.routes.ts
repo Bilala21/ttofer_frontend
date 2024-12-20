@@ -6,7 +6,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ChatBoxComponent } from './pages/chat-box/chat-box.component';
 import { WhoBoughtAdComponent } from './pages/who-bought-ad/who-bought-ad.component';
-import { AuctionUserProfileComponent } from './pages/auction-user-profile/auction-user-profile.component';
+import { SellerProfileComponent } from './pages/seller-profile/seller-profile.component';
 import { PrivacyPolicyComponent } from './pages/Privacy-Policy/Privacy-Policy.component';
 import { TermOfConditionComponent } from './pages/term-of-condition/term-of-condition.component';
 import { MarkAsSoldComponent } from './pages/mark-as-sold/mark-as-sold.component';
@@ -95,8 +95,8 @@ export const routes: Routes = [
     component: WhoBoughtAdComponent,
   },
   {
-    path: 'userProfile/:id',
-    component: AuctionUserProfileComponent,
+    path: 'seller-profile/:name',
+    component: SellerProfileComponent,
   },
   {
     path: 'product-views/:id',

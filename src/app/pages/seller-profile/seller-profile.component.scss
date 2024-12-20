@@ -19,6 +19,9 @@
 .content {
   margin-top: 20px;
 }
+.tabs-width-seller{
+  width: 100%;
+}
 
 // @media (width < 1030px) {
 //   .sm-img-h {
@@ -36,7 +39,7 @@ $transform-distance: -5px;
 $breakpoint-xs: 576px;
 $breakpoint-mobile: 768px;
 $breakpoint-tablet: 992px;
-$breakpoint-desktop: 1200px;
+$breakpoint-desktop: 1400px;
 @mixin card-layout($flex-basis,$gap) {
   flex: 1 1 calc(#{$flex-basis} - #{$gap});
   max-width: calc(#{$flex-basis} - #{$gap});
@@ -50,7 +53,7 @@ $breakpoint-desktop: 1200px;
 
   @media (min-width: $breakpoint-desktop) {
     max-width: $breakpoint-desktop;
-    margin: 0 auto;
+    // margin: 0 auto;
   }
 }
 .product-card,
@@ -63,6 +66,7 @@ $breakpoint-desktop: 1200px;
     min-width: 120px;
   }
 }
+// $breakpoint-xs: 576px;
 @media (max-width: $breakpoint-xs) {
 
   .product-card,
@@ -70,17 +74,19 @@ $breakpoint-desktop: 1200px;
     @include card-layout(calc(100% + 10px),7px);
   }
 }
+// $breakpoint-xs: 576px; $breakpoint-mobile: 768px;
 @media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
 
   .product-card,
   .shimmer-card {
-    @include card-layout(calc(50% + 15px),7px);
+    @include card-layout(calc(48% + 15px),7px);
   }
 
   .product-main {
     gap: 12px;
   }
 }
+// $breakpoint-mobile: 768px;
 @media (min-width: $breakpoint-mobile) {
 
   .product-card,
@@ -91,15 +97,28 @@ $breakpoint-desktop: 1200px;
   .product-main {
     gap: 15px;
   }
+  .tabs-width-seller{
+    width: 70%;
+  }
 }
+// $breakpoint-tablet: 992px;
 @media (min-width: $breakpoint-tablet) {
 
   .product-card,
   .shimmer-card {
-    @include card-layout(33.333%,7px);
+    @include card-layout(25%,7px);
   }
 
   .product-main {
     gap: 10px;
   }
+  .tabs-width-seller{
+    width: 50%;
+  }
+}
+.text-gray-star{
+ color: #878787
+}
+.text-yellow-400{
+  color: #ffd814;
 }

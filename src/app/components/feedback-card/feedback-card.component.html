@@ -1,8 +1,8 @@
 <div class="feedback-card">
     <p class="my-4 fs-20 fw-bold">{{heading}} Reviews</p>
-      <u *ngIf="product.reviews.length==0" class="d-flex fw-light fs-12"><i>Still no reviews. Your feedback could help others make a decision!</i></u>
+      <u *ngIf="reviews.length==0" class="d-flex fw-light fs-12"><i>Still no reviews. Your feedback could help others make a decision!</i></u>
     <!-- feed-back-reviews -->
-    <div *ngFor="let feed of product.reviews; let i = index" >
+    <div *ngFor="let feed of reviews; let i = index" >
       <div class="d-flex justify-content-between mb-3">
       <div class="d-flex flex-column flex-sm-row" >
       <div class="flex-shrink-0">
