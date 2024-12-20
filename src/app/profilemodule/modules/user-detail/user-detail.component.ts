@@ -27,7 +27,7 @@ export class UserDetailComponent {
   onImageUpload(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
       const File = event.target.files[0];
-      this.updateProfile(File);
+      this.updateProfile(File); 
     }
   }
   isLoading = false; 

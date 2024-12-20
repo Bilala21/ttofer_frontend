@@ -88,8 +88,7 @@
         </div>
       </div>
     </ng-container>
-    @if (selectedCategorySlug != 'jobs') {
-    <div class="{{productType =='featured'?'col-6':'col-12'}}">
+    <div class="{{productType =='featured' ||'hiring'||'looking'?'col-6':'col-12'}}">
       <label>Pricing Categories</label>
       <p-dropdown [options]="pricingCategories" formControlName="product_type" optionLabel="name" optionValue="id"
         (onChange)="onProductTypeChange($event.value)" placeholder="Select a Pricing Category"
@@ -101,8 +100,7 @@
         Pricing Category is required.
       </div>
     </div>
-    }
-    @if (productType!='featured') {
+    @if (productType =='auction') {
     <div class="col-md-6 ">
       <label for="startingBid">Starting Bid</label>
       <p-inputNumber class="w-100" formControlName="auction_initial_price" inputId="startingBid" mode="currency"

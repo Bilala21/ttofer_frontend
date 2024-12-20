@@ -78,9 +78,7 @@ export class ChatBoxComponent {
     private cd: ChangeDetectorRef,
     private token:JwtDecoderService
   ) {
-    this.currentUser = token.decodedToken;
-
-    this.getAllChatsOfUser();
+   
     this.screenWidth = window.innerWidth;
   }
   selectUser(user: any) {
@@ -199,6 +197,9 @@ export class ChatBoxComponent {
   }
   receverId: any;
   ngOnInit() {
+    this.currentUser = this.  token.decodedToken;
+
+    this.getAllChatsOfUser();
     this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe((event: any) => {

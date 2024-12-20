@@ -125,7 +125,7 @@ if(!this.currentUser){
     sessionStorage.setItem('productData', JSON.stringify(product));
     sessionStorage.setItem('userData', JSON.stringify(user));
 
-    this.router.navigate([`/chatBox/${this.currentUser.id}`], {
+    this.router.navigate([`/chats`], {
       state: { product, user },
     });
   } 
