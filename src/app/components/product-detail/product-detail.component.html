@@ -14,17 +14,13 @@
                 aria-label="Add to Wishlist" (click)="isFullScreen= !isFullScreen">
                 <i class="fas fa-expand" style="font-size: 1.5em;"></i>
               </button>
-              <button (click)="toggleWishlist(product)"
+              <button *ngIf="product.user.id !==currentUser.id" (click)="toggleWishlist(product)"
                 class="btn rounded-pill shadow bg-white p-2 wishlist rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none heart-icon"
                 aria-label="Add to Wishlist">
                 <span class="pr-2">{{product.wishlist_count}}</span>
                 <i class="{{product.is_in_wishlist? 'fas': 'far'}} fa-heart fs-19" aria-hidden="true"></i>
               </button>
             </div>
-            <!-- [thumbnailsPosition]="screenWidth< 768 || isFullScreen?'bottom':'left'" to left side -->
-            <!-- [showThumbnailNavigators]="true" -->
-            <!-- [changeItemOnIndicatorHover]="true" [showItemNavigators]="true" -->
-            <!-- [changeItemOnIndicatorHover]="true" -->
 
             <p-galleria [numVisible]="5" [circular]="false" [(visible)]="isFullScreen" [fullScreen]="isFullScreen"
               [showItemNavigators]="true" [value]="product.photos" [verticalThumbnailViewPortHeight]="'500px'"
@@ -61,8 +57,7 @@
                   <div class="bg-gray-450 text-center rounded-2 position-relative mb-3">
                     <button (click)="toggleWishlist(item)" aria-label="Add to Wishlist"
                       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none">
-                      <i class="{{item.is_in_wishlist? 'fas': 'far'}} fa-heart fs-19"
-                        aria-hidden="true"></i></button>
+                      <i class="{{item.is_in_wishlist? 'fas': 'far'}} fa-heart fs-19" aria-hidden="true"></i></button>
                     <img src={{item?.photo?.url}} alt="image" class="img-fluid h-100 rounded-2">
                   </div>
                   <a [routerLink]="['/product-detail', item?.id, item?.slug]" class="text-left text-dark-650">
@@ -123,7 +118,7 @@
         </div>
       </section>
       <hr>
-      <app-feedback-card [reviews]="product.reviews" ></app-feedback-card>
+      <app-feedback-card [reviews]="product.reviews"></app-feedback-card>
       <app-make-offer-modal [product]="product" />
     </div>
   </div>

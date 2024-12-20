@@ -1,10 +1,9 @@
 <div class="p-2 add-border rounded-2 xs-mx-auto bg-white product-card-body">
   <article class="position-relative">
-    <button (click)="toggleWishlist(postData)"
+    <button *ngIf="postData.user.id !== currentUserId" (click)="toggleWishlist(postData)"
       class="btn position-absolute shadow bg-white p-0 pt-1 wishlist ml-auto rounded-pill icon-btn d-flex align-items-center justify-content-center hover-bg-none"
       aria-label="Add to Wishlist">
-      <i class="{{postData?.is_in_wishlist ?'fas':'far'}} fa-heart fs-19"
-        aria-hidden="true"></i>
+      <i class="{{postData?.is_in_wishlist ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
     </button>
     <a [attr.aria-disabled]="postData.product_type == 'auction' ? false :  'true'"
       [routerLink]="postDetialUrl !== 'product-detail' ? null : '/' + postDetialUrl + '/' + postData?.id + '/' + postData?.slug"
@@ -12,11 +11,11 @@
       (click)="postDetialUrl !== 'product-detail' ? $event.preventDefault() : null"
       [ngClass]="{'disabled-link': postData.product_type == 'auction' || auction}">
       <figure class="card-top position-relative {{!postData?.photo?.url ? 'falback-css rounded-2':''}}">
-        <img loading="eager" [src]="postData.photo.url || './assets/images/default-img.jpg'" 
+        <img loading="eager" [src]="postData.photo.url || './assets/images/default-img.jpg'"
           alt="Image of HYUNDAI GRAND 10 1.3 CRDI" loading="lazy" class="w-100 h-100 rounded-2" />
         <figcaption class="position-absolute d-flex align-items-center justify-content-between w-100 top-0 p-3">
           <button *ngIf="postData.product_type =='auction' || auction"
-            class="btn bg-red-700 py-1 fs-14 fw-normal text-white specialOffer" aria-label="Special Offer">Special
+            class="btn bg-main-red py-1 fs-14 fw-normal text-white specialOffer" aria-label="Special Offer">Special
             Offer</button>
         </figcaption>
         <div class="price-tag d-flex align-items-center justify-content-center">
@@ -26,8 +25,10 @@
         </div>
       </figure>
       <section class="card-bottom pb-1 text-gray-400">
-        <div class="d-flex align-items-center justify-content-between" *ngIf="postData.product_type =='auction' || auction">
-          <span id="post-{{postData.id}}" class="bg-red-700 px-2 py-1 rounded fs-12 fw-normal text-white" aria-live="polite">
+        <div class="d-flex align-items-center justify-content-between"
+          *ngIf="postData.product_type =='auction' || auction">
+          <span id="post-{{postData.id}}" class="bg-main-red px-2 py-1 rounded fs-12 fw-normal text-white"
+            aria-live="polite">
             {{postData.calculateRemaningTime || "Bid Expired" }}
           </span>
         </div>
@@ -44,18 +45,20 @@
         </section>
         <address class="d-flex align-items-center m-0 mb-1" *ngIf="postData.location">
           <i class="fa fa-map-marker-alt fs-14 mr-2" aria-hidden="true"></i>
-          <span class="fs-14" >
+          <span class="fs-14">
             {{ postData.location?.length > 25 ? postData.location.slice(0, 25) + '...' : postData.location }}
           </span>
         </address>
       </section>
     </a>
   </article>
-  <a routerLink="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}"
-    *ngIf="postData.product_type == 'auction' || auction"
-    class="mt-2 btn py-2 rounded-2 w-100 btn-yellow" aria-label="Bid Now">Bid
-    Now</a>
-    <button *ngIf="postData.product_type !=='auction' && !auction" 
-    (click)="!currentUserId ? login() : addToCart(postData)"
-    class="mt-2 btn  py-2 rounded-2 w-100 btn-yellow" aria-label="Add to Cart">Add to Cart</button>
+  <!-- <a [routerLink]="/{{ postDetialUrl }}/{{ postData?.id }}/{{ postData?.slug }}" -->
+  <a [routerLink]="postData.user.id !== currentUserId? '/postDetialUrl/' + postData?.id + '/' + postData?.slug : '#'"
+    *ngIf="postData.product_type == 'auction' || auction" class="mt-2 btn py-2 rounded-2 w-100 btn-yellow {{postData.user.id !== currentUserId ?'':'disabled'}}"
+    aria-label="Bid Now">
+    {{postData.user.id !== currentUserId ?'Bid Now':"Product owner can't bid"}}
+  </a>
+  <button *ngIf="postData.product_type !=='auction' && !auction"
+    (click)="postData.user.id !== currentUserId?(!currentUserId ? login() : addToCart(postData)):null" class="mt-2 btn  py-2 rounded-2 w-100 btn-yellow {{postData.user.id !== currentUserId ?'':'disabled'}}"
+    aria-label="Add to Cart">{{postData.user.id !== currentUserId ?'Add to Cart':"Porduct owner can't add to cart"}}</button>
 </div>

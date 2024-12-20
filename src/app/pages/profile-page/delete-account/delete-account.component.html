@@ -18,7 +18,7 @@
                 <input type="text" class="form-control" placeholder="Type 'DELETE' to confirm"
                     aria-label="Delete confirmation" [(ngModel)]="captchaInputValue"
                     (ngModelChange)="onCaptchaChange($event)">
-                <button class="btn bg-red-700 text-white ml-3"
+                <button class="btn bg-main-red text-white ml-3"
                     [disabled]="!isDeleteConfirmed" (click)="deleteAccount()">Delete</button>
             </div>
 
