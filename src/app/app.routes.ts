@@ -70,8 +70,9 @@ export const routes: Routes = [
     component: CategoriesComponent,
   },
   {
-    path: 'chatBox/:id',
+    path: 'chats',
     component: ChatBoxComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'selling/:id',
