@@ -17,7 +17,7 @@
     </div>
     <div class="col-12" style="cursor: pointer">
       <label [htmlFor]="'fileInput'" class="fs-20 fw-semibold">Add image</label>
-      <img src="assets/images/add-post-img.png" class="w-100"  alt="" (click)="fileInput.click()" loading="lazy" />
+      <img src="assets/images/add-post-img.png" class="w-100" alt="" (click)="fileInput.click()" loading="lazy" />
       <input #fileInput type="file" (change)="onFileChange($event)
             " accept="image/png,image/jpg,image/jpeg" style="display: none" multiple />
       <div *ngIf="validationErrors['uploadImage']" class="text-danger mt-1">
@@ -83,6 +83,16 @@
           [placeholder]="field.placeholder" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }" />
+        <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
+          {{ field.label }} is required.
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="field.type === 'input-number'">
+        <label class="d-block">{{ field.label }}</label>
+        <p-inputNumber mode="currency" currency="AED" locale="en-US" class="w-100 attributes" [formControlName]="field.model"
+          [placeholder]="field.placeholder" [ngClass]="{
+                        'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
+                      }"></p-inputNumber>
         <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
           {{ field.label }} is required.
         </div>
@@ -211,23 +221,21 @@
     </div>
     <div class="col-md-6">
       <label for="totalStock">Product Quantity</label>
-      <p-inputNumber class="w-100" inputId="totalStock" 
-        formControlName="total_stock" placeholder="Enter quantity"></p-inputNumber>
+      <p-inputNumber class="w-100" inputId="totalStock" formControlName="total_stock"
+        placeholder="Enter quantity"></p-inputNumber>
       <div *ngIf="addProductForm.get('total_stock')?.invalid && addProductForm.get('total_stock')?.touched"
         class="text-danger">
         Total Stock is required.
       </div>
     </div>
-    
     <div class="col-md-6">
       <label for="thresholdLowStock">Threshold Low Stock</label>
-      <p-inputNumber class="w-100" inputId="thresholdLowStock" 
-        formControlName="threshold_low_stock" placeholder="Enter threshold low stock"></p-inputNumber>
+      <p-inputNumber class="w-100" inputId="thresholdLowStock" formControlName="threshold_low_stock"
+        placeholder="Enter threshold low stock"></p-inputNumber>
     </div>
-    
     <div class="col-12">
       <label>Description</label>
-      <textarea placeholder="Description" formControlName="description" class="form-control w-100" rows="6">
+      <textarea placeholder="DESCRIBE YOUR PRODUCT" formControlName="description" class="form-control w-100" rows="6">
           </textarea>
       <div *ngIf="addProductForm.get('description')?.touched || addProductForm.get('description')?.dirty">
         <div *ngIf="addProductForm.get('description')?.hasError('required')" class="text-danger mt-1">
@@ -243,7 +251,8 @@
         (locationChange)="handleLocationChange($event)"></app-current-location>
     </div>
     <div class="col-12">
-      <button class="btn btn-yellow fs-18 fw-semibold w-100 py-15" (click)="addCompleteProduct()" [disabled]="isLoading">
+      <button class="btn btn-yellow fs-18 fw-semibold w-100 py-15" (click)="addCompleteProduct()"
+        [disabled]="isLoading">
         <span *ngIf="!isLoading">{{id?'Update':'Post'}}</span>
         <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status"
           aria-hidden="true"></span>
