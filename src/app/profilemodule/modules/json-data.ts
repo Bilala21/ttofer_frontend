@@ -673,13 +673,13 @@ export const attributes:any={
         },
         {
           "label": "Salary From",
-          "type": "input",
+          "type": "input-number",
           "model": "Salary From",
           "placeholder": "Salary From"
         },
         {
           "label": "Salary To",
-          "type": "input",
+          "type": "input-number",
           "model": "Salary To",
           "placeholder": "Salary To"
         },

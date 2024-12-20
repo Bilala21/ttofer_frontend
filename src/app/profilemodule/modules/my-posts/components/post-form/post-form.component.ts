@@ -21,11 +21,7 @@ import { JwtDecoderService } from '../../../../../shared/services/authentication
   styleUrl: './post-form.component.scss'
 })
 export class PostFormComponent {
-  pricingCategories: any = [
-    { id: 'featured', name: 'Fixed Price' },
-    { id: 'auction', name: 'Auction' },
-    { id: 'other', name: 'Sell To TTOffer' },
-  ];
+  pricingCategories: any = [];
   currentDate: Date = new Date();
   minDate: Date = new Date();
   rangeDates = [new Date(), new Date()]; // Incorrect if both values are the same
@@ -46,7 +42,7 @@ export class PostFormComponent {
   parentLocation: any
   editProductData: any
   @ViewChild('datePickerPromotion', { static: false }) datePickerPromotion!: ElementRef;
-  productType: any = 'featured'
+  productType: any;
   constructor(
     private toastr: ToastrService, private route: ActivatedRoute,
     private fb: FormBuilder, private router: Router, private token: JwtDecoderService,
@@ -189,13 +185,11 @@ export class PostFormComponent {
         } else if (!this.editProduct) {
           this.addProductForm.patchValue(
             {
-              product_type: this.productType,
               category_id: this.categories[0].id
             }
           )
-          this.onProductTypeChange(this.addProductForm.value.product_type)
-          this.onCategoryChange(this.addProductForm.value.category_id)
-          this.getSubcategories()
+          this.onCategoryChange(this.addProductForm.value.category_id);
+          this.getSubcategories();
         }
       }
     })
@@ -203,9 +197,28 @@ export class PostFormComponent {
   onCategoryChange(categoryId: number): void {
     const selectedCategory = this.categories.find((cat: any) => cat.id == categoryId);
     this.selectedCategorySlug = selectedCategory?.slug || null;
+    if(this.selectedCategorySlug == 'jobs'){
+      this.pricingCategories =[
+        { id: 'hiring', name: 'Hiring' },
+        { id: 'looking', name:'Looking'}
+      ]
+      this.productType='hiring'
+    }else{
+      this.pricingCategories= [
+        { id: 'featured', name: 'Fixed Price' },
+        { id: 'auction', name: 'Auction' },
+        { id: 'other', name: 'Sell To TTOffer' },
+      ];
+      this.productType='featured'
+
+    }
+      
     this.addProductForm.patchValue({
       main_category: this.selectedCategorySlug,
+      product_type: this.productType,
     })
+    this.onProductTypeChange(this.addProductForm.value.product_type);
+
     if (!this.editProduct) {
       this.addProductForm.setControl('attributes', this.fb.group({}));
     }
@@ -336,7 +349,6 @@ export class PostFormComponent {
       delete this.validationErrors[fieldModel];
     }
   }
-
   removeVideo(): void {
     this.selectedVideo = null;
   }
@@ -430,14 +442,11 @@ export class PostFormComponent {
               const utcDateTime = localDateTime.toISOString();
               formData.append(key, utcDateTime);
             }         
-            }
-          
-          
+            }        
         } else {
           formData.append(key, control?.value);
         }
-      }
-      
+      }     
     });
     try {
       const token = localStorage.getItem('authToken');
@@ -543,35 +552,19 @@ export class PostFormComponent {
     }
   }
   onProductTypeChange(selectedValue: string): void {
-    if (selectedValue == 'featured') {
-      this.addProductForm.get('auction_initial_price')?.clearValidators();
-      this.addProductForm.get('auction_initial_price')?.updateValueAndValidity();
-      this.addProductForm.get('auction_final_price')?.clearValidators();
-      this.addProductForm.get('auction_final_price')?.updateValueAndValidity();
-      this.addProductForm.get('auction_starting_time')?.clearValidators();
-      this.addProductForm.get('auction_starting_time')?.updateValueAndValidity();
-      this.addProductForm.get('auction_ending_time')?.clearValidators();
-      this.addProductForm.get('auction_ending_time')?.updateValueAndValidity();
-      this.addProductForm.get('auction_starting_date')?.clearValidators();
-      this.addProductForm.get('auction_starting_date')?.updateValueAndValidity();
-      this.addProductForm.get('auction_ending_date')?.clearValidators();
-      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity();
-      this.addProductForm.get('fix_price')?.setValidators(Validators.required);
+    if (selectedValue === 'featured') {
+      ['auction_initial_price', 'auction_final_price', 'auction_starting_time', 
+       'auction_ending_time', 'auction_starting_date', 'auction_ending_date']
+        .forEach(control => {
+          this.addProductForm.get(control)?.clearValidators();
+          this.addProductForm.get(control)?.updateValueAndValidity();
+          this.addProductForm.get(control)?.setValue(''); 
+        });
+        this.addProductForm.get('fix_price')?.setValidators(Validators.required);
       this.addProductForm.get('fix_price')?.updateValueAndValidity();
-      this.addProductForm.patchValue({
-        auction_initial_price: '',
-        auction_final_price: '',
-        auction_starting_time: '',
-        auction_ending_time: '',
-        auction_starting_date: '',
-        auction_ending_date: '',
-      })
-    }
-    else if (selectedValue == 'auction') {
+    } else if (selectedValue === 'auction') {
       this.addProductForm.get('fix_price')?.clearValidators();
-      this.addProductForm.patchValue({
-        fix_price: null
-      })
+      this.addProductForm.get('fix_price')?.setValue(null);
       this.addProductForm.get('auction_initial_price')?.setValidators(Validators.required);
       this.addProductForm.get('auction_final_price')?.setValidators(Validators.required);
       this.addProductForm.get('auction_starting_time')?.setValidators(Validators.required);
@@ -581,20 +574,41 @@ export class PostFormComponent {
       ]);
       this.addProductForm.get('auction_starting_date')?.setValidators([
         Validators.required,
-        startDateBeforeEndDateValidator('auction_ending_date')
-      ]); this.addProductForm.get('auction_ending_date')?.setValidators([
+        startDateBeforeEndDateValidator('auction_ending_date'),
+      ]);
+      this.addProductForm.get('auction_ending_date')?.setValidators([
         Validators.required,
         endDateValidator('auction_starting_date'),
       ]);
-      this.addProductForm.updateValueAndValidity();
-      this.addProductForm.get('auction_ending_date')?.updateValueAndValidity();
+      [
+        'auction_initial_price',
+        'auction_final_price',
+        'auction_starting_time',
+        'auction_ending_time',
+        'auction_starting_date',
+        'auction_ending_date',
+      ].forEach(control => this.addProductForm.get(control)?.updateValueAndValidity());
+    } else {
+      [
+        'auction_initial_price',
+        'auction_final_price',
+        'auction_starting_time',
+        'auction_ending_time',
+        'auction_starting_date',
+        'auction_ending_date',
+        'fix_price',
+      ].forEach(control => {
+        this.addProductForm.get(control)?.clearValidators();
+        this.addProductForm.get(control)?.updateValueAndValidity();
+        this.addProductForm.get(control)?.setValue(''); // Reset the value
+      });
     }
     this.productType = selectedValue;
     this.addProductForm.patchValue({
-      product_type: this.productType
+    product_type: this.productType,
     });
     this.addProductForm.updateValueAndValidity();
-  }
+  } 
 }
 export function timeDifferenceValidator(startField: string): (control: AbstractControl) => ValidationErrors | null {
   return (control: AbstractControl): ValidationErrors | null => {

@@ -30,8 +30,8 @@
       <span class="for-link cur-pointer" (click)="openForgot()">Forgot Password ?</span>
     </div>
   </div>
-  <div class="mt-4">
-    <button class="btn btn-dark w-100 py-2 rounded-2"  
+  <div class="my-3">
+    <button class="btn btn-yellow w-100 py-10 rounded"  
             [disabled]="!isFormValid() || loading">
       <ng-container *ngIf="!loading; else spinner">
         Sign in

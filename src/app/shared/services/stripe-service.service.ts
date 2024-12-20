@@ -27,6 +27,9 @@ export class StripeService {
   savePaymentMethod(paymentMethodId: string) {
     return this.mainServices.savePaymentMethod(paymentMethodId);
   }
+  getCardDetail(payload:any) {
+    return this.mainServices.getCardDetail(payload);
+  }
   getCustomerCards(id:number) {
     return this.mainServices.getCustomerCards(id);
   }
