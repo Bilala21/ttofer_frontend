@@ -203,6 +203,11 @@ export class CheckOutPageComponent {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params: any) => {  
+      // this.query = params['query'];
+      // this.subscriptionId = +params['subscription_id'];
+      console.log("checkout-10",params)
+    });
     this.userId = this.jwtDecoderService.decodedToken.id;
     this.loading = true;
     this.globalStateService.currentState.subscribe((state) => {

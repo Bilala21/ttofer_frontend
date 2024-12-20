@@ -20,7 +20,7 @@
 
       <div class="fw-normal">
         <span class="text-yellow-800 d-block">★★★★★</span>
-        <a [routerLink]="['/seller/profile', product.user.id]"
+        <a [routerLink]="['/userProfile', product.user.id]"
           class="text-dark text-decoration-underline mr-2">Seller's
           other itmes</a>
         <a *ngIf="product.user.id !== currentUser?.id" class="text-dark text-decoration-underline"
