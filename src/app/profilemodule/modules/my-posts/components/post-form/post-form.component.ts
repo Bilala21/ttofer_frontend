@@ -552,6 +552,14 @@ export class PostFormComponent {
     }
   }
   onProductTypeChange(selectedValue: string): void {
+    debugger
+    if (this.productType === 'looking') {
+      this.categoryFields = this.categoryFields.map((field:any) => 
+        field.model === 'companyName' 
+          ? { label: 'LinkedIn Profile', type: 'input', model: 'linkedinProfile', placeholder: 'LinkedIn Profile' } 
+          : field
+      );
+    } 
     if (selectedValue === 'featured') {
       ['auction_initial_price', 'auction_final_price', 'auction_starting_time', 
        'auction_ending_time', 'auction_starting_date', 'auction_ending_date']

@@ -66,6 +66,19 @@
         {{ validationErrors["selectedSubCategoryId"] }}
       </div>
     </div>
+    <div *ngIf="productType == 'hiring' || productType == 'looking'"
+    class="{{ productType === 'hiring' || productType == 'looking' ? 'col-6' : 'col-12' }}">
+    <label>Job Type</label>
+    <p-dropdown [options]="pricingCategories" formControlName="product_type" optionLabel="name" optionValue="id"
+      (onChange)="onProductTypeChange($event.value)" placeholder="Select a Pricing Category"
+      class="input-class-add-form">
+    </p-dropdown>
+    <div
+      *ngIf="addProductForm.get('product_type')?.hasError('product_type') && addProductForm.get('product_type')?.touched"
+      class="text-danger mt-1">
+      Pricing Category is required.
+    </div>
+  </div>
     <ng-container formGroupName="attributes" *ngFor="let field of categoryFields">
       <div class="col-md-6" *ngIf="field.type === 'select'">
         <label>{{ field.label }}</label>
@@ -89,8 +102,8 @@
       </div>
       <div class="col-md-6" *ngIf="field.type === 'input-number'">
         <label class="d-block">{{ field.label }}</label>
-        <p-inputNumber mode="currency" currency="AED" locale="en-US" class="w-100 attributes" [formControlName]="field.model"
-          [placeholder]="field.placeholder" [ngClass]="{
+        <p-inputNumber mode="currency" currency="AED" locale="en-US" class="w-100 attributes"
+          [formControlName]="field.model" [placeholder]="field.placeholder" [ngClass]="{
                         'ng-invalid': addProductForm.get(['attributes', field.model])?.invalid
                       }"></p-inputNumber>
         <div *ngIf="addProductForm.get(['attributes', field.model])?.hasError('required')" class="text-danger mt-1">
@@ -98,7 +111,8 @@
         </div>
       </div>
     </ng-container>
-    <div class="{{productType =='featured' ||'hiring'||'looking'?'col-6':'col-12'}}">
+    <div *ngIf="productType !== 'hiring' && productType !== 'looking'"
+      class="{{ productType === 'featured' ? 'col-6' : 'col-12' }}">
       <label>Pricing Categories</label>
       <p-dropdown [options]="pricingCategories" formControlName="product_type" optionLabel="name" optionValue="id"
         (onChange)="onProductTypeChange($event.value)" placeholder="Select a Pricing Category"
@@ -110,6 +124,7 @@
         Pricing Category is required.
       </div>
     </div>
+
     @if (productType =='auction') {
     <div class="col-md-6 ">
       <label for="startingBid">Starting Bid</label>
