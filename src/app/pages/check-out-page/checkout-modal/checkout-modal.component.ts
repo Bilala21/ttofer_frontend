@@ -106,24 +106,34 @@ export class CheckoutModalComponent
   }
 
   async handleAddCard() {
-    const cardNumber = this.elements.getElement('cardNumber');
-    if (!cardNumber) {
-      console.error('Card element not found');
-      return;
-    }
-
-    const paymentMethod = await this.createPaymentMethod(cardNumber);
-    this.stripeService.savePaymentMethod(paymentMethod.id).subscribe({
-      next: (res: any) => {
-        if (paymentMethod.id) {
-          this.toastr.success('Card save successfully');
-        }
+    this.stripeService.createSetupIntent().subscribe({
+      next: (res) => {
+        console.log(res);
       },
       error: (err) => {
         console.log(err);
-        this.toastr.error('Card not successfully saved');
       },
     });
+
+    // const cardNumber = this.elements.getElement('cardNumber');
+    // if (!cardNumber) {
+    //   console.error('Card element not found');
+    //   return;
+    // }
+
+    // const paymentMethod = await this.createPaymentMethod(cardNumber);
+    // console.log(paymentMethod);
+    // this.stripeService.savePaymentMethod(paymentMethod.id).subscribe({
+    //   next: (res: any) => {
+    //     if (paymentMethod.id) {
+    //       this.toastr.success('Card save successfully');
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //     this.toastr.error('Card not successfully saved');
+    //   },
+    // });
   }
 
   async createPaymentMethod(cardElement: any) {

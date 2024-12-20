@@ -24,17 +24,16 @@
               Add Card
             </button>
           </div>
-          <div *ngFor="let payment of paymentDeposit; trackBy: trackById"
+          <div *ngFor="let card of customerCards; trackBy: trackById"
             class="d-flex justify-content-between border-b p-4">
             <div>
-              <img [src]="payment.img" alt="" loading="lazy" />
-              <!-- form-check-label -->
-              <label class="ml-3" [for]="payment.value">{{
-                payment.detail1
-                }}</label>
+              <img [src]="brands[card.brand.toLowerCase().replace(' ','')]" alt="" loading="lazy" width="38"/>
+              <i class="fa fa-credit-card" aria-hidden="true" *ngIf="!card.brand"></i>
+              <label class="ml-3" [for]="card.brand">{{ card.brand }}</label>
             </div>
             <!-- form-check-input -->
-            <input type="radio" class="w-20" name="payment" [value]="payment.id" [id]="payment.id" (click)="getCardInfo(payment.id)"/>
+            <input type="radio" class="w-20" name="payment" [value]="card.id" [id]="card.brand"
+              (click)="getCardDetail(card)" />
           </div>
         </div>
         <!-- ttoffer-gift -->
@@ -71,7 +70,8 @@
             </p>
           </div>
 
-          <button class="btn btn-yellow w-100 p-2 confrim-btn mt-2" [disabled]="!paymentMethod" (click)="chargeCustomerWithSavedCard()">
+          <button class="btn btn-yellow w-100 p-2 confrim-btn mt-2" [disabled]="!paymentMethod"
+            (click)="chargeCustomerWithSavedCard()">
             {{paymentLoading?'Processing...':'Confirm and Pay'}}
           </button>
         </div>
@@ -104,7 +104,8 @@
             </div>
             <div class="review-product" class="d-flex mt-3 position-relative">
               <div class="position-relative review-product-img">
-                <img [src]="item?.product?.photo?.url" alt="image" loading="lazy" class="w-100 h-100 object-fit-contain" />
+                <img [src]="item?.product?.photo?.url" alt="image" loading="lazy"
+                  class="w-100 h-100 object-fit-contain" />
               </div>
               <div class="ml-4 d-flex justify-content-between w-100 align-items-start">
                 <div>

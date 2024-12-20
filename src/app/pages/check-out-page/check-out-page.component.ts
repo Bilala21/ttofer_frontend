@@ -38,6 +38,7 @@ export class CheckOutPageComponent {
   itemDescription: string =
     '2.07 CT H VS2 Round Cut Lab Created Diamond Halo Engagement Ring 14K White Gold';
   quantity: number = 1;
+  protected customerCards: any = [];
 
   constructor(
     private extension: Extension,
@@ -58,24 +59,14 @@ export class CheckOutPageComponent {
     country: '',
   };
 
-  paymentDeposit: any[] = [
-    {
-      Visa: 'assets/images/Applelogo.svg',
-      detail1: 'Apple Pay',
-      id: '1',
-    },
-    { Visa: 'assets/images/visalogo.svg', detail1: 'Visa', id: '5' },
-    {
-      img: 'assets/images/StripLogo.svg',
-      detail1: 'Mastercard',
-      id: '2',
-    },
-    {
-      img: 'assets/images/GPay.svg',
-      detail1: 'Google Pay',
-      id: '3',
-    },
-  ];
+  brands: any = {
+    'apple': 'assets/images/Applelogo.svg',
+    'visa': 'assets/images/visalogo.svg',
+    'mastercard': 'assets/images/StripLogo.svg',
+    'americanexpress': 'assets/images/american-express.png',
+    'discover': 'assets/images/discover.png',
+    'googlepay': 'assets/images/GPay.svg',
+  };
 
   trackById(index: number, item: any): number {
     return item.id;
@@ -156,7 +147,7 @@ export class CheckOutPageComponent {
       this.stripeService.getCustomerCards(this.userId).subscribe({
         next: (res: any) => {
           if (res.status) {
-            console.log(res);
+            this.customerCards = res.data;
           }
         },
         error: (err) => {
@@ -165,9 +156,19 @@ export class CheckOutPageComponent {
       });
     }
   }
-  getCardInfo(id: number) {
+
+  //   {
+  //     "id": 1,
+  //     "user_id": 1,
+  //     "payment_method_id": "pm_12345",
+  //     "brand": "Visa",
+  //     "created_at": "2024-12-19T06:18:06.000000Z",
+  //     "updated_at": "2024-12-19T06:18:06.000000Z"
+  // },
+
+  getCardDetail(card:any) {
     this.paymentMethod = 'sfdfsd';
-    this.stripeService.getCustomerCards(id).subscribe({
+    this.stripeService.getCardDetail({user_id:card.user_id,id:card.id}).subscribe({
       next: (res: any) => {
         if (res.status) {
           console.log(res);

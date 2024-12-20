@@ -391,7 +391,7 @@ export class MainServicesService {
   }
 
   createSetupIntent() {
-    return this.http.post<any>(`${Constants.baseApi}/stripe/setup-intent`, {});
+    return this.http.post<any>(`${Constants.baseApi}/payment/stripe/intent`, {});
   }
   savePaymentMethod(paymentMethodId: string) {
     return this.http.post(`${Constants.baseApi}/stripe/save-payment-method`, {
@@ -403,6 +403,9 @@ export class MainServicesService {
   }
   getCustomerCards(id: number) {
     return this.http.get(`${Constants.baseApi}/payment-cards/user/${id}`);
+  }
+  getCardDetail(payload:any) {
+    return this.http.get(`${Constants.baseApi}/payment-cards`,payload);
   }
   createPaymentIntent(id: string) {
     return this.http.post<any[]>(`${Constants.baseApi}/create-payment-intent`, {
