@@ -25,6 +25,7 @@ import { JwtDecoderService } from '../../shared/services/authentication/jwt-deco
 })
 export class ProductCardComponent implements OnInit {
   @Input({ required: true }) postDetialUrl: string = '';
+  @Input() auction:any = false
   currentUserId: any;
   parsedAttributes: any[] = [];
   @Output() handlesUserWishlist: EventEmitter<any> = new EventEmitter<any>();
