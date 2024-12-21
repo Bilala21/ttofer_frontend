@@ -7,11 +7,9 @@ import { SliderComponent } from '../../components/slider/slider.component';
 import { PostCategoriesComponent } from '../../components/post-categories/post-categories.component';
 import { PromotionSliderComponent } from '../../components/promotion-slider/promotion-slider.component';
 import { CardShimmerComponent } from '../../components/card-shimmer/card-shimmer.component';
-import { NgIf, NgSwitchDefault } from '@angular/common';
-import { Extension } from '../../helper/common/extension/extension';
+import { NgIf} from '@angular/common';
 import { CountdownTimerService } from '../../shared/services/countdown-timer.service';
-import { error } from 'console';
-import { NG_VALIDATORS } from '@angular/forms';
+import { JwtDecoderService } from '../../shared/services/authentication/jwt-decoder.service';
 
 @Component({
   selector: 'app-body',
@@ -40,12 +38,12 @@ export class BodyComponent {
   countdownSubscriptions: Subscription[] = [];
   constructor(
     private mainServices: MainServicesService,
-    private extension: Extension,
     private router: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private countdownTimerService: CountdownTimerService
+    private countdownTimerService: CountdownTimerService,
+    private jwt:JwtDecoderService
   ) {
-    this.user_id = this.extension.getUserId();
+    this.user_id = this.jwt.decodedToken.id;
   }
   ngOnInit(): void {
     let query: any = '';
