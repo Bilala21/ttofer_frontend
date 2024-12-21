@@ -1,0 +1,41 @@
+<div style="position: relative; height: 250px; width: 100%;">
+  <!-- Search Box for Autocomplete -->
+  <input #searchBox type="text" placeholder="Search location" style="width: 56%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  left: 237px;
+  position: absolute;
+  top: 0px;
+  border: none;
+  /* border: .2px solid #212121; */
+  border-radius: 2px;
+  padding: 10px 20px;
+  background: rgba(250, 250, 250, 0.7);
+  background: white;
+  margin-top: 12px;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;">
+
+  <google-map
+    height="100%"
+    width="100%"
+    [center]="center"
+    [zoom]="zoom"
+  >
+    <map-marker
+      [position]="markerPosition"
+      [options]="markerOptions"
+      (mapDragend)="onMarkerDragEnd($event)"
+    ></map-marker>
+  </google-map>
+
+  <!-- Custom Overlay Div positioned inside the map with an Image -->
+  <!-- <div style="position: absolute; bottom: 0px; left: 5%; transform: translateX(-50%); border-radius: 4px; font-size: 14px; text-align: center;">
+    <img src="/assets/images/logo.svg" alt="Location Image" style="max-width:65px; border-radius: 4px;">
+  </div> -->
+</div>
+
+<div >
+  <p style="margin-top:20px;">Address: {{ address }}</p>
+</div>

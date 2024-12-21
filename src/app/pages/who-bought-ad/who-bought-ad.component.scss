@@ -1,0 +1,28 @@
+.sidebar {
+    height: 40%; 
+    overflow-y: auto;
+  }
+  
+  .sidebar-content {
+    padding: 20px;
+    width: 99%;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px; 
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #88888884; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+  

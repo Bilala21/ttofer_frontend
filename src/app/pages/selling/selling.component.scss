@@ -1,0 +1,109 @@
+.sidebar {
+  height: 40%;
+  overflow-y: auto;
+}
+
+.sidebar-content {
+  padding: 20px;
+  width: 99%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #88888884;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.btn-group {
+  background-color: transparent !important;
+  color: black;
+}
+
+.btngroup.active {
+  background-color: #343a40;
+  color: white;
+}
+
+.imageSize {
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+}
+
+.app-icon {
+  p {
+    color: #767E94;
+    font-size: 9px;
+  }
+
+  strong {
+    font-size: 12px;
+    font-weight: 600;
+    color: #191F33;
+  }
+
+  .icon-text {
+    line-height: 16px;
+  }
+
+  .app-box {
+    width: 123px;
+    height: 53px;
+    box-shadow: 0px 0px 0px 1px #EBEEF7;
+    border-radius: 6px;
+  }
+
+  .app-box:first-child {
+    box-shadow: 0px 9px 21px 2px #EBEEF7;
+  }
+}
+
+.selling-container {
+  max-width: 650px;
+
+  .detail-right-side {
+    max-width: 424px;
+  }
+
+  .users {
+    img:not(:first-child) {
+      position: relative;
+      margin-left: -10px;
+    }
+
+    img:first-child {
+      margin-left: -5px;
+    }
+
+    img {
+      border: 2px solid #fff;
+    }
+
+   @media (min-width:576px) {
+    span {
+      padding-left: 110px;
+    }
+   }
+  }
+
+  .footer span:last-child {
+    padding-left: 30px;
+  }
+
+}
+
+.object-fit-contain {
+  object-fit: contain;
+}

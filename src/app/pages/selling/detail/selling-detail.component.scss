@@ -1,0 +1,30 @@
+.post-detail-container {
+  margin-top: 50px;
+  max-width: 872px;
+
+  .post-items-container {
+    column-gap: 20px;
+    margin-bottom: 50px;
+    margin-top: 32px;
+
+    .post-item {
+      width: 71px;
+      height: 75px;
+      border-radius: 19px;
+      background: #414141;
+    }
+  }
+
+  h4 {
+    margin-top: 32px;
+    margin-bottom: 24px;
+  }
+
+  .detail-right-side {
+    max-width: 424px;
+  }
+}
+
+.messages {
+  width: 48px;
+}

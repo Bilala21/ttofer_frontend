@@ -1,0 +1,32 @@
+<!-- <form (submit)="handleForm($event)">
+    <label style="width: 100%;">
+        Card details
+        <div style="width: 200%;" id="card-element"></div>
+    </label>
+    <button type="submit" [disabled]="loading">Pay</button>
+</form>
+<div id="card-errors" role="alert">{{ errorMessage }}</div>
+<div id="payment-success" role="alert">{{ successMessage }}</div>
+<div id="card-errors" role="alert"></div> -->
+
+<div class="container mt-5">
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <button style="width: 100px;" (click)="pay(20)" class="btn btn-primary btn-block">Pay</button>
+    </div>
+    <!-- <div class="col-md-4">
+      <button (click)="pay(30)" class="btn btn-success btn-block">Pay $30</button>
+    </div>
+    <div class="col-md-4">
+      <button (click)="pay(50)" class="btn btn-info btn-block">Pay $50</button>
+    </div>     -->
+  </div>
+  <!-- <google-pay-button
+  [environment]="environment"
+  [buttonType]="'long'"
+  [buttonColor]="'default'"
+  [paymentRequest]="paymentRequest"
+  (loadPaymentData)="onLoadPaymentData($event)">
+  </google-pay-button> -->
+
+</div>

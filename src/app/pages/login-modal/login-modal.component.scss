@@ -1,0 +1,54 @@
+modal-content {
+    border-radius: 20px;
+    padding: 20px;
+  }
+  
+  .modal-header {
+    border-bottom: none;
+    justify-content: center;
+  }
+  
+  .modal-header .close {
+    position: absolute;
+    right: 35px;
+  }
+  
+  .modal-header .back {
+    position: absolute;
+    left: 35px;
+  }
+  
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .modal-body .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+  
+  .modal-body .btn img {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .modal-body p {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .modal-body p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .getItNow {
+    color: #767E94;
+    font-size: 10px;
+  }

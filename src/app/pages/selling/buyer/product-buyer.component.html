@@ -1,0 +1,56 @@
+<main>
+    <div class="container post-detail-container pb-5 buyer">
+        <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Modern light clothes'}"
+            imgClass="product-img">
+            <div slot="extra" class="d-flex fs-12 align-items-center pt-1 footer">
+                <span>$500</span>
+            </div>
+        </app-card>
+        <div class="d-flex justify-content-between">
+            <div class="pr-4 pt-2">
+                <h4 class="fs-16 fw-semibold text-dark-800 mb-0 pt-2 pb-2">Who Bought your ad?</h4>
+                <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                @for (item of [1,2,3,4]; track $index) {
+                <div class="detailed-posts">
+                    <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Anthony (Web3.io)'}"
+                        imgClass="rounded-pill buyer-img">
+                        <div slot="extra"
+                            class="d-flex fs-12 align-items-center footer w-100 text-gray-400 justify-content-between">
+                            <span>How are you today?</span>
+                            <span class="position-relative" style="top: -10px;">9:54 AM</span>
+                        </div>
+                    </app-card>
+                    <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                </div>
+                }
+                <div class="fs-16 fw-normal d-flex align-items-center btns mt-4">
+                    <a routerLink="/post-performance/12"
+                        class="text-decoration-none flex-grow-1 text-center text-white bg-dark-450 rounded-pill px-3 py-2">
+                        Done
+                    </a>
+                    <a routerLink="/post-performance/12"
+                        class="text-decoration-none text-center flex-grow-1 text-white bg-dark-450 rounded-pill px-3 py-2">
+                        Skip
+                    </a>
+                </div>
+            </div>
+            <div class="detail-right-side w-100">
+                <h4 class="fs-16 fw-semibold text-dark-800">Messages</h4>
+                @for (item of [1,2,3]; track $index) {
+                <div class="detailed-posts">
+                    <app-card [data]="{image:'/assets/images/tempImage/img2.jpeg',heading:'Anthony (Web3.io)'}"
+                        imgClass="rounded-pill buyer-message-img">
+                        <div slot="extra"
+                            class="d-flex fs-12 align-items-center footer w-100 text-gray-400 justify-content-between">
+                            <span>How are you today?</span>
+                            <span class="position-relative" style="top: -10px;">9:54 AM</span>
+                        </div>
+                    </app-card>
+                    <img loading="lazy" src="\assets\images\line-img.png" alt="line" style="max-width: 300px;">
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <hr>
+</main>

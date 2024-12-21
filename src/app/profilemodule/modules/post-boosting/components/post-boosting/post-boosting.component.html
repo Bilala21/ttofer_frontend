@@ -1,0 +1,71 @@
+<section class="">
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class="fas fa-rocket mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Boost Plus
+        </h1>
+    </div>
+    <hr />
+    <div class="pt-5">
+        <div *ngIf="!showNextStep">
+            <div class="text-center">
+                <img src="/assets/images/boost-plus.svg" alt="image">
+            </div>
+            <h4 class="fs-24 text-dark-800 fw-bold mb-4 pt-5">Sell faster with Boost Plus</h4>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Get an average of 20x more views each day</span>
+            </div>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Promote for multiple days</span>
+            </div>
+            <div class="d-flex mt-3 align-items-center">
+                <i class="fas fa-check-circle fs-19 mr-2"> </i>
+                <span>Switch promotion to any item.</span>
+            </div>
+            <div (click)="openDialog()"
+                class="d-flex justify-content-center w-100 btn btn-outline-yellow w-50 mt-5 xs-w-fit py-3">
+                <i class="fas fa-rocket fs-16 mt-1 mr-1"> </i>
+                Boost Plus
+            </div>
+            <h4 class="fs-24 text-dark-800 fw-bold pt-5">Sell faster with Boost Plus</h4>
+            <p>To change your subscription visit your App store. If you cancel, your subscription will run to the end of
+                this billing period</p>
+            <div class="d-flex justify-content-center w-100">
+                <button class="btn btn-yellow w-100 mt-5 xs-w-fit py-3 border-0"
+                    (click)="handleNextStep()">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- cards -->
+        <div class="row" *ngIf="showNextStep">
+            <div class="col-md-4" *ngFor="let item of data">
+                <div class="card rounded-2 p-3 text-center">
+                    <div>{{item.name}}</div>
+                    <div class="py-2 fw-semibold">{{item.title}}</div>
+                    <div class="fs-18 fw-bold">AED {{item.price}}</div>
+                    <div class="fs-18 fw-bold">Product Limit {{item.product_limit}}</div>
+                    <div class="btn btn-yellow mt-3" (click)="openSubscriptionDialog(item)">
+                        Subscribe
+                    </div>
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-check-circle fs-19 mr-2 pt-1"> </i>
+                    <span>{{item.short_description}}</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center w-100" *ngIf="data.length == 0">
+                <span class="fs-18 fw-bold">
+                    <u>
+                    <i>
+                     No Boost Package Available...!
+                    </i>
+                   </u>
+                </span> 
+            </div>
+        </div>
+    </div>
+</section>

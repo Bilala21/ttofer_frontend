@@ -1,0 +1,50 @@
+<div class="">
+    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-start" [class.blur-background]="isLoading">
+        <div>
+            <label for="file" class="rounded-pill position-relative">
+                <img [src]="currentUser?.img ? currentUser?.img : 'assets/images/profile-icon.svg'" 
+                     alt="profile image" 
+                     class="img-fluid" 
+                     style="border: 0.5px solid gainsboro;
+                     border-radius: 50%;
+                     object-fit: fill;
+                     width:100%;
+                     height:100%;
+                     padding:6px;">
+                <i class="fas fa-camera profile-icon-camera position-absolute"></i>
+                <div *ngIf="isLoading" class="spinner-overlay">
+                    <div class="spinner"></div>
+                </div>
+            </label>
+            <input type="file" class="d-none" id="file" (change)="onImageUpload($event)">
+        </div>
+        <div class="pl-3">
+            <div class="fw-semibold text-center text-md-left"> {{ currentUser?.name }}</div>
+            <div class="fs-14 text-capitalize text-center text-md-left">
+                Joined: <span> {{ currentUser?.created_at ? (currentUser?.created_at | date: 'MMM d, y') : 'N/A' }}</span>
+            </div>
+            <div class="fs-14 text-capitalize text-center text-md-left">
+                Address: <span> {{ currentUser?.location || "N/A" }}</span>
+            </div>
+        </div>
+        </div>
+    
+    <div class="d-flex align-items-end justify-content-center justify-content-lg-start pt-2">
+        <a class="text-center mx-2">
+            <p class="m-0">0</p>
+            <p class="m-0">Bought</p>
+        </a>
+        <a class="text-center mx-2">
+            <p class="m-0">0</p>
+            <p class="m-0">Sold</p>
+        </a>
+        <a class="text-center mx-2">
+            <p class="m-0">{{currentUser?.followers_count || 0}}</p>
+            <p class="m-0">Followers</p>
+        </a>
+        <a class="text-center mx-2">
+            <p class="m-0">{{currentUser?.following_count || 0}}</p>
+            <p class="m-0">Followings</p>
+        </a>
+    </div>
+</div>

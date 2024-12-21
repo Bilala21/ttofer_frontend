@@ -1,0 +1,33 @@
+<div class="feedback-card">
+    <p class="my-4 fs-20 fw-bold">{{heading}} Reviews</p>
+      <u *ngIf="reviews.length==0" class="d-flex fw-light fs-12"><i>Still no reviews. Your feedback could help others make a decision!</i></u>
+    <!-- feed-back-reviews -->
+    <div *ngFor="let feed of reviews; let i = index" >
+      <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex flex-column flex-sm-row" >
+      <div class="flex-shrink-0">
+        <img class="profile-img" [src]="feed?.reviewer.img" [alt]="feed?.reviewer.name" />
+      </div>
+      <div class="details ml-2">
+        <p class="name m-0">{{ feed?.reviewer.name || 'N/A' }}</p>
+        <div class="rating">
+          <span
+            *ngFor="let star of createArray(feed.rating); let i = index"        
+            class="text-warning">
+            ★
+          </span>
+        </div>
+     
+      </div>
+      </div>
+
+      <div class="amount">
+        <p>{{ feed.created_at | date:'medium' }}</p>
+      </div>
+    </div>
+    <p>
+      {{feed.comment}}
+    </p>
+    <hr>
+    </div>
+</div>

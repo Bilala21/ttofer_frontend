@@ -1,0 +1,17 @@
+main {
+    gap: 1.5rem;
+
+    .profile-right-side {
+        padding-top: 145px;
+    }
+}
+
+@media (max-width : 992px){
+    main {
+        gap: 1.5rem;
+    
+        .profile-right-side {
+            padding-top: 24px;
+        }
+    }
+}

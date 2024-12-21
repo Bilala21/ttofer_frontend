@@ -1,0 +1,22 @@
+.image-seller-user{
+  width: 200px;
+  height:200px;
+  border-radius: 5px;
+}
+.rounded-custom{
+  border-radius: 5px;
+}
+.buyer{
+  max-width:700px;
+}
+.star {
+  color: gray; /* Default star color */
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #ffd814; /* Color when a star is selected */
+}
+.error{
+  color:red
+}

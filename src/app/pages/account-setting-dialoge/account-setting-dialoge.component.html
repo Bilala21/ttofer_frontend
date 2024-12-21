@@ -1,0 +1,76 @@
+<div class="container">
+  <mat-dialog-content>
+    <h4 class="text-capitalize">{{dialogDataCopy.key}}</h4>
+    <form>
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'name'">
+        <label>Your Name</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="userInformation.name" 
+          name="name" 
+          placeholder="Your Name" 
+          required 
+        />
+      </div>
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'phone'">
+        <label>Your Number</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="userInformation.phone" 
+          name="phone" 
+          placeholder="Your Number" 
+          required 
+        />
+      </div>
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'email'">
+        <label>Your Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          [(ngModel)]="userInformation.email" 
+          name="email" 
+          placeholder="Your Email" 
+          required 
+        />
+      </div>
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'password'">
+        <label>Old Password</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          [(ngModel)]="userInformation.old_password" 
+          name="password" 
+          placeholder="Your old Password" 
+          required 
+        />
+        <label class="pt-3">New Password</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          [(ngModel)]="userInformation.password" 
+          name="password" 
+          placeholder="Your new Password" 
+          required 
+        />
+      </div>
+      <div class="form-group" *ngIf="dialogDataCopy.key === 'location'">
+        <label>Your Location</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="userInformation.location" 
+          name="location" 
+          placeholder="Your Location" 
+          required 
+        />
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="saveChanges()" color="primary">
+      Update
+    </button>
+  </mat-dialog-actions>
+</div>

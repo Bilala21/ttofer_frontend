@@ -1,0 +1,23 @@
+<section>
+    <div class="row align-items-center justify-content-center mb-5">
+        <i class="fas fas fa-cog mr-2 fs-28"></i>
+        <h1 class="m-0 fs-28 fw-bold">
+            Account Setting
+        </h1>
+    </div>
+    <hr />
+    <div class="px-5 pt-4">
+        <div class="d-flex justify-content-between mb-2 p-3 rounded cursor-pointer onHover"
+            *ngFor="let key of formatUserData()" (click)="openDialog(key, userSetting[key])">
+            <div class="d-flex align-content-center">
+                <i class="fas {{icons[key]}} fs-20"></i>
+                <span class="pl-3">{{userSetting[key]}}</span>
+            </div>
+            <i class="fas fa-angle-right fs-20"></i>
+        </div>
+        <a [routerLink]="['/user/delete-account/',currentUserProfile.id]" class="rounded p-3 d-flex align-content-center px-3 text-dark-400 text-decoration-none onHover">
+            <i class="far fa-trash-alt fs-20"></i>
+            <span class="pl-3">Delete account</span>
+        </a>
+    </div>
+</section>

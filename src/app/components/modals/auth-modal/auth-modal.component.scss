@@ -1,0 +1,39 @@
+/* Modal backdrop */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1040; /* Make sure it's behind the modal */
+  }
+  
+  /* Modal content */
+  .modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1050; /* Make sure it's above the backdrop */
+    padding: 20px;
+  }
+  
+  /* Modal header and footer */
+  .modal-header,
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+  }
+  

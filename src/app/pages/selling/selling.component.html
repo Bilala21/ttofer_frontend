@@ -1,0 +1,178 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <div class="row justify-content-between" style="margin-top: 180px;">
+                <div class="col-xl-5 col-md-7 mx-auto">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <img *ngIf="sellingList[0]?.photo?.length > 0" style="border-radius:10px; height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;"
+                                [src]="sellingList[0]?.photo[0]?.src" class="w-100 " alt="" loading="lazy">
+                        </div>
+                        <div class="col-8">
+                            <h4 style="font-size:16px">{{sellingList[0]?.title}}</h4>
+                            <!-- <span>{{sellingList[0].fix_price}}</span> -->
+                            <span style="font-size:12px">{{sellingList[0]?.auction_price}}</span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-between mt-5">
+                        <div class="col-3 sm-p-0 text-center">
+                            <div class="sm-p-0 sm-h"
+                                style="height: 13vh; background-color: #414141;color: #FFFFFF; border-radius: 4vh; padding: 1vh;">
+                                <div>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"></path></svg>
+                                </div>
+                                <a style="text-decoration: none; color:white"
+                                    routerLink="/product-detail/{{sellingList[0]?.id}}">
+                                    <div class="mt-2">
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">View </h6>
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Post</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-3 sm-p-0 text-center">
+                            <a  (click)="editPost()">
+                                <div class="sm-p-0 sm-h"
+                                    style="height: 13vh; background-color: #414141;color: #FFFFFF; border-radius: 4vh; padding: 1vh;">
+                                    <div>
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"></path></svg>
+                                    </div>
+                                    <div class="mt-2">
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Edit </h6>
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Post</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3 sm-p-0 text-center">
+                            <a style="text-decoration: none;" routerLink="/markAsSold/{{sellingId}}">
+                                <div class="sm-p-0 sm-h"
+                                    style="height: 13vh; background-color: #414141;color: #FFFFFF; border-radius: 4vh; padding: 1vh;">
+                                    <div>
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM7 4H5V20H19V4H14V13L10.5 11L7 13V4Z"></path></svg>
+                                    </div>
+                                    <div class="mt-2">
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Mark as </h6>
+                                        <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Sold</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3 sm-p-0 text-center">
+                            <div class="sm-p-0 sm-h"
+                                style="height: 13vh; background-color: #414141;color: #FFFFFF; border-radius: 4vh; padding: 1vh;">
+                                <div>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M15.22 6.268a.75.75 0 0 1 .968-.431l5.942 2.28a.75.75 0 0 1 .431.97l-2.28 5.94a.75.75 0 1 1-1.4-.537l1.63-4.251-1.086.484a11.2 11.2 0 0 0-5.45 5.173.75.75 0 0 1-1.199.19L9 12.312l-6.22 6.22a.75.75 0 0 1-1.06-1.061l6.75-6.75a.75.75 0 0 1 1.06 0l3.606 3.606a12.695 12.695 0 0 1 5.68-4.974l1.086-.483-4.251-1.632a.75.75 0 0 1-.432-.97Z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                <div class="mt-2">
+                                    <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Sell </h6>
+                                    <h6 style="font-size: 2vh;" class="m-0 p-0 sm-cat-text3">Faster</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-md-7 mx-auto">
+                    <hr>
+                    <div (click)="openTab()" style="cursor: pointer;"
+                        class="row justify-content-between align-items-center">
+                        <div class="col-9">
+                            <div class="row align-items-center">
+                                <div class="col-1">
+                                    <!-- <img src="assets/images/status-up.svg" alt=""> -->
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96 32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16z"></path></svg>
+                                </div>
+                                <div class="col-9 ml-2">
+                                    <h5 class="m-0 p-0 sm-cat-text4" style="font-size:16px">Item Performance</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
+                        </div>
+                    </div>
+                    <hr>
+                    <div *ngIf="showPerformance">
+                        <div class="d-flex align-items-center">
+                            <div class="">
+                                <img *ngIf="sellingList[0]?.photo[0]?.src" [src]="sellingList[0]?.photo[0]?.src" style="border-radius:10px;width:70px;height: 70px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;" alt="" loading="lazy">
+                            </div>
+                            <div class="ml-2">
+                                <h4 class="sm-cat-text4" style="font-size:16px">{{sellingList[0]?.title}}</h4>
+                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0]?.is_sold<=0">Not Sold</span>
+                                <span class="sm-cat-text3" style="font-size:12px" *ngIf="sellingList[0]?.is_sold>0">Sold</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5">
+                                <span class="sm-cat-text3"
+                                    style="font-size: 3vh; font-weight: bold;margin-right: 1vh;" style="font-size:12px">Total Views:</span>
+                                <span class="sm-cat-text3">{{sellingList[0]?.views_count}}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <img src="assets/images/chart.svg" class="w-100" alt="" loading="lazy">
+                                <button class="btn btn-dark w-100 mt-4 p-2" style="border-radius: 4vh;">Boost
+                                    Plus</button>
+                                <span class="mt-2 d-block">Get an average of 20x more views each day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!showPerformance">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h5 class="sm-cat-text4">Message</h5>
+                            </div>
+                        </div>
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div *ngFor="let data of message">
+                                    <div class="row mt-4 align-items-center">
+                                        <div class="col-md-10">
+                                            <div class="row align-items-center">
+                                                <div class="col-2">
+                                                    <img src="{{data?.sender?.img}}" class="imageSize" alt="" loading="lazy">
+                                                </div>
+                                                <div class="col-8">
+                                                    <h5 style="font-size:16px">{{data?.sender.name}}</h5>
+                                                    <span style="font-size:12px">{{data?.message}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <span style="font-size:12px">{{data?.created_at | date}}</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <h4 class="sm-cat-text4" style="font-size:14px">Sell faster with promotions</h4>
+                                        <span class="sm-cat-text3" style="font-size:12px">Get an average of 20x more
+                                            views each day</span>
+                                    </div>
+                                    <div class="col-4" style="text-align: end;">
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><g id="Circle_Remove"><g><path d="M9.525,13.765a.5.5,0,0,0,.71.71c.59-.59,1.175-1.18,1.765-1.76l1.765,1.76a.5.5,0,0,0,.71-.71c-.59-.58-1.18-1.175-1.76-1.765.41-.42.82-.825,1.23-1.235.18-.18.35-.36.53-.53a.5.5,0,0,0-.71-.71L12,11.293,10.235,9.525a.5.5,0,0,0-.71.71L11.293,12Z"></path><path d="M12,21.933A9.933,9.933,0,1,1,21.934,12,9.945,9.945,0,0,1,12,21.933ZM12,3.067A8.933,8.933,0,1,0,20.934,12,8.944,8.944,0,0,0,12,3.067Z"></path></g></g></svg>
+                                        <button class="btn btn-dark w-100 mt-3 p-2"
+                                            style="border-radius: 16px; margin-left: 1vh; font-size:10px">
+                                            <!-- <img src="assets/images/trend-up.svg" alt=""> -->
+                                             <span class="mr-2">
+                                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96 32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16z"></path></svg>
+                                             </span>Sell Faster</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5">
+</div>

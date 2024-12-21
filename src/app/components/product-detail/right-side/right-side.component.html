@@ -1,0 +1,223 @@
+<!-- right-side -->
+<div class="right-side">
+
+  <h1 class="fs-22 fw-bold title-product">
+    {{ product.title }}
+  </h1>
+
+  <p class="d-none">Factory New, Fedex 2Day, 30 Day Return - MobileWorldNY</p>
+  <!-- <div class="d-flex justify-content-between"> -->
+  <div class="d-flex align-items-center border-b border-t py-2">
+    <a routerLink="/" class="user-img rounded-pill border d-flex align-items-center justify-content-center">
+      <img [src]="
+                  product?.user?.img
+                    ? product?.user?.img
+                    : '/assets/images/profile-icon.svg'
+                " alt="{{ product?.user?.name }}" loading="lazy" class="img-fluid max-h-100 rounded-pill" />
+    </a>
+    <div class="pl-2">
+      <div *ngIf="product.user.id !== currentUser.id">{{ product.user?.name }} <span>(4567)</span> <span class="mx-2"><a class="text-decoration-underline"
+            (click)="giveReviewToUser(product.user)">Review</a></span></div>
+
+      <div class="fw-normal">
+        <span class="text-yellow-800 d-block">★★★★★</span>
+        <a [routerLink]="['/seller-profile/', product.user.username]"
+          class="text-dark text-decoration-underline mr-2" *ngIf="product.user.id !== currentUser.id">
+          Seller's
+          other itmes</a>
+        <a *ngIf="product.user.id !== currentUser?.id" class="text-dark text-decoration-underline"
+          (click)="contactSeller(product, product.user)">Contact seller</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- </div> -->
+
+  <div class="fw-bold fs-22 pt-3">AED {{product.product_type !=='auction'? product.fix_price:
+    product.auction_initial_price}}
+  </div>
+  <div class="mb-2" *ngIf="product.product_type !=='auction'">
+    <p class="m-0">or Best Offer</p>
+    <div class="text-slate-300 fs-14">
+      Was AED 1,800.00 <span class="text-danger fw-normal mr-2">(39% off)</span>
+      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z">
+        </path>
+      </svg>
+    </div>
+    <div class="mb-2 d-flex align-items-center pt-2">
+      <div class="text-slate-300 fs-14">
+        <span class="text-success fw-normal">AED 1,800.00 </span> <span>with coupon code</span>
+      </div>
+      <button class="text-decoration-underline border-0 p-0 ml-2 fs-14 fw-normal bg-transparent">
+        Price details
+      </button>
+    </div>
+  </div>
+
+  <div class="mb-2" *ngIf="product.product_type =='auction'">
+    <div class="d-flex align-content-center">
+      <a routerLink="/" class="text-decoration-underline">{{liveAuction.length}} bids</a>
+      <div class="fw-normal d-flex align-content-center">
+        <span class="fs-20 px-1">.</span>
+        <span>Ends in 2d 9h</span>
+        <span class="fs-20 px-1">.</span>
+        <span>Monday, 04:05 <span>PM</span></span>
+      </div>
+    </div>
+    <div class="mt-5">
+      <div class="col-12 p-2 live-bids">
+        <div class="row">
+          <div class="col-6 border-r pr-2">
+            <h6 class="starting-price">Starting price</h6>
+            <span class="auction-price">AED {{
+              product.auction_initial_price|| "N/A"
+              }}</span>
+            <div class="row mt-2">
+              <div class="col-6">
+                <div class="live-user-img-main">
+                  <!-- Display each image in a single row -->
+                  <div *ngFor="
+                    let data of profileImg;
+                    let i = index
+                  " class="d-flex me-2 mb-2">
+                    <img [src]="data?.img" alt="" class="live-user-img" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="h-100 d-flex justify-content-center align-content-center">
+                  <div class="live-user-count">
+                    <span class="user-length-count mr-1">
+                      +{{ liveAuction.length }}
+                    </span>
+                  </div>
+                  <span class="are-live">are live</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <h6 class="starting-price">Current Bid Price</h6>
+            <span class="max-price">AED {{ highBid || product.auction_initial_price }}</span>
+            <div class="mt-3">
+              <span class="are-live">{{ calculateRemaningTime || "N/A" }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- live-action bids-mads -->
+    <div class="row mt-3">
+      <div class="col-6">
+        <img src="assets/images/liveDot.svg" alt="" loading="lazy" />
+        <span class="live-auction ml-1">Live Auction</span>
+      </div>
+      <div class="col-6" style="text-align: end">
+        <span class="bids-made">{{ liveAuction.length }} Bids made</span>
+      </div>
+    </div>
+    <!-- bids-data -->
+    <div *ngIf="liveAuction.length === 0" class="text-center">
+      <u class="fs-16 fw-bold my-2"><i>No Live Bids</i></u>
+    </div>
+    <div class="biders d-none">
+      <div *ngIf="liveAuction.length > 0">
+        <div class="mt-2 d-flex align-items-center justify-content-between mx-0 border-b"
+          *ngFor="let data of liveAuction">
+
+          <div class="align-items-center d-flex">
+            <div class="user-img rounded-pill d-flex align-items-center justify-content-center">
+              <img [src]="data?.user?.img ? data.user.img : '/assets/images/profile-placeholder.png'"
+                class="img-fluid max-h-100 rounded-pill" loading="lazy" alt="User Image" />
+            </div>
+            <div class="col-9 mt-2">
+              <h6 class="m-0 p-0 bider-user">
+                {{ data?.user?.name }}
+              </h6>
+              <span class="bider-user-time">
+                {{ data?.created_at | date }}
+              </span>
+            </div>
+          </div>
+          <span class="bider-user-price">{{ data?.price }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="attributes-container">
+    <div class="attribute-item" *ngFor="let item of parsedAttributes  | keyvalue">
+      <span class="fw-semibold mx-2">{{ item.key | titlecase }}:</span>
+      <span class="fw-normal">{{ item.value }}</span>
+    </div>
+  </div>
+
+
+
+  <div class="mb-3 mt-2" *ngIf="product.product_type=='auction'">
+    <span class="fw-normal">Sale ends in:</span>
+    <span class="fw-semibold ml-2">6d 15h</span>
+  </div>
+
+  <div class="fs-14 " *ngIf="product.product_type !=='auction'">
+    <span class="fw-normal">Quantity</span>
+    <input type="number" value="1" min="1" max={{product.inventory.available_stock}}
+      class="mx-2 qty-input rounded-2 border-1 px-2" (input)="handleProductQty($event.target,product)" />
+    <span class="text-slate-300 fw-normal">{{product.inventory.available_stock - selectedQty}} available</span>
+    <span class="text-slate-300 ml-2 fw-normal">{{product.inventory.sales_count?product.inventory.sales_count:0}}
+      sold</span>
+  </div>
+
+  <!-- make offer buttons common-->
+  <div class="pt-4">
+    <div class="buttons " *ngIf="product.user.id !== currentUser.id">
+      <button *ngIf="product.product_type !=='auction'" (click)="buyProduct(product)" type="button"
+        class="d-block w-100 btn rounded-pill border-1 bg-yellow-800 buy-btn">
+        <a routerLink="/cart" class="fs-18 fw-normal text-decoration-none text-dark-650">Buy It Now</a>
+      </button>
+
+      @if (product.in_cart) {
+      <button type="button"
+        class="d-block disabled w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650">
+        All ready in cart
+      </button>
+      }
+      @else {
+      <button *ngIf="product.product_type !=='auction'" (click)="addToCart(product)" type="button"
+        class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650">
+        Add to cart
+      </button>
+      }
+
+
+      <button type="button"
+        class="d-block w-100 btn rounded-pill border-1 my-2 fs-18 fw-normal text-primary text-dark-650 {{product.product_type == 'auction'?'bg-yellow-800':''}}"
+        (click)="product.product_type !== 'auction' ? showOfferModal('offer') : showOfferModal('bid')">
+        {{ product.product_type !== 'auction' ? 'Make Offer' : 'Place bid' }}
+      </button>
+      <button (click)="toggleWishlist(product)" type="button"
+        class="d-block w-100 btn rounded-pill border-1 fs-18 fw-normal text-primary text-dark-650">
+        <i class="{{product.is_in_wishlist ?'fas':'far'}} fa-heart fs-19" aria-hidden="true"></i>
+        Add to watchlist
+      </button>
+    </div>
+    <!-- end make offer buttons -->
+    <div class="rounded-2 bg-gray-450 pl-3 pr-2 py-3 mt-4 d-flex align-items-center ">
+      <div class="rounded-pill bg-white d-flex align-items-center justify-content-center bolt-icon mr-2">
+        <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 15 15" height="1.5em" width="1.5em"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M8.69667 0.0403541C8.90859 0.131038 9.03106 0.354857 8.99316 0.582235L8.0902 6.00001H12.5C12.6893 6.00001 12.8625 6.10701 12.9472 6.27641C13.0319 6.4458 13.0136 6.6485 12.8999 6.80001L6.89997 14.8C6.76167 14.9844 6.51521 15.0503 6.30328 14.9597C6.09135 14.869 5.96888 14.6452 6.00678 14.4178L6.90974 9H2.49999C2.31061 9 2.13748 8.893 2.05278 8.72361C1.96809 8.55422 1.98636 8.35151 2.09999 8.2L8.09997 0.200038C8.23828 0.0156255 8.48474 -0.0503301 8.69667 0.0403541ZM3.49999 8.00001H7.49997C7.64695 8.00001 7.78648 8.06467 7.88148 8.17682C7.97648 8.28896 8.01733 8.43723 7.99317 8.5822L7.33027 12.5596L11.5 7.00001H7.49997C7.353 7.00001 7.21347 6.93534 7.11846 6.8232C7.02346 6.71105 6.98261 6.56279 7.00678 6.41781L7.66968 2.44042L3.49999 8.00001Z"
+            fill="currentColor"></path>
+        </svg>
+      </div>
+      <div>
+        <strong>People are checking this out.</strong>
+        <span class="pl-1">{{product?.wishlist_count}} have added this to their wishlist</span>
+      </div>
+    </div>
+  </div>
+</div>

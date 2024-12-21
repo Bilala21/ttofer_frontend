@@ -1,0 +1,6 @@
+<div class="text-center">
+    <img [src]="image" alt="image" loading="lazy" width="160" *ngIf="image">
+    <h2 *ngIf="heading" class="fs-22 fw-bold">{{heading}}</h2>
+    <p *ngIf="text">{{text}}</p>
+    <ng-content />
+</div>

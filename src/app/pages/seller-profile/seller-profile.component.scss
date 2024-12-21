@@ -1,0 +1,124 @@
+.seller-image {
+  height: 112px;
+  width: 112px !important;
+  border-radius: 25px;
+}
+
+.active-tab {
+  cursor: pointer;
+  position: relative;
+  border-bottom: 5px solid black;
+}
+
+.buttons {
+  button {
+    min-width: 100px;
+  }
+}
+
+.content {
+  margin-top: 20px;
+}
+.tabs-width-seller{
+  width: 100%;
+}
+
+// @media (width < 1030px) {
+//   .sm-img-h {
+//     height: 60px !important;
+//   }
+// }
+
+// Variables
+$gap: 15px;
+$card-bg: #fff;
+$card-border-radius: 8px;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+$transform-distance: -5px;
+$breakpoint-xs: 576px;
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 992px;
+$breakpoint-desktop: 1400px;
+@mixin card-layout($flex-basis,$gap) {
+  flex: 1 1 calc(#{$flex-basis} - #{$gap});
+  max-width: calc(#{$flex-basis} - #{$gap});
+}
+.product-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  padding-top: 45px;
+  gap: $gap;
+
+  @media (min-width: $breakpoint-desktop) {
+    max-width: $breakpoint-desktop;
+    // margin: 0 auto;
+  }
+}
+.product-card,
+.shimmer-card {
+  border-radius: $card-border-radius;
+}
+
+.buttons {
+  button {
+    min-width: 120px;
+  }
+}
+// $breakpoint-xs: 576px;
+@media (max-width: $breakpoint-xs) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(calc(100% + 10px),7px);
+  }
+}
+// $breakpoint-xs: 576px; $breakpoint-mobile: 768px;
+@media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(calc(48% + 15px),7px);
+  }
+
+  .product-main {
+    gap: 12px;
+  }
+}
+// $breakpoint-mobile: 768px;
+@media (min-width: $breakpoint-mobile) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(33.333%,7px);
+  }
+
+  .product-main {
+    gap: 15px;
+  }
+  .tabs-width-seller{
+    width: 70%;
+  }
+}
+// $breakpoint-tablet: 992px;
+@media (min-width: $breakpoint-tablet) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(25%,7px);
+  }
+
+  .product-main {
+    gap: 10px;
+  }
+  .tabs-width-seller{
+    width: 50%;
+  }
+}
+.text-gray-star{
+ color: #878787
+}
+.text-yellow-400{
+  color: #ffd814;
+}

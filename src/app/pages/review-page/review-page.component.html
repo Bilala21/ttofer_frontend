@@ -1,0 +1,65 @@
+<main class="mt-16">
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="loader"></div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="row justify-content-between"></div>
+        <div class="row align-items-center justify-content-between">
+          <div class="col-md-5 mt-5 text-center">
+            <h2>Rate Seller</h2>
+            <div style="border-radius: 10px; height: 132px;border:1px solid red">
+              <img
+              loading="lazy"
+              [src]="user?.img"
+              class="mt-5"
+              alt=""
+            />
+            </div>
+            
+            <h4>{{ user?.name }}</h4>
+            <span>{{ user?.location }}</span>
+          </div>
+          <div class="col-md-5">
+            <div class="d-flex justify-content-center">
+              <app-star-rating #starRating></app-star-rating>
+            </div>
+            <textarea
+              #review
+              class="form-control mt-5"
+              name="review"
+              id="review"
+              placeholder="How was your experience with this seller?"
+              style="height: 30vh; border-radius: 2vh"
+            ></textarea>
+            <div class="row mt-5 justify-content-between">
+                <div class="col-md-5">
+                    <button
+                      class="btn btn-dark w-100 p-2"
+                      style="border-radius: 4vh"
+                      (click)="submitReview(starRating)"
+                      [disabled]="isSubmitting"
+                    >
+                      <span *ngIf="!isSubmitting">Review Seller</span>
+                      <span *ngIf="isSubmitting">Submitting<span class="dots">.</span></span>
+                    </button>
+                  </div>
+                  
+              <div class="col-md-5 sm-mt-5">
+                <button
+                  class="btn btn-dark w-100 p-2"
+                  style="border-radius: 4vh"
+                  (click)="skipReview()"
+                >
+                  Skip
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="mt-5" />
+  </div>
+</main>

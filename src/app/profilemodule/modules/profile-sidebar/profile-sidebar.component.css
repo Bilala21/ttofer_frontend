@@ -1,0 +1,8 @@
+.menus{
+    max-width: 300px;
+    .menu:hover{
+     color: #333;
+     background:#ffd814;
+     cursor: pointer;
+    }
+}

@@ -1,0 +1,10 @@
+<nav class="tab-nav">
+    <ul class="list-unstyled" [ngClass]="ulClass">
+        @for (item of tabData; track $index) {
+        <li (click)="handleTab(item.index,item.tabName)">
+            <button class="btn"
+                [ngClass]="[tabClass, item.tabName == activeTab ? 'active-tab' : 'inactive-tab']">{{item.tabName}}</button>
+        </li>
+        }
+    </ul>
+</nav>

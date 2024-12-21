@@ -1,0 +1,70 @@
+<main class="mt-16">
+    <div class="container-fluid post-detail-container buyer">
+        <div class="">
+            
+            <div class="pt-2">
+                <!-- rate-seller -->
+                <h4 class="fs-32 fw-bold text-dark-800 mb-0 pt-2 pb-2 text-center">Rate Seller</h4>
+                <div class="seller-bio mt-2 d-flex align-content-center justify-content-center">
+                    <!-- seller-image -->
+                    <div class="">
+                        <img [src]="seller.img" alt="image" loading="lazy" class="image-seller-user">
+                        <h4 class="fs-19 fw-normal m-0 mt-3 text-center">{{seller.name}}</h4>
+                        <h5 class="fs-16 fw-normal text-center m-0 mt-2">Manchester, UK</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-right-side w-100  mt-2">
+                <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                <div class="d-flex align-items-center rate-stars justify-content-center">
+                    
+                    <!-- star-rating -->
+                    <div class="rating mt-1">
+                        <span
+                          *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                          class="star fs-24 cur-pointer"
+                          [class.filled]="i < reviewForm.get('rating')?.value"
+                          (click)="reviewForm.patchValue({ rating: i + 1 })">
+                          ★
+                        </span>
+                    </div>
+                </div>
+                  <!-- description -->
+                <div class="">
+                        <label for="comment" class="fs-18 fw-semibold form-label">Comment</label>
+                        <textarea
+                          class="w-100 p-2 rounded-custom"
+                          id="description"
+                          formControlName="comment"
+                          placeholder="Write your review here"
+                          rows="5"
+                          >
+                        </textarea>
+                        <div class="error" *ngIf="reviewForm.get('comment')?.touched || reviewForm.get('comment')?.dirty">
+                          <div *ngIf="reviewForm.get('comment')?.hasError('required')" >
+                            Comment is required.
+                          </div>
+                          <div *ngIf="reviewForm.get('comment')?.hasError('minlength')">
+                            Comment must be at least 10 characters long.
+                          </div>
+                        </div>
+                </div> 
+                <!-- btns -->
+                <div class="fs-16 fw-normal d-flex align-items-center justify-content-end btns mt-2">
+                    <button
+                        type="submit"
+                        class="text-decoration-none btn text-center text-white rounded-pill px-3 py-2 bg-yellow-800 border-none">
+                       Submit Review
+                    </button>
+                    <!-- <span 
+                        class="text-decoration-none text-center text-white bg-yellow-800 rounded-pill px-3 py-2 ml-2">
+                        Skip
+                    </span> -->
+                </div>
+            </form>
+            </div>
+
+        </div>
+    </div>
+</main>

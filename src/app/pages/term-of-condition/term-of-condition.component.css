@@ -1,0 +1,32 @@
+.privacy-policy-header
+{
+    font-weight: 320 !important;
+    line-height: 50px !important;
+    font-size: 40px !important;
+    padding: 56px 0;
+    margin: 0;
+}
+.term-title{
+    margin-top: 10px;
+    color: #FFA700;
+    font-weight: 400 !important;
+    line-height: 25px !important;
+    font-size: 20px !important;
+    text-align: left !important;
+}
+.content{
+    color: #777;
+    text-align: justify;
+    padding-left: 22.5px;
+}
+.support-email{
+    color: #FFA700;
+}
+.sub-Title{
+    color: #FFA700;
+    text-align: justify;
+    padding-left: 22.5px;
+}
+p{
+    line-height: 21px;
+}

@@ -1,0 +1,315 @@
+.chat-container {
+  .left-side {
+    min-width: 320px;
+
+    .message-count {
+      span {
+        width: 30px;
+        height: 20px;
+        line-height: 21px;
+      }
+    }
+
+    .fa-plus {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .input-search {
+      background: #F3F3F3;
+
+      input:focus-within {
+        outline: none;
+      }
+
+    }
+
+    .message-content {
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+
+  }
+
+  .right-side {
+    .top {
+      img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: green;
+      }
+    }
+
+    .bid-box {
+      width: 368px;
+      background: #F3F4F5;
+      border-radius: 18px;
+      margin-top: 60px;
+
+      img {
+        width: 68px;
+        height: 68px;
+        left: 50%;
+        top: -35px;
+        transform: translateX(-50%);
+      }
+    }
+
+    .messages-side {
+      img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .msg-content {
+        background: rgb(231, 230, 230);
+
+        img {
+          width: 15px;
+          height: 15px;
+        }
+      }
+
+      .user-msg-content {
+        background: #D9FDD3;
+
+        img {
+          width: 15px;
+          height: 15px;
+        }
+      }
+      
+    }
+
+    .message-input {
+      input {
+        border: 2px solid #F3F4F5;
+      }
+
+      div button {
+        right: 0;
+      }
+    }
+  }
+}
+
+.scrollable-messages {
+  max-height: 400px;
+  /* Adjust the height as per your layout */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding-right: 10px;
+  padding-left: 10px;
+  /* To prevent the scrollbar from overlapping with content */
+}
+
+.scrollable-content {
+  max-height: calc(100vh - 350px);
+  overflow-y: auto;
+}
+
+.small-profile-image {
+  width: 24px;
+  /* Adjust size as needed */
+  height: 24px;
+  border: 2px solid #fff;
+  /* Optional: Adds a white border around the image */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  /* Optional: Adds a subtle shadow */
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  margin: 3px auto 30px;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: white;
+}
+
+.tab.active {
+  background-color: #ffdd54;
+  /* The yellow shade */
+  color: black;
+}
+
+.message-input .btn {
+  padding: 0.5rem;
+  /* Adjust padding to match the style */
+}
+
+.message-input .send-button {
+  right: 10px;
+  /* Adjust to the desired spacing from the edge */
+}
+
+.message-input .position-relative {
+  display: flex;
+  align-items: center;
+}
+
+.message-input input[type="file"] {
+  display: none;
+  /* Keep it hidden */
+}
+
+.suggestions-box {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.suggestion-item {
+  background: #FFA700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background: #ccc;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.no-chat-icon {
+  font-size: 2rem;
+  color: #FFA700;
+  /* Applies yellow color */
+}
+
+.text-gold {
+  color: #FFD700;
+  /* Gold color */
+}
+
+.text-gray {
+  color: #d1d1d1;
+  /* Gray color for unfilled stars */
+}
+
+
+@media (max-width:767px) {
+  .left-side {
+    margin-right: 0 !important;
+    width: 100%;
+    border-right: none;
+  }
+
+  .xs-d-none {
+    display: none;
+  }
+  
+}
+.message-input {
+  position: relative;
+}
+
+.image-preview-container {
+  position: absolute;
+  bottom: 60px; /* Adjust based on input height */
+  left: 10px; /* Adjust to align with the paperclip icon */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 250px;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+.preview-content button {
+  height: fit-content;
+}
+
+.preview-tail {
+  position: absolute;
+  bottom: -10px; /* Place the tail under the container */
+  left: 20px; /* Adjust to point at the paperclip icon */
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  transform: rotate(45deg);
+  z-index: -1; /* Ensure it appears behind the container */
+}
+.image-preview-container {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.preview-content .main-preview {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.thumbnail-container {
+  display: flex;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.thumbnail-wrapper {
+  cursor: pointer;
+}
+
+.thumbnail-wrapper.selected img {
+  border: 2px solid #25d366;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+::ng-deep .chat-image {
+  max-width: 200px !important;
+  max-height: 200px !important;
+  border-radius: 10px !important;
+  margin-top: 5px !important;
+  display: block !important;
+}
+.image-message {
+  width: 480px;
+  height: 480px;
+  background-color: #25d366;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Aligns the image to the right for sent messages */
+}

@@ -1,0 +1,27 @@
+<main class="px-3" style="margin-top: 202px;">
+    <div class="container px-0 bg-white mx-auto border rounded mt-5 mb-4">
+        <div class="p-3 text-center">
+            <svg stroke="currentColor" fill="none" stroke-width="1" class="text-danger" viewBox="0 0 24 24"
+                stroke-linecap="round" stroke-linejoin="round" height="3em" width="3em"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 9v4"></path>
+                <path
+                    d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z">
+                </path>
+                <path d="M12 16h.01"></path>
+            </svg>
+            <p class="text-center py-3">By deleting your account, all of your data will be permanently removed and
+                cannot be
+                recovered. Are you
+                sure you want to proceed?</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <input type="text" class="form-control" placeholder="Type 'DELETE' to confirm"
+                    aria-label="Delete confirmation" [(ngModel)]="captchaInputValue"
+                    (ngModelChange)="onCaptchaChange($event)">
+                <button class="btn bg-main-red text-white ml-3"
+                    [disabled]="!isDeleteConfirmed" (click)="deleteAccount()">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</main>

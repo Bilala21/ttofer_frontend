@@ -1,0 +1,77 @@
+// Variables
+$gap: 15px;
+$card-bg: #fff;
+$card-border-radius: 8px;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+$transform-distance: -5px;
+$breakpoint-xs: 576px;
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 992px;
+$breakpoint-desktop: 1200px;
+@mixin card-layout($flex-basis,$gap) {
+  flex: 1 1 calc(#{$flex-basis} - #{$gap});
+  max-width: calc(#{$flex-basis} - #{$gap});
+}
+.product-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  padding-top: 45px;
+  gap: $gap;
+
+  @media (min-width: $breakpoint-desktop) {
+    max-width: $breakpoint-desktop;
+    margin: 0 auto;
+  }
+}
+.product-card,
+.shimmer-card {
+  border-radius: $card-border-radius;
+}
+
+.buttons {
+  button {
+    min-width: 120px;
+  }
+}
+@media (max-width: $breakpoint-xs) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(calc(100% + 10px),7px);
+  }
+}
+@media (min-width: $breakpoint-xs) and (max-width: $breakpoint-mobile) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(calc(50% + 15px),7px);
+  }
+
+  .product-main {
+    gap: 12px;
+  }
+}
+@media (min-width: $breakpoint-mobile) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(33.333%,7px);
+  }
+
+  .product-main {
+    gap: 15px;
+  }
+}
+@media (min-width: $breakpoint-tablet) {
+
+  .product-card,
+  .shimmer-card {
+    @include card-layout(33.333%,7px);
+  }
+
+  .product-main {
+    gap: 10px;
+  }
+}

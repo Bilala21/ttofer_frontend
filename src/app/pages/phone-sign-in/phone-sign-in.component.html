@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="cur-pointer">
+    <i class="fa fa-arrow-left fs-12" (click)="backButton()"></i>
+  </div>
+  <div class="col-12 text-center">
+    <h6 class="fs-20">Phone</h6>
+    <img src="assets/images/phone-img.png" class="w-50 mt-3" alt="" loading="lazy">
+  </div>
+</div>
+<form [formGroup]="phoneSignInForm">
+<div class="mt-4">
+  <label>Phone<span class="text-danger">*</span></label>
+  <input  #phoneInput formControlName="phone" type="text" placeholder="+923044444444" class="form-control"
+     required>
+  <div *ngIf="phoneSignInForm.get('phone')?.invalid && phoneSignInForm.get('phone')?.touched" class="text-danger">
+    <small *ngIf="phoneSignInForm.get('phone')?.hasError('required')">Phone number is required.</small>
+    <small *ngIf="phoneSignInForm.get('phone')?.hasError('pattern')">Please enter a valid phone number.</small>
+  </div>
+</div>
+
+<div class="mt-4">
+  <label>Password<span class="text-danger">*</span></label>
+  <input formControlName="password" type="password" placeholder="Enter Your Password" class="form-control"
+     required>
+  <div *ngIf="phoneSignInForm.get('password')?.invalid && phoneSignInForm.get('password')?.touched" class="text-danger">
+    <small *ngIf="phoneSignInForm.get('password')?.hasError('required')">Password is required.</small>
+    <small *ngIf="phoneSignInForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+  </div>
+  <div class="text-right">
+      <span class="for-link cur-pointer" (click)="openForgot()">Forgot Password ?</span>
+  </div>
+</div>
+</form>
+
+
+<div class="mt-4">
+  <button class="btn btn-dark w-100 py-2 rounded-2" (click)="loginWithPhone()"  
+          [disabled]="!isFormValid() || loading">
+    <ng-container *ngIf="!loading; else spinner">
+      Sign in
+    </ng-container>
+    <ng-template #spinner>
+      <i class="fa fa-spinner fa-spin"></i> Signing in...
+    </ng-template>
+  </button>
+</div>

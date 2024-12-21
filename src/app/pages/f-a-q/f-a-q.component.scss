@@ -1,0 +1,21 @@
+.faq-toggle .fa-chevron-down {
+    transition: transform 0.3s;
+  }
+  .faq-toggle.collapsed .fa-chevron-down {
+    transform: rotate(0deg);
+  }
+  .faq-toggle:not(.collapsed) .fa-chevron-down {
+    transform: rotate(180deg);
+  }
+  .genaral-color{
+    color: black;
+  }
+  .card-header{
+    background: #f4f4f4;
+  }
+  .card-body{
+    background: #f9f9f9;
+  }
+  button:focus{
+    text-decoration: none;
+  }

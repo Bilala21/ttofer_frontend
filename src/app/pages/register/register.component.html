@@ -1,0 +1,93 @@
+
+<form [formGroup]="registerForm">
+  <!-- register-img -->
+  <div class="row">
+    <div class="cur-pointer">
+      <i class="fa fa-arrow-left fs-12" (click)="backButton()"></i>
+    </div>
+    <div class="col-12 text-center">
+      <h6 class="fs-20">Registration</h6>
+      <img src="assets/images/register-img.png" class="w-50 mt-3" alt="">
+    </div>
+  </div>
+<div class="row mt-5">
+
+  <div class="col-6">
+    <label>First Name<span class="text-danger">*</span></label>
+    <input type="text" placeholder="First Name" class="form-control"
+      formControlName="firstName">
+    <div *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.touched || registerForm.get('firstName')?.dirty)" class="text-danger">
+      First Name is required.
+    </div>
+  </div>
+  <div class="col-6">
+    <label>Last Name<span class="text-danger">*</span></label>
+    <input type="text" placeholder="Last Name" class="form-control"
+       formControlName="lastName">
+    <div *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.touched || registerForm.get('lastName')?.dirty)" class="text-danger">
+      Last Name is required.
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label>Username<span class="text-danger">*</span></label>
+    <input type="text" placeholder="Username" class="form-control"
+       formControlName="username">
+    <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)" class="text-danger">
+      Username is required.
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label>Email<span class="text-danger">*</span></label>
+    <input type="email" placeholder="name@example.com" class="form-control"
+       formControlName="email">
+    <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)" class="text-danger">
+      Please enter a valid email.
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label>Phone<span class="text-danger">*</span></label>
+    <input type="text" placeholder="+923044444444" class="form-control"
+      formControlName="phone">
+    <div *ngIf="registerForm.get('phone')?.invalid && (registerForm.get('phone')?.touched || registerForm.get('phone')?.dirty)" class="text-danger">
+      Phone is required.
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label>Password<span class="text-danger">*</span></label>
+    <input type="password" placeholder="Your Password" class="form-control"
+       formControlName="password">
+      <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)" class="text-danger">
+        <small>{{ getPasswordErrorMessage() }}</small>
+      </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label>Confirm Password<span class="text-danger">*</span></label>
+    <input type="password" placeholder="Confirm password" class="form-control"
+      formControlName="confirmPassword">
+    <div *ngIf="registerForm.hasError('passwordMismatch') && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)" class="text-danger">
+      Passwords must match.
+    </div>
+    <button 
+  class="btn btn-yellow w-100 my-3 py-2 rounded" 
+  (click)="confirmRegistration()" 
+  [disabled]="!registerForm.valid || isLoading"
+>
+  <span *ngIf="!isLoading">Confirm</span>
+  <span *ngIf="isLoading">
+    <i class="spinner-border spinner-border-sm"></i> Registering...
+  </span>
+</button>
+
+  </div>
+</div>
+</form>

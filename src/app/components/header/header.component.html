@@ -1,0 +1,315 @@
+<header class="pt-3 fixed-top bg-white">
+    <nav class="border-b-1 pb-1">
+        <div class="container-fluid px-2">
+            <div class="d-flex justify-content-between position-relative">
+                <!-- left-list-start -->
+                <ul class="list-unstyled d-flex align-items-center flex-grow-1 pointer-default">
+                    <!-- web-logo-start -->
+                    <li class="xs-pl-16 mr-md-4 xs-mr-0">
+                        <a routerLink="/body">
+                            <img src="/assets/images/logo.svg" alt="App logo" loading="lazy" width="50"
+                                class="header-logo empty-search">
+                        </a>
+                    </li>
+                    <!-- search-bar-start -->
+                    <li
+                        class="d-flex align-items-center flex-grow-1 search-bar {{showSearch?'show-search':''}}">
+                        <!-- search-input -->
+                        <input (input)="handleSearch($event)" type="text" placeholder="Search anything"
+                            class="w-100 fs-18 border-1 not-hide" [value]="searchTerm" id="product_search">
+                        <!-- search-btn -->
+                        <button class="search-btn position-relative border-0 btn-yellow text-white prevent"
+                            (click)="navigateToSearch()">
+                            <!-- search-icon -->
+                            <i class="fas fa-search fs-20 prevent text-dark"></i>
+                        </button>
+                        <ul *ngIf="searchTerm && !isSearched && suggestions.length"
+                            class="suggestion-list position-absolute w-100 list-unstyled bg-white overflow-auto not-hide">
+                            <li *ngFor="let item of suggestions" class="py-10 px-3 cur-pointer not-hide"
+                                (click)="handleSuggestion(item)">
+                                {{item.name}}
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- search-icon-start -->
+                    <li (click)="showSearchBar()" class="d-md-none cur-pointer">
+                        <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                            viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-miterlimit="10" stroke-width="32"
+                                d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64z">
+                            </path>
+                            <path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"
+                                d="M338.29 338.29 448 448"></path>
+                        </svg>
+                    </li>
+                    <li class="fs-14 d-flex align-items-center ml-2 text-slate-400 location-item">
+                        <!-- <i class="fa fa-map-marker-alt fs-20 mr-2"></i> -->
+                        <svg stroke="currentColor" class="fs-22 mr-1" fill="currentColor" stroke-width="0"
+                            viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
+                                d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0 0 25.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z">
+                            </path>
+                            <circle cx="256" cy="192" r="48" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32"></circle>
+                        </svg>
+                        {{ city }}
+                    </li>
+                </ul>
+                <!-- right-list-start -->
+                <ul
+                    class="count-badge list-unstyled d-flex align-items-center right-list flex-grow-2 justify-content-end pl-1 pl-md-3 fs-14 xs-pr-16">
+                    <!-- saveItem-start -->
+                    <li class="position-relative ">
+                        <a class="text-dark" [routerLink]="currentUser?.id ? ['/profile/saved-items'] : '#'"
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
+                            <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                                viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
+                                    d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0 0 18 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z">
+                                </path>
+                            </svg>
+                            <span id="saved_for_later_count"
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.saved_for_later_count && currentUser?.id">{{notification.saved_for_later_count}}</span>
+                        </a>
+                    </li>
+                    <!-- chat-start -->
+                    <li class="" style="cursor: pointer;">
+                        <a class="text-dark position-relative" [routerLink]="currentUser?.id ? ['/chatBox', currentUser.id] : null"
+
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
+                            <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="3"
+                                viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
+                                </path>
+                            </svg>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.chat_count && currentUser?.id">{{notification.chat_count }}</span>
+                        </a>
+
+                    </li>
+                    <!-- notification-start -->
+                    <li class="notification-container"
+                        (mouseover)="notification?.unread_notifications? getNotificationsOnMouseOver():null">
+                        <!-- Cart Icon with Badge -->
+                        <a class="text-dark position-relative"
+                            [routerLink]="currentUser?.id ? ['/profile/notifications'] : '#'"
+                            (click)="!currentUser?.id ? login() : null" routerLinkActive="router-link-active">
+                            <svg stroke="currentColor" class="fs-22" fill="currentColor" stroke-width="0"
+                                viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M257 120.471c7.083 0 23.911 4.479 23.911 4.479 45.589 10.447 77.678 52.439 77.678 99.85V352.412l9.321 9.364 7.788 7.823H136.302l7.788-7.823 9.321-9.364V224.8c0-47.41 32.089-89.403 77.678-99.85 0 0 18.043-4.479 23.911-4.479M256 48c-17.602 0-31.059 13.518-31.059 31.2v14.559c-59.015 13.523-103.53 67.601-103.53 131.041v114.4L80 380.8v20.8h352v-20.8l-41.411-41.6V224.8c0-63.44-44.516-117.518-103.53-131.041V79.2c0-17.682-13.457-31.2-31.059-31.2zm41.411 374.4h-82.823c0 22.881 18.633 41.6 41.412 41.6s41.411-18.719 41.411-41.6z">
+                                </path>
+                            </svg>
+                            <span
+                                class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                                *ngIf="notification?.unread_notifications && currentUser?.id">{{notification.unread_notifications
+                                }}</span>
+                        </a>
+
+
+                        <!-- Dropdown Cart Items *ngIf="cartItems.length > 0" -->
+                        <div class="notification-dropdown">
+                            <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
+                                <p>Please log in to view your notifications. You can log in or create an account to
+                                    continue.</p>
+                                <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
+                                    (click)="login()">Login</button>
+                            </div>
+
+                            <div *ngIf="!notificationList?.length && currentUser?.id" class="d-flex justify-content-center p-3">
+                                <span> {{!notificationList?.length && !notificationLoading?"No notification":"Loading..."}}</span>
+                            </div>
+                            <div *ngIf="notificationList.length > 0">
+                                <h5 class="px-3 pt-3">Notification</h5>
+                                <div *ngFor="let data of (notificationList.slice(0,3)); let i = index" class="py-3 main-cart-items {{notificationList.length == i+1?'':'border-b'}}" >
+                                    <a [routerLink]="['/profile/notifications']" routerLinkActive="bg-yellow-800"  style="text-decoration: none; color: #1b2028"
+                                        class="empty-search">
+                                        <div class="d-flex align-items-center px-3">
+                                            <div class="mr-2">
+                                                @if(data.user?.img){
+                                                <div class=""
+                                                    style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
+                                                    <img src="{{ data.user?.img }}" class="w-100 h-100"
+                                                        alt="proile-img-notification"
+                                                        style="border-radius:50%" />
+                                                </div>
+                                                }@else{
+                                                <div
+                                                    style="width:50px;height: 50px;border-radius: 50%;object-fit:contain">
+                                                    <img src="/assets/images/profile-icon.svg"
+                                                        class="w-100 h-100" alt="Default Image"
+                                                        style="border-radius:50%" />
+                                                </div>
+                                                }
+                                            </div>
+
+                                            <div class="flex-grow-1">
+                                                <h5 class="sm-cat-text4 m-0">{{ data.text }}</h5>
+                                                <div class="mt-1 d-flex justify-content-between">
+                                                    <span class="sm-cat-text3 text-danger">
+                                                        {{  data.status }}
+                                                    </span>
+                                                    <span class="text-end sm-cat-text3"
+                                                        style="font-size: 10px">{{ data.created_at | date
+                                                        }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cart-container position-relative"
+                        (mouseover)="notification?.cart_item_count? getCartItemsOnMouseOver():null">
+                        <a (click)="!currentUser?.id ? login() : null" [routerLink]="currentUser?.id ? ['/cart'] : '#'">
+                            <svg stroke="currentColor" class="fs-22 text-dark" fill="currentColor" stroke-width="0"
+                                viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z">
+                                </path>
+                                <circle cx="10.5" cy="19.5" r="1.5"></circle>
+                                <circle cx="17.5" cy="19.5" r="1.5"></circle>
+                            </svg>
+                        </a>
+                        <span
+                        class="position-absolute badge d-flex justify-content-center align-items-center fs-11 fw-bold rounded-pill text-white bg-main-red"
+                        *ngIf="(notification?.cart_item_count || cartItems?.length) && currentUser?.id">
+                        {{ cartItems?.length || notification?.cart_item_count }}
+                      </span>
+                      
+                        <div class="cart-dropdown overflow-auto" *ngIf="!isHideCart">
+                            <div *ngIf="!currentUser?.id" class="px-3 py-3 text-center fs-16">
+                                <p>Please log in to view your cart items. You can log in or create an account to
+                                    continue.</p>
+                                <button class="btn text-center d-block w-100 p-0 text-primary fs-18"
+                                    (click)="login()">Login</button>
+                            </div>
+                            <div *ngIf="!cartItems?.length && currentUser?.id" class="d-flex justify-content-center p-3">
+                                <span> {{!cartItems?.length && !cartLoading?"No item":"Loading..."}}</span>
+                            </div>
+                            <div *ngIf="cartItems?.length" class="py-3">
+                                <div class="px-3">
+                                    <h5>Shopping Cart</h5>
+                                    <p>Items you've selected</p>
+                                </div>
+                                <div class="main-cart-items">
+                                    <a *ngFor="let item of (cartItems.slice(0,2))" class="cart-item px-3"
+                                        [routerLink]="['/product-detail/',item.product.id,'/bilal']">
+                                        <img [src]="item.product.photo.url" alt="{{ item.product.name }}"
+                                            class="cart-item-image">
+                                        <div class="cart-item-details">
+                                            <p>{{ item.product.title?.slice(1,25) + '...' }}</p>
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{ item.product.fix_price |
+                                                    currency:'AED':'symbol':'1.2-2' }}</span>
+                                                <span>Qty {{item.product.quantity}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a [routerLink]="['/cart']" routerLinkActive="active text-decoration"
+                                        class="p-3 d-block">
+                                        <span class="fs-16 text-decoration-underline">View cart</span> to see all of
+                                        your items
+                                    </a>
+                                    <div
+                                        class="d-flex px-3 align-items-center justify-content-between py-3 bg-gray-450 border-b border-t">
+                                        <span class="fs-16">Total</span>
+                                        <span class="fw-semibold">ADE {{totalAmount}}</span>
+                                    </div>
+                                    <div class="px-3 mt-3">
+                                        <a routerLink="/checkout" class="btn btn-yellow d-block mb-2">Checkout</a>
+                                        <a routerLink="/cart" class="btn d-block border-1 border-yellow">Veiw cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    @if (!isLogin) {
+                    <li class="">
+                        <a (click)="login()"
+                            class="d-flex align-items-center justify-content-center white-space-nowrap  link">
+                            Login
+                        </a>
+                    </li>
+                    }
+                    @if (isLogin) {
+                    <li class="user-profile cursor-pointer position-relative">
+                        <button class="padd-btn btn dropdown-toggle text-dark-400 fs-14 text-uppercase fw-semibold pr-0"
+                            type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img class="user-Profile" [src]="currentUser?.img
+                            " loading="lazy" width="42" height="42" class="rounded-pill border-1" />
+                            <img src="/assets/images/icons/angleDown.svg" alt="angle down" class="ml-1" loading="lazy">
+                        </button>
+                        <div class="dropdown-menu white-space-nowrap p-0 bg-white user-profile-drow-donw shadow-md"
+                            aria-labelledby="userDropdown">
+                            <a routerLink="/profile"
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
+                                <i class="fas fa-user fs-20 text-center d-block mr-2 empty-search"></i>
+                                <span class="empty-search fs-18">
+                                    Profile
+                                </span>
+                            </a>
+                            <div *ngFor="let item of sideBarItemss" class="mt-0 d-lg-none d-block">
+                                <h4 class="fs-19 text-dark-800 fw-bold my-2 pl-1">{{ item.title }}</h4>
+                                <div class="d-flex flex-column  menus">
+                                    <a class="menu d-block rounded text-dark-400 px-2 py-2 text-decoration-none fs-18 mb-1"
+                                        *ngFor="let menu of item.items" routerLink="{{menu.routerLink}}"
+                                        routerLinkActive="bg-yellow-800 " [routerLinkActiveOptions]="{ exact: true }"
+                                        [ngStyle]="activeRoute && menu.id ==='purchasesSales' ? { 'background': '#ffae15' } : {}">
+
+                                        <i [class]="menu.icon" class="fs-20 mr-2"></i>
+                                        <span>{{ menu.label }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <span (click)="logout()"
+                                class="text-dark-400 text-decoration-none hover-able py-2 fs-14 px-2 d-flex align-items-center w-100 empty-search">
+                                <i
+                                    class="fas fa-sign-out-alt fs-20 mr-2 text-center d-block mdc-layout-grid__cell--span-12-desktop empty-search"></i>
+                                <span class="empty-search fs-18">
+                                    Logout
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+         <nav class="container-fluid px-2">
+        @if(!loading){
+        <ul class="list-unstyled d-flex align-items-center justify-content-center fs-14 w-100 mb-0 categories">
+            <li *ngFor="let category of categories.slice(0, categoryLimit)" class="py-2">
+                <a [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: false }"
+                    class="empty-search category-color text-decoration-none">
+                    {{category.name}}
+                </a>
+            </li>
+            <li class="position-relative catagory-parent cate" *ngIf="categories.slice(categoryLimit).length">
+                <div class="dropdown pb-0 cate">
+                    <button class="btn dropdown-toggle py-0 fs-14 text-uppercase fw-semibold category-color cate"
+                        type="button" id="moreCategoriesDropdown" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        more categories
+                    </button>
+                    <div class="dropdown-menu white-space-nowrap pb-0 right-0 shadow-md rounded-0 empty-search"
+                        aria-labelledby="moreCategoriesDropdown">
+                        <a *ngFor="let category of categories.slice(categoryLimit)"
+                            [routerLink]="['/category',category.slug+ '-' +category.id ]" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: false }"
+                            class="empty-search category-color text-decoration-none hover-able py-2 fs-14 px-3 d-block w-100">{{category.name}}</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        }
+    </nav>
+    <app-login-modal></app-login-modal>
+</header>

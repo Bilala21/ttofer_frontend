@@ -1,0 +1,61 @@
+<!-- CODED BY BILAL -->
+<main class="mt-16">
+  <div class="container-fluid product-detail-container">
+    <div class="">
+      <div class="xs-px-0">
+        <div>
+          <app-slider [slides]="promotionBanners"></app-slider>
+        </div>
+        <!-- <div class="permotion-banners">
+        @if (promotionBanners.length > 0) {
+        <app-promotion-slider
+          [banners]="promotionBanners.slice(0, 2)"
+          bannerClass="body-banner"
+        />
+        }
+      </div> -->
+      </div>
+
+      <div class="d-block d-lg-flex {{ProductTabs.length > 1?'pt-5':''}}">
+        <app-filters [totalProducts]="data?.length" [categoryId]="this.id" (handleFilterEvent)="fecthcData($event)" />
+        <!-- PRODUCT SIDE -->
+        <div class="flex-grow-1 pl-lg-4 xs-px-0">
+          <div class="text-center buttons d-flex align-items-center justify-content-center xs-between">
+            @if (ProductTabs.length > 1) {
+            @for (tab of ProductTabs.length?ProductTabs:['auction','featured']; track $index) {
+            <button type="button"
+              class="btn py-2 px-2 mr-1 text-capitalize  {{activeTab==tab?'btn-yellow':'border-1'}}"
+              (click)="handleTab(tab)">
+              {{tab}}
+            </button>
+            }
+            }
+          </div>
+
+          <div class="w-100 product-main" [style]="ProductTabs.length> 1?'':'padding-top:85px'">
+            @if (loading) {
+            @for (data of [1,2,3,4,5,6,7,8,];track $index) {
+            <div class="p-2 border-1 rounded-2 shimmer-card">
+              <app-card-shimmer />
+            </div>
+            }
+            }
+            <div class="no-data-container" *ngIf="!data.length && !loading">
+              <img class="no-data-found" src="/assets/images/no-data1.png" alt="No Data Found">
+            </div>
+            @if (data?.length) {
+            <div class="product-card" *ngFor="let post of data">
+              <app-product-card [postData]="post" postDetialUrl="product-detail"/>
+            </div>
+            }
+          </div>
+
+          <div class="text-center my-5" *ngIf="data?.length > 15">
+            <button class="btn load-more-btn fs-18 fw-semibold" (click)="handleLoadMore(currentPage)">Load more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- END  BY BILAL -->

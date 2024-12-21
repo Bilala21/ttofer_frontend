@@ -1,0 +1,49 @@
+// MAKE OFFER MODAL
+.make-offer-card {
+    max-width: 500px;
+  input{
+    &:focus-within{
+      outline-color: #d8dfe0;
+      border-radius: 5px;
+    }
+  }
+    button:first-child:not(.butons-grp button) {
+      width: 25px;
+      height: 25px;
+    }
+  
+    .offer-btn {
+      border-color: #ffd814;
+      transition: all 300ms;
+    }
+    .offer-btn:hover{
+      background-color: #ffd814;
+    }
+  
+    p,
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+  
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    .bid-price::placeholder{
+      font-weight: 500;
+    }
+  }
+  .w-130{
+    width: 130px;
+  }
+  .modal-container{
+    min-height: 100vh;
+    transition: all 300ms ease-in-out;
+    background-color: #0000008b;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  // END MAKE OFFER MODAL
